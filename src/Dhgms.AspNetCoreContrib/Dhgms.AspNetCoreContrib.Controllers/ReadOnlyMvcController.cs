@@ -50,11 +50,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
         [Microsoft​.AspNetCore​.Mvc.HttpGet]
         public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ViewAsync(
-            [FromQuery]TListRequestDto requestDto,
+            [FromQuery]long id,
             CancellationToken cancellationToken)
         {
             var user = this.HttpContext.User;
-            var query = await this._queryFactory.GetViewQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
+            var query = await this._queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
             var result = await _mediator.Send(query, cancellationToken).ConfigureAwait(false);
             return this.View("View", result);
         }

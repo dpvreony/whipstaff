@@ -14,7 +14,7 @@ namespace Dhgms.AspNetCoreContrib.Abstractions
             CancellationToken cancellationToken);
 
         Task<IAuditableRequest<long, TEntity>> GetViewQueryAsync(
-            TListRequestDto requestDto,
+            long id,
             System.Security.Claims.ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
     }
