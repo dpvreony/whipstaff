@@ -12,19 +12,22 @@ namespace Dhgms.AspNetCoreContrib.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
-    public class ReadOnlyMvcController<TInheritingClass, TListRequestDto, TEntity> : Microsoft.AspNetCore.Mvc.Controller
-        where TInheritingClass : ReadOnlyMvcController<TInheritingClass, TListRequestDto, TEntity>
+    public abstract class QueryOnlyController<TInheritingClass, TListRequestDto, TListResponse, TViewResponse>
+        : Microsoft.AspNetCore.Mvc.Controller
+        where TInheritingClass : QueryOnlyController<TInheritingClass, TListRequestDto, TListResponse, TViewResponse>
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly ILogger<TInheritingClass> _logger;
-        private readonly IMediator _mediator;
-        private readonly IAuditableQueryFactory<TListRequestDto, TEntity> _queryFactory;
 
-        public ReadOnlyMvcController(
+        private readonly IMediator _mediator;
+
+        private readonly IAuditableQueryFactory<TListRequestDto, TListResponse, TViewResponse> _queryFactory;
+
+        protected QueryOnlyController(
             Microsoft.AspNetCore.Authorization.IAuthorizationService authorizationService,
             Microsoft.Extensions.Logging.ILogger<TInheritingClass> logger,
             IMediator mediator,
-            IAuditableQueryFactory<TListRequestDto, TEntity> queryFactory)
+            IAuditableQueryFactory<TListRequestDto, TListResponse, TViewResponse> queryFactory)
         {
             this._authorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
@@ -44,19 +47,23 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         {
             var user = this.HttpContext.User;
             var query = await this._queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
-            var result = await _mediator.Send(query, cancellationToken).ConfigureAwait(false);
-            return this.View("List", result);
+            var result = await this._mediator.Send(query, cancellationToken).ConfigureAwait(false);
+            return GetListActionResult(result);
         }
 
         [Microsoft​.AspNetCore​.Mvc.HttpGet]
-        public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ViewAsync(
+        public async System.Threading.Tasks.Task<IActionResult> ViewAsync(
             [FromQuery]long id,
             CancellationToken cancellationToken)
         {
             var user = this.HttpContext.User;
             var query = await this._queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
-            var result = await _mediator.Send(query, cancellationToken).ConfigureAwait(false);
-            return this.View("View", result);
+            var result = await this._mediator.Send(query, cancellationToken).ConfigureAwait(false);
+            return GetViewActionResult(result);
         }
+
+        protected abstract IActionResult GetListActionResult(TListResponse listResponse);
+
+        protected abstract IActionResult GetViewActionResult(TViewResponse listResponse);
     }
 }
