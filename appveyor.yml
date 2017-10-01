@@ -42,6 +42,7 @@ build_script:
     $sonarqubeProjectKey = "Dhgms.AspNetCoreContrib"
     $sonarqubeOrganisationKey = "dpvreony-github"
     $sonarqube_login = $env:sonarqubeLogin
+    $baseBranch = "master"
 
     $runSonarQube = false;
     $preview = false;
