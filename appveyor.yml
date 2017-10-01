@@ -50,11 +50,11 @@ build_script:
     if ($env:APPVEYOR_REPO_NAME -eq $github) {
         if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { 
             $preview = $true;
-            $runSonarQube = true;
+            $runSonarQube = $true;
             Write-Output "Sonar: on PR $env:APPVEYOR_PULL_REQUEST_NUMBER"
         }
         elseif ($env:APPVEYOR_REPO_BRANCH -eq $baseBranch) {
-            $runSonarQube = true;
+            $runSonarQube = $true;
             Write-Output "Sonar: on branch $env:APPVEYOR_REPO_BRANCH"
         }
     }
