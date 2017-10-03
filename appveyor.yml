@@ -81,7 +81,7 @@ test_script:
 - ps: |
     $openCoverConsole = (Get-ChildItem C:\Users\appveyor\.nuget\packages\opencover\*\Tools\OpenCover.Console.exe).FullName
     Write-Host "OpenCover : $openCoverConsole"
-    $unittestproject = "C:\projects\*\src\Dhgms.AspNetCoreContrib.UnitTests\"
+    $unittestproject = "C:\projects\Dhgms-AspNetCoreContrib\src\Dhgms.AspNetCoreContrib.UnitTests\"
     Write-Host "unit test : $unittestdll"
     $dotnetLocation = "C:\Program Files\dotnet\dotnet.exe"
     Write-Host "dotnet    : $dotnetLocation"
