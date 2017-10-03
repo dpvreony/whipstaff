@@ -76,7 +76,7 @@ build_script:
         SonarQube.Scanner.MSBuild.exe end /d:"sonar.login=$sonarqube_login"
     }
 
-    dotnet pack src\Dhgms.AspNetCoreContrib.sln /p:FileVersion=$fileVersion /p:AssemblyVersion=$assemblyVersion /p:Version=$informationalVersion
+    Get-ChildItem src\*\*.csproj | Where { !$_.PSIsContainer -and !$_.Name.EndsWith(".UnitTests.csproj") -and !$_.Name.EndsWith(".IntegrationTests.csproj")} | ForEach-Object { dotnet pack $_.FullName /p:FileVersion=$fileVersion /p:AssemblyVersion=$assemblyVersion /p:Version=$informationalVersion }
 test_script:
 - ps: |
     $openCoverConsole = (Get-ChildItem C:\Users\appveyor\.nuget\packages\opencover\*\Tools\OpenCover.Console.exe).FullName
