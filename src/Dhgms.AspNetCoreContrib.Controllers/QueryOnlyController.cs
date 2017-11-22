@@ -53,7 +53,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
         [Microsoft​.AspNetCore​.Mvc.HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> ViewAsync(
-            [FromQuery]long id,
+            long id,
             CancellationToken cancellationToken)
         {
             var user = this.HttpContext.User;
