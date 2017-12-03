@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -35,6 +36,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         private static readonly Mock<Func<int, IActionResult>> MockGetListActionResultFunc
             = new Mock<Func<int, IActionResult>>(MockBehavior.Strict);
 
+        private static readonly AuthorizationPolicy AuthorizationPolicy
+            = new AuthorizationPolicy(new List<IAuthorizationRequirement>
+            {
+                new DenyAnonymousAuthorizationRequirement()
+            }, new List<string>());
+
         private static readonly Mock<Func<int, IActionResult>> MockGetViewActionResultFunc
             = new Mock<Func<int, IActionResult>>(MockBehavior.Strict);
 
@@ -50,6 +57,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     MockQueryFactory.Object,
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object
                 },
 
@@ -61,6 +69,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     MockQueryFactory.Object,
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object
                 },
 
@@ -72,6 +81,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     default(IMediator),
                     MockQueryFactory.Object,
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object
                 },
 
@@ -83,6 +93,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     default(IAuditableQueryFactory<int, int, int>),
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object
                 },
 
@@ -94,6 +105,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     MockQueryFactory.Object,
                     default(Func<int, IActionResult>),
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object
                 },
 
@@ -105,6 +117,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     MockQueryFactory.Object,
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     default(Func<int, IActionResult>)
                 },
             };
@@ -118,6 +131,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     MockQueryFactory.Object,
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object);
 
                 Assert.NotNull(instance);
@@ -131,6 +145,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 IMediator mediator,
                 IAuditableQueryFactory<int, int, int> queryFactory,
                 Func<int, IActionResult> getListActionResultFunc,
+                AuthorizationPolicy viewAuthorizationPolicy,
                 Func<int, IActionResult> getViewActionResultFunc)
             {
                 Assert.Throws<ArgumentNullException>(() => new FuncQueryOnlyController<int, int, int>(
@@ -139,6 +154,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     mediator,
                     queryFactory,
                     getListActionResultFunc,
+                    viewAuthorizationPolicy,
                     getViewActionResultFunc));
             }
         }
@@ -154,6 +170,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     MockQueryFactory.Object,
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object);
 
                 Assert.NotNull(instance);
@@ -178,6 +195,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediator.Object,
                     MockQueryFactory.Object,
                     MockGetListActionResultFunc.Object,
+                    AuthorizationPolicy,
                     MockGetViewActionResultFunc.Object);
 
                 Assert.NotNull(instance);

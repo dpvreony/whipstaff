@@ -57,10 +57,38 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             CancellationToken cancellationToken)
         {
             var user = this.HttpContext.User;
+
+            if (id < 1)
+            {
+                return this.NotFound();
+            }
+
+            var methodAuthorization = await this._authorizationService.AuthorizeAsync(user, await this.GetViewPolicy());
+            if (!methodAuthorization.Succeeded)
+            {
+                // not found rather than forbidden
+                return this.NotFound();
+            }
+
             var query = await this._queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
             var result = await this._mediator.Send(query, cancellationToken).ConfigureAwait(false);
+
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            var resourceAuthorization = await this._authorizationService.AuthorizeAsync(user, result, await this.GetViewPolicy());
+            if (!resourceAuthorization.Succeeded)
+            {
+                // not found rather than forbidden
+                return this.Forbid();
+            }
+
             return GetViewActionResult(result);
         }
+
+        protected abstract Task<AuthorizationPolicy> GetViewPolicy();
 
         protected abstract IActionResult GetListActionResult(TListResponse listResponse);
 
