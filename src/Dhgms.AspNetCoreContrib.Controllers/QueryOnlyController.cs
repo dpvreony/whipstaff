@@ -1,97 +1,149 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Abstractions;
-using MediatR;
-
-namespace Dhgms.AspNetCoreContrib.Controllers
+﻿namespace Dhgms.AspNetCoreContrib.Controllers
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Abstractions;
+    using MediatR;
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
-    public abstract class QueryOnlyController<TInheritingClass, TListRequestDto, TListResponse, TViewResponse>
-        : Microsoft.AspNetCore.Mvc.Controller
-        where TInheritingClass : QueryOnlyController<TInheritingClass, TListRequestDto, TListResponse, TViewResponse>
+    public abstract class QueryOnlyController<TInheritingClass, TListRequestDto, TListQueryResponse, TListResponse, TViewQueryResponse, TViewResponse>
+        : Controller
+        where TInheritingClass : QueryOnlyController<TInheritingClass, TListRequestDto, TListQueryResponse, TListResponse, TViewQueryResponse, TViewResponse>
     {
         private readonly IAuthorizationService _authorizationService;
         private readonly ILogger<TInheritingClass> _logger;
-
-        private readonly IMediator _mediator;
-
-        private readonly IAuditableQueryFactory<TListRequestDto, TListResponse, TViewResponse> _queryFactory;
+        private readonly IAuditableQueryFactory<TListRequestDto, TListQueryResponse, TViewQueryResponse> _queryFactory;
 
         protected QueryOnlyController(
-            Microsoft.AspNetCore.Authorization.IAuthorizationService authorizationService,
-            Microsoft.Extensions.Logging.ILogger<TInheritingClass> logger,
+            IAuthorizationService authorizationService,
+            ILogger<TInheritingClass> logger,
             IMediator mediator,
-            IAuditableQueryFactory<TListRequestDto, TListResponse, TViewResponse> queryFactory)
+            IAuditableQueryFactory<TListRequestDto, TListQueryResponse, TViewQueryResponse> queryFactory)
         {
-            this._authorizationService = authorizationService ??
+            _authorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
-            this._logger = logger ??
+            _logger = logger ??
                                          throw new ArgumentNullException(nameof(logger));
 
-            this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            this._queryFactory = queryFactory ??
+            _queryFactory = queryFactory ??
                                             throw new ArgumentNullException(nameof(queryFactory));
         }
 
-        [Microsoft​.AspNetCore​.Mvc.HttpGet]
-        public async System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> ListAsync(
+        protected IMediator Mediator { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// These are abstract because you can't pass a generic type to attributes.
+        /// Which means you can't use
+        /// Microsoft​.AspNetCore​.Mvc.Produces
+        /// Swashbuckle.AspNetCore.SwaggerGen.SwaggerResponse
+        /// </remarks>
+        /// <param name="requestDto"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public abstract Task<IActionResult> ListAsync(
+            [FromQuery] TListRequestDto requestDto,
+            CancellationToken cancellationToken);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// These are abstract because you can't pass a generic type to attributes.
+        /// Which means you can't use
+        /// Microsoft​.AspNetCore​.Mvc.Produces
+        /// Swashbuckle.AspNetCore.SwaggerGen.SwaggerResponse
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public abstract Task<IActionResult> ViewAsync(
+            long id,
+            CancellationToken cancellationToken);
+
+        protected async Task<IActionResult> OnListAsync(
             [FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
-            var user = this.HttpContext.User;
-            var query = await this._queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
-            var result = await this._mediator.Send(query, cancellationToken).ConfigureAwait(false);
-            return GetListActionResult(result);
-        }
+            var eventId = GetOnListEventId();
+            _logger.LogDebug(eventId, "Entered OnListAsync");
 
-        [Microsoft​.AspNetCore​.Mvc.HttpGet]
-        public async System.Threading.Tasks.Task<IActionResult> ViewAsync(
-            long id,
-            CancellationToken cancellationToken)
-        {
-            var user = this.HttpContext.User;
+            var user = HttpContext.User;
 
-            if (id < 1)
-            {
-                return this.NotFound();
-            }
-
-            var methodAuthorization = await this._authorizationService.AuthorizeAsync(user, await this.GetViewPolicy());
+            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetListPolicy());
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
-                return this.NotFound();
+                return NotFound();
             }
 
-            var query = await this._queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
-            var result = await this._mediator.Send(query, cancellationToken).ConfigureAwait(false);
+            var query = await _queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
+            var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
+
+            var viewResult = GetListActionResult(result);
+            _logger.LogDebug(eventId, "Finished OnListAsync");
+
+            return viewResult;
+        }
+
+        protected abstract EventId GetOnListEventId();
+        protected abstract EventId GetOnViewEventId();
+
+        protected async Task<IActionResult> OnViewAsync(
+            long id,
+            CancellationToken cancellationToken)
+        {
+            var eventId = GetOnViewEventId();
+            _logger.LogDebug(eventId, "Entered OnListAsync");
+
+            var user = HttpContext.User;
+
+            if (id < 1)
+            {
+                return NotFound();
+            }
+
+            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetViewPolicy());
+            if (!methodAuthorization.Succeeded)
+            {
+                // not found rather than forbidden
+                return NotFound();
+            }
+
+            var query = await _queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
+            var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
             if (result == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
 
-            var resourceAuthorization = await this._authorizationService.AuthorizeAsync(user, result, await this.GetViewPolicy());
+            var resourceAuthorization = await _authorizationService.AuthorizeAsync(user, result, await GetViewPolicy());
             if (!resourceAuthorization.Succeeded)
             {
                 // not found rather than forbidden
-                return this.Forbid();
+                return NotFound();
             }
 
-            return GetViewActionResult(result);
+            var viewResult = GetViewActionResult(result);
+            _logger.LogDebug(eventId, "Finished OnListAsync");
+
+            return viewResult;
         }
+
+        protected abstract Task<AuthorizationPolicy> GetListPolicy();
 
         protected abstract Task<AuthorizationPolicy> GetViewPolicy();
 
-        protected abstract IActionResult GetListActionResult(TListResponse listResponse);
+        protected abstract IActionResult GetListActionResult(TListQueryResponse listResponse);
 
-        protected abstract IActionResult GetViewActionResult(TViewResponse listResponse);
+        protected abstract IActionResult GetViewActionResult(TViewQueryResponse listResponse);
     }
 }
