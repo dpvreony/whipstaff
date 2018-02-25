@@ -72,12 +72,12 @@
             [FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
-            var eventId = GetOnListEventId();
+            var eventId = await GetOnListEventIdAsync();
             _logger.LogDebug(eventId, "Entered OnListAsync");
 
             var user = HttpContext.User;
 
-            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetListPolicy());
+            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetListPolicyAsync());
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
@@ -87,20 +87,20 @@
             var query = await _queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
             var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
-            var viewResult = GetListActionResult(result);
+            var viewResult = await GetListActionResultAsync(result);
             _logger.LogDebug(eventId, "Finished OnListAsync");
 
             return viewResult;
         }
 
-        protected abstract EventId GetOnListEventId();
-        protected abstract EventId GetOnViewEventId();
+        protected abstract Task<EventId> GetOnListEventIdAsync();
+        protected abstract Task<EventId> GetOnViewEventIdAsync();
 
         protected async Task<IActionResult> OnViewAsync(
             long id,
             CancellationToken cancellationToken)
         {
-            var eventId = GetOnViewEventId();
+            var eventId = await GetOnViewEventIdAsync();
             _logger.LogDebug(eventId, "Entered OnListAsync");
 
             var user = HttpContext.User;
@@ -110,7 +110,7 @@
                 return NotFound();
             }
 
-            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetViewPolicy());
+            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetViewPolicyAsync());
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
@@ -125,25 +125,25 @@
                 return NotFound();
             }
 
-            var resourceAuthorization = await _authorizationService.AuthorizeAsync(user, result, await GetViewPolicy());
+            var resourceAuthorization = await _authorizationService.AuthorizeAsync(user, result, await GetViewPolicyAsync());
             if (!resourceAuthorization.Succeeded)
             {
                 // not found rather than forbidden
                 return NotFound();
             }
 
-            var viewResult = GetViewActionResult(result);
+            var viewResult = await GetViewActionResultAsync(result);
             _logger.LogDebug(eventId, "Finished OnListAsync");
 
             return viewResult;
         }
 
-        protected abstract Task<AuthorizationPolicy> GetListPolicy();
+        protected abstract Task<AuthorizationPolicy> GetListPolicyAsync();
 
-        protected abstract Task<AuthorizationPolicy> GetViewPolicy();
+        protected abstract Task<AuthorizationPolicy> GetViewPolicyAsync();
 
-        protected abstract IActionResult GetListActionResult(TListQueryResponse listResponse);
+        protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
 
-        protected abstract IActionResult GetViewActionResult(TViewQueryResponse listResponse);
+        protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse listResponse);
     }
 }
