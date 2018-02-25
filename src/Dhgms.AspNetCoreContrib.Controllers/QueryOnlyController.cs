@@ -36,44 +36,13 @@
 
         protected IMediator Mediator { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// These are abstract because you can't pass a generic type to attributes.
-        /// Which means you can't use
-        /// Microsoft​.AspNetCore​.Mvc.Produces
-        /// Swashbuckle.AspNetCore.SwaggerGen.SwaggerResponse
-        /// </remarks>
-        /// <param name="requestDto"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public abstract Task<IActionResult> ListAsync(
-            [FromQuery] TListRequestDto requestDto,
-            CancellationToken cancellationToken);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// These are abstract because you can't pass a generic type to attributes.
-        /// Which means you can't use
-        /// Microsoft​.AspNetCore​.Mvc.Produces
-        /// Swashbuckle.AspNetCore.SwaggerGen.SwaggerResponse
-        /// </remarks>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public abstract Task<IActionResult> ViewAsync(
-            long id,
-            CancellationToken cancellationToken);
-
-        protected async Task<IActionResult> OnListAsync(
+        public async Task<IActionResult> ListAsync(
             [FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
             var eventId = await GetOnListEventIdAsync();
-            _logger.LogDebug(eventId, "Entered OnListAsync");
+            _logger.LogDebug(eventId, "Entered ListAsync");
 
             var user = HttpContext.User;
 
@@ -88,20 +57,17 @@
             var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
             var viewResult = await GetListActionResultAsync(result);
-            _logger.LogDebug(eventId, "Finished OnListAsync");
+            _logger.LogDebug(eventId, "Finished ListAsync");
 
             return viewResult;
         }
 
-        protected abstract Task<EventId> GetOnListEventIdAsync();
-        protected abstract Task<EventId> GetOnViewEventIdAsync();
-
-        protected async Task<IActionResult> OnViewAsync(
+        public async Task<IActionResult> ViewAsync(
             long id,
             CancellationToken cancellationToken)
         {
             var eventId = await GetOnViewEventIdAsync();
-            _logger.LogDebug(eventId, "Entered OnListAsync");
+            _logger.LogDebug(eventId, "Entered ViewAsync");
 
             var user = HttpContext.User;
 
@@ -133,10 +99,14 @@
             }
 
             var viewResult = await GetViewActionResultAsync(result);
-            _logger.LogDebug(eventId, "Finished OnListAsync");
+            _logger.LogDebug(eventId, "Finished ViewAsync");
 
             return viewResult;
         }
+
+        protected abstract Task<EventId> GetOnListEventIdAsync();
+
+        protected abstract Task<EventId> GetOnViewEventIdAsync();
 
         protected abstract Task<AuthorizationPolicy> GetListPolicyAsync();
 

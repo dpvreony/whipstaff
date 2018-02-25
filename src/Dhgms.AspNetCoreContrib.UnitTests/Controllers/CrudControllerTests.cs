@@ -13,6 +13,20 @@ using Xunit;
 
 namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 {
+    public class SwaggerClassMetaDataAttribute : Attribute
+    {
+        public SwaggerClassMetaDataAttribute(Type metadataClass)
+        {
+            // todo: use a roslyn analyzer to ensure the type passed in is correct.
+        }
+    }
+
+    public sealed class FakeCrudControllerSwaggerMetaData
+    {
+
+    }
+
+    [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     public sealed class FakeCrudController : CrudController<FakeCrudController, int, int, int, int, int, int, int, int, int, int>
     {
         public FakeCrudController(
@@ -28,16 +42,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 commandFactory,
                 queryFactory)
         {
-        }
-
-        public override async Task<IActionResult> ListAsync(int requestDto, CancellationToken cancellationToken)
-        {
-            return await OnListAsync(requestDto, cancellationToken);
-        }
-
-        public override async Task<IActionResult> ViewAsync(long id, CancellationToken cancellationToken)
-        {
-            return await OnViewAsync(id, cancellationToken);
         }
 
         protected override async Task<EventId> GetOnListEventIdAsync()
@@ -56,27 +60,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         {
         }
 
-        protected override IActionResult GetListActionResult(int listResponse)
+        protected override async Task<IActionResult> GetListActionResultAsync(int listResponse)
         {
         }
 
-        protected override IActionResult GetViewActionResult(int listResponse)
+        protected override async Task<IActionResult> GetViewActionResultAsync(int listResponse)
         {
-        }
-
-        public override async Task<IActionResult> AddAsync(int addRequestDto)
-        {
-            return await OnAddAsync(addRequestDto);
-        }
-
-        public override async Task<IActionResult> DeleteAsync(int id)
-        {
-            return await OnDeleteAsync(id);
-        }
-
-        public override async Task<IActionResult> UpdateAsync(int updateRequestDto)
-        {
-            return await OnUpdateAsync(updateRequestDto);
         }
     }
 

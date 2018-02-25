@@ -29,10 +29,21 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             this._commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         }
 
-        public abstract Task<IActionResult> AddAsync(TAddRequestDto addRequestDto);
+        public Task<IActionResult> AddAsync(TAddRequestDto addRequestDto)
+        {
 
-        public abstract Task<IActionResult> DeleteAsync(int id);
+        }
 
-        public abstract Task<IActionResult> UpdateAsync(TUpdateRequestDto updateRequestDto);
+
+        public Task<IActionResult> DeleteAsync(int id)
+        {
+
+        }
+
+
+        public Task<IActionResult> UpdateAsync(TUpdateRequestDto updateRequestDto)
+        {
+
+        }
     }
 }
