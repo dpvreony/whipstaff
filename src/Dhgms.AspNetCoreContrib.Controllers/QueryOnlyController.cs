@@ -13,8 +13,6 @@
         : Controller
         where TInheritingClass : QueryOnlyController<TInheritingClass, TListRequestDto, TListQueryResponse, TListResponse, TViewQueryResponse, TViewResponse>
     {
-        private readonly IAuthorizationService _authorizationService;
-        private readonly ILogger<TInheritingClass> _logger;
         private readonly IAuditableQueryFactory<TListRequestDto, TListQueryResponse, TViewQueryResponse> _queryFactory;
 
         protected QueryOnlyController(
@@ -23,9 +21,9 @@
             IMediator mediator,
             IAuditableQueryFactory<TListRequestDto, TListQueryResponse, TViewQueryResponse> queryFactory)
         {
-            _authorizationService = authorizationService ??
+            AuthorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
-            _logger = logger ??
+            Logger = logger ??
                                          throw new ArgumentNullException(nameof(logger));
 
             Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -33,6 +31,10 @@
             _queryFactory = queryFactory ??
                                             throw new ArgumentNullException(nameof(queryFactory));
         }
+
+        protected IAuthorizationService AuthorizationService { get; }
+
+        protected ILogger<TInheritingClass> Logger { get; }
 
         protected IMediator Mediator { get; }
 
@@ -42,11 +44,11 @@
             CancellationToken cancellationToken)
         {
             var eventId = await GetOnListEventIdAsync();
-            _logger.LogDebug(eventId, "Entered ListAsync");
+            Logger.LogDebug(eventId, "Entered ListAsync");
 
             var user = HttpContext.User;
 
-            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetListPolicyAsync());
+            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetListPolicyAsync());
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
@@ -57,7 +59,7 @@
             var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
             var viewResult = await GetListActionResultAsync(result);
-            _logger.LogDebug(eventId, "Finished ListAsync");
+            Logger.LogDebug(eventId, "Finished ListAsync");
 
             return viewResult;
         }
@@ -67,7 +69,7 @@
             CancellationToken cancellationToken)
         {
             var eventId = await GetOnViewEventIdAsync();
-            _logger.LogDebug(eventId, "Entered ViewAsync");
+            Logger.LogDebug(eventId, "Entered ViewAsync");
 
             var user = HttpContext.User;
 
@@ -76,7 +78,7 @@
                 return NotFound();
             }
 
-            var methodAuthorization = await _authorizationService.AuthorizeAsync(user, await GetViewPolicyAsync());
+            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetViewPolicyAsync());
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
@@ -91,7 +93,7 @@
                 return NotFound();
             }
 
-            var resourceAuthorization = await _authorizationService.AuthorizeAsync(user, result, await GetViewPolicyAsync());
+            var resourceAuthorization = await AuthorizationService.AuthorizeAsync(user, result, await GetViewPolicyAsync());
             if (!resourceAuthorization.Succeeded)
             {
                 // not found rather than forbidden
@@ -99,7 +101,7 @@
             }
 
             var viewResult = await GetViewActionResultAsync(result);
-            _logger.LogDebug(eventId, "Finished ViewAsync");
+            Logger.LogDebug(eventId, "Finished ViewAsync");
 
             return viewResult;
         }

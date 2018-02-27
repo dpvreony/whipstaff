@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.UnitTests", "Dhgms.AspNetCoreContrib.UnitTests\Dhgms.AspNetCoreContrib.UnitTests.csproj", "{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dhgms.AspNetCoreContrib.Example.WebSite", "Dhgms.AspNetCoreContrib.Example.WebSite\Dhgms.AspNetCoreContrib.Example.WebSite.csproj", "{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebSite", "Dhgms.AspNetCoreContrib.Example.WebSite\Dhgms.AspNetCoreContrib.Example.WebSite.csproj", "{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dhgms.AspNetCoreContrib.Fakes", "Dhgms.AspNetCoreContrib.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
