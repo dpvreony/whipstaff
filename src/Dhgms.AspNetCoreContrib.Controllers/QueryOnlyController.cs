@@ -43,20 +43,23 @@
             [FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
+            // removes need for ConfigureAwait(false)
+            await new SynchronizationContextRemover();
             var eventId = await GetOnListEventIdAsync();
             Logger.LogDebug(eventId, "Entered ListAsync");
 
             var user = HttpContext.User;
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetListPolicyAsync());
+            var listPolicy = await GetListPolicyAsync();
+            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, listPolicy);
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
                 return NotFound();
             }
 
-            var query = await _queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
-            var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
+            var query = await _queryFactory.GetListQueryAsync(requestDto, user, cancellationToken);
+            var result = await Mediator.Send(query, cancellationToken);
 
             var viewResult = await GetListActionResultAsync(result);
             Logger.LogDebug(eventId, "Finished ListAsync");
@@ -68,6 +71,8 @@
             long id,
             CancellationToken cancellationToken)
         {
+            await new SynchronizationContextRemover();
+
             var eventId = await GetOnViewEventIdAsync();
             Logger.LogDebug(eventId, "Entered ViewAsync");
 
@@ -85,8 +90,8 @@
                 return NotFound();
             }
 
-            var query = await _queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
-            var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
+            var query = await _queryFactory.GetViewQueryAsync(id, user, cancellationToken);
+            var result = await Mediator.Send(query, cancellationToken);
 
             if (result == null)
             {

@@ -34,6 +34,8 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
+            await new SynchronizationContextRemover();
+
             var eventId = await GetAddEventIdAsync();
             Logger.LogDebug(eventId, "Entered AddAsync");
 
@@ -59,6 +61,8 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             int id,
             CancellationToken cancellationToken)
         {
+            await new SynchronizationContextRemover();
+
             var eventId = await GetDeleteEventIdAsync();
             Logger.LogDebug(eventId, "Entered DeleteAsync");
 
@@ -77,13 +81,14 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             Logger.LogDebug(eventId, "Finished DeleteAsync");
 
             return viewResult;
-
         }
 
         public async Task<IActionResult> UpdateAsync(
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
         {
+            await new SynchronizationContextRemover();
+
             var eventId = await GetUpdateEventIdAsync();
             Logger.LogDebug(eventId, "Entered UpdateAsync");
 
