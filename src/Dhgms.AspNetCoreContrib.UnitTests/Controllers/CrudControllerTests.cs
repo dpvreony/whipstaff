@@ -157,7 +157,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         {
             public static IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new []
             {
-                new object[] {},
+                new object[] { 0, },
+                new object[] { -1, },
             };
 
             [Theory]
@@ -192,7 +193,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         {
             public static IEnumerable<object[]> ThrowsArgumentOutOfRangeExceptionTestData = new []
             {
-                new object[] {},
+                new object[] { 0, },
+                new object[] { -1, },
             };
 
             [Theory]
@@ -227,7 +229,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         {
             public static IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new []
             {
-                new object[] {},
+                new object[] { 0, },
+                new object[] { -1, },
             };
 
             [Theory]

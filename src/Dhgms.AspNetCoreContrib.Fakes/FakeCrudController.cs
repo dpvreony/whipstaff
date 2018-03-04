@@ -97,12 +97,12 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 
         protected override async Task<EventId> GetOnListEventIdAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => new EventId(1));
         }
 
         protected override async Task<EventId> GetOnViewEventIdAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => new EventId(2));
         }
 
         protected override async Task<AuthorizationPolicy> GetListPolicyAsync()
@@ -130,9 +130,9 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             throw new NotImplementedException();
         }
 
-        protected override Task<EventId> GetAddEventIdAsync()
+        protected override async Task<EventId> GetAddEventIdAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => new EventId(3));
         }
 
         protected override Task<AuthorizationPolicy> GetAddPolicyAsync()
@@ -140,9 +140,9 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             throw new NotImplementedException();
         }
 
-        protected override Task<EventId> GetDeleteEventIdAsync()
+        protected override async Task<EventId> GetDeleteEventIdAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => new EventId(4));
         }
 
         protected override Task<IActionResult> GetDeleteActionResultAsync(int result)
@@ -155,9 +155,9 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             throw new NotImplementedException();
         }
 
-        protected override Task<EventId> GetUpdateEventIdAsync()
+        protected override async Task<EventId> GetUpdateEventIdAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => new EventId(5));
         }
 
         protected override Task<AuthorizationPolicy> GetUpdatePolicyAsync()
