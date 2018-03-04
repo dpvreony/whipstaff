@@ -42,7 +42,7 @@ var treatWarningsAsErrors = false;
 // Build configuration
 var local = BuildSystem.IsLocalBuild;
 var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
-var isRepository = StringComparer.OrdinalIgnoreCase.Equals("reactiveui/reactiveui", AppVeyor.Environment.Repository.Name);
+var isRepository = StringComparer.OrdinalIgnoreCase.Equals("dpvreony/Dhgms.AspNetContrib", AppVeyor.Environment.Repository.Name);
 
 var isDevelopBranch = StringComparer.OrdinalIgnoreCase.Equals("develop", AppVeyor.Environment.Repository.Branch);
 var isReleaseBranch = StringComparer.OrdinalIgnoreCase.Equals("master", AppVeyor.Environment.Repository.Branch);
@@ -65,16 +65,8 @@ var buildVersion = gitVersion.FullBuildMetaData;
 // Artifacts
 var artifactDirectory = "./artifacts/";
 var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
-var packageWhitelist = new[] { "ReactiveUI.Testing",
-                               "ReactiveUI.Events",
-                               "ReactiveUI.Events.WPF",
-                               "ReactiveUI.Events.XamForms",
-                               "ReactiveUI",
-                               "ReactiveUI.AndroidSupport",
-                               "ReactiveUI.Blend",
-                               "ReactiveUI.WPF",
-                               "ReactiveUI.Winforms",
-                               "ReactiveUI.XamForms" };
+var packageWhitelist = new[] { "Dhgms.AspNetCoreContrib.Abstractions",
+                               "Dhgms.AspNetCoreContrib.Controllers" };
 
 // Define global marcos.
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
@@ -84,12 +76,7 @@ Action Abort = () => { throw new Exception("a non-recoverable fatal error occurr
 ///////////////////////////////////////////////////////////////////////////////
 Setup(context =>
 {
-    if (!IsRunningOnWindows())
-    {
-        throw new NotImplementedException("ReactiveUI will only build on Windows (w/Xamarin installed) because it's not possible to target UWP, WPF and Windows Forms from UNIX.");
-    }
-
-    Information("Building version {0} of ReactiveUI. (isTagged: {1})", informationalVersion, isTagged);
+    Information("Building version {0} of AspNetContrib. (isTagged: {1})", informationalVersion, isTagged);
 
     CreateDirectory(artifactDirectory);
 });
@@ -99,93 +86,7 @@ Teardown(context =>
     // Executed AFTER the last task.
 });
 
-//////////////////////////////////////////////////////////////////////
-// TASKS
-//////////////////////////////////////////////////////////////////////
-
-Task("BuildEventBuilder")
-    .Does (() =>
-{
-    var solution = "./src/EventBuilder.sln";
-    Information("Building {0} using {1}", solution, msBuildPath);
-
-    NuGetRestore(solution, new NuGetRestoreSettings() { ConfigFile = "./src/.nuget/NuGet.config" });
-
-    MSBuild(solution, new MSBuildSettings() {
-            ToolPath = msBuildPath,
-            ArgumentCustomization = args => args.Append("/bl:eventbuilder.binlog /m")
-        }
-        .SetConfiguration("Release")
-		.WithProperty("AndroidSdkDirectory", androidHome)
-        .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
-        .SetVerbosity(Verbosity.Minimal)
-        .SetNodeReuse(false));
-});
-
-Task("GenerateEvents")
-    .IsDependentOn("BuildEventBuilder")
-    .Does (() =>
-{
-    var eventBuilder = "./src/EventBuilder/bin/Release/net452/EventBuilder.exe";
-    var workingDirectory = "./src/EventBuilder/bin/Release/Net452";
-    var referenceAssembliesPath = VSWhereLatest().CombineWithFilePath("./Common7/IDE/ReferenceAssemblies/Microsoft/Framework");
-
-    Information(referenceAssembliesPath.ToString());
-
-    Action<string, string> generate = (string platform, string directory) =>
-    {
-        using(var process = StartAndReturnProcess(eventBuilder,
-            new ProcessSettings{
-                Arguments = new ProcessArgumentBuilder()
-                    .AppendSwitch("--platform","=", platform)
-                    .AppendSwitchQuoted("--reference","=", referenceAssembliesPath.ToString()),
-                WorkingDirectory = workingDirectory,
-                RedirectStandardOutput = true }))
-        {
-            // super important to ensure that the platform is always
-            // uppercase so that the events are written to the write
-            // filename as UNIX is case-sensitive - even though OSX
-            // isn't by default.
-            platform = platform.ToUpper();
-
-            Information("Generating events for '{0}'", platform);
-            
-            int timeout = 10 * 60 * 1000;   // x Minute, y Second, z Millisecond
-            process.WaitForExit(timeout);
-
-            var stdout = process.GetStandardOutput();
-
-            int success = 0;    // exit code aka %ERRORLEVEL% or $?
-            if (process.GetExitCode() != success)
-            {
-                Error("Failed to generate events for '{0}'", platform);
-
-                foreach (var line in stdout)
-                {
-                    Error(line);
-                }
-
-                Abort();
-            }
-
-            var filename = String.Format("Events_{0}.cs", platform);
-            var output = System.IO.Path.Combine(directory, filename);
-
-            FileWriteLines(output, stdout.ToArray());
-            Information("The events have been written to '{0}'", output);
-        }
-    };
-
-    generate("android", "src/ReactiveUI.Events/");
-    generate("ios", "src/ReactiveUI.Events/");
-    generate("mac", "src/ReactiveUI.Events/");
-    generate("uwp", "src/ReactiveUI.Events/");
-    generate("wpf", "src/ReactiveUI.Events.WPF/");
-    generate("xamforms", "src/ReactiveUI.Events.XamForms/");
-});
-
-Task("BuildReactiveUI")
-    .IsDependentOn("GenerateEvents")
+Task("BuildSolution")
     .Does (() =>
 {
     Action<string> build = (solution) =>
@@ -201,8 +102,6 @@ Task("BuildReactiveUI")
             .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
             .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
             .SetConfiguration("Release")
-            // Due to https://github.com/NuGet/Home/issues/4790 and https://github.com/NuGet/Home/issues/4337 we
-            // have to pass a version explicitly
             .WithProperty("Version", nugetVersion.ToString())
             .WithProperty("InformationalVersion", informationalVersion)
             .SetVerbosity(Verbosity.Minimal)
@@ -210,7 +109,7 @@ Task("BuildReactiveUI")
     };
 
     // Restore must be a separate step
-    MSBuild("./src/ReactiveUI.sln", new MSBuildSettings() {
+    MSBuild("./src/Dhgms.AspNetCoreContrib.sln", new MSBuildSettings() {
             ToolPath = msBuildPath,
             ArgumentCustomization = args => args.Append("/bl:reactiveui-restore.binlog /m")
         }
@@ -219,20 +118,20 @@ Task("BuildReactiveUI")
         .WithProperty("Version", nugetVersion.ToString())
         .SetVerbosity(Verbosity.Minimal));
     
-    build("./src/ReactiveUI.sln");
+    build("./src/Dhgms.AspNetCoreContrib.sln");
 });
 
 Task("RunUnitTests")
-    .IsDependentOn("BuildReactiveUI")
+    .IsDependentOn("BuildSolution")
     .Does(() =>
 {
     Action<ICakeContext> testAction = tool => {
-
-        tool.XUnit2("./src/ReactiveUI.Tests/bin/**/*.Tests.dll", new XUnit2Settings {
+        DotNetCoreTest("./src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj"/*, new XUnit2Settings {
             OutputDirectory = artifactDirectory,
             XmlReportV1 = true,
-            NoAppDomain = true
-        });
+            NoAppDomain = true,
+            ToolPath = "./tools/xunit.runner.console/tools/netcoreapp2.0"
+        }*/);
     };
 
     OpenCover(testAction,
@@ -241,13 +140,8 @@ Task("RunUnitTests")
             ReturnTargetCodeOffset = 0,
             ArgumentCustomization = args => args.Append("-mergeoutput")
         }
-        .WithFilter("+[*]*")
-        .WithFilter("-[*.Testing]*")
-        .WithFilter("-[*.Tests*]*")
-        .WithFilter("-[Playground*]*")
-        .WithFilter("-[ReactiveUI.Events]*")
-        .WithFilter("-[Splat*]*")
-        .WithFilter("-[ApprovalTests*]*")
+        .WithFilter("-[*]*")
+        .WithFilter("+[Dhgms.AspNetCoreContrib]*")
         .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
         .ExcludeByFile("*/*Designer.cs")
         .ExcludeByFile("*/*.g.cs")
@@ -292,15 +186,15 @@ Task("SignPackages")
 });
 
 Task("Package")
-    .IsDependentOn("BuildReactiveUI")
+    .IsDependentOn("BuildSolution")
     .IsDependentOn("RunUnitTests")
     .IsDependentOn("UploadTestCoverage")
-    .IsDependentOn("PinNuGetDependencies")
-    .IsDependentOn("SignPackages")
+    //.IsDependentOn("PinNuGetDependencies")
     .Does (() =>
 {
 });
 
+/*
 Task("PinNuGetDependencies")
     .Does (() =>
 {
@@ -314,12 +208,11 @@ Task("PinNuGetDependencies")
         PinNuGetDependency(packagePath, "reactiveui");
     }
 });
-
+*/
 
 Task("PublishPackages")
     .IsDependentOn("RunUnitTests")
     .IsDependentOn("Package")
-    .IsDependentOn("SignPackages")
     .WithCriteria(() => !local)
     .WithCriteria(() => !isPullRequest)
     .WithCriteria(() => isRepository)

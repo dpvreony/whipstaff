@@ -1,8 +1,0 @@
-@echo off
-build\nuget\nuget.exe update -self
-build\nuget\nuget.exe install xunit.runner.console -OutputDirectory tools -Version 2.2.0 -ExcludeVersion
-build\nuget\nuget.exe install Cake -OutputDirectory build -ExcludeVersion -Version 0.21.1
-
-build\Cake\Cake.exe build.cake --target=%1
-
-exit /b %errorlevel%
