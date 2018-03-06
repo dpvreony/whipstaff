@@ -41,7 +41,12 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
             var user = HttpContext.User;
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetAddPolicyAsync());
+            var addPolicyName = await GetAddPolicyAsync();
+            // someone needs to have permission to do a general add
+            // but there is a chance the request dto also has details such as a parent id
+            // so while someone may have a generic add permission
+            // they may not be able to add to a specific parent item
+            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, addRequestDto, addPolicyName);
             if (!methodAuthorization.Succeeded)
             {
                 return Forbid();
@@ -68,7 +73,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
             var user = HttpContext.User;
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetDeletePolicyAsync());
+            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, id, await GetDeletePolicyAsync());
             if (!methodAuthorization.Succeeded)
             {
                 return Forbid();
@@ -94,7 +99,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
             var user = HttpContext.User;
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetUpdatePolicyAsync());
+            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, updateRequestDto, await GetUpdatePolicyAsync());
             if (!methodAuthorization.Succeeded)
             {
                 return Forbid();
@@ -113,18 +118,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
         protected abstract Task<EventId> GetAddEventIdAsync();
 
-        protected abstract Task<AuthorizationPolicy> GetAddPolicyAsync();
+        protected abstract Task<string> GetAddPolicyAsync();
 
 
         protected abstract Task<EventId> GetDeleteEventIdAsync();
 
         protected abstract Task<IActionResult> GetDeleteActionResultAsync(TDeleteResponse result);
 
-        protected abstract Task<AuthorizationPolicy> GetDeletePolicyAsync();
+        protected abstract Task<string> GetDeletePolicyAsync();
 
         protected abstract Task<EventId> GetUpdateEventIdAsync();
 
-        protected abstract Task<AuthorizationPolicy> GetUpdatePolicyAsync();
+        protected abstract Task<string> GetUpdatePolicyAsync();
 
         protected abstract Task<IActionResult> GetUpdateActionResultAsync(TUpdateResponseDto result);
     }

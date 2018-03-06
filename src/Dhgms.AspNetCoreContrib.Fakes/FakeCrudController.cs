@@ -7,6 +7,7 @@ using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Logging;
@@ -132,17 +133,17 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 
         protected override async Task<EventId> GetAddEventIdAsync()
         {
-            return await Task.Run(() => new EventId(3));
+            return await Task.FromResult(new EventId(3));
         }
 
-        protected override Task<AuthorizationPolicy> GetAddPolicyAsync()
+        protected override async Task<string> GetAddPolicyAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult("addPolicyName");
         }
 
         protected override async Task<EventId> GetDeleteEventIdAsync()
         {
-            return await Task.Run(() => new EventId(4));
+            return await Task.FromResult(new EventId(4));
         }
 
         protected override Task<IActionResult> GetDeleteActionResultAsync(int result)
