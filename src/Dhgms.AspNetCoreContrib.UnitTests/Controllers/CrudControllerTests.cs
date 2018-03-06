@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ using Dhgms.AspNetCoreContrib.Controllers;
 using Dhgms.AspNetCoreContrib.Fakes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Logging;
@@ -43,11 +46,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
     public static class CrudControllerTests
     {
-        private static readonly Mock<IAuthorizationService> MockAuthorizationService = new Mock<IAuthorizationService>(MockBehavior.Strict);
-        private static readonly Mock<ILogger<FakeCrudController>> MockLogger = new Mock<ILogger<FakeCrudController>>(MockBehavior.Strict);
-        private static readonly Mock<IMediator> MockMediator = new Mock<IMediator>(MockBehavior.Strict);
-        private static readonly Mock<IAuditableCommandFactory<int, int, int, int, int>> MockCommandFactory = new Mock<IAuditableCommandFactory<int, int, int, int, int>>(MockBehavior.Strict);
-        private static readonly Mock<IAuditableQueryFactory<int, int, int>> MockQueryFactory = new Mock<IAuditableQueryFactory<int, int, int>>(MockBehavior.Strict);
+        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new Mock<IAuthorizationService>(MockBehavior.Strict);
+        private static Mock<ILogger<FakeCrudController>> MockLoggerFactory() => new Mock<ILogger<FakeCrudController>>(MockBehavior.Strict);
+        private static Mock<IMediator> MockMediatorFactory() => new Mock<IMediator>(MockBehavior.Strict);
+        private static Mock<IAuditableCommandFactory<int, int, int, int, int>> MockCommandFactory() => new Mock<IAuditableCommandFactory<int, int, int, int, int>>(MockBehavior.Strict);
+        private static Mock<IAuditableQueryFactory<int, int, int>> MockQueryFactory() => new Mock<IAuditableQueryFactory<int, int, int>>(MockBehavior.Strict);
 
         public sealed class ConstructorMethod
         {
@@ -65,10 +68,10 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 return new object[]
                 {
                     (Mock<IAuthorizationService>)null,
-                    MockLogger,
-                    MockMediator,
-                    MockCommandFactory,
-                    MockQueryFactory,
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
+                    MockQueryFactory(),
                     "authorizationService"
                 };
             }
@@ -77,11 +80,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             {
                 return new object[]
                 {
-                    MockAuthorizationService,
+                    MockAuthorizationServiceFactory(),
                     (Mock<ILogger<FakeCrudController>>)null,
-                    MockMediator,
-                    MockCommandFactory,
-                    MockQueryFactory,
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
+                    MockQueryFactory(),
                     "logger"
                 };
             }
@@ -90,11 +93,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             {
                 return new object[]
                 {
-                    MockAuthorizationService,
-                    MockLogger,
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
                     (Mock<IMediator>)null,
-                    MockCommandFactory,
-                    MockQueryFactory,
+                    MockCommandFactory(),
+                    MockQueryFactory(),
                     "mediator"
                 };
             }
@@ -103,12 +106,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             {
                 return new object[]
                 {
-                    MockAuthorizationService,
-                    MockLogger,
-                    MockMediator,
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
                     (Mock<IAuditableCommandFactory<int, int, int, int, int>>)null,
-                    MockQueryFactory,
-                    "auditableCommandFactory"
+                    MockQueryFactory(),
+                    "commandFactory"
                 };
             }
 
@@ -116,12 +119,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             {
                 return new object[]
                 {
-                    MockAuthorizationService.Object,
-                    MockLogger.Object,
-                    MockMediator.Object,
-                    MockCommandFactory.Object,
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
                     (Mock<IAuditableQueryFactory<int, int, int>>)null,
-                    "auditableQueryFactory"
+                    "queryFactory"
                 };
             }
 
@@ -137,19 +140,43 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             {
 
                 var ex = Assert.Throws<ArgumentNullException>(() => new FakeCrudController(
-                    authorizationService.Object,
-                    logger.Object,
-                    mediator.Object,
-                    auditableCommandFactory.Object,
-                    auditableQueryFactory.Object));
+                    authorizationService?.Object,
+                    logger?.Object,
+                    mediator?.Object,
+                    auditableCommandFactory?.Object,
+                    auditableQueryFactory?.Object));
 
                 Assert.Equal(argumentNullExceptionParameterName, ex.ParamName);
 
-                authorizationService.VerifyNoOtherCalls();
-                logger.VerifyNoOtherCalls();
-                mediator.VerifyNoOtherCalls();
-                auditableCommandFactory.VerifyNoOtherCalls();
-                auditableQueryFactory.VerifyNoOtherCalls();
+                authorizationService?.VerifyNoOtherCalls();
+                logger?.VerifyNoOtherCalls();
+                mediator?.VerifyNoOtherCalls();
+                auditableCommandFactory?.VerifyNoOtherCalls();
+                auditableQueryFactory?.VerifyNoOtherCalls();
+            }
+
+            [Fact]
+            public void ReturnsInstance()
+            {
+                var mockAuthorizationService = MockAuthorizationServiceFactory();
+                var mockLogger = MockLoggerFactory();
+                var mockMediator = MockMediatorFactory();
+                var mockCommandFactory = MockCommandFactory();
+                var mockQueryFactory = MockQueryFactory();
+
+                var instance = new FakeCrudController(
+                    mockAuthorizationService.Object,
+                    mockLogger.Object,
+                    mockMediator.Object,
+                    mockCommandFactory.Object,
+                    mockQueryFactory.Object);
+
+                Assert.NotNull(instance);
+                mockAuthorizationService.VerifyNoOtherCalls();
+                mockLogger.VerifyNoOtherCalls();
+                mockMediator.VerifyNoOtherCalls();
+                mockCommandFactory.VerifyNoOtherCalls();
+                mockQueryFactory.VerifyNoOtherCalls();
             }
         }
 
@@ -165,18 +192,40 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(int addRequestDto)
             {
-                Mock<IAuthorizationService> authorizationService = MockAuthorizationService;
-                Mock<ILogger<FakeCrudController>> logger = MockLogger;
-                Mock<IMediator> mediator = MockMediator;
-                Mock<IAuditableCommandFactory<int, int, int, int, int>> auditableCommandFactory = MockCommandFactory;
-                Mock<IAuditableQueryFactory<int, int, int>> auditableQueryFactory = MockQueryFactory;
+                var authorizationService = MockAuthorizationServiceFactory();
+                /*
+                authorizationService.Setup(s =>
+                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthorizationPolicy>()));
+                    */
+
+                var logger = MockLoggerFactory();
+                logger.Setup(s => s.Log(LogLevel.Debug, It.IsAny<EventId>(), It.IsAny<object>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
+
+                var mediator = MockMediatorFactory();
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>()));
+
+                var auditableCommandFactory = MockCommandFactory();
+                auditableCommandFactory.Setup(s =>
+                    s.GetAddCommandAsync(It.IsAny<int>(), It.IsAny<ClaimsPrincipal>(), It.IsAny<CancellationToken>()));
+
+                var auditableQueryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
                     auditableCommandFactory.Object,
-                    auditableQueryFactory.Object);
+                    auditableQueryFactory.Object)
+                {
+                    ControllerContext = new ControllerContext
+                    {
+                        HttpContext = new DefaultHttpContext()
+                        {
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
+                        }
+                    }
+                };
+
 
                 var ex = await Assert.ThrowsAsync<ArgumentNullException>(() => instance.AddAsync(addRequestDto, CancellationToken.None));
                 Assert.Equal("addRequestDto", ex.ParamName);
@@ -201,11 +250,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             [MemberData(nameof(ThrowsArgumentOutOfRangeExceptionTestData))]
             public async Task ThrowsArgumentOutOfRangeExceptionAsync(int id)
             {
-                Mock<IAuthorizationService> authorizationService = MockAuthorizationService;
-                Mock<ILogger<FakeCrudController>> logger = MockLogger;
-                Mock<IMediator> mediator = MockMediator;
-                Mock<IAuditableCommandFactory<int, int, int, int, int>> auditableCommandFactory = MockCommandFactory;
-                Mock<IAuditableQueryFactory<int, int, int>> auditableQueryFactory = MockQueryFactory;
+                var authorizationService = MockAuthorizationServiceFactory();
+                var logger = MockLoggerFactory();
+                var mediator = MockMediatorFactory();
+                var auditableCommandFactory = MockCommandFactory();
+                var auditableQueryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
@@ -237,11 +286,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(int updateRequestDto)
             {
-                Mock<IAuthorizationService> authorizationService = MockAuthorizationService;
-                Mock<ILogger<FakeCrudController>> logger = MockLogger;
-                Mock<IMediator> mediator = MockMediator;
-                Mock<IAuditableCommandFactory<int, int, int, int, int>> auditableCommandFactory = MockCommandFactory;
-                Mock<IAuditableQueryFactory<int, int, int>> auditableQueryFactory = MockQueryFactory;
+                var authorizationService = MockAuthorizationServiceFactory();
+                var logger = MockLoggerFactory();
+                var mediator = MockMediatorFactory();
+                var auditableCommandFactory = MockCommandFactory();
+                var auditableQueryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
