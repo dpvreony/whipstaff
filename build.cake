@@ -52,7 +52,21 @@ var githubOwner = "dpvreony";
 var githubRepository = "dhgms.aspnetcorecontrib";
 var githubUrl = string.Format("https://github.com/{0}/{1}", githubOwner, githubRepository);
 
-var msBuildPath = VSWhereLatest().CombineWithFilePath("./MSBuild/15.0/Bin/MSBuild.exe");
+var vsPath = VSWhereLatest();
+
+if (vsPath == null)
+{
+	throw new Exception("Unable to find Visual Studio");
+}
+Information("Visual Studio Path: " + vsPath);
+
+var msBuildPath = GetFiles(vsPath + "/**/msbuild.exe").FirstOrDefault();
+if (msBuildPath == null)
+{
+	throw new Exception("Unable to find MSBuild path");
+}
+Information("MSBuild Path: " + msBuildPath);
+
 var androidHome = EnvironmentVariable("ANDROID_HOME");
 
 // Version
