@@ -10,18 +10,24 @@ namespace Dhgms.AspNetCoreContrib.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
 
-    public abstract class CrudController<TInheritingClass, TAddRequestDto, TAddResponseDto, TDeleteResponse, TListRequestDto, TListQueryResponse, TListResponse, TUpdateRequestDto, TUpdateResponseDto, TViewQueryResponse, TViewResponse>
-        : QueryOnlyController<TInheritingClass, TListRequestDto, TListQueryResponse, TListResponse, TViewQueryResponse, TViewResponse>
-        where TInheritingClass : CrudController<TInheritingClass, TAddRequestDto, TAddResponseDto, TDeleteResponse, TListRequestDto, TListQueryResponse, TListResponse, TUpdateRequestDto, TUpdateResponseDto, TViewQueryResponse, TViewResponse>
+    public abstract class CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto>
+        : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
+        where TInheritingClass : CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto>
+        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
+        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
+        where TListRequestDto : class
+        where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
+        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
     {
-        private readonly IAuditableCommandFactory<TAddRequestDto, TAddResponseDto, TDeleteResponse, TUpdateRequestDto, TUpdateResponseDto> _commandFactory;
+        private readonly IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> _commandFactory;
 
         protected CrudController(
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
             IMediator mediator,
-            IAuditableCommandFactory<TAddRequestDto, TAddResponseDto, TDeleteResponse, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
-            IAuditableQueryFactory<TListRequestDto, TListQueryResponse, TViewQueryResponse> queryFactory)
+            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
             : base(
                   authorizationService,
                   logger,
@@ -167,7 +173,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
         protected abstract Task<EventId> GetDeleteEventIdAsync();
 
-        protected abstract Task<IActionResult> GetDeleteActionResultAsync(TDeleteResponse result);
+        protected abstract Task<IActionResult> GetDeleteActionResultAsync(TDeleteResponseDto result);
 
         protected abstract Task<string> GetDeletePolicyAsync();
 

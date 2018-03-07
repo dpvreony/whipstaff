@@ -79,14 +79,14 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     }
 
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
-    public sealed class FakeCrudController : CrudController<FakeCrudController, int, int, int, int, int, int, int, int, int, int>
+    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, IList<int>, int, FakeCrudViewQuery, int, int, int, int, int, int, int, int>
     {
         public FakeCrudController(
             IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
             IAuditableCommandFactory<int, int, int, int, int> commandFactory,
-            IAuditableQueryFactory<int, int, int> queryFactory)
+            IAuditableQueryFactory<FakeCrudListQuery, int, IList<int>, FakeCrudViewQuery, int> queryFactory)
             : base(
                 authorizationService,
                 logger,

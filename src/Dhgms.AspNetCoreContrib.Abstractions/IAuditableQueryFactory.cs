@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace Dhgms.AspNetCoreContrib.Abstractions
 {
-    public interface IAuditableQueryFactory<TListRequestDto, TListResponse, TViewResponse>
+    public interface IAuditableQueryFactory<TListQuery, in TListRequestDto, TListResponse, TViewQuery, TViewResponse>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListResponse>
+        where TViewQuery : IAuditableRequest<long, TViewResponse>
     {
-        Task<IAuditableRequest<TListRequestDto, TListResponse>> GetListQueryAsync(
+        Task<TListQuery> GetListQueryAsync(
             TListRequestDto requestDto,
             System.Security.Claims.ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
 
-        Task<IAuditableRequest<long, TViewResponse>> GetViewQueryAsync(
+        Task<TViewQuery> GetViewQueryAsync(
             long id,
             System.Security.Claims.ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
     }
-
 }

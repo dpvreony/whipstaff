@@ -182,31 +182,39 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         public sealed class AddAsyncMethod
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new []
+            public static IEnumerable<object[]> ShouldSucceedTestData = new []
             {
                 new object[] { 0, },
                 new object[] { -1, },
             };
 
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
-            public async Task ThrowsArgumentNullExceptionAsync(int addRequestDto)
+            [MemberData(nameof(ShouldSucceedTestData))]
+            public async Task ShouldSucceed(int addRequestDto)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
-                /*
                 authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthorizationPolicy>()));
-                    */
+                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "addPolicyName"))
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
-                logger.Setup(s => s.Log(LogLevel.Debug, It.IsAny<EventId>(), It.IsAny<object>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
+                logger.Setup(s => s.Log(
+                    LogLevel.Debug,
+                    It.IsAny<EventId>(),
+                    It.IsAny<object>(),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<object, Exception, string>>()));
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>()));
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
-                    s.GetAddCommandAsync(It.IsAny<int>(), It.IsAny<ClaimsPrincipal>(), It.IsAny<CancellationToken>()));
+                    s.GetAddCommandAsync(
+                        It.IsAny<int>(),
+                        It.IsAny<ClaimsPrincipal>(),
+                        It.IsAny<CancellationToken>()))
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockAddCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -227,33 +235,63 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 };
 
 
-                var ex = await Assert.ThrowsAsync<ArgumentNullException>(() => instance.AddAsync(addRequestDto, CancellationToken.None));
-                Assert.Equal("addRequestDto", ex.ParamName);
+                var result = await instance.AddAsync(addRequestDto, CancellationToken.None);
+                Assert.NotNull(result);
 
-                authorizationService.VerifyNoOtherCalls();
-                logger.VerifyNoOtherCalls();
-                mediator.VerifyNoOtherCalls();
-                auditableCommandFactory.VerifyNoOtherCalls();
-                auditableQueryFactory.VerifyNoOtherCalls();
+                //authorizationService.VerifyNoOtherCalls();
+                //logger.VerifyNoOtherCalls();
+                //mediator.VerifyNoOtherCalls();
+                //auditableCommandFactory.VerifyNoOtherCalls();
+                //auditableQueryFactory.VerifyNoOtherCalls();
+            }
+
+            private async Task<int> MockAddMediatorHandler(IAuditableRequest<int, int> auditableRequest, CancellationToken cancellationToken)
+            {
+                return await Task.FromResult(auditableRequest.RequestDto);
+            }
+
+            private async Task<IAuditableRequest<int, int>> MockAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+            {
+                return await Task.FromResult(new AuditableRequest<int, int>(requestDto, claimsPrincipal));
             }
         }
 
         public sealed class DeleteAsyncMethod
         {
-            public static IEnumerable<object[]> ThrowsArgumentOutOfRangeExceptionTestData = new []
+            public static IEnumerable<object[]> ShouldSucceedTestData = new []
             {
                 new object[] { 0, },
                 new object[] { -1, },
             };
 
             [Theory]
-            [MemberData(nameof(ThrowsArgumentOutOfRangeExceptionTestData))]
-            public async Task ThrowsArgumentOutOfRangeExceptionAsync(int id)
+            [MemberData(nameof(ShouldSucceedTestData))]
+            public async Task ShouldSucceed(int id)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
+                authorizationService.Setup(s =>
+                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "addPolicyName"))
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+
                 var logger = MockLoggerFactory();
+                logger.Setup(s => s.Log(
+                    LogLevel.Debug,
+                    It.IsAny<EventId>(),
+                    It.IsAny<object>(),
+                    It.IsAny<Exception>(),
+                    It.IsAny<Func<object, Exception, string>>()));
+
                 var mediator = MockMediatorFactory();
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, int>, CancellationToken>(MockDeleteMediatorHandler);
+
                 var auditableCommandFactory = MockCommandFactory();
+                auditableCommandFactory.Setup(s =>
+                    s.GetDeleteCommandAsync(
+                        It.IsAny<int>(),
+                        It.IsAny<ClaimsPrincipal>(),
+                        It.IsAny<CancellationToken>()))
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockDeleteCommand);
+
                 var auditableQueryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
@@ -261,16 +299,35 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     auditableCommandFactory.Object,
-                    auditableQueryFactory.Object);
+                    auditableQueryFactory.Object)
+                {
+                    ControllerContext = new ControllerContext
+                    {
+                        HttpContext = new DefaultHttpContext()
+                        {
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
+                        }
+                    }
+                };
 
-                var ex = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => instance.DeleteAsync(id, CancellationToken.None));
-                Assert.Equal("id", ex.ParamName);
+                var result = await instance.DeleteAsync(id, CancellationToken.None);
+                Assert.NotNull(result);
 
-                authorizationService.VerifyNoOtherCalls();
-                logger.VerifyNoOtherCalls();
-                mediator.VerifyNoOtherCalls();
-                auditableCommandFactory.VerifyNoOtherCalls();
-                auditableQueryFactory.VerifyNoOtherCalls();
+                //authorizationService.VerifyNoOtherCalls();
+                //logger.VerifyNoOtherCalls();
+                //mediator.VerifyNoOtherCalls();
+                //auditableCommandFactory.VerifyNoOtherCalls();
+                //auditableQueryFactory.VerifyNoOtherCalls();
+            }
+
+            private Task<int> MockDeleteMediatorHandler(IAuditableRequest<long, int> arg1, CancellationToken arg2)
+            {
+                throw new NotImplementedException();
+            }
+
+            private async Task<IAuditableRequest<long, int>> MockDeleteCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
+            {
+                return await Task.FromResult(new FakeCrudDeleteRequest(requestDto, claimsPrincipal));
             }
         }
 
