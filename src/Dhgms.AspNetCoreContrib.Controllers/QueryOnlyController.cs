@@ -115,9 +115,9 @@
 
         protected abstract Task<EventId> GetOnViewEventIdAsync();
 
-        protected abstract Task<AuthorizationPolicy> GetListPolicyAsync();
+        protected abstract Task<string> GetListPolicyAsync();
 
-        protected abstract Task<AuthorizationPolicy> GetViewPolicyAsync();
+        protected abstract Task<string> GetViewPolicyAsync();
 
         protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
 

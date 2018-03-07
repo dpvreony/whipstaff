@@ -10,7 +10,8 @@ namespace Dhgms.AspNetCoreContrib.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
 
-    public abstract class CrudController<TInheritingClass, TAddRequestDto, TAddResponseDto, TDeleteResponse, TListRequestDto, TListQueryResponse, TListResponse, TUpdateRequestDto, TUpdateResponseDto, TViewQueryResponse, TViewResponse> : QueryOnlyController<TInheritingClass, TListRequestDto, TListQueryResponse, TListResponse, TViewQueryResponse, TViewResponse>
+    public abstract class CrudController<TInheritingClass, TAddRequestDto, TAddResponseDto, TDeleteResponse, TListRequestDto, TListQueryResponse, TListResponse, TUpdateRequestDto, TUpdateResponseDto, TViewQueryResponse, TViewResponse>
+        : QueryOnlyController<TInheritingClass, TListRequestDto, TListQueryResponse, TListResponse, TViewQueryResponse, TViewResponse>
         where TInheritingClass : CrudController<TInheritingClass, TAddRequestDto, TAddResponseDto, TDeleteResponse, TListRequestDto, TListQueryResponse, TListResponse, TUpdateRequestDto, TUpdateResponseDto, TViewQueryResponse, TViewResponse>
     {
         private readonly IAuditableCommandFactory<TAddRequestDto, TAddResponseDto, TDeleteResponse, TUpdateRequestDto, TUpdateResponseDto> _commandFactory;

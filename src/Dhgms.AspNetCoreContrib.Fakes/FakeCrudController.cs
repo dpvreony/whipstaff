@@ -106,54 +106,54 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             return await Task.Run(() => new EventId(2));
         }
 
-        protected override async Task<AuthorizationPolicy> GetListPolicyAsync()
+        protected override async Task<string> GetListPolicyAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult("listPolicyName");
         }
 
-        protected override async Task<AuthorizationPolicy> GetViewPolicyAsync()
+        protected override async Task<string> GetViewPolicyAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult("viewPolicyName");
         }
 
-        protected override async Task<IActionResult> GetListActionResultAsync(int listResponse)
+        protected override async Task<IActionResult> GetListActionResultAsync(int listResult)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Ok(listResult)).ConfigureAwait(false);
         }
 
-        protected override async Task<IActionResult> GetViewActionResultAsync(int listResponse)
+        protected override async Task<IActionResult> GetViewActionResultAsync(int viewResult)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Ok(viewResult)).ConfigureAwait(false);
         }
 
-        protected override Task<IActionResult> GetAddActionResultAsync(int result)
+        protected override async Task<IActionResult> GetAddActionResultAsync(int addResult)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Ok(addResult)).ConfigureAwait(false);
         }
 
         protected override async Task<EventId> GetAddEventIdAsync()
         {
-            return await Task.FromResult(new EventId(3));
+            return await Task.FromResult(new EventId(3)).ConfigureAwait(false);
         }
 
         protected override async Task<string> GetAddPolicyAsync()
         {
-            return await Task.FromResult("addPolicyName");
+            return await Task.FromResult("addPolicyName").ConfigureAwait(false);
         }
 
         protected override async Task<EventId> GetDeleteEventIdAsync()
         {
-            return await Task.FromResult(new EventId(4));
+            return await Task.FromResult(new EventId(4)).ConfigureAwait(false);
         }
 
-        protected override Task<IActionResult> GetDeleteActionResultAsync(int result)
+        protected override async Task<IActionResult> GetDeleteActionResultAsync(int result)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
 
-        protected override Task<AuthorizationPolicy> GetDeletePolicyAsync()
+        protected override async Task<string> GetDeletePolicyAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult("deletePolicyName").ConfigureAwait(false);
         }
 
         protected override async Task<EventId> GetUpdateEventIdAsync()
@@ -161,14 +161,14 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             return await Task.Run(() => new EventId(5));
         }
 
-        protected override Task<AuthorizationPolicy> GetUpdatePolicyAsync()
+        protected override async Task<string> GetUpdatePolicyAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult("updatePolicyName").ConfigureAwait(false);
         }
 
-        protected override Task<IActionResult> GetUpdateActionResultAsync(int result)
+        protected override async Task<IActionResult> GetUpdateActionResultAsync(int result)
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
     }
 }
