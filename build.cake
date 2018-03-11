@@ -105,7 +105,7 @@ Task("BuildSolution")
 
         MSBuild(solution, new MSBuildSettings() {
                 ToolPath = msBuildPath,
-                ArgumentCustomization = args => args.Append("/bl:reactiveui-build.binlog /m")
+                ArgumentCustomization = args => args.Append("/bl:build.binlog /m")
             }
             .WithTarget("build;pack") 
             .WithProperty("AndroidSdkDirectory", androidHome)
@@ -121,7 +121,7 @@ Task("BuildSolution")
     // Restore must be a separate step
     MSBuild("./src/Dhgms.AspNetCoreContrib.sln", new MSBuildSettings() {
             ToolPath = msBuildPath,
-            ArgumentCustomization = args => args.Append("/bl:reactiveui-restore.binlog /m")
+            ArgumentCustomization = args => args.Append("/bl:restore.binlog /m")
         }
         .WithTarget("restore")
 		.WithProperty("AndroidSdkDirectory", androidHome)
@@ -131,27 +131,40 @@ Task("BuildSolution")
     build("./src/Dhgms.AspNetCoreContrib.sln");
 });
 
+// https://andrewlock.net/running-tests-with-dotnet-xunit-using-cake/
 Task("RunUnitTests")
     .IsDependentOn("BuildSolution")
     .Does(() =>
 {
+	var filePath = "./src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj";
+	var projectDirectory = new FilePath(filePath).GetDirectory();
+
     Action<ICakeContext> testAction = tool => {
-        DotNetCoreTest("./src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj"/*, new XUnit2Settings {
+
+		var dotNetCoreTestSettings = new DotNetCoreTestSettings {
+			NoBuild = true,
             OutputDirectory = artifactDirectory,
-            XmlReportV1 = true,
-            NoAppDomain = true,
-            ToolPath = "./tools/xunit.runner.console/tools/netcoreapp2.0"
-        }*/);
+			Verbosity = DotNetCoreVerbosity.Detailed
+			//ResultDirectory = artifactDirectory
+			};
+
+        //tool.DotNetCoreTest(filePath, dotNetCoreTestSettings);
+		tool.DotNetCoreTool(
+                projectPath: filePath,
+                command: "xunit", 
+                arguments: "-configuration Release -diagnostics -stoponfail -xml report.xml"
+            );
     };
 
     OpenCover(testAction,
         testCoverageOutputFile,
         new OpenCoverSettings {
+			//LogLevel = OpenCoverLogLevel.All,
             ReturnTargetCodeOffset = 0,
-            ArgumentCustomization = args => args.Append("-mergeoutput")
+            ArgumentCustomization = args => args.Append("-mergeoutput").Append("-hideskipped:All"),
+			WorkingDirectory = projectDirectory
         }
-        .WithFilter("-[*]*")
-        .WithFilter("+[Dhgms.AspNetCoreContrib]*")
+        .WithFilter("+[Dhgms*]*")
         .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
         .ExcludeByFile("*/*Designer.cs")
         .ExcludeByFile("*/*.g.cs")
