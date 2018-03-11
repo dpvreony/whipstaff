@@ -27,7 +27,21 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
     public static class CrudControllerTests
     {
         private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new Mock<IAuthorizationService>(MockBehavior.Strict);
-        private static Mock<ILogger<FakeCrudController>> MockLoggerFactory() => new Mock<ILogger<FakeCrudController>>(MockBehavior.Strict);
+
+        private static Mock<ILogger<FakeCrudController>> MockLoggerFactory()
+        {
+            var logger = new Mock<ILogger<FakeCrudController>>(MockBehavior.Strict);
+
+            logger.Setup(s => s.Log(
+                LogLevel.Debug,
+                It.IsAny<EventId>(),
+                It.IsAny<object>(),
+                It.IsAny<Exception>(),
+                It.IsAny<Func<object, Exception, string>>()));
+
+            return logger;
+        }
+
         private static Mock<IMediator> MockMediatorFactory() => new Mock<IMediator>(MockBehavior.Strict);
         private static Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>> MockCommandFactory() => new Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>>(MockBehavior.Strict);
         private static Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long>> MockQueryFactory() => new Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long>>(MockBehavior.Strict);
@@ -178,12 +192,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
-                logger.Setup(s => s.Log(
-                    LogLevel.Debug,
-                    It.IsAny<EventId>(),
-                    It.IsAny<object>(),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<object, Exception, string>>()));
 
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandler);
@@ -248,12 +256,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
-                logger.Setup(s => s.Log(
-                    LogLevel.Debug,
-                    It.IsAny<EventId>(),
-                    It.IsAny<object>(),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<object, Exception, string>>()));
 
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandler);
@@ -319,12 +321,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
-                logger.Setup(s => s.Log(
-                    LogLevel.Debug,
-                    It.IsAny<EventId>(),
-                    It.IsAny<object>(),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<object, Exception, string>>()));
 
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandler);
@@ -389,12 +385,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
-                logger.Setup(s => s.Log(
-                    LogLevel.Debug,
-                    It.IsAny<EventId>(),
-                    It.IsAny<object>(),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<object, Exception, string>>()));
 
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(MockUpdateMediatorHandler);
@@ -467,12 +457,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
-                logger.Setup(s => s.Log(
-                    LogLevel.Debug,
-                    It.IsAny<EventId>(),
-                    It.IsAny<object>(),
-                    It.IsAny<Exception>(),
-                    It.IsAny<Func<object, Exception, string>>()));
 
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(MockViewMediatorHandler);
