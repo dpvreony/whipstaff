@@ -7,9 +7,9 @@ using Dhgms.AspNetCoreContrib.Controllers;
 
 namespace Dhgms.AspNetCoreContrib.Fakes
 {
-    public class FakeCrudListQuery : AuditableRequest<FakeCrudListRequest, IList<int>>
+    public class FakeCrudDeleteCommand : AuditableRequest<long, int>
     {
-        public FakeCrudListQuery(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal) : base(requestDto, claimsPrincipal)
+        public FakeCrudDeleteCommand(long requestDto, ClaimsPrincipal claimsPrincipal) : base(requestDto, claimsPrincipal)
         {
         }
     }

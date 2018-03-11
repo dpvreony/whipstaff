@@ -49,8 +49,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new Mock<IAuthorizationService>(MockBehavior.Strict);
         private static Mock<ILogger<FakeCrudController>> MockLoggerFactory() => new Mock<ILogger<FakeCrudController>>(MockBehavior.Strict);
         private static Mock<IMediator> MockMediatorFactory() => new Mock<IMediator>(MockBehavior.Strict);
-        private static Mock<IAuditableCommandFactory<int, int, int, int, int>> MockCommandFactory() => new Mock<IAuditableCommandFactory<int, int, int, int, int>>(MockBehavior.Strict);
-        private static Mock<IAuditableQueryFactory<int, int, int>> MockQueryFactory() => new Mock<IAuditableQueryFactory<int, int, int>>(MockBehavior.Strict);
+        private static Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, int, FakeCrudUpdateCommand, int, int>> MockCommandFactory() => new Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, int, FakeCrudUpdateCommand, int, int>>(MockBehavior.Strict);
+        private static Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, int>> MockQueryFactory() => new Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, int>>(MockBehavior.Strict);
 
         public sealed class ConstructorMethod
         {
@@ -109,7 +109,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
                     MockMediatorFactory(),
-                    (Mock<IAuditableCommandFactory<int, int, int, int, int>>)null,
+                    (Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, int, FakeCrudUpdateCommand, int, int>>)null,
                     MockQueryFactory(),
                     "commandFactory"
                 };
@@ -123,7 +123,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockLoggerFactory(),
                     MockMediatorFactory(),
                     MockCommandFactory(),
-                    (Mock<IAuditableQueryFactory<int, int, int>>)null,
+                    (Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, int>>)null,
                     "queryFactory"
                 };
             }
@@ -134,8 +134,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 Mock<IAuthorizationService> authorizationService,
                 Mock<ILogger<FakeCrudController>> logger,
                 Mock<IMediator> mediator,
-                Mock<IAuditableCommandFactory<int, int, int, int, int>> auditableCommandFactory,
-                Mock<IAuditableQueryFactory<int, int, int>> auditableQueryFactory,
+                Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, int, FakeCrudUpdateCommand, int, int>> auditableCommandFactory,
+                Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, int>> auditableQueryFactory,
                 string argumentNullExceptionParameterName)
             {
 
@@ -250,9 +250,9 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 return await Task.FromResult(auditableRequest.RequestDto);
             }
 
-            private async Task<IAuditableRequest<int, int>> MockAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+            private async Task<FakeCrudAddCommand> MockAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new AuditableRequest<int, int>(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal));
             }
         }
 
@@ -325,9 +325,9 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 throw new NotImplementedException();
             }
 
-            private async Task<IAuditableRequest<long, int>> MockDeleteCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
+            private async Task<FakeCrudDeleteCommand> MockDeleteCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
             {
-                return await Task.FromResult(new FakeCrudDeleteRequest(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudDeleteCommand(requestDto, claimsPrincipal));
             }
         }
 
