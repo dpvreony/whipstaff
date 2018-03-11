@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Text;
 using Dhgms.AspNetCoreContrib.Abstractions;
+using Dhgms.AspNetCoreContrib.Controllers;
 
 namespace Dhgms.AspNetCoreContrib.Fakes
 {
-    public class FakeCrudUpdateCommand : IAuditableRequest<int, int>
+    [ExcludeFromCodeCoverage]
+    public class FakeCrudUpdateCommand : AuditableRequest<int, int>
     {
-        public int RequestDto { get; set; }
-        public ClaimsPrincipal ClaimsPrincipal { get; set; }
+        public FakeCrudUpdateCommand(int requestDto, ClaimsPrincipal claimsPrincipal) : base(requestDto, claimsPrincipal)
+        {
+        }
     }
 }

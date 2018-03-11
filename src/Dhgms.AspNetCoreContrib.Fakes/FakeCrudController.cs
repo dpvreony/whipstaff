@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,14 +80,15 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     }
 
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
-    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, int, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, int, FakeCrudUpdateCommand, int, int>
+    [ExcludeFromCodeCoverage]
+    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>
     {
         public FakeCrudController(
             IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
-            IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, int, FakeCrudUpdateCommand, int, int> commandFactory,
-            IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, int> queryFactory)
+            IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int> commandFactory,
+            IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long> queryFactory)
             : base(
                 authorizationService,
                 logger,
@@ -121,7 +123,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             return await Task.FromResult(Ok(listResponse)).ConfigureAwait(false);
         }
 
-        protected override async Task<IActionResult> GetViewActionResultAsync(int viewResult)
+        protected override async Task<IActionResult> GetViewActionResultAsync(long viewResult)
         {
             return await Task.FromResult(Ok(viewResult)).ConfigureAwait(false);
         }
@@ -146,7 +148,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             return await Task.FromResult(new EventId(4)).ConfigureAwait(false);
         }
 
-        protected override async Task<IActionResult> GetDeleteActionResultAsync(int result)
+        protected override async Task<IActionResult> GetDeleteActionResultAsync(long result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
