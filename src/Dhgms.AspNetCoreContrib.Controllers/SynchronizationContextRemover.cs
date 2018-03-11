@@ -39,6 +39,8 @@
 
         public void GetResult()
         {
+            // there is no op here. it's just here to ensure execution with no context
+            // it's used by await
         }
     }
 }

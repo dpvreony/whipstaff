@@ -217,12 +217,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.AddAsync(addRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
-
-                //authorizationService.VerifyNoOtherCalls();
-                //logger.VerifyNoOtherCalls();
-                //mediator.VerifyNoOtherCalls();
-                //auditableCommandFactory.VerifyNoOtherCalls();
-                //auditableQueryFactory.VerifyNoOtherCalls();
             }
 
             private async Task<int> MockAddMediatorHandler(IAuditableRequest<int, int> auditableRequest, CancellationToken cancellationToken)

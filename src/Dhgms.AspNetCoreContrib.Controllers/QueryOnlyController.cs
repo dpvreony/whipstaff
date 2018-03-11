@@ -1,4 +1,6 @@
-﻿namespace Dhgms.AspNetCoreContrib.Controllers
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Dhgms.AspNetCoreContrib.Controllers
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -9,6 +11,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
+    [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for ru-use in pattern")]
     public abstract class QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
         : Controller
         where TInheritingClass : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
