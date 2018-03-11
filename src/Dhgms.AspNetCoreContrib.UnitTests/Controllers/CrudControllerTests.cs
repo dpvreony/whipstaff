@@ -23,28 +23,6 @@ using Xunit;
 
 namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 {
-    /*
-    public abstract class UnitTestAsyncMethod<TArg1, TArg2, TArg3>
-    {
-        public abstract static object[][] ThrowsArgumentNullExceptionAsyncTestData { get; }
-
-        protected abstract Func<TArg1, TArg2, TArg3, Task> GetMethod();
-
-        [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
-        [Theory]
-        public async Task ThrowsArgumentNullExceptionAsync(
-            TArg1 arg1,
-            TArg2 arg2,
-            TArg3 args3,
-            string argumentNullExceptionParamName)
-        {
-            var method = GetMethod();
-            var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => method(arg1, arg2, args3));
-            Assert.Equal(argumentNullExceptionParamName, exception.ParamName);
-        }
-    }
-    */
-
     [ExcludeFromCodeCoverage]
     public static class CrudControllerTests
     {
@@ -56,7 +34,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         public sealed class ConstructorMethod
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new []
+            public static readonly IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new []
             {
                 GetAuthorizationServiceNullTestData(),
                 GetLoggerNullTestData(),
@@ -184,7 +162,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         public sealed class AddAsyncMethod
         {
-            public static IEnumerable<object[]> ShouldSucceedTestData = new []
+            public static readonly IEnumerable<object[]> ShouldSucceedTestData = new []
             {
                 new object[] { 0, },
                 new object[] { -1, },
@@ -260,7 +238,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         public sealed class DeleteAsyncMethod
         {
-            public static IEnumerable<object[]> ShouldSucceedTestData = new []
+            public static readonly IEnumerable<object[]> ShouldSucceedTestData = new []
             {
                 new object[] { 0, },
                 new object[] { -1, },
@@ -314,12 +292,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.DeleteAsync(id, CancellationToken.None);
                 Assert.NotNull(result);
-
-                //authorizationService.VerifyNoOtherCalls();
-                //logger.VerifyNoOtherCalls();
-                //mediator.VerifyNoOtherCalls();
-                //auditableCommandFactory.VerifyNoOtherCalls();
-                //auditableQueryFactory.VerifyNoOtherCalls();
             }
 
             private async Task<long> MockDeleteMediatorHandler(IAuditableRequest<long, long> arg1, CancellationToken arg2)
@@ -335,7 +307,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         public sealed class ListAsyncMethod
         {
-            public static IEnumerable<object[]> ShouldSucceedTestData = new []
+            public static readonly IEnumerable<object[]> ShouldSucceedTestData = new []
             {
                 new object[]
                 {
@@ -392,12 +364,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.ListAsync(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
-
-                //authorizationService.VerifyNoOtherCalls();
-                //logger.VerifyNoOtherCalls();
-                //mediator.VerifyNoOtherCalls();
-                //auditableCommandFactory.VerifyNoOtherCalls();
-                //auditableQueryFactory.VerifyNoOtherCalls();
             }
 
             private async Task<IList<int>> MockListMediatorHandler(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
@@ -413,7 +379,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         public sealed class UpdateAsyncMethod
         {
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new []
+            public static readonly IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new []
             {
                 new object[] { 0, },
                 new object[] { -1, },
@@ -467,12 +433,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.UpdateAsync(updateRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
-
-                //authorizationService.VerifyNoOtherCalls();
-                //logger.VerifyNoOtherCalls();
-                //mediator.VerifyNoOtherCalls();
-                //auditableCommandFactory.VerifyNoOtherCalls();
-                //auditableQueryFactory.VerifyNoOtherCalls();
             }
 
             private async Task<int> MockUpdateMediatorHandler(FakeCrudUpdateCommand arg1, CancellationToken arg2)
@@ -488,7 +448,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         public sealed class ViewAsyncMethod
         {
-            public static IEnumerable<object[]> ShouldSucceedTestData = new []
+            public static readonly IEnumerable<object[]> ShouldSucceedTestData = new []
             {
                 new object[]
                 {
@@ -552,12 +512,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.ViewAsync(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
-
-                //authorizationService.VerifyNoOtherCalls();
-                //logger.VerifyNoOtherCalls();
-                //mediator.VerifyNoOtherCalls();
-                //auditableCommandFactory.VerifyNoOtherCalls();
-                //auditableQueryFactory.VerifyNoOtherCalls();
             }
 
             private async Task<long> MockViewMediatorHandler(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
