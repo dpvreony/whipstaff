@@ -80,6 +80,26 @@ var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
 var packageWhitelist = new[] { "Dhgms.AspNetCoreContrib.Abstractions",
                                "Dhgms.AspNetCoreContrib.Controllers" };
 
+var runSonarQube = false;
+var sonarQubePreview = false;
+var sonarQubeLogin = EnvironmentVariable("sonarqubeLogin");
+var sonarqubeProjectKey = "Dhgms.AspNetCoreContrib";
+var sonarqubeOrganisationKey = "dpvreony-github";
+
+// sonarqube
+if (isRepository && !local && sonarQubeLogin != null) {
+    if (isPullRequest) { 
+        sonarQubePreview = true;
+        runSonarQube = true;
+        Information("Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
+    }
+    else if (isReleaseBranch) {
+        runSonarQube = true;
+        Information("Sonar on branch " + AppVeyor.Environment.Repository.Branch);
+    }
+}
+
+
 // Define global marcos.
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
 
@@ -97,6 +117,7 @@ Teardown(context =>
 {
     // Executed AFTER the last task.
 });
+
 
 Task("BuildSolution")
     .Does (() =>
@@ -201,10 +222,53 @@ Task("UploadTestCoverage")
     });
 });
 
+Task("Sonar")
+  .IsDependentOn("SonarBegin")
+  .IsDependentOn("BuildSolution")
+  .IsDependentOn("RunUnitTests")
+  .IsDependentOn("UploadTestCoverage")
+  .IsDependentOn("SonarEnd");
+  
+Task("SonarBegin")
+  .WithCriteria(() => runSonarQube)
+  .Does(() => {
+        var arguments = "begin /k:\"" + sonarqubeProjectKey + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\"";
+
+        if (sonarQubePreview) {
+            Information("Sonar: Running Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
+		    arguments += " /d:\"sonar.projectVersion=sonar.projectVersion\" /d:\"sonar.analysis.mode=preview\"";
+        }
+        else {
+            Information("Sonar: Running Sonar on branch " + AppVeyor.Environment.Repository.Branch);
+        }
+        var sonarStartSettings = new ProcessSettings{ Arguments = arguments };
+		StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/SonarQube.Scanner.MSBuild.exe", sonarStartSettings);
+  /*
+     SonarBegin(new SonarBeginSettings{
+        Url = "sonarcube.contoso.local",
+        Login = "admin",
+        Password = "admin",
+        Verbose = true
+     });
+	 */
+  });
+
+Task("SonarEnd")
+  .WithCriteria(() => runSonarQube)
+  .Does(() => {
+  /*
+     SonarEnd(new SonarEndSettings{
+        Login = "admin",
+        Password = "admin"
+     });
+	*/
+    var sonarEndSettings = new ProcessSettings{ Arguments = "end /d:\"sonar.login=" + sonarQubeLogin + "\"" };
+    StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/SonarQube.Scanner.MSBuild.exe", sonarEndSettings);
+  });
+
 Task("Package")
-    .IsDependentOn("BuildSolution")
-    .IsDependentOn("RunUnitTests")
-    .IsDependentOn("UploadTestCoverage")
+    .IsDependentOn("Sonar")
+    //.IsDependentOn("RunUnitTests")
     //.IsDependentOn("PinNuGetDependencies")
     .Does (() =>
 {
