@@ -139,25 +139,18 @@ Task("RunUnitTests")
 {
 	var filePath = "./src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj";
 	var projectDirectory = new FilePath(filePath).GetDirectory();
+	var pdbDirectory = projectDirectory + "\\bin\\Debug\\netcoreapp2.0";
 
 	// workaround for https://github.com/xunit/xunit/issues/1573
 	// C:\Program Files\dotnet\shared\Microsoft.NETCore.App
 	var fxVersion = "2.0.5";
 
     Action<ICakeContext> testAction = tool => {
-
-		var dotNetCoreTestSettings = new DotNetCoreTestSettings {
-			NoBuild = true,
-            //OutputDirectory = artifactDirectory,
-			Verbosity = DotNetCoreVerbosity.Detailed
-			//ResultDirectory = artifactDirectory
-			};
-
         //tool.DotNetCoreTest(filePath, dotNetCoreTestSettings);
 		tool.DotNetCoreTool(
                 projectPath: filePath,
                 command: "xunit", 
-                arguments: "-noshadow -fxversion " + fxVersion + " -configuration Debug -diagnostics -stoponfail -xml report.xml"
+                arguments: "-noshadow -fxversion " + fxVersion + " -configuration Debug -diagnostics -stoponfail"
             );
     };
 
@@ -168,7 +161,7 @@ Task("RunUnitTests")
 			MergeOutput = true,
 			Register = "user",
             ReturnTargetCodeOffset = 0,
-            ArgumentCustomization = args => args.Append("-hideskipped:All").Append("-coverbytest:*.UnitTests.dll"),
+            ArgumentCustomization = args => args.Append("-coverbytest:*.UnitTests.dll").Append("-searchdirs:" + pdbDirectory),
 			// working dir set to allow use of dotnet-xunit
 			WorkingDirectory = projectDirectory
         }
@@ -176,9 +169,7 @@ Task("RunUnitTests")
         .ExcludeByAttribute("*.ExcludeFromCodeCoverage*")
         .ExcludeByFile("*/*Designer.cs")
         .ExcludeByFile("*/*.g.cs")
-        .ExcludeByFile("*/*.g.i.cs")
-        .ExcludeByFile("*splat/splat*")
-        .ExcludeByFile("*ApprovalTests*"));
+        .ExcludeByFile("*/*.g.i.cs"));
 
     ReportGenerator(testCoverageOutputFile, artifactDirectory);
 }).ReportError(exception =>
