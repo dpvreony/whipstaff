@@ -2,10 +2,11 @@
 // ADDINS
 //////////////////////////////////////////////////////////////////////
 
-#addin "nuget:?package=Cake.FileHelpers&version=1.0.4"
+//#addin "nuget:?package=Cake.FileHelpers&version=1.0.4"
 #addin "nuget:?package=Cake.Coveralls&version=0.4.0"
-#addin "nuget:?package=Cake.PinNuGetDependency&version=0.1.0.1495792899"
-#addin "nuget:?package=Cake.Powershell&version=0.3.5"
+//#addin "nuget:?package=Cake.PinNuGetDependency&version=1.0.0"
+//#addin "nuget:?package=Cake.Powershell&version=0.3.5"
+//#addin "nuget:?package=Cake.Sonar&version=1.0.4"
 
 //////////////////////////////////////////////////////////////////////
 // TOOLS
@@ -17,6 +18,7 @@
 #tool "nuget:?package=OpenCover&version=4.6.519"
 #tool "nuget:?package=ReportGenerator&version=2.5.11"
 #tool "nuget:?package=vswhere&version=2.1.4"
+#tool "nuget:?package=MSBuild.SonarQube.Runner.Tool"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -196,16 +198,6 @@ Task("UploadTestCoverage")
     CoverallsIo(testCoverageOutputFile, new CoverallsIoSettings()
     {
         RepoToken = token
-    });
-});
-
-Task("SignPackages")
-    .WithCriteria(() => !local)
-    .WithCriteria(() => !isPullRequest)
-    .Does(() =>
-{
-    StartPowershellFile("./SignPackages.ps1", args =>
-    {
     });
 });
 
