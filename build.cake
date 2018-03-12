@@ -133,6 +133,8 @@ Task("BuildSolution")
 
 // https://andrewlock.net/running-tests-with-dotnet-xunit-using-cake/
 // https://github.com/sawilde/opencover/wiki/Usage
+// debug type and symbols are set in projects due to an issue in opencover and new pdb format
+// https://github.com/OpenCover/opencover/wiki/Troubleshooting-%22Cannot-instrument-assembly%22
 Task("RunUnitTests")
     .IsDependentOn("BuildSolution")
     .Does(() =>
@@ -150,7 +152,7 @@ Task("RunUnitTests")
 		tool.DotNetCoreTool(
                 projectPath: filePath,
                 command: "xunit", 
-                arguments: "-noshadow -fxversion " + fxVersion + " -configuration Debug -diagnostics -stoponfail"
+                arguments: "-noshadow -fxversion " + fxVersion + " -configuration Debug -diagnostics"
             );
     };
 
@@ -161,7 +163,7 @@ Task("RunUnitTests")
 			MergeOutput = true,
 			Register = "user",
             ReturnTargetCodeOffset = 0,
-            ArgumentCustomization = args => args.Append("-coverbytest:*.UnitTests.dll").Append("-searchdirs:" + pdbDirectory),
+            ArgumentCustomization = args => args.Append("-coverbytest:*.UnitTests.dll").Append("-searchdirs:" + pdbDirectory).Append("-oldstyle"),
 			// working dir set to allow use of dotnet-xunit
 			WorkingDirectory = projectDirectory
         }
