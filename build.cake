@@ -132,6 +132,7 @@ Task("BuildSolution")
 });
 
 // https://andrewlock.net/running-tests-with-dotnet-xunit-using-cake/
+// https://github.com/sawilde/opencover/wiki/Usage
 Task("RunUnitTests")
     .IsDependentOn("BuildSolution")
     .Does(() =>
@@ -139,11 +140,15 @@ Task("RunUnitTests")
 	var filePath = "./src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj";
 	var projectDirectory = new FilePath(filePath).GetDirectory();
 
+	// workaround for https://github.com/xunit/xunit/issues/1573
+	// C:\Program Files\dotnet\shared\Microsoft.NETCore.App
+	var fxVersion = "2.0.5";
+
     Action<ICakeContext> testAction = tool => {
 
 		var dotNetCoreTestSettings = new DotNetCoreTestSettings {
 			NoBuild = true,
-            OutputDirectory = artifactDirectory,
+            //OutputDirectory = artifactDirectory,
 			Verbosity = DotNetCoreVerbosity.Detailed
 			//ResultDirectory = artifactDirectory
 			};
@@ -152,7 +157,7 @@ Task("RunUnitTests")
 		tool.DotNetCoreTool(
                 projectPath: filePath,
                 command: "xunit", 
-                arguments: "-configuration Release -diagnostics -stoponfail -xml report.xml"
+                arguments: "-noshadow -fxversion " + fxVersion + " -configuration Debug -diagnostics -stoponfail -xml report.xml"
             );
     };
 
@@ -160,8 +165,11 @@ Task("RunUnitTests")
         testCoverageOutputFile,
         new OpenCoverSettings {
 			//LogLevel = OpenCoverLogLevel.All,
+			MergeOutput = true,
+			Register = "user",
             ReturnTargetCodeOffset = 0,
-            ArgumentCustomization = args => args.Append("-mergeoutput").Append("-hideskipped:All"),
+            ArgumentCustomization = args => args.Append("-hideskipped:All").Append("-coverbytest:*.UnitTests.dll"),
+			// working dir set to allow use of dotnet-xunit
 			WorkingDirectory = projectDirectory
         }
         .WithFilter("+[Dhgms*]*")
