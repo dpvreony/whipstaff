@@ -4,7 +4,8 @@ layout: default
 ---
 # DHGMS ASP.NET Core Contrib
 
-![Build status](https://ci.appveyor.com/api/projects/status/jk9v57hxjj0mi6t4?svg=true)
+![Build status](https://ci.appveyor.com/api/projects/status/mhmcqmuqsxi4tc52?svg=true)
+![SonarCloud](https://sonarcloud.io/api/project_badges/quality_gate?project=Dhgms.AspNetCoreContrib)
 
 ## Mission Statement
 
@@ -22,11 +23,9 @@ ASP.NET Core Contrib is a project that aims to give reusable components to reduc
 * Response DTO POCO Objects (Classes)
 * Web Api Controllers (Classes)
 
-The project came out of the Nucleotide project where patterns were being established that weren't specific to roslyn code generation. One of the aims of that project is while it is generating code to reduce development burden it needs to to avoid duplicating code.
-
-## Credits
-
-* https://github.com/AArnott/CodeGeneration.Roslyn
+<div class="alert alert-info" role="alert">
+  The project came out of the Nucleotide project where patterns were being established that weren't specific to roslyn code generation. One of the aims of that project is while it is generating code to reduce development burden it needs to to avoid duplicating code.
+</div>
 
 ## Getting Started
 
@@ -45,7 +44,7 @@ You will need:
 ### Get Coding
 
 <div class="alert alert-info" role="alert">
-  There is an option to use Nucleotide to generate code for this library, but will be treated as out of scope for this to make the usage principles for this library understandle in their own right.
+  There is an option to use Nucleotide to generate code for this library, but will be treated as out of scope for this to make the usage principles for this library understandable in their own right.
 </div>
 
 #### Create a controller
