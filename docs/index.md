@@ -5,7 +5,7 @@ layout: default
 # DHGMS ASP.NET Core Contrib
 
 ![Build status](https://ci.appveyor.com/api/projects/status/mhmcqmuqsxi4tc52?svg=true)
-![SonarCloud](https://sonarcloud.io/api/project_badges/quality_gate?project=Dhgms.AspNetCoreContrib)
+![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=Dhgms.AspNetCoreContrib&metric=alert_status)
 
 ## Mission Statement
 
