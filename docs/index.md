@@ -39,11 +39,14 @@ You will need:
 ### Get the packages
 
 ` Install-Package Dhgms.AspNetCoreContrib.Abstractions `
+
 ` Install-Package Dhgms.AspNetCoreContrib.Controllers `
 
 ### Get Coding
 
-** There is an option to use Nucleotide to generate code for this library, but will be treated as out of scope for this to make the usage principles for this library understandle in their own right. **
+<div class="alert alert-info" role="alert">
+  There is an option to use Nucleotide to generate code for this library, but will be treated as out of scope for this to make the usage principles for this library understandle in their own right.
+</div>
 
 #### Create a controller
 
@@ -58,7 +61,9 @@ The controllers use the following concepts:
 * Allow for controllers that allow purely List\Get methods (Query Controllers)
 * Allow for controllers that extend the Query Controllers for full CRUD (CRUD Controllers)
 
-The controllers are generic heavy and break the SonarQube recommended limit of 2 generic arguments. This is to allow the inheriting implementations to be as flexible as possible while avoid vague implementations of queries\commands etc. Alternative designs will be considered if proposed.
+<div class="alert alert-info" role="alert">
+  The controllers are generic heavy and break the SonarQube recommended limit of 2 generic arguments. This is to allow the inheriting implementations to be as flexible as possible while avoid vague implementations of queries\commands etc. Alternative designs will be considered if proposed.
+</div>
 
 ##### Read\List capable MVC controller
 
