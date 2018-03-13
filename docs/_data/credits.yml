@@ -1,10 +1,12 @@
-- category : Project
+- category :
+  name : Project
   projects :
   - name : MediatR
     uri : https://github.com/jbogard/MediatR
   - name : Nucleotide
     uri : https://github.com/dpvreony/nucleotide
-- category : Documentation
+- category :
+  name : Documentation
   projects :
   - name : Bootstrap
     uri : http://getbootstrap.com/

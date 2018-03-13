@@ -10,14 +10,14 @@ layout: default
 <h3>Projects</h3>
 <ul>
     {% for item in category.projects %}
-    <li><a href="{{ item.Uri }}">{{ item.name }}</a></li>
+    <li><a href="{{ item.uri }}">{{ item.name }}</a></li>
     {% endfor %}
 </ul>
 
 <h3>Blog Posts</h3>
 <ul>
     {% for item in category.blogposts %}
-    <li><a href="{{ item.Uri }}">{{ item.name }}</a></li>
+    <li><a href="{{ item.uri }}">{{ item.name }}</a></li>
     {% endfor %}
 </ul>
 {% endfor %}
