@@ -1,0 +1,17 @@
+- category : Project
+  projects :
+  - name : MediatR
+    uri : https://github.com/jbogard/MediatR
+  - name : Nucleotide
+    uri : https://github.com/dpvreony/nucleotide
+- category : Documentation
+  projects :
+  - name : Bootstrap
+    uri : http://getbootstrap.com/
+  - name : Font Awesome
+    uri : http://fontawesome.io/
+  blogposts :
+  - name : Run Jekyll on Windows
+    uri: http://jekyll-windows.juthilo.com/
+  - name : Setting up a Jekyll workflow on windows
+    uri : https://michael-mckenna.com/setting-up-a-jekyll-workflow-on-windows/

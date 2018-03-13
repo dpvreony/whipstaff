@@ -1,0 +1,3 @@
+PAUSE
+grunt default
+PAUSE
