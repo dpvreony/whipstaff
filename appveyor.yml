@@ -15,14 +15,6 @@
       secure: RErDVlA5kOT7ZT4maCrp4KE73pzZYaMz5T+OrDqRu2AObjUTaNNvTvRwEqlve/O+
     sonarqubeLogin:
       secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
-  before_build:
-# If there's a newer build queued for the same PR, cancel this one
-# taken from: https://raw.githubusercontent.com/tkelman/numpy/440e81ace36d65a7b62eec1a0460467f3dc97085/appveyor.yml
-  - ps: |
-    if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
-            https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
-            Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-            throw "There are newer queued builds for this pull request, failing early." }
   build_script:
     - ./build.cmd
   artifacts:
@@ -54,14 +46,6 @@
       secure: 8GpBZ6IHRM4AV4mP8qCqUgJi0NCHX17OlzbrEZRoDCE0s2ZwXHOeqMfIwrGaakg9
     sonarqubeLogin:
       secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
-  before_build:
-  # If there's a newer build queued for the same PR, cancel this one
-  # taken from: https://raw.githubusercontent.com/tkelman/numpy/440e81ace36d65a7b62eec1a0460467f3dc97085/appveyor.yml
-    - ps: |
-    if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
-            https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
-            Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-            throw "There are newer queued builds for this pull request, failing early." }
   build_script:
     - ./build.cmd
   artifacts:
