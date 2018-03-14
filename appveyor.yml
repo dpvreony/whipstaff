@@ -1,17 +1,18 @@
+# configuration for "non-master" branches
+-
 version: 1.0.{build}
-#branches:
-#  only:
-#  - master
+branches:
+  except:
+  - master
 image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}{localversionsuffix}'
 environment:
+  COVERALLS_TOKEN:
+    secure: yQbjLdQV0mU9QgTmlINi4ey+Y+gGaiz/EZqfr/41adeVjgGc9GhgJA3W/FArFAVu
+  NUGET_SOURCE: https://www.myget.org/F/dhgms/api/v2/package
+  NUGET_APIKEY:
+    secure: RErDVlA5kOT7ZT4maCrp4KE73pzZYaMz5T+OrDqRu2AObjUTaNNvTvRwEqlve/O+
   sonarqubeLogin:
     secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
 init:
@@ -27,82 +28,56 @@ before_build:
             https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
             Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
             throw "There are newer queued builds for this pull request, failing early." }
-
-    Invoke-Expression "dotnet restore src\Dhgms.AspNetCoreContrib.sln" 
 build_script:
-- choco install "msbuild-sonarqube-runner" -y
-- ps: dotnet restore src\Dhgms.AspNetCoreContrib.sln
-# sonarqube script based upon https://github.com/NLog/NLog/blob/master/run-sonar.ps1
-- ps: |
-    $github = "dpvreony/Dhgms.AspNetCoreContrib"
-    $fileVersion = $Env:APPVEYOR_BUILD_VERSION
-    #moving forward assembly version will be major.minor.0
-    $assemblyVersion = $Env:APPVEYOR_BUILD_VERSION
-    $informationalVersion = $Env:APPVEYOR_BUILD_VERSION + $env:localversionsuffix
-    $sonarqubeProjectKey = "Dhgms.AspNetCoreContrib"
-    $sonarqubeOrganisationKey = "dpvreony-github"
-    $sonarqube_login = $env:sonarqubeLogin
-    $baseBranch = "master"
-
-    $runSonarQube = false;
-    $preview = false;
-
-    if ($env:APPVEYOR_REPO_NAME -eq $github) {
-        if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { 
-            $preview = $true;
-            $runSonarQube = $true;
-            Write-Output "Sonar: on PR $env:APPVEYOR_PULL_REQUEST_NUMBER"
-        }
-        elseif ($env:APPVEYOR_REPO_BRANCH -eq $baseBranch) {
-            $runSonarQube = $true;
-            Write-Output "Sonar: on branch $env:APPVEYOR_REPO_BRANCH"
-        }
-    }
-
-    if ($runSonarQube) {
-        if ($preview) {
-            Write-Output "Sonar: Running Sonar in preview mode for PR $env:APPVEYOR_PULL_REQUEST_NUMBER"
-            SonarQube.Scanner.MSBuild.exe begin /k:"$sonarqubeProjectKey" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.organization=$sonarqubeOrganisationKey" /d:"sonar.login=$sonarqube_login" /d:"sonar.projectVersion=sonar.projectVersion" /d:"sonar.analysis.mode=preview"
-        }
-        else {
-            Write-Output "Sonar: Running Sonar in non-preview mode, on branch $env:APPVEYOR_REPO_BRANCH"
-            SonarQube.Scanner.MSBuild.exe begin /k:"$sonarqubeProjectKey" /d:"sonar.host.url=https://sonarcloud.io" /d:"sonar.organization=$sonarqubeOrganisationKey" /d:"sonar.login=$sonarqube_login"
-        }
-    }
-
-    dotnet build src\Dhgms.AspNetCoreContrib.sln -c Release /p:FileVersion=$fileVersion /p:AssemblyVersion=$assemblyVersion /p:Version=$informationalVersion
-
-    if ($runSonarQube) {
-        SonarQube.Scanner.MSBuild.exe end /d:"sonar.login=$sonarqube_login"
-    }
-
-    Get-ChildItem src\*\*.csproj | Where { !$_.PSIsContainer -and !$_.Name.EndsWith(".UnitTests.csproj") -and !$_.Name.EndsWith(".IntegrationTests.csproj")} | ForEach-Object { dotnet pack $_.FullName /p:FileVersion=$fileVersion /p:AssemblyVersion=$assemblyVersion /p:Version=$informationalVersion }
-test_script:
-- ps: |
-    $openCoverConsole = (Get-ChildItem C:\Users\appveyor\.nuget\packages\opencover\*\Tools\OpenCover.Console.exe).FullName
-    Write-Host "OpenCover : $openCoverConsole"
-    $unittestproject = "C:\projects\Dhgms-AspNetCoreContrib\src\Dhgms.AspNetCoreContrib.UnitTests\"
-    Write-Host "unit test : $unittestdll"
-    $dotnetLocation = "C:\Program Files\dotnet\dotnet.exe"
-    Write-Host "dotnet    : $dotnetLocation"
-    pushd $unittestproject
-    .$openCoverConsole -register:user -target:"$dotnetLocation" -targetargs:"xunit -noshadow -appveyor" -returntargetcode -excludebyattribute:*.ExcludeFromCodeCoverage* -filter:"+[Dhgms*]*" -hideskipped:All -output:.\opencover_coverage.xml
-    "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
-    pip install codecov
-    codecov -f "opencover_coverage.xml"
-    popd
+  - ./build.cmd
 artifacts:
-- path: '*.nupkg'
-  name: nuget
-deploy:
-- provider: NuGet
-  server: https://www.myget.org/F/dhgms/api/v2/package
-  api_key:
-    secure: RErDVlA5kOT7ZT4maCrp4KE73pzZYaMz5T+OrDqRu2AObjUTaNNvTvRwEqlve/O+
-  symbol_server: https://www.myget.org/F/dhgms/api/v2/package
-- provider: NuGet
-  api_key:
-    secure: 8GpBZ6IHRM4AV4mP8qCqUgJi0NCHX17OlzbrEZRoDCE0s2ZwXHOeqMfIwrGaakg9
-  on:
-    APPVEYOR_REPO_BRANCH: Release
+  - path: artifacts/*.nupkg
+  - path: '**/bin/*'
+  - path: '**/*.binlog'
+test: off
+  on_failure:
+  - ps: Get-ChildItem *.binlog -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
+# configuration for "master" branch
+-
+version: 1.0.{build}
+branches:
+  only:
+  - master
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+environment:
+  COVERALLS_TOKEN: ?
+    secure: yQbjLdQV0mU9QgTmlINi4ey+Y+gGaiz/EZqfr/41adeVjgGc9GhgJA3W/FArFAVu
+  GITHUB_USERNAME:
+    secure: ?
+  GITHUB_TOKEN:
+    secure: ?
+  NUGET_SOURCE: https://www.nuget.org/api/v2/package
+  NUGET_APIKEY:
+    secure: 8GpBZ6IHRM4AV4mP8qCqUgJi0NCHX17OlzbrEZRoDCE0s2ZwXHOeqMfIwrGaakg9
+  sonarqubeLogin:
+    secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
+init:
+- ps: >-
+    if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
+      $env:localversionsuffix = '-' + $env:APPVEYOR_REPO_BRANCH
+    }
+before_build:
+# If there's a newer build queued for the same PR, cancel this one
+# taken from: https://raw.githubusercontent.com/tkelman/numpy/440e81ace36d65a7b62eec1a0460467f3dc97085/appveyor.yml
+- ps: |
+    if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+            https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+            Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+            throw "There are newer queued builds for this pull request, failing early." }
+build_script:
+  - ./build.cmd
+artifacts:
+  - path: artifacts/*.nupkg
+  - path: '**/bin/*'
+  - path: '**/*.binlog'
+test: off
+  on_failure:
+  - ps: Get-ChildItem *.binlog -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
