@@ -73,9 +73,9 @@ var majorMinorPatch = gitVersion.MajorMinorPatch;
 var informationalVersion = gitVersion.InformationalVersion;
 var nugetVersion = gitVersion.NuGetVersion;
 var buildVersion = gitVersion.FullBuildMetaData;
-var assemblyVersion = buildVersion;
+var assemblyVersion = gitVersion.Major + "." + gitVersion.MinorPatch + ".0.0";
 var fileVersion = majorMinorPatch;
-Information("buildVersion: " + buildVersion);
+Information("informationalVersion: " + informationalVersion);
 Information("assemblyVersion: " + assemblyVersion);
 Information("fileVersion: " + fileVersion);
 
