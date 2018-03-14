@@ -47,7 +47,7 @@
     sonarqubeLogin:
       secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
   build_script:
-    - ./build.cmd
+    - ps: .\build.ps1
   artifacts:
     - path: artifacts/*.nupkg
     - path: '**/bin/*'
