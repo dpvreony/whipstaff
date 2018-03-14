@@ -15,11 +15,6 @@
       secure: RErDVlA5kOT7ZT4maCrp4KE73pzZYaMz5T+OrDqRu2AObjUTaNNvTvRwEqlve/O+
     sonarqubeLogin:
       secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
-  init:
-    - ps: >-
-    if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
-      $env:localversionsuffix = '-' + $env:APPVEYOR_REPO_BRANCH
-    }
   before_build:
 # If there's a newer build queued for the same PR, cancel this one
 # taken from: https://raw.githubusercontent.com/tkelman/numpy/440e81ace36d65a7b62eec1a0460467f3dc97085/appveyor.yml
@@ -59,11 +54,6 @@
       secure: 8GpBZ6IHRM4AV4mP8qCqUgJi0NCHX17OlzbrEZRoDCE0s2ZwXHOeqMfIwrGaakg9
     sonarqubeLogin:
       secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
-  init:
-    - ps: >-
-      if ($env:APPVEYOR_REPO_BRANCH -ne 'master') {
-        $env:localversionsuffix = '-' + $env:APPVEYOR_REPO_BRANCH
-      }
   before_build:
   # If there's a newer build queued for the same PR, cancel this one
   # taken from: https://raw.githubusercontent.com/tkelman/numpy/440e81ace36d65a7b62eec1a0460467f3dc97085/appveyor.yml
