@@ -35,12 +35,12 @@
   configuration: Release
   platform: Any CPU
   environment:
-    COVERALLS_TOKEN: ?
+    COVERALLS_TOKEN:
       secure: yQbjLdQV0mU9QgTmlINi4ey+Y+gGaiz/EZqfr/41adeVjgGc9GhgJA3W/FArFAVu
     GITHUB_USERNAME:
-      secure: ?
+      secure: mHIm6yhC2xu2toMv1z91YA==
     GITHUB_TOKEN:
-      secure: ?
+      secure: 9ULk5oYK+0ELg1yx5HovqzJvKrcAP9JBeE11VFd9svWDLKT7M8BPUsaiosmawiN3
     NUGET_SOURCE: https://www.nuget.org/api/v2/package
     NUGET_APIKEY:
       secure: 8GpBZ6IHRM4AV4mP8qCqUgJi0NCHX17OlzbrEZRoDCE0s2ZwXHOeqMfIwrGaakg9
