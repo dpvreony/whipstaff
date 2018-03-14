@@ -19,7 +19,6 @@
     - ps: .\build.ps1
   artifacts:
     - path: artifacts/*.nupkg
-    - path: '**/bin/*'
     - path: '**/*.binlog'
   test: off
   on_failure:
@@ -50,7 +49,6 @@
     - ps: .\build.ps1
   artifacts:
     - path: artifacts/*.nupkg
-    - path: '**/bin/*'
     - path: '**/*.binlog'
   test: off
   on_failure:
