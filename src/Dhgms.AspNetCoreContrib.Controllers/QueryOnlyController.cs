@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Dhgms.AspNetCoreContrib.Controllers
 {
@@ -15,7 +17,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
     public abstract class QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
         : Controller
         where TInheritingClass : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
-        where TListRequestDto : class
+        where TListRequestDto : class, new()
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
     {
@@ -44,11 +46,28 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
         protected IMediator Mediator { get; }
 
-
-        public async Task<IActionResult> ListAsync(
-            [FromQuery]TListRequestDto requestDto,
+        [HttpGet]
+        public async Task<IActionResult> IndexAsync(
+            [FromRoute]long? id,
+            //[FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
+            if (!id.HasValue)
+            {
+                return await ListAsync(cancellationToken).ConfigureAwait(false);
+            }
+
+            return await ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
+        }
+
+        private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
+        {
+            var queryCollection = this.Request.Query;
+            var bindingSource = BindingSource.Query;
+            IValueProvider provider = new QueryStringValueProvider(bindingSource, queryCollection, CultureInfo.CurrentCulture);
+            var requestDto = new TListRequestDto();
+            await this.TryUpdateModelAsync(requestDto, string.Empty, provider);
+
             // removes need for ConfigureAwait(false)
             await new SynchronizationContextRemover();
             var eventId = await GetOnListEventIdAsync();
@@ -73,7 +92,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             return viewResult;
         }
 
-        public async Task<IActionResult> ViewAsync(
+        private async Task<IActionResult> ViewAsync(
             long id,
             CancellationToken cancellationToken)
         {

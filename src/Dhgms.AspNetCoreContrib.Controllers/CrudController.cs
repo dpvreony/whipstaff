@@ -18,7 +18,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
         where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
-        where TListRequestDto : class
+        where TListRequestDto : class, new()
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
         where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
     {
@@ -39,8 +39,9 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddAsync(
-            TAddRequestDto addRequestDto,
+            [FromBody]TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
             await new SynchronizationContextRemover();
@@ -86,8 +87,9 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         }
 
 
+        [HttpDelete]
         public async Task<IActionResult> DeleteAsync(
-            int id,
+            [FromRoute]int id,
             CancellationToken cancellationToken)
         {
             await new SynchronizationContextRemover();
@@ -127,8 +129,10 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             return viewResult;
         }
 
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync(
-            TUpdateRequestDto updateRequestDto,
+            [FromRoute]long id,
+            [FromBody]TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
         {
             await new SynchronizationContextRemover();

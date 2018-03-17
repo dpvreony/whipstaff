@@ -79,6 +79,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         }
     }
 
+    [Route("/fakecrud")]
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
     public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>
