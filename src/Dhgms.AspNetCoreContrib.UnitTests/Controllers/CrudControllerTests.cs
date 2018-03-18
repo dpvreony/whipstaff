@@ -352,7 +352,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 };
 
 
-                var result = await instance.ListAsync(listRequest, CancellationToken.None);
+                var result = await instance.IndexAsync(null, CancellationToken.None);
                 Assert.NotNull(result);
             }
 
@@ -415,7 +415,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     }
                 };
 
-                var result = await instance.UpdateAsync(updateRequestDto, CancellationToken.None);
+                var result = await instance.UpdateAsync(1, updateRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
             }
 
@@ -488,7 +488,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 };
 
 
-                var result = await instance.ViewAsync(listRequest, CancellationToken.None);
+                var result = await instance.IndexAsync(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
             }
 
