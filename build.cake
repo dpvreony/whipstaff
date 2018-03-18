@@ -241,6 +241,7 @@ Task("SonarBegin")
   .WithCriteria(() => runSonarQube)
   .Does(() => {
         var coverageFilePath = new FilePath(testCoverageOutputFile).FullPath;
+        Information("Sonar: Test Coverage Output File: " + testCoverageOutputFile);
         var arguments = "begin /k:\"" + sonarqubeProjectKey + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + coverageFilePath + "\"";
 
         if (sonarQubePreview) {
