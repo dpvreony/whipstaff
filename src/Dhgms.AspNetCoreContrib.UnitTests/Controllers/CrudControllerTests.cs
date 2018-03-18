@@ -13,6 +13,7 @@ using Dhgms.AspNetCoreContrib.Fakes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Logging;
@@ -346,11 +347,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     {
                         HttpContext = new DefaultHttpContext()
                         {
-                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
+                            Request = { Query = new QueryCollection()}
                         }
                     }
-                };
 
+                };
 
                 var result = await instance.IndexAsync(null, CancellationToken.None);
                 Assert.NotNull(result);
