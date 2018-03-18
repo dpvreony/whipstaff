@@ -75,6 +75,7 @@ var nugetVersion = gitVersion.NuGetVersion;
 var buildVersion = gitVersion.FullBuildMetaData;
 var assemblyVersion = gitVersion.Major + "." + gitVersion.Minor + ".0.0";
 var fileVersion = majorMinorPatch;
+var packageVersion = isReleaseBranch ? majorMinorPatch : informationalVersion;
 Information("informationalVersion: " + informationalVersion);
 Information("assemblyVersion: " + assemblyVersion);
 Information("fileVersion: " + fileVersion);
@@ -142,7 +143,7 @@ Task("BuildSolution")
             .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
             .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
             .SetConfiguration("Release")
-            .WithProperty("Version", informationalVersion)
+            .WithProperty("Version", packageVersion)
             .WithProperty("AssemblyVersion", assemblyVersion)
             .WithProperty("FileVersion", fileVersion)
             .WithProperty("InformationalVersion", informationalVersion)
