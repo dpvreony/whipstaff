@@ -409,9 +409,9 @@ Task("PublishRelease")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("CreateRelease")
+    //.IsDependentOn("CreateRelease")
     .IsDependentOn("PublishPackages")
-    .IsDependentOn("PublishRelease")
+    //.IsDependentOn("PublishRelease")
     .Does (() =>
 {
 });
