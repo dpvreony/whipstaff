@@ -73,6 +73,12 @@ var majorMinorPatch = gitVersion.MajorMinorPatch;
 var informationalVersion = gitVersion.InformationalVersion;
 var nugetVersion = gitVersion.NuGetVersion;
 var buildVersion = gitVersion.FullBuildMetaData;
+var assemblyVersion = gitVersion.Major + "." + gitVersion.Minor + ".0.0";
+var fileVersion = majorMinorPatch;
+Information("informationalVersion: " + informationalVersion);
+Information("assemblyVersion: " + assemblyVersion);
+Information("fileVersion: " + fileVersion);
+
 
 // Artifacts
 var artifactDirectory = "./artifacts/";
@@ -135,7 +141,9 @@ Task("BuildSolution")
             .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
             .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
             .SetConfiguration("Release")
-            .WithProperty("Version", nugetVersion.ToString())
+            .WithProperty("Version", informationalVersion)
+            .WithProperty("AssemblyVersion", assemblyVersion)
+            .WithProperty("FileVersion", fileVersion)
             .WithProperty("InformationalVersion", informationalVersion)
             .SetVerbosity(Verbosity.Minimal)
             .SetNodeReuse(false));
@@ -147,7 +155,7 @@ Task("BuildSolution")
             ArgumentCustomization = args => args.Append("/bl:restore.binlog /m")
         }
         .WithTarget("restore")
-		.WithProperty("AndroidSdkDirectory", androidHome)
+        .WithProperty("AndroidSdkDirectory", androidHome)
         .WithProperty("Version", nugetVersion.ToString())
         .SetVerbosity(Verbosity.Minimal));
     

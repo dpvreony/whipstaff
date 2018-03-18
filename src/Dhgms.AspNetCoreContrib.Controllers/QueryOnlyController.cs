@@ -62,11 +62,13 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
         private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
+            var requestDto = new TListRequestDto();
+            /*
             var queryCollection = this.Request.Query;
             var bindingSource = BindingSource.Query;
-            IValueProvider provider = new QueryStringValueProvider(bindingSource, queryCollection, CultureInfo.CurrentCulture);
-            var requestDto = new TListRequestDto();
+            IValueProvider provider = new QueryStringValueProvider(bindingSource, queryCollection, CultureInfo.InvariantCulture);
             await this.TryUpdateModelAsync(requestDto, string.Empty, provider);
+            */
 
             // removes need for ConfigureAwait(false)
             await new SynchronizationContextRemover();
