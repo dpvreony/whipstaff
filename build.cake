@@ -240,7 +240,8 @@ Task("Sonar")
 Task("SonarBegin")
   .WithCriteria(() => runSonarQube)
   .Does(() => {
-        var arguments = "begin /k:\"" + sonarqubeProjectKey + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + testCoverageOutputFile + "\"";
+        var coverageFilePath = new FilePath(testCoverageOutputFile).FullPath;
+        var arguments = "begin /k:\"" + sonarqubeProjectKey + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + coverageFilePath + "\"";
 
         if (sonarQubePreview) {
             Information("Sonar: Running Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
