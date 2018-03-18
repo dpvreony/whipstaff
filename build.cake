@@ -40,7 +40,7 @@ var treatWarningsAsErrors = false;
 // Build configuration
 var local = BuildSystem.IsLocalBuild;
 var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
-var isRepository = StringComparer.OrdinalIgnoreCase.Equals("dpvreony/Dhgms.AspNetContrib", AppVeyor.Environment.Repository.Name);
+var isRepository = StringComparer.OrdinalIgnoreCase.Equals("dpvreony/dhgms.aspnetcorecontrib", AppVeyor.Environment.Repository.Name);
 
 var isDevelopBranch = StringComparer.OrdinalIgnoreCase.Equals("develop", AppVeyor.Environment.Repository.Branch);
 var isReleaseBranch = StringComparer.OrdinalIgnoreCase.Equals("master", AppVeyor.Environment.Repository.Branch);
