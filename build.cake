@@ -240,7 +240,7 @@ Task("Sonar")
 Task("SonarBegin")
   .WithCriteria(() => runSonarQube)
   .Does(() => {
-        var arguments = "begin /k:\"" + sonarqubeProjectKey + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\"";
+        var arguments = "begin /k:\"" + sonarqubeProjectKey + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + testCoverageOutputFile + "\"";
 
         if (sonarQubePreview) {
             Information("Sonar: Running Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
@@ -250,7 +250,7 @@ Task("SonarBegin")
             Information("Sonar: Running Sonar on branch " + AppVeyor.Environment.Repository.Branch);
         }
         var sonarStartSettings = new ProcessSettings{ Arguments = arguments };
-		StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/SonarQube.Scanner.MSBuild.exe", sonarStartSettings);
+		StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/MSBuild.SonarQube.Runner.exe", sonarStartSettings);
   /*
      SonarBegin(new SonarBeginSettings{
         Url = "sonarcube.contoso.local",
@@ -271,7 +271,7 @@ Task("SonarEnd")
      });
 	*/
     var sonarEndSettings = new ProcessSettings{ Arguments = "end /d:\"sonar.login=" + sonarQubeLogin + "\"" };
-    StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/SonarQube.Scanner.MSBuild.exe", sonarEndSettings);
+    StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/MSBuild.SonarQube.Runner.exe", sonarEndSettings);
   });
 
 Task("Package")
