@@ -126,6 +126,7 @@ Teardown(context =>
 
 
 Task("BuildSolution")
+    .IsDependentOn("SonarBegin")
     .Does (() =>
 {
     Action<string> build = (solution) =>
@@ -264,6 +265,7 @@ Task("SonarBegin")
   });
 
 Task("SonarEnd")
+  .IsDependentOn("UploadTestCoverage")
   .WithCriteria(() => runSonarQube)
   .Does(() => {
   /*
