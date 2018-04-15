@@ -72,7 +72,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
             // removes need for ConfigureAwait(false)
             await new SynchronizationContextRemover();
-            var eventId = await GetOnListEventIdAsync();
+            var eventId = await GetListEventIdAsync();
             Logger.LogDebug(eventId, "Entered ListAsync");
 
             var user = HttpContext.User;
@@ -100,7 +100,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         {
             await new SynchronizationContextRemover();
 
-            var eventId = await GetOnViewEventIdAsync();
+            var eventId = await GetViewEventIdAsync();
             Logger.LogDebug(eventId, "Entered ViewAsync");
 
             var user = HttpContext.User;
@@ -138,15 +138,15 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             return viewResult;
         }
 
-        protected abstract Task<EventId> GetOnListEventIdAsync();
+        protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
 
-        protected abstract Task<EventId> GetOnViewEventIdAsync();
+        protected abstract Task<EventId> GetListEventIdAsync();
 
         protected abstract Task<string> GetListPolicyAsync();
 
-        protected abstract Task<string> GetViewPolicyAsync();
+        protected abstract Task<EventId> GetViewEventIdAsync();
 
-        protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
+        protected abstract Task<string> GetViewPolicyAsync();
 
         protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse listResponse);
     }

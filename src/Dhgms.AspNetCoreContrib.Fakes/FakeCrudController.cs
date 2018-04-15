@@ -99,12 +99,12 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         {
         }
 
-        protected override async Task<EventId> GetOnListEventIdAsync()
+        protected override async Task<EventId> GetListEventIdAsync()
         {
             return await Task.Run(() => new EventId(1));
         }
 
-        protected override async Task<EventId> GetOnViewEventIdAsync()
+        protected override async Task<EventId> GetViewEventIdAsync()
         {
             return await Task.Run(() => new EventId(2));
         }
