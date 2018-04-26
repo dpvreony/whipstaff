@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Security.Claims;
 using MediatR;
 
 namespace Dhgms.AspNetCoreContrib.Abstractions
@@ -8,5 +10,9 @@ namespace Dhgms.AspNetCoreContrib.Abstractions
         TRequestDto RequestDto { get; }
 
         ClaimsPrincipal ClaimsPrincipal { get; }
+
+        IPAddress IpAddress { get; }
+
+        IDictionary<string, string> ClientHeaders { get; }
     }
 }
