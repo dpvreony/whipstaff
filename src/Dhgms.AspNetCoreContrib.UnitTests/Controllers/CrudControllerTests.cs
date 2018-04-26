@@ -203,7 +203,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockAddCommand);
+                    .Returns<int, ClaimsPrincipal, IPAddress, IDictionary<string, string>, CancellationToken>(MockAddCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -233,9 +233,14 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 return await Task.FromResult(auditableRequest.RequestDto);
             }
 
-            private async Task<FakeCrudAddCommand> MockAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+            private async Task<FakeCrudAddCommand> MockAddCommand(
+                int requestDto,
+                ClaimsPrincipal claimsPrincipal,
+                IPAddress ipAddress,
+                IDictionary<string, string> clientHeaders,
+                CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal, ipAddress, clientHeaders));
             }
         }
 
@@ -267,7 +272,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<long>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<long, ClaimsPrincipal, CancellationToken>(MockDeleteCommand);
+                    .Returns<long, ClaimsPrincipal, IPAddress, IDictionary<string, string>, CancellationToken>(MockDeleteCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -296,9 +301,14 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 return await Task.FromResult(arg1.RequestDto);
             }
 
-            private async Task<FakeCrudDeleteCommand> MockDeleteCommand(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
+            private async Task<FakeCrudDeleteCommand> MockDeleteCommand(
+                long requestDto,
+                ClaimsPrincipal claimsPrincipal,
+                IPAddress ipAddress,
+                IDictionary<string, string> clientHeaders,
+                CancellationToken arg3)
             {
-                return await Task.FromResult(new FakeCrudDeleteCommand(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudDeleteCommand(requestDto, claimsPrincipal, ipAddress, clientHeaders));
             }
         }
 
@@ -334,7 +344,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             It.IsAny<FakeCrudListRequest>(),
                             It.IsAny<ClaimsPrincipal>(),
                             It.IsAny<CancellationToken>()))
-                    .Returns<FakeCrudListRequest, ClaimsPrincipal, CancellationToken>(MockListQuery);
+                    .Returns<FakeCrudListRequest, ClaimsPrincipal, IPAddress, IDictionary<string, string>, CancellationToken>(MockListQuery);
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
@@ -363,9 +373,14 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 return await Task.FromResult(new int[] {1,2,3});
             }
 
-            private async Task<FakeCrudListQuery> MockListQuery(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+            private async Task<FakeCrudListQuery> MockListQuery(
+                FakeCrudListRequest requestDto,
+                ClaimsPrincipal claimsPrincipal,
+                IPAddress ipAddress,
+                IDictionary<string, string> clientHeaders,
+                CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new FakeCrudListQuery(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudListQuery(requestDto, claimsPrincipal, ipAddress, clientHeaders));
             }
         }
 
@@ -397,7 +412,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockUpdateCommand);
+                    .Returns<int, ClaimsPrincipal, IPAddress, IDictionary<string, string>, CancellationToken>(MockUpdateCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -426,9 +441,13 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 return await Task.FromResult(arg1.RequestDto);
             }
 
-            private async Task<FakeCrudUpdateCommand> MockUpdateCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
+            private async Task<FakeCrudUpdateCommand> MockUpdateCommand(
+                int requestDto,
+                ClaimsPrincipal claimsPrincipal,
+                IPAddress ipAddress,
+                IDictionary<string, string> clientHeaders, CancellationToken arg3)
             {
-                return await Task.FromResult(new FakeCrudUpdateCommand(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudUpdateCommand(requestDto, claimsPrincipal, ipAddress, clientHeaders));
             }
         }
 
@@ -471,7 +490,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             It.IsAny<long>(),
                             It.IsAny<ClaimsPrincipal>(),
                             It.IsAny<CancellationToken>()))
-                    .Returns<long, ClaimsPrincipal, CancellationToken>(MockViewQuery);
+                    .Returns<long, ClaimsPrincipal, IPAddress, IDictionary<string, string> ,CancellationToken>(MockViewQuery);
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
@@ -499,9 +518,14 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 return await Task.FromResult(auditableRequest.RequestDto);
             }
 
-            private async Task<FakeCrudViewQuery> MockViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+            private async Task<FakeCrudViewQuery> MockViewQuery(
+                long requestDto,
+                ClaimsPrincipal claimsPrincipal,
+                IPAddress ipAddress,
+                IDictionary<string, string> clientHeaders,
+                CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new FakeCrudViewQuery(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudViewQuery(requestDto, claimsPrincipal, ipAddress, clientHeaders));
             }
         }
     }
