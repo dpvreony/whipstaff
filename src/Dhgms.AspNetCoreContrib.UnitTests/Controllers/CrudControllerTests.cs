@@ -675,6 +675,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     {
                         HttpContext = new DefaultHttpContext()
                         {
+                            Request = { IsHttps = true},
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
                     }

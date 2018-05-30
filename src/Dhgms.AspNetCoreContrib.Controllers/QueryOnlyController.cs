@@ -72,11 +72,6 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             var eventId = await GetListEventIdAsync();
             Logger.LogDebug(eventId, "Entered ListAsync");
 
-            if (!Request.IsHttps)
-            {
-                return BadRequest();
-            }
-
             var user = HttpContext.User;
 
             var listPolicy = await GetListPolicyAsync();
@@ -112,11 +107,6 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
             var eventId = await GetViewEventIdAsync();
             Logger.LogDebug(eventId, "Entered ViewAsync");
-
-            if (!Request.IsHttps)
-            {
-                return BadRequest();
-            }
 
             var user = HttpContext.User;
 
