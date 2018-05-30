@@ -52,6 +52,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             //[FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
+            if (!Request.IsHttps)
+            {
+                return BadRequest();
+            }
+
             if (!id.HasValue)
             {
                 return await ListAsync(cancellationToken).ConfigureAwait(false);
@@ -62,18 +67,15 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
         private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
-            var requestDto = new TListRequestDto();
-            /*
-            var queryCollection = this.Request.Query;
-            var bindingSource = BindingSource.Query;
-            IValueProvider provider = new QueryStringValueProvider(bindingSource, queryCollection, CultureInfo.InvariantCulture);
-            await this.TryUpdateModelAsync(requestDto, string.Empty, provider);
-            */
-
             // removes need for ConfigureAwait(false)
             await new SynchronizationContextRemover();
             var eventId = await GetListEventIdAsync();
             Logger.LogDebug(eventId, "Entered ListAsync");
+
+            if (!Request.IsHttps)
+            {
+                return BadRequest();
+            }
 
             var user = HttpContext.User;
 
@@ -84,6 +86,14 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 // not found rather than forbidden
                 return NotFound();
             }
+
+            var requestDto = new TListRequestDto();
+            /*
+            var queryCollection = this.Request.Query;
+            var bindingSource = BindingSource.Query;
+            IValueProvider provider = new QueryStringValueProvider(bindingSource, queryCollection, CultureInfo.InvariantCulture);
+            await this.TryUpdateModelAsync(requestDto, string.Empty, provider);
+            */
 
             var query = await _queryFactory.GetListQueryAsync(requestDto, user, cancellationToken);
             var result = await Mediator.Send(query, cancellationToken);
@@ -102,6 +112,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
             var eventId = await GetViewEventIdAsync();
             Logger.LogDebug(eventId, "Entered ViewAsync");
+
+            if (!Request.IsHttps)
+            {
+                return BadRequest();
+            }
 
             var user = HttpContext.User;
 

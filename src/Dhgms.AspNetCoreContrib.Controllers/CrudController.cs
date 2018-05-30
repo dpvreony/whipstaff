@@ -51,6 +51,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 eventId,
                 "Entered AddAsync");
 
+            if (!Request.IsHttps)
+            {
+                return BadRequest();
+            }
+
             var user = HttpContext.User;
 
             var addPolicyName = await GetAddPolicyAsync();
@@ -99,6 +104,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 eventId,
                 "Entered DeleteAsync");
 
+            if (!Request.IsHttps)
+            {
+                return BadRequest();
+            }
+
             var user = HttpContext.User;
 
             var deletePolicyName = await GetDeletePolicyAsync();
@@ -139,6 +149,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers
 
             var eventId = await GetUpdateEventIdAsync();
             Logger.LogDebug(eventId, "Entered UpdateAsync");
+
+            if (!Request.IsHttps)
+            {
+                return BadRequest();
+            }
 
             var user = HttpContext.User;
 
