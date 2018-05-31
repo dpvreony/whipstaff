@@ -82,14 +82,14 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     [Route("/fakecrud")]
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
-    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>
+    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>
     {
         public FakeCrudController(
             IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
             IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int> commandFactory,
-            IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long> queryFactory)
+            IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?> queryFactory)
             : base(
                 authorizationService,
                 logger,
@@ -124,7 +124,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
             return await Task.FromResult(Ok(listResponse)).ConfigureAwait(false);
         }
 
-        protected override async Task<IActionResult> GetViewActionResultAsync(long viewResult)
+        protected override async Task<IActionResult> GetViewActionResultAsync(long? viewResult)
         {
             return await Task.FromResult(Ok(viewResult)).ConfigureAwait(false);
         }

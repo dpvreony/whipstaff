@@ -45,7 +45,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         private static Mock<IMediator> MockMediatorFactory() => new Mock<IMediator>(MockBehavior.Strict);
         private static Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>> MockCommandFactory() => new Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>>(MockBehavior.Strict);
-        private static Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long>> MockQueryFactory() => new Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long>>(MockBehavior.Strict);
+        private static Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>> MockQueryFactory() => new Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>>(MockBehavior.Strict);
 
         public sealed class ConstructorMethod
         {
@@ -118,7 +118,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockLoggerFactory(),
                     MockMediatorFactory(),
                     MockCommandFactory(),
-                    (Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long>>)null,
+                    (Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>>)null,
                     "queryFactory"
                 };
             }
@@ -130,7 +130,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 Mock<ILogger<FakeCrudController>> logger,
                 Mock<IMediator> mediator,
                 Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>> auditableCommandFactory,
-                Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long>> auditableQueryFactory,
+                Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>> auditableQueryFactory,
                 string argumentNullExceptionParameterName)
             {
 
@@ -227,6 +227,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.AddAsync(addRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType<OkObjectResult>(result);
             }
 
             [Fact]
@@ -338,6 +339,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.DeleteAsync(id, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType<OkObjectResult>(result);
             }
 
             [Fact]
@@ -382,6 +384,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.DeleteAsync(1, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType<BadRequestResult>(result);
             }
 
             private async Task<long> MockDeleteMediatorHandler(IAuditableRequest<long, long> arg1, CancellationToken arg2)
@@ -453,6 +456,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.IndexAsync(null, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType<OkObjectResult>(result);
             }
 
             [Fact]
@@ -502,6 +506,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.IndexAsync(null, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType<BadRequestResult>(result);
             }
 
             private async Task<IList<int>> MockListMediatorHandler(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
@@ -566,6 +571,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.UpdateAsync(1, updateRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType<OkObjectResult>(result);
             }
 
             [Fact]
@@ -610,6 +616,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.UpdateAsync(1, 1, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType<BadRequestResult>(result);
             }
 
             private async Task<int> MockUpdateMediatorHandler(FakeCrudUpdateCommand arg1, CancellationToken arg2)
@@ -629,17 +636,24 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             {
                 new object[]
                 {
-                    -1
+                    -1,
+                    typeof(NotFoundResult)
                 },
                 new object[]
                 {
-                    1
+                    1,
+                    typeof(OkObjectResult)
+                },
+                new object[]
+                {
+                    2,
+                    typeof(NotFoundResult)
                 }
             };
 
             [Theory]
             [MemberData(nameof(ShouldSucceedTestData))]
-            public async Task ShouldSucceed(long listRequest)
+            public async Task ShouldSucceed(long listRequest, Type expectedResultType)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
@@ -684,11 +698,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
                 var result = await instance.IndexAsync(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
+                Assert.IsType(expectedResultType, result);
             }
 
-            private async Task<long> MockViewMediatorHandler(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
+            private async Task<long?> MockViewMediatorHandler(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(auditableRequest.RequestDto);
+                return await Task.FromResult(auditableRequest.RequestDto == 1 ? auditableRequest.RequestDto : null as long?);
             }
 
             private async Task<FakeCrudViewQuery> MockViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
