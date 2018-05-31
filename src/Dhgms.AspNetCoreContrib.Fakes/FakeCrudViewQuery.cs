@@ -8,7 +8,7 @@ using Dhgms.AspNetCoreContrib.Controllers;
 namespace Dhgms.AspNetCoreContrib.Fakes
 {
     [ExcludeFromCodeCoverage]
-    public class FakeCrudViewQuery : AuditableRequest<long, long>
+    public class FakeCrudViewQuery : AuditableRequest<long, long?>
     {
         public FakeCrudViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal) : base(requestDto, claimsPrincipal)
         {
