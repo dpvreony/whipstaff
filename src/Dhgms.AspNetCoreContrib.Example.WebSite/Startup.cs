@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Audit.WebApi;
 using Dhgms.AspNetCoreContrib.Fakes;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +51,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
             }
 
             app.UseStaticFiles();
+
+            app.UseAuditMiddleware(_ => _
+                .FilterByRequest(rq => !rq.Path.Value.EndsWith("favicon.ico"))
+                .WithEventType("{verb}:{url}")
+                .IncludeHeaders()
+                .IncludeRequestBody()
+                .IncludeResponseBody());
 
             app.UseMvc(routes =>
             {
