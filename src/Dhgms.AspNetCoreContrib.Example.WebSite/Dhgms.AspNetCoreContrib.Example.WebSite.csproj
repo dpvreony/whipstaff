@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Audit.NET" Version="13.3.0" />
-    <PackageReference Include="Audit.WebApi.Core" Version="13.2.1" />
+    <PackageReference Include="Audit.WebApi.Core" Version="13.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
