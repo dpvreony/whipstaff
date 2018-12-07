@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.2" />
+    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.3" />
     <PackageReference Include="MediatR" Version="5.1.0" />
     <PackageReference Include="System.Security.Claims" Version="4.3.0" />
   </ItemGroup>
