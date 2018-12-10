@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OwaspHeaders.Core.Extensions;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite
@@ -50,10 +51,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
+            app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
+
             app.UseStaticFiles();
 
             app.UseAuditMiddleware(_ => _
-                .FilterByRequest(rq => !rq.Path.Value.EndsWith("favicon.ico"))
+                .FilterByRequest(rq => !rq.Path.Value.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase))
                 .WithEventType("{verb}:{url}")
                 .IncludeHeaders()
                 .IncludeRequestBody()
