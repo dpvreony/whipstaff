@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Audit.WebApi;
+using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights;
 using Dhgms.AspNetCoreContrib.Fakes;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +51,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            ApplicationInsightsApplicationStartHelper.Configure();
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
             app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
