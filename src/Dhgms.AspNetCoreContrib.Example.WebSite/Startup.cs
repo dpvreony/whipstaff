@@ -29,6 +29,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
         {
             var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
 
+            
+
             services.AddMvc().AddApplicationPart(fakeControllerAssembly);
             services.AddMediatR(fakeControllerAssembly);
 
@@ -52,7 +54,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            ApplicationInsightsApplicationStartHelper.Configure();
+            new ApplicationInsightsApplicationStartHelper().ConfigureApplication(app);
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
             app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
