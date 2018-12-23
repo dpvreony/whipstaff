@@ -10,10 +10,12 @@
     <PackageReference Include="Audit.WebApi.Core" Version="14.0.2" />
     <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.3" />
     <PackageReference Include="Exceptionless.AspNetCore" Version="4.3.2012" />
+    <PackageReference Include="Exceptionless.Extensions.Logging" Version="4.3.2012" />
     <PackageReference Include="Exceptionless.NLog" Version="4.3.2012" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="OwaspHeaders.Core" Version="3.3.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
