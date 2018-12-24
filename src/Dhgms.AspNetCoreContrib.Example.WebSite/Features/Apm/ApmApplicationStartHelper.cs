@@ -20,7 +20,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm
             Version version)
         {
             ExceptionlessApplicationStartHelper.Configure(configuration, app, env, version);
-            ApplicationInsightsApplicationStartHelper.Configure();
+            new ApplicationInsightsApplicationStartHelper().ConfigureApplication(app);
         }
     }
 }

@@ -31,8 +31,6 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
         {
             var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
 
-            
-
             services.AddMvc().AddApplicationPart(fakeControllerAssembly);
             services.AddMediatR(fakeControllerAssembly);
 
