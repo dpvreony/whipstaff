@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.ApplicationInsights.Extensibility;
-
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
+﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
 {
-    public static class ApplicationInsightsApplicationStartHelper
+    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.ApplicationStartUp;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.AspNetCore.Builder;
+
+    public sealed class ApplicationInsightsApplicationStartHelper : IConfigureApplication
     {
-        public static void Configure()
+        public void ConfigureApplication(IApplicationBuilder app)
         {
             var builder = TelemetryConfiguration.Active.TelemetryProcessorChainBuilder;
             builder.Use((next) => new SignalRTelemetryProcessor(next));

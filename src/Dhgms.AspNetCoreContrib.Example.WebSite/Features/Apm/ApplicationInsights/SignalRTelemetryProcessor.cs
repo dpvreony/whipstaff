@@ -1,12 +1,9 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
-
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
+﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.ApplicationInsights.Channel;
+    using Microsoft.ApplicationInsights.DataContracts;
     using Microsoft.ApplicationInsights.Extensibility;
 
     public class SignalRTelemetryProcessor : ITelemetryProcessor
@@ -15,7 +12,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsigh
 
         private string[] _urlPaths = new[]
         {
-            "/signalr/poll"
+            "/signalr/poll",
         };
 
         public SignalRTelemetryProcessor(ITelemetryProcessor next)

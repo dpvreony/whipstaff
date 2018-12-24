@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Dhgms.AspNetCoreContrib.Fakes
+﻿namespace Dhgms.AspNetCoreContrib.Fakes
 {
+    using System.Diagnostics.CodeAnalysis;
+
     [ExcludeFromCodeCoverage]
     public sealed class FakeCrudControllerSwaggerMetaData
     {
-
     }
 }

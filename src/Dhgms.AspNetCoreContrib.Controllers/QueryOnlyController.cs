@@ -1,14 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-
-namespace Dhgms.AspNetCoreContrib.Controllers
+﻿namespace Dhgms.AspNetCoreContrib.Controllers
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
     using Abstractions;
     using MediatR;
-    using System;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -29,14 +26,14 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
         {
-            AuthorizationService = authorizationService ??
+            this.AuthorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
-            Logger = logger ??
+            this.Logger = logger ??
                                          throw new ArgumentNullException(nameof(logger));
 
-            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            _queryFactory = queryFactory ??
+            this._queryFactory = queryFactory ??
                                             throw new ArgumentNullException(nameof(queryFactory));
         }
 
@@ -49,37 +46,36 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         [HttpGet]
         public async Task<IActionResult> IndexAsync(
             [FromRoute]long? id,
-            //[FromQuery]TListRequestDto requestDto,
+            // [FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
-            if (!Request.IsHttps)
+            if (!this.Request.IsHttps)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
             if (!id.HasValue)
             {
-                return await ListAsync(cancellationToken).ConfigureAwait(false);
+                return await this.ListAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            return await ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
+            return await this.ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
         }
 
         private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
             // removes need for ConfigureAwait(false)
-            await new SynchronizationContextRemover();
-            var eventId = await GetListEventIdAsync();
-            Logger.LogDebug(eventId, "Entered ListAsync");
+            var eventId = await this.GetListEventIdAsync().ConfigureAwait(false);
+            this.Logger.LogDebug(eventId, "Entered ListAsync");
 
-            var user = HttpContext.User;
+            var user = this.HttpContext.User;
 
-            var listPolicy = await GetListPolicyAsync();
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, listPolicy);
+            var listPolicy = await this.GetListPolicyAsync().ConfigureAwait(false);
+            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(user, listPolicy).ConfigureAwait(false);
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
-                return NotFound();
+                return this.NotFound();
             }
 
             var requestDto = new TListRequestDto();
@@ -90,11 +86,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             await this.TryUpdateModelAsync(requestDto, string.Empty, provider);
             */
 
-            var query = await _queryFactory.GetListQueryAsync(requestDto, user, cancellationToken);
-            var result = await Mediator.Send(query, cancellationToken);
+            var query = await this._queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
+            var result = await this.Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetListActionResultAsync(result);
-            Logger.LogDebug(eventId, "Finished ListAsync");
+            var viewResult = await this.GetListActionResultAsync(result).ConfigureAwait(false);
+            this.Logger.LogDebug(eventId, "Finished ListAsync");
 
             return viewResult;
         }
@@ -103,42 +99,40 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             long id,
             CancellationToken cancellationToken)
         {
-            await new SynchronizationContextRemover();
+            var eventId = await this.GetViewEventIdAsync().ConfigureAwait(false);
+            this.Logger.LogDebug(eventId, "Entered ViewAsync");
 
-            var eventId = await GetViewEventIdAsync();
-            Logger.LogDebug(eventId, "Entered ViewAsync");
-
-            var user = HttpContext.User;
+            var user = this.HttpContext.User;
 
             if (id < 1)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetViewPolicyAsync());
+            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(user, await this.GetViewPolicyAsync().ConfigureAwait(false)).ConfigureAwait(false);
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
-                return NotFound();
+                return this.NotFound();
             }
 
-            var query = await _queryFactory.GetViewQueryAsync(id, user, cancellationToken);
-            var result = await Mediator.Send(query, cancellationToken);
+            var query = await this._queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
+            var result = await this.Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
             if (result == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var resourceAuthorization = await AuthorizationService.AuthorizeAsync(user, result, await GetViewPolicyAsync());
+            var resourceAuthorization = await this.AuthorizationService.AuthorizeAsync(user, result, await this.GetViewPolicyAsync().ConfigureAwait(false)).ConfigureAwait(false);
             if (!resourceAuthorization.Succeeded)
             {
                 // not found rather than forbidden
-                return NotFound();
+                return this.NotFound();
             }
 
-            var viewResult = await GetViewActionResultAsync(result);
-            Logger.LogDebug(eventId, "Finished ViewAsync");
+            var viewResult = await this.GetViewActionResultAsync(result).ConfigureAwait(false);
+            this.Logger.LogDebug(eventId, "Finished ViewAsync");
 
             return viewResult;
         }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Dhgms.AspNetCoreContrib.Abstractions
+﻿namespace Dhgms.AspNetCoreContrib.Abstractions
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public interface IAuditableQueryFactory<TListQuery, in TListRequestDto, TListResponse, TViewQuery, TViewResponse>
         where TListQuery : IAuditableRequest<TListRequestDto, TListResponse>
         where TViewQuery : IAuditableRequest<long, TViewResponse>

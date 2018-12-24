@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Logging
+﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Logging
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.Configuration;
+
     public static class LoggingApplicationStartHelper
     {
         public static void Configure(IConfiguration configuration, IApplicationBuilder app)
         {
-
         }
     }
 }

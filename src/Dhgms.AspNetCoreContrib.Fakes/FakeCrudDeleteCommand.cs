@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Security.Claims;
-using System.Text;
-using Dhgms.AspNetCoreContrib.Abstractions;
-using Dhgms.AspNetCoreContrib.Controllers;
-
-namespace Dhgms.AspNetCoreContrib.Fakes
+﻿namespace Dhgms.AspNetCoreContrib.Fakes
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Security.Claims;
+    using Dhgms.AspNetCoreContrib.Controllers;
+
     [ExcludeFromCodeCoverage]
     public class FakeCrudDeleteCommand : AuditableRequest<long, long>
     {

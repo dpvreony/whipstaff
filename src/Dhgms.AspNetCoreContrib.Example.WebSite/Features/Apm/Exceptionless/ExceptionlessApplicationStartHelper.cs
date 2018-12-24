@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Exceptionless;
-using Exceptionless.NLog;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.Exceptionless
+﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.Exceptionless
 {
+    using System;
+    using global::Exceptionless;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+
     public static class ExceptionlessApplicationStartHelper
     {
         public static void Configure(
