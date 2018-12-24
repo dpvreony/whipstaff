@@ -3,6 +3,7 @@
     using System;
     using Audit.WebApi;
     using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
+    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks;
     using Dhgms.AspNetCoreContrib.Fakes;
     using MediatR;
     using Microsoft.AspNetCore.Builder;
@@ -28,6 +29,8 @@
 
             services.AddMvc().AddApplicationPart(fakeControllerAssembly);
             services.AddMediatR(fakeControllerAssembly);
+
+            new HealthChecksApplicationStartHelper().ConfigureService(services);
 
             services.AddSwaggerGen(c =>
             {
