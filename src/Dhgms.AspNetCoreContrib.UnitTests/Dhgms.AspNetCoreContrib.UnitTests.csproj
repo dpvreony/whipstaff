@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.3" />
+    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.4" />
     <PackageReference Include="Moq" Version="4.10.1" />
     <PackageReference Include="OpenCover" Version="4.6.519" />
     <PackageReference Include="xunit" Version="2.4.1" />
