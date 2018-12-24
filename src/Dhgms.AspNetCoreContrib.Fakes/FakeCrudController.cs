@@ -37,7 +37,7 @@
                 //operation.Responses["200"].Schema = context.SchemaRegistry.GetOrRegister(successResponseType);
             //}
 
-            operation.Responses["404"] = new Response() { Description = "Not Found"};
+            operation.Responses["404"] = new Response { Description = "Not Found" };
 
             //var apiDesc = context.ApiDescription;
 
