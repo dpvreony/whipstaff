@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Audit.WebApi;
+using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights;
 using Dhgms.AspNetCoreContrib.Fakes;
+using Exceptionless;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,7 +56,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            new ApplicationInsightsApplicationStartHelper().ConfigureApplication(app);
+            var version = new Version(0, 1, 1, 9999);
+            ApmApplicationStartHelper.Configure(this.Configuration, app, env, version);
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
             app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
