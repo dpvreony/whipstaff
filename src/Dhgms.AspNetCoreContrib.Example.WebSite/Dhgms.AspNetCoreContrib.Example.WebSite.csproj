@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Audit.NET" Version="14.0.2" />
     <PackageReference Include="Audit.WebApi.Core" Version="14.0.2" />
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.3" />
+    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.4" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
