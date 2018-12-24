@@ -54,7 +54,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            ApmApplicationStartHelper.Configure(this.Configuration, app);
+            var version = new Version(0, 1, 1, 9999);
+            ApmApplicationStartHelper.Configure(this.Configuration, app, env, version);
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
             app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);

@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <SonarQubeExclude>true</SonarQubeExclude>
+    <UserSecretsId>75130273-1b4c-433c-b3d3-41eddf248057</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
