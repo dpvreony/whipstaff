@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Text;
-using Dhgms.AspNetCoreContrib.Abstractions;
-
-namespace Dhgms.AspNetCoreContrib.Controllers
+﻿namespace Dhgms.AspNetCoreContrib.Controllers
 {
+    using System.Security.Claims;
+    using Dhgms.AspNetCoreContrib.Abstractions;
+
     public class AuditableRequest<TRequestDto, TResponse> : IAuditableRequest<TRequestDto, TResponse>
     {
         public AuditableRequest(
             TRequestDto requestDto,
             ClaimsPrincipal claimsPrincipal)
         {
-            RequestDto = requestDto;
-            ClaimsPrincipal = claimsPrincipal;
+            this.RequestDto = requestDto;
+            this.ClaimsPrincipal = claimsPrincipal;
         }
 
         public TRequestDto RequestDto { get; }

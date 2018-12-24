@@ -1,8 +1,8 @@
-﻿using System.Security.Claims;
-using MediatR;
-
-namespace Dhgms.AspNetCoreContrib.Abstractions
+﻿namespace Dhgms.AspNetCoreContrib.Abstractions
 {
+    using System.Security.Claims;
+    using MediatR;
+
     public interface IAuditableRequest<out TRequestDto, out TResponse> : IRequest<TResponse>
     {
         TRequestDto RequestDto { get; }

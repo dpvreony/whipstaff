@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Abstractions;
-using Dhgms.AspNetCoreContrib.Controllers;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Examples;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
-namespace Dhgms.AspNetCoreContrib.Fakes
+﻿namespace Dhgms.AspNetCoreContrib.Fakes
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Dhgms.AspNetCoreContrib.Abstractions;
+    using Dhgms.AspNetCoreContrib.Controllers;
+    using MediatR;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ApiExplorer;
+    using Microsoft.Extensions.Logging;
+    using Swashbuckle.AspNetCore.Swagger;
+    using Swashbuckle.AspNetCore.SwaggerGen;
+
     public class SwaggerClassMetaDataDocumentFilter : IDocumentFilter
     {
         public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
@@ -158,37 +154,37 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 
         protected override async Task<EventId> GetListEventIdAsync()
         {
-            return await Task.Run(() => new EventId(1));
+            return await Task.Run(() => new EventId(1)).ConfigureAwait(false);
         }
 
         protected override async Task<EventId> GetViewEventIdAsync()
         {
-            return await Task.Run(() => new EventId(2));
+            return await Task.Run(() => new EventId(2)).ConfigureAwait(false);
         }
 
         protected override async Task<string> GetListPolicyAsync()
         {
-            return await Task.FromResult("listPolicyName");
+            return await Task.FromResult("listPolicyName").ConfigureAwait(false);
         }
 
         protected override async Task<string> GetViewPolicyAsync()
         {
-            return await Task.FromResult("viewPolicyName");
+            return await Task.FromResult("viewPolicyName").ConfigureAwait(false);
         }
 
         protected override async Task<IActionResult> GetListActionResultAsync(IList<int> listResponse)
         {
-            return await Task.FromResult(Ok(listResponse)).ConfigureAwait(false);
+            return await Task.FromResult(this.Ok(listResponse)).ConfigureAwait(false);
         }
 
         protected override async Task<IActionResult> GetViewActionResultAsync(long? viewResult)
         {
-            return await Task.FromResult(Ok(viewResult)).ConfigureAwait(false);
+            return await Task.FromResult(this.Ok(viewResult)).ConfigureAwait(false);
         }
 
         protected override async Task<IActionResult> GetAddActionResultAsync(int addResult)
         {
-            return await Task.FromResult(Ok(addResult)).ConfigureAwait(false);
+            return await Task.FromResult(this.Ok(addResult)).ConfigureAwait(false);
         }
 
         protected override async Task<EventId> GetAddEventIdAsync()
@@ -208,7 +204,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 
         protected override async Task<IActionResult> GetDeleteActionResultAsync(long result)
         {
-            return await Task.FromResult(Ok(result)).ConfigureAwait(false);
+            return await Task.FromResult(this.Ok(result)).ConfigureAwait(false);
         }
 
         protected override async Task<string> GetDeletePolicyAsync()
@@ -218,7 +214,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 
         protected override async Task<EventId> GetUpdateEventIdAsync()
         {
-            return await Task.Run(() => new EventId(5));
+            return await Task.Run(() => new EventId(5)).ConfigureAwait(false);
         }
 
         protected override async Task<string> GetUpdatePolicyAsync()
@@ -228,7 +224,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 
         protected override async Task<IActionResult> GetUpdateActionResultAsync(int result)
         {
-            return await Task.FromResult(Ok(result)).ConfigureAwait(false);
+            return await Task.FromResult(this.Ok(result)).ConfigureAwait(false);
         }
     }
 }

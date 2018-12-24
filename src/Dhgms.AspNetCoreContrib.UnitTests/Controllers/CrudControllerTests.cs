@@ -1,29 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Abstractions;
-using Dhgms.AspNetCoreContrib.Controllers;
-using Dhgms.AspNetCoreContrib.Fakes;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using Xunit;
-
-namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
+﻿namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Net;
+    using System.Security.Claims;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Dhgms.AspNetCoreContrib.Abstractions;
+    using Dhgms.AspNetCoreContrib.Fakes;
+    using MediatR;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Internal;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using Moq;
+    using Xunit;
+
     [ExcludeFromCodeCoverage]
     public static class CrudControllerTests
     {
@@ -67,7 +61,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediatorFactory(),
                     MockCommandFactory(),
                     MockQueryFactory(),
-                    "authorizationService"
+                    "authorizationService",
                 };
             }
 
@@ -80,7 +74,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediatorFactory(),
                     MockCommandFactory(),
                     MockQueryFactory(),
-                    "logger"
+                    "logger",
                 };
             }
 
@@ -93,7 +87,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     (Mock<IMediator>)null,
                     MockCommandFactory(),
                     MockQueryFactory(),
-                    "mediator"
+                    "mediator",
                 };
             }
 
@@ -106,7 +100,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediatorFactory(),
                     (Mock<IAuditableCommandFactory<FakeCrudAddCommand,int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>>)null,
                     MockQueryFactory(),
-                    "commandFactory"
+                    "commandFactory",
                 };
             }
 
@@ -119,7 +113,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockMediatorFactory(),
                     MockCommandFactory(),
                     (Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>>)null,
-                    "queryFactory"
+                    "queryFactory",
                 };
             }
 
@@ -190,12 +184,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "addPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(this.MockAddMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -203,7 +197,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockAddCommand);
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(this.MockAddCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -221,11 +215,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             Request = { IsHttps = true },
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
-                    }
+                    },
                 };
 
 
-                var result = await instance.AddAsync(addRequestDto, CancellationToken.None);
+                var result = await instance.AddAsync(addRequestDto, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<OkObjectResult>(result);
             }
@@ -236,12 +230,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "addPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(this.MockAddMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -249,7 +243,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockAddCommand);
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(this.MockAddCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -267,11 +261,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             Request = { IsHttps = false },
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
-                    }
+                    },
                 };
 
 
-                var result = await instance.AddAsync(1, CancellationToken.None);
+                var result = await instance.AddAsync(1, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<BadRequestResult>(result);
             }
@@ -279,12 +273,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
             private async Task<int> MockAddMediatorHandler(IAuditableRequest<int, int> auditableRequest, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(auditableRequest.RequestDto);
+                return await Task.FromResult(auditableRequest.RequestDto).ConfigureAwait(false);
             }
 
             private async Task<FakeCrudAddCommand> MockAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
         }
 
@@ -303,12 +297,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "deletePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(this.MockDeleteMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -316,7 +310,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<long>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<long, ClaimsPrincipal, CancellationToken>(MockDeleteCommand);
+                    .Returns<long, ClaimsPrincipal, CancellationToken>(this.MockDeleteCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -334,10 +328,10 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             Request = { IsHttps = true },
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
-                    }
+                    },
                 };
 
-                var result = await instance.DeleteAsync(id, CancellationToken.None);
+                var result = await instance.DeleteAsync(id, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<OkObjectResult>(result);
             }
@@ -348,12 +342,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "deletePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(this.MockDeleteMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -361,7 +355,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<long>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<long, ClaimsPrincipal, CancellationToken>(MockDeleteCommand);
+                    .Returns<long, ClaimsPrincipal, CancellationToken>(this.MockDeleteCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -379,22 +373,22 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             Request = { IsHttps = false },
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
-                    }
+                    },
                 };
 
-                var result = await instance.DeleteAsync(1, CancellationToken.None);
+                var result = await instance.DeleteAsync(1, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<BadRequestResult>(result);
             }
 
             private async Task<long> MockDeleteMediatorHandler(IAuditableRequest<long, long> arg1, CancellationToken arg2)
             {
-                return await Task.FromResult(arg1.RequestDto);
+                return await Task.FromResult(arg1.RequestDto).ConfigureAwait(false);
             }
 
             private async Task<FakeCrudDeleteCommand> MockDeleteCommand(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
             {
-                return await Task.FromResult(new FakeCrudDeleteCommand(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudDeleteCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
         }
 
@@ -405,7 +399,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 new object[]
                 {
                     new FakeCrudListRequest()
-                }
+                },
             };
 
             [Theory]
@@ -415,12 +409,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "listPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(this.MockListMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
 
@@ -430,7 +424,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             It.IsAny<FakeCrudListRequest>(),
                             It.IsAny<ClaimsPrincipal>(),
                             It.IsAny<CancellationToken>()))
-                    .Returns<FakeCrudListRequest, ClaimsPrincipal, CancellationToken>(MockListQuery);
+                    .Returns<FakeCrudListRequest, ClaimsPrincipal, CancellationToken>(this.MockListQuery);
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
@@ -450,11 +444,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                                 Query = new QueryCollection()
                             }
                         }
-                    }
+                    },
 
                 };
 
-                var result = await instance.IndexAsync(null, CancellationToken.None);
+                var result = await instance.IndexAsync(null, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<OkObjectResult>(result);
             }
@@ -465,12 +459,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "listPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(this.MockListMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
 
@@ -480,7 +474,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             It.IsAny<FakeCrudListRequest>(),
                             It.IsAny<ClaimsPrincipal>(),
                             It.IsAny<CancellationToken>()))
-                    .Returns<FakeCrudListRequest, ClaimsPrincipal, CancellationToken>(MockListQuery);
+                    .Returns<FakeCrudListRequest, ClaimsPrincipal, CancellationToken>(this.MockListQuery);
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
@@ -500,23 +494,23 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                                 Query = new QueryCollection()
                             }
                         }
-                    }
+                    },
 
                 };
 
-                var result = await instance.IndexAsync(null, CancellationToken.None);
+                var result = await instance.IndexAsync(null, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<BadRequestResult>(result);
             }
 
             private async Task<IList<int>> MockListMediatorHandler(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new int[] {1,2,3});
+                return await Task.FromResult(new int[] {1,2,3}).ConfigureAwait(false);
             }
 
             private async Task<FakeCrudListQuery> MockListQuery(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new FakeCrudListQuery(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudListQuery(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
         }
 
@@ -535,12 +529,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "updatePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(MockUpdateMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(this.MockUpdateMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -548,7 +542,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockUpdateCommand);
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(this.MockUpdateCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -566,10 +560,10 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             Request = { IsHttps = true },
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
-                    }
+                    },
                 };
 
-                var result = await instance.UpdateAsync(1, updateRequestDto, CancellationToken.None);
+                var result = await instance.UpdateAsync(1, updateRequestDto, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<OkObjectResult>(result);
             }
@@ -580,12 +574,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "updatePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(MockUpdateMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(this.MockUpdateMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -593,7 +587,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockUpdateCommand);
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(this.MockUpdateCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -611,22 +605,22 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             Request = { IsHttps = false },
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
-                    }
+                    },
                 };
 
-                var result = await instance.UpdateAsync(1, 1, CancellationToken.None);
+                var result = await instance.UpdateAsync(1, 1, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType<BadRequestResult>(result);
             }
 
             private async Task<int> MockUpdateMediatorHandler(FakeCrudUpdateCommand arg1, CancellationToken arg2)
             {
-                return await Task.FromResult(arg1.RequestDto);
+                return await Task.FromResult(arg1.RequestDto).ConfigureAwait(false);
             }
 
             private async Task<FakeCrudUpdateCommand> MockUpdateCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
             {
-                return await Task.FromResult(new FakeCrudUpdateCommand(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudUpdateCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
         }
 
@@ -637,18 +631,18 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 new object[]
                 {
                     -1,
-                    typeof(NotFoundResult)
+                    typeof(NotFoundResult),
                 },
                 new object[]
                 {
                     1,
-                    typeof(OkObjectResult)
+                    typeof(OkObjectResult),
                 },
                 new object[]
                 {
                     2,
                     typeof(NotFoundResult)
-                }
+                },
             };
 
             [Theory]
@@ -658,15 +652,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<long>(), "viewPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
                 authorizationService.Setup(s =>
                         s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "viewPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(MockViewMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(this.MockViewMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
 
@@ -676,7 +670,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             It.IsAny<long>(),
                             It.IsAny<ClaimsPrincipal>(),
                             It.IsAny<CancellationToken>()))
-                    .Returns<long, ClaimsPrincipal, CancellationToken>(MockViewQuery);
+                    .Returns<long, ClaimsPrincipal, CancellationToken>(this.MockViewQuery);
 
                 var instance = new FakeCrudController(
                     authorizationService.Object,
@@ -692,23 +686,23 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                             Request = { IsHttps = true},
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
                         }
-                    }
+                    },
                 };
 
 
-                var result = await instance.IndexAsync(listRequest, CancellationToken.None);
+                var result = await instance.IndexAsync(listRequest, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType(expectedResultType, result);
             }
 
             private async Task<long?> MockViewMediatorHandler(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(auditableRequest.RequestDto == 1 ? auditableRequest.RequestDto : null as long?);
+                return await Task.FromResult(auditableRequest.RequestDto == 1 ? auditableRequest.RequestDto : null as long?).ConfigureAwait(false);
             }
 
             private async Task<FakeCrudViewQuery> MockViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new FakeCrudViewQuery(requestDto, claimsPrincipal));
+                return await Task.FromResult(new FakeCrudViewQuery(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
         }
     }

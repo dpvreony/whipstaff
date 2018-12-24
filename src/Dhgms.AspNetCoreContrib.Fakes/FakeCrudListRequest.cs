@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-
-namespace Dhgms.AspNetCoreContrib.Fakes
+﻿namespace Dhgms.AspNetCoreContrib.Fakes
 {
+    using System.Diagnostics.CodeAnalysis;
+
     [ExcludeFromCodeCoverage]
     public class FakeCrudListRequest
     {

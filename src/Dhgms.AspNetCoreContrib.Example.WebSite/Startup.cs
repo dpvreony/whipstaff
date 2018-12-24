@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Audit.WebApi;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights;
-using Dhgms.AspNetCoreContrib.Fakes;
-using Exceptionless;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using OwaspHeaders.Core.Extensions;
-using Swashbuckle.AspNetCore.Swagger;
-
-namespace Dhgms.AspNetCoreContrib.Example.WebSite
+﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite
 {
+    using System;
+    using Audit.WebApi;
+    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
+    using Dhgms.AspNetCoreContrib.Fakes;
+    using MediatR;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using OwaspHeaders.Core.Extensions;
+    using Swashbuckle.AspNetCore.Swagger;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }

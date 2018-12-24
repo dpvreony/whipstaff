@@ -1,5 +1,3 @@
-using System;
-
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Models
 {
     public class ErrorViewModel

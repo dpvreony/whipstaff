@@ -1,14 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Dhgms.AspNetCoreContrib.Controllers
+﻿namespace Dhgms.AspNetCoreContrib.Controllers
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Abstractions;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for re-use in pattern")]
@@ -36,7 +35,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                   mediator,
                   queryFactory)
         {
-            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+            this._commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         }
 
         [HttpPost]
@@ -44,21 +43,19 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             [FromBody]TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
-            await new SynchronizationContextRemover();
-
-            var eventId = await GetAddEventIdAsync();
-            Logger.LogDebug(
+            var eventId = await GetAddEventIdAsync().ConfigureAwait(false);
+            this.Logger.LogDebug(
                 eventId,
                 "Entered AddAsync");
 
-            if (!Request.IsHttps)
+            if (!this.Request.IsHttps)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            var user = HttpContext.User;
+            var user = this.HttpContext.User;
 
-            var addPolicyName = await GetAddPolicyAsync();
+            var addPolicyName = await GetAddPolicyAsync().ConfigureAwait(false);
 
             // someone needs to have permission to do a general add
             // but there is a chance the request dto also has details such as a parent id
@@ -67,24 +64,24 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             var methodAuthorization = await AuthorizationService.AuthorizeAsync(
                 user,
                 addRequestDto,
-                addPolicyName);
+                addPolicyName).ConfigureAwait(false);
 
             if (!methodAuthorization.Succeeded)
             {
-                return Forbid();
+                return this.Forbid();
             }
 
             var query = await _commandFactory.GetAddCommandAsync(
                 addRequestDto,
                 user,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             var result = await Mediator.Send(
                 query,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetAddActionResultAsync(result);
-            Logger.LogDebug(
+            var viewResult = await GetAddActionResultAsync(result).ConfigureAwait(false);
+            this.Logger.LogDebug(
                 eventId,
                 "Finished AddAsync");
 
@@ -97,42 +94,40 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             [FromRoute]int id,
             CancellationToken cancellationToken)
         {
-            await new SynchronizationContextRemover();
-
-            var eventId = await GetDeleteEventIdAsync();
-            Logger.LogDebug(
+            var eventId = await GetDeleteEventIdAsync().ConfigureAwait(false);
+            this.Logger.LogDebug(
                 eventId,
                 "Entered DeleteAsync");
 
-            if (!Request.IsHttps)
+            if (!this.Request.IsHttps)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            var user = HttpContext.User;
+            var user = this.HttpContext.User;
 
-            var deletePolicyName = await GetDeletePolicyAsync();
+            var deletePolicyName = await GetDeletePolicyAsync().ConfigureAwait(false);
 
             var methodAuthorization = await AuthorizationService.AuthorizeAsync(
                 user,
                 id,
-                deletePolicyName);
+                deletePolicyName).ConfigureAwait(false);
             if (!methodAuthorization.Succeeded)
             {
-                return Forbid();
+                return this.Forbid();
             }
 
             var query = await _commandFactory.GetDeleteCommandAsync(
                 id,
                 user,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             var result = await Mediator.Send(
                 query,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetDeleteActionResultAsync(result);
-            Logger.LogDebug(
+            var viewResult = await GetDeleteActionResultAsync(result).ConfigureAwait(false);
+            this.Logger.LogDebug(
                 eventId,
                 "Finished DeleteAsync");
 
@@ -145,40 +140,38 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             [FromBody]TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
         {
-            await new SynchronizationContextRemover();
+            var eventId = await GetUpdateEventIdAsync().ConfigureAwait(false);
+            this.Logger.LogDebug(eventId, "Entered UpdateAsync");
 
-            var eventId = await GetUpdateEventIdAsync();
-            Logger.LogDebug(eventId, "Entered UpdateAsync");
-
-            if (!Request.IsHttps)
+            if (!this.Request.IsHttps)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            var user = HttpContext.User;
+            var user = this.HttpContext.User;
 
-            var updatePolicyName = await GetUpdatePolicyAsync();
+            var updatePolicyName = await GetUpdatePolicyAsync().ConfigureAwait(false);
 
             var methodAuthorization = await AuthorizationService.AuthorizeAsync(
                 user,
                 updateRequestDto,
-                updatePolicyName);
+                updatePolicyName).ConfigureAwait(false);
             if (!methodAuthorization.Succeeded)
             {
-                return Forbid();
+                return this.Forbid();
             }
 
             var query = await _commandFactory.GetUpdateCommandAsync(
                 updateRequestDto,
                 user,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             var result = await Mediator.Send(
                 query,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetUpdateActionResultAsync(result);
-            Logger.LogDebug(
+            var viewResult = await GetUpdateActionResultAsync(result).ConfigureAwait(false);
+            this.Logger.LogDebug(
                 eventId,
                 "Finished UpdateAsync");
 
