@@ -46,7 +46,7 @@
         [HttpGet]
         public async Task<IActionResult> IndexAsync(
             [FromRoute]long? id,
-            //[FromQuery]TListRequestDto requestDto,
+            // [FromQuery]TListRequestDto requestDto,
             CancellationToken cancellationToken)
         {
             if (!this.Request.IsHttps)
@@ -65,13 +65,13 @@
         private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
             // removes need for ConfigureAwait(false)
-            var eventId = await GetListEventIdAsync().ConfigureAwait(false);
+            var eventId = await this.GetListEventIdAsync().ConfigureAwait(false);
             this.Logger.LogDebug(eventId, "Entered ListAsync");
 
             var user = this.HttpContext.User;
 
-            var listPolicy = await GetListPolicyAsync().ConfigureAwait(false);
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, listPolicy).ConfigureAwait(false);
+            var listPolicy = await this.GetListPolicyAsync().ConfigureAwait(false);
+            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(user, listPolicy).ConfigureAwait(false);
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
@@ -86,10 +86,10 @@
             await this.TryUpdateModelAsync(requestDto, string.Empty, provider);
             */
 
-            var query = await _queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
-            var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
+            var query = await this._queryFactory.GetListQueryAsync(requestDto, user, cancellationToken).ConfigureAwait(false);
+            var result = await this.Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetListActionResultAsync(result).ConfigureAwait(false);
+            var viewResult = await this.GetListActionResultAsync(result).ConfigureAwait(false);
             this.Logger.LogDebug(eventId, "Finished ListAsync");
 
             return viewResult;
@@ -99,7 +99,7 @@
             long id,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetViewEventIdAsync().ConfigureAwait(false);
+            var eventId = await this.GetViewEventIdAsync().ConfigureAwait(false);
             this.Logger.LogDebug(eventId, "Entered ViewAsync");
 
             var user = this.HttpContext.User;
@@ -109,29 +109,29 @@
                 return this.NotFound();
             }
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(user, await GetViewPolicyAsync()).ConfigureAwait(false);
+            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(user, await this.GetViewPolicyAsync().ConfigureAwait(false)).ConfigureAwait(false);
             if (!methodAuthorization.Succeeded)
             {
                 // not found rather than forbidden
                 return this.NotFound();
             }
 
-            var query = await _queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
-            var result = await Mediator.Send(query, cancellationToken).ConfigureAwait(false);
+            var query = await this._queryFactory.GetViewQueryAsync(id, user, cancellationToken).ConfigureAwait(false);
+            var result = await this.Mediator.Send(query, cancellationToken).ConfigureAwait(false);
 
             if (result == null)
             {
                 return this.NotFound();
             }
 
-            var resourceAuthorization = await AuthorizationService.AuthorizeAsync(user, result, await GetViewPolicyAsync()).ConfigureAwait(false);
+            var resourceAuthorization = await this.AuthorizationService.AuthorizeAsync(user, result, await this.GetViewPolicyAsync().ConfigureAwait(false)).ConfigureAwait(false);
             if (!resourceAuthorization.Succeeded)
             {
                 // not found rather than forbidden
                 return this.NotFound();
             }
 
-            var viewResult = await GetViewActionResultAsync(result).ConfigureAwait(false);
+            var viewResult = await this.GetViewActionResultAsync(result).ConfigureAwait(false);
             this.Logger.LogDebug(eventId, "Finished ViewAsync");
 
             return viewResult;

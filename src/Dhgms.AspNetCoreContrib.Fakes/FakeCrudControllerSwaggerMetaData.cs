@@ -5,6 +5,5 @@
     [ExcludeFromCodeCoverage]
     public sealed class FakeCrudControllerSwaggerMetaData
     {
-
     }
 }

@@ -31,37 +31,36 @@
     {
         public void Apply(Operation operation, OperationFilterContext context)
         {
-            //var successResponseType = GetSuccessResponseType(operation, context);
-            //if (successResponseType != null)
-            //{
-                //operation.Responses["200"].Schema = context.SchemaRegistry.GetOrRegister(successResponseType);
-            //}
+            // var successResponseType = GetSuccessResponseType(operation, context);
+            // if (successResponseType != null)
+            // {
+                // operation.Responses["200"].Schema = context.SchemaRegistry.GetOrRegister(successResponseType);
+            // }
 
             operation.Responses["404"] = new Response { Description = "Not Found" };
 
-            //var apiDesc = context.ApiDescription;
+            // var apiDesc = context.ApiDescription;
 
             //
-            //if (customAttributes.All(ca => ca.AttributeType != typeof(SwaggerRequestExampleAttribute)))
-            //{
-                //customAttributes.
-            //}
+            // if (customAttributes.All(ca => ca.AttributeType != typeof(SwaggerRequestExampleAttribute)))
+            // {
+                // customAttributes.
+            // }
 
+            // var attributes = GetActionAttributes(apiDesc);
 
-            //var attributes = GetActionAttributes(apiDesc);
+            // if (!attributes.Any())
+                // return;
 
-            //if (!attributes.Any())
-                //return;
+            // if (operation.Responses == null)
+            // {
+                // operation.Responses = new Dictionary<string, Response>();
+            // }
 
-            //if (operation.Responses == null)
-            //{
-                //operation.Responses = new Dictionary<string, Response>();
-            //}
-
-            //foreach (var attribute in attributes)
-            //{
-                //ApplyAttribute(operation, context, attribute);
-            //}
+            // foreach (var attribute in attributes)
+            // {
+                // ApplyAttribute(operation, context, attribute);
+            // }
         }
 
         private Type GetSuccessResponseType(Operation operation, OperationFilterContext context)
@@ -86,13 +85,13 @@
         /// <param name="toCheck"></param>
         /// <returns></returns>
         static bool IsSubclassOfRawGeneric(Type generic, Type toCheck) {
-            //while (toCheck != null && toCheck != typeof(object)) {
+            // while (toCheck != null && toCheck != typeof(object)) {
                 var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
                 if (generic == cur) {
                     return true;
                 }
-                //toCheck = toCheck.BaseType;
-            //}
+                // toCheck = toCheck.BaseType;
+            // }
             return false;
         }
 
@@ -120,7 +119,6 @@
         {
             return apiDesc.ControllerAttributes().OfType<SwaggerClassMetaDataAttribute>().ToArray();
         }
-
     }
 
     [AttributeUsage(AttributeTargets.Class)]

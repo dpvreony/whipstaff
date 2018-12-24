@@ -43,7 +43,7 @@
             [FromBody]TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetAddEventIdAsync().ConfigureAwait(false);
+            var eventId = await this.GetAddEventIdAsync().ConfigureAwait(false);
             this.Logger.LogDebug(
                 eventId,
                 "Entered AddAsync");
@@ -55,13 +55,13 @@
 
             var user = this.HttpContext.User;
 
-            var addPolicyName = await GetAddPolicyAsync().ConfigureAwait(false);
+            var addPolicyName = await this.GetAddPolicyAsync().ConfigureAwait(false);
 
             // someone needs to have permission to do a general add
             // but there is a chance the request dto also has details such as a parent id
             // so while someone may have a generic add permission
             // they may not be able to add to a specific parent item
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(
+            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(
                 user,
                 addRequestDto,
                 addPolicyName).ConfigureAwait(false);
@@ -71,16 +71,16 @@
                 return this.Forbid();
             }
 
-            var query = await _commandFactory.GetAddCommandAsync(
+            var query = await this._commandFactory.GetAddCommandAsync(
                 addRequestDto,
                 user,
                 cancellationToken).ConfigureAwait(false);
 
-            var result = await Mediator.Send(
+            var result = await this.Mediator.Send(
                 query,
                 cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetAddActionResultAsync(result).ConfigureAwait(false);
+            var viewResult = await this.GetAddActionResultAsync(result).ConfigureAwait(false);
             this.Logger.LogDebug(
                 eventId,
                 "Finished AddAsync");
@@ -88,13 +88,12 @@
             return viewResult;
         }
 
-
         [HttpDelete]
         public async Task<IActionResult> DeleteAsync(
             [FromRoute]int id,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetDeleteEventIdAsync().ConfigureAwait(false);
+            var eventId = await this.GetDeleteEventIdAsync().ConfigureAwait(false);
             this.Logger.LogDebug(
                 eventId,
                 "Entered DeleteAsync");
@@ -106,9 +105,9 @@
 
             var user = this.HttpContext.User;
 
-            var deletePolicyName = await GetDeletePolicyAsync().ConfigureAwait(false);
+            var deletePolicyName = await this.GetDeletePolicyAsync().ConfigureAwait(false);
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(
+            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(
                 user,
                 id,
                 deletePolicyName).ConfigureAwait(false);
@@ -117,16 +116,16 @@
                 return this.Forbid();
             }
 
-            var query = await _commandFactory.GetDeleteCommandAsync(
+            var query = await this._commandFactory.GetDeleteCommandAsync(
                 id,
                 user,
                 cancellationToken).ConfigureAwait(false);
 
-            var result = await Mediator.Send(
+            var result = await this.Mediator.Send(
                 query,
                 cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetDeleteActionResultAsync(result).ConfigureAwait(false);
+            var viewResult = await this.GetDeleteActionResultAsync(result).ConfigureAwait(false);
             this.Logger.LogDebug(
                 eventId,
                 "Finished DeleteAsync");
@@ -140,7 +139,7 @@
             [FromBody]TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetUpdateEventIdAsync().ConfigureAwait(false);
+            var eventId = await this.GetUpdateEventIdAsync().ConfigureAwait(false);
             this.Logger.LogDebug(eventId, "Entered UpdateAsync");
 
             if (!this.Request.IsHttps)
@@ -150,9 +149,9 @@
 
             var user = this.HttpContext.User;
 
-            var updatePolicyName = await GetUpdatePolicyAsync().ConfigureAwait(false);
+            var updatePolicyName = await this.GetUpdatePolicyAsync().ConfigureAwait(false);
 
-            var methodAuthorization = await AuthorizationService.AuthorizeAsync(
+            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(
                 user,
                 updateRequestDto,
                 updatePolicyName).ConfigureAwait(false);
@@ -161,16 +160,16 @@
                 return this.Forbid();
             }
 
-            var query = await _commandFactory.GetUpdateCommandAsync(
+            var query = await this._commandFactory.GetUpdateCommandAsync(
                 updateRequestDto,
                 user,
                 cancellationToken).ConfigureAwait(false);
 
-            var result = await Mediator.Send(
+            var result = await this.Mediator.Send(
                 query,
                 cancellationToken).ConfigureAwait(false);
 
-            var viewResult = await GetUpdateActionResultAsync(result).ConfigureAwait(false);
+            var viewResult = await this.GetUpdateActionResultAsync(result).ConfigureAwait(false);
             this.Logger.LogDebug(
                 eventId,
                 "Finished UpdateAsync");
@@ -183,7 +182,6 @@
         protected abstract Task<EventId> GetAddEventIdAsync();
 
         protected abstract Task<string> GetAddPolicyAsync();
-
 
         protected abstract Task<EventId> GetDeleteEventIdAsync();
 

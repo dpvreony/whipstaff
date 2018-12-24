@@ -7,7 +7,6 @@
     {
         public static void Configure(IConfiguration configuration, IApplicationBuilder app)
         {
-
         }
     }
 }

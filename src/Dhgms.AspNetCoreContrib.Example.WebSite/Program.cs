@@ -26,7 +26,7 @@
             loggingBuilder.AddDebug();
             loggingBuilder.AddEventSourceLogger();
             loggingBuilder.AddEventLog();
-            //loggingBuilder.AddTraceSource();
+            // loggingBuilder.AddTraceSource();
 
 #pragma warning disable CC0022
             loggingBuilder.AddProvider(new ExceptionlessLoggerProvider(ExceptionlessClient.Default));

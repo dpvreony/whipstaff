@@ -18,6 +18,7 @@
     using Moq;
     using Xunit;
 
+#pragma warning disable CA1034
     [ExcludeFromCodeCoverage]
     public static class CrudControllerTests
     {
@@ -189,7 +190,7 @@
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(this.MockAddMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -197,7 +198,7 @@
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(this.MockAddCommand);
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockAddCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -235,7 +236,7 @@
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(this.MockAddMediatorHandler);
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandler);
 
                 var auditableCommandFactory = MockCommandFactory();
                 auditableCommandFactory.Setup(s =>
@@ -243,7 +244,7 @@
                         It.IsAny<int>(),
                         It.IsAny<ClaimsPrincipal>(),
                         It.IsAny<CancellationToken>()))
-                    .Returns<int, ClaimsPrincipal, CancellationToken>(this.MockAddCommand);
+                    .Returns<int, ClaimsPrincipal, CancellationToken>(MockAddCommand);
 
                 var auditableQueryFactory = MockQueryFactory();
 
@@ -270,13 +271,12 @@
                 }
             }
 
-
-            private async Task<int> MockAddMediatorHandler(IAuditableRequest<int, int> auditableRequest, CancellationToken cancellationToken)
+            private static async Task<int> MockAddMediatorHandler(IAuditableRequest<int, int> auditableRequest, CancellationToken cancellationToken)
             {
                 return await Task.FromResult(auditableRequest.RequestDto).ConfigureAwait(false);
             }
 
-            private async Task<FakeCrudAddCommand> MockAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+            private static async Task<FakeCrudAddCommand> MockAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
                 return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
@@ -447,7 +447,6 @@
                             }
                         }
                     },
-
                 })
                 {
                     var result = await instance.IndexAsync(null, CancellationToken.None).ConfigureAwait(false);
@@ -498,7 +497,6 @@
                             }
                         }
                     },
-
                 })
                 {
                     var result = await instance.IndexAsync(null, CancellationToken.None).ConfigureAwait(false);
@@ -518,6 +516,9 @@
             }
         }
 
+        /// <summary>
+        /// Unit Tests for the UpdateAsync Method.
+        /// </summary>
         public sealed class UpdateAsyncMethod
         {
             public static readonly IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new[]
