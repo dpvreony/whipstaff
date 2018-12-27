@@ -1,4 +1,6 @@
-﻿namespace Dhgms.AspNetCoreContrib.Controllers
+﻿using Dhgms.AspNetCoreContrib.Controllers.Extensions;
+
+namespace Dhgms.AspNetCoreContrib.Controllers
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -44,48 +46,18 @@
             CancellationToken cancellationToken)
         {
             var eventId = await this.GetAddEventIdAsync().ConfigureAwait(false);
-            this.Logger.LogDebug(
-                eventId,
-                "Entered AddAsync");
-
-            if (!this.Request.IsHttps)
-            {
-                return this.BadRequest();
-            }
-
-            var user = this.HttpContext.User;
-
             var addPolicyName = await this.GetAddPolicyAsync().ConfigureAwait(false);
 
-            // someone needs to have permission to do a general add
-            // but there is a chance the request dto also has details such as a parent id
-            // so while someone may have a generic add permission
-            // they may not be able to add to a specific parent item
-            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(
-                user,
+            return await this.GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
+                this.Logger,
+                this.Mediator,
+                this.AuthorizationService,
                 addRequestDto,
-                addPolicyName).ConfigureAwait(false);
-
-            if (!methodAuthorization.Succeeded)
-            {
-                return this.Forbid();
-            }
-
-            var query = await this._commandFactory.GetAddCommandAsync(
-                addRequestDto,
-                user,
-                cancellationToken).ConfigureAwait(false);
-
-            var result = await this.Mediator.Send(
-                query,
-                cancellationToken).ConfigureAwait(false);
-
-            var viewResult = await this.GetAddActionResultAsync(result).ConfigureAwait(false);
-            this.Logger.LogDebug(
                 eventId,
-                "Finished AddAsync");
-
-            return viewResult;
+                addPolicyName,
+                this.GetAddActionResultAsync,
+                this._commandFactory.GetAddCommandAsync,
+                cancellationToken).ConfigureAwait(false);
         }
 
         [HttpDelete]
