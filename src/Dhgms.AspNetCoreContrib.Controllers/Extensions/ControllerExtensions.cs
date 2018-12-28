@@ -78,5 +78,55 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
 
             return viewResult;
         }
+
+        internal static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
+            this Controller instance,
+            [NotNull] ILogger logger,
+            [NotNull] IMediator mediator,
+            [NotNull] IAuthorizationService authorizationService,
+            [NotNull] long id,
+            EventId eventId,
+            [NotNull] string deletePolicyName,
+            [NotNull] Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
+            [NotNull] Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
+        {
+            logger.LogDebug(
+                eventId,
+                "Entered DeleteAsync");
+
+            if (!instance.Request.IsHttps)
+            {
+                return instance.BadRequest();
+            }
+
+            var user = instance.HttpContext.User;
+
+            var methodAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                id,
+                deletePolicyName).ConfigureAwait(false);
+            if (!methodAuthorization.Succeeded)
+            {
+                return instance.Forbid();
+            }
+
+            var query = await deleteCommandFactoryAsync(
+                id,
+                user,
+                cancellationToken).ConfigureAwait(false);
+
+            var result = await mediator.Send(
+                query,
+                cancellationToken).ConfigureAwait(false);
+
+            var viewResult = await getDeleteActionResultAsync(result).ConfigureAwait(false);
+            logger.LogDebug(
+                eventId,
+                "Finished DeleteAsync");
+
+            return viewResult;
+        }
     }
 }

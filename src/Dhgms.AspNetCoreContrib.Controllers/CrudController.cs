@@ -66,43 +66,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             CancellationToken cancellationToken)
         {
             var eventId = await this.GetDeleteEventIdAsync().ConfigureAwait(false);
-            this.Logger.LogDebug(
-                eventId,
-                "Entered DeleteAsync");
-
-            if (!this.Request.IsHttps)
-            {
-                return this.BadRequest();
-            }
-
-            var user = this.HttpContext.User;
-
             var deletePolicyName = await this.GetDeletePolicyAsync().ConfigureAwait(false);
 
-            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(
-                user,
+            return await this.GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
+                this.Logger,
+                this.Mediator,
+                this.AuthorizationService,
                 id,
-                deletePolicyName).ConfigureAwait(false);
-            if (!methodAuthorization.Succeeded)
-            {
-                return this.Forbid();
-            }
-
-            var query = await this._commandFactory.GetDeleteCommandAsync(
-                id,
-                user,
-                cancellationToken).ConfigureAwait(false);
-
-            var result = await this.Mediator.Send(
-                query,
-                cancellationToken).ConfigureAwait(false);
-
-            var viewResult = await this.GetDeleteActionResultAsync(result).ConfigureAwait(false);
-            this.Logger.LogDebug(
                 eventId,
-                "Finished DeleteAsync");
-
-            return viewResult;
+                deletePolicyName,
+                this.GetDeleteActionResultAsync,
+                this._commandFactory.GetDeleteCommandAsync,
+                cancellationToken).ConfigureAwait(false);
         }
 
         [HttpPut]
