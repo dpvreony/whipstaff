@@ -1,9 +1,10 @@
 //////////////////////////////////////////////////////////////////////
 // ADDINS
 //////////////////////////////////////////////////////////////////////
+#module "nuget:?package=Cake.DotNetTool.Module"
 
 //#addin "nuget:?package=Cake.FileHelpers&version=1.0.4"
-#addin "nuget:?package=Cake.Coveralls&version=0.4.0"
+#addin "nuget:?package=Cake.Coveralls&version=0.9.0"
 //#addin "nuget:?package=Cake.PinNuGetDependency&version=1.0.0"
 //#addin "nuget:?package=Cake.Powershell&version=0.3.5"
 //#addin "nuget:?package=Cake.Sonar&version=1.0.4"
@@ -12,13 +13,15 @@
 // TOOLS
 //////////////////////////////////////////////////////////////////////
 
-#tool "nuget:?package=GitReleaseManager&version=0.6.0"
-#tool "nuget:?package=GitVersion.CommandLine&version=3.6.5"
-#tool "nuget:?package=coveralls.io&version=1.3.4"
+#tool "nuget:?package=GitReleaseManager&version=0.7.1"
+#tool "nuget:?package=coveralls.io&version=1.4.2"
 #tool "nuget:?package=OpenCover&version=4.6.519"
-#tool "nuget:?package=ReportGenerator&version=2.5.11"
-#tool "nuget:?package=vswhere&version=2.1.4"
+#tool "nuget:?package=ReportGenerator&version=3.1.2"
+#tool "nuget:?package=vswhere&version=2.5.2"
+#tool "nuget:?package=xunit.runner.console&version=2.4.0"
+#tool "nuget:?package=GitVersion.CommandLine&version=3.6.5"
 #tool "nuget:?package=MSBuild.SonarQube.Runner.Tool"
+#tool "dotnet:?package=dotnet-sonarscanner&version=4.4.2"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -237,41 +240,33 @@ Task("Sonar")
 Task("SonarBegin")
   .WithCriteria(() => runSonarQube)
   .Does(() => {
-        var coverageFilePath = MakeAbsolute(new FilePath(testCoverageOutputFile)).FullPath;
-        Information("Sonar: Test Coverage Output File: " + testCoverageOutputFile);
-        var arguments = "begin /k:\"" + sonarqubeProjectKey + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + coverageFilePath + "\"";
+    var coverageFilePath = MakeAbsolute(new FilePath(testCoverageOutputFile)).FullPath;
+    Information("Sonar: Test Coverage Output File: " + testCoverageOutputFile);
+    var arguments = "sonarscanner begin /k:\"" + sonarqubeProjectKey + "\" /v:\"" + nugetVersion + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + coverageFilePath + "\"";
 
-        if (sonarQubePreview) {
-            Information("Sonar: Running Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
-		    arguments += " /d:\"sonar.projectVersion=sonar.projectVersion\" /d:\"sonar.analysis.mode=preview\"";
+    if (sonarQubePreview) {
+        Information("Sonar: Running Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
+        arguments += " /d:\"sonar.projectVersion=sonar.projectVersion\" /d:\"sonar.analysis.mode=preview\"";
+    }
+    else {
+        Information("Sonar: Running Sonar on branch " + AppVeyor.Environment.Repository.Branch);
+        if (!isReleaseBranch)
+        {
+            arguments += " /d:\"sonar.branch.name=" + AppVeyor.Environment.Repository.Branch + "\"";
         }
-        else {
-            Information("Sonar: Running Sonar on branch " + AppVeyor.Environment.Repository.Branch);
-        }
-        var sonarStartSettings = new ProcessSettings{ Arguments = arguments };
-		StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/MSBuild.SonarQube.Runner.exe", sonarStartSettings);
-  /*
-     SonarBegin(new SonarBeginSettings{
-        Url = "sonarcube.contoso.local",
-        Login = "admin",
-        Password = "admin",
-        Verbose = true
-     });
-	 */
+    }
+
+    StartProcess("dotnet.exe", "tool install --global dotnet-sonarscanner");
+    var sonarStartSettings = new ProcessSettings{ Arguments = arguments };
+    StartProcess("dotnet.exe", sonarStartSettings);
   });
 
 Task("SonarEnd")
   .IsDependentOn("UploadTestCoverage")
   .WithCriteria(() => runSonarQube)
   .Does(() => {
-  /*
-     SonarEnd(new SonarEndSettings{
-        Login = "admin",
-        Password = "admin"
-     });
-	*/
-    var sonarEndSettings = new ProcessSettings{ Arguments = "end /d:\"sonar.login=" + sonarQubeLogin + "\"" };
-    StartProcess("./tools/MSBuild.SonarQube.Runner.Tool/tools/MSBuild.SonarQube.Runner.exe", sonarEndSettings);
+    var sonarEndSettings = new ProcessSettings{ Arguments = "sonarscanner end /d:\"sonar.login=" + sonarQubeLogin + "\"" };
+    StartProcess("dotnet.exe", sonarEndSettings);
   });
 
 Task("Package")
