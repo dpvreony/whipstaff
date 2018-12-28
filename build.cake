@@ -45,6 +45,7 @@ var isRepository = StringComparer.OrdinalIgnoreCase.Equals("dpvreony/dhgms.aspne
 var isDevelopBranch = StringComparer.OrdinalIgnoreCase.Equals("develop", AppVeyor.Environment.Repository.Branch);
 var isReleaseBranch = StringComparer.OrdinalIgnoreCase.Equals("master", AppVeyor.Environment.Repository.Branch);
 var isTagged = AppVeyor.Environment.Repository.Tag.IsTag;
+var unitTestProjectFilePath = "./src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj";
 
 var githubOwner = "dpvreony";
 var githubRepository = "dhgms.aspnetcorecontrib";
@@ -172,20 +173,14 @@ Task("RunUnitTests")
     .IsDependentOn("BuildSolution")
     .Does(() =>
 {
-	var filePath = "./src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj";
-	var projectDirectory = new FilePath(filePath).GetDirectory();
+    var projectDirectory = new FilePath(unitTestProjectFilePath).GetDirectory();
 	var pdbDirectory = projectDirectory + "\\bin\\Debug\\netcoreapp2.0";
 
-	// workaround for https://github.com/xunit/xunit/issues/1573
-	// C:\Program Files\dotnet\shared\Microsoft.NETCore.App
-	var fxVersion = "2.0.5";
-
-    Action<ICakeContext> testAction = tool => {
-        //tool.DotNetCoreTest(filePath, dotNetCoreTestSettings);
-		tool.DotNetCoreTool(
-                projectPath: filePath,
-                command: "xunit", 
-                arguments: "-noshadow -fxversion " + fxVersion + " -configuration Debug -diagnostics"
+	Action<ICakeContext> testAction = tool => {
+        tool.DotNetCoreTool(
+                projectPath: unitTestProjectFilePath,
+                command: "test",
+                arguments: "-- -noshadow -configuration Debug -diagnostics"
             );
     };
 
