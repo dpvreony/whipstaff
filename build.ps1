@@ -144,7 +144,7 @@ if(-Not $SkipToolPackageRestore.IsPresent) {
     Set-Location $TOOLS_DIR
 
     Write-Verbose -Message "Restoring tools from NuGet..."
-    $NuGetOutput = Invoke-Expression "&`"$NUGET_EXE`" install Cake -ExcludeVersion -Version 0.21.1 -OutputDirectory `"$TOOLS_DIR`""
+    $NuGetOutput = Invoke-Expression "&`"$NUGET_EXE`" install Cake -ExcludeVersion -Version 0.30.0 -OutputDirectory `"$TOOLS_DIR`""
     $NuGetOutput = Invoke-Expression "&`"$NUGET_EXE`" install xunit.runner.console -ExcludeVersion -Version 2.4.0-beta.1.build3958 -OutputDirectory `"$TOOLS_DIR`""
 
     if ($LASTEXITCODE -ne 0) {
@@ -198,8 +198,6 @@ if (!(Test-Path $CAKE_EXE)) {
     Throw "Could not find Cake.exe at $CAKE_EXE"
 }
 
-
-
 # Build Cake arguments
 $cakeArguments = @("$Script");
 if ($Target) { $cakeArguments += "-target=$Target" }
@@ -210,8 +208,10 @@ if ($DryRun) { $cakeArguments += "-dryrun" }
 if ($Experimental) { $cakeArguments += "-experimental" }
 if ($Mono) { $cakeArguments += "-mono" }
 $cakeArguments += $ScriptArgs
+$bootstrapArguments = $cakeArguments + "--bootstrap";
 
 # Start Cake
 Write-Host "Running build script..."
+&$CAKE_EXE $bootstrapArguments
 &$CAKE_EXE $cakeArguments
 exit $LASTEXITCODE
