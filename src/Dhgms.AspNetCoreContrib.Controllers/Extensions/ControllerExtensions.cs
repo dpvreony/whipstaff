@@ -128,5 +128,56 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
 
             return viewResult;
         }
+
+        internal static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
+            this Controller instance,
+            [NotNull] ILogger logger,
+            [NotNull] IMediator mediator,
+            [NotNull] IAuthorizationService authorizationService,
+            [NotNull] TUpdateRequestDto updateRequestDto,
+            EventId eventId,
+            [NotNull] string updatePolicyName,
+            [NotNull] Func<TUpdateResponseDto, Task<IActionResult>> getUpdateActionResultAsync,
+            [NotNull]
+            Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>>
+                updateCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
+        {
+            logger.LogDebug(eventId, "Entered UpdateAsync");
+
+            if (!instance.Request.IsHttps)
+            {
+                return instance.BadRequest();
+            }
+
+            var user = instance.HttpContext.User;
+
+
+            var methodAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                updateRequestDto,
+                updatePolicyName).ConfigureAwait(false);
+            if (!methodAuthorization.Succeeded)
+            {
+                return instance.Forbid();
+            }
+
+            var query = await updateCommandFactoryAsync(
+                updateRequestDto,
+                user,
+                cancellationToken).ConfigureAwait(false);
+
+            var result = await mediator.Send(
+                query,
+                cancellationToken).ConfigureAwait(false);
+
+            var viewResult = await getUpdateActionResultAsync(result).ConfigureAwait(false);
+            logger.LogDebug(
+                eventId,
+                "Finished UpdateAsync");
+
+            return viewResult;
+        }
     }
 }

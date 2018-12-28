@@ -87,41 +87,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             CancellationToken cancellationToken)
         {
             var eventId = await this.GetUpdateEventIdAsync().ConfigureAwait(false);
-            this.Logger.LogDebug(eventId, "Entered UpdateAsync");
-
-            if (!this.Request.IsHttps)
-            {
-                return this.BadRequest();
-            }
-
-            var user = this.HttpContext.User;
-
             var updatePolicyName = await this.GetUpdatePolicyAsync().ConfigureAwait(false);
 
-            var methodAuthorization = await this.AuthorizationService.AuthorizeAsync(
-                user,
+            return await this.GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
+                this.Logger,
+                this.Mediator,
+                this.AuthorizationService,
                 updateRequestDto,
-                updatePolicyName).ConfigureAwait(false);
-            if (!methodAuthorization.Succeeded)
-            {
-                return this.Forbid();
-            }
-
-            var query = await this._commandFactory.GetUpdateCommandAsync(
-                updateRequestDto,
-                user,
-                cancellationToken).ConfigureAwait(false);
-
-            var result = await this.Mediator.Send(
-                query,
-                cancellationToken).ConfigureAwait(false);
-
-            var viewResult = await this.GetUpdateActionResultAsync(result).ConfigureAwait(false);
-            this.Logger.LogDebug(
                 eventId,
-                "Finished UpdateAsync");
-
-            return viewResult;
+                updatePolicyName,
+                this.GetUpdateActionResultAsync,
+                this._commandFactory.GetUpdateCommandAsync,
+                cancellationToken).ConfigureAwait(false);
         }
 
         protected abstract Task<IActionResult> GetAddActionResultAsync(TAddResponseDto result);
