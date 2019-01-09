@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="2.2.2" />
+    <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="2.2.4" />
     <PackageReference Include="AspNetCore.HealthChecks.Publisher.ApplicationInsights" Version="2.2.1" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.8" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.10" />
     <PackageReference Include="Audit.NET" Version="14.0.2" />
     <PackageReference Include="Audit.WebApi.Core" Version="14.0.2" />
     <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.2.4" />
@@ -17,7 +17,7 @@
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="4.3.2012" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.5.1" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="OwaspHeaders.Core" Version="3.3.2" />
