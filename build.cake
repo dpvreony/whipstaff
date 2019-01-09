@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 #module "nuget:?package=Cake.DotNetTool.Module"
 
+#addin "nuget:?package=Cake.DocFx&version=0.11.0"
 //#addin "nuget:?package=Cake.FileHelpers&version=1.0.4"
 #addin "nuget:?package=Cake.Coveralls&version=0.9.0"
 //#addin "nuget:?package=Cake.PinNuGetDependency&version=1.0.0"
@@ -22,6 +23,7 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=3.6.5"
 #tool "nuget:?package=MSBuild.SonarQube.Runner.Tool"
 #tool "dotnet:?package=dotnet-sonarscanner&version=4.4.2"
+#tool "nuget:?package=docfx.console&version=2.40.5"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
