@@ -39,8 +39,8 @@
         }
 
         private static Mock<IMediator> MockMediatorFactory() => new Mock<IMediator>(MockBehavior.Strict);
-        private static Mock<IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>> MockCommandFactory() => new Mock<IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>>(MockBehavior.Strict);
-        private static Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>> MockQueryFactory() => new Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>>(MockBehavior.Strict);
+        private static Mock<IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse>> MockCommandFactory() => new Mock<IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse>>(MockBehavior.Strict);
+        private static Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse>> MockQueryFactory() => new Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse>>(MockBehavior.Strict);
 
         public sealed class ConstructorMethod
         {
@@ -99,7 +99,7 @@
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
                     MockMediatorFactory(),
-                    (Mock<IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>>)null,
+                    null,
                     MockQueryFactory(),
                     "commandFactory",
                 };
@@ -113,7 +113,7 @@
                     MockLoggerFactory(),
                     MockMediatorFactory(),
                     MockCommandFactory(),
-                    (Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>>)null,
+                    null,
                     "queryFactory",
                 };
             }
@@ -124,8 +124,8 @@
                 Mock<IAuthorizationService> authorizationService,
                 Mock<ILogger<FakeCrudController>> logger,
                 Mock<IMediator> mediator,
-                Mock<IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>> auditableCommandFactory,
-                Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?>> auditableQueryFactory,
+                Mock<IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse>> auditableCommandFactory,
+                Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse>> auditableQueryFactory,
                 string argumentNullExceptionParameterName)
             {
 
@@ -620,9 +620,9 @@
                 }
             }
 
-            private async Task<int> MockUpdateMediatorHandler(FakeCrudUpdateCommand arg1, CancellationToken arg2)
+            private async Task<FakeCrudUpdateResponse> MockUpdateMediatorHandler(FakeCrudUpdateCommand arg1, CancellationToken arg2)
             {
-                return await Task.FromResult(arg1.RequestDto).ConfigureAwait(false);
+                return await Task.FromResult(new FakeCrudUpdateResponse()).ConfigureAwait(false);
             }
 
             private async Task<FakeCrudUpdateCommand> MockUpdateCommand(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken arg3)
@@ -702,9 +702,9 @@
                 }
             }
 
-            private static async Task<long?> MockViewMediatorHandler(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
+            private static async Task<FakeCrudViewResponse> MockViewMediatorHandler(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(auditableRequest.RequestDto == 1 ? auditableRequest.RequestDto : null as long?).ConfigureAwait(false);
+                return await Task.FromResult(auditableRequest.RequestDto == 1 ? new FakeCrudViewResponse() : null).ConfigureAwait(false);
             }
 
             private static async Task<FakeCrudViewQuery> MockViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)

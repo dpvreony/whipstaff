@@ -19,9 +19,12 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
         where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
+        where TListQueryResponse : class
         where TListRequestDto : class, new()
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
+        where TViewQueryResponse : class
         where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
+        where TUpdateResponseDto : class
     {
         private readonly IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> _commandFactory;
 

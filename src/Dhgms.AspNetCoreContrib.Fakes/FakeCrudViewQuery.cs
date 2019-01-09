@@ -5,7 +5,7 @@
     using Dhgms.AspNetCoreContrib.Controllers;
 
     [ExcludeFromCodeCoverage]
-    public class FakeCrudViewQuery : AuditableRequest<long, long?>
+    public class FakeCrudViewQuery : AuditableRequest<long, FakeCrudViewResponse>
     {
         public FakeCrudViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal) : base(requestDto, claimsPrincipal)
         {

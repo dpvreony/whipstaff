@@ -5,7 +5,7 @@
     using Dhgms.AspNetCoreContrib.Controllers;
 
     [ExcludeFromCodeCoverage]
-    public class FakeCrudUpdateCommand : AuditableRequest<int, int>
+    public class FakeCrudUpdateCommand : AuditableRequest<int, FakeCrudUpdateResponse>
     {
         public FakeCrudUpdateCommand(int requestDto, ClaimsPrincipal claimsPrincipal) : base(requestDto, claimsPrincipal)
         {

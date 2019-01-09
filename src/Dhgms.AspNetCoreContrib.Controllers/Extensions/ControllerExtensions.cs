@@ -129,6 +129,138 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
+        internal static async Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
+            this Controller instance,
+            [NotNull] ILogger logger,
+            [NotNull] IMediator mediator,
+            [NotNull] IAuthorizationService authorizationService,
+            [NotNull] TListRequestDto listRequestDto,
+            EventId eventId,
+            [NotNull] string listPolicyName,
+            [NotNull] Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
+            [NotNull]
+            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>>
+                listCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
+            where TListResponseDto : class
+        {
+            logger.LogDebug(eventId, "Entered ListAsync");
+
+            if (!instance.Request.IsHttps)
+            {
+                return instance.BadRequest();
+            }
+
+            var user = instance.HttpContext.User;
+
+            var methodAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                listRequestDto,
+                listPolicyName).ConfigureAwait(false);
+            if (!methodAuthorization.Succeeded)
+            {
+                return instance.Forbid();
+            }
+
+            var query = await listCommandFactoryAsync(
+                listRequestDto,
+                user,
+                cancellationToken).ConfigureAwait(false);
+
+            var result = await mediator.Send(
+                query,
+                cancellationToken).ConfigureAwait(false);
+
+            if (result == null)
+            {
+                return instance.NotFound();
+            }
+
+            var resourceAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                result,
+                listPolicyName).ConfigureAwait(false);
+            if (!resourceAuthorization.Succeeded)
+            {
+                // not found rather than forbidden
+                return instance.NotFound();
+            }
+
+            var viewResult = await getListActionResultAsync(result).ConfigureAwait(false);
+            logger.LogDebug(
+                eventId,
+                "Finished ListAsync");
+
+            return viewResult;
+        }
+
+        internal static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
+            this Controller instance,
+            [NotNull] ILogger logger,
+            [NotNull] IMediator mediator,
+            [NotNull] IAuthorizationService authorizationService,
+            [NotNull] TViewRequestDto viewRequestDto,
+            EventId eventId,
+            [NotNull] string viewPolicyName,
+            [NotNull] Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
+            [NotNull]
+            Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>>
+                viewCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto>
+            where TViewResponseDto : class
+        {
+            logger.LogDebug(eventId, "Entered ViewAsync");
+
+            if (!instance.Request.IsHttps)
+            {
+                return instance.BadRequest();
+            }
+
+            var user = instance.HttpContext.User;
+
+            var methodAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                viewRequestDto,
+                viewPolicyName).ConfigureAwait(false);
+            if (!methodAuthorization.Succeeded)
+            {
+                return instance.Forbid();
+            }
+
+            var query = await viewCommandFactoryAsync(
+                viewRequestDto,
+                user,
+                cancellationToken).ConfigureAwait(false);
+
+            var result = await mediator.Send(
+                query,
+                cancellationToken).ConfigureAwait(false);
+
+            if (result == null)
+            {
+                return instance.NotFound();
+            }
+
+            var resourceAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                result,
+                viewPolicyName).ConfigureAwait(false);
+            if (!resourceAuthorization.Succeeded)
+            {
+                // not found rather than forbidden
+                return instance.NotFound();
+            }
+
+            var viewResult = await getViewActionResultAsync(result).ConfigureAwait(false);
+            logger.LogDebug(
+                eventId,
+                "Finished ViewAsync");
+
+            return viewResult;
+        }
+
         internal static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
             this Controller instance,
             [NotNull] ILogger logger,
@@ -143,6 +275,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
                 updateCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
+            where TUpdateResponseDto : class
         {
             logger.LogDebug(eventId, "Entered UpdateAsync");
 
@@ -153,7 +286,6 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
 
             var user = instance.HttpContext.User;
 
-
             var methodAuthorization = await authorizationService.AuthorizeAsync(
                 user,
                 updateRequestDto,
@@ -163,14 +295,22 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
                 return instance.Forbid();
             }
 
-            var query = await updateCommandFactoryAsync(
+            var command = await updateCommandFactoryAsync(
                 updateRequestDto,
                 user,
                 cancellationToken).ConfigureAwait(false);
 
             var result = await mediator.Send(
-                query,
+                command,
                 cancellationToken).ConfigureAwait(false);
+
+            // the result will return null
+            // if the requested object didn't exist
+            // or the user doesn't have permission to update
+            if (result == null)
+            {
+                return instance.NotFound();
+            }
 
             var viewResult = await getUpdateActionResultAsync(result).ConfigureAwait(false);
             logger.LogDebug(

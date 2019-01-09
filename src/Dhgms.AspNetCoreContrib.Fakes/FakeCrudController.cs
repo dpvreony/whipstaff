@@ -133,14 +133,14 @@
     [Route("/fakecrud")]
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
-    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int>
+    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse>
     {
         public FakeCrudController(
             IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
-            IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, int> commandFactory,
-            IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, long?> queryFactory)
+            IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse> commandFactory,
+            IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse> queryFactory)
             : base(
                 authorizationService,
                 logger,
@@ -175,7 +175,7 @@
             return await Task.FromResult(this.Ok(listResponse)).ConfigureAwait(false);
         }
 
-        protected override async Task<IActionResult> GetViewActionResultAsync(long? viewResult)
+        protected override async Task<IActionResult> GetViewActionResultAsync(FakeCrudViewResponse viewResult)
         {
             return await Task.FromResult(this.Ok(viewResult)).ConfigureAwait(false);
         }
@@ -220,7 +220,7 @@
             return await Task.FromResult("updatePolicyName").ConfigureAwait(false);
         }
 
-        protected override async Task<IActionResult> GetUpdateActionResultAsync(int result)
+        protected override async Task<IActionResult> GetUpdateActionResultAsync(FakeCrudUpdateResponse result)
         {
             return await Task.FromResult(this.Ok(result)).ConfigureAwait(false);
         }
