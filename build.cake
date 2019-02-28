@@ -223,7 +223,8 @@ Task("UploadTestCoverage")
     var token = EnvironmentVariable("COVERALLS_TOKEN");
     if (string.IsNullOrEmpty(token))
     {
-        throw new Exception("The COVERALLS_TOKEN environment variable is not defined.");
+		// pr's don't have the token for security reasons
+		return;
     }
 
     CoverallsIo(testCoverageOutputFile, new CoverallsIoSettings()

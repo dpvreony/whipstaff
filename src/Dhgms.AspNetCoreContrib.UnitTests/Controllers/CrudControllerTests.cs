@@ -296,7 +296,7 @@
             {
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "deletePolicyName"))
+                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "deletePolicyName"))
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
@@ -410,7 +410,7 @@
             {
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "listPolicyName"))
+                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "listPolicyName"))
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 
                 var logger = MockLoggerFactory();
@@ -658,7 +658,7 @@
             {
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<long>(), "viewPolicyName"))
+                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "viewPolicyName"))
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
                 authorizationService.Setup(s =>
                         s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "viewPolicyName"))
