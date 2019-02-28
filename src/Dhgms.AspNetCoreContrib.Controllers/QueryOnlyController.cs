@@ -91,7 +91,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             var eventId = await this.GetViewEventIdAsync().ConfigureAwait(false);
             var viewPolicyName = await this.GetViewPolicyAsync().ConfigureAwait(false);
 
-            return await this.GetListActionAsync<long, TViewQueryResponse, TViewQuery>(
+            return await this.GetViewActionAsync<long, TViewQueryResponse, TViewQuery>(
                 this.Logger,
                 this.Mediator,
                 this.AuthorizationService,
