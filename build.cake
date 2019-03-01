@@ -245,7 +245,7 @@ Task("SonarBegin")
   .Does(() => {
     var coverageFilePath = MakeAbsolute(new FilePath(testCoverageOutputFile)).FullPath;
     Information("Sonar: Test Coverage Output File: " + testCoverageOutputFile);
-    var arguments = "sonarscanner begin /k:\"" + sonarqubeProjectKey + "\" /v:\"" + nugetVersion + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /d:\"sonar.organization=" + sonarqubeOrganisationKey + "\" /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + coverageFilePath + "\"";
+    var arguments = "sonarscanner begin /k:\"" + sonarqubeProjectKey + "\" /v:\"" + nugetVersion + "\" /d:\"sonar.host.url=https://sonarcloud.io\" /o:" + sonarqubeOrganisationKey + " /d:\"sonar.login=" + sonarQubeLogin + "\" /d:sonar.cs.opencover.reportsPaths=\"" + coverageFilePath + "\"";
 
     if (sonarQubePreview) {
         Information("Sonar: Running Sonar on PR " + AppVeyor.Environment.PullRequest.Number);
