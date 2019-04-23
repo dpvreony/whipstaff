@@ -1,6 +1,7 @@
-﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
+﻿using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
+
+namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
 {
-    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.ApplicationStartUp;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.AspNetCore.Builder;
 
