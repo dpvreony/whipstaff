@@ -128,7 +128,6 @@
                 Mock<IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse>> auditableQueryFactory,
                 string argumentNullExceptionParameterName)
             {
-
                 var ex = Assert.Throws<ArgumentNullException>(() => new FakeCrudController(
                     authorizationService?.Object,
                     logger?.Object,
@@ -260,8 +259,8 @@
                         HttpContext = new DefaultHttpContext
                         {
                             Request = { IsHttps = false },
-                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
-                        }
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
+                        },
                     },
                 })
                 {
@@ -326,8 +325,8 @@
                         HttpContext = new DefaultHttpContext
                         {
                             Request = { IsHttps = true },
-                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
-                        }
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
+                        },
                     },
                 })
                 {
@@ -372,8 +371,8 @@
                         HttpContext = new DefaultHttpContext
                         {
                             Request = { IsHttps = false },
-                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
-                        }
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
+                        },
                     },
                 })
                 {
@@ -400,7 +399,7 @@
             {
                 new object[]
                 {
-                    new FakeCrudListRequest()
+                    new FakeCrudListRequest(),
                 },
             };
 
@@ -443,9 +442,9 @@
                             Request =
                             {
                                 IsHttps = true,
-                                Query = new QueryCollection()
-                            }
-                        }
+                                Query = new QueryCollection(),
+                            },
+                        },
                     },
                 })
                 {
@@ -493,9 +492,9 @@
                             Request =
                             {
                                 IsHttps = false,
-                                Query = new QueryCollection()
-                            }
-                        }
+                                Query = new QueryCollection(),
+                            },
+                        },
                     },
                 })
                 {
@@ -563,8 +562,8 @@
                         HttpContext = new DefaultHttpContext
                         {
                             Request = { IsHttps = true },
-                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
-                        }
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
+                        },
                     },
                 })
                 {
@@ -609,8 +608,8 @@
                         HttpContext = new DefaultHttpContext
                         {
                             Request = { IsHttps = false },
-                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass"))
-                        }
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
+                        },
                     },
                 })
                 {
@@ -648,7 +647,7 @@
                 new object[]
                 {
                     2,
-                    typeof(NotFoundResult)
+                    typeof(NotFoundResult),
                 },
             };
 

@@ -12,9 +12,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
 {
-    internal static class ControllerExtensions
+    /// <summary>
+    /// Extension methods for ASP.NET Core Controllers.
+    /// </summary>
+    public static class ControllerExtensions
     {
-        internal static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
+        public static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
             this Controller instance,
             [NotNull]ILogger logger,
             [NotNull]IMediator mediator,
@@ -79,7 +82,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
-        internal static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
+        public static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
             this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
@@ -129,7 +132,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
-        internal static async Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
+        public static async Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
             this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
@@ -195,7 +198,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
-        internal static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
+        public static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
             this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
@@ -261,7 +264,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
-        internal static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
+        public static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
             this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,

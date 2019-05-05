@@ -66,6 +66,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             return await this.ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
         }
 
+        protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
+
+        protected abstract Task<EventId> GetListEventIdAsync();
+
+        protected abstract Task<string> GetListPolicyAsync();
+
+        protected abstract Task<EventId> GetViewEventIdAsync();
+
+        protected abstract Task<string> GetViewPolicyAsync();
+
+        protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse listResponse);
+
         private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
             var eventId = await this.GetListEventIdAsync().ConfigureAwait(false);
@@ -102,17 +114,5 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 this._queryFactory.GetViewQueryAsync,
                 cancellationToken).ConfigureAwait(false);
         }
-
-        protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
-
-        protected abstract Task<EventId> GetListEventIdAsync();
-
-        protected abstract Task<string> GetListPolicyAsync();
-
-        protected abstract Task<EventId> GetViewEventIdAsync();
-
-        protected abstract Task<string> GetViewPolicyAsync();
-
-        protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse listResponse);
     }
 }

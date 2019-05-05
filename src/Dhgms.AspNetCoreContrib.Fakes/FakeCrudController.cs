@@ -84,7 +84,8 @@
         /// <param name="generic"></param>
         /// <param name="toCheck"></param>
         /// <returns></returns>
-        static bool IsSubclassOfRawGeneric(Type generic, Type toCheck) {
+        static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
+        {
             // while (toCheck != null && toCheck != typeof(object)) {
                 var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
                 if (generic == cur) {

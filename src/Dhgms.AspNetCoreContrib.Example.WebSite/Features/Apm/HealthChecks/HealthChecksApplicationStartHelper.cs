@@ -1,6 +1,7 @@
-﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks
+﻿using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
+
+namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks
 {
-    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.ApplicationStartUp;
     using global::HealthChecks.UI.Client;
     using global::HealthChecks.UI.Configuration;
     using Microsoft.AspNetCore.Builder;
