@@ -1,4 +1,6 @@
-﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite
+﻿using Hellang.Middleware.ProblemDetails;
+
+namespace Dhgms.AspNetCoreContrib.Example.WebSite
 {
     using System;
     using Audit.WebApi;
@@ -67,6 +69,7 @@
                 .IncludeRequestBody()
                 .IncludeResponseBody());
 
+            app.UseProblemDetails();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
