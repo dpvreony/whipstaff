@@ -50,12 +50,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
                 viewRequestDto,
                 new EventId(1, "View Spreadsheet"),
                 viewPolicyName,
-                getViewActionResultAsync,
-                viewCommandFactoryAsync,
+                GetViewActionResultAsync,
+                ViewCommandFactoryAsync,
                 CancellationToken.None).ConfigureAwait(false);
         }
 
-        private Task<IAuditableRequest<int, FileNameAndStream>> viewCommandFactoryAsync(
+        private Task<IAuditableRequest<int, FileNameAndStream>> ViewCommandFactoryAsync(
             int id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
@@ -63,7 +63,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
             throw new NotImplementedException();
         }
 
-        private async Task<IActionResult> getViewActionResultAsync(FileNameAndStream file)
+        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStream file)
         {
             var contentType = MediaTypeHeaderStringHelpers.ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet;
             return this.File(file.FileStream, contentType, file.FileName);
