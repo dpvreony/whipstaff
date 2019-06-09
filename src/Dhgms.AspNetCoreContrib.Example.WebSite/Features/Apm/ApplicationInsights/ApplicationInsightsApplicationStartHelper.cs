@@ -10,7 +10,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsigh
         public void ConfigureApplication(IApplicationBuilder app)
         {
             var builder = TelemetryConfiguration.Active.TelemetryProcessorChainBuilder;
-            builder.Use((next) => new SignalRTelemetryProcessor(next));
+            builder.Use(next => new SignalRTelemetryProcessor(next));
             builder.Build();
         }
     }

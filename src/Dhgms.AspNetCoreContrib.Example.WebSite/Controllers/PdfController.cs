@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -13,13 +12,12 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Net.Http.Headers;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
 {
-    public sealed class ExcelController : BaseFileDownloadController<int>
+    public sealed class PdfController : BaseFileDownloadController<int>
     {
-        public ExcelController(
+        public PdfController(
             IAuthorizationService authorizationService,
             ILogger<ExcelController> logger,
             IMediator mediator)
@@ -27,9 +25,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
         {
         }
 
-        protected override EventId GetViewEventId() => new EventId(1, "View Spreadsheet");
+        protected override EventId GetViewEventId() => new EventId(1, "View PDF");
 
-        protected override string GetViewPolicyName() => "ViewSpreadSheet";
+        protected override string GetViewPolicyName() => "View PDF";
 
         protected override Task<IAuditableRequest<int, FileNameAndStream>> ViewCommandFactoryAsync(
             int id,
@@ -39,6 +37,6 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
             throw new NotImplementedException();
         }
 
-        protected override string GetMediaTypeHeaderString() => MediaTypeHeaderStringHelpers.ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet;
+        protected override string GetMediaTypeHeaderString() => MediaTypeHeaderStringHelpers.ApplicationPdf;
     }
 }
