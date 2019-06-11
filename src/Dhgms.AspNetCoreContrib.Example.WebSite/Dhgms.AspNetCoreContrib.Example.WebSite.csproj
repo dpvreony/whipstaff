@@ -40,4 +40,8 @@
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="log\" />
+  </ItemGroup>
+
 </Project>

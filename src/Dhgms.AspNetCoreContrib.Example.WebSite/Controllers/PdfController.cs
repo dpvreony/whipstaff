@@ -8,6 +8,7 @@ using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.Controllers.Extensions;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.MediaTypeHeaders;
+using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Pdf;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
 {
-    public sealed class PdfController : BaseFileDownloadController<int>
+    public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfRequestDto>
     {
         public PdfController(
             IAuthorizationService authorizationService,
@@ -29,12 +30,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
 
         protected override string GetViewPolicyName() => "View PDF";
 
-        protected override Task<IAuditableRequest<int, FileNameAndStream>> ViewCommandFactoryAsync(
+        protected override async Task<DownloadPdfRequestDto> ViewCommandFactoryAsync(
             int id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = new DownloadPdfRequestDto(id, claimsPrincipal);
+            return result;
         }
 
         protected override string GetMediaTypeHeaderString() => MediaTypeHeaderStringHelpers.ApplicationPdf;

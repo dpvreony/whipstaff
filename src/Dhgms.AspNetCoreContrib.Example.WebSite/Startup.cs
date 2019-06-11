@@ -1,5 +1,8 @@
 ﻿using Audit.Core.Providers;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite
@@ -49,7 +52,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseProblemDetails();
+            //app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
             ApmApplicationStartHelper.Configure(this.Configuration, app, env, version);
@@ -75,6 +78,22 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
 
             app.UseMvc(routes =>
             {
+                //routes.MapGet("api/{controller}/{id?}", )
+                routes.MapRoute(
+                    name: "get",
+                    template: "api/{controller}/{id?}",
+                    defaults: new {action = "GetAsync"},
+                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("GET")}));
+                routes.MapRoute(
+                    name: "post",
+                    template: "api/{controller}/{id?}",
+                    defaults: new {action = "PostAsync"},
+                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("POST")}));
+                routes.MapRoute(
+                    name: "delete",
+                    template: "api/{controller}/{id?}",
+                    defaults: new {action = "DeleteAsync"},
+                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("DELETE")}));
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
@@ -91,8 +110,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
         {
             var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
 
-            services.AddProblemDetails();
-            services.AddMvc().AddApplicationPart(fakeControllerAssembly);
+            //services.AddProblemDetails();
+            services.AddMvc().AddApplicationPart(fakeControllerAssembly).SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddMediatR(fakeControllerAssembly);
 
             new HealthChecksApplicationStartHelper().ConfigureService(services);

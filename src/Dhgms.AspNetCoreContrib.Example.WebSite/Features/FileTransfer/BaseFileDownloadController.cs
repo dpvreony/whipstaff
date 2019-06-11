@@ -14,7 +14,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
 {
-    public abstract class BaseFileDownloadController<TGetRequestDto> : Controller
+    public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
+        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStream>
     {
         private readonly IAuthorizationService _authorizationService;
 
@@ -43,7 +44,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
             var viewPolicyName = this.GetViewPolicyName();
             var eventId = this.GetViewEventId();
 
-            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStream, IAuditableRequest<TGetRequestDto, FileNameAndStream>>(
+            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStream, TQueryDto>(
                 this._logger,
                 this._mediator,
                 this._authorizationService,
@@ -59,7 +60,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
 
         protected abstract string GetViewPolicyName();
 
-        protected abstract Task<IAuditableRequest<TGetRequestDto, FileNameAndStream>> ViewCommandFactoryAsync(
+        protected abstract Task<TQueryDto> ViewCommandFactoryAsync(
             TGetRequestDto id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);

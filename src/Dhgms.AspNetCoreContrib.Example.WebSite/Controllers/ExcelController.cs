@@ -6,7 +6,9 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
+using Dhgms.AspNetCoreContrib.Controllers;
 using Dhgms.AspNetCoreContrib.Controllers.Extensions;
+using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.MediaTypeHeaders;
 using MediatR;
@@ -17,7 +19,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
 {
-    public sealed class ExcelController : BaseFileDownloadController<int>
+    public sealed class ExcelController : BaseFileDownloadController<int, DownloadSpreadsheetRequestDto>
     {
         public ExcelController(
             IAuthorizationService authorizationService,
@@ -31,12 +33,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
 
         protected override string GetViewPolicyName() => "ViewSpreadSheet";
 
-        protected override Task<IAuditableRequest<int, FileNameAndStream>> ViewCommandFactoryAsync(
+        protected override async Task<DownloadSpreadsheetRequestDto> ViewCommandFactoryAsync(
             int id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = new DownloadSpreadsheetRequestDto(id, claimsPrincipal);
+            return result;
         }
 
         protected override string GetMediaTypeHeaderString() => MediaTypeHeaderStringHelpers.ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet;
