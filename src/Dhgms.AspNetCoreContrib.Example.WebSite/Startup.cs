@@ -78,7 +78,6 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
 
             app.UseMvc(routes =>
             {
-                //routes.MapGet("api/{controller}/{id?}", )
                 routes.MapRoute(
                     name: "get",
                     template: "api/{controller}/{id?}",
