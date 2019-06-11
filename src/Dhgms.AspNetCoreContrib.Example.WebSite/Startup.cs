@@ -1,4 +1,5 @@
-﻿using Hellang.Middleware.ProblemDetails;
+﻿using Audit.Core.Providers;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite
@@ -64,6 +65,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 .IncludeHeaders()
                 .IncludeRequestBody()
                 .IncludeResponseBody());
+            var fileDataProvider = Audit.Core.Configuration.DataProvider as FileDataProvider;
+            if (fileDataProvider != null)
+            {
+                // this was done so files don't get added to git
+                // as the visual studio .gitignore ignores log folders.
+                fileDataProvider.DirectoryPath = "log";
+            }
 
             app.UseMvc(routes =>
             {
