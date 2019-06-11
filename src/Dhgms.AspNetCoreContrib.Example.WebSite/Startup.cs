@@ -1,4 +1,5 @@
 ﻿using Hellang.Middleware.ProblemDetails;
+using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite
 {
@@ -15,7 +16,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
     using OwaspHeaders.Core.Extensions;
     using Swashbuckle.AspNetCore.Swagger;
 
-    public class Startup
+    public sealed class Startup : IStartup
     {
         public Startup(IConfiguration configuration)
         {
@@ -24,25 +25,18 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void Configure(IApplicationBuilder app)
         {
-            var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
+            var env = app.ApplicationServices.GetService<IHostingEnvironment>();
+            var logger = app.ApplicationServices.GetService<ILoggerFactory>();
 
-            services.AddMvc().AddApplicationPart(fakeControllerAssembly);
-            services.AddMediatR(fakeControllerAssembly);
-
-            new HealthChecksApplicationStartHelper().ConfigureService(services);
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
-            });
+            Configure(app, env, logger);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        private void Configure(
+            IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -53,6 +47,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
             ApmApplicationStartHelper.Configure(this.Configuration, app, env, version);
@@ -69,7 +65,6 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 .IncludeRequestBody()
                 .IncludeResponseBody());
 
-            app.UseProblemDetails();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -82,6 +77,25 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+        }
+
+        public IServiceProvider ConfigureServices(IServiceCollection services)
+        {
+            var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
+
+            services.AddProblemDetails();
+            services.AddMvc().AddApplicationPart(fakeControllerAssembly);
+            services.AddMediatR(fakeControllerAssembly);
+
+            new HealthChecksApplicationStartHelper().ConfigureService(services);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+            });
+
+            return services.BuildServiceProvider();
         }
     }
 }
