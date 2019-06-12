@@ -1,5 +1,6 @@
 ﻿using Audit.Core.Providers;
 using Hellang.Middleware.ProblemDetails;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -57,8 +58,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
             var version = new Version(0, 1, 1, 9999);
             ApmApplicationStartHelper.Configure(this.Configuration, app, env, version);
 
-            var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
-            app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
+            //var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
+            //app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
 
             app.UseStaticFiles();
 
@@ -108,10 +109,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
+            var examplesAssembly = typeof(Startup).Assembly;
 
             //services.AddProblemDetails();
             services.AddMvc().AddApplicationPart(fakeControllerAssembly).SetCompatibilityVersion(CompatibilityVersion.Latest);
-            services.AddMediatR(fakeControllerAssembly);
+            services.AddMediatR(fakeControllerAssembly, examplesAssembly);
+
+            services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
 
             new HealthChecksApplicationStartHelper().ConfigureService(services);
 

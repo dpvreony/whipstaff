@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -70,6 +71,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
         private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStream file)
         {
             var contentType = this.GetMediaTypeHeaderString();
+            file.FileStream.Seek(0, SeekOrigin.Begin);
             return this.File(file.FileStream, contentType, file.FileName);
         }
     }
