@@ -35,24 +35,37 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
 
             if (sheetActors?.Count > 0)
             {
-                var sheetsToAdd = new List<Sheet>(sheetActors.Count);
-                foreach (var (name, actor) in sheetActors)
-                {
-                    var sheet = new Sheet
-                    {
-                        Id = workSheetPartId,
-                        SheetId = 1,
-                        Name = name,
-                    };
-
-                    actor(sheet, worksheetPart);
-                    sheetsToAdd.Add(sheet);
-                }
-
-                sheets.Append(sheetsToAdd);
+                AddWorkSheets(sheetActors, workSheetPartId, worksheetPart, sheets);
             }
 
             return spreadsheetDocument;
+        }
+
+        private static void AddWorkSheets(
+            IList<(string Name, Action<Sheet, WorksheetPart> Actor)> sheetActors,
+            string workSheetPartId,
+            WorksheetPart worksheetPart,
+            Sheets sheets)
+        {
+            var sheetsToAdd = new List<Sheet>(sheetActors.Count);
+            for (int i = 0; i < sheetActors.Count; i++)
+            {
+                var current = sheetActors[i];
+                var name = current.Name;
+                var actor = current.Actor;
+
+                var sheet = new Sheet
+                {
+                    Id = workSheetPartId,
+                    SheetId = (uint)i + 1,
+                    Name = name,
+                };
+
+                actor(sheet, worksheetPart);
+                sheetsToAdd.Add(sheet);
+            }
+
+            sheets.Append(sheetsToAdd);
         }
     }
 }
