@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer;
+using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MediatR;
@@ -44,16 +45,16 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
             uint currentRow = 1;
             var titleCell = InsertCellInWorksheet("A", currentRow, worksheetPart);
             titleCell.CellValue = new CellValue("Title");
-            //currentRow++;
+            titleCell.DataType = new EnumValue<CellValues>(CellValues.String);
         }
 
         // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet. 
         // If the cell already exists, returns it. 
         private static Cell InsertCellInWorksheet(string columnName, uint rowIndex, WorksheetPart worksheetPart)
         {
-            Worksheet worksheet = worksheetPart.Worksheet;
-            SheetData sheetData = worksheet.GetFirstChild<SheetData>();
-            string cellReference = columnName + rowIndex;
+            var worksheet = worksheetPart.Worksheet;
+            var sheetData = worksheet.GetFirstChild<SheetData>();
+            var cellReference = columnName + rowIndex;
 
             // If the worksheet does not contain a row with the specified row index, insert one.
             var row = sheetData.Elements<Row>().FirstOrDefault(r => r.RowIndex == rowIndex);
