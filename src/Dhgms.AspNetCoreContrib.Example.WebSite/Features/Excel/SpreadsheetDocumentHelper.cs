@@ -22,20 +22,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
             var workbook = new Workbook();
             workbookPart.Workbook = workbook;
 
-            // Add a WorksheetPart to the WorkbookPart.
-            var worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
-
-            var sheetData = new SheetData();
-            var worksheet = new Worksheet(sheetData);
-            worksheetPart.Worksheet = worksheet;
-
             var sheets = workbook.AppendChild(new Sheets());
-
-            var workSheetPartId = workbookPart.GetIdOfPart(worksheetPart);
 
             if (sheetActors?.Count > 0)
             {
-                AddWorkSheets(sheetActors, workSheetPartId, worksheetPart, sheets);
+                AddWorkSheets(sheetActors, workbookPart, sheets);
             }
 
             return spreadsheetDocument;
@@ -43,13 +34,19 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
 
         private static void AddWorkSheets(
             IList<(string Name, Action<Sheet, WorksheetPart> Actor)> sheetActors,
-            string workSheetPartId,
-            WorksheetPart worksheetPart,
+            WorkbookPart workbookPart,
             Sheets sheets)
         {
             var sheetsToAdd = new List<Sheet>(sheetActors.Count);
             for (int i = 0; i < sheetActors.Count; i++)
             {
+                var worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
+                var sheetData = new SheetData();
+                var worksheet = new Worksheet(sheetData);
+
+                worksheetPart.Worksheet = worksheet;
+                var workSheetPartId = workbookPart.GetIdOfPart(worksheetPart);
+
                 var current = sheetActors[i];
                 var name = current.Name;
                 var actor = current.Actor;
