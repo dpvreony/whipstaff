@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -43,53 +44,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
         private void CreateSheetOne(Sheet sheet, WorksheetPart worksheetPart)
         {
             uint currentRow = 1;
-            var titleCell = InsertCellInWorksheet("A", currentRow, worksheetPart);
-            titleCell.CellValue = new CellValue("Title");
-            titleCell.DataType = new EnumValue<CellValues>(CellValues.String);
-        }
-
-        // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet. 
-        // If the cell already exists, returns it. 
-        private static Cell InsertCellInWorksheet(string columnName, uint rowIndex, WorksheetPart worksheetPart)
-        {
-            var worksheet = worksheetPart.Worksheet;
-            var sheetData = worksheet.GetFirstChild<SheetData>();
-            var cellReference = columnName + rowIndex;
-
-            // If the worksheet does not contain a row with the specified row index, insert one.
-            var row = sheetData.Elements<Row>().FirstOrDefault(r => r.RowIndex == rowIndex);
-            if (row != null)
-            {
-                var cell = row.Elements<Cell>().FirstOrDefault(c => c.CellReference.Value == cellReference);
-                if (cell != null)
-                {
-                    return cell;
-                }
-            }
-            else
-            {
-                row = new Row { RowIndex = rowIndex };
-                sheetData.Append(row);
-            }
-
-            Cell refCell = null;
-            foreach (var cell in row.Elements<Cell>())
-            {
-                if (cell.CellReference.Value.Length == cellReference.Length)
-                {
-                    if (string.Compare(cell.CellReference.Value, cellReference, true) > 0)
-                    {
-                        refCell = cell;
-                        break;
-                    }
-                }
-            }
-
-            var newCell = new Cell { CellReference = cellReference };
-            row.InsertBefore(newCell, refCell);
-
-            worksheet.Save();
-            return newCell;
+            var titleCell = worksheetPart.InsertCellInWorksheet("A", currentRow, "Title");
         }
     }
 }
