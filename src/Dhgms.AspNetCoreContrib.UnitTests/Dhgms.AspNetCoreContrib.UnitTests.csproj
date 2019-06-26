@@ -15,13 +15,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Foundatio.Logging.Xunit" Version="8.1.2058" />
-    <PackageReference Include="Moq" Version="4.11.0" />
+    <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="OpenCover" Version="4.7.922" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.analyzers" Version="0.10.0" />
     <PackageReference Include="xunit.runner.reporters" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
-    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.0-rc1-build3809" />
   </ItemGroup>
 
   <ItemGroup>
