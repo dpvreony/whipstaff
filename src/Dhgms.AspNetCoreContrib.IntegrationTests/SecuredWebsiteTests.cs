@@ -11,24 +11,23 @@ using Xunit.Abstractions;
 
 namespace Dhgms.AspNetCoreContrib.IntegrationTests
 {
-    public sealed class SecuredWebsiteTests : Foundatio.Logging.Xunit.TestWithLoggingBase, IClassFixture<WebApplicationFactory<Startup>>
+    public sealed class SecuredWebsiteTests : BaseWebApplicationTest<Startup>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
-
-        public SecuredWebsiteTests(ITestOutputHelper output, WebApplicationFactory<Startup> factory)
-            : base(output)
+        public SecuredWebsiteTests(
+            ITestOutputHelper output,
+            WebApplicationFactory<Startup> factory)
+            : base(output, factory)
         {
-            this._factory = factory;
         }
 
         public static IEnumerable<object[]> GetReturnsSuccessAndCorrectContentTypetestSource =>
-            GetGetReturnsSuccessAndCorrectContentTypetestSource();
+            GetGetReturnsSuccessAndCorrectContentTypeTestSource();
 
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypetestSource))]
         public async Task GetReturnsSuccessAndCorrectContentType(string url)
         {
-            var client = this._factory.CreateClient();
+            var client = this.Factory.CreateClient();
 
             var response = await client.GetAsync(url).ConfigureAwait(false);
 
@@ -40,7 +39,7 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
             await this.LogResponse(response).ConfigureAwait(false);
         }
 
-        private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypetestSource()
+        private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
         {
             return new[]
             {
@@ -49,17 +48,6 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
                     "/",
                 },
             };
-        }
-
-        private async Task LogResponse(HttpResponseMessage response)
-        {
-            foreach (var httpResponseHeader in response.Headers)
-            {
-                this._logger.LogInformation($"{httpResponseHeader.Key}: {string.Join(",", httpResponseHeader.Value)}");
-            }
-
-            var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            this._logger.LogInformation(result);
         }
     }
 }
