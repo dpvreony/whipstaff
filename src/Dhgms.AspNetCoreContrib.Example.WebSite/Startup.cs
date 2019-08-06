@@ -1,4 +1,5 @@
 ﻿using Audit.Core.Providers;
+using Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
 
     public sealed class Startup : IStartup
     {
+        private readonly MiniProfilerApplicationStartHelper _miniProfilerApplicationStartHelper;
+
         public Startup(IConfiguration configuration)
         {
             this.Configuration = configuration;
+            _miniProfilerApplicationStartHelper = new MiniProfilerApplicationStartHelper();
         }
 
         public IConfiguration Configuration { get; }
@@ -35,7 +39,31 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
             var env = app.ApplicationServices.GetService<IHostingEnvironment>();
             var logger = app.ApplicationServices.GetService<ILoggerFactory>();
 
-            Configure(app, env, logger);
+            this.Configure(app, env, logger);
+        }
+
+        public IServiceProvider ConfigureServices(IServiceCollection services)
+        {
+            var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
+            var examplesAssembly = typeof(Startup).Assembly;
+
+            //services.AddProblemDetails();
+            services.AddMvc().AddApplicationPart(fakeControllerAssembly).SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMediatR(fakeControllerAssembly, examplesAssembly);
+
+            services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
+
+            new HealthChecksApplicationStartHelper().ConfigureService(services);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+            });
+
+            _miniProfilerApplicationStartHelper.ConfigureService(services);
+
+            return services.BuildServiceProvider();
         }
 
         private void Configure(
@@ -77,6 +105,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
                 fileDataProvider.DirectoryPath = "log";
             }
 
+            this._miniProfilerApplicationStartHelper.ConfigureApplication(app);
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -104,28 +134,6 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-        }
-
-        public IServiceProvider ConfigureServices(IServiceCollection services)
-        {
-            var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
-            var examplesAssembly = typeof(Startup).Assembly;
-
-            //services.AddProblemDetails();
-            services.AddMvc().AddApplicationPart(fakeControllerAssembly).SetCompatibilityVersion(CompatibilityVersion.Latest);
-            services.AddMediatR(fakeControllerAssembly, examplesAssembly);
-
-            services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
-
-            new HealthChecksApplicationStartHelper().ConfigureService(services);
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
-            });
-
-            return services.BuildServiceProvider();
         }
     }
 }
