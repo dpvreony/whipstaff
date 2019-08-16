@@ -11,7 +11,7 @@
     <PackageReference Include="AspNetCore.HealthChecks.Publisher.ApplicationInsights" Version="2.2.4" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.32" />
     <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
-    <PackageReference Include="Audit.NET" Version="14.6.2" />
+    <PackageReference Include="Audit.NET" Version="14.6.3" />
     <PackageReference Include="Audit.WebApi.Core" Version="14.6.2" />
     <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.3.2">
       <PrivateAssets>all</PrivateAssets>
