@@ -14,7 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Foundatio.Logging.Xunit" Version="8.1.2109" />
+    <PackageReference Include="Foundatio.Logging.Xunit" Version="8.1.2126" />
     <PackageReference Include="Moq" Version="4.12.0" />
     <PackageReference Include="OpenCover" Version="4.7.922" />
     <PackageReference Include="xunit" Version="2.4.1" />
