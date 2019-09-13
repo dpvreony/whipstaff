@@ -1,4 +1,6 @@
-﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite
+﻿using System.Diagnostics;
+
+namespace Dhgms.AspNetCoreContrib.Example.WebSite
 {
     using Exceptionless;
     using Exceptionless.Extensions.Logging;
@@ -22,8 +24,11 @@
         private static void ConfigureLogging(WebHostBuilderContext webHostBuilderContext, ILoggingBuilder loggingBuilder)
         {
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/loggermessage?view=aspnetcore-2.2
-            loggingBuilder.AddConsole();
-            loggingBuilder.AddDebug();
+            if (Debugger.IsAttached)
+            {
+                loggingBuilder.AddDebug();
+            }
+
             loggingBuilder.AddEventSourceLogger();
             loggingBuilder.AddEventLog();
             // loggingBuilder.AddTraceSource();
