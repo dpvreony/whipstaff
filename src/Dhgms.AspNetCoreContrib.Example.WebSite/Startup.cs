@@ -1,4 +1,16 @@
-﻿using Audit.Core.Providers;
+﻿using System;
+using Audit.WebApi;
+using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
+using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks;
+using Dhgms.AspNetCoreContrib.Fakes;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using OwaspHeaders.Core.Extensions;
+using Swashbuckle.AspNetCore.Swagger;
+using Audit.Core.Providers;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authorization;
@@ -6,21 +18,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite
 {
-    using System;
-    using Audit.WebApi;
-    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
-    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks;
-    using Dhgms.AspNetCoreContrib.Fakes;
-    using MediatR;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using OwaspHeaders.Core.Extensions;
-    using Swashbuckle.AspNetCore.Swagger;
 
     public sealed class Startup : IStartup
     {
@@ -46,6 +47,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite
         {
             var fakeControllerAssembly = typeof(FakeCrudController).Assembly;
             var examplesAssembly = typeof(Startup).Assembly;
+
+            services.AddFeatureManagement();
 
             //services.AddProblemDetails();
             services.AddMvc().AddApplicationPart(fakeControllerAssembly).SetCompatibilityVersion(CompatibilityVersion.Latest);
