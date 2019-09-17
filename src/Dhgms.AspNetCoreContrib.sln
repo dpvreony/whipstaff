@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Abstractions", "Dhgms.AspNetCoreContrib.Abstractions\Dhgms.AspNetCoreContrib.Abstractions.csproj", "{E94503EB-F014-4D39-B17B-E81C0B68CF63}"
 EndProject
@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Exa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Fakes", "Dhgms.AspNetCoreContrib.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dhgms.AspNetCoreContrib.IntegrationTests", "Dhgms.AspNetCoreContrib.IntegrationTests\Dhgms.AspNetCoreContrib.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.IntegrationTests", "Dhgms.AspNetCoreContrib.IntegrationTests\Dhgms.AspNetCoreContrib.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebApiApp", "Dhgms.AspNetCoreContrib.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj", "{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebBlazorServer", "Dhgms.AspNetCoreContrib.Example.WebBlazorServer\Dhgms.AspNetCoreContrib.Example.WebBlazorServer.csproj", "{3C5BA0A5-C742-42CB-BA97-B535D5DCD43D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebBlazorWasm", "Dhgms.AspNetCoreContrib.Example.WebBlazorWasm\Dhgms.AspNetCoreContrib.Example.WebBlazorWasm.csproj", "{4B97753B-C6E3-4517-8928-72564909461B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +51,18 @@ Global
 		{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C5BA0A5-C742-42CB-BA97-B535D5DCD43D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C5BA0A5-C742-42CB-BA97-B535D5DCD43D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C5BA0A5-C742-42CB-BA97-B535D5DCD43D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C5BA0A5-C742-42CB-BA97-B535D5DCD43D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B97753B-C6E3-4517-8928-72564909461B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B97753B-C6E3-4517-8928-72564909461B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B97753B-C6E3-4517-8928-72564909461B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B97753B-C6E3-4517-8928-72564909461B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
