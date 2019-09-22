@@ -13,7 +13,7 @@
         public static void Configure(
             IConfiguration configuration,
             IApplicationBuilder app,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             Version version)
         {
             ExceptionlessApplicationStartHelper.Configure(configuration, app, env, version);

@@ -20,7 +20,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
     {
         public PdfController(
             IAuthorizationService authorizationService,
-            ILogger<ExcelController> logger,
+            ILogger<PdfController> logger,
             IMediator mediator)
             : base(authorizationService, logger, mediator)
         {

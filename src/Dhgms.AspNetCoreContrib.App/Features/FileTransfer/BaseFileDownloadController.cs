@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.Controllers.Extensions;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +19,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
     {
         private readonly IAuthorizationService _authorizationService;
 
-        private readonly ILogger<ExcelController> _logger;
+        private readonly ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> _logger;
 
         private readonly IMediator _mediator;
 
         protected BaseFileDownloadController(
             IAuthorizationService authorizationService,
-            ILogger<ExcelController> logger,
+            ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> logger,
             IMediator mediator)
         {
             this._authorizationService = authorizationService ??

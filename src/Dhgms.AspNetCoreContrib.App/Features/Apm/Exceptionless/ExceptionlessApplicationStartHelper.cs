@@ -1,4 +1,6 @@
-﻿namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.Exceptionless
+﻿using Microsoft.Extensions.Hosting;
+
+namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.Exceptionless
 {
     using System;
     using global::Exceptionless;
@@ -11,7 +13,7 @@
         public static void Configure(
             IConfiguration configuration,
             IApplicationBuilder app,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             Version version)
         {
             var exceptionlessApiKey = configuration.GetValue<string>("Exceptionless:ApiKey", null);
@@ -30,7 +32,7 @@
         }
 
         private static void DoExceptionLessConfiguration(
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             ExceptionlessClient exceptionlessClient,
             Version version)
         {

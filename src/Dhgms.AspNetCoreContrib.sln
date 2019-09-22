@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Exa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebBlazorWasm", "Dhgms.AspNetCoreContrib.Example.WebBlazorWasm\Dhgms.AspNetCoreContrib.Example.WebBlazorWasm.csproj", "{4B97753B-C6E3-4517-8928-72564909461B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dhgms.AspNetCoreContrib.App", "Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj", "{F626BE0D-C21E-4CE0-9C5E-1C3626129681}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{4B97753B-C6E3-4517-8928-72564909461B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B97753B-C6E3-4517-8928-72564909461B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B97753B-C6E3-4517-8928-72564909461B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F626BE0D-C21E-4CE0-9C5E-1C3626129681}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F626BE0D-C21E-4CE0-9C5E-1C3626129681}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F626BE0D-C21E-4CE0-9C5E-1C3626129681}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F626BE0D-C21E-4CE0-9C5E-1C3626129681}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
