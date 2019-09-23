@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="2.2.5" />
     <PackageReference Include="AspNetCore.HealthChecks.Publisher.ApplicationInsights" Version="2.2.4" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.34" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.35" />
     <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
     <PackageReference Include="Audit.NET" Version="14.6.4" />
     <PackageReference Include="Audit.WebApi.Core" Version="14.6.3" />
