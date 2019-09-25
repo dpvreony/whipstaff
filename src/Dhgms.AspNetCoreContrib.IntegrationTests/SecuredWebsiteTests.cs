@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Example.WebSite;
+using Dhgms.AspNetCoreContrib.Examples.WebMvcApp;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;

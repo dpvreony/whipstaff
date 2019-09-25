@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
@@ -25,8 +25,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Abstractions\Dhgms.AspNetCoreContrib.Abstractions.csproj" />
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Controllers\Dhgms.AspNetCoreContrib.Controllers.csproj" />
-    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Example.WebSite\Dhgms.AspNetCoreContrib.Example.WebSite.csproj" />
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj" />
   </ItemGroup>
 
