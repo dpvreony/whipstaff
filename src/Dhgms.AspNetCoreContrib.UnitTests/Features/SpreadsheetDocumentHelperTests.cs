@@ -58,8 +58,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features
             cell.CellValue = new CellValue(value);
         }
 
-        // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet. 
-        // If the cell already exists, returns it. 
+        // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet.
+        // If the cell already exists, returns it.
         private static Cell InsertCellInWorksheet(string columnName, uint rowIndex, WorksheetPart worksheetPart)
         {
             Worksheet worksheet = worksheetPart.Worksheet;

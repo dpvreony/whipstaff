@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Example.WebSite\Dhgms.AspNetCoreContrib.Example.WebSite.csproj" />
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
   </ItemGroup>
 
 </Project>

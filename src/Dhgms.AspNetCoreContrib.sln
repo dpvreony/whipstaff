@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.UnitTests", "Dhgms.AspNetCoreContrib.UnitTests\Dhgms.AspNetCoreContrib.UnitTests.csproj", "{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebSite", "Dhgms.AspNetCoreContrib.Example.WebSite\Dhgms.AspNetCoreContrib.Example.WebSite.csproj", "{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Fakes", "Dhgms.AspNetCoreContrib.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.IntegrationTests", "Dhgms.AspNetCoreContrib.IntegrationTests\Dhgms.AspNetCoreContrib.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
@@ -21,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Exa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebBlazorWasm", "Dhgms.AspNetCoreContrib.Example.WebBlazorWasm\Dhgms.AspNetCoreContrib.Example.WebBlazorWasm.csproj", "{4B97753B-C6E3-4517-8928-72564909461B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dhgms.AspNetCoreContrib.App", "Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj", "{F626BE0D-C21E-4CE0-9C5E-1C3626129681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.App", "Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj", "{F626BE0D-C21E-4CE0-9C5E-1C3626129681}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebMvcApp", "Dhgms.AspNetCoreContrib.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj", "{F0B3F347-253A-4A23-BDE6-478A12685808}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,6 @@ Global
 		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1A3ECDF-D61C-4E48-B8F6-AC01907CA31E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{F626BE0D-C21E-4CE0-9C5E-1C3626129681}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F626BE0D-C21E-4CE0-9C5E-1C3626129681}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F626BE0D-C21E-4CE0-9C5E-1C3626129681}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0B3F347-253A-4A23-BDE6-478A12685808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0B3F347-253A-4A23-BDE6-478A12685808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0B3F347-253A-4A23-BDE6-478A12685808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0B3F347-253A-4A23-BDE6-478A12685808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
