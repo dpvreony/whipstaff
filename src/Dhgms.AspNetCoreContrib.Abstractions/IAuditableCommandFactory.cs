@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Dhgms.AspNetCoreContrib.Abstractions
 {
     /// <summary>
-    /// Represents a command factory for Auditable Requests.
+    /// Represents a command factory for auditable Requests.
     /// The command is the message that will be pumped into the CQRS architecture, it is not running any logic itself.
     /// </summary>
     /// <typeparam name="TAddCommand">The type of the Add command.</typeparam>
@@ -25,7 +25,7 @@ namespace Dhgms.AspNetCoreContrib.Abstractions
         where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
     {
         /// <summary>
-        /// Gets the Auditable Command for use in an Add Operation.
+        /// Gets the auditable Command for use in an Add Operation.
         /// </summary>
         /// <param name="requestDto">The Request DTO for the Add Command.</param>
         /// <param name="claimsPrincipal">The Claims principal attached to the request.</param>
@@ -37,7 +37,7 @@ namespace Dhgms.AspNetCoreContrib.Abstractions
             CancellationToken cancellationToken);
 
         /// <summary>
-        /// Gets the Auditable Command for use in an Delete Operation.
+        /// Gets the auditable Command for use in an Delete Operation.
         /// </summary>
         /// <param name="id">The unique id of the object for the Delete Command.</param>
         /// <param name="claimsPrincipal">The Claims principal attached to the request.</param>
@@ -49,7 +49,7 @@ namespace Dhgms.AspNetCoreContrib.Abstractions
             CancellationToken cancellationToken);
 
         /// <summary>
-        /// Gets the Auditable Command for use in an Update Operation.
+        /// Gets the auditable Command for use in an Update Operation.
         /// </summary>
         /// <param name="requestDto">The Request DTO for the Update Command.</param>
         /// <param name="claimsPrincipal">The Claims principal attached to the request.</param>

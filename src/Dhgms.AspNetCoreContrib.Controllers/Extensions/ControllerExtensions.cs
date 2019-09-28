@@ -103,6 +103,16 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
                 eventId,
                 "Entered DeleteAsync");
 
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (authorizationService == null)
+            {
+                throw new ArgumentNullException(nameof(authorizationService));
+            }
+
             if (!instance.Request.IsHttps)
             {
                 return instance.BadRequest();
@@ -137,7 +147,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         }
 
         public static async Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
-            this Controller instance,
+            [NotNull] this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
@@ -145,14 +155,32 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             EventId eventId,
             [NotNull] string listPolicyName,
             [NotNull] Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
-            [NotNull]
-            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>>
-                listCommandFactoryAsync,
+            [NotNull] Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
             where TListResponseDto : class
         {
             logger.LogDebug(eventId, "Entered ListAsync");
+
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (authorizationService == null)
+            {
+                throw new ArgumentNullException(nameof(authorizationService));
+            }
+
+            if (listCommandFactoryAsync == null)
+            {
+                throw new ArgumentNullException(nameof(listCommandFactoryAsync));
+            }
+
+            if (getListActionResultAsync == null)
+            {
+                throw new ArgumentNullException(nameof(getListActionResultAsync));
+            }
 
             if (!instance.Request.IsHttps)
             {
@@ -203,7 +231,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         }
 
         public static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
-            this Controller instance,
+            [NotNull] this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
@@ -211,14 +239,22 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             EventId eventId,
             [NotNull] string viewPolicyName,
             [NotNull] Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
-            [NotNull]
-            Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>>
-                viewCommandFactoryAsync,
+            [NotNull] Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto>
             where TViewResponseDto : class
         {
             logger.LogDebug(eventId, "Entered ViewAsync");
+
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (authorizationService == null)
+            {
+                throw new ArgumentNullException(nameof(authorizationService));
+            }
 
             if (!instance.Request.IsHttps)
             {
@@ -269,7 +305,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         }
 
         public static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
-            this Controller instance,
+            [NotNull] this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
@@ -285,6 +321,16 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             where TUpdateResponseDto : class
         {
             logger.LogDebug(eventId, "Entered UpdateAsync");
+
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (authorizationService == null)
+            {
+                throw new ArgumentNullException(nameof(authorizationService));
+            }
 
             if (!instance.Request.IsHttps)
             {

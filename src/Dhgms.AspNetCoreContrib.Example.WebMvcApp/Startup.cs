@@ -15,7 +15,8 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
 {
     public class Startup : Dhgms.AspNetCoreContrib.App.BaseStartup
     {
-        public Startup(IConfiguration configuration) : base(configuration)
+        public Startup(IConfiguration configuration)
+            : base(configuration)
         {
         }
 

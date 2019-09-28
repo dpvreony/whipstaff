@@ -1,7 +1,13 @@
-﻿using System;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.Fakes;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,36 +19,37 @@ using Microsoft.Extensions.Options;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
 {
-    public class Startup
+    /// <summary>
+    /// Startup object for the WebAPI example Application.
+    /// </summary>
+    public class Startup : App.BaseStartup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration object for the application instance.</param>
         public Startup(IConfiguration configuration)
+            : base(configuration)
         {
-            Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        /// <inheritdoc />
+        protected override Assembly[] GetControllerAssemblies()
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            return new[]
+            {
+                typeof(FakeCrudController).Assembly,
+            };
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        /// <inheritdoc />
+        protected override Assembly[] GetMediatrAssemblies()
         {
-            if (env.IsDevelopment())
+            return new[]
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseMvc();
+                typeof(FakeCrudController).Assembly,
+                typeof(Startup).Assembly,
+            };
         }
     }
 }
