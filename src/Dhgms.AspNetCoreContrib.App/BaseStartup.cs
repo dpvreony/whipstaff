@@ -1,25 +1,29 @@
-﻿using System;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reflection;
+using Audit.Core.Providers;
 using Audit.WebApi;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks;
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using OwaspHeaders.Core.Extensions;
-using Swashbuckle.AspNetCore.Swagger;
-using Audit.Core.Providers;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp;
 using Hellang.Middleware.ProblemDetails;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
+using OwaspHeaders.Core.Extensions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Dhgms.AspNetCoreContrib.App
 {
