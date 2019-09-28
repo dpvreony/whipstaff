@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="2.2.5" />
+    <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="3.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.Publisher.ApplicationInsights" Version="2.2.4" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="3.0.0" />
     <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
