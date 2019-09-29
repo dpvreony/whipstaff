@@ -4,18 +4,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer;
+using Dhgms.AspNetCoreContrib.App.Features.FileTransfer;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MediatR;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
+namespace Dhgms.AspNetCoreContrib.App.Features.Excel
 {
     public sealed class DownloadSpreadsheetCommandHandler : IRequestHandler<DownloadSpreadsheetRequestDto, FileNameAndStream>
     {

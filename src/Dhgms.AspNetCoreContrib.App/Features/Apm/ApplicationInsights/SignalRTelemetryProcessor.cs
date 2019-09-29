@@ -2,14 +2,14 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
-{
-    using System;
-    using System.Linq;
-    using Microsoft.ApplicationInsights.Channel;
-    using Microsoft.ApplicationInsights.DataContracts;
-    using Microsoft.ApplicationInsights.Extensibility;
+using System;
+using System.Linq;
+using Microsoft.ApplicationInsights.Channel;
+using Microsoft.ApplicationInsights.DataContracts;
+using Microsoft.ApplicationInsights.Extensibility;
 
+namespace Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights
+{
     public class SignalRTelemetryProcessor : ITelemetryProcessor
     {
         private readonly ITelemetryProcessor _nextTelemetryProcessor;

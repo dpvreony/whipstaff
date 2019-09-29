@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
+namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
 {
     public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
         where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStream>
