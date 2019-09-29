@@ -21,6 +21,23 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
     /// </summary>
     public static class ControllerExtensions
     {
+        /// <summary>
+        /// Extension method for common behaviour in Add API operations.
+        /// </summary>
+        /// <typeparam name="TAddRequestDto">The type for the Request DTO for the Add Operation.</typeparam>
+        /// <typeparam name="TAddResponseDto">The type for the Response DTO for the Add Operation.</typeparam>
+        /// <typeparam name="TAddCommand">The type for the CQRS Command for the Add Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="addRequestDto">The Request DTO for the Add operation.</param>
+        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="addPolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getAddActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="addCommandFactoryAsync">The Command Factory for the Add operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
             this Controller instance,
             [NotNull]ILogger logger,
@@ -86,6 +103,22 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
+        /// <summary>
+        /// Extension method for common behaviour in Delete API operations.
+        /// </summary>
+        /// <typeparam name="TDeleteResponseDto">The type for the Response DTO for the Add Operation.</typeparam>
+        /// <typeparam name="TDeleteCommand">The type for the CQRS Command for the Delete Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="id">Unique Id for the identity being deleted.</param>
+        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="deletePolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getDeleteActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="deleteCommandFactoryAsync">The Command Factory for the Delete operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
             this Controller instance,
             [NotNull] ILogger logger,
@@ -146,6 +179,23 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
+        /// <summary>
+        /// Extension method for common behaviour in List API operations.
+        /// </summary>
+        /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="listRequestDto">The Request DTO for the List operation.</param>
+        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="listPolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getListActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
             [NotNull] this Controller instance,
             [NotNull] ILogger logger,
@@ -230,6 +280,23 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
+        /// <summary>
+        /// Extension method for common behaviour in View API operations.
+        /// </summary>
+        /// <typeparam name="TViewRequestDto">The type for the Request DTO for the View Operation.</typeparam>
+        /// <typeparam name="TViewResponseDto">The type for the Response DTO for the View Operation.</typeparam>
+        /// <typeparam name="TViewQuery">The type for the CQRS Command for the View Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="viewRequestDto">The Request DTO for the View operation.</param>
+        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="viewPolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getViewActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="viewCommandFactoryAsync">The Command Factory for the View operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
             [NotNull] this Controller instance,
             [NotNull] ILogger logger,
@@ -309,6 +376,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
+            long id,
             [NotNull] TUpdateRequestDto updateRequestDto,
             EventId eventId,
             [NotNull] string updatePolicyName,

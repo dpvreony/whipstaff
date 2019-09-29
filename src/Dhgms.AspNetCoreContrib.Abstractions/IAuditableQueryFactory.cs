@@ -10,6 +10,8 @@ namespace Dhgms.AspNetCoreContrib.Abstractions
     /// <summary>
     /// Represents a query factory for Auditable Requests.
     /// The command is the message that will be pumped into the CQRS architecture, it is not running any logic itself.
+    /// The reason for having a factory is so you can push this into the controller without it having any knowledge
+    /// of how the commands generate or operate.
     /// </summary>
     /// <typeparam name="TListQuery">The type of the List query.</typeparam>
     /// <typeparam name="TListRequestDto">The type of the Request DTO for the List Query.</typeparam>

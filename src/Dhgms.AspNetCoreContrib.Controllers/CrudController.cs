@@ -72,9 +72,9 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         }
 
         /// <summary>
-        ///
+        /// Operation to create an Entity.
         /// </summary>
-        /// <param name="addRequestDto"></param>
+        /// <param name="addRequestDto">The Request DTO for the Add Operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPost]
@@ -98,9 +98,9 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         }
 
         /// <summary>
-        ///
+        /// Operation to Delete an entity.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Unique ID of the entity to be deleted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpDelete]
@@ -124,10 +124,10 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         }
 
         /// <summary>
-        ///
+        /// Operation to update an entity.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="updateRequestDto"></param>
+        /// <param name="id">Unique Id of the entity.</param>
+        /// <param name="updateRequestDto">The Request DTO of the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPut]
@@ -143,6 +143,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 this.Logger,
                 this.Mediator,
                 this.AuthorizationService,
+                id,
                 updateRequestDto,
                 eventId,
                 updatePolicyName,
