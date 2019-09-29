@@ -3,15 +3,14 @@
 // See the LICENSE file in the project root for full license information.
 
 using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
+using HealthChecks.UI.Client;
+using HealthChecks.UI.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks
+namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
 {
-    using global::HealthChecks.UI.Client;
-    using global::HealthChecks.UI.Configuration;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-    using Microsoft.Extensions.DependencyInjection;
-
     public sealed class HealthChecksApplicationStartHelper : IConfigureService, IConfigureApplication
     {
         public void ConfigureService(IServiceCollection services)

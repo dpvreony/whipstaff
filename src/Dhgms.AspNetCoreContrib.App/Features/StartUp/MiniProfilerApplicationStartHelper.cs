@@ -2,16 +2,11 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Profiling.Storage;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp
+namespace Dhgms.AspNetCoreContrib.App.Features.StartUp
 {
     /// <summary>
     /// Start Up Helper for Mini Profiler.

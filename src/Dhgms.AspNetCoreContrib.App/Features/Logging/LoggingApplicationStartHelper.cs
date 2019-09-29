@@ -2,11 +2,11 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Logging
-{
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 
+namespace Dhgms.AspNetCoreContrib.App.Features.Logging
+{
     public static class LoggingApplicationStartHelper
     {
         public static void Configure(IConfiguration configuration, IApplicationBuilder app)

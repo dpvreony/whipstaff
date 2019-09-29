@@ -3,12 +3,11 @@
 // See the LICENSE file in the project root for full license information.
 
 using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Builder;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
+namespace Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights
 {
-    using Microsoft.ApplicationInsights.Extensibility;
-    using Microsoft.AspNetCore.Builder;
-
     public sealed class ApplicationInsightsApplicationStartHelper : IConfigureApplication
     {
         public void ConfigureApplication(IApplicationBuilder app)

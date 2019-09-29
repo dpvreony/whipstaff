@@ -3,15 +3,13 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
+namespace Dhgms.AspNetCoreContrib.App.Features.Excel
 {
     public static class WorksheetPartExtensions
     {

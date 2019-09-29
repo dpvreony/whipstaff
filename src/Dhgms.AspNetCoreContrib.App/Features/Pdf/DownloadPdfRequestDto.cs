@@ -2,16 +2,11 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Abstractions;
+using Dhgms.AspNetCoreContrib.App.Features.FileTransfer;
 using Dhgms.AspNetCoreContrib.Controllers;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Pdf
+namespace Dhgms.AspNetCoreContrib.App.Features.Pdf
 {
     public sealed class DownloadPdfRequestDto : AuditableRequest<int, FileNameAndStream>
     {

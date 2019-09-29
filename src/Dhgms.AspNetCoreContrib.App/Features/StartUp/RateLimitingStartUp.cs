@@ -2,16 +2,12 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp
+namespace Dhgms.AspNetCoreContrib.App.Features.StartUp
 {
     public sealed class RateLimitingStartUp
     {
