@@ -11,7 +11,8 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     [ExcludeFromCodeCoverage]
     public class FakeCrudAddCommand : AuditableRequest<int, int>
     {
-        public FakeCrudAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal) : base(requestDto, claimsPrincipal)
+        public FakeCrudAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal)
+            : base(requestDto, claimsPrincipal)
         {
         }
     }

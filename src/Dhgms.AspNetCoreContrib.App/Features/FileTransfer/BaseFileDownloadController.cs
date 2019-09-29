@@ -71,9 +71,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
 
         private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStream file)
         {
-            var contentType = GetMediaTypeHeaderString();
-            file.FileStream.Seek(0, SeekOrigin.Begin);
-            return File(file.FileStream, contentType, file.FileName);
+            return await Task.Run(() =>
+            {
+                var contentType = GetMediaTypeHeaderString();
+                file.FileStream.Seek(0, SeekOrigin.Begin);
+                return File(file.FileStream, contentType, file.FileName);
+            }).ConfigureAwait(false);
         }
     }
 }

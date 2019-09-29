@@ -8,8 +8,16 @@ using Dhgms.AspNetCoreContrib.Controllers;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Excel
 {
+    /// <summary>
+    /// Auditable request for a spreadsheet download.
+    /// </summary>
     public sealed class DownloadSpreadsheetRequestDto : AuditableRequest<int, FileNameAndStream>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DownloadSpreadsheetRequestDto"/> class.
+        /// </summary>
+        /// <param name="requestDto">DTO for the request.</param>
+        /// <param name="claimsPrincipal">Claims principal attached to the request.</param>
         public DownloadSpreadsheetRequestDto(int requestDto, ClaimsPrincipal claimsPrincipal)
             : base(requestDto, claimsPrincipal)
         {

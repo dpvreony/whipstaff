@@ -16,7 +16,6 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.Exceptionless
         public static void Configure(
             IConfiguration configuration,
             IApplicationBuilder app,
-            IWebHostEnvironment env,
             Version version)
         {
             var exceptionlessApiKey = configuration.GetValue<string>("Exceptionless:ApiKey", null);
@@ -28,20 +27,17 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.Exceptionless
 
             var exceptionlessClient = ExceptionlessClient.Default;
             DoExceptionLessConfiguration(
-                env,
                 exceptionlessClient,
                 version);
             app.UseExceptionless(exceptionlessClient);
         }
 
         private static void DoExceptionLessConfiguration(
-            IWebHostEnvironment env,
             ExceptionlessClient exceptionlessClient,
             Version version)
         {
             var exceptionlessConfiguration = exceptionlessClient.Configuration;
             exceptionlessConfiguration.SetVersion(version);
-            exceptionlessConfiguration.Enabled = !env.IsDevelopment();
         }
     }
 }

@@ -4,6 +4,9 @@
 
 namespace Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader
 {
+    /// <summary>
+    /// Middleware for checking the X-FORWARDED-FOR header exists on requests.
+    /// </summary>
     public sealed class RequireForwardedForHeaderMiddleware
     {
     }

@@ -7,18 +7,23 @@ using HealthChecks.UI.Client;
 using HealthChecks.UI.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
 {
     public sealed class HealthChecksApplicationStartHelper : IConfigureService, IConfigureApplication
     {
-        public void ConfigureService(IServiceCollection services)
+        /// <inheritdoc />
+        public void ConfigureService(
+            IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddHealthChecks()
                 .AddApplicationInsightsPublisher();
         }
 
+        /// <inheritdoc />
         public void ConfigureApplication(IApplicationBuilder app)
         {
             var healthCheckOptions = new HealthCheckOptions

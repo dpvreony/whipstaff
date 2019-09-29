@@ -28,26 +28,43 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Dhgms.AspNetCoreContrib.App
 {
+    /// <summary>
+    /// Core Initialization logic.
+    /// </summary>
     public abstract class BaseStartup : IStartup
     {
         private readonly MiniProfilerApplicationStartHelper _miniProfilerApplicationStartHelper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseStartup"/> class.
+        /// </summary>
+        /// <param name="configuration">Application configuration.</param>
         protected BaseStartup(IConfiguration configuration)
         {
             Configuration = configuration;
             _miniProfilerApplicationStartHelper = new MiniProfilerApplicationStartHelper();
         }
 
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <inheritdoc />
         public void Configure(IApplicationBuilder app)
         {
+            if (app == null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
+
             var env = app.ApplicationServices.GetService<IWebHostEnvironment>();
             var logger = app.ApplicationServices.GetService<ILoggerFactory>();
 
             Configure(app, env, logger);
         }
 
+        /// <inheritdoc />
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddFeatureManagement();
@@ -71,7 +88,7 @@ namespace Dhgms.AspNetCoreContrib.App
 
             services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
 
-            new HealthChecksApplicationStartHelper().ConfigureService(services);
+            new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
 
             services.AddSwaggerGen(c =>
             {
@@ -79,13 +96,21 @@ namespace Dhgms.AspNetCoreContrib.App
                 c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
             });
 
-            _miniProfilerApplicationStartHelper.ConfigureService(services);
+            _miniProfilerApplicationStartHelper.ConfigureService(services, Configuration);
 
             return services.BuildServiceProvider();
         }
 
+        /// <summary>
+        /// Gets the assemblies that contain controllers.
+        /// </summary>
+        /// <returns>Array of assemblies.</returns>
         protected abstract Assembly[] GetControllerAssemblies();
 
+        /// <summary>
+        /// Gets the assemblies that contain mediatr command handlers.
+        /// </summary>
+        /// <returns>Array of assemblies.</returns>
         protected abstract Assembly[] GetMediatrAssemblies();
 
         private void Configure(
@@ -93,6 +118,9 @@ namespace Dhgms.AspNetCoreContrib.App
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+            var logger = loggerFactory.CreateLogger<BaseStartup>();
+            logger.LogInformation("Starting configuration");
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -106,7 +134,7 @@ namespace Dhgms.AspNetCoreContrib.App
             app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
-            ApmApplicationStartHelper.Configure(Configuration, app, env, version);
+            ApmApplicationStartHelper.Configure(Configuration, app, version);
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
             app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);

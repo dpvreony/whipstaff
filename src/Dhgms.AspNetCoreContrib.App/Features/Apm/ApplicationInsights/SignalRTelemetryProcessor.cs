@@ -10,20 +10,30 @@ using Microsoft.ApplicationInsights.Extensibility;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights
 {
+    /// <summary>
+    /// Telemetry processor for reducing the response times on SignalR requests. Done because otherwise it makes application insights
+    /// suggest that you have slow http requests taking place. Skews reporting and leaves a false positive on the screen that
+    /// doesn't need investigating.
+    /// </summary>
     public class SignalRTelemetryProcessor : ITelemetryProcessor
     {
         private readonly ITelemetryProcessor _nextTelemetryProcessor;
 
-        private string[] _urlPaths = new[]
+        private readonly string[] _urlPaths =
         {
             "/signalr/poll",
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignalRTelemetryProcessor"/> class.
+        /// </summary>
+        /// <param name="next">The next telemetry processor in the chain.</param>
         public SignalRTelemetryProcessor(ITelemetryProcessor next)
         {
             _nextTelemetryProcessor = next;
         }
 
+        /// <inheritdoc />
         public void Process(ITelemetry item)
         {
             try
@@ -39,7 +49,11 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights
                 }
             }
 #pragma warning disable CC0004 // Catch block cannot be empty
+#pragma warning disable CA1031 // Do not catch general exception types
+#pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
             catch
+#pragma warning restore RECS0022 // A catch clause that catches System.Exception and has an empty body
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 // no op
             }

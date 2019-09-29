@@ -6,9 +6,19 @@ using System.IO;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
 {
+    /// <summary>
+    /// POCO object representing a file name and the respective stream.
+    /// </summary>
     public sealed class FileNameAndStream
     {
+        /// <summary>
+        /// Gets or sets the file name.
+        /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file stream.
+        /// </summary>
         public Stream FileStream { get; set; }
     }
 }

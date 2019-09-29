@@ -3,26 +3,34 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.Exceptionless;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm
 {
-    public static class ApmApplicationStartHelper
+    public class ApmApplicationStartHelper : IConfigureService
     {
         public static void Configure(
             IConfiguration configuration,
             IApplicationBuilder app,
-            IWebHostEnvironment env,
             Version version)
         {
-            ExceptionlessApplicationStartHelper.Configure(configuration, app, env, version);
-            new ApplicationInsightsApplicationStartHelper().ConfigureApplication(app);
+            ExceptionlessApplicationStartHelper.Configure(configuration, app, version);
             new HealthChecksApplicationStartHelper().ConfigureApplication(app);
+        }
+
+        /// <inheritdoc/>
+        public void ConfigureService(
+            IServiceCollection services,
+            IConfiguration configuration)
+        {
+            new ApplicationInsightsApplicationStartHelper().ConfigureService(services);
         }
     }
 }

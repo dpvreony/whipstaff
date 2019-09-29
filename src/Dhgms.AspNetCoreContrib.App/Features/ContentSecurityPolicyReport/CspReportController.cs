@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.ContentSecurityPolicyReport
 {
+    /// <summary>
+    /// Controller for handling CSP requests.
+    /// </summary>
     /// <remarks>
     /// Based upon:
     /// https://github.com/anthonychu/aspnet-core-csp/tree/master/Controllers
     /// https://anthonychu.ca/post/aspnet-core-csp/
+    /// Concept is identical, some adjustments for CQRS etc.
     /// </remarks>
     public sealed class CspReportController : Controller
     {
