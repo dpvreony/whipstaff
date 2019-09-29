@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using Audit.Core.Providers;
 using Audit.WebApi;
+using Dhgms.AspNetCoreContrib.App.Features.Swagger;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks;
 using Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp;
@@ -33,7 +34,7 @@ namespace Dhgms.AspNetCoreContrib.App
 
         protected BaseStartup(IConfiguration configuration)
         {
-            this.Configuration = configuration;
+            Configuration = configuration;
             _miniProfilerApplicationStartHelper = new MiniProfilerApplicationStartHelper();
         }
 
@@ -44,7 +45,7 @@ namespace Dhgms.AspNetCoreContrib.App
             var env = app.ApplicationServices.GetService<IWebHostEnvironment>();
             var logger = app.ApplicationServices.GetService<ILoggerFactory>();
 
-            this.Configure(app, env, logger);
+            Configure(app, env, logger);
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -66,7 +67,7 @@ namespace Dhgms.AspNetCoreContrib.App
                 services.AddMediatR(mediatrAssemblies);
             }
 
-            //services.AddProblemDetails();
+            services.AddProblemDetails();
 
             services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
 
@@ -75,7 +76,7 @@ namespace Dhgms.AspNetCoreContrib.App
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-                //c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
             });
 
             _miniProfilerApplicationStartHelper.ConfigureService(services);
@@ -102,13 +103,13 @@ namespace Dhgms.AspNetCoreContrib.App
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            //app.UseProblemDetails();
+            app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
-            ApmApplicationStartHelper.Configure(this.Configuration, app, env, version);
+            ApmApplicationStartHelper.Configure(Configuration, app, env, version);
 
-            //var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
-            //app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
+            var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
+            app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
 
             app.UseStaticFiles();
 
@@ -126,28 +127,30 @@ namespace Dhgms.AspNetCoreContrib.App
                 fileDataProvider.DirectoryPath = "log";
             }
 
-            this._miniProfilerApplicationStartHelper.ConfigureApplication(app);
+            _miniProfilerApplicationStartHelper.ConfigureApplication(app);
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "get",
                     template: "api/{controller}/{id?}",
-                    defaults: new {action = "GetAsync"},
-                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("GET")}));
+                    defaults: new { action = "GetAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
                 routes.MapRoute(
                     name: "post",
-                    template: "api/{controller}/{id?}",
-                    defaults: new {action = "PostAsync"},
-                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("POST")}));
+                    template: "api/{controller}",
+                    defaults: new { action = "PostAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
+                routes.MapRoute(
+                    name: "post",
+                    template: "api/{controller}/{id}",
+                    defaults: new { action = "PutAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PUT") }));
                 routes.MapRoute(
                     name: "delete",
-                    template: "api/{controller}/{id?}",
-                    defaults: new {action = "DeleteAsync"},
-                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("DELETE")}));
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "api/{controller}/{id}",
+                    defaults: new { action = "DeleteAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
             });
 
             app.UseSwagger();

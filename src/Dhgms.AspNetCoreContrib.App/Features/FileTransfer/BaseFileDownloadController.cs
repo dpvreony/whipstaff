@@ -32,31 +32,31 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
             ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> logger,
             IMediator mediator)
         {
-            this._authorizationService = authorizationService ??
+            _authorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
 
-            this._logger = logger ??
+            _logger = logger ??
                            throw new ArgumentNullException(nameof(logger));
 
-            this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task<IActionResult> GetAsync(
             TGetRequestDto request,
             CancellationToken cancellationToken)
         {
-            var viewPolicyName = this.GetViewPolicyName();
-            var eventId = this.GetViewEventId();
+            var viewPolicyName = GetViewPolicyName();
+            var eventId = GetViewEventId();
 
             return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStream, TQueryDto>(
-                this._logger,
-                this._mediator,
-                this._authorizationService,
+                _logger,
+                _mediator,
+                _authorizationService,
                 request,
                 eventId,
                 viewPolicyName,
-                this.GetViewActionResultAsync,
-                this.ViewCommandFactoryAsync,
+                GetViewActionResultAsync,
+                ViewCommandFactoryAsync,
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -73,9 +73,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer
 
         private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStream file)
         {
-            var contentType = this.GetMediaTypeHeaderString();
+            var contentType = GetMediaTypeHeaderString();
             file.FileStream.Seek(0, SeekOrigin.Begin);
-            return this.File(file.FileStream, contentType, file.FileName);
+            return File(file.FileStream, contentType, file.FileName);
         }
     }
 }

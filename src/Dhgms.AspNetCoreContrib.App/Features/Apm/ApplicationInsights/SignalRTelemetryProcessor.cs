@@ -21,7 +21,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsigh
 
         public SignalRTelemetryProcessor(ITelemetryProcessor next)
         {
-            this._nextTelemetryProcessor = next;
+            _nextTelemetryProcessor = next;
         }
 
         public void Process(ITelemetry item)
@@ -32,7 +32,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsigh
                 {
                     var url = request.Url;
 
-                    if (url != null && this._urlPaths.Any(urlPath => url.AbsolutePath.StartsWith(urlPath, StringComparison.OrdinalIgnoreCase)))
+                    if (url != null && _urlPaths.Any(urlPath => url.AbsolutePath.StartsWith(urlPath, StringComparison.OrdinalIgnoreCase)))
                     {
                         request.Duration = TimeSpan.Zero;
                     }
@@ -45,7 +45,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsigh
             }
 #pragma warning restore CC0004 // Catch block cannot be empty
 
-            this._nextTelemetryProcessor.Process(item);
+            _nextTelemetryProcessor.Process(item);
         }
     }
 }

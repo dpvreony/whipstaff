@@ -5,9 +5,9 @@
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm
 {
     using System;
-    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights;
-    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.Exceptionless;
-    using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks;
+    using ApplicationInsights;
+    using Exceptionless;
+    using HealthChecks;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;

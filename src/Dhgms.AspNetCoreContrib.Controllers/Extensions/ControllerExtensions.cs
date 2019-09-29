@@ -39,7 +39,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
-            this Controller instance,
+            [NotNull]this Controller instance,
             [NotNull]ILogger logger,
             [NotNull]IMediator mediator,
             [NotNull]IAuthorizationService authorizationService,
@@ -51,6 +51,20 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             CancellationToken cancellationToken)
             where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
         {
+            logger.LogDebug(
+                eventId,
+                "Entered AddAsync");
+
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (authorizationService == null)
+            {
+                throw new ArgumentNullException(nameof(authorizationService));
+            }
+
             if (addCommandFactoryAsync == null)
             {
                 throw new ArgumentNullException(nameof(addCommandFactoryAsync));
@@ -60,10 +74,6 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             {
                 throw new ArgumentNullException(nameof(getAddActionResultAsync));
             }
-
-            logger.LogDebug(
-                eventId,
-                "Entered AddAsync");
 
             if (!instance.Request.IsHttps)
             {
@@ -144,6 +154,16 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             if (authorizationService == null)
             {
                 throw new ArgumentNullException(nameof(authorizationService));
+            }
+
+            if (deleteCommandFactoryAsync == null)
+            {
+                throw new ArgumentNullException(nameof(deleteCommandFactoryAsync));
+            }
+
+            if (getDeleteActionResultAsync == null)
+            {
+                throw new ArgumentNullException(nameof(getDeleteActionResultAsync));
             }
 
             if (!instance.Request.IsHttps)
@@ -328,6 +348,16 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
                 throw new ArgumentNullException(nameof(authorizationService));
             }
 
+            if (viewCommandFactoryAsync == null)
+            {
+                throw new ArgumentNullException(nameof(viewCommandFactoryAsync));
+            }
+
+            if (getViewActionResultAsync == null)
+            {
+                throw new ArgumentNullException(nameof(getViewActionResultAsync));
+            }
+
             if (!instance.Request.IsHttps)
             {
                 return instance.BadRequest();
@@ -376,6 +406,24 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             return viewResult;
         }
 
+        /// <summary>
+        /// Extension method for common behaviour in Update API operations.
+        /// </summary>
+        /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
+        /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
+        /// <typeparam name="TUpdateCommand">The type for the CQRS Command for the Update Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="id">The unique id of the entity to be updated.</param>
+        /// <param name="updateRequestDto">The Request DTO for the Update operation.</param>
+        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="updatePolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getUpdateActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="updateCommandFactoryAsync">The Command Factory for the Update operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
             [NotNull] this Controller instance,
             [NotNull] ILogger logger,
@@ -403,6 +451,16 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             if (authorizationService == null)
             {
                 throw new ArgumentNullException(nameof(authorizationService));
+            }
+
+            if (updateCommandFactoryAsync == null)
+            {
+                throw new ArgumentNullException(nameof(updateCommandFactoryAsync));
+            }
+
+            if (getUpdateActionResultAsync == null)
+            {
+                throw new ArgumentNullException(nameof(getUpdateActionResultAsync));
             }
 
             if (!instance.Request.IsHttps)

@@ -30,8 +30,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
             var stream = new MemoryStream();
             var worksheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>
             {
-                ("Sheet1", this.CreateSheetOne),
-                ("Sheet2", this.CreateSheetTwo),
+                ("Sheet1", CreateSheetOne),
+                ("Sheet2", CreateSheetTwo),
             };
             var spreadsheet = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, worksheetActors);
             spreadsheet.Save();
@@ -72,7 +72,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
         }
 
 /// <summary>
-/// 
+///
 /// </summary>
 /// <remarks>
 /// Taken from: http://www.dispatchertimer.com/tutorial/how-to-create-an-excel-file-in-net-using-openxml-part-2-export-a-collection-to-spreadsheet/

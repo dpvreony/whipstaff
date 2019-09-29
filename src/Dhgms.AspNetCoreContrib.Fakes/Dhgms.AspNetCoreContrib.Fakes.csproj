@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Abstractions\Dhgms.AspNetCoreContrib.Abstractions.csproj" />
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Controllers\Dhgms.AspNetCoreContrib.Controllers.csproj" />
   </ItemGroup>
 
