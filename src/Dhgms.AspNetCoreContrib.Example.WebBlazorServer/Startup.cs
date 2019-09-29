@@ -2,18 +2,12 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.Example.WebBlazorServer.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Dhgms.AspNetCoreContrib.Example.WebBlazorServer.Data;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebBlazorServer
 {

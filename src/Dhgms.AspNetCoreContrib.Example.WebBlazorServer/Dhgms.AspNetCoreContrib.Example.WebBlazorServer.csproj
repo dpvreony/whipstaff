@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
+  </ItemGroup>
+
 </Project>

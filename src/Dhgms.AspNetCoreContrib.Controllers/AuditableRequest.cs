@@ -19,8 +19,8 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             TRequestDto requestDto,
             ClaimsPrincipal claimsPrincipal)
         {
-            this.RequestDto = requestDto;
-            this.ClaimsPrincipal = claimsPrincipal;
+            RequestDto = requestDto;
+            ClaimsPrincipal = claimsPrincipal;
         }
 
         /// <inheritdoc />

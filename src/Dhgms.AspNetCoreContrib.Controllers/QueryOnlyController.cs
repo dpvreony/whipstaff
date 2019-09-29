@@ -15,7 +15,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Controllers
 {
-
+    /// <summary>
+    /// A generic controller supporting List and View operations. Pre-defines CQRS activities along with Authorization and logging.
+    /// </summary>
+    /// <typeparam name="TInheritingClass">The type of the inheriting class. Used for compile time validation of objects passed in such as the logger.</typeparam>
+    /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
+    /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+    /// <typeparam name="TListQueryResponse">The type for the Response DTO for the List Operation.</typeparam>
+    /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
+    /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for ru-use in pattern")]
     public abstract class QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
         : Controller
@@ -28,75 +36,124 @@ namespace Dhgms.AspNetCoreContrib.Controllers
     {
         private readonly IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> _queryFactory;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryOnlyController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse}"/> class.
+        /// </summary>
+        /// <param name="authorizationService">The authorization service for validating access.</param>
+        /// <param name="logger">The logger object.</param>
+        /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
+        /// <param name="queryFactory">The factory for generating Query messages.</param>
         protected QueryOnlyController(
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
         {
-            this.AuthorizationService = authorizationService ??
+            AuthorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
-            this.Logger = logger ??
+            Logger = logger ??
                                          throw new ArgumentNullException(nameof(logger));
 
-            this.Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            this._queryFactory = queryFactory ??
+            _queryFactory = queryFactory ??
                                             throw new ArgumentNullException(nameof(queryFactory));
         }
 
+        /// <summary>
+        /// Gets the authorization service instance used to authorize requests.
+        /// </summary>
         protected IAuthorizationService AuthorizationService { get; }
 
+        /// <summary>
+        /// Gets the logging framework instance.
+        /// </summary>
         protected ILogger<TInheritingClass> Logger { get; }
 
+        /// <summary>
+        /// Gets the Mediator instance used for issuing CQRS messages.
+        /// </summary>
         protected IMediator Mediator { get; }
 
-        [HttpGet]
-        public async Task<IActionResult> IndexAsync(
-            [FromRoute]long? id,
-            // [FromQuery]TListRequestDto requestDto,
+        /// <summary>
+        /// Entry point for HTTP GET operations.
+        /// </summary>
+        /// <remarks>
+        /// Directs requests to List or View operations depending on whether an id is passed.
+        /// </remarks>
+        /// <param name="id">unique id of the entity to view. or null if being used to list.</param>
+        /// <param name="cancellationToken">Cancellation token for the operations.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public async Task<IActionResult> GetAsync(
+            long? id,
             CancellationToken cancellationToken)
         {
-            if (!this.Request.IsHttps)
+            if (!Request.IsHttps)
             {
-                return this.BadRequest();
+                return BadRequest();
             }
 
             if (!id.HasValue)
             {
-                return await this.ListAsync(cancellationToken).ConfigureAwait(false);
+                return await ListAsync(cancellationToken).ConfigureAwait(false);
             }
 
-            return await this.ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
+            return await ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Gets the Action Result for the List operation.
+        /// </summary>
+        /// <param name="listResponse">The Response DTO from the CQRS operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
 
+        /// <summary>
+        /// Gets the event id for List Event. Used in logging and APM tools.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<EventId> GetListEventIdAsync();
 
+        /// <summary>
+        /// Gets the authorization policy for the List operation.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<string> GetListPolicyAsync();
 
+        /// <summary>
+        /// Gets the event id for View Event. Used in logging and APM tools.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<EventId> GetViewEventIdAsync();
 
+        /// <summary>
+        /// Gets the authorization policy for the View operation.
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<string> GetViewPolicyAsync();
 
-        protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse listResponse);
+        /// <summary>
+        /// Gets the Action Result for the View operation.
+        /// </summary>
+        /// <param name="viewResponse">The Response DTO from the CQRS operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse viewResponse);
 
         private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
-            var eventId = await this.GetListEventIdAsync().ConfigureAwait(false);
-            var listPolicyName = await this.GetListPolicyAsync().ConfigureAwait(false);
+            var eventId = await GetListEventIdAsync().ConfigureAwait(false);
+            var listPolicyName = await GetListPolicyAsync().ConfigureAwait(false);
             var requestDto = new TListRequestDto();
 
             return await this.GetListActionAsync<TListRequestDto, TListQueryResponse, TListQuery>(
-                this.Logger,
-                this.Mediator,
-                this.AuthorizationService,
+                Logger,
+                Mediator,
+                AuthorizationService,
                 requestDto,
                 eventId,
                 listPolicyName,
-                this.GetListActionResultAsync,
-                this._queryFactory.GetListQueryAsync,
+                GetListActionResultAsync,
+                _queryFactory.GetListQueryAsync,
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -104,18 +161,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
             long id,
             CancellationToken cancellationToken)
         {
-            var eventId = await this.GetViewEventIdAsync().ConfigureAwait(false);
-            var viewPolicyName = await this.GetViewPolicyAsync().ConfigureAwait(false);
+            var eventId = await GetViewEventIdAsync().ConfigureAwait(false);
+            var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
 
             return await this.GetViewActionAsync<long, TViewQueryResponse, TViewQuery>(
-                this.Logger,
-                this.Mediator,
-                this.AuthorizationService,
+                Logger,
+                Mediator,
+                AuthorizationService,
                 id,
                 eventId,
                 viewPolicyName,
-                this.GetViewActionResultAsync,
-                this._queryFactory.GetViewQueryAsync,
+                GetViewActionResultAsync,
+                _queryFactory.GetViewQueryAsync,
                 cancellationToken).ConfigureAwait(false);
         }
     }

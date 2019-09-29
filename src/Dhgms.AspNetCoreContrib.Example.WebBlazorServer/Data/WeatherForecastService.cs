@@ -10,9 +10,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebBlazorServer.Data
 {
     public class WeatherForecastService
     {
-        private static readonly string[] Summaries = new[]
+        private static readonly string[] Summaries =
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching",
         };
 
         public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
@@ -21,8 +21,10 @@ namespace Dhgms.AspNetCoreContrib.Example.WebBlazorServer.Data
             return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = startDate.AddDays(index),
+#pragma warning disable SCS0005 // Weak random generator
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
+#pragma warning restore SCS0005 // Weak random generator
             }).ToArray());
         }
     }

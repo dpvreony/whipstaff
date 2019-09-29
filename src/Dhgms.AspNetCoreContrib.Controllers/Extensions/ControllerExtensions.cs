@@ -124,7 +124,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
-            [NotNull] long id,
+            long id,
             EventId eventId,
             [NotNull] string deletePolicyName,
             [NotNull] Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
@@ -149,6 +149,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             if (!instance.Request.IsHttps)
             {
                 return instance.BadRequest();
+            }
+
+            if (id < 1)
+            {
+                return instance.NotFound();
             }
 
             var user = instance.HttpContext.User;
@@ -403,6 +408,11 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             if (!instance.Request.IsHttps)
             {
                 return instance.BadRequest();
+            }
+
+            if (id < 1)
+            {
+                return instance.NotFound();
             }
 
             var user = instance.HttpContext.User;

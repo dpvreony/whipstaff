@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Blazor.DevServer" Version="3.0.0-preview9.19457.4" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
+  </ItemGroup>
+
 </Project>
