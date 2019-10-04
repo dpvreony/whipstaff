@@ -6,6 +6,9 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 {
     using System.Diagnostics.CodeAnalysis;
 
+    /// <summary>
+    /// Represents experimental logic on hooking up pre-compiled swagger metadata.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public sealed class FakeCrudControllerSwaggerMetaData
     {

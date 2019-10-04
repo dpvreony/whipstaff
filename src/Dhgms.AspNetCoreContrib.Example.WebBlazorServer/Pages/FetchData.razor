@@ -1,7 +1,6 @@
 ﻿@page "/fetchdata"
 
 @using Dhgms.AspNetCoreContrib.Example.WebBlazorServer.Data
-@inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
 
@@ -39,8 +38,9 @@ else
 @code {
     WeatherForecast[] forecasts;
 
+    /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        forecasts = await WeatherForecastService.GetForecastAsync(DateTime.Now);
     }
 }

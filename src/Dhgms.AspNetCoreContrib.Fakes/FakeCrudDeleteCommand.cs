@@ -8,9 +8,17 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     using System.Security.Claims;
     using Dhgms.AspNetCoreContrib.Controllers;
 
+    /// <summary>
+    /// Represents a fake CRUD delete command.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class FakeCrudDeleteCommand : AuditableRequest<long, long>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeCrudDeleteCommand"/> class.
+        /// </summary>
+        /// <param name="requestDto">The request dto.</param>
+        /// <param name="claimsPrincipal">Claims principal associated with the request.</param>
         public FakeCrudDeleteCommand(long requestDto, ClaimsPrincipal claimsPrincipal)
             : base(requestDto, claimsPrincipal)
         {

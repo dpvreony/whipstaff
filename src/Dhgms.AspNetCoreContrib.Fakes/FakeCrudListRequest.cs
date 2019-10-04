@@ -6,6 +6,9 @@ namespace Dhgms.AspNetCoreContrib.Fakes
 {
     using System.Diagnostics.CodeAnalysis;
 
+    /// <summary>
+    /// Represents a fake CRUD list request.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class FakeCrudListRequest
     {

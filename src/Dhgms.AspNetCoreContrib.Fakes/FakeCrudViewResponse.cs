@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Dhgms.AspNetCoreContrib.Fakes
 {
+    /// <summary>
+    /// Represents a fake CRUD view response.
+    /// </summary>
     public sealed class FakeCrudViewResponse
     {
     }

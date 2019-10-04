@@ -9,9 +9,17 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     using System.Security.Claims;
     using Dhgms.AspNetCoreContrib.Controllers;
 
+    /// <summary>
+    /// Represents a fake CRUD list query.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class FakeCrudListQuery : AuditableRequest<FakeCrudListRequest, IList<int>>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeCrudListQuery"/> class.
+        /// </summary>
+        /// <param name="requestDto">the request dto.</param>
+        /// <param name="claimsPrincipal">the claims principal associated with the request.</param>
         public FakeCrudListQuery(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal)
             : base(requestDto, claimsPrincipal)
         {
