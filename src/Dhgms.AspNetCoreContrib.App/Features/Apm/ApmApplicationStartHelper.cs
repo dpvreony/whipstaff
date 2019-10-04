@@ -14,23 +14,25 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm
 {
-    public class ApmApplicationStartHelper : IConfigureService
+    /// <summary>
+    /// Initialization logic for Application Performance Monitoring.
+    /// </summary>
+    public class ApmApplicationStartHelper : IConfigureService, IConfigureApplication
     {
-        public static void Configure(
-            IConfiguration configuration,
-            IApplicationBuilder app,
-            Version version)
-        {
-            ExceptionlessApplicationStartHelper.Configure(configuration, app, version);
-            new HealthChecksApplicationStartHelper().ConfigureApplication(app);
-        }
-
         /// <inheritdoc/>
         public void ConfigureService(
             IServiceCollection services,
             IConfiguration configuration)
         {
-            new ApplicationInsightsApplicationStartHelper().ConfigureService(services);
+            new ApplicationInsightsApplicationStartHelper()
+                .ConfigureService(services, configuration);
+        }
+
+        /// <inheritdoc/>
+        public void ConfigureApplication(IApplicationBuilder app)
+        {
+            // ExceptionlessApplicationStartHelper.Configure(configuration, app, version);
+            new HealthChecksApplicationStartHelper().ConfigureApplication(app);
         }
     }
 }

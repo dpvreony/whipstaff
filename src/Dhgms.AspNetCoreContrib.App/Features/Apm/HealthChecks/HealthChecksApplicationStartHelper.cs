@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
 {
+    /// <summary>
+    /// Initialization logic for Health Checks.
+    /// </summary>
     public sealed class HealthChecksApplicationStartHelper : IConfigureService, IConfigureApplication
     {
         /// <inheritdoc />

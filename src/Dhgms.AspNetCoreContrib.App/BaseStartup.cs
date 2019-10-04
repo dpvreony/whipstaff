@@ -134,7 +134,10 @@ namespace Dhgms.AspNetCoreContrib.App
             app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
+
+            /*
             ApmApplicationStartHelper.Configure(Configuration, app, version);
+            */
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
             app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);

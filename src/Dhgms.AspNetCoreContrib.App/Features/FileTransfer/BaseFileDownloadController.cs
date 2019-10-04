@@ -16,6 +16,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
 {
+    /// <summary>
+    /// Base class for a controller that serves a file with a mime\type.
+    /// </summary>
+    /// <typeparam name="TGetRequestDto">The type for the api request dto.</typeparam>
+    /// <typeparam name="TQueryDto">The type for the CQRS query dto.</typeparam>
     public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
         where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStream>
     {
@@ -25,6 +30,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
 
         private readonly IMediator _mediator;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseFileDownloadController{TGetRequestDto, TQueryDto}"/> class.
+        /// </summary>
+        /// <param name="authorizationService">Authorization service instance for verifying requests.</param>
+        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="mediator">CQRS handler.</param>
         protected BaseFileDownloadController(
             IAuthorizationService authorizationService,
             ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> logger,
@@ -39,6 +50,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
+        /// <summary>
+        /// Allows for retrieval of a file.
+        /// </summary>
+        /// <param name="request">The request dto.</param>
+        /// <param name="cancellationToken">Cancellation token for the process.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public async Task<IActionResult> GetAsync(
             TGetRequestDto request,
             CancellationToken cancellationToken)
@@ -58,15 +75,34 @@ namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
                 cancellationToken).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Gets the view event id. used for auditing, apm and logging.
+        /// </summary>
+        /// <returns>The event id.</returns>
         protected abstract EventId GetViewEventId();
 
+        /// <summary>
+        /// Gets the policy name for authorizing viewing of the file.
+        /// </summary>
+        /// <returns>Policy name.</returns>
         protected abstract string GetViewPolicyName();
 
+        /// <summary>
+        /// Gets the Command Factory for the View Command.
+        /// </summary>
+        /// <param name="request">The request dto for the api.</param>
+        /// <param name="claimsPrincipal">Authentication principal associated with the request.</param>
+        /// <param name="cancellationToken">Cancellation token for the process.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<TQueryDto> ViewCommandFactoryAsync(
-            TGetRequestDto id,
+            TGetRequestDto request,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
 
+        /// <summary>
+        /// Gets the MIME type for the file.
+        /// </summary>
+        /// <returns>The mime type.</returns>
         protected abstract string GetMediaTypeHeaderString();
 
         private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStream file)

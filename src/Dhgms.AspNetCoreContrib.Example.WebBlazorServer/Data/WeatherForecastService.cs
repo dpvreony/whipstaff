@@ -8,14 +8,22 @@ using System.Threading.Tasks;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebBlazorServer.Data
 {
-    public class WeatherForecastService
+    /// <summary>
+    /// Represents service logic for weather forecasts.
+    /// </summary>
+    public static class WeatherForecastService
     {
         private static readonly string[] Summaries =
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching",
         };
 
-        public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
+        /// <summary>
+        /// Gets the weather forecast from a start date.
+        /// </summary>
+        /// <param name="startDate">The start date.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public static Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
         {
             var rng = new Random();
             return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast

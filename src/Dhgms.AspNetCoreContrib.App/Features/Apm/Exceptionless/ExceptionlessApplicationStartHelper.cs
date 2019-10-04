@@ -11,8 +11,12 @@ using Microsoft.Extensions.Hosting;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm.Exceptionless
 {
+    /// <summary>
+    /// Initialization logic for Exceptionless.
+    /// </summary>
     public static class ExceptionlessApplicationStartHelper
     {
+        /*
         public static void Configure(
             IConfiguration configuration,
             IApplicationBuilder app,
@@ -39,5 +43,6 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.Exceptionless
             var exceptionlessConfiguration = exceptionlessClient.Configuration;
             exceptionlessConfiguration.SetVersion(version);
         }
+        */
     }
 }

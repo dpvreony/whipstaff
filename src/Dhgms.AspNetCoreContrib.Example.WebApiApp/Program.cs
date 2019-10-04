@@ -14,13 +14,25 @@ using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
 {
-    public class Program
+    /// <summary>
+    /// Holds the entry point for the application.
+    /// </summary>
+    public static class Program
     {
+        /// <summary>
+        /// Entry point for the application.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// Gets the web host builder for the application instance.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
+        /// <returns>Web host builder.</returns>
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();

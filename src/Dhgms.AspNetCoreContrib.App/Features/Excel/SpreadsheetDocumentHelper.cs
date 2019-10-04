@@ -11,8 +11,17 @@ using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Excel
 {
+    /// <summary>
+    /// Helpers for working with Open XML Spreadsheet Documents.
+    /// </summary>
     public static class SpreadsheetDocumentHelper
     {
+        /// <summary>
+        /// Gets a workbook spreadsheet document.
+        /// </summary>
+        /// <param name="stream">Underlying stream for the file.</param>
+        /// <param name="sheetActors">A collection of actors used to build up worksheets inside the workbook.</param>
+        /// <returns>A spreadsheet document.</returns>
         public static SpreadsheetDocument GetWorkbookSpreadSheetDocument(
             Stream stream,
             IList<(string Name, Action<Sheet, WorksheetPart> Actor)> sheetActors)

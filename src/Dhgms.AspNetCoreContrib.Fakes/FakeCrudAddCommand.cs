@@ -8,9 +8,17 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     using System.Security.Claims;
     using Dhgms.AspNetCoreContrib.Controllers;
 
+    /// <summary>
+    /// Represents a fake CRUD CQRS Command.
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class FakeCrudAddCommand : AuditableRequest<int, int>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeCrudAddCommand"/> class.
+        /// </summary>
+        /// <param name="requestDto">The request dto.</param>
+        /// <param name="claimsPrincipal">Claims principal associated with the request.</param>
         public FakeCrudAddCommand(int requestDto, ClaimsPrincipal claimsPrincipal)
             : base(requestDto, claimsPrincipal)
         {

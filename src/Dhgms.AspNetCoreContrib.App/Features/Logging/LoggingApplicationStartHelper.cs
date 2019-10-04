@@ -7,10 +7,15 @@ using Microsoft.Extensions.Configuration;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Logging
 {
+    /// <summary>
+    /// Initialization logic for the logging framework.
+    /// </summary>
     public static class LoggingApplicationStartHelper
     {
-        public static void Configure(IConfiguration configuration, IApplicationBuilder app)
-        {
-        }
+        /*
+         * public static void Configure(IConfiguration configuration, IApplicationBuilder app)
+         * {
+         * }
+         */
     }
 }

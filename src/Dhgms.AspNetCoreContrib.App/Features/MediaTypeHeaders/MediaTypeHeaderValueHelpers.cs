@@ -6,8 +6,15 @@ using Microsoft.Net.Http.Headers;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.MediaTypeHeaders
 {
-    public class MediaTypeHeaderValueHelpers
+    /// <summary>
+    /// Helpers for getting mime types as header values.
+    /// </summary>
+    public static class MediaTypeHeaderValueHelpers
     {
+        /// <summary>
+        /// Gets the Mime Type for an Open XML Office Spreadsheet.
+        /// </summary>
+        /// <returns>Mime Type.</returns>
         public static MediaTypeHeaderValue ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet()
             => new MediaTypeHeaderValue(MediaTypeHeaderStringHelpers.ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet);
     }
