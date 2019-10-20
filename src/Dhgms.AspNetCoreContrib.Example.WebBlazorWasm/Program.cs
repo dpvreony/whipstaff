@@ -2,14 +2,14 @@
 
 namespace Dhgms.AspNetCoreContrib.Example.WebBlazorWasm
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder().Build().Run();
         }
 
-        public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
+        public static IWebAssemblyHostBuilder CreateHostBuilder() =>
             BlazorWebAssemblyHost.CreateDefaultBuilder()
                 .UseBlazorStartup<Startup>();
     }
