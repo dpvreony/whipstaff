@@ -31,20 +31,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebBlazorServer
         /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <inheritdoc />
         public void Configure(IApplicationBuilder app)
         {
-            throw new NotImplementedException();
-        }
+            if (app == null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
 
-        IServiceProvider ConfigureServices(IServiceCollection services)
-        {
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+            var env = app.ApplicationServices.GetService<IWebHostEnvironment>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -67,6 +62,17 @@ namespace Dhgms.AspNetCoreContrib.Example.WebBlazorServer
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+        }
+
+        /// <inheritdoc />
+        public IServiceProvider ConfigureServices(IServiceCollection services)
+        {
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+
+#pragma warning disable ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+            return services.BuildServiceProvider();
+#pragma warning restore ASP0000 // Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
         }
     }
 }
