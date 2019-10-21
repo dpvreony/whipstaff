@@ -1,6 +1,5 @@
-﻿// Copyright (c) 2019 .NET Foundation and Contributors. All rights reserved.
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "NuGet Inclusion", Scope = "member", Target = "~M:PublicApiGenerator.ApiGenerator.AddCtorToTypeDeclaration(System.CodeDom.CodeTypeDeclaration,Mono.Cecil.MethodDefinition,System.Collections.Generic.HashSet{System.String})")]

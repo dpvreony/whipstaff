@@ -7,16 +7,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.Examples.WebMvcApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Dhgms.AspNetCoreContrib.Examples.WebMvcApp.Models;
 
 namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp.Controllers
 {
+    /// <summary>
+    /// Sample home controller.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HomeController"/> class.
+        /// </summary>
+        /// <param name="logger">Instance of logging framework.</param>
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

@@ -16,26 +16,29 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features
     {
         public sealed class GetWorkbookSpreadSheetDocumentMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
         {
-            public GetWorkbookSpreadSheetDocumentMethod(ITestOutputHelper output) : base(output)
+            public GetWorkbookSpreadSheetDocumentMethod(ITestOutputHelper output)
+                : base(output)
             {
             }
 
             [Fact]
             public void ReturnsSpreadSheet()
             {
-                var stream = new MemoryStream();
-                var sheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>();
-                sheetActors.Add(("Sheet1", CreateSheet1));
-                var workbook = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, sheetActors);
+                using (var stream = new MemoryStream())
+                {
+                    var sheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>();
+                    sheetActors.Add(("Sheet1", CreateSheet1));
+                    var workbook = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, sheetActors);
 
-                Assert.NotNull(workbook);
+                    Assert.NotNull(workbook);
 
-                workbook.Save();
-                workbook.Close();
+                    workbook.Save();
+                    workbook.Close();
 
-                var buffer = stream.ToArray();
-                var stringOutput = Encoding.UTF8.GetString(buffer);
-                this._logger.LogDebug(stringOutput);
+                    var buffer = stream.ToArray();
+                    var stringOutput = Encoding.UTF8.GetString(buffer);
+                    _logger.LogDebug(stringOutput);
+                }
             }
 
             private void CreateSheet1(Sheet sheet, WorksheetPart worksheetPart)
