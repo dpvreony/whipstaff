@@ -20,8 +20,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
 {
+    /// <summary>
+    /// Example controller for serving pdf files.
+    /// </summary>
     public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfRequestDto>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PdfController"/> class.
+        /// </summary>
+        /// <param name="authorizationService">Authorization service for verifying requests.</param>
+        /// <param name="logger">Logging framework.</param>
+        /// <param name="mediator">CQRS mediatr.</param>
         public PdfController(
             IAuthorizationService authorizationService,
             ILogger<PdfController> logger,
@@ -30,19 +39,28 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
         {
         }
 
+        /// <inheritdoc />
         protected override EventId GetViewEventId() => new EventId(1, "View PDF");
 
+        /// <inheritdoc />
         protected override string GetViewPolicyName() => "View PDF";
 
-        protected override async Task<DownloadPdfRequestDto> ViewCommandFactoryAsync(
-            int id,
+        /// <inheritdoc />
+        protected override Task<DownloadPdfRequestDto> ViewCommandFactoryAsync(
+            int request,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
-            var result = new DownloadPdfRequestDto(id, claimsPrincipal);
-            return result;
+            return Task.Run(
+                () =>
+                {
+                    var result = new DownloadPdfRequestDto(request, claimsPrincipal);
+                    return result;
+                },
+                cancellationToken);
         }
 
+        /// <inheritdoc />
         protected override string GetMediaTypeHeaderString() => MediaTypeHeaderStringHelpers.ApplicationPdf;
     }
 }

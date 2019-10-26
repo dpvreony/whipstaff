@@ -6,13 +6,23 @@ using Microsoft.AspNetCore.Blazor.Hosting;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebBlazorWasm
 {
+    /// <summary>
+    /// Represents the core Program start up logic.
+    /// </summary>
     public static class Program
     {
+        /// <summary>
+        /// Entry point for the program.
+        /// </summary>
         public static void Main()
         {
             CreateHostBuilder().Build().Run();
         }
 
+        /// <summary>
+        /// Helper to create the App Host.
+        /// </summary>
+        /// <returns>Host Builder object.</returns>
         public static IWebAssemblyHostBuilder CreateHostBuilder() =>
             BlazorWebAssemblyHost.CreateDefaultBuilder()
                 .UseBlazorStartup<Startup>();

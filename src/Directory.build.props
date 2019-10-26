@@ -33,11 +33,11 @@
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
-    <PackageReference Include="PublicApiGenerator" Version="8.1.0" />
+    <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
   </ItemGroup>
 
   <ItemGroup Condition="$(IsTestProject)">
-    <Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />
+    <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
   </ItemGroup>
 
   <ItemGroup>

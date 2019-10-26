@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,29 +16,52 @@ using Xunit.Abstractions;
 
 namespace Dhgms.AspNetCoreContrib.IntegrationTests
 {
+    /// <summary>
+    /// Base class for unit tests for netcore web apps.
+    /// </summary>
+    /// <typeparam name="TStartup">The type of the startup class.</typeparam>
     public class BaseWebApplicationTest<TStartup>
         : Foundatio.Logging.Xunit.TestWithLoggingBase, IClassFixture<WebApplicationFactory<TStartup>>
         where TStartup : class, IStartup
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseWebApplicationTest{TStartup}"/> class.
+        /// </summary>
+        /// <param name="output">XUnit Logging output helper.</param>
+        /// <param name="factory">Factory method for the web application.</param>
         public BaseWebApplicationTest(
             ITestOutputHelper output,
             WebApplicationFactory<TStartup> factory)
             : base(output)
         {
-            this.Factory = factory;
+            Factory = factory;
         }
 
+        /// <summary>
+        /// Gets the Web Application Factory.
+        /// </summary>
         protected WebApplicationFactory<TStartup> Factory { get; }
 
-        protected async Task LogResponse(HttpResponseMessage response)
+        /// <summary>
+        /// Helper method to log the http response.
+        /// </summary>
+        /// <param name="response">Http Response.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected async Task LogResponseAsync(HttpResponseMessage response)
         {
+            if (response == null)
+            {
+                _logger.LogInformation("No HTTP Response Message.");
+                return;
+            }
+
             foreach (var (key, value) in response.Headers)
             {
-                this._logger.LogInformation($"{key}: {string.Join(",", value)}");
+                _logger.LogInformation($"{key}: {string.Join(",", value)}");
             }
 
             var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            this._logger.LogInformation(result);
+            _logger.LogInformation(result);
         }
     }
 }

@@ -29,16 +29,28 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Serves the home page.
+        /// </summary>
+        /// <returns>View.</returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Serves the privacy page.
+        /// </summary>
+        /// <returns>View.</returns>
         public IActionResult Privacy()
         {
             return View();
         }
 
+        /// <summary>
+        /// Serves the error page.
+        /// </summary>
+        /// <returns>View.</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
