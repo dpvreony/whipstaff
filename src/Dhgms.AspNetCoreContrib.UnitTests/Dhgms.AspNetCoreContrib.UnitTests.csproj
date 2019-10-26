@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="Foundatio.Logging.Xunit" Version="8.1.2126" />
-    <PackageReference Include="Moq" Version="4.13.0" />
+    <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="OpenCover" Version="4.7.922" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.analyzers" Version="0.10.0" />
