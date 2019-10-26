@@ -202,12 +202,20 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// </summary>
         public sealed class PostAsyncMethod
         {
+            /// <summary>
+            /// Gets the XUnit test source for testing POST methods succeed.
+            /// </summary>
             public static readonly IEnumerable<object[]> ShouldSucceedTestData = new[]
             {
                 new object[] { 0, },
                 new object[] { -1, },
             };
 
+            /// <summary>
+            /// Unit Tests to ensure POST requests succeed.
+            /// </summary>
+            /// <param name="addRequestDto">request DTO.</param>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Theory]
             [MemberData(nameof(ShouldSucceedTestData))]
             public async Task ShouldSucceedAsync(int addRequestDto)
@@ -255,6 +263,10 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 }
             }
 
+            /// <summary>
+            /// Test to ensure a HTTP BAD REQUEST is returned.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReturnsBadRequestAsync()
             {
@@ -317,12 +329,20 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// </summary>
         public sealed class DeleteAsyncMethod
         {
+            /// <summary>
+            /// Gets the XUnit test source for testing DELETE methods succeed.
+            /// </summary>
             public static readonly IEnumerable<object[]> ShouldSucceedTestData = new[]
             {
                 new object[] { 0, },
                 new object[] { -1, },
             };
 
+            /// <summary>
+            /// Unit Tests to ensure DELETE requests succeed.
+            /// </summary>
+            /// <param name="id">unique id of the entity.</param>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Theory]
             [MemberData(nameof(ShouldSucceedTestData))]
             public async Task ShouldSucceedAsync(int id)
@@ -370,6 +390,10 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 }
             }
 
+            /// <summary>
+            /// Tests to make sure a HTTP BAD REQUEST is returned.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReturnsBadRequestAsync()
             {
@@ -432,6 +456,9 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// </summary>
         public sealed class ListAsyncMethod
         {
+            /// <summary>
+            /// Gets the XUnit Test Source for ensuring the list request succeeds.
+            /// </summary>
             public static readonly IEnumerable<object[]> ShouldSucceedTestData = new[]
             {
                 new object[]
@@ -440,6 +467,11 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 },
             };
 
+            /// <summary>
+            /// Unit tests to ensure list requests succeed.
+            /// </summary>
+            /// <param name="listRequest">request DTO.</param>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Theory]
             [MemberData(nameof(ShouldSucceedTestData))]
             public async Task ShouldSucceedAsync(FakeCrudListRequest listRequest)
@@ -491,6 +523,10 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 }
             }
 
+            /// <summary>
+            /// Unit tests to ensure HTTP BAD REQUEST.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReturnsBadRequestAsync()
             {
@@ -553,16 +589,24 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         }
 
         /// <summary>
-        /// Unit Tests for the Put.
+        /// Unit Tests for the PUT request.
         /// </summary>
         public sealed class PutAsyncMethod
         {
+            /// <summary>
+            /// Gets the XUnit test source for making sure PUT requests succeed.
+            /// </summary>
             public static readonly IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new[]
             {
                 new object[] { 0, },
                 new object[] { -1, },
             };
 
+            /// <summary>
+            /// Unit tests to ensure PUT requests succeed.
+            /// </summary>
+            /// <param name="updateRequestDto">Unique Id of the entity.</param>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
             public async Task ShouldSucceedAsync(int updateRequestDto)
@@ -610,6 +654,10 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 }
             }
 
+            /// <summary>
+            /// Unit tests to ensure HTTP BAD REQUEST.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReturnsBadRequestAsync()
             {
@@ -672,6 +720,9 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// </summary>
         public sealed class ViewAsyncMethod
         {
+            /// <summary>
+            /// Gets the XUnit test data source for making sure View requests succeed.
+            /// </summary>
             public static readonly IEnumerable<object[]> ShouldSucceedTestData = new[]
             {
                 new object[]
@@ -691,6 +742,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 },
             };
 
+            /// <summary>
+            /// Unit tests for ensuring view requests succeed.
+            /// </summary>
+            /// <param name="listRequest">Unique Id of the entity.</param>
+            /// <param name="expectedResultType">The expected result type.</param>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Theory]
             [MemberData(nameof(ShouldSucceedTestData))]
             public async Task ShouldSucceedAsync(long listRequest, Type expectedResultType)
