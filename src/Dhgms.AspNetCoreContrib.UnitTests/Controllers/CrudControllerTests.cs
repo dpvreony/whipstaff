@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 {
@@ -53,7 +54,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod
+        public sealed class ConstructorMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Test Data for checking an Argument Null Exception is thrown.
@@ -66,6 +67,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 GetAuditableCommandFactoryNullTestData(),
                 GetAuditableQueryFactoryNullTestData(),
             };
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit Test Output helper.</param>
+            public ConstructorMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
 
             /// <summary>
             /// Unit tests for ensuring an Argument Null Exception is thrown.
@@ -200,7 +210,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the Post call.
         /// </summary>
-        public sealed class PostAsyncMethod
+        public sealed class PostAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for testing POST methods succeed.
@@ -210,6 +220,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 new object[] { 0, },
                 new object[] { -1, },
             };
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="PostAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit Test Output helper.</param>
+            public PostAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
 
             /// <summary>
             /// Unit Tests to ensure POST requests succeed.
@@ -327,7 +346,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the Delete call.
         /// </summary>
-        public sealed class DeleteAsyncMethod
+        public sealed class DeleteAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for testing DELETE methods succeed.
@@ -337,6 +356,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 new object[] { 0, },
                 new object[] { -1, },
             };
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DeleteAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit Test Output helper.</param>
+            public DeleteAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
 
             /// <summary>
             /// Unit Tests to ensure DELETE requests succeed.
@@ -454,7 +482,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the List call.
         /// </summary>
-        public sealed class ListAsyncMethod
+        public sealed class ListAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit Test Source for ensuring the list request succeeds.
@@ -468,6 +496,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             };
 
             /// <summary>
+            /// Initializes a new instance of the <see cref="ListAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit Test Output helper.</param>
+            public ListAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <summary>
             /// Unit tests to ensure list requests succeed.
             /// </summary>
             /// <param name="listRequest">request DTO.</param>
@@ -476,6 +513,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             [MemberData(nameof(ShouldSucceedTestData))]
             public async Task ShouldSucceedAsync(FakeCrudListRequest listRequest)
             {
+                Assert.NotNull(listRequest);
+
                 var authorizationService = MockAuthorizationServiceFactory();
                 authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "listPolicyName"))
@@ -591,7 +630,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the PUT request.
         /// </summary>
-        public sealed class PutAsyncMethod
+        public sealed class PutAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for making sure PUT requests succeed.
@@ -601,6 +640,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 new object[] { 0, },
                 new object[] { -1, },
             };
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="PutAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit Test Output helper.</param>
+            public PutAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
 
             /// <summary>
             /// Unit tests to ensure PUT requests succeed.
@@ -718,7 +766,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the View call.
         /// </summary>
-        public sealed class ViewAsyncMethod
+        public sealed class ViewAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test data source for making sure View requests succeed.
@@ -741,6 +789,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     typeof(NotFoundResult),
                 },
             };
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ViewAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit Test Output helper.</param>
+            public ViewAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
 
             /// <summary>
             /// Unit tests for ensuring view requests succeed.
