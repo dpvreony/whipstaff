@@ -3,7 +3,6 @@
     <Copyright>DPVreony and Contributors</Copyright>
     <Product>NetTestRegimentation ($(TargetFramework))</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/dpvreony/Dhgms.AspNetCoreContrib/</PackageProjectUrl>
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
     <PackageTags>unit testing</PackageTags>
