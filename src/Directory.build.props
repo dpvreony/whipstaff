@@ -13,6 +13,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)analyzers.ruleset</CodeAnalysisRuleSet>
     <IsTestProject>$(MSBuildProjectName.Contains('Tests'))</IsTestProject>
+    <IsWasmProject>$(MSBuildProjectName.Contains('Wasm'))</IsWasmProject>
     <DebugType>Embedded</DebugType>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -52,7 +53,7 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="$(IsWasmProject) == ''">
     <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.4.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
