@@ -33,14 +33,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         private static Mock<ILogger<FakeCrudController>> MockLoggerFactory()
         {
-            var logger = new Mock<ILogger<FakeCrudController>>(MockBehavior.Strict);
-
-            logger.Setup(s => s.Log(
-                LogLevel.Debug,
-                It.IsAny<EventId>(),
-                It.IsAny<object>(),
-                It.IsAny<Exception>(),
-                It.IsAny<Func<object, Exception, string>>()));
+            var logger = new Mock<ILogger<FakeCrudController>>();
 
             return logger;
         }
@@ -353,6 +346,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             /// </summary>
             public static readonly IEnumerable<object[]> ShouldSucceedTestData = new[]
             {
+                new object[] { 1, },
+                new object[] { 2, },
+            };
+
+            /// <summary>
+            /// Gets the XUnit test source for testing DELETE methods succeed.
+            /// </summary>
+            public static readonly IEnumerable<object[]> ReturnsHttpNotFoundTestData = new[]
+            {
                 new object[] { 0, },
                 new object[] { -1, },
             };
@@ -465,6 +467,58 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     var result = await instance.DeleteAsync(1, CancellationToken.None).ConfigureAwait(false);
                     Assert.NotNull(result);
                     Assert.IsType<BadRequestResult>(result);
+                }
+            }
+
+            /// <summary>
+            /// Unit Tests to ensure DELETE requests succeed.
+            /// </summary>
+            /// <param name="id">unique id of the entity.</param>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            [Theory]
+            [MemberData(nameof(ReturnsHttpNotFoundTestData))]
+            public async Task ReturnsHttpNotFoundAsync(int id)
+            {
+                var authorizationService = MockAuthorizationServiceFactory();
+                authorizationService.Setup(s =>
+                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "deletePolicyName"))
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+
+                var logger = MockLoggerFactory();
+
+                var mediator = MockMediatorFactory();
+                mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandlerAsync);
+
+                var auditableCommandFactory = MockCommandFactory();
+                auditableCommandFactory.Setup(s =>
+                    s.GetDeleteCommandAsync(
+                        It.IsAny<long>(),
+                        It.IsAny<ClaimsPrincipal>(),
+                        It.IsAny<CancellationToken>()))
+                    .Returns<long, ClaimsPrincipal, CancellationToken>(MockDeleteCommandAsync);
+
+                var auditableQueryFactory = MockQueryFactory();
+
+                using (var instance = new FakeCrudController(
+                    authorizationService.Object,
+                    logger.Object,
+                    mediator.Object,
+                    auditableCommandFactory.Object,
+                    auditableQueryFactory.Object)
+                {
+                    ControllerContext = new ControllerContext
+                    {
+                        HttpContext = new DefaultHttpContext
+                        {
+                            Request = { IsHttps = true },
+                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
+                        },
+                    },
+                })
+                {
+                    var result = await instance.DeleteAsync(id, CancellationToken.None).ConfigureAwait(false);
+                    Assert.NotNull(result);
+                    Assert.IsType<NotFoundResult>(result);
                 }
             }
 
