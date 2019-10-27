@@ -1,16 +1,27 @@
-﻿using System;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
+namespace Dhgms.AspNetCoreContrib.App.Features.Excel
 {
+    /// <summary>
+    /// Helpers for working with Open XML Spreadsheet Documents.
+    /// </summary>
     public static class SpreadsheetDocumentHelper
     {
+        /// <summary>
+        /// Gets a workbook spreadsheet document.
+        /// </summary>
+        /// <param name="stream">Underlying stream for the file.</param>
+        /// <param name="sheetActors">A collection of actors used to build up worksheets inside the workbook.</param>
+        /// <returns>A spreadsheet document.</returns>
         public static SpreadsheetDocument GetWorkbookSpreadSheetDocument(
             Stream stream,
             IList<(string Name, Action<Sheet, WorksheetPart> Actor)> sheetActors)

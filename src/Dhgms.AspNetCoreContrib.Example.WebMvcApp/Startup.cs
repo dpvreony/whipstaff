@@ -1,3 +1,7 @@
+// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +17,21 @@ using Microsoft.Extensions.Hosting;
 
 namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
 {
+    /// <summary>
+    /// Start up logic for the sample Web MVC app.
+    /// </summary>
     public class Startup : Dhgms.AspNetCoreContrib.App.BaseStartup
     {
-        public Startup(IConfiguration configuration) : base(configuration)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">Application configuration.</param>
+        public Startup(IConfiguration configuration)
+            : base(configuration)
         {
         }
 
+        /// <inheritdoc />
         protected override Assembly[] GetControllerAssemblies()
         {
             return new[]
@@ -27,6 +40,7 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
             };
         }
 
+        /// <inheritdoc />
         protected override Assembly[] GetMediatrAssemblies()
         {
             return new[]

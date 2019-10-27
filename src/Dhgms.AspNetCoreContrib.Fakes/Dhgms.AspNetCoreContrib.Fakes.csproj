@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.4.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="MediatR" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.0" />
@@ -20,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Abstractions\Dhgms.AspNetCoreContrib.Abstractions.csproj" />
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Controllers\Dhgms.AspNetCoreContrib.Controllers.csproj" />
   </ItemGroup>
 

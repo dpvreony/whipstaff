@@ -5,4 +5,13 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj" />
+  </ItemGroup>
+
 </Project>

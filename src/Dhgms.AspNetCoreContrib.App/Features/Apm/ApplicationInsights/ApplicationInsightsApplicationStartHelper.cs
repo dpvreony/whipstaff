@@ -1,17 +1,24 @@
-﻿using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.ApplicationInsights
+using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights
 {
-    using Microsoft.ApplicationInsights.Extensibility;
-    using Microsoft.AspNetCore.Builder;
-
-    public sealed class ApplicationInsightsApplicationStartHelper : IConfigureApplication
+    /// <summary>
+    /// Initialization logic for Application Insights.
+    /// </summary>
+    public sealed class ApplicationInsightsApplicationStartHelper : IConfigureService
     {
-        public void ConfigureApplication(IApplicationBuilder app)
+        /// <inheritdoc />
+        public void ConfigureService(
+            IServiceCollection services,
+            IConfiguration configuration)
         {
-            var builder = TelemetryConfiguration.Active.TelemetryProcessorChainBuilder;
-            builder.Use(next => new SignalRTelemetryProcessor(next));
-            builder.Build();
+            services.AddApplicationInsightsTelemetryProcessor<SignalRTelemetryProcessor>();
         }
     }
 }

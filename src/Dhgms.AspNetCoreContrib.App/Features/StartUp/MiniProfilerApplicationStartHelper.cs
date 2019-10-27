@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
 using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Profiling.Storage;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp
+namespace Dhgms.AspNetCoreContrib.App.Features.StartUp
 {
     /// <summary>
     /// Start Up Helper for Mini Profiler.
     /// </summary>
     /// <remarks>
-    /// Based upon: https://miniprofiler.com/dotnet/AspDotNetCore
+    /// Based upon: https://miniprofiler.com/dotnet/AspDotNetCore documentation.
     /// </remarks>
     public class MiniProfilerApplicationStartHelper : IConfigureService, IConfigureApplication
     {
-        public void ConfigureService(IServiceCollection services)
+        /// <inheritdoc/>
+        public void ConfigureService(IServiceCollection services, IConfiguration configuration)
         {
             services.AddMiniProfiler(options =>
             {
@@ -49,13 +50,14 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp
                 // (Optional) Swap out the entire profiler provider, if you want
                 // (default handles async and works fine for almost all appliations)
                 // options.ProfilerProvider = new MyProfilerProvider();
-        
+
                 // (Optional) You can disable "Connection Open()", "Connection Close()" (and async variant) tracking.
                 // (defaults to true, and connection opening/closing is tracked)
                 // options.TrackConnectionOpenClose = true;
             });
         }
 
+        /// <inheritdoc/>
         public void ConfigureApplication(IApplicationBuilder app)
         {
             app.UseMiniProfiler();

@@ -1,71 +1,122 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
+namespace Dhgms.AspNetCoreContrib.App.Features.Excel
 {
+    /// <summary>
+    /// Extension methods for working with a open xml worksheet.
+    /// </summary>
     public static class WorksheetPartExtensions
     {
+        /// <summary>
+        /// Inserts a cell into a worksheet with a specified value.
+        /// </summary>
+        /// <param name="worksheetPart">The worksheet part.</param>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="rowIndex">The row index. 1 based.</param>
+        /// <param name="value">The value to enter.</param>
+        /// <returns>The created or updated cell.</returns>
         public static Cell InsertCellInWorksheet(
             this WorksheetPart worksheetPart,
             string columnName,
             uint rowIndex,
             string value)
         {
-            var cell = worksheetPart.InsertCellInWorksheet(columnName, rowIndex);
-            cell.CellValue = new CellValue(value);
-            cell.DataType = new EnumValue<CellValues>(CellValues.String);
-
-            return cell;
+            return worksheetPart.InsertCellInWorksheet(
+                columnName,
+                rowIndex,
+                value,
+                CellValues.String);
         }
 
+        /// <summary>
+        /// Inserts a cell into a worksheet with a specified value.
+        /// </summary>
+        /// <param name="worksheetPart">The worksheet part.</param>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="rowIndex">The row index. 1 based.</param>
+        /// <param name="value">The value to enter.</param>
+        /// <returns>The created or updated cell.</returns>
         public static Cell InsertCellInWorksheet(
             this WorksheetPart worksheetPart,
             string columnName,
             uint rowIndex,
             bool value)
         {
-            var cell = worksheetPart.InsertCellInWorksheet(columnName, rowIndex);
-            cell.CellValue = new CellValue(value ? "1" : "0");
-            cell.DataType = new EnumValue<CellValues>(CellValues.Boolean);
-
-            return cell;
+            return worksheetPart.InsertCellInWorksheet(
+                columnName,
+                rowIndex,
+                value ? "1" : "0",
+                CellValues.Boolean);
         }
 
+        /// <summary>
+        /// Inserts a cell into a worksheet with a specified value.
+        /// </summary>
+        /// <param name="worksheetPart">The worksheet part.</param>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="rowIndex">The row index. 1 based.</param>
+        /// <param name="value">The value to enter.</param>
+        /// <returns>The created or updated cell.</returns>
         public static Cell InsertCellInWorksheet(
             this WorksheetPart worksheetPart,
             string columnName,
             uint rowIndex,
             int value)
         {
-            var cell = worksheetPart.InsertCellInWorksheet(columnName, rowIndex);
-            cell.CellValue = new CellValue(value.ToString(NumberFormatInfo.InvariantInfo));
-            cell.DataType = new EnumValue<CellValues>(CellValues.Number);
-
-            return cell;
+            return worksheetPart.InsertCellInWorksheet(
+                columnName,
+                rowIndex,
+                value.ToString(NumberFormatInfo.InvariantInfo),
+                CellValues.Number);
         }
 
+        /// <summary>
+        /// Inserts a cell into a worksheet with a specified value.
+        /// </summary>
+        /// <param name="worksheetPart">The worksheet part.</param>
+        /// <param name="columnName">Name of the column.</param>
+        /// <param name="rowIndex">The row index. 1 based.</param>
+        /// <param name="value">The value to enter.</param>
+        /// <returns>The created or updated cell.</returns>
         public static Cell InsertCellInWorksheet(
             this WorksheetPart worksheetPart,
             string columnName,
             uint rowIndex,
             DateTimeOffset value)
         {
+            return worksheetPart.InsertCellInWorksheet(
+                columnName,
+                rowIndex,
+                value.ToString(NumberFormatInfo.InvariantInfo),
+                CellValues.Date);
+        }
+
+        private static Cell InsertCellInWorksheet(
+            this WorksheetPart worksheetPart,
+            string columnName,
+            uint rowIndex,
+            string value,
+            CellValues cellValues)
+        {
             var cell = worksheetPart.InsertCellInWorksheet(columnName, rowIndex);
-            cell.CellValue = new CellValue(value.ToString(NumberFormatInfo.InvariantInfo));
-            cell.DataType = new EnumValue<CellValues>(CellValues.Date);
+            cell.CellValue = new CellValue(value);
+            cell.DataType = new EnumValue<CellValues>(cellValues);
 
             return cell;
         }
 
-        // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet. 
-        // If the cell already exists, returns it. 
-        public static Cell InsertCellInWorksheet(
+        // Given a column name, a row index, and a WorksheetPart, inserts a cell into the worksheet.
+        // If the cell already exists, returns it.
+        private static Cell InsertCellInWorksheet(
             this WorksheetPart worksheetPart,
             string columnName,
             uint rowIndex)
@@ -95,7 +146,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
             {
                 if (cell.CellReference.Value.Length == cellReference.Length)
                 {
-                    if (string.Compare(cell.CellReference.Value, cellReference, true) > 0)
+                    if (string.Compare(cell.CellReference.Value, cellReference, true, CultureInfo.InvariantCulture) > 0)
                     {
                         refCell = cell;
                         break;

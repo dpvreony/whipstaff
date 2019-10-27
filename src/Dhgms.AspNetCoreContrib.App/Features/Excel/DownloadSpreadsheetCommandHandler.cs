@@ -1,48 +1,57 @@
-﻿using System;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.FileTransfer;
+using Dhgms.AspNetCoreContrib.App.Features.FileTransfer;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MediatR;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
+namespace Dhgms.AspNetCoreContrib.App.Features.Excel
 {
+    /// <summary>
+    /// Sample handler for generating and\or serving spreadsheets.
+    /// </summary>
     public sealed class DownloadSpreadsheetCommandHandler : IRequestHandler<DownloadSpreadsheetRequestDto, FileNameAndStream>
     {
+        /// <inheritdoc/>
         public async Task<FileNameAndStream> Handle(DownloadSpreadsheetRequestDto request, CancellationToken cancellationToken)
         {
-            if (request.RequestDto != 0 && request.RequestDto % 2 == 0)
+            return await Task.Run(() =>
             {
-                // crude test for checking the 404 logic on even request ids.
-                return null;
-            }
+                if (request.RequestDto != 0 && request.RequestDto % 2 == 0)
+                {
+                    // crude test for checking the 404 logic on even request ids.
+                    return null;
+                }
 
-            var stream = new MemoryStream();
-            var worksheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>
-            {
-                ("Sheet1", this.CreateSheetOne),
-                ("Sheet2", this.CreateSheetTwo),
-            };
-            var spreadsheet = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, worksheetActors);
-            spreadsheet.Save();
-            spreadsheet.Close();
+                var stream = new MemoryStream();
+                var worksheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>
+                {
+                    ("Sheet1", CreateSheetOne),
+                    ("Sheet2", CreateSheetTwo),
+                };
+                var spreadsheet = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, worksheetActors);
+                spreadsheet.Save();
+                spreadsheet.Close();
 
-            var fileName = $"{Guid.NewGuid()}.xlsx";
+                var fileName = $"{Guid.NewGuid()}.xlsx";
 
-            return new FileNameAndStream
-            {
-                FileName = fileName,
-                FileStream = stream,
-            };
+                return new FileNameAndStream
+                {
+                    FileName = fileName,
+                    FileStream = stream,
+                };
+            });
         }
 
-        private void CreateSheetOne(Sheet sheet, WorksheetPart worksheetPart)
+        private static void CreateSheetOne(Sheet sheet, WorksheetPart worksheetPart)
         {
             uint currentRow = 1;
             var titleCell = worksheetPart.InsertCellInWorksheet("A", currentRow, "Title");
@@ -50,7 +59,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
             var test = sheet.GetFirstChild<SheetData>();
         }
 
-        private void CreateSheetTwo(Sheet sheet, WorksheetPart worksheetPart)
+        private static void CreateSheetTwo(Sheet sheet, WorksheetPart worksheetPart)
         {
             var worksheet = worksheetPart.Worksheet;
             var sheetData = worksheet.GetFirstChild<SheetData>();
@@ -67,22 +76,22 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Features.Excel
             worksheet.Save();
         }
 
-/// <summary>
-/// 
-/// </summary>
-/// <remarks>
-/// Taken from: http://www.dispatchertimer.com/tutorial/how-to-create-an-excel-file-in-net-using-openxml-part-2-export-a-collection-to-spreadsheet/
-/// </remarks>
-/// <param name="value"></param>
-/// <param name="dataType"></param>
-/// <returns></returns>
-private Cell ConstructCell(string value)
-{
-return new Cell
-{
-    CellValue = new CellValue(value),
-    DataType = new EnumValue<CellValues>(CellValues.String),
-};
-}
-}
+        /// <summary>
+        /// Creates a cell with a string value.
+        /// </summary>
+        /// <remarks>
+        /// Taken from: http://www.dispatchertimer.com/tutorial/how-to-create-an-excel-file-in-net-using-openxml-part-2-export-a-collection-to-spreadsheet/
+        /// stripped down for example.
+        /// </remarks>
+        /// <param name="value">Value to place in cell.</param>
+        /// <returns>A worksheet cell.</returns>
+        private static Cell ConstructCell(string value)
+        {
+            return new Cell
+            {
+                CellValue = new CellValue(value),
+                DataType = new EnumValue<CellValues>(CellValues.String),
+            };
+        }
+    }
 }

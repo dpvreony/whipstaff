@@ -1,48 +1,70 @@
-﻿using System;
+﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reflection;
+using Audit.Core.Providers;
 using Audit.WebApi;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.Apm.HealthChecks;
+using Dhgms.AspNetCoreContrib.App.Features.Apm;
+using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
+using Dhgms.AspNetCoreContrib.App.Features.StartUp;
+using Dhgms.AspNetCoreContrib.App.Features.Swagger;
+using Hellang.Middleware.ProblemDetails;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using OwaspHeaders.Core.Extensions;
-using Swashbuckle.AspNetCore.Swagger;
-using Audit.Core.Providers;
-using Dhgms.AspNetCoreContrib.Example.WebSite.Features.StartUp;
-using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
+using OwaspHeaders.Core.Extensions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Dhgms.AspNetCoreContrib.App
 {
+    /// <summary>
+    /// Core Initialization logic.
+    /// </summary>
     public abstract class BaseStartup : IStartup
     {
         private readonly MiniProfilerApplicationStartHelper _miniProfilerApplicationStartHelper;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseStartup"/> class.
+        /// </summary>
+        /// <param name="configuration">Application configuration.</param>
         protected BaseStartup(IConfiguration configuration)
         {
-            this.Configuration = configuration;
+            Configuration = configuration;
             _miniProfilerApplicationStartHelper = new MiniProfilerApplicationStartHelper();
         }
 
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <inheritdoc />
         public void Configure(IApplicationBuilder app)
         {
+            if (app == null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
+
             var env = app.ApplicationServices.GetService<IWebHostEnvironment>();
             var logger = app.ApplicationServices.GetService<ILoggerFactory>();
 
-            this.Configure(app, env, logger);
+            Configure(app, env, logger);
         }
 
+        /// <inheritdoc />
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddFeatureManagement();
@@ -62,25 +84,33 @@ namespace Dhgms.AspNetCoreContrib.App
                 services.AddMediatR(mediatrAssemblies);
             }
 
-            //services.AddProblemDetails();
+            services.AddProblemDetails();
 
             services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
 
-            new HealthChecksApplicationStartHelper().ConfigureService(services);
+            new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-                //c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
             });
 
-            _miniProfilerApplicationStartHelper.ConfigureService(services);
+            _miniProfilerApplicationStartHelper.ConfigureService(services, Configuration);
 
             return services.BuildServiceProvider();
         }
 
+        /// <summary>
+        /// Gets the assemblies that contain controllers.
+        /// </summary>
+        /// <returns>Array of assemblies.</returns>
         protected abstract Assembly[] GetControllerAssemblies();
 
+        /// <summary>
+        /// Gets the assemblies that contain mediatr command handlers.
+        /// </summary>
+        /// <returns>Array of assemblies.</returns>
         protected abstract Assembly[] GetMediatrAssemblies();
 
         private void Configure(
@@ -88,6 +118,9 @@ namespace Dhgms.AspNetCoreContrib.App
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+            var logger = loggerFactory.CreateLogger<BaseStartup>();
+            logger.LogInformation("Starting configuration");
+
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
@@ -98,13 +131,16 @@ namespace Dhgms.AspNetCoreContrib.App
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            //app.UseProblemDetails();
+            app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
-            ApmApplicationStartHelper.Configure(this.Configuration, app, env, version);
 
-            //var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
-            //app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
+            /*
+            ApmApplicationStartHelper.Configure(Configuration, app, version);
+            */
+
+            var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
+            app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
 
             app.UseStaticFiles();
 
@@ -122,28 +158,30 @@ namespace Dhgms.AspNetCoreContrib.App
                 fileDataProvider.DirectoryPath = "log";
             }
 
-            this._miniProfilerApplicationStartHelper.ConfigureApplication(app);
+            _miniProfilerApplicationStartHelper.ConfigureApplication(app);
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "get",
                     template: "api/{controller}/{id?}",
-                    defaults: new {action = "GetAsync"},
-                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("GET")}));
+                    defaults: new { action = "GetAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
                 routes.MapRoute(
                     name: "post",
-                    template: "api/{controller}/{id?}",
-                    defaults: new {action = "PostAsync"},
-                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("POST")}));
+                    template: "api/{controller}",
+                    defaults: new { action = "PostAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
+                routes.MapRoute(
+                    name: "post",
+                    template: "api/{controller}/{id}",
+                    defaults: new { action = "PutAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PUT") }));
                 routes.MapRoute(
                     name: "delete",
-                    template: "api/{controller}/{id?}",
-                    defaults: new {action = "DeleteAsync"},
-                    constraints: new RouteValueDictionary(new {httpMethod = new HttpMethodRouteConstraint("DELETE")}));
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "api/{controller}/{id}",
+                    defaults: new { action = "DeleteAsync" },
+                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
             });
 
             app.UseSwagger();
