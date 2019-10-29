@@ -24,6 +24,7 @@
 #tool "nuget:?package=MSBuild.SonarQube.Runner.Tool"
 #tool "dotnet:?package=dotnet-sonarscanner&version=4.4.2"
 #tool "nuget:?package=docfx.console&version=2.40.5"
+#tool "dotnet:?package=dotMorten.OmdGenerator&version=1.1.2"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -280,24 +281,17 @@ Task("Package")
 {
 });
 
-/*
-Task("PinNuGetDependencies")
+Task("GenerateOmd")
+    .IsDependentOn("Sonar")
     .Does (() =>
 {
-    // only pin whitelisted packages.
-    foreach(var package in packageWhitelist)
-    {
-        // only pin the package which was created during this build run.
-        var packagePath = artifactDirectory + File(string.Concat(package, ".", nugetVersion, ".nupkg"));
-
-        // see https://github.com/cake-contrib/Cake.PinNuGetDependency
-        PinNuGetDependency(packagePath, "reactiveui");
-    }
+    var omdSettings = new ProcessSettings{ Arguments = "/source=src /output=artifacts\\omd.htm /format=html" };
+    StartProcess("tools\\generateomd.exe", omdSettings);
 });
-*/
 
 Task("PublishPackages")
     .IsDependentOn("RunUnitTests")
+    .IsDependentOn("GenerateOmd")
     .IsDependentOn("Package")
     .WithCriteria(() => !local)
     .WithCriteria(() => !isPullRequest)
