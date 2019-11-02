@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using Audit.Core.Providers;
 using Audit.WebApi;
+using Ben.Diagnostics;
 using Dhgms.AspNetCoreContrib.App.Features.Apm;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
 using Dhgms.AspNetCoreContrib.App.Features.StartUp;
@@ -131,6 +132,7 @@ namespace Dhgms.AspNetCoreContrib.App
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseBlockingDetection();
             app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
