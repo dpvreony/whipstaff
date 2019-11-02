@@ -25,6 +25,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using OwaspHeaders.Core.Extensions;
+using RimDev.ApplicationInsights.Filters;
+using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Dhgms.AspNetCoreContrib.App
@@ -98,6 +100,22 @@ namespace Dhgms.AspNetCoreContrib.App
             });
 
             _miniProfilerApplicationStartHelper.ConfigureService(services, Configuration);
+
+            /*
+            services.AddSingleton(new IgnoreHangfireTelemetryOptions
+            {
+                SqlConnectionString = Configuration.GetConnectionString("hangfire")
+            });
+            services.AddSingleton(new IgnorePathsTelemetryOptions
+            {
+                Paths = new[] { "/_admin" }
+            });
+            */
+
+            services.AddApplicationInsightsTelemetry();
+            services.AddApplicationInsightsTelemetryProcessor<IgnoreHangfireTelemetry>();
+            services.AddApplicationInsightsTelemetryProcessor<IgnorePathsTelemetry>();
+            services.AddApplicationInsightsTelemetryProcessor<RemoveHttpUrlPasswordsTelemetry>();
 
             return services.BuildServiceProvider();
         }
