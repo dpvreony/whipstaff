@@ -3,12 +3,14 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
 using Dhgms.AspNetCoreContrib.App.Features.Apm;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
+using Dhgms.AspNetCoreContrib.App.Features.DiagnosticListener;
 using Dhgms.AspNetCoreContrib.App.Features.StartUp;
 using Dhgms.AspNetCoreContrib.App.Features.Swagger;
 using Hellang.Middleware.ProblemDetails;
@@ -71,6 +73,7 @@ namespace Dhgms.AspNetCoreContrib.App
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddFeatureManagement();
+            services.AddMiddlewareAnalysis();
 
             var controllerAssemblies = GetControllerAssemblies();
             foreach (var controllerAssembly in controllerAssemblies)
@@ -137,6 +140,10 @@ namespace Dhgms.AspNetCoreContrib.App
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+            var diagnosticListener = app.ApplicationServices.GetService<DiagnosticListener>();
+            var logDiagnosticListenerLogger = loggerFactory.CreateLogger<LogDiagnosticListener>();
+            diagnosticListener.SubscribeWithAdapter(new LogDiagnosticListener(logDiagnosticListenerLogger));
+
             var logger = loggerFactory.CreateLogger<BaseStartup>();
             logger.LogInformation("Starting configuration");
 
