@@ -86,7 +86,7 @@ var packageVersion = isReleaseBranch ? majorMinorPatch : informationalVersion;
 Information("informationalVersion: " + informationalVersion);
 Information("assemblyVersion: " + assemblyVersion);
 Information("fileVersion: " + fileVersion);
-
+Information("packageVersion: " + packageVersion);
 
 // Artifacts
 var artifactDirectory = "./artifacts/";
