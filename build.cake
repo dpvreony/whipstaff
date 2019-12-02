@@ -150,7 +150,7 @@ Task("BuildSolution")
             .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
             .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
             .SetConfiguration("Release")
-            .WithProperty("VersionPrefix", packageVersion)
+            .WithProperty("Version", packageVersion)
             .WithProperty("AssemblyVersion", assemblyVersion)
             .WithProperty("FileVersion", fileVersion)
             .WithProperty("InformationalVersion", informationalVersion)
@@ -285,7 +285,8 @@ Task("GenerateOmd")
     .IsDependentOn("Sonar")
     .Does (() =>
 {
-    var omdSettings = new ProcessSettings{ Arguments = "/source=src /output=artifacts\\omd.htm /format=html" };
+    CreateDirectory(artifactDirectory + "\\omd");
+    var omdSettings = new ProcessSettings{ Arguments = "/source=src /output=artifacts\\omd\\index.htm /format=html" };
     StartProcess("tools\\generateomd.exe", omdSettings);
 });
 
