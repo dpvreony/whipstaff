@@ -154,6 +154,7 @@ Task("BuildSolution")
             .WithProperty("AssemblyVersion", assemblyVersion)
             .WithProperty("FileVersion", fileVersion)
             .WithProperty("InformationalVersion", informationalVersion)
+            .WithProperty("PackageVersion", packageVersion)
             .SetVerbosity(Verbosity.Minimal)
             .SetNodeReuse(false));
     };
