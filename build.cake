@@ -150,11 +150,10 @@ Task("BuildSolution")
             .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
             .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
             .SetConfiguration("Release")
-            .WithProperty("Version", packageVersion)
+            .WithProperty("VersionPrefix", packageVersion)
             .WithProperty("AssemblyVersion", assemblyVersion)
             .WithProperty("FileVersion", fileVersion)
             .WithProperty("InformationalVersion", informationalVersion)
-            .WithProperty("PackageVersion", packageVersion)
             .SetVerbosity(Verbosity.Minimal)
             .SetNodeReuse(false));
     };
