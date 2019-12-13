@@ -282,7 +282,7 @@ Task("Package")
 });
 
 Task("ValidateConfiguration")
-    .IsDependentOn("Build")
+    .IsDependentOn("BuildSolution")
     .Does (() =>
 {
 	// TODO: get all projects inside the src folder.
