@@ -25,6 +25,7 @@
 #tool "dotnet:?package=dotnet-sonarscanner&version=4.4.2"
 #tool "nuget:?package=docfx.console&version=2.40.5"
 #tool "dotnet:?package=dotMorten.OmdGenerator&version=1.1.2"
+#tool "dotnet:?package=ConfigValidate&version=1.0.0"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -112,7 +113,6 @@ if (isRepository && !local && sonarQubeLogin != null) {
         Information("Sonar on branch " + AppVeyor.Environment.Repository.Branch);
     }
 }
-
 
 // Define global marcos.
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
@@ -279,6 +279,14 @@ Task("Package")
     //.IsDependentOn("PinNuGetDependencies")
     .Does (() =>
 {
+});
+
+Task("ValidateConfiguration")
+    .IsDependentOn("Build")
+    .Does (() =>
+{
+	// TODO: get all projects inside the src folder.
+    //StartProcess("dotnet.exe", "config-validate");
 });
 
 Task("GenerateOmd")
