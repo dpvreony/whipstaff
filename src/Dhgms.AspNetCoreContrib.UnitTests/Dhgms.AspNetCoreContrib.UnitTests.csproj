@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="3.0.0" />
     <PackageReference Include="Foundatio.Logging.Xunit" Version="8.1.2126" />
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="OpenCover" Version="4.7.922" />
