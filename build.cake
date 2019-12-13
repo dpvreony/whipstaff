@@ -86,7 +86,7 @@ var packageVersion = isReleaseBranch ? majorMinorPatch : informationalVersion;
 Information("informationalVersion: " + informationalVersion);
 Information("assemblyVersion: " + assemblyVersion);
 Information("fileVersion: " + fileVersion);
-
+Information("packageVersion: " + packageVersion);
 
 // Artifacts
 var artifactDirectory = "./artifacts/";
@@ -285,7 +285,8 @@ Task("GenerateOmd")
     .IsDependentOn("Sonar")
     .Does (() =>
 {
-    var omdSettings = new ProcessSettings{ Arguments = "/source=src /output=artifacts\\omd.htm /format=html" };
+    CreateDirectory(artifactDirectory + "\\omd");
+    var omdSettings = new ProcessSettings{ Arguments = "/source=src /output=artifacts\\omd\\index.htm /format=html" };
     StartProcess("tools\\generateomd.exe", omdSettings);
 });
 
