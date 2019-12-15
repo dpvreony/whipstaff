@@ -285,8 +285,16 @@ Task("ValidateConfiguration")
     .IsDependentOn("BuildSolution")
     .Does (() =>
 {
-	// TODO: get all projects inside the src folder.
-    //StartProcess("dotnet.exe", "config-validate");
+	var directories = GetSubDirectories("./src/");
+	foreach (var dir in directories)
+	{
+		var validationSettings = new ProcessSettings
+		{
+			Arguments = "config-validate",
+			WorkingDirectory = dir
+		};
+		StartProcess("dotnet.exe", validationSettings);
+	}
 });
 
 Task("GenerateOmd")
