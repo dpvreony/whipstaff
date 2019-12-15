@@ -307,6 +307,7 @@ Task("GenerateOmd")
 });
 
 Task("PublishPackages")
+    .IsDependentOn("ValidateConfiguration")
     .IsDependentOn("RunUnitTests")
     .IsDependentOn("GenerateOmd")
     .IsDependentOn("Package")
