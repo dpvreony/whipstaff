@@ -25,7 +25,8 @@
 #tool "dotnet:?package=dotnet-sonarscanner&version=4.4.2"
 #tool "nuget:?package=docfx.console&version=2.40.5"
 #tool "dotnet:?package=dotMorten.OmdGenerator&version=1.1.2"
-#tool "dotnet:?package=ConfigValidate&version=1.0.0"
+#tool "dotnet:?package=ConfigValidate&version=1.0.0&global"
+#tool "dotnet:?package=dotnet-outdated&version=2.7.0&global"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -297,6 +298,20 @@ Task("ValidateConfiguration")
 	}
 });
 
+Task("ListOutdatedPackages")
+    .IsDependentOn("BuildSolution")
+    .Does (() =>
+{
+	var dir = Directory("./src/");
+    CreateDirectory(artifactDirectory + "\\outdated");
+	var validationSettings = new ProcessSettings
+	{
+		Arguments = "outdated -o artifacts\\outdated\\outdated.json src",
+		//WorkingDirectory = dir
+	};
+	StartProcess("dotnet.exe", validationSettings);
+});
+
 Task("GenerateOmd")
     .IsDependentOn("Sonar")
     .Does (() =>
@@ -307,6 +322,7 @@ Task("GenerateOmd")
 });
 
 Task("PublishPackages")
+    .IsDependentOn("ListOutdatedPackages")
     .IsDependentOn("ValidateConfiguration")
     .IsDependentOn("RunUnitTests")
     .IsDependentOn("GenerateOmd")
