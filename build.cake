@@ -323,7 +323,7 @@ Task("GenerateOmd")
 
 Task("PublishPackages")
     .IsDependentOn("ListOutdatedPackages")
-    .IsDependentOn("ValidateConfiguration")
+    //.IsDependentOn("ValidateConfiguration")
     .IsDependentOn("RunUnitTests")
     .IsDependentOn("GenerateOmd")
     .IsDependentOn("Package")
