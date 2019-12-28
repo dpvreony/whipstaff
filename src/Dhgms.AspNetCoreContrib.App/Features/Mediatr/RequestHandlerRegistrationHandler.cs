@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,5 +26,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
                 typeof(IRequestHandler<TRequest, TResponse>),
                 typeof(TImplementationType));
         }
+
+        public Type GetRegistrationType => typeof(TImplementationType);
     }
 }
