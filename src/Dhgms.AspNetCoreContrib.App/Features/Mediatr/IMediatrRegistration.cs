@@ -20,16 +20,16 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
         /// <summary>
         /// Gets a list of notification handlers to configure.
         /// </summary>
-        IList<Type> NotificationHandlers { get; }
+        IList<Func<INotificationHandlerRegistrationHandler>> NotificationHandlers { get; }
 
         /// <summary>
         /// Gets a list of request pre processors to configure.
         /// </summary>
-        IList<Type> RequestPreProcessors { get; }
+        IList<Func<IRequestPreProcessorRegistrationHandler>> RequestPreProcessors { get; }
 
         /// <summary>
         /// Gets a list of request post processors to configure.
         /// </summary>
-        IList<Type> RequestPostProcessors { get; }
+        IList<Func<IRequestPostProcessorRegistrationHandler>> RequestPostProcessors { get; }
     }
 }

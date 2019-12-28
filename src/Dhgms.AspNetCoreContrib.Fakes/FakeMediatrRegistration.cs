@@ -19,12 +19,12 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         };
 
         /// <inheritdoc />
-        public IList<Type> NotificationHandlers { get; }
+        public IList<Func<INotificationHandlerRegistrationHandler>> NotificationHandlers { get; }
 
         /// <inheritdoc />
-        public IList<Type> RequestPreProcessors { get; }
+        public IList<Func<IRequestPreProcessorRegistrationHandler>> RequestPreProcessors { get; }
 
         /// <inheritdoc />
-        public IList<Type> RequestPostProcessors { get; }
+        public IList<Func<IRequestPostProcessorRegistrationHandler>> RequestPostProcessors { get; }
     }
 }

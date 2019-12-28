@@ -42,7 +42,6 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
                 logger,
                 mediatrRegistration.RequestHandlers);
 
-            /*
             Register(
                 services,
                 logger,
@@ -57,9 +56,65 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
                 services,
                 logger,
                 mediatrRegistration.RequestPostProcessors);
-                */
 
             MediatR.Registration.ServiceRegistrar.AddRequiredServices(services, serviceConfiguration);
+        }
+
+        private static void Register(
+            IServiceCollection services,
+            ILogger logger,
+            IList<Func<IRequestPreProcessorRegistrationHandler>> mediatrRegistrationNotificationHandlers)
+        {
+            if (mediatrRegistrationNotificationHandlers == null || mediatrRegistrationNotificationHandlers.Count < 1)
+            {
+                logger?.LogInformation($"No mediatr handlers registered.");
+                return;
+            }
+
+            logger?.LogInformation($"{mediatrRegistrationNotificationHandlers.Count} mediatr handlers registered.");
+
+            foreach (var registration in mediatrRegistrationNotificationHandlers)
+            {
+                registration().AddRequestPreProcessor(services);
+            }
+        }
+
+        private static void Register(
+            IServiceCollection services,
+            ILogger logger,
+            IList<Func<IRequestPostProcessorRegistrationHandler>> mediatrRegistrationNotificationHandlers)
+        {
+            if (mediatrRegistrationNotificationHandlers == null || mediatrRegistrationNotificationHandlers.Count < 1)
+            {
+                logger?.LogInformation($"No mediatr handlers registered.");
+                return;
+            }
+
+            logger?.LogInformation($"{mediatrRegistrationNotificationHandlers.Count} mediatr handlers registered.");
+
+            foreach (var registration in mediatrRegistrationNotificationHandlers)
+            {
+                registration().AddRequestPostProcessor(services);
+            }
+        }
+
+        private static void Register(
+            IServiceCollection services,
+            ILogger logger,
+            IList<Func<INotificationHandlerRegistrationHandler>> mediatrRegistrationNotificationHandlers)
+        {
+            if (mediatrRegistrationNotificationHandlers == null || mediatrRegistrationNotificationHandlers.Count < 1)
+            {
+                logger?.LogInformation($"No mediatr handlers registered.");
+                return;
+            }
+
+            logger?.LogInformation($"{mediatrRegistrationNotificationHandlers.Count} mediatr handlers registered.");
+
+            foreach (var registration in mediatrRegistrationNotificationHandlers)
+            {
+                registration().AddNotificationHandler(services);
+            }
         }
 
         private static void Register(
