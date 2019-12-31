@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 {
@@ -12,9 +12,13 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
     public interface IRequestPostProcessorRegistrationHandler
     {
         /// <summary>
-        /// Registers the request handler to the DI service collection.
+        /// Gets the registration type.
         /// </summary>
-        /// <param name="services">DI service collection to register the handler to.</param>
-        void AddRequestPostProcessor(IServiceCollection services);
+        public Type ServiceType { get; }
+
+        /// <summary>
+        /// Gets the implementation type.
+        /// </summary>
+        public Type ImplementationType { get; }
     }
 }

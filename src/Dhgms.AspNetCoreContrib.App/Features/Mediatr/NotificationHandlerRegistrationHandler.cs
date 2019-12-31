@@ -19,13 +19,9 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
         where TNotification : INotification
     {
         /// <inheritdoc/>
-        public void AddNotificationHandler(IServiceCollection services)
-        {
-            services.AddTransient(
-                typeof(INotificationHandler<TNotification>),
-                typeof(TImplementationType));
-        }
+        public Type ServiceType => typeof(INotificationHandler<TNotification>);
 
-        public Type GetRegistrationType => typeof(TImplementationType);
+        /// <inheritdoc/>
+        public Type ImplementationType => typeof(TImplementationType);
     }
 }

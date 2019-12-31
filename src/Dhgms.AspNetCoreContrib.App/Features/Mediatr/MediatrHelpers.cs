@@ -75,7 +75,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 
             foreach (var registration in mediatrRegistrationNotificationHandlers)
             {
-                registration().AddRequestPreProcessor(services);
+                var registrationInstance = registration();
+                var serviceType = registrationInstance.ServiceType;
+                var implementationType = registrationInstance.ImplementationType;
+                services.AddTransient(
+                    serviceType,
+                    implementationType);
             }
         }
 
@@ -94,7 +99,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 
             foreach (var registration in mediatrRegistrationNotificationHandlers)
             {
-                registration().AddRequestPostProcessor(services);
+                var registrationInstance = registration();
+                var serviceType = registrationInstance.ServiceType;
+                var implementationType = registrationInstance.ImplementationType;
+                services.AddTransient(
+                    serviceType,
+                    implementationType);
             }
         }
 
@@ -113,7 +123,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 
             foreach (var registration in mediatrRegistrationNotificationHandlers)
             {
-                registration().AddNotificationHandler(services);
+                var registrationInstance = registration();
+                var serviceType = registrationInstance.ServiceType;
+                var implementationType = registrationInstance.ImplementationType;
+                services.AddTransient(
+                    serviceType,
+                    implementationType);
             }
         }
 
@@ -132,7 +147,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 
             foreach (var registration in mediatrRegistrationRequestHandlers)
             {
-                registration().AddRequestHandler(services);
+                var registrationInstance = registration();
+                var serviceType = registrationInstance.ServiceType;
+                var implementationType = registrationInstance.ImplementationType;
+                services.AddTransient(
+                    serviceType,
+                    implementationType);
             }
         }
     }

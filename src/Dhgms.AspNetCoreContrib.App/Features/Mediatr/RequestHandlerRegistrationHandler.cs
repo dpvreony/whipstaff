@@ -19,14 +19,10 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
         where TImplementationType : class, IRequestHandler<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        /// <inheritdoc />
-        public void AddRequestHandler(IServiceCollection services)
-        {
-            services.AddTransient(
-                typeof(IRequestHandler<TRequest, TResponse>),
-                typeof(TImplementationType));
-        }
+        /// <inheritdoc/>
+        public Type ServiceType => typeof(IRequestHandler<TRequest, TResponse>);
 
-        public Type GetRegistrationType => typeof(TImplementationType);
+        /// <inheritdoc/>
+        public Type ImplementationType => typeof(TImplementationType);
     }
 }

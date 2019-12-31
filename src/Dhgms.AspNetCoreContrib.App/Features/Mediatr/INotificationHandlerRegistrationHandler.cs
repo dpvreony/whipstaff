@@ -15,9 +15,13 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
     public interface INotificationHandlerRegistrationHandler
     {
         /// <summary>
-        /// Registers the request handler to the DI service collection.
+        /// Gets the registration type.
         /// </summary>
-        /// <param name="services">DI service collection to register the handler to.</param>
-        void AddNotificationHandler(IServiceCollection services);
+        public Type ServiceType { get; }
+
+        /// <summary>
+        /// Gets the implementation type.
+        /// </summary>
+        public Type ImplementationType { get; }
     }
 }

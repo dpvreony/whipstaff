@@ -19,13 +19,9 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
         where TImplementationType : class, IRequestPostProcessor<TRequest, TResponse>
     {
         /// <inheritdoc/>
-        public void AddRequestPostProcessor(IServiceCollection services)
-        {
-            services.AddTransient(
-                typeof(IRequestPostProcessor<TRequest, TResponse>),
-                typeof(TImplementationType));
-        }
+        public Type ServiceType => typeof(IRequestPostProcessor<TRequest, TResponse>);
 
-        public Type GetRegistrationType => typeof(TImplementationType);
+        /// <inheritdoc/>
+        public Type ImplementationType => typeof(TImplementationType);
     }
 }
