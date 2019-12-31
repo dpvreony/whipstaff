@@ -60,92 +60,21 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
             MediatR.Registration.ServiceRegistrar.AddRequiredServices(services, serviceConfiguration);
         }
 
-        private static void Register(
+        private static void Register<T>(
             IServiceCollection services,
             ILogger logger,
-            IList<Func<IRequestPreProcessorRegistrationHandler>> mediatrRegistrationNotificationHandlers)
+            IList<Func<T>> registrations)
+            where T : IMediatrRegistrationModel
         {
-            if (mediatrRegistrationNotificationHandlers == null || mediatrRegistrationNotificationHandlers.Count < 1)
+            if (registrations == null || registrations.Count < 1)
             {
-                logger?.LogInformation($"No mediatr handlers registered.");
+                logger?.LogInformation($"No {typeof(T)} handlers registered.");
                 return;
             }
 
-            logger?.LogInformation($"{mediatrRegistrationNotificationHandlers.Count} mediatr handlers registered.");
+            logger?.LogInformation($"{registrations.Count} mediatr handlers registered.");
 
-            foreach (var registration in mediatrRegistrationNotificationHandlers)
-            {
-                var registrationInstance = registration();
-                var serviceType = registrationInstance.ServiceType;
-                var implementationType = registrationInstance.ImplementationType;
-                services.AddTransient(
-                    serviceType,
-                    implementationType);
-            }
-        }
-
-        private static void Register(
-            IServiceCollection services,
-            ILogger logger,
-            IList<Func<IRequestPostProcessorRegistrationHandler>> mediatrRegistrationNotificationHandlers)
-        {
-            if (mediatrRegistrationNotificationHandlers == null || mediatrRegistrationNotificationHandlers.Count < 1)
-            {
-                logger?.LogInformation($"No mediatr handlers registered.");
-                return;
-            }
-
-            logger?.LogInformation($"{mediatrRegistrationNotificationHandlers.Count} mediatr handlers registered.");
-
-            foreach (var registration in mediatrRegistrationNotificationHandlers)
-            {
-                var registrationInstance = registration();
-                var serviceType = registrationInstance.ServiceType;
-                var implementationType = registrationInstance.ImplementationType;
-                services.AddTransient(
-                    serviceType,
-                    implementationType);
-            }
-        }
-
-        private static void Register(
-            IServiceCollection services,
-            ILogger logger,
-            IList<Func<INotificationHandlerRegistrationHandler>> mediatrRegistrationNotificationHandlers)
-        {
-            if (mediatrRegistrationNotificationHandlers == null || mediatrRegistrationNotificationHandlers.Count < 1)
-            {
-                logger?.LogInformation($"No mediatr handlers registered.");
-                return;
-            }
-
-            logger?.LogInformation($"{mediatrRegistrationNotificationHandlers.Count} mediatr handlers registered.");
-
-            foreach (var registration in mediatrRegistrationNotificationHandlers)
-            {
-                var registrationInstance = registration();
-                var serviceType = registrationInstance.ServiceType;
-                var implementationType = registrationInstance.ImplementationType;
-                services.AddTransient(
-                    serviceType,
-                    implementationType);
-            }
-        }
-
-        private static void Register(
-            IServiceCollection services,
-            ILogger logger,
-            IList<Func<IRequestHandlerRegistrationHandler>> mediatrRegistrationRequestHandlers)
-        {
-            if (mediatrRegistrationRequestHandlers == null || mediatrRegistrationRequestHandlers.Count < 1)
-            {
-                logger?.LogInformation($"No mediatr handlers registered.");
-                return;
-            }
-
-            logger?.LogInformation($"{mediatrRegistrationRequestHandlers.Count} mediatr handlers registered.");
-
-            foreach (var registration in mediatrRegistrationRequestHandlers)
+            foreach (var registration in registrations)
             {
                 var registrationInstance = registration();
                 var serviceType = registrationInstance.ServiceType;

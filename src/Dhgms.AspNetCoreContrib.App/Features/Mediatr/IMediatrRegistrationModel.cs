@@ -5,14 +5,22 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 {
     /// <summary>
-    /// Registers a concrete type for handling Mediatr notifications.
+    /// Represents a MediatR registration.
     /// </summary>
-    public interface INotificationHandlerRegistrationHandler : IMediatrRegistrationModel
+    public interface IMediatrRegistrationModel
     {
+        /// <summary>
+        /// Gets the registration type.
+        /// </summary>
+        public Type ServiceType { get; }
+
+        /// <summary>
+        /// Gets the implementation type.
+        /// </summary>
+        public Type ImplementationType { get; }
     }
 }

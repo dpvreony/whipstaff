@@ -9,16 +9,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
     /// <summary>
     /// Registers a concrete type for handling Mediatr pre processors.
     /// </summary>
-    public interface IRequestPreProcessorRegistrationHandler
+    public interface IRequestPreProcessorRegistrationHandler : IMediatrRegistrationModel
     {
-        /// <summary>
-        /// Gets the registration type.
-        /// </summary>
-        public Type ServiceType { get; }
-
-        /// <summary>
-        /// Gets the implementation type.
-        /// </summary>
-        public Type ImplementationType { get; }
     }
 }

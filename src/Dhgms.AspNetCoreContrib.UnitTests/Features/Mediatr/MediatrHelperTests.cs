@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -15,6 +16,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.Mediatr
     /// <summary>
     /// Unit tests for the MediatrHelpers class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class MediatrHelperTests
     {
         /// <summary>
