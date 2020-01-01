@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
     /// Base class for unit tests for netcore web apps.
     /// </summary>
     /// <typeparam name="TStartup">The type of the startup class.</typeparam>
+    [ExcludeFromCodeCoverage]
     public class BaseWebApplicationTest<TStartup>
         : Foundatio.Logging.Xunit.TestWithLoggingBase, IClassFixture<WebApplicationFactory<TStartup>>
         where TStartup : class, IStartup
