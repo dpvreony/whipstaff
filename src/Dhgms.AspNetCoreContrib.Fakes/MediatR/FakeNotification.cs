@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MediatR;
+﻿using MediatR;
 
-namespace Dhgms.AspNetCoreContrib.Fakes
+namespace Dhgms.AspNetCoreContrib.Fakes.MediatR
 {
     /// <summary>
     /// Fake notification for MediatR.

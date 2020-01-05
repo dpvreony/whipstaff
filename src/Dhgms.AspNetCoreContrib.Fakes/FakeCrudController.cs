@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.App.Features.Swagger;
 using Dhgms.AspNetCoreContrib.Controllers;
+using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

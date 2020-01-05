@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
-using MediatR;
+using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 
-namespace Dhgms.AspNetCoreContrib.Fakes
+namespace Dhgms.AspNetCoreContrib.Fakes.MediatR
 {
     /// <summary>
     /// Represents a Mediatr code based registration.

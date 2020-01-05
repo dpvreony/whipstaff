@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Fakes;
+using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
+using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
+using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using Xunit.Abstractions;
@@ -39,6 +44,14 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.Mediatr
             public async Task ShouldSucceed()
             {
                 var services = new ServiceCollection();
+
+                var databaseName = Guid.NewGuid().ToString();
+                services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+                    .UseInMemoryDatabase(databaseName: databaseName)
+                    .Options);
+
+                // services.AddEntityFrameworkInMemoryDatabase();
+
                 Dhgms.AspNetCoreContrib.App.Features.Mediatr.MediatrHelpers.RegisterMediatrWithExplicitTypes(
                     services,
                     null,
@@ -46,11 +59,24 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.Mediatr
                     new FakeMediatrRegistration());
 
                 var serviceProvider = services.BuildServiceProvider();
+
+                using (var dbContext = new FakeDbContext(serviceProvider.GetService<DbContextOptions<FakeDbContext>>()))
+                {
+                    var entityCount = dbContext.FakeAddAudit.Count();
+                    Assert.Equal(0, entityCount);
+                }
+
                 var mediator = serviceProvider.GetService<IMediator>();
                 const int expected = 987654321;
                 var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current);
                 var sendResult = await mediator.Send(request).ConfigureAwait(false);
                 Assert.Equal(expected, sendResult);
+
+                using (var dbContext = new FakeDbContext(serviceProvider.GetService<DbContextOptions<FakeDbContext>>()))
+                {
+                    var entityCount = dbContext.FakeAddAudit.Count();
+                    Assert.Equal(1, entityCount);
+                }
 
                 var notification = new FakeNotification();
                 await mediator.Publish(notification)

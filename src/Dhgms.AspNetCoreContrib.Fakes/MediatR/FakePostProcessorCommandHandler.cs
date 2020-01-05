@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR.Pipeline;
 
-namespace Dhgms.AspNetCoreContrib.Fakes
+namespace Dhgms.AspNetCoreContrib.Fakes.MediatR
 {
     /// <summary>
     /// Fake Post Processor for MediatR.
