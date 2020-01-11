@@ -23,5 +23,15 @@ namespace Dhgms.AspNetCoreContrib.Fakes.EntityFramework
         /// Gets or sets the Fake Add Audit Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddAuditDbSet> FakeAddAudit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Fake Add Audit Pre Process Db Set.
+        /// </summary>
+        public DbSet<DbSets.FakeAddPreProcessAuditDbSet> FakeAddPreProcessAudit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Fake Add Audit Post Process Db Set.
+        /// </summary>
+        public DbSet<DbSets.FakeAddPostProcessAuditDbSet> FakeAddPostProcessAudit { get; set; }
     }
 }

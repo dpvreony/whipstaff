@@ -76,6 +76,12 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.Mediatr
                 {
                     var entityCount = dbContext.FakeAddAudit.Count();
                     Assert.Equal(1, entityCount);
+
+                    entityCount = dbContext.FakeAddPreProcessAudit.Count();
+                    Assert.Equal(1, entityCount);
+
+                    entityCount = dbContext.FakeAddPostProcessAudit.Count();
+                    Assert.Equal(1, entityCount);
                 }
 
                 var notification = new FakeNotification();
