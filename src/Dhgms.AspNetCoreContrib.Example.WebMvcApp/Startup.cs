@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using RimDev.Stuntman.Core;
 
 namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
 {
@@ -22,6 +24,8 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
     /// </summary>
     public class Startup : Dhgms.AspNetCoreContrib.App.BaseStartup
     {
+        private readonly StuntmanOptions _stuntmanOptions;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
@@ -29,6 +33,22 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         public Startup(IConfiguration configuration)
             : base(configuration)
         {
+            _stuntmanOptions = new StuntmanOptions();
+        }
+
+        /// <inheritdoc />
+        protected override void OnConfigureServices(IServiceCollection services)
+        {
+            services.AddStuntman(_stuntmanOptions);
+        }
+
+        /// <inheritdoc />
+        protected override void OnConfigure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory)
+        {
+            app.UseStuntman(_stuntmanOptions);
         }
 
         /// <inheritdoc />
