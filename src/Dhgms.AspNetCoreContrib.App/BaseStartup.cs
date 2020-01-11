@@ -120,8 +120,27 @@ namespace Dhgms.AspNetCoreContrib.App
             services.AddApplicationInsightsTelemetryProcessor<IgnorePathsTelemetry>();
             services.AddApplicationInsightsTelemetryProcessor<RemoveHttpUrlPasswordsTelemetry>();
 
+            OnConfigureServices(services);
+
             return services.BuildServiceProvider();
         }
+
+        /// <summary>
+        /// Configure app specific services.
+        /// </summary>
+        /// <param name="serviceCollection">Service Collection to modify.</param>
+        protected abstract void OnConfigureServices(IServiceCollection serviceCollection);
+
+        /// <summary>
+        /// Carry out application specific configuration.
+        /// </summary>
+        /// <param name="app">Application instance.</param>
+        /// <param name="env">Web Host Environment instance.</param>
+        /// <param name="loggerFactory">Logger factory instance.</param>
+        protected abstract void OnConfigure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory);
 
         /// <summary>
         /// Gets the assemblies that contain controllers.
@@ -216,6 +235,8 @@ namespace Dhgms.AspNetCoreContrib.App
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            OnConfigure(app, env, loggerFactory);
         }
     }
 }
