@@ -3,15 +3,13 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Dhgms.AspNetCoreContrib.Fakes
+namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 {
     /// <summary>
-    /// Represents a fake CRUD view response.
+    /// Registers a concrete type for handling Mediatr pre processors.
     /// </summary>
-    public sealed class FakeCrudViewResponse
+    public interface IRequestPreProcessorRegistrationHandler : IMediatrRegistrationModel
     {
     }
 }
