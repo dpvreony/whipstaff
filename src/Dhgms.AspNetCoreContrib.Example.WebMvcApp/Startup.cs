@@ -8,9 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Fakes;
+using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,6 +42,10 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         protected override void OnConfigureServices(IServiceCollection services)
         {
             services.AddStuntman(_stuntmanOptions);
+            var databaseName = Guid.NewGuid().ToString();
+            services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+                .UseInMemoryDatabase(databaseName: databaseName)
+                .Options);
         }
 
         /// <inheritdoc />
