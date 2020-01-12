@@ -24,19 +24,17 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
     [ExcludeFromCodeCoverage]
     public class BaseWebApplicationTest<TStartup>
         : Foundatio.Logging.Xunit.TestWithLoggingBase, IClassFixture<WebApplicationFactory<TStartup>>
-        where TStartup : class, IStartup
+        where TStartup : class
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseWebApplicationTest{TStartup}"/> class.
         /// </summary>
         /// <param name="output">XUnit Logging output helper.</param>
-        /// <param name="factory">Factory method for the web application.</param>
         public BaseWebApplicationTest(
-            ITestOutputHelper output,
-            WebApplicationFactory<TStartup> factory)
+            ITestOutputHelper output)
             : base(output)
         {
-            Factory = factory;
+            Factory = new WebApplicationFactory<TStartup>();
         }
 
         /// <summary>

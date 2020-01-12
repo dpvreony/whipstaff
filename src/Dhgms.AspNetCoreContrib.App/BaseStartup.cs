@@ -36,7 +36,7 @@ namespace Dhgms.AspNetCoreContrib.App
     /// <summary>
     /// Core Initialization logic.
     /// </summary>
-    public abstract class BaseStartup : IStartup
+    public abstract class BaseStartup
     {
         private readonly MiniProfilerApplicationStartHelper _miniProfilerApplicationStartHelper;
 
@@ -55,7 +55,10 @@ namespace Dhgms.AspNetCoreContrib.App
         /// </summary>
         public IConfiguration Configuration { get; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Configure the web application.
+        /// </summary>
+        /// <param name="app">Application Builder.</param>
         public void Configure(IApplicationBuilder app)
         {
             if (app == null)
@@ -69,8 +72,11 @@ namespace Dhgms.AspNetCoreContrib.App
             Configure(app, env, logger);
         }
 
-        /// <inheritdoc />
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        /// <summary>
+        /// Configure the services for the web application.
+        /// </summary>
+        /// <param name="services">DI services collection instance.</param>
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddFeatureManagement();
             services.AddMiddlewareAnalysis();
@@ -121,8 +127,6 @@ namespace Dhgms.AspNetCoreContrib.App
             services.AddApplicationInsightsTelemetryProcessor<RemoveHttpUrlPasswordsTelemetry>();
 
             OnConfigureServices(services);
-
-            return services.BuildServiceProvider();
         }
 
         /// <summary>

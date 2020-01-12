@@ -20,11 +20,8 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         /// Initializes a new instance of the <see cref="WebMvcAppApplicationTest"/> class.
         /// </summary>
         /// <param name="output">XUnit Logging output helper.</param>
-        /// <param name="factory">Factory method for the web application.</param>
-        public WebBlazorServerApplicationTest(
-            ITestOutputHelper output,
-            WebApplicationFactory<Startup> factory)
-            : base(output, factory)
+        public WebBlazorServerApplicationTest(ITestOutputHelper output)
+            : base(output)
         {
         }
 
@@ -41,7 +38,7 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(Uri requestUri)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestUri)
         {
             var client = Factory.CreateClient();
             var response = await client.GetAsync(requestUri).ConfigureAwait(false);
