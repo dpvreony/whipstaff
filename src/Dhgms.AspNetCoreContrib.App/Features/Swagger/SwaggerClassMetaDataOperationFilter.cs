@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -28,7 +29,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Swagger
     {
         /// <inheritdoc/>
         public void Apply(
-            Operation operation,
+            OpenApiOperation operation,
             OperationFilterContext context)
         {
             if (operation == null)
@@ -41,6 +42,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Swagger
                 throw new ArgumentNullException(nameof(context));
             }
 
+            /*
             var successResponseType = GetSuccessResponseType(context);
             if (successResponseType != null)
             {
@@ -48,6 +50,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Swagger
             }
 
             operation.Responses["404"] = new Response { Description = "Not Found" };
+            */
 
             /*
             var apiDesc = context.ApiDescription;
