@@ -35,7 +35,7 @@
     <PackageReference Include="OwaspHeaders.Core" Version="4.2.0" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="4.5.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />
     <PackageReference Include="SwashBuckle.AspNetCore.MicrosoftExtensions" Version="0.5.0" />
   </ItemGroup>
 
