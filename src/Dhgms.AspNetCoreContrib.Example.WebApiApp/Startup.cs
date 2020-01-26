@@ -34,6 +34,19 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
+        protected override void OnConfigureServices(IServiceCollection serviceCollection)
+        {
+        }
+
+        /// <inheritdoc />
+        protected override void OnConfigure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            ILoggerFactory loggerFactory)
+        {
+        }
+
+        /// <inheritdoc />
         protected override Assembly[] GetControllerAssemblies()
         {
             return new[]

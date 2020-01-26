@@ -2,24 +2,24 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.AspNetCoreContrib.Fakes
-{
-    using System.Diagnostics.CodeAnalysis;
-    using System.Security.Claims;
-    using Dhgms.AspNetCoreContrib.Controllers;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+using Dhgms.AspNetCoreContrib.Controllers;
 
+namespace Dhgms.AspNetCoreContrib.Fakes.Cqrs
+{
     /// <summary>
-    /// Represents a fake CRUD update command.
+    /// Represents a fake CRUD view query.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudUpdateCommand : AuditableRequest<int, FakeCrudUpdateResponse>
+    public class FakeCrudViewQuery : AuditableRequest<long, FakeCrudViewResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCrudUpdateCommand"/> class.
+        /// Initializes a new instance of the <see cref="FakeCrudViewQuery"/> class.
         /// </summary>
         /// <param name="requestDto">the unique id for the request.</param>
         /// <param name="claimsPrincipal">the claims principal associated with the request.</param>
-        public FakeCrudUpdateCommand(int requestDto, ClaimsPrincipal claimsPrincipal)
+        public FakeCrudViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal)
             : base(requestDto, claimsPrincipal)
         {
         }

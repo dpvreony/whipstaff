@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features
     /// <summary>
     /// Unit tests for the Excel Spreadsheet document helper.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class SpreadsheetDocumentHelperTests
     {
         /// <summary>

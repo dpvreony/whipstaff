@@ -25,6 +25,8 @@
 #tool "dotnet:?package=dotnet-sonarscanner&version=4.4.2"
 #tool "nuget:?package=docfx.console&version=2.40.5"
 #tool "dotnet:?package=dotMorten.OmdGenerator&version=1.1.2"
+#tool "dotnet:?package=ConfigValidate&version=1.0.0&global"
+#tool "dotnet:?package=dotnet-outdated&version=2.7.0&global"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -86,7 +88,7 @@ var packageVersion = isReleaseBranch ? majorMinorPatch : informationalVersion;
 Information("informationalVersion: " + informationalVersion);
 Information("assemblyVersion: " + assemblyVersion);
 Information("fileVersion: " + fileVersion);
-
+Information("packageVersion: " + packageVersion);
 
 // Artifacts
 var artifactDirectory = "./artifacts/";
@@ -112,7 +114,6 @@ if (isRepository && !local && sonarQubeLogin != null) {
         Information("Sonar on branch " + AppVeyor.Environment.Repository.Branch);
     }
 }
-
 
 // Define global marcos.
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
@@ -281,15 +282,48 @@ Task("Package")
 {
 });
 
+Task("ValidateConfiguration")
+    .IsDependentOn("BuildSolution")
+    .Does (() =>
+{
+	var directories = GetSubDirectories("./src/");
+	foreach (var dir in directories)
+	{
+		var validationSettings = new ProcessSettings
+		{
+			Arguments = "config-validate",
+			WorkingDirectory = dir
+		};
+		StartProcess("dotnet.exe", validationSettings);
+	}
+});
+
+Task("ListOutdatedPackages")
+    .IsDependentOn("BuildSolution")
+    .Does (() =>
+{
+	var dir = Directory("./src/");
+    CreateDirectory(artifactDirectory + "\\outdated");
+	var validationSettings = new ProcessSettings
+	{
+		Arguments = "outdated -o artifacts\\outdated\\outdated.json src",
+		//WorkingDirectory = dir
+	};
+	StartProcess("dotnet.exe", validationSettings);
+});
+
 Task("GenerateOmd")
     .IsDependentOn("Sonar")
     .Does (() =>
 {
-    var omdSettings = new ProcessSettings{ Arguments = "/source=src /output=artifacts\\omd.htm /format=html" };
+    CreateDirectory(artifactDirectory + "\\omd");
+    var omdSettings = new ProcessSettings{ Arguments = "/source=src /output=artifacts\\omd\\index.htm /format=html" };
     StartProcess("tools\\generateomd.exe", omdSettings);
 });
 
 Task("PublishPackages")
+    .IsDependentOn("ListOutdatedPackages")
+    //.IsDependentOn("ValidateConfiguration")
     .IsDependentOn("RunUnitTests")
     .IsDependentOn("GenerateOmd")
     .IsDependentOn("Package")

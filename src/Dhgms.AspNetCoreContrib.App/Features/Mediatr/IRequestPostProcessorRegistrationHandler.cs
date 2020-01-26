@@ -3,15 +3,13 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Dhgms.AspNetCoreContrib.Fakes
+namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 {
     /// <summary>
-    /// Represents a fake CRUD update response.
+    /// Registers a concrete type for handling Mediatr post processors.
     /// </summary>
-    public class FakeCrudUpdateResponse
+    public interface IRequestPostProcessorRegistrationHandler : IMediatrRegistrationModel
     {
     }
 }

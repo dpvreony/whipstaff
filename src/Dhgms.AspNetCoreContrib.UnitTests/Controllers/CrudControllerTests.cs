@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.Fakes;
+using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
