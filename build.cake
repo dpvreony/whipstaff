@@ -27,6 +27,7 @@
 #tool "dotnet:?package=dotMorten.OmdGenerator&version=1.1.2"
 #tool "dotnet:?package=ConfigValidate&version=1.0.0&global"
 #tool "dotnet:?package=dotnet-outdated&version=2.7.0&global"
+#tool "dotnet:?package=snitch&global"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -312,6 +313,18 @@ Task("ListOutdatedPackages")
 	StartProcess("dotnet.exe", validationSettings);
 });
 
+Task("RunSnitchOnPackages")
+    .IsDependentOn("BuildSolution")
+    .Does (() =>
+{
+	var dir = Directory("./src/");
+	var snitchSettings = new ProcessSettings
+	{
+		WorkingDirectory = dir
+	};
+	StartProcess("snitch", snitchSettings);
+});
+
 Task("GenerateOmd")
     .IsDependentOn("Sonar")
     .Does (() =>
@@ -323,6 +336,7 @@ Task("GenerateOmd")
 
 Task("PublishPackages")
     .IsDependentOn("ListOutdatedPackages")
+    .IsDependentOn("RunSnitchOnPackages")
     //.IsDependentOn("ValidateConfiguration")
     .IsDependentOn("RunUnitTests")
     .IsDependentOn("GenerateOmd")
