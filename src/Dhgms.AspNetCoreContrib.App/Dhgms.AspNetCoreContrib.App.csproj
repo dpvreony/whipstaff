@@ -31,7 +31,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.1.0" />
     <PackageReference Include="ReactiveUI" Version="11.1.23" />
-    <PackageReference Include="ReactiveUI.Fody" Version="11.1.12" />
+    <PackageReference Include="ReactiveUI.Fody" Version="11.1.23" />
     <PackageReference Include="OwaspHeaders.Core" Version="4.2.0" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
