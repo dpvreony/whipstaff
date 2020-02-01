@@ -41,15 +41,20 @@ namespace Dhgms.AspNetCoreContrib.App
     public abstract class BaseStartup
     {
         private readonly MiniProfilerApplicationStartHelper _miniProfilerApplicationStartHelper;
+        private readonly bool _useSwagger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseStartup"/> class.
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
-        protected BaseStartup(IConfiguration configuration)
+        /// <param name="useSwagger">Flag indicating whether to enable swagger.</param>
+        protected BaseStartup(
+            IConfiguration configuration,
+            bool useSwagger)
         {
             Configuration = configuration;
             _miniProfilerApplicationStartHelper = new MiniProfilerApplicationStartHelper();
+            _useSwagger = useSwagger;
         }
 
         /// <summary>
@@ -83,21 +88,9 @@ namespace Dhgms.AspNetCoreContrib.App
             services.AddFeatureManagement();
             services.AddMiddlewareAnalysis();
 
-            var controllerAssemblies = GetControllerAssemblies();
-            foreach (var controllerAssembly in controllerAssemblies)
-            {
-                services.AddControllers()
-                    .AddApplicationPart(controllerAssembly)
-                    .AddControllersAsServices()
-                    .SetCompatibilityVersion(CompatibilityVersion.Latest);
-            }
+            ConfigureControllerService(services);
 
-            var mediatrRegistration = GetMediatrRegistration();
-            MediatrHelpers.RegisterMediatrWithExplicitTypes(
-                services,
-                null,
-                new MediatRServiceConfiguration(),
-                mediatrRegistration);
+            ConfigureMediatrService(services);
 
             services.AddProblemDetails();
 
@@ -105,11 +98,14 @@ namespace Dhgms.AspNetCoreContrib.App
 
             new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
 
-            services.AddSwaggerGen(c =>
+            if (_useSwagger)
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
-            });
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                    c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+                });
+            }
 
             /*
             _miniProfilerApplicationStartHelper.ConfigureService(services, Configuration);
@@ -225,11 +221,14 @@ namespace Dhgms.AspNetCoreContrib.App
             _miniProfilerApplicationStartHelper.ConfigureApplication(app);
             */
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            if (_useSwagger)
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                });
+            }
 
             app.UseRouting();
 
@@ -243,6 +242,28 @@ namespace Dhgms.AspNetCoreContrib.App
             });
 
             OnConfigure(app, env, loggerFactory);
+        }
+
+        private void ConfigureControllerService(IServiceCollection services)
+        {
+            var controllerAssemblies = GetControllerAssemblies();
+            foreach (var controllerAssembly in controllerAssemblies)
+            {
+                services.AddControllers()
+                    .AddApplicationPart(controllerAssembly)
+                    .AddControllersAsServices()
+                    .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            }
+        }
+
+        private void ConfigureMediatrService(IServiceCollection services)
+        {
+            var mediatrRegistration = GetMediatrRegistration();
+            MediatrHelpers.RegisterMediatrWithExplicitTypes(
+                services,
+                null,
+                new MediatRServiceConfiguration(),
+                mediatrRegistration);
         }
     }
 }

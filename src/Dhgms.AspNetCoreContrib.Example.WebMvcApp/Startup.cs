@@ -35,7 +35,7 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
         public Startup(IConfiguration configuration)
-            : base(configuration)
+            : base(configuration, false)
         {
             _stuntmanOptions = new StuntmanOptions();
         }

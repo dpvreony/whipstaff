@@ -31,7 +31,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// </summary>
         /// <param name="configuration">The configuration object for the application instance.</param>
         public Startup(IConfiguration configuration)
-            : base(configuration)
+            : base(configuration, true)
         {
         }
 
