@@ -8,6 +8,7 @@ using System.Reflection;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
+using Dhgms.AspNetCoreContrib.App.Features.ApiAuthorization;
 using Dhgms.AspNetCoreContrib.App.Features.Apm;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
 using Dhgms.AspNetCoreContrib.App.Features.DiagnosticListener;
@@ -164,6 +165,7 @@ namespace Dhgms.AspNetCoreContrib.App
             authorizationOptions.AddPolicy("ListPolicyName", builder => builder.RequireAssertion(_ => true).Build());
             authorizationOptions.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build());
             authorizationOptions.AddPolicy("ViewPolicyName", builder => builder.RequireAssertion(_ => true).Build());
+            authorizationOptions.AddPolicy("ControllerAuthenticatedUser", builder => builder.RequireAuthenticatedUser().Build());
         }
 
         private void Configure(
@@ -249,7 +251,7 @@ namespace Dhgms.AspNetCoreContrib.App
             var controllerAssemblies = GetControllerAssemblies();
             foreach (var controllerAssembly in controllerAssemblies)
             {
-                services.AddControllers()
+                services.AddControllers(options => options.Conventions.Add(new AddAuthorizePolicyControllerConvention()))
                     .AddApplicationPart(controllerAssembly)
                     .AddControllersAsServices()
                     .SetCompatibilityVersion(CompatibilityVersion.Latest);
