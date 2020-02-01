@@ -26,6 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
+using Microsoft.OpenApi.Models;
 using OwaspHeaders.Core.Extensions;
 using RimDev.ApplicationInsights.Filters;
 using RimDev.ApplicationInsights.Filters.Processors;
@@ -104,7 +105,7 @@ namespace Dhgms.AspNetCoreContrib.App
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
             });
 
