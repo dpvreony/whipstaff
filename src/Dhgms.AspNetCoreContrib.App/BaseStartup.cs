@@ -99,20 +99,19 @@ namespace Dhgms.AspNetCoreContrib.App
                 new MediatRServiceConfiguration(),
                 mediatrRegistration);
 
-            /*
             services.AddProblemDetails();
-            */
 
             services.AddAuthorization(ConfigureAuthorization);
 
             new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
 
-            /*
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
             });
 
+            /*
             _miniProfilerApplicationStartHelper.ConfigureService(services, Configuration);
             */
 
@@ -195,9 +194,7 @@ namespace Dhgms.AspNetCoreContrib.App
 
             app.UseBlockingDetection();
 
-            /*
             app.UseProblemDetails();
-            */
 
             var version = new Version(0, 1, 1, 9999);
 
@@ -228,6 +225,12 @@ namespace Dhgms.AspNetCoreContrib.App
             _miniProfilerApplicationStartHelper.ConfigureApplication(app);
             */
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -238,40 +241,6 @@ namespace Dhgms.AspNetCoreContrib.App
                     new { action = "Get" },
                     new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
             });
-
-            /*
-        app.UseMvc(routes =>
-        {
-            routes.MapRoute(
-                name: "get",
-                template: "api/{controller}/{id?}",
-                defaults: new { action = "Get" },
-                constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
-            routes.MapRoute(
-                name: "post",
-                template: "api/{controller}",
-                defaults: new { action = "PostAsync" },
-                constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
-            routes.MapRoute(
-                name: "put",
-                template: "api/{controller}/{id}",
-                defaults: new { action = "PutAsync" },
-                constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PUT") }));
-            routes.MapRoute(
-                name: "delete",
-                template: "api/{controller}/{id}",
-                defaults: new { action = "DeleteAsync" },
-                constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
-        });
-        */
-
-            /*
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
-            */
 
             OnConfigure(app, env, loggerFactory);
         }
