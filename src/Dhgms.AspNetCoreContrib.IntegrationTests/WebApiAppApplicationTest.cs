@@ -45,7 +45,7 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
 
             response.EnsureSuccessStatusCode();
             Assert.Equal(
-                "text/html; charset=utf-8",
+                "application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
 
             await LogResponseAsync(response).ConfigureAwait(false);
@@ -57,11 +57,11 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
             {
                 new object[]
                 {
-                    "/api/fakecrud/",
+                    "https://localhost/api/fakecrud/",
                 },
                 new object[]
                 {
-                    "/api/fakecrud/1",
+                    "https://localhost/api/fakecrud/1",
                 },
             };
         }

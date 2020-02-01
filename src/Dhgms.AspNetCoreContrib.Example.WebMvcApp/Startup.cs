@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
 using Dhgms.AspNetCoreContrib.Fakes;
 using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
+using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -67,13 +69,9 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override Assembly[] GetMediatrAssemblies()
+        protected override IMediatrRegistration GetMediatrRegistration()
         {
-            return new[]
-            {
-                typeof(FakeCrudController).Assembly,
-                typeof(Startup).Assembly,
-            };
+            return new FakeMediatrRegistration();
         }
     }
 }

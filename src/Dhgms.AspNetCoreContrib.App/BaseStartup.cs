@@ -11,6 +11,7 @@ using Ben.Diagnostics;
 using Dhgms.AspNetCoreContrib.App.Features.Apm;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
 using Dhgms.AspNetCoreContrib.App.Features.DiagnosticListener;
+using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
 using Dhgms.AspNetCoreContrib.App.Features.StartUp;
 using Dhgms.AspNetCoreContrib.App.Features.Swagger;
 using Hellang.Middleware.ProblemDetails;
@@ -91,18 +92,18 @@ namespace Dhgms.AspNetCoreContrib.App
                     .SetCompatibilityVersion(CompatibilityVersion.Latest);
             }
 
-            var mediatrAssemblies = GetMediatrAssemblies();
-
-            if (mediatrAssemblies?.Length > 0)
-            {
-                services.AddMediatR(mediatrAssemblies);
-            }
+            var mediatrRegistration = GetMediatrRegistration();
+            MediatrHelpers.RegisterMediatrWithExplicitTypes(
+                services,
+                null,
+                new MediatRServiceConfiguration(),
+                mediatrRegistration);
 
             /*
             services.AddProblemDetails();
             */
 
-            services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
+            services.AddAuthorization(ConfigureAuthorization);
 
             new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
 
@@ -158,14 +159,16 @@ namespace Dhgms.AspNetCoreContrib.App
         protected abstract Assembly[] GetControllerAssemblies();
 
         /// <summary>
-        /// Gets the assemblies that contain mediatr command handlers.
+        /// Gets a mediatr registration object. This is used to avoid reflection.
         /// </summary>
         /// <returns>Array of assemblies.</returns>
-        protected abstract Assembly[] GetMediatrAssemblies();
+        protected abstract IMediatrRegistration GetMediatrRegistration();
 
-        private static void SetUpMvc(MvcOptions mvcOptions)
+        private static void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
         {
-            mvcOptions.EnableEndpointRouting = true;
+            authorizationOptions.AddPolicy("ListPolicyName", builder => builder.RequireAssertion(_ => true).Build());
+            authorizationOptions.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build());
+            authorizationOptions.AddPolicy("ViewPolicyName", builder => builder.RequireAssertion(_ => true).Build());
         }
 
         private void Configure(
