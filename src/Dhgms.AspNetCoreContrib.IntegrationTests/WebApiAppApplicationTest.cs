@@ -57,7 +57,11 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
             {
                 new object[]
                 {
-                    "/",
+                    "/api/fakecrud/",
+                },
+                new object[]
+                {
+                    "/api/fakecrud/1",
                 },
             };
         }
