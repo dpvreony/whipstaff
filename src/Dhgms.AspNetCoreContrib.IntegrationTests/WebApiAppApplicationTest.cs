@@ -20,11 +20,8 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         /// Initializes a new instance of the <see cref="WebMvcAppApplicationTest"/> class.
         /// </summary>
         /// <param name="output">XUnit Logging output helper.</param>
-        /// <param name="factory">Factory method for the web application.</param>
-        public WebApiAppApplicationTest(
-            ITestOutputHelper output,
-            WebApplicationFactory<Startup> factory)
-            : base(output, factory)
+        public WebApiAppApplicationTest(ITestOutputHelper output)
+            : base(output)
         {
         }
 
@@ -41,14 +38,14 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(Uri requestUri)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestUri)
         {
             var client = Factory.CreateClient();
             var response = await client.GetAsync(requestUri).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
             Assert.Equal(
-                "text/html; charset=utf-8",
+                "application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
 
             await LogResponseAsync(response).ConfigureAwait(false);
@@ -60,7 +57,11 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
             {
                 new object[]
                 {
-                    "/",
+                    "https://localhost/api/fakecrud/",
+                },
+                new object[]
+                {
+                    "https://localhost/api/fakecrud/1",
                 },
             };
         }

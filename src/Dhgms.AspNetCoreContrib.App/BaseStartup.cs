@@ -8,9 +8,11 @@ using System.Reflection;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
+using Dhgms.AspNetCoreContrib.App.Features.ApiAuthorization;
 using Dhgms.AspNetCoreContrib.App.Features.Apm;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
 using Dhgms.AspNetCoreContrib.App.Features.DiagnosticListener;
+using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
 using Dhgms.AspNetCoreContrib.App.Features.StartUp;
 using Dhgms.AspNetCoreContrib.App.Features.Swagger;
 using Hellang.Middleware.ProblemDetails;
@@ -37,18 +39,23 @@ namespace Dhgms.AspNetCoreContrib.App
     /// <summary>
     /// Core Initialization logic.
     /// </summary>
-    public abstract class BaseStartup : IStartup
+    public abstract class BaseStartup
     {
         private readonly MiniProfilerApplicationStartHelper _miniProfilerApplicationStartHelper;
+        private readonly bool _useSwagger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseStartup"/> class.
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
-        protected BaseStartup(IConfiguration configuration)
+        /// <param name="useSwagger">Flag indicating whether to enable swagger.</param>
+        protected BaseStartup(
+            IConfiguration configuration,
+            bool useSwagger)
         {
             Configuration = configuration;
             _miniProfilerApplicationStartHelper = new MiniProfilerApplicationStartHelper();
+            _useSwagger = useSwagger;
         }
 
         /// <summary>
@@ -56,7 +63,10 @@ namespace Dhgms.AspNetCoreContrib.App
         /// </summary>
         public IConfiguration Configuration { get; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Configure the web application.
+        /// </summary>
+        /// <param name="app">Application Builder.</param>
         public void Configure(IApplicationBuilder app)
         {
             if (app == null)
@@ -70,40 +80,37 @@ namespace Dhgms.AspNetCoreContrib.App
             Configure(app, env, logger);
         }
 
-        /// <inheritdoc />
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        /// <summary>
+        /// Configure the services for the web application.
+        /// </summary>
+        /// <param name="services">DI services collection instance.</param>
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddFeatureManagement();
             services.AddMiddlewareAnalysis();
 
-            var controllerAssemblies = GetControllerAssemblies();
-            foreach (var controllerAssembly in controllerAssemblies)
-            {
-                services.AddMvc()
-                    .AddApplicationPart(controllerAssembly)
-                    .SetCompatibilityVersion(CompatibilityVersion.Latest);
-            }
+            ConfigureControllerService(services);
 
-            var mediatrAssemblies = GetMediatrAssemblies();
-
-            if (mediatrAssemblies?.Length > 0)
-            {
-                services.AddMediatR(mediatrAssemblies);
-            }
+            ConfigureMediatrService(services);
 
             services.AddProblemDetails();
 
-            services.AddAuthorization(configure => configure.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build()));
+            services.AddAuthorization(ConfigureAuthorization);
 
             new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
 
-            services.AddSwaggerGen(c =>
+            if (_useSwagger)
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
-            });
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                    c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+                });
+            }
 
+            /*
             _miniProfilerApplicationStartHelper.ConfigureService(services, Configuration);
+            */
 
             /*
             services.AddSingleton(new IgnoreHangfireTelemetryOptions
@@ -122,8 +129,6 @@ namespace Dhgms.AspNetCoreContrib.App
             services.AddApplicationInsightsTelemetryProcessor<RemoveHttpUrlPasswordsTelemetry>();
 
             OnConfigureServices(services);
-
-            return services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -150,10 +155,18 @@ namespace Dhgms.AspNetCoreContrib.App
         protected abstract Assembly[] GetControllerAssemblies();
 
         /// <summary>
-        /// Gets the assemblies that contain mediatr command handlers.
+        /// Gets a mediatr registration object. This is used to avoid reflection.
         /// </summary>
         /// <returns>Array of assemblies.</returns>
-        protected abstract Assembly[] GetMediatrAssemblies();
+        protected abstract IMediatrRegistration GetMediatrRegistration();
+
+        private static void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
+        {
+            authorizationOptions.AddPolicy("ListPolicyName", builder => builder.RequireAssertion(_ => true).Build());
+            authorizationOptions.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build());
+            authorizationOptions.AddPolicy("ViewPolicyName", builder => builder.RequireAssertion(_ => true).Build());
+            authorizationOptions.AddPolicy("ControllerAuthenticatedUser", builder => builder.RequireAuthenticatedUser().Build());
+        }
 
         private void Configure(
             IApplicationBuilder app,
@@ -178,6 +191,7 @@ namespace Dhgms.AspNetCoreContrib.App
             }
 
             app.UseBlockingDetection();
+
             app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
@@ -205,39 +219,53 @@ namespace Dhgms.AspNetCoreContrib.App
                 fileDataProvider.DirectoryPath = "log";
             }
 
+            /*
             _miniProfilerApplicationStartHelper.ConfigureApplication(app);
+            */
 
-            app.UseMvc(routes =>
+            if (_useSwagger)
             {
-                routes.MapRoute(
-                    name: "get",
-                    template: "api/{controller}/{id?}",
-                    defaults: new { action = "GetAsync" },
-                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
-                routes.MapRoute(
-                    name: "post",
-                    template: "api/{controller}",
-                    defaults: new { action = "PostAsync" },
-                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
-                routes.MapRoute(
-                    name: "post",
-                    template: "api/{controller}/{id}",
-                    defaults: new { action = "PutAsync" },
-                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PUT") }));
-                routes.MapRoute(
-                    name: "delete",
-                    template: "api/{controller}/{id}",
-                    defaults: new { action = "DeleteAsync" },
-                    constraints: new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                });
+            }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                endpoints.MapControllerRoute(
+                    "get",
+                    "api/{controller}/{id?}",
+                    new { action = "Get" },
+                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
             });
 
             OnConfigure(app, env, loggerFactory);
+        }
+
+        private void ConfigureControllerService(IServiceCollection services)
+        {
+            var controllerAssemblies = GetControllerAssemblies();
+            foreach (var controllerAssembly in controllerAssemblies)
+            {
+                services.AddControllers(options => options.Conventions.Add(new AddAuthorizePolicyControllerConvention()))
+                    .AddApplicationPart(controllerAssembly)
+                    .AddControllersAsServices()
+                    .SetCompatibilityVersion(CompatibilityVersion.Latest);
+            }
+        }
+
+        private void ConfigureMediatrService(IServiceCollection services)
+        {
+            var mediatrRegistration = GetMediatrRegistration();
+            MediatrHelpers.RegisterMediatrWithExplicitTypes(
+                services,
+                null,
+                new MediatRServiceConfiguration(),
+                mediatrRegistration);
         }
     }
 }

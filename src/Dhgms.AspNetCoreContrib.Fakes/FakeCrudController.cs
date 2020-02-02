@@ -4,6 +4,8 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.App.Features.Swagger;
@@ -19,7 +21,6 @@ namespace Dhgms.AspNetCoreContrib.Fakes
     /// <summary>
     /// Fake CRUD Web Controller, for use in examples and unit tests.
     /// </summary>
-    [Route("/fakecrud")]
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
     public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse>
@@ -30,21 +31,22 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
-        /// <param name="commandFactory">The factory for generating Command messages.</param>
-        /// <param name="queryFactory">The factory for generating Query messages.</param>
         public FakeCrudController(
             IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
-            IMediator mediator,
-            IAuditableCommandFactory<FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse> commandFactory,
-            IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse> queryFactory)
+            IMediator mediator)
             : base(
                 authorizationService,
                 logger,
-                mediator,
-                commandFactory,
-                queryFactory)
+                mediator)
         {
+        }
+
+        /// <inheritdoc />
+        protected override Task<FakeCrudListQuery> GetListQueryAsync(FakeCrudListRequest listRequestDto, ClaimsPrincipal claimsPrincipal,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new FakeCrudListQuery(listRequestDto, claimsPrincipal));
         }
 
         /// <inheritdoc />
@@ -84,9 +86,21 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         }
 
         /// <inheritdoc />
+        protected override Task<FakeCrudViewQuery> GetViewQueryAsync(long id, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new FakeCrudViewQuery(id, claimsPrincipal));
+        }
+
+        /// <inheritdoc />
         protected override async Task<IActionResult> GetAddActionResultAsync(int result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        protected override Task<FakeCrudAddCommand> GetAddCommandAsync(int addRequestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new FakeCrudAddCommand(addRequestDto, claimsPrincipal));
         }
 
         /// <inheritdoc />
@@ -99,6 +113,15 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         protected override async Task<string> GetAddPolicyAsync()
         {
             return await Task.FromResult("addPolicyName").ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        protected override Task<FakeCrudDeleteCommand> GetDeleteCommand(
+            long id,
+            ClaimsPrincipal claimsPrincipal,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new FakeCrudDeleteCommand(id, claimsPrincipal));
         }
 
         /// <inheritdoc />
@@ -117,6 +140,15 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         protected override async Task<string> GetDeletePolicyAsync()
         {
             return await Task.FromResult("deletePolicyName").ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        protected override Task<FakeCrudUpdateCommand> GetUpdateCommandAsync(
+            int updateRequestDto,
+            ClaimsPrincipal claimsPrincipal,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new FakeCrudUpdateCommand(updateRequestDto, claimsPrincipal));
         }
 
         /// <inheritdoc />

@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
@@ -46,29 +47,21 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
         where TUpdateResponseDto : class
     {
-        private readonly IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> _commandFactory;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CrudController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
-        /// <param name="commandFactory">The factory for generating Command messages.</param>
-        /// <param name="queryFactory">The factory for generating Query messages.</param>
         protected CrudController(
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
-            IMediator mediator,
-            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
+            IMediator mediator)
             : base(
                   authorizationService,
                   logger,
-                  mediator,
-                  queryFactory)
+                  mediator)
         {
-            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         }
 
         /// <summary>
@@ -77,7 +70,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="id">Unique ID of the entity to be deleted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> DeleteAsync(
+        public async Task<IActionResult> Delete(
             int id,
             CancellationToken cancellationToken)
         {
@@ -92,7 +85,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 eventId,
                 deletePolicyName,
                 GetDeleteActionResultAsync,
-                _commandFactory.GetDeleteCommandAsync,
+                GetDeleteCommand,
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -102,7 +95,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="addRequestDto">The Request DTO for the Add Operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> PostAsync(
+        public async Task<IActionResult> Post(
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
@@ -117,7 +110,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 eventId,
                 addPolicyName,
                 GetAddActionResultAsync,
-                _commandFactory.GetAddCommandAsync,
+                GetAddCommandAsync,
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -128,7 +121,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="updateRequestDto">The Request DTO of the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> PutAsync(
+        public async Task<IActionResult> Put(
             long id,
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
@@ -145,7 +138,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 eventId,
                 updatePolicyName,
                 GetUpdateActionResultAsync,
-                _commandFactory.GetUpdateCommandAsync,
+                GetUpdateCommandAsync,
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -155,6 +148,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<IActionResult> GetAddActionResultAsync(TAddResponseDto result);
+
+        /// <summary>
+        /// Gets the CQRS Command for the Add operation.
+        /// </summary>
+        /// <param name="addRequestDto">The Add Request DTO.</param>
+        /// <param name="claimsPrincipal">The claims principal of the user requesting the add.</param>
+        /// <param name="cancellationToken">The cancellation token for the request.</param>
+        /// <returns></returns>
+        protected abstract Task<TAddCommand> GetAddCommandAsync(
+            TAddRequestDto addRequestDto,
+            ClaimsPrincipal claimsPrincipal,
+            CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets the event id for Add Event. Used in logging and APM tools.
@@ -176,6 +181,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         protected abstract Task<IActionResult> GetDeleteActionResultAsync(TDeleteResponseDto result);
 
         /// <summary>
+        /// Gets the CQRS Delete Command
+        /// </summary>
+        /// <param name="id">Unique Id for the entity to delete.</param>
+        /// <param name="claimsPrincipal">Claims Principal of the user requesting deletion.</param>
+        /// <param name="cancellationToken">Cancellation token for the request.</param>
+        /// <returns></returns>
+        protected abstract Task<TDeleteCommand> GetDeleteCommand(
+            long id,
+            ClaimsPrincipal claimsPrincipal,
+            CancellationToken cancellationToken);
+
+        /// <summary>
         /// Gets the event id for Delete Event. Used in logging and APM tools.
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
@@ -193,6 +210,18 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<IActionResult> GetUpdateActionResultAsync(TUpdateResponseDto result);
+
+        /// <summary>
+        /// Gets the CQRS update command for the request.
+        /// </summary>
+        /// <param name="updateRequestDto">The Update request DTO</param>
+        /// <param name="claimsPrincipal">The claims principal of the user requesting the update.</param>
+        /// <param name="cancellationToken">The cancellation token for the request.</param>
+        /// <returns>CQRS Update Command.</returns>
+        protected abstract Task<TUpdateCommand> GetUpdateCommandAsync(
+            TUpdateRequestDto updateRequestDto,
+            ClaimsPrincipal claimsPrincipal,
+            CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets the event id for Update Event. Used in logging and APM tools.

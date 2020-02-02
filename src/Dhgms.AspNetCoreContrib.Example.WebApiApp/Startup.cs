@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
 using Dhgms.AspNetCoreContrib.Fakes;
+using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,7 +31,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// </summary>
         /// <param name="configuration">The configuration object for the application instance.</param>
         public Startup(IConfiguration configuration)
-            : base(configuration)
+            : base(configuration, true)
         {
         }
 
@@ -56,13 +58,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override Assembly[] GetMediatrAssemblies()
+        protected override IMediatrRegistration GetMediatrRegistration()
         {
-            return new[]
-            {
-                typeof(FakeCrudController).Assembly,
-                typeof(Startup).Assembly,
-            };
+            return new FakeMediatrRegistration();
         }
     }
 }

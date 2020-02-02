@@ -7,10 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
 using Dhgms.AspNetCoreContrib.Fakes;
+using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
+using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +35,7 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
         public Startup(IConfiguration configuration)
-            : base(configuration)
+            : base(configuration, false)
         {
             _stuntmanOptions = new StuntmanOptions();
         }
@@ -40,6 +44,10 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         protected override void OnConfigureServices(IServiceCollection services)
         {
             services.AddStuntman(_stuntmanOptions);
+            var databaseName = Guid.NewGuid().ToString();
+            services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+                .UseInMemoryDatabase(databaseName: databaseName)
+                .Options);
         }
 
         /// <inheritdoc />
@@ -61,13 +69,9 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override Assembly[] GetMediatrAssemblies()
+        protected override IMediatrRegistration GetMediatrRegistration()
         {
-            return new[]
-            {
-                typeof(FakeCrudController).Assembly,
-                typeof(Startup).Assembly,
-            };
+            return new FakeMediatrRegistration();
         }
     }
 }
