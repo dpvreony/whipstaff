@@ -2,6 +2,11 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using OwaspHeaders.Core.Extensions;
+
 namespace Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader
 {
     /// <summary>
@@ -9,5 +14,56 @@ namespace Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader
     /// </summary>
     public sealed class RequireForwardedForHeaderMiddleware
     {
+        private readonly RequestDelegate _next;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequireForwardedForHeaderMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The next Middleware in the pipeline.</param>
+        public RequireForwardedForHeaderMiddleware(RequestDelegate next)
+        {
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+        }
+
+        /// <summary>
+        /// Handles a Middleware request.
+        /// </summary>
+        /// <param name="context">Http Context for the current request.</param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        public async Task InvokeAsync(HttpContext context)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var headers = context.Request.Headers;
+
+            if (!headers.ContainsKey("X-Forwarded-For"))
+            {
+                await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedFor)
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            if (!headers.ContainsKey("X-Forwarded-Proto"))
+            {
+                await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedProto)
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            // Call the next delegate/middleware in the pipeline
+            await _next(context);
+        }
+
+        private static async Task WriteResponseAsync(
+            HttpResponse response,
+            WhipcordHttpStatusCode statusCode)
+        {
+            response.StatusCode = (int)statusCode;
+            await response.WriteAsync("Load Balancer Configuration Issue.")
+                .ConfigureAwait(false);
+        }
     }
 }
