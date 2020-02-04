@@ -53,6 +53,13 @@ namespace Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader
                 return;
             }
 
+            if (!headers.ContainsKey("X-Forwarded-Host"))
+            {
+                await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedHost)
+                    .ConfigureAwait(false);
+                return;
+            }
+
             // Call the next delegate/middleware in the pipeline
             await _next(context);
         }

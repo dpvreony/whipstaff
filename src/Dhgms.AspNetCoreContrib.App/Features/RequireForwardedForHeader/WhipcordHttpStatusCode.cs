@@ -26,5 +26,12 @@ namespace Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader
         /// be going through a load balancer.
         /// </summary>
         ExpectedXForwardedProto = 598,
+
+        /// <summary>
+        /// Server side error for when an X-Forwarded-Host header is required but not
+        /// received. It's a 5xx error as the client wouldn't be aware they should
+        /// be going through a load balancer.
+        /// </summary>
+        ExpectedXForwardedHost = 597,
     }
 }
