@@ -88,7 +88,6 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.Mediatr
                 await mediator.Publish(notification)
                     .ConfigureAwait(false);
             }
-
         }
     }
 }
