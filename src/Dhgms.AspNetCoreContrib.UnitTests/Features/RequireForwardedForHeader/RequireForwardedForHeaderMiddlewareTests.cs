@@ -65,16 +65,16 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.RequireForwardedForHeader
             /// </summary>
             [Theory]
             [MemberData(nameof(RejectsRequestTestData))]
-            public async Task RejectsRequest(WhipcordHttpStatusCode expectedHttpStatusCode)
+            public async Task RejectsRequest(
+                HttpContext httpContext,
+                WhipcordHttpStatusCode expectedHttpStatusCode)
             {
-                var context = new DefaultHttpContext();
-
                 var instance = new RequireForwardedForHeaderMiddleware(Next);
-                await instance.InvokeAsync(context)
+                await instance.InvokeAsync(httpContext)
                     .ConfigureAwait(false);
 
                 Assert.Equal((int)expectedHttpStatusCode,
-                        context.Response.StatusCode);
+                        httpContext.Response.StatusCode);
             }
 
             private static IEnumerable<object[]> GetRejectsRequestTestData()
@@ -164,7 +164,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.RequireForwardedForHeader
 
                 var headers = httpContext.Request.Headers;
                 headers.Add("X-Forwarded-For", "192.168.0.1");
-                headers.Add("X-Forwarded-Host", "localhost");
+                headers.Add("X-Forwarded-Proto", "https");
 
                 return httpContext;
             }

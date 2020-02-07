@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OwaspHeaders.Core.Extensions;
@@ -46,7 +47,15 @@ namespace Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader
                 return;
             }
 
-            if (!headers.ContainsKey("X-Forwarded-Proto"))
+            if (!headers.TryGetValue("X-Forwarded-Proto", out var xForwardedProto))
+            {
+                await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedProto)
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            if (xForwardedProto.Count != 1
+                || !xForwardedProto.First().Equals("https", StringComparison.OrdinalIgnoreCase))
             {
                 await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedProto)
                     .ConfigureAwait(false);
