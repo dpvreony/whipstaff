@@ -210,6 +210,7 @@ namespace Dhgms.AspNetCoreContrib.App
                 .WithEventType("{verb}:{url}")
                 .IncludeHeaders()
                 .IncludeRequestBody()
+                .IncludeResponseHeaders()
                 .IncludeResponseBody());
             var fileDataProvider = Audit.Core.Configuration.DataProvider as FileDataProvider;
             if (fileDataProvider != null)
