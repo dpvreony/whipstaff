@@ -73,8 +73,11 @@
         "content": [
             {
                 "files": [
-                    "api/**.yml",
-                    "api/index.md"
+                    "api/**.yml"
+                ],
+                "exclude": [
+                    "**/toc.yml",
+                    "**/toc.md"
                 ]
             },
             {
@@ -82,14 +85,30 @@
                     "articles/**.md",
                     "articles/**/toc.yml",
                     "toc.yml",
-                    "*.md"
+                    "*.md",
+                    "pdf/*"
+                ],
+                "exclude": [
+                    "**/bin/**",
+                    "**/obj/**",
+                    "_site_pdf/**",
+                    "**/toc.yml",
+                    "**/toc.md"
                 ]
+            },
+            {
+                "files": "pdf/toc.yml"
             }
         ],
         "resource": [
             {
                 "files": [
                     "images/**"
+                ],
+                "exclude": [
+                    "**/bin/**",
+                    "**/obj/**",
+                    "_site_pdf/**"
                 ]
             }
         ],
@@ -99,29 +118,15 @@
                     "apidoc/**.md"
                 ],
                 "exclude": [
-                    "obj/**",
+                    "**/bin/**",
+                    "**/obj/**",
                     "_site_pdf/**"
                 ]
             }
         ],
         "dest": "_site_pdf",
-        "globalMetadataFiles": [],
-        "fileMetadataFiles": [],
         "template": [
-            "default",
-            "DocFx.Plugins.PlantUml/template"
-        ],
-        "postProcessors": [],
-        "markdownEngineProperties": {
-            // "plantUml.localGraphvizDotPath": "C:/Program Files (x86)/Graphviz2.38/bin/dot.exe",
-            "plantUml.localPlantUmlPath": "../../tools/plantuml.jar",
-            //"plantUml.outputFormat": "png",
-            "plantUml.remoteUrl": "http://www.plantuml.com/plantuml/",
-            "plantUml.renderingMode": "remote"
-        },
-        "noLangKeyword": false,
-        "keepFileLink": false,
-        "cleanupCacheHistory": false,
-        "disableGitFeatures": false
+            "pdf.default"
+        ]
     }
 }
