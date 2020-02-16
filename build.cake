@@ -116,6 +116,9 @@ if (isRepository && !local && sonarQubeLogin != null) {
     }
 }
 
+// open cover
+var openCoverArtifactDirectory = artifactDirectory + "/opencover/";
+
 // Define global marcos.
 Action Abort = () => { throw new Exception("a non-recoverable fatal error occurred."); };
 
@@ -145,11 +148,11 @@ Task("BuildSolution")
 
         MSBuild(solution, new MSBuildSettings() {
                 ToolPath = msBuildPath,
-                ArgumentCustomization = args => args.Append("/bl:build.binlog /m")
+                ArgumentCustomization = args => args.Append("/bl:artifacts\\binlog\\build.binlog /m")
             }
             .WithTarget("build;pack") 
             .WithProperty("AndroidSdkDirectory", androidHome)
-            .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory)).ToString().Quote())
+            .WithProperty("PackageOutputPath",  MakeAbsolute(Directory(artifactDirectory + "/nuget/")).ToString().Quote())
             .WithProperty("TreatWarningsAsErrors", treatWarningsAsErrors.ToString())
             .SetConfiguration("Release")
             .WithProperty("Version", packageVersion)
@@ -163,7 +166,7 @@ Task("BuildSolution")
     // Restore must be a separate step
     MSBuild("./src/Dhgms.AspNetCoreContrib.sln", new MSBuildSettings() {
             ToolPath = msBuildPath,
-            ArgumentCustomization = args => args.Append("/bl:restore.binlog /m")
+            ArgumentCustomization = args => args.Append("/bl:artifacts\\binlog\\restore.binlog /m")
         }
         .WithTarget("restore")
         .WithProperty("AndroidSdkDirectory", androidHome)
@@ -209,11 +212,11 @@ Task("RunUnitTests")
         .ExcludeByFile("*/*.g.cs")
         .ExcludeByFile("*/*.g.i.cs"));
 
-    ReportGenerator(testCoverageOutputFile, artifactDirectory);
+    ReportGenerator(testCoverageOutputFile, openCoverArtifactDirectory);
 }).ReportError(exception =>
 {
     var apiApprovals = GetFiles("./**/ApiApprovalTests.*");
-    CopyFiles(apiApprovals, artifactDirectory);
+    CopyFiles(apiApprovals, openCoverArtifactDirectory);
 });
 
 Task("UploadTestCoverage")
@@ -334,7 +337,20 @@ Task("GenerateOmd")
     StartProcess("tools\\generateomd.exe", omdSettings);
 });
 
+Task("CopyDocFx")
+    .IsDependentOn("BuildSolution")
+    .Does (() =>
+{
+// Copy the output of docfx to artifacts
+	var docfxArtifactDirectory = artifactDirectory + "docfx/";
+    CreateDirectory(docfxArtifactDirectory);
+    CopyDirectory(
+		"./src/docfx_project/_site/",
+		docfxArtifactDirectory);
+});
+
 Task("PublishPackages")
+    .IsDependentOn("CopyDocFx")
     .IsDependentOn("ListOutdatedPackages")
     .IsDependentOn("RunSnitchOnPackages")
     //.IsDependentOn("ValidateConfiguration")
