@@ -16,7 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.10.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.10.1" />
     <PackageReference Include="Exceptionless.AspNetCore" Version="4.3.2027" />
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="4.3.2027" />
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="4.2.0" />
