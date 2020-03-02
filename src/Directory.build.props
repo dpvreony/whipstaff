@@ -1,11 +1,13 @@
 <Project>
   <PropertyGroup>
-    <Copyright>DPVreony and Contributors</Copyright>
+    <Company>DPVreony and Contributors</Company>
+	<StartYear>2016</StartYear>
+	<Copyright>© $(StartYear)-$([System.DateTime]::Now.Year) $(Company)</Copyright>
     <Product>NetTestRegimentation ($(TargetFramework))</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
-    <PackageTags>unit testing</PackageTags>
+    <PackageTags>NET core reusable web helpers</PackageTags>
     <PackageReleaseNotes>https://github.com/dpvreony/Dhgms.AspNetCoreContrib/releases</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/dpvreony/Dhgms.AspNetCoreContrib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
