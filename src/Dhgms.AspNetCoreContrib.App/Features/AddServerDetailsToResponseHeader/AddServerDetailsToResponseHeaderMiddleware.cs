@@ -67,9 +67,15 @@ namespace Dhgms.AspNetCoreContrib.App.Features.AddServerDetailsToResponseHeader
         /// </summary>
         /// <param name="context">Http Context for the current request.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             var response = context.Response;
+
             var headers = response.Headers;
             headers.Add("X-HOSTNAME", _hostName);
             headers.Add("X-APPVERSION", _appVersion);
