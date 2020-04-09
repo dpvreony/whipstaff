@@ -31,7 +31,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader
         /// </summary>
         /// <param name="context">Http Context for the current request.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task InvokeAsync(HttpContext context)
+        public async Task Invoke(HttpContext context)
         {
             if (context == null)
             {
