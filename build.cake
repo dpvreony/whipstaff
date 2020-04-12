@@ -387,7 +387,7 @@ Task("PublishPackages")
     foreach(var package in packageWhitelist)
     {
         // only push the package which was created during this build run.
-        var packagePath = artifactDirectory + File(string.Concat(package, ".", nugetVersion, ".nupkg"));
+        var packagePath = artifactDirectory + "nuget/" + File(string.Concat(package, ".", nugetVersion, ".nupkg"));
 
         // Push the package.
         NuGetPush(packagePath, new NuGetPushSettings {
