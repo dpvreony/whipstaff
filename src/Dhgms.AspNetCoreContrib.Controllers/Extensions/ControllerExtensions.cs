@@ -232,7 +232,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             [NotNull] Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             [NotNull] Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
+            where TListQuery : IRequest<TListResponseDto>
             where TListResponseDto : class
         {
             logger.LogDebug(eventId, "Entered ListAsync");
@@ -303,6 +303,50 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
                 "Finished ListAsync");
 
             return viewResult;
+        }
+
+        /// <summary>
+        /// Extension method for common behaviour in List API operations.
+        /// </summary>
+        /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="listRequestDto">The Request DTO for the List operation.</param>
+        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="listPolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getListActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public static Task<IActionResult> GetAuditableListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
+            [NotNull] this Controller instance,
+            [NotNull] ILogger logger,
+            [NotNull] IMediator mediator,
+            [NotNull] IAuthorizationService authorizationService,
+            [NotNull] TListRequestDto listRequestDto,
+            EventId eventId,
+            [NotNull] string listPolicyName,
+            [NotNull] Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
+            [NotNull] Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
+            where TListResponseDto : class
+        {
+            return GetListActionAsync(
+                instance,
+                logger,
+                mediator,
+                authorizationService,
+                listRequestDto,
+                eventId,
+                listPolicyName,
+                getListActionResultAsync,
+                listCommandFactoryAsync,
+                cancellationToken);
         }
 
         /// <summary>
