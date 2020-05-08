@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DocFx.Console" Version="2.52.0" />
-    <PackageReference Include="DocFx.Plugins.PlantUml" Version="1.1.19" />
+    <PackageReference Include="DocFx.Plugins.PlantUml" Version="1.1.24" />
   </ItemGroup>
 
 </Project>
