@@ -95,6 +95,7 @@ Information("packageVersion: " + packageVersion);
 var artifactDirectory = "./artifacts/";
 var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
 var packageWhitelist = new[] { "Dhgms.AspNetCoreContrib.Abstractions",
+                               "Dhgms.AspNetCoreContrib.App",
                                "Dhgms.AspNetCoreContrib.Controllers" };
 
 var runSonarQube = false;
