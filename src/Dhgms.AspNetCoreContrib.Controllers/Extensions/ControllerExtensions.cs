@@ -205,7 +205,8 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         }
 
         /// <summary>
-        /// Extension method for common behaviour in List API operations.
+        /// Extension method for common behaviour in List API operations, this method doesn't constrain the requirement for an auditable request.
+        /// However the auditable request calls this. ;)
         /// </summary>
         /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
         /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>
@@ -221,7 +222,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
+        public static async Task<IActionResult> GetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery>(
             [NotNull] this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
@@ -322,7 +323,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static Task<IActionResult> GetAuditableListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
+        public static Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
             [NotNull] this Controller instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
@@ -336,7 +337,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
             where TListResponseDto : class
         {
-            return GetListActionAsync(
+            return GetListActionFlexibleAsync(
                 instance,
                 logger,
                 mediator,
