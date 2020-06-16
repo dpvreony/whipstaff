@@ -95,6 +95,7 @@ Information("packageVersion: " + packageVersion);
 var artifactDirectory = "./artifacts/";
 var testCoverageOutputFile = artifactDirectory + "OpenCover.xml";
 var packageWhitelist = new[] { "Dhgms.AspNetCoreContrib.Abstractions",
+                               "Dhgms.AspNetCoreContrib.App",
                                "Dhgms.AspNetCoreContrib.Controllers" };
 
 var runSonarQube = false;
@@ -387,7 +388,7 @@ Task("PublishPackages")
     foreach(var package in packageWhitelist)
     {
         // only push the package which was created during this build run.
-        var packagePath = artifactDirectory + File(string.Concat(package, ".", nugetVersion, ".nupkg"));
+        var packagePath = artifactDirectory + "nuget/" + File(string.Concat(package, ".", nugetVersion, ".nupkg"));
 
         // Push the package.
         NuGetPush(packagePath, new NuGetPushSettings {
