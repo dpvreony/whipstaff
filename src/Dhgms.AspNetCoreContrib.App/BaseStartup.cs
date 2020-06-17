@@ -29,7 +29,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
+using OwaspHeaders.Core.Enums;
 using OwaspHeaders.Core.Extensions;
+using OwaspHeaders.Core.Models;
 using RimDev.ApplicationInsights.Filters;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.Swagger;
@@ -93,7 +95,9 @@ namespace Dhgms.AspNetCoreContrib.App
 
             ConfigureMediatrService(services);
 
-            services.AddProblemDetails();
+            /*
+             * services.AddProblemDetails();
+             */
 
             services.AddAuthorization(ConfigureAuthorization);
 
@@ -192,7 +196,9 @@ namespace Dhgms.AspNetCoreContrib.App
 
             app.UseBlockingDetection();
 
+            /*
             app.UseProblemDetails();
+            */
 
             var version = new Version(0, 1, 1, 9999);
 
@@ -201,6 +207,12 @@ namespace Dhgms.AspNetCoreContrib.App
             */
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
+            secureHeadersMiddlewareConfiguration.ContentSecurityPolicyConfiguration.ScriptSrc.Add(new ContentSecurityPolicyElement
+            {
+                CommandType = CspCommandType.Directive,
+                DirectiveOrUri = "sha256-JmYlLzVPGS/uHDTO3y5ZfdTGTovMHDZXjinrC4KdZEg="
+            });
+
             app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
 
             app.UseStaticFiles();
@@ -237,6 +249,8 @@ namespace Dhgms.AspNetCoreContrib.App
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecksUI();
+
                 endpoints.MapControllerRoute(
                     "get",
                     "api/{controller}/{id?}",

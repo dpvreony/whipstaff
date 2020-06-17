@@ -12,6 +12,7 @@ using Dhgms.AspNetCoreContrib.Fakes;
 using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +47,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+            /*
+            app.Use(async (context, next) => {
+                context.Request.EnableBuffering();
+                await next.Invoke();
+            });
+            */
         }
 
         /// <inheritdoc />
