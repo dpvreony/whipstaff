@@ -47,12 +47,10 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
-            /*
             app.Use(async (context, next) => {
                 context.Request.EnableBuffering();
                 await next.Invoke();
             });
-            */
         }
 
         /// <inheritdoc />

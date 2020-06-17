@@ -24,6 +24,10 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
         {
             services.AddHealthChecks()
                 .AddApplicationInsightsPublisher();
+
+            services
+                .AddHealthChecksUI()
+                .AddInMemoryStorage();
         }
 
         /// <inheritdoc />
@@ -35,8 +39,10 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
             };
 
-            app.UseHealthChecks("/hc", healthCheckOptions);
-            app.UseHealthChecksUI(SetupHealthChecksUi);
+            /*
+             * app.UseHealthChecks("/hc", healthCheckOptions);
+             */
+            app.UseHealthChecksUI(/*SetupHealthChecksUi*/);
         }
 
         private static void SetupHealthChecksUi(Options setup)

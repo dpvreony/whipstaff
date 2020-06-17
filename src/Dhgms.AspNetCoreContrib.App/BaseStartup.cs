@@ -187,7 +187,9 @@ namespace Dhgms.AspNetCoreContrib.App
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
+                /*
+                 * app.UseDeveloperExceptionPage();
+                 */
             }
             else
             {
@@ -217,21 +219,6 @@ namespace Dhgms.AspNetCoreContrib.App
 
             app.UseStaticFiles();
 
-            app.UseAuditMiddleware(_ => _
-                .FilterByRequest(rq => !rq.Path.Value.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase))
-                .WithEventType("{verb}:{url}")
-                .IncludeHeaders()
-                .IncludeRequestBody()
-                .IncludeResponseHeaders()
-                .IncludeResponseBody());
-            var fileDataProvider = Audit.Core.Configuration.DataProvider as FileDataProvider;
-            if (fileDataProvider != null)
-            {
-                // this was done so files don't get added to git
-                // as the visual studio .gitignore ignores log folders.
-                fileDataProvider.DirectoryPath = "log";
-            }
-
             /*
             _miniProfilerApplicationStartHelper.ConfigureApplication(app);
             */
@@ -247,6 +234,8 @@ namespace Dhgms.AspNetCoreContrib.App
 
             app.UseRouting();
 
+            new HealthChecksApplicationStartHelper().ConfigureApplication(app);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecksUI();
@@ -259,6 +248,23 @@ namespace Dhgms.AspNetCoreContrib.App
             });
 
             OnConfigure(app, env, loggerFactory);
+
+            /*
+            app.UseAuditMiddleware(_ => _
+                .FilterByRequest(rq => !rq.Path.Value.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase))
+                .WithEventType("{verb}:{url}")
+                .IncludeHeaders()
+                .IncludeRequestBody()
+                .IncludeResponseHeaders()
+                .IncludeResponseBody());
+            var fileDataProvider = Audit.Core.Configuration.DataProvider as FileDataProvider;
+            if (fileDataProvider != null)
+            {
+                // this was done so files don't get added to git
+                // as the visual studio .gitignore ignores log folders.
+                fileDataProvider.DirectoryPath = "log";
+            }
+            */
         }
 
         private void ConfigureControllerService(IServiceCollection services)
