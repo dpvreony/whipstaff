@@ -8,6 +8,7 @@ using System.Reflection;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
+using Dhgms.AspNetCoreContrib.App.Features.AddServerDetailsToResponseHeader;
 using Dhgms.AspNetCoreContrib.App.Features.ApiAuthorization;
 using Dhgms.AspNetCoreContrib.App.Features.Apm;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
@@ -197,6 +198,7 @@ namespace Dhgms.AspNetCoreContrib.App
             }
 
             app.UseBlockingDetection();
+            app.UseAddServerDetailsToResponseHeaderMiddleware();
 
             /*
             app.UseProblemDetails();
