@@ -42,15 +42,28 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr.EfCrud
         }
 
         /// <summary>
-        /// Get the expression used for selecting records.
+        /// Gets the selector expression for use in the EF query. Used for mapping EF Core entities to an output POCO object.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Expression representing the output selection.</returns>
         protected abstract Expression<Func<TEntity, int, TResponse>> GetSelectorExpression();
 
+        /// <summary>
+        /// Gets the expression representing the where filter predicate.
+        /// </summary>
+        /// <returns>Expression representing the where clause.</returns>
         protected abstract Expression<Func<TEntity, int, bool>> GetWherePredicateExpression();
 
+        /// <summary>
+        /// Gets the DBContext instance for use in the query.
+        /// </summary>
+        /// <returns>DBContext instance.</returns>
         protected abstract TDbContext GetDbContext();
 
+        /// <summary>
+        /// Gets the DBSet for use in the query.
+        /// </summary>
+        /// <param name="dbContext">The DB Context instance to use.</param>
+        /// <returns>The DBSet.</returns>
         protected abstract DbSet<TEntity> GetDbSet(TDbContext dbContext);
     }
 }
