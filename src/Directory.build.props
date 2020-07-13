@@ -3,7 +3,7 @@
     <Company>DPVreony and Contributors</Company>
 	<StartYear>2016</StartYear>
 	<Copyright>© $(StartYear)-$([System.DateTime]::Now.Year) $(Company)</Copyright>
-    <Product>NetTestRegimentation ($(TargetFramework))</Product>
+    <Product>Whipcords ($(TargetFramework))</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
