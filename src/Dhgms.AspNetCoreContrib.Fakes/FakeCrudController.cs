@@ -134,7 +134,7 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         }
 
         /// <inheritdoc />
-        protected override Task<FakeCrudDeleteCommand> GetDeleteCommand(
+        protected override Task<FakeCrudDeleteCommand> GetDeleteCommandAsync(
             long id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
