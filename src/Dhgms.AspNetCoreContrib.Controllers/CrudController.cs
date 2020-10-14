@@ -107,7 +107,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                 eventId,
                 deletePolicyName,
                 GetDeleteActionResultAsync,
-                GetDeleteCommand,
+                GetDeleteCommandAsync,
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -209,7 +209,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="claimsPrincipal">Claims Principal of the user requesting deletion.</param>
         /// <param name="cancellationToken">Cancellation token for the request.</param>
         /// <returns></returns>
-        protected abstract Task<TDeleteCommand> GetDeleteCommand(
+        protected abstract Task<TDeleteCommand> GetDeleteCommandAsync(
             long id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
