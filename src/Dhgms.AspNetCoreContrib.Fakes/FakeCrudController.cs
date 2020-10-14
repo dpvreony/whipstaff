@@ -31,14 +31,32 @@ namespace Dhgms.AspNetCoreContrib.Fakes
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
-        public FakeCrudController(
-            IAuthorizationService authorizationService,
+        /// <param name="commandFactory"></param>
+        /// <param name="queryFactory"></param>
+        public FakeCrudController(IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
-            IMediator mediator)
+            IMediator mediator,
+            IAuditableCommandFactory<
+                FakeCrudAddCommand,
+                int,
+                int,
+                FakeCrudDeleteCommand,
+                long,
+                FakeCrudUpdateCommand,
+                int,
+                FakeCrudUpdateResponse> commandFactory,
+            IAuditableQueryFactory<
+                FakeCrudListQuery,
+                FakeCrudListRequest,
+                IList<int>,
+                FakeCrudViewQuery,
+                FakeCrudViewResponse> queryFactory)
             : base(
                 authorizationService,
                 logger,
-                mediator)
+                mediator,
+                commandFactory,
+                queryFactory)
         {
         }
 

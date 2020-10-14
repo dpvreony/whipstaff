@@ -53,15 +53,37 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
+        /// <param name="commandFactory">The factory for generating Command messages.</param>
+        /// <param name="queryFactory">The factory for generating Query messages.</param>
         protected CrudController(
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
-            IMediator mediator)
+            IMediator mediator,
+            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
             : base(
                   authorizationService,
                   logger,
-                  mediator)
+                  mediator,
+                  queryFactory)
         {
+            CommandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+        }
+
+        /// <summary>
+        /// Gets the Command Factory used for creating Commands to pass through the mediator.
+        /// </summary>
+        protected IAuditableCommandFactory<
+            TAddCommand,
+            TAddRequestDto,
+            TAddResponseDto,
+            TDeleteCommand,
+            TDeleteResponseDto,
+            TUpdateCommand,
+            TUpdateRequestDto,
+            TUpdateResponseDto> CommandFactory
+        {
+            get;
         }
 
         /// <summary>

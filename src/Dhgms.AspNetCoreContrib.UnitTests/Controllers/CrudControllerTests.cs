@@ -41,6 +41,36 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
 
         private static Mock<IMediator> MockMediatorFactory() => new Mock<IMediator>(MockBehavior.Strict);
 
+        private static Mock<IAuditableCommandFactory<
+            FakeCrudAddCommand,
+            int,
+            int,
+            FakeCrudDeleteCommand,
+            long,
+            FakeCrudUpdateCommand,
+            int,
+            FakeCrudUpdateResponse>> MockCommandFactory() => new Mock<IAuditableCommandFactory<
+                FakeCrudAddCommand,
+                int,
+                int,
+                FakeCrudDeleteCommand,
+                long,
+                FakeCrudUpdateCommand,
+                int,
+                FakeCrudUpdateResponse>>(MockBehavior.Strict);
+
+        private static Mock<IAuditableQueryFactory<
+            FakeCrudListQuery,
+            FakeCrudListRequest,
+            IList<int>,
+            FakeCrudViewQuery,
+            FakeCrudViewResponse>> MockQueryFactory() => new Mock<IAuditableQueryFactory<
+                FakeCrudListQuery,
+                FakeCrudListRequest,
+                IList<int>,
+                FakeCrudViewQuery,
+                FakeCrudViewResponse>>(MockBehavior.Strict);
+
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
@@ -54,6 +84,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 GetAuthorizationServiceNullTestData(),
                 GetLoggerNullTestData(),
                 GetMediatorNullTestData(),
+                GetCommandFactoryNullTestData(),
+                GetQueryFactoryNullTestData(),
             };
 
             /// <summary>
@@ -71,6 +103,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
             /// <param name="authorizationService">Instance of the authorization service.</param>
             /// <param name="logger">Instance of the logging framework.</param>
             /// <param name="mediator">Instance of the CQRS mediator instance.</param>
+            /// <param name="commandFactory">Instance of the Command factory used for creating commands to pass to the mediator.</param>
+            /// <param name="queryFactory">Instance of the Query factory used for creating queries to pass to the mediator.</param>
             /// <param name="argumentNullExceptionParameterName">Name of the parameter expected to cause the exception.</param>
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
@@ -78,12 +112,29 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 Mock<IAuthorizationService> authorizationService,
                 Mock<ILogger<FakeCrudController>> logger,
                 Mock<IMediator> mediator,
+                Mock<IAuditableCommandFactory<
+                        FakeCrudAddCommand,
+                        int,
+                        int,
+                        FakeCrudDeleteCommand,
+                        long,
+                        FakeCrudUpdateCommand,
+                        int,
+                        FakeCrudUpdateResponse>> commandFactory,
+                Mock<IAuditableQueryFactory<
+                        FakeCrudListQuery,
+                        FakeCrudListRequest,
+                        IList<int>,
+                        FakeCrudViewQuery,
+                        FakeCrudViewResponse>> queryFactory,
                 string argumentNullExceptionParameterName)
             {
                 var ex = Assert.Throws<ArgumentNullException>(() => new FakeCrudController(
                     authorizationService?.Object,
                     logger?.Object,
-                    mediator?.Object));
+                    mediator?.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object));
 
                 Assert.Equal(argumentNullExceptionParameterName, ex.ParamName);
 
@@ -101,11 +152,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mockAuthorizationService = MockAuthorizationServiceFactory();
                 var mockLogger = MockLoggerFactory();
                 var mockMediator = MockMediatorFactory();
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
 
                 using (var instance = new FakeCrudController(
                     mockAuthorizationService.Object,
                     mockLogger.Object,
-                    mockMediator.Object))
+                    mockMediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object))
                 {
                     Assert.NotNull(instance);
                 }
@@ -122,6 +177,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     (Mock<IAuthorizationService>)null,
                     MockLoggerFactory(),
                     MockMediatorFactory(),
+                    MockCommandFactory(),
+                    MockQueryFactory(),
                     "authorizationService",
                 };
             }
@@ -133,6 +190,8 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockAuthorizationServiceFactory(),
                     (Mock<ILogger<FakeCrudController>>)null,
                     MockMediatorFactory(),
+                    MockCommandFactory(),
+                    MockQueryFactory(),
                     "logger",
                 };
             }
@@ -144,7 +203,35 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
                     (Mock<IMediator>)null,
+                    MockCommandFactory(),
+                    MockQueryFactory(),
                     "mediator",
+                };
+            }
+
+            private static object[] GetCommandFactoryNullTestData()
+            {
+                return new object[]
+                {
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    null,
+                    MockQueryFactory(),
+                    "commandFactory",
+                };
+            }
+
+            private static object[] GetQueryFactoryNullTestData()
+            {
+                return new object[]
+                {
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
+                    null,
+                    "queryFactory",
                 };
             }
         }
@@ -191,10 +278,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -229,10 +321,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -312,10 +409,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -350,10 +452,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -390,10 +497,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -468,10 +580,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -510,10 +627,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -588,10 +710,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(MockUpdateMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -626,10 +753,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(MockUpdateMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -717,10 +849,15 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
                 var mediator = MockMediatorFactory();
                 mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(MockViewMediatorHandlerAsync);
 
+                var commandFactory = MockCommandFactory();
+                var queryFactory = MockQueryFactory();
+
                 using (var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
-                    mediator.Object)
+                    mediator.Object,
+                    commandFactory?.Object,
+                    queryFactory?.Object)
                 {
                     ControllerContext = new ControllerContext
                     {

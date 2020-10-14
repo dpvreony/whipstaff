@@ -41,10 +41,12 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
+        /// <param name="queryFactory">The factory for generating Query messages.</param>
         protected QueryOnlyController(
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
-            IMediator mediator)
+            IMediator mediator,
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
         {
             AuthorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
@@ -52,6 +54,9 @@ namespace Dhgms.AspNetCoreContrib.Controllers
                                          throw new ArgumentNullException(nameof(logger));
 
             Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            QueryFactory = queryFactory ??
+                            throw new ArgumentNullException(nameof(queryFactory));
         }
 
         /// <summary>
@@ -68,6 +73,16 @@ namespace Dhgms.AspNetCoreContrib.Controllers
         /// Gets the Mediator instance used for issuing CQRS messages.
         /// </summary>
         protected IMediator Mediator { get; }
+
+        /// <summary>
+        /// Gets the query factory for creating queries to push through the mediator.
+        /// </summary>
+        protected IAuditableQueryFactory<
+            TListQuery,
+            TListRequestDto,
+            TListQueryResponse,
+            TViewQuery,
+            TViewQueryResponse> QueryFactory { get; }
 
         /// <summary>
         /// Entry point for HTTP GET operations.
