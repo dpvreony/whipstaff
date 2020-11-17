@@ -170,7 +170,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.RequireForwardedForHeader
             }
         }
 
-        private static Task Next(HttpContext context)
+        private static Task Next(HttpContext _)
         {
             return Task.CompletedTask;
         }
