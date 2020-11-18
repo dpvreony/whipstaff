@@ -42,7 +42,7 @@
       secure: 9ULk5oYK+0ELg1yx5HovqzJvKrcAP9JBeE11VFd9svWDLKT7M8BPUsaiosmawiN3
     NUGET_SOURCE: https://www.nuget.org/api/v2/package
     NUGET_APIKEY:
-      secure: 8GpBZ6IHRM4AV4mP8qCqUgJi0NCHX17OlzbrEZRoDCE0s2ZwXHOeqMfIwrGaakg9
+      secure: Zxt5AjiEg08WOtvlu2A7B0RPv/s0KF+6gu2v7Ft8lxa0JfO2l/UE7/zbP2N7qxxg
     sonarqubeLogin:
       secure: cn/J1/GsOt4dF7zRxdB9ajSk1/UzxYZq0MMLLQPkFA92GtrWIYeiKgrzC2d5z7bq
   build_script:
