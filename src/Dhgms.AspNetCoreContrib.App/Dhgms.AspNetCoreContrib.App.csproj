@@ -13,7 +13,7 @@
     <PackageReference Include="Audit.NET" Version="16.3.2" />
     <PackageReference Include="Audit.WebApi.Core" Version="16.3.2" />
     <PackageReference Include="Ben.BlockingDetector" Version="0.0.4" />
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="1.5.0">
+    <PackageReference Include="Dhgms.QualityAssurancePack" Version="2.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
