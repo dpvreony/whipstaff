@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dhgms.AspNetCoreContrib.App.Features.Bitwise
+﻿namespace Dhgms.AspNetCoreContrib.App.Features.Bitwise
 {
     /// <summary>
     /// A single set latch, used for where you need to flag something like an update flag where updates
