@@ -19,7 +19,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
     /// <summary>
     /// Extension methods for ASP.NET Core Controllers.
     /// </summary>
-    public static class ControllerExtensions
+    public static class ControllerBaseExtensions
     {
         /// <summary>
         /// Extension method for common behaviour in Add API operations.
@@ -39,7 +39,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
-            [NotNull]this Controller instance,
+            [NotNull]this ControllerBase instance,
             [NotNull]ILogger logger,
             [NotNull]IMediator mediator,
             [NotNull]IAuthorizationService authorizationService,
@@ -130,7 +130,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
-            this Controller instance,
+            this ControllerBase instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
@@ -223,7 +223,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery>(
-            [NotNull] this Controller instance,
+            [NotNull] this ControllerBase instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
@@ -324,7 +324,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
-            [NotNull] this Controller instance,
+            [NotNull] this ControllerBase instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
@@ -368,7 +368,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
-            [NotNull] this Controller instance,
+            [NotNull] this ControllerBase instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
@@ -470,7 +470,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
-            [NotNull] this Controller instance,
+            [NotNull] this ControllerBase instance,
             [NotNull] ILogger logger,
             [NotNull] IMediator mediator,
             [NotNull] IAuthorizationService authorizationService,
