@@ -25,6 +25,12 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: true
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+      SOLUTION_PATH: src\\Dhgms.AspNetCoreContrib.sln
 
     strategy:
       fail-fast: false
@@ -48,10 +54,18 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.100
+
+    - name: Restore Packages
+      run: |
+        dotnet restore ${{ env.SOLUTION_PATH }} /bl:artifacts\\binlog\\restore.binlog
+
+    - name: Run Build
+      run: |
+        dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://git.io/JvXDl
