@@ -32,11 +32,6 @@ jobs:
     - name: Verify the head ref context
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
 
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
-
     - name: Setup .NET 5
       uses: actions/setup-dotnet@v1
       with:
