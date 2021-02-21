@@ -47,9 +47,9 @@ jobs:
     # the error is :
     #
     # CSC error CS8034: Unable to load Analyzer assembly C:\Users\runneradmin\.nuget\packages\microsoft.aspnetcore.mvc.analyzers\2.2.0\analyzers\dotnet\cs\Microsoft.AspNetCore.Mvc.Analyzers.dll : Assembly with same name is already loaded
-    - name: Delete old nuget cache
-      run: Remove-Item C:\Users\runneradmin\.nuget\packages\* -Recurse
-      
+    # - name: Delete old nuget cache
+    #  run: Remove-Item C:\Users\runneradmin\.nuget\packages\* -Recurse
+    #  
 
     - name: NBGV
       id: nbgv
