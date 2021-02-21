@@ -37,6 +37,10 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
+
     - name: NBGV
       id: nbgv
       uses: dotnet/nbgv@master
