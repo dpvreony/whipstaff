@@ -2,33 +2,103 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    types: [opened, synchronize, reopened, closed]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
     env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: true
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: false
       solutionpath: src\Dhgms.AspNetCoreContrib.sln
       unittestprojectpath: src\Dhgms.AspNetCoreContrib.UnitTests\Dhgms.AspNetCoreContrib.UnitTests.csproj
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        
+
     - name: Verify the ref context
       run: echo 'Ref Context is ${{ github.ref }}'
+
     - name: Verify the head ref context
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
-    - name: Setup .NET Core
+
+    - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.*
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
-    - name: Build
-      run: .\build.ps1
-      shell: powershell
-      
+        dotnet-version: 3.1.x
+
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: NBGV
+      id: nbgv
+      uses: dotnet/nbgv@master
+      with:
+        setAllVars: true
+
+    - name: Install dotnet tools
+      run: |
+        dotnet tool install --global dotMorten.OmdGenerator
+        dotnet tool install --global ConfigValidate
+        dotnet tool install --global dotnet-outdated-tool
+        dotnet tool install --global snitch
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet tool install --global JetBrains.ReSharper.GlobalTools
+
+    - name: Prepare Artifact Directory
+      run: |
+        mkdir artifacts
+        mkdir artifacts\nupkg
+        mkdir artifacts\outdated
+        mkdir artifacts\snitch
+        mkdir artifacts\omd
+        mkdir artifacts\docfx
+
+    - name: Restore Packages
+      run: |
+        dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
+
+    - name: Run Build
+      run: |
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true 
+
+    - name: Run Unit Tests
+      run: |
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --blame-hang-timeout 60000 --results-directory artifacts\opencover --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+    - name: Upload Code Coverage
+      shell: bash
+      run: |
+        echo $PWD
+        bash <(curl -s https://codecov.io/bash) -X gcov -X coveragepy -t ${{ env.CODECOV_TOKEN }} -s '$PWD/artifacts/opencover' -f '*.xml'
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    - name: Produce Nuget Packages
+      run: |
+        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
+
+    - name: List outdated packages
+      run: |
+        dotnet outdated -o artifacts\outdated\outdated.json src
+
+
+    - name: Run Resharper Duplicate Code Finder
+      run: |
+        jb dupfinder ${{ env.solutionpath }} -o=artifacts\dupfinder\report.xml
+
 # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
@@ -38,36 +108,72 @@ jobs:
         path: artifacts/binlog
         
     - name: store docfx
-      if: startsWith(github.head_ref, 'dependabot/') != true
       uses: actions/upload-artifact@v2
       with:
         name: docfx
         path: artifacts/docfx
         
     - name: store nuget packages
-      if: startsWith(github.head_ref, 'dependabot/') != true
       uses: actions/upload-artifact@v2
       with:
         name: nuget
         path: artifacts/nuget
         
     - name: store omd
-      if: startsWith(github.head_ref, 'dependabot/') != true
       uses: actions/upload-artifact@v2
       with:
         name: omd
         path: artifacts/omd
         
     - name: store outdated
-      if: startsWith(github.head_ref, 'dependabot/') != true
       uses: actions/upload-artifact@v2
       with:
         name: outdated
         path: artifacts/outdated
         
     - name: store snitch
-      if: startsWith(github.head_ref, 'dependabot/') != true
       uses: actions/upload-artifact@v2
       with:
         name: snitch
         path: artifacts/snitch
+
+    - name: store resharper dupfinder
+      uses: actions/upload-artifact@v2
+      with:
+        name: dupfinder
+        path: artifacts/dupfinder
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: contains(github.event.pull_request.labels.*.name, 'release') && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+      DOTNET_NOLOGO: true
+      DOTNET_GENERATE_ASPNET_CERTIFICATE: false
+    steps:
+    - name: Download NuGet Packages
+      uses: actions/download-artifact@v2
+      with:
+        name: nuget
+
+    - name: Changelog
+      uses: glennawatson/ChangeLog@v1
+      id: changelog
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+          tag_name: ${{ needs.build.outputs.nbgv }}
+          release_name: ${{ needs.build.outputs.nbgv }}
+          body: |
+            ${{ steps.changelog.outputs.commitLog }}
+
+    - name: NuGet Push
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+        SOURCE_URL: https://api.nuget.org/v3/index.json
+      run: |
+        dotnet nuget push -s ${{ env.SOURCE_URL }} -k ${{ env.NUGET_AUTH_TOKEN }} **/*.nupkg
