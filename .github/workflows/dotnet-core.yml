@@ -41,6 +41,16 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
 
+    # As of 2021-02-21 there is a bug in the windows image that when using NET5 SDK with a webapi project you can end up with 
+    # a build failure due to 2 versions of a Roslyn analyzer being loaded by the WebSDK targets
+    # this is due to the build agent image containing a preloaded nuget cache with netcore 3.1 packages.
+    # the error is :
+    #
+    # CSC error CS8034: Unable to load Analyzer assembly C:\Users\runneradmin\.nuget\packages\microsoft.aspnetcore.mvc.analyzers\2.2.0\analyzers\dotnet\cs\Microsoft.AspNetCore.Mvc.Analyzers.dll : Assembly with same name is already loaded
+    - name: Delete old nuget cache
+      run: rmdir C:\Users\runneradmin\.nuget\packages /s /q
+      
+
     - name: NBGV
       id: nbgv
       uses: dotnet/nbgv@master
