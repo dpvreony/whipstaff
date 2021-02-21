@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocFx.Console" Version="2.56.6" />
+    <PackageReference Include="DocFx.Plugins.PlantUml" Version="1.1.24" />
+  </ItemGroup>
+
+</Project>
