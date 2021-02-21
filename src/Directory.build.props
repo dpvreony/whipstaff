@@ -30,15 +30,16 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsTestProject)">
+    <IsPackable>False</IsPackable>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
     <PackageReference Include="Xunit.StaFact" Version="1.0.37" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
+    <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
   </ItemGroup>
 
   <ItemGroup Condition="$(IsTestProject)">
-    <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
   </ItemGroup>
 
   <ItemGroup>
