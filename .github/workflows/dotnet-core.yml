@@ -1,0 +1,73 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      solutionpath: src\Dhgms.AspNetCoreContrib.sln
+      unittestprojectpath: src\Dhgms.AspNetCoreContrib.UnitTests\Dhgms.AspNetCoreContrib.UnitTests.csproj
+    steps:
+    - uses: actions/checkout@v2
+    - name: Verify the ref context
+      run: echo 'Ref Context is ${{ github.ref }}'
+    - name: Verify the head ref context
+      run: echo 'Head Ref Context is ${{ github.head_ref }}'
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.*
+    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@c26a08ba26249b81327e26f6ef381897b6a8754d
+    - name: Build
+      run: .\build.ps1
+      shell: powershell
+      
+# only store binlog on failure      
+    - name: store binlogs
+      if: ${{ failure() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: binlogs
+        path: artifacts/binlog
+        
+    - name: store docfx
+      if: startsWith(github.head_ref, 'dependabot/') != true
+      uses: actions/upload-artifact@v2
+      with:
+        name: docfx
+        path: artifacts/docfx
+        
+    - name: store nuget packages
+      if: startsWith(github.head_ref, 'dependabot/') != true
+      uses: actions/upload-artifact@v2
+      with:
+        name: nuget
+        path: artifacts/nuget
+        
+    - name: store omd
+      if: startsWith(github.head_ref, 'dependabot/') != true
+      uses: actions/upload-artifact@v2
+      with:
+        name: omd
+        path: artifacts/omd
+        
+    - name: store outdated
+      if: startsWith(github.head_ref, 'dependabot/') != true
+      uses: actions/upload-artifact@v2
+      with:
+        name: outdated
+        path: artifacts/outdated
+        
+    - name: store snitch
+      if: startsWith(github.head_ref, 'dependabot/') != true
+      uses: actions/upload-artifact@v2
+      with:
+        name: snitch
+        path: artifacts/snitch
