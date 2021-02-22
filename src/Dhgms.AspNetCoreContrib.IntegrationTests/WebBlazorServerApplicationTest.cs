@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if TBC
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -63,3 +64,4 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         }
     }
 }
+#endif
