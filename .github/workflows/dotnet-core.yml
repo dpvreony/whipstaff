@@ -42,6 +42,10 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
+    # This mitigates an issue with websdk projects loading analyzers from old packages.
+    - name: Cleanup nuget local storage
+      run: dotnet nuget locals all --clear
+
     - name: NBGV
       id: nbgv
       uses: dotnet/nbgv@master
