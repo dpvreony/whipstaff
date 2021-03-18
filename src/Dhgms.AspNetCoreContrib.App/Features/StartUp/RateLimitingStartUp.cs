@@ -14,7 +14,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.StartUp
     /// <summary>
     /// Initialization logic for Rate Limiting.
     /// </summary>
-    public sealed class RateLimitingStartUp : IConfigureService, IConfigureApplication
+    public sealed class RateLimitingStartUp : Abstractions.Features.ApplicationStartup.IConfigureService, IConfigureApplication
     {
         /// <inheritdoc />
         public void ConfigureService(

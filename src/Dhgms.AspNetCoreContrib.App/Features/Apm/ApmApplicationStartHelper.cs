@@ -17,7 +17,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm
     /// <summary>
     /// Initialization logic for Application Performance Monitoring.
     /// </summary>
-    public class ApmApplicationStartHelper : IConfigureService, IConfigureApplication
+    public class ApmApplicationStartHelper : Abstractions.Features.ApplicationStartup.IConfigureService, IConfigureApplication
     {
         /// <inheritdoc/>
         public void ConfigureService(

@@ -15,7 +15,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.StartUp
     /// <remarks>
     /// Based upon: https://miniprofiler.com/dotnet/AspDotNetCore documentation.
     /// </remarks>
-    public class MiniProfilerApplicationStartHelper : IConfigureService, IConfigureApplication
+    public class MiniProfilerApplicationStartHelper : Abstractions.Features.ApplicationStartup.IConfigureService, IConfigureApplication
     {
         /// <inheritdoc/>
         public void ConfigureService(IServiceCollection services, IConfiguration configuration)

@@ -11,7 +11,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights
     /// <summary>
     /// Initialization logic for Application Insights.
     /// </summary>
-    public sealed class ApplicationInsightsApplicationStartHelper : IConfigureService
+    public sealed class ApplicationInsightsApplicationStartHelper : Abstractions.Features.ApplicationStartup.IConfigureService
     {
         /// <inheritdoc />
         public void ConfigureService(

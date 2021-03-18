@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Abstractions\Dhgms.AspNetCoreContrib.Abstractions.csproj" />
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
   </ItemGroup>
 
 </Project>

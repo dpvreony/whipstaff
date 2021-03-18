@@ -15,7 +15,7 @@ namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
     /// <summary>
     /// Initialization logic for Health Checks.
     /// </summary>
-    public sealed class HealthChecksApplicationStartHelper : IConfigureService, IConfigureApplication
+    public sealed class HealthChecksApplicationStartHelper : Abstractions.Features.ApplicationStartup.IConfigureService, IConfigureApplication
     {
         /// <inheritdoc />
         public void ConfigureService(
