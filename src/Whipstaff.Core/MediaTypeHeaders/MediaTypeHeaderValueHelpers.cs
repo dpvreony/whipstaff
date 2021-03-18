@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using Microsoft.Net.Http.Headers;
+using System.Net.Http.Headers;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.MediaTypeHeaders
 {

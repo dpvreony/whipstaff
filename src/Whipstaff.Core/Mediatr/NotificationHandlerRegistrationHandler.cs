@@ -4,7 +4,6 @@
 
 using System;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
 {
