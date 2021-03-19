@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="DocumentFormat.OpenXml" Version="2.12.3" />
+      <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.AspNetCore.StaticFiles\Whipstaff.AspNetCore.csproj" />
+  </ItemGroup>
+
+</Project>

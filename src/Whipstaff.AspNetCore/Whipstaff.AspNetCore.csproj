@@ -5,4 +5,8 @@
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+  </ItemGroup>
+
 </Project>

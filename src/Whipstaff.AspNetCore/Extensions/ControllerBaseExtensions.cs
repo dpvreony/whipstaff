@@ -4,15 +4,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Abstractions;
-using JetBrains.Annotations;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Whipstaff.Core.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
 {
@@ -51,9 +52,7 @@ namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
             CancellationToken cancellationToken)
             where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
         {
-            logger.LogDebug(
-                eventId,
-                "Entered AddAsync");
+            logger.TraceMethodEntry();
 
             if (instance == null)
             {
