@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" />
-    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.ApplicationInsights;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.Exceptionless;
 using Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks;
@@ -11,13 +10,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Whipstaff.Core.ApplicationStartup;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm
 {
     /// <summary>
     /// Initialization logic for Application Performance Monitoring.
     /// </summary>
-    public class ApmApplicationStartHelper : Abstractions.Features.ApplicationStartup.IConfigureService, IConfigureApplication
+    public class ApmApplicationStartHelper : IConfigureService, IConfigureApplication
     {
         /// <inheritdoc/>
         public void ConfigureService(

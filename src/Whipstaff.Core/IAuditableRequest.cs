@@ -5,7 +5,7 @@
 using System.Security.Claims;
 using MediatR;
 
-namespace Dhgms.AspNetCoreContrib.Abstractions
+namespace Whipstaff.Core
 {
     /// <summary>
     /// Represents a request that requires auditing.

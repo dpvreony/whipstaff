@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
+using Whipstaff.Core.Mediatr;
 
 namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
 {

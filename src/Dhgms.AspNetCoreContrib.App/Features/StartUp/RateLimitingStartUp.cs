@@ -4,17 +4,17 @@
 
 using System;
 using AspNetCoreRateLimit;
-using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Whipstaff.Core.ApplicationStartup;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.StartUp
 {
     /// <summary>
     /// Initialization logic for Rate Limiting.
     /// </summary>
-    public sealed class RateLimitingStartUp : Abstractions.Features.ApplicationStartup.IConfigureService, IConfigureApplication
+    public sealed class RateLimitingStartUp : IConfigureService, IConfigureApplication
     {
         /// <inheritdoc />
         public void ConfigureService(

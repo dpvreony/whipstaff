@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Builder;
 
-namespace Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup
+namespace Whipstaff.Core.ApplicationStartup
 {
     /// <summary>
     /// Represents a class that is used for configuring a feature during Application Startup.

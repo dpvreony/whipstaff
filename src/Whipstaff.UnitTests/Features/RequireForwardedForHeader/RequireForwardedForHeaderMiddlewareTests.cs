@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.App.Features.RequireForwardedForHeader;
 using Microsoft.AspNetCore.Http;
+using Whipstaff.Core.RequireForwardedForHeader;
 using Xunit;
 using Xunit.Abstractions;
 

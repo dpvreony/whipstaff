@@ -20,7 +20,7 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
     /// Unit Tests for a secured website.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class SecuredWebsiteTests : BaseWebApplicationTest<Startup>
+    public sealed class SecuredWebsiteTests : BaseWebApplicationTest<Dhgms.AspNetCoreContrib.Examples.WebMvcApp.Startup>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SecuredWebsiteTests"/> class.

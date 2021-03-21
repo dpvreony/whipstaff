@@ -5,7 +5,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Dhgms.AspNetCoreContrib.Abstractions
+namespace Whipstaff.Core
 {
     /// <summary>
     /// Represents a query factory for Auditable Requests.

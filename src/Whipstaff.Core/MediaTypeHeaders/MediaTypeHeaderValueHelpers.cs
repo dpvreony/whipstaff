@@ -4,7 +4,7 @@
 
 using System.Net.Http.Headers;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.MediaTypeHeaders
+namespace Whipstaff.Core.MediaTypeHeaders
 {
     /// <summary>
     /// Helpers for getting mime types as header values.

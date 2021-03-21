@@ -2,20 +2,20 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using HealthChecks.UI.Client;
 using HealthChecks.UI.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Whipstaff.Core.ApplicationStartup;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
 {
     /// <summary>
     /// Initialization logic for Health Checks.
     /// </summary>
-    public sealed class HealthChecksApplicationStartHelper : Abstractions.Features.ApplicationStartup.IConfigureService, IConfigureApplication
+    public sealed class HealthChecksApplicationStartHelper : IConfigureService, IConfigureApplication
     {
         /// <inheritdoc />
         public void ConfigureService(

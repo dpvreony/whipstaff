@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.AspNetCoreContrib.App.Features.MediaTypeHeaders
+namespace Whipstaff.Core.MediaTypeHeaders
 {
     /// <summary>
     /// Helpers for getting mime types as strings.

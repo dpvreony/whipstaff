@@ -9,7 +9,6 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.Fakes;
 using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR;
@@ -18,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Whipstaff.Core;
 using Xunit;
 using Xunit.Abstractions;
 

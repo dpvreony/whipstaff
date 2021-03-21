@@ -13,6 +13,7 @@ using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Whipstaff.Core.Mediatr;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -52,7 +53,7 @@ namespace Dhgms.AspNetCoreContrib.UnitTests.Features.Mediatr
 
                 // services.AddEntityFrameworkInMemoryDatabase();
 
-                Dhgms.AspNetCoreContrib.App.Features.Mediatr.MediatrHelpers.RegisterMediatrWithExplicitTypes(
+                MediatrHelpers.RegisterMediatrWithExplicitTypes(
                     services,
                     null,
                     new MediatRServiceConfiguration(),

@@ -5,7 +5,7 @@
 using System;
 using MediatR.Pipeline;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
+namespace Whipstaff.Core.Mediatr
 {
     /// <summary>
     /// Registers a concrete type for MediatR pre processors.

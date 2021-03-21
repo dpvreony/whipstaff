@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
+namespace Whipstaff.Core.Mediatr
 {
     /// <summary>
     /// Details the registration information to be used to set up mediatr.

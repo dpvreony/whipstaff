@@ -3,12 +3,10 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.AddServerDetailsToResponseHeader
+namespace Whipstaff.Core.AddServerDetailsToResponseHeader
 {
     /// <summary>
     /// Adds server details to the response headers of a request. Can be used

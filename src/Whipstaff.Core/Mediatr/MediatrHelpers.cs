@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.Mediatr
+namespace Whipstaff.Core.Mediatr
 {
     /// <summary>
     /// Helper methods for registration mediatr without using reflection.

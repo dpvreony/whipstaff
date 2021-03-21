@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whipstaff.AspNetCore.StaticFiles\Whipstaff.AspNetCore.csproj" />
+    <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>
