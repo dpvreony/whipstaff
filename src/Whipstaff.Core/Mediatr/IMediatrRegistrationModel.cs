@@ -14,11 +14,11 @@ namespace Whipstaff.Core.Mediatr
         /// <summary>
         /// Gets the registration type.
         /// </summary>
-        public Type ServiceType { get; }
+        Type ServiceType { get; }
 
         /// <summary>
         /// Gets the implementation type.
         /// </summary>
-        public Type ImplementationType { get; }
+        Type ImplementationType { get; }
     }
 }
