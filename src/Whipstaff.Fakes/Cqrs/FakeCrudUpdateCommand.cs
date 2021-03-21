@@ -4,7 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
-using Dhgms.AspNetCoreContrib.Controllers;
+using Whipstaff.AspNetCore;
 
 namespace Dhgms.AspNetCoreContrib.Fakes.Cqrs
 {

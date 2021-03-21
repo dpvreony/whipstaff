@@ -8,13 +8,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.App.Features.FileTransfer;
 using Dhgms.AspNetCoreContrib.App.Features.Pdf;
-using Dhgms.AspNetCoreContrib.Controllers.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore.FileTransfer;
 using Whipstaff.Core.MediaTypeHeaders;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers

@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -15,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Whipstaff.Core;
 using Whipstaff.Core.Logging;
 
-namespace Dhgms.AspNetCoreContrib.Controllers.Extensions
+namespace Whipstaff.AspNetCore.Extensions
 {
     /// <summary>
     /// Extension methods for ASP.NET Core Controllers.

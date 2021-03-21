@@ -9,16 +9,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.App.Features.Excel;
-using Dhgms.AspNetCoreContrib.App.Features.FileTransfer;
-using Dhgms.AspNetCoreContrib.Controllers;
-using Dhgms.AspNetCoreContrib.Controllers.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
+using Whipstaff.AspNetCore.FileTransfer;
 using Whipstaff.Core.MediaTypeHeaders;
+using Whipstaff.OpenXml.Excel;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
 {

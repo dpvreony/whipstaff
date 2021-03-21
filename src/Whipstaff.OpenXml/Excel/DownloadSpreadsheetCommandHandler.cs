@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.App.Features.FileTransfer;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MediatR;
+using Whipstaff.AspNetCore.FileTransfer;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.Excel
+namespace Whipstaff.OpenXml.Excel
 {
     /// <summary>
     /// Sample handler for generating and\or serving spreadsheets.

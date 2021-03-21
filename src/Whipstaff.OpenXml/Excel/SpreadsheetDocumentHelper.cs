@@ -9,7 +9,7 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.Excel
+namespace Whipstaff.OpenXml.Excel
 {
     /// <summary>
     /// Helpers for working with Open XML Spreadsheet Documents.

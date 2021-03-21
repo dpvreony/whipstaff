@@ -8,12 +8,12 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.App.Features.Swagger;
-using Dhgms.AspNetCoreContrib.Controllers;
 using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore;
 using Whipstaff.Core;
 
 namespace Dhgms.AspNetCoreContrib.Fakes

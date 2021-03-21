@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Security.Claims;
-using Dhgms.AspNetCoreContrib.App.Features.FileTransfer;
-using Dhgms.AspNetCoreContrib.Controllers;
+using Whipstaff.AspNetCore;
+using Whipstaff.AspNetCore.FileTransfer;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.Excel
+namespace Whipstaff.OpenXml.Excel
 {
     /// <summary>
     /// Auditable request for a spreadsheet download.

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net.Mime;
 using Microsoft.AspNetCore.StaticFiles;
 
-namespace Whipstaff.AspNetCore.StaticFiles.ContentTypes
+namespace Whipstaff.AspNetCore.ContentTypes
 {
     /// <summary>
     /// Extensions for Content Types.

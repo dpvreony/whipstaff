@@ -7,14 +7,14 @@ using System.IO;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Controllers.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.Core;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
+namespace Whipstaff.AspNetCore.FileTransfer
 {
     /// <summary>
     /// Base class for a controller that serves a file with a mime\type.

@@ -4,7 +4,7 @@
 
 using System.IO;
 
-namespace Dhgms.AspNetCoreContrib.App.Features.FileTransfer
+namespace Whipstaff.AspNetCore.FileTransfer
 {
     /// <summary>
     /// POCO object representing a file name and the respective stream.

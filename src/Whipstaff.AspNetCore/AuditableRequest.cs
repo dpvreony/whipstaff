@@ -5,7 +5,7 @@
 using System.Security.Claims;
 using Whipstaff.Core;
 
-namespace Dhgms.AspNetCoreContrib.Controllers
+namespace Whipstaff.AspNetCore
 {
     /// <inheritdoc />
     public class AuditableRequest<TRequestDto, TResponse> : IAuditableRequest<TRequestDto, TResponse>

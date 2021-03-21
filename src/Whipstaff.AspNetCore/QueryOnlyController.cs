@@ -7,14 +7,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Controllers.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.Core;
 
-namespace Dhgms.AspNetCoreContrib.Controllers
+namespace Whipstaff.AspNetCore
 {
     /// <summary>
     /// A generic controller supporting List and View operations. Pre-defines CQRS activities along with Authorization and logging.
