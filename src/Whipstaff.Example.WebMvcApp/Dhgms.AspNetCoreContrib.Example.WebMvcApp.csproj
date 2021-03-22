@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
-    <ProjectReference Include="..\Whipstaff.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj" />
+    <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
   </ItemGroup>
 

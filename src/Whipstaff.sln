@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Controllers", "Dhgms.AspNetCoreContrib.Controllers\Dhgms.AspNetCoreContrib.Controllers.csproj", "{F93397CD-05D2-4933-8C59-867D5331CBED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.UnitTests", "Whipstaff.UnitTests\Whipstaff.UnitTests.csproj", "{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.UnitTests", "Whipstaff.UnitTests\Dhgms.AspNetCoreContrib.UnitTests.csproj", "{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Testing", "Whipstaff.Fakes\Whipstaff.Testing.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Fakes", "Whipstaff.Fakes\Dhgms.AspNetCoreContrib.Fakes.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.IntegrationTests", "Whipstaff.IntegrationTests\Dhgms.AspNetCoreContrib.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.IntegrationTests", "Whipstaff.IntegrationTests\Whipstaff.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebApiApp", "Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj", "{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}"
 EndProject
@@ -35,7 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Runtime", "Whipst
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf", "Whipstaff.Wpf\Whipstaff.Wpf.csproj", "{E56AE632-D1FD-4091-A06D-F4315282D53E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.OpenXml", "Whipstaff.OpenXml\Whipstaff.OpenXml.csproj", "{488A3380-D7F7-46ED-8BD6-2D8A7BB29E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.OpenXml", "Whipstaff.OpenXml\Whipstaff.OpenXml.csproj", "{488A3380-D7F7-46ED-8BD6-2D8A7BB29E9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{B4DE2ED2-337D-4315-879A-6D165E5BE2DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F93397CD-05D2-4933-8C59-867D5331CBED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F93397CD-05D2-4933-8C59-867D5331CBED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F93397CD-05D2-4933-8C59-867D5331CBED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F93397CD-05D2-4933-8C59-867D5331CBED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -114,6 +110,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
+		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
+		{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DB2718A-6FAF-4785-856D-2A081D493A02}
