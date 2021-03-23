@@ -74,6 +74,16 @@ jobs:
       run: |
         dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
 
+    - name: List Deprecated Packages
+      run: |
+        dotnet list ${{ env.solutionpath }} package --deprecated
+        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
+
+    - name: List Vulnerable Packages
+      run: |
+        dotnet list ${{ env.solutionpath }} package --vulnerable
+        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
+
     - name: Run Build
       run: |
         dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true 
