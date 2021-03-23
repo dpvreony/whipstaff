@@ -17,8 +17,8 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      solutionpath: src/Dhgms.Whipstaff.sln
-      unittestprojectpath: src/Dhgms.Whipstaff.UnitTests/Dhgms.Whipstaff.UnitTests.csproj
+      solutionpath: src/Whipstaff.sln
+      unittestprojectpath: src/Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
