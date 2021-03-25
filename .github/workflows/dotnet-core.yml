@@ -17,8 +17,8 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      solutionpath: src/Dhgms.AspNetCoreContrib.sln
-      unittestprojectpath: src/Dhgms.AspNetCoreContrib.UnitTests/Dhgms.AspNetCoreContrib.UnitTests.csproj
+      solutionpath: src/Whipstaff.sln
+      unittestprojectpath: src/Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -73,6 +73,16 @@ jobs:
     - name: Restore Packages
       run: |
         dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
+
+    - name: List Deprecated Packages
+      run: |
+        dotnet list ${{ env.solutionpath }} package --deprecated
+        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
+
+    - name: List Vulnerable Packages
+      run: |
+        dotnet list ${{ env.solutionpath }} package --vulnerable
+        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
 
     - name: Run Build
       run: |

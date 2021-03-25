@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <IsPackable>False</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
+  </ItemGroup>
+
+</Project>

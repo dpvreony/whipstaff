@@ -4,10 +4,10 @@
 
 using System;
 using AspNetCoreRateLimit;
-using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Whipstaff.Core.ApplicationStartup;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.StartUp
 {

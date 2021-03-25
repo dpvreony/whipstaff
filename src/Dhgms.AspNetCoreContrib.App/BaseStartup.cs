@@ -33,6 +33,7 @@ using OwaspHeaders.Core.Extensions;
 using RimDev.ApplicationInsights.Filters;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.Swagger;
+using Whipstaff.Core.Mediatr;
 
 namespace Dhgms.AspNetCoreContrib.App
 {

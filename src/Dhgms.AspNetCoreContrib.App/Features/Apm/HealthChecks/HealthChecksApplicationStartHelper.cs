@@ -2,13 +2,13 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using Dhgms.AspNetCoreContrib.Abstractions.Features.ApplicationStartup;
 using HealthChecks.UI.Client;
 using HealthChecks.UI.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Whipstaff.Core.ApplicationStartup;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Apm.HealthChecks
 {

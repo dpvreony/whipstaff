@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp5.0</TargetFrameworks>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="3.1.1" />
+    <PackageReference Include="Foundatio.Logging.Xunit" Version="9.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.4" />
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="NetTestRegimentation" Version="1.4.0" />
+    <PackageReference Include="OpenCover" Version="4.7.922" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
+    <PackageReference Include="xunit.runner.reporters" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
+    <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
+    <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
+  </ItemGroup>
+
+</Project>

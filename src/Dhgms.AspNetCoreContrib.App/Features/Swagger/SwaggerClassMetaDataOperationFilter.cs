@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Abstractions;
 using Dhgms.AspNetCoreContrib.App.Features.Generics;
-using Dhgms.AspNetCoreContrib.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Whipstaff.AspNetCore;
 
 namespace Dhgms.AspNetCoreContrib.App.Features.Swagger
 {
