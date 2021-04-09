@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="3.1.1" />
     <PackageReference Include="Foundatio.Logging.Xunit" Version="9.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.5" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="NetTestRegimentation" Version="1.4.0" />
     <PackageReference Include="OpenCover" Version="4.7.922" />
