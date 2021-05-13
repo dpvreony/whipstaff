@@ -19,7 +19,7 @@
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="5.4.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />
-    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.6" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.15" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="5.0.0" />
