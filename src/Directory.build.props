@@ -41,6 +41,7 @@
     <PackageReference Include="Xunit.StaFact" Version="1.0.37" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
+    <PackageReference Include="GitHubActionsTestLogger" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
