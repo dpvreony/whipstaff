@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Whipstaff.Core.Entities;
 
 namespace Dhgms.AspNetCoreContrib.Fakes.EntityFramework.DbSets
 {
     /// <summary>
     /// Represents a base db set.
     /// </summary>
-    public class BaseDbSet
+    public class BaseDbSet : IIntId
     {
         /// <summary>
         /// Gets or sets the unique id of the audit.
