@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 
-namespace Dhgms.AspNetCoreContrib.Fakes.MediatR
+namespace Whipstaff.Testing.MediatR
 {
     /// <summary>
     /// Fake Notification Handler for MediatR.

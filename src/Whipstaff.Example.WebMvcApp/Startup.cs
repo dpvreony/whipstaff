@@ -3,24 +3,18 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
-using Dhgms.AspNetCoreContrib.Fakes;
-using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
-using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
 using Whipstaff.Core.Mediatr;
+using Whipstaff.Testing;
+using Whipstaff.Testing.EntityFramework;
+using Whipstaff.Testing.MediatR;
 
 namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
 {

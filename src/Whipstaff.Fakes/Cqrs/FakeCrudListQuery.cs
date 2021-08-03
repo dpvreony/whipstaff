@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using Whipstaff.AspNetCore;
 
-namespace Dhgms.AspNetCoreContrib.Fakes.Cqrs
+namespace Whipstaff.Testing.Cqrs
 {
     /// <summary>
     /// Represents a fake CRUD list query.

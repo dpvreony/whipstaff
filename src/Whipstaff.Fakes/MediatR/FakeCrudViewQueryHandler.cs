@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR;
+using Whipstaff.Testing.Cqrs;
 
-namespace Dhgms.AspNetCoreContrib.Fakes.MediatR
+namespace Whipstaff.Testing.MediatR
 {
     /// <summary>
     /// CQRS Query Handler for the CRUD View Query.

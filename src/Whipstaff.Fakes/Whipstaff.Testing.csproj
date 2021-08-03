@@ -6,8 +6,9 @@
     <DebugSymbols>True</DebugSymbols>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Dhgms.AspNetCoreContrib.App\Dhgms.AspNetCoreContrib.App.csproj" />
+    <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>
