@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Whipstaff.Core.RequireForwardedForHeader;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.UnitTests.Features.RequireForwardedForHeader
+namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
 {
     /// <summary>
     /// Unit Tests for the RequireForwardedForHeaderMiddleware

@@ -2,10 +2,10 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.AspNetCoreContrib.Fakes
-{
-    using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
+namespace Whipstaff.Testing
+{
     /// <summary>
     /// Represents experimental logic on hooking up pre-compiled swagger metadata.
     /// </summary>

@@ -9,8 +9,6 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Fakes;
-using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,10 +16,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Whipstaff.Core;
+using Whipstaff.Testing;
+using Whipstaff.Testing.Cqrs;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.UnitTests.Controllers
+namespace Whipstaff.UnitTests.Controllers
 {
 #pragma warning disable CA1034
     /// <summary>
