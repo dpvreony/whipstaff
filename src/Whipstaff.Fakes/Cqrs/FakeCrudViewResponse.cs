@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.AspNetCoreContrib.Fakes.Cqrs
+namespace Whipstaff.Testing.Cqrs
 {
     /// <summary>
     /// Represents a fake CRUD view response.

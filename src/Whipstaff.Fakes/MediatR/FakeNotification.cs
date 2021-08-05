@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Dhgms.AspNetCoreContrib.Fakes.MediatR
+namespace Whipstaff.Testing.MediatR
 {
     /// <summary>
     /// Fake notification for MediatR.

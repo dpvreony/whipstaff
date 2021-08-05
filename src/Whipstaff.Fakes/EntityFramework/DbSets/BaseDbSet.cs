@@ -1,7 +1,7 @@
 ﻿using System;
 using Whipstaff.Core.Entities;
 
-namespace Dhgms.AspNetCoreContrib.Fakes.EntityFramework.DbSets
+namespace Whipstaff.Testing.EntityFramework.DbSets
 {
     /// <summary>
     /// Represents a base db set.

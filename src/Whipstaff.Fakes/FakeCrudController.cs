@@ -7,16 +7,16 @@ using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.App.Features.Swagger;
-using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore;
+using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.Core;
+using Whipstaff.Testing.Cqrs;
 
-namespace Dhgms.AspNetCoreContrib.Fakes
+namespace Whipstaff.Testing
 {
     /// <summary>
     /// Fake CRUD Web Controller, for use in examples and unit tests.

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
-using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
-using Dhgms.AspNetCoreContrib.Fakes.EntityFramework.DbSets;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Whipstaff.Testing.Cqrs;
+using Whipstaff.Testing.EntityFramework;
+using Whipstaff.Testing.EntityFramework.DbSets;
 
-namespace Dhgms.AspNetCoreContrib.Fakes.MediatR
+namespace Whipstaff.Testing.MediatR
 {
     /// <summary>
     /// Fake Crud Command Handler.

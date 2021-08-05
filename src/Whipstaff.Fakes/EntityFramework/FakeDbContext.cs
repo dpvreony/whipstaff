@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Dhgms.AspNetCoreContrib.Fakes.EntityFramework
+namespace Whipstaff.Testing.EntityFramework
 {
     /// <summary>
     /// Fake Entity Framework DBContext.

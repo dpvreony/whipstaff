@@ -2,23 +2,15 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.App.Features.Mediatr;
-using Dhgms.AspNetCoreContrib.Fakes;
-using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Whipstaff.Core.Mediatr;
+using Whipstaff.Testing;
+using Whipstaff.Testing.MediatR;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
 {

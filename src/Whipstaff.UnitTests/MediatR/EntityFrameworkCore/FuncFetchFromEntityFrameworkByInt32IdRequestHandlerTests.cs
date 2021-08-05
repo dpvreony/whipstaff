@@ -5,11 +5,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
-using Dhgms.AspNetCoreContrib.Fakes.EntityFramework.DbSets;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.MediatR.EntityFrameworkCore;
 using Whipstaff.Testing.Cqrs;
+using Whipstaff.Testing.EntityFramework;
+using Whipstaff.Testing.EntityFramework.DbSets;
 using Xunit;
 
 namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
