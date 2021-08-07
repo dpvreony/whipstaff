@@ -59,6 +59,10 @@
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
+  <ItemGroup>	
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25" PrivateAssets="all" />	
+  </ItemGroup>
+  
   <ItemGroup>
     <None Include="..\..\readme.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
