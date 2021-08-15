@@ -5,6 +5,7 @@
     <OutputType>Library</OutputType>
     <!-- https://github.com/dotnet/aspnetcore/issues/14370 details build issue with openapi which swashbuckle package causes -->
     <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+    <IsPackable>True</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
