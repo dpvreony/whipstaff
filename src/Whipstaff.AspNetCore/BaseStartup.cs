@@ -83,22 +83,22 @@ namespace Dhgms.AspNetCoreContrib.App
         /// <param name="services">DI services collection instance.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFeatureManagement();
-            services.AddMiddlewareAnalysis();
+            _ = services.AddFeatureManagement();
+            _ = services.AddMiddlewareAnalysis();
 
             ConfigureControllerService(services);
 
             ConfigureMediatrService(services);
 
-            services.AddProblemDetails();
+            _ = services.AddProblemDetails();
 
-            services.AddAuthorization(ConfigureAuthorization);
+            _ = services.AddAuthorization(ConfigureAuthorization);
 
             new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
 
             if (_useSwagger)
             {
-                services.AddSwaggerGen(c =>
+                _ = services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                     c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
@@ -120,10 +120,10 @@ namespace Dhgms.AspNetCoreContrib.App
             });
             */
 
-            services.AddApplicationInsightsTelemetry();
-            services.AddApplicationInsightsTelemetryProcessor<IgnoreHangfireTelemetry>();
-            services.AddApplicationInsightsTelemetryProcessor<IgnorePathsTelemetry>();
-            services.AddApplicationInsightsTelemetryProcessor<RemoveHttpUrlPasswordsTelemetry>();
+            _ = services.AddApplicationInsightsTelemetry();
+            _ = services.AddApplicationInsightsTelemetryProcessor<IgnoreHangfireTelemetry>();
+            _ = services.AddApplicationInsightsTelemetryProcessor<IgnorePathsTelemetry>();
+            _ = services.AddApplicationInsightsTelemetryProcessor<RemoveHttpUrlPasswordsTelemetry>();
 
             OnConfigureServices(services);
         }
@@ -172,24 +172,24 @@ namespace Dhgms.AspNetCoreContrib.App
         {
             var diagnosticListener = app.ApplicationServices.GetService<DiagnosticListener>();
             var logDiagnosticListenerLogger = loggerFactory.CreateLogger<LogDiagnosticListener>();
-            diagnosticListener.SubscribeWithAdapter(new LogDiagnosticListener(logDiagnosticListenerLogger));
+            _ = diagnosticListener.SubscribeWithAdapter(new LogDiagnosticListener(logDiagnosticListenerLogger));
 
             var logger = loggerFactory.CreateLogger<BaseStartup>();
             logger.LogInformation("Starting configuration");
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
+                _ = app.UseBrowserLink();
+                _ = app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                _ = app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseBlockingDetection();
+            _ = app.UseBlockingDetection();
 
-            app.UseProblemDetails();
+            _ = app.UseProblemDetails();
 
             var version = new Version(0, 1, 1, 9999);
 
@@ -198,11 +198,11 @@ namespace Dhgms.AspNetCoreContrib.App
             */
 
             var secureHeadersMiddlewareConfiguration = SecureHeadersMiddlewareExtensions.BuildDefaultConfiguration();
-            app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
+            _ = app.UseSecureHeadersMiddleware(secureHeadersMiddlewareConfiguration);
 
-            app.UseStaticFiles();
+            _ = app.UseStaticFiles();
 
-            app.UseAuditMiddleware(_ => _
+            _ = app.UseAuditMiddleware(_ => _
                 .FilterByRequest(rq => !rq.Path.Value.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase))
                 .WithEventType("{verb}:{url}")
                 .IncludeHeaders()
@@ -223,18 +223,18 @@ namespace Dhgms.AspNetCoreContrib.App
 
             if (_useSwagger)
             {
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
+                _ = app.UseSwagger();
+                _ = app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 });
             }
 
-            app.UseRouting();
+            _ = app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
+            _ = app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
+                _ = endpoints.MapControllerRoute(
                     "get",
                     "api/{controller}/{id?}",
                     new { action = "Get" },
@@ -249,7 +249,13 @@ namespace Dhgms.AspNetCoreContrib.App
             var controllerAssemblies = GetControllerAssemblies();
             foreach (var controllerAssembly in controllerAssemblies)
             {
-                services.AddControllers(options => options.Conventions.Add(new AddAuthorizePolicyControllerConvention()))
+                _ = services.AddControllers(options =>
+                    {
+                        options.Conventions.Add(new AddAuthorizePolicyControllerConvention());
+                        // if you have a load balancer in front, you can have an issue if there is no cache-control specified
+                        // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
+                        options.CacheProfiles.Add("nostore", new CacheProfile { NoStore = true });
+                    })
                     .AddApplicationPart(controllerAssembly)
                     .AddControllersAsServices()
                     .SetCompatibilityVersion(CompatibilityVersion.Latest);
