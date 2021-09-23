@@ -33,7 +33,7 @@
     <PackageReference Include="ReactiveUI" Version="16.2.6" />
     <PackageReference Include="OwaspHeaders.Core" Version="4.2.0" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.52" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />-->
   </ItemGroup>
 
