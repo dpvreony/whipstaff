@@ -27,7 +27,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.19" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="5.0.0" />
-    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.3.0" />
+    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.4.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
     <PackageReference Include="ReactiveUI" Version="16.2.6" />
