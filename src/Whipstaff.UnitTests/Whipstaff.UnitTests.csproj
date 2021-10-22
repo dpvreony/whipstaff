@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
+    <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
   </ItemGroup>
 
 </Project>
