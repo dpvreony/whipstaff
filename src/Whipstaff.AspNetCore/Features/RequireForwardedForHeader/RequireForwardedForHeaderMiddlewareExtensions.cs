@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Builder;
 
-namespace Whipstaff.Core.RequireForwardedForHeader
+namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
 {
     /// <summary>
     /// Extension methods for the Require Forwarded Header Middleware.

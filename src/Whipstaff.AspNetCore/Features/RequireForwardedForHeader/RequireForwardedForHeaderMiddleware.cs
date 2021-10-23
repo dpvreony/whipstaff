@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Whipstaff.Core.RequireForwardedForHeader
+namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
 {
     /// <summary>
     /// Middleware for checking the X-FORWARDED-FOR header exists on requests.

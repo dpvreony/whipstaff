@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Whipstaff.Core.AddServerDetailsToResponseHeader
+namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
 {
     /// <summary>
     /// Adds server details to the response headers of a request. Can be used

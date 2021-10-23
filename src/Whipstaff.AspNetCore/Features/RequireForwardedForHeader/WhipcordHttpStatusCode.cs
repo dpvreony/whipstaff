@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Whipstaff.Core.RequireForwardedForHeader
+namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
 {
     /// <summary>
     /// HTTP Status Codes that are specific to Whipcord.

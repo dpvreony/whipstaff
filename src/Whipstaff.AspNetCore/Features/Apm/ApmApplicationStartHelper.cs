@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Whipstaff.AspNetCore.Features.Apm.ApplicationInsights;
 using Whipstaff.AspNetCore.Features.Apm.HealthChecks;
-using Whipstaff.Core.ApplicationStartup;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Whipstaff.AspNetCore.Features.Apm
 {

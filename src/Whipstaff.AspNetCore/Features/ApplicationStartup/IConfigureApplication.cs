@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Builder;
 
-namespace Whipstaff.Core.ApplicationStartup
+namespace Whipstaff.AspNetCore.Features.ApplicationStartup
 {
     /// <summary>
     /// Represents a class that is used for configuring a feature during Application Startup.
