@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Whipstaff.Core.RequireForwardedForHeader;
+using Whipstaff.AspNetCore.Features.RequireForwardedForHeader;
 using Xunit;
 using Xunit.Abstractions;
 

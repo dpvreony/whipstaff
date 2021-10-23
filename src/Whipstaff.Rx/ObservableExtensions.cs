@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reactive.Linq;
-using System.Threading;
 using Splat.ApplicationPerformanceMonitoring;
 
 namespace Whipstaff.Rx
