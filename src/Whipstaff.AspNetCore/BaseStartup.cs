@@ -257,8 +257,7 @@ namespace Dhgms.AspNetCoreContrib.App
                         options.CacheProfiles.Add("nostore", new CacheProfile { NoStore = true });
                     })
                     .AddApplicationPart(controllerAssembly)
-                    .AddControllersAsServices()
-                    .SetCompatibilityVersion(CompatibilityVersion.Latest);
+                    .AddControllersAsServices();
             }
         }
 
