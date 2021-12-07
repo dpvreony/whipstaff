@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Fakes;
-using Dhgms.AspNetCoreContrib.Fakes.Cqrs;
-using Dhgms.AspNetCoreContrib.Fakes.EntityFramework;
-using Dhgms.AspNetCoreContrib.Fakes.MediatR;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Whipstaff.Core.Mediatr;
+using Whipstaff.Testing.Cqrs;
+using Whipstaff.Testing.EntityFramework;
+using Whipstaff.Testing.MediatR;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.UnitTests.Features.Mediatr
+namespace Whipstaff.UnitTests.Features.Mediatr
 {
     /// <summary>
     /// Unit tests for the MediatrHelpers class.

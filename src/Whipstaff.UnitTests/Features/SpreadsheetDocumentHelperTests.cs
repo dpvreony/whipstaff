@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Text;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -15,7 +14,7 @@ using Whipstaff.OpenXml.Excel;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.UnitTests.Features
+namespace Whipstaff.UnitTests.Features
 {
     /// <summary>
     /// Unit tests for the Excel Spreadsheet document helper.

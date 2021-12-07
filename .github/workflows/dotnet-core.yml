@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
     outputs:
       nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
     env:
@@ -41,6 +41,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+
+    - name: Install .NET 6
+      uses: actions/setup-dotnet@v1.8.2
+      with:
+        dotnet-version: 6.0.x
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
@@ -90,7 +95,7 @@ jobs:
 
     - name: Run Unit Tests
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --blame-hang-timeout 60000 --results-directory artifacts\opencover --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\opencover --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
     - name: Upload Code Coverage
       shell: bash
@@ -108,12 +113,23 @@ jobs:
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
 
-
     - name: Run Resharper Duplicate Code Finder
       run: |
         jb dupfinder ${{ env.solutionpath }} -o=artifacts\dupfinder\report.xml
 
-# only store binlog on failure      
+    - name: VirusTotal Monitor Scan
+      if: ${{ env.VIRUSTOTAL_API_KEY != 0 }}
+      uses: crazy-max/ghaction-virustotal@v2
+      with:
+        vt_api_key: ${{ env.VIRUSTOTAL_API_KEY }}
+        vt_monitor: true
+        monitor_path: /ghaction-virustotal
+        files: |
+          ./artifacts/nuget/*.nupkg
+      env:
+        VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
+
+    # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
       uses: actions/upload-artifact@v2
