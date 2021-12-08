@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Foundatio.Queues;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Whipstaff.Core.ExceptionHandling;
 
 namespace Whipstaff.MediatR.Foundatio.QueueProcessing
@@ -19,14 +20,19 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
         where TMessage : class
     {
         private readonly IQueue<TMessage> _queue;
+        private readonly ILogger<QueueProcessManager<TMessage>> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueProcessManager{TMessage}"/> class.
         /// </summary>
         /// <param name="queue">The queue to monitor.</param>
-        protected QueueProcessManager(IQueue<TMessage> queue)
+        /// <param name="logger">Logging framework instance.</param>
+        protected QueueProcessManager(
+            IQueue<TMessage> queue,
+            ILogger<QueueProcessManager<TMessage>> logger)
         {
             _queue = queue ?? throw new ArgumentNullException(nameof(queue));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc/>
@@ -191,8 +197,10 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
             // is in the time frame.
             // we need to check the config moving forward.
 
-            await _queue.EnqueueAsync(queueEntry.Value)
+            var enqueuedMessageId = await _queue.EnqueueAsync(queueEntry.Value)
                 .ConfigureAwait(false);
+
+            this._logger.LogInformation($"Requeued Message {queueEntry.Id} as {enqueuedMessageId}");
 
             // complete after enqueue, if enqueue fails, this should drop back to abandon or deadletter.
             await queueEntry.CompleteAsync()

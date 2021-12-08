@@ -71,27 +71,32 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
         /// <param name="loggerFactory">The logging interface factory.</param>
         /// <param name="lockName">The name of the lock.</param>
         /// <param name="lockLostBehavior">The behavior to carry out if the lock is lost.</param>
-        /// <param name="observer">The observer for watching if the lock is aquired.</param>
+        /// <param name="hasLockObserver">The observer for watching if the lock is aquired.</param>
         /// <param name="cancellationToken">The cancellation token used to stop the process manager.</param>
         /// <returns>Instance of the distributed lock process manager and the active task.</returns>
-        public static (DistributedLockProcessManager Instance, Task Task) SubscribeAndStart(
+        public static (DistributedLockProcessManager Instance, Task Task, IDisposable HasLockSubscription) SubscribeAndStart(
             IMessageBus messageBus,
             ILoggerFactory loggerFactory,
             string lockName,
             LockLostBehavior lockLostBehavior,
-            IObserver<bool> observer,
+            IObserver<bool> hasLockObserver,
             CancellationToken cancellationToken)
         {
-            if (observer == null)
+            if (hasLockObserver == null)
             {
-                throw new ArgumentNullException(nameof(observer));
+                throw new ArgumentNullException(nameof(hasLockObserver));
             }
 
-            var instance = new DistributedLockProcessManager(messageBus, lockName, lockLostBehavior, loggerFactory);
-            instance.HasLock.Subscribe(observer);
+            var instance = new DistributedLockProcessManager(
+                messageBus,
+                lockName,
+                lockLostBehavior,
+                loggerFactory);
+
+            var hasLockSubscription = instance.HasLock.Subscribe(hasLockObserver);
             var task = instance.StartAsync(cancellationToken);
 
-            return (instance, task);
+            return (instance, task, hasLockSubscription);
         }
 
         /// <inheritdoc/>
@@ -210,7 +215,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             {
                 await task()
                     .ConfigureAwait(false);
-                cancellationToken.WaitHandle.WaitOne(timeout);
+                _ = cancellationToken.WaitHandle.WaitOne(timeout);
             }
         }
     }
