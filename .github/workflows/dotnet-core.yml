@@ -64,7 +64,7 @@ jobs:
         dotnet tool install --global dotnet-outdated-tool
         dotnet tool install --global snitch
         dotnet tool install --global dotnet-sonarscanner
-        dotnet tool install --global JetBrains.ReSharper.GlobalTools
+        dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2021.2.2
 
     - name: Prepare Artifact Directory
       run: |
