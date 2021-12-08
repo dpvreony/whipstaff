@@ -4,7 +4,7 @@
 
 using Microsoft.AspNetCore.Builder;
 
-namespace Whipstaff.Core.AddServerDetailsToResponseHeader
+namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
 {
     /// <summary>
     /// Extension methods for the Add Server Details To Response Header Middleware.

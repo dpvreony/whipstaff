@@ -5,7 +5,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Whipstaff.Core.ApplicationStartup
+namespace Whipstaff.AspNetCore.Features.ApplicationStartup
 {
     /// <summary>
     /// Represents a feature that needs to have services configured as part of application initialization.
