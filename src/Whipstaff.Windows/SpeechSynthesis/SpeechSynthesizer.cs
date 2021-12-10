@@ -87,6 +87,11 @@ namespace Dhgms.Whipstaff.Model
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public void Announce(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
