@@ -54,6 +54,16 @@ namespace Dhgms.Whipstaff.Desktop.Helper
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TApplication"></typeparam>
+        /// <param name="applicationContext"></param>
+        /// <param name="logger"></param>
+        /// <param name="jumpItemsFunc"></param>
+        /// <param name="jumpItemsRemovedByUserSubscription"></param>
+        /// <param name="jumpItemsRejectedSubscription"></param>
+        /// <returns></returns>
         public static JumpListHelper GetInstance<TApplication>(
             TApplication applicationContext,
             ILogger<JumpListHelper> logger,
@@ -73,6 +83,17 @@ namespace Dhgms.Whipstaff.Desktop.Helper
                 jumpItemsRejectedSubscription);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="applicationContext"></param>
+        /// <param name="logger"></param>
+        /// <param name="assembly"></param>
+        /// <param name="jumpItemsFunc"></param>
+        /// <param name="jumpItemsRemovedByUserSubscription"></param>
+        /// <param name="jumpItemsRejectedSubscription"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public static JumpListHelper GetInstance(
             Application applicationContext,
             ILogger<JumpListHelper> logger,

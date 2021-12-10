@@ -43,7 +43,8 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
             var client = Factory.CreateClient();
             var response = await client.GetAsync(requestUri).ConfigureAwait(false);
 
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
+
             Assert.Equal(
                 "application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());

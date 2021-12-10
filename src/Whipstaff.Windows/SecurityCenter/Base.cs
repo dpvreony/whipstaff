@@ -1,4 +1,7 @@
-﻿namespace Dhgms.Whipstaff.Model.Helper.SecurityCenter
+﻿using Whipstaff.Windows;
+using Whipstaff.Windows.SecurityCenter;
+
+namespace Dhgms.Whipstaff.Model.Helper.SecurityCenter
 {
     using System;
     using System.Linq;
@@ -12,9 +15,6 @@
     /// </summary>
     public abstract class Base
     {
-        [DllImport("Wscapi.dll")]
-        static extern HRESULT WscGetSecurityProviderHealth(int providers, out int healthState);
-
         private readonly SecurityProvider securityProvider;
 
         /// <summary>
@@ -33,19 +33,9 @@
         /// </summary>
         public void CheckOk()
         {
-            if (Environment.OSVersion.Version < new Version(6, 1))
-            {
-                // can't do these checks on pre vista machines
-                return;
-            }
+            var health =SecurityProviderHelpers.GetHealthStatus(securityProvider);
 
-            int health;
-            if (WscGetSecurityProviderHealth((int)this.securityProvider, out health) != HRESULT.S_OK)
-            {
-                //throw 
-            }
-
-            if ((SecurityProviderHealth)health != SecurityProviderHealth.WscSecurityProviderHealthGood)
+            if (health != SecurityProviderHealth.WscSecurityProviderHealthGood)
             {
                 this.OnBadHealthState((SecurityProviderHealth)health);
             }

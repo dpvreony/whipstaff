@@ -850,7 +850,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(MockViewMediatorHandlerAsync);
+                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(MockViewMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
