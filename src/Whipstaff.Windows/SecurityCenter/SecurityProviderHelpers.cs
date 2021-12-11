@@ -15,9 +15,10 @@ namespace Whipstaff.Windows.SecurityCenter
         /// <returns></returns>
         public static SecurityProviderHealth GetHealthStatus(int provider)
         {
-            if (NativeMethods.WscGetSecurityProviderHealth(provider, out var health) != HRESULT.S_OK)
+            var resultCode = NativeMethods.WscGetSecurityProviderHealth(provider, out var health);
+            if (resultCode != HRESULT.S_OK)
             {
-                //throw 
+                throw new InvalidOperationException($"Call to {nameof(NativeMethods.WscGetSecurityProviderHealth)} failed. Result code: {resultCode}");
             }
 
             return (SecurityProviderHealth)health;

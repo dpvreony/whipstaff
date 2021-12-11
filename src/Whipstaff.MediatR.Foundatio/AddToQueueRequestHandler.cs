@@ -14,7 +14,7 @@ namespace Whipstaff.MediatR.Foundatio
     /// A simple MediatR Request Handler to push a RequestDto straight into a Queue.
     /// </summary>
     /// <typeparam name="TRequest">The type of the Request to enqueue.</typeparam>
-    public class AddToQueueRequestHandler<TRequest> : IRequestHandler<TRequest, string>
+    public sealed class AddToQueueRequestHandler<TRequest> : IRequestHandler<TRequest, string>
         where TRequest : class, IRequest<string>
     {
         private readonly IQueue<TRequest> _queue;
