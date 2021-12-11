@@ -4,7 +4,9 @@ namespace Dhgms.Whipstaff.Model.Helper
     /// <summary>
     /// HRESULT for WinApi calls
     /// </summary>
+#pragma warning disable CA1028 // Enum Storage should be Int32
     public enum HRESULT : long
+#pragma warning restore CA1028 // Enum Storage should be Int32
     {
         /// <summary>
         /// Generic failure.

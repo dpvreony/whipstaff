@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.MediatR.EntityFrameworkCore
 {
@@ -22,14 +23,19 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         where TRequest : IRequest<Unit>
     {
         private readonly Func<Task<TDbContext>> _dbContextFactory;
+        private readonly ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActOnDbSetRequestHandler{TRequest, TDbContext, TEntity}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
-        protected ActOnDbSetRequestHandler(Func<Task<TDbContext>> dbContextFactory)
+        /// <param name="logger">Logging framework instance.</param>
+        protected ActOnDbSetRequestHandler(
+            Func<Task<TDbContext>> dbContextFactory,
+            ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> logger)
         {
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc/>
@@ -45,7 +51,8 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
 
                 if (dbContext.ChangeTracker.HasChanges())
                 {
-                    await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    _logger.LogDebug($"Save Result: {saveResult}");
                 }
             }
 

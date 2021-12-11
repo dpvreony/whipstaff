@@ -3,12 +3,13 @@
     /// <summary>
     /// Enumeration representing the available security providers
     /// </summary>
+    [Flags]
     public enum SecurityProvider
     {
         /// <summary>
-        /// 
+        /// None Selected.
         /// </summary>
-        WscSecurityProviderNone = 0,
+        None = 0,
 
         /// <summary>
         /// 

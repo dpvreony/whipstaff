@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 
@@ -22,6 +23,7 @@ namespace Whipstaff.Core.Logging
             this ILogger logger,
             Func<string> messageFunc)
         {
+            Debug.Assert(logger != null, nameof(logger) + " != null");
             logger.LogIfEnabled(LogLevel.Trace, messageFunc);
         }
 
@@ -46,7 +48,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="callerMemberName">Name of the method.</param>
         public static void TraceMethodEntry(
             this ILogger logger,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string? callerMemberName = null)
         {
             logger.TraceIfEnabled(() => $"Method Entry: {callerMemberName}");
         }
@@ -60,7 +62,7 @@ namespace Whipstaff.Core.Logging
         public static void TraceMethodException(
             this ILogger logger,
             Exception exception,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string? callerMemberName = null)
         {
             logger.TraceIfEnabled(exception, () => $"Method Entry: {callerMemberName}");
         }
@@ -72,7 +74,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="callerMemberName">Name of the method.</param>
         public static void TraceMethodExit(
             this ILogger logger,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string? callerMemberName = null)
         {
             logger.TraceIfEnabled(() => $"Method Exit: {callerMemberName}");
         }
