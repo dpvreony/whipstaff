@@ -17,7 +17,15 @@ namespace Dhgms.Whipstaff.Model
     /// </summary>
     public sealed class SpeechAnnouncements : IDisposable
     {
-        private readonly SpeechSynthesizer speechSynthesizer;
+        private readonly SpeechSynthesizer _speechSynthesizer;
+        private readonly IDisposable? _bookmarkReachedSubscription;
+        private readonly IDisposable? _phonemeReachedSubscription;
+        private readonly IDisposable? _speakCompletedSubscription;
+        private readonly IDisposable? _speakProgressSubscription;
+        private readonly IDisposable? _speakStartedSubscription;
+        private readonly IDisposable? _stateChangedSubscription;
+        private readonly IDisposable? _visemeReachedSubscription;
+        private readonly IDisposable? _voiceChangeSubscription;
 
         /// <summary>
         /// Creates an instance of <see cref="SpeechAnnouncements"/>
@@ -40,7 +48,7 @@ namespace Dhgms.Whipstaff.Model
             IObserver<VisemeReachedEventArgs>? visemeReachedObserver,
             IObserver<VoiceChangeEventArgs>? voiceChangeObserver)
         {
-            this.speechSynthesizer = new SpeechSynthesizer
+            this._speechSynthesizer = new SpeechSynthesizer
             {
                 Volume = 50,
                 Rate = 3
@@ -48,42 +56,42 @@ namespace Dhgms.Whipstaff.Model
 
             if (bookmarkReachedObserver != null)
             {
-                this.speechSynthesizer.Events().BookmarkReached.Subscribe(bookmarkReachedObserver);
+                this._bookmarkReachedSubscription = this._speechSynthesizer.Events().BookmarkReached.Subscribe(bookmarkReachedObserver);
             }
 
             if (phonemeReachedObserver != null)
             {
-                this.speechSynthesizer.Events().PhonemeReached.Subscribe(phonemeReachedObserver);
+                this._phonemeReachedSubscription = this._speechSynthesizer.Events().PhonemeReached.Subscribe(phonemeReachedObserver);
             }
 
             if (speakCompletedObserver != null)
             {
-                this.speechSynthesizer.Events().SpeakCompleted.Subscribe(speakCompletedObserver);
+                this._speakCompletedSubscription = this._speechSynthesizer.Events().SpeakCompleted.Subscribe(speakCompletedObserver);
             }
 
             if (speakProgressObserver != null)
             {
-                this.speechSynthesizer.Events().SpeakProgress.Subscribe(speakProgressObserver);
+                this._speakProgressSubscription = this._speechSynthesizer.Events().SpeakProgress.Subscribe(speakProgressObserver);
             }
 
             if (speakStartedObserver != null)
             {
-                this.speechSynthesizer.Events().SpeakStarted.Subscribe(speakStartedObserver);
+                this._speakStartedSubscription = this._speechSynthesizer.Events().SpeakStarted.Subscribe(speakStartedObserver);
             }
 
             if (stateChangedObserver != null)
             {
-                this.speechSynthesizer.Events().StateChanged.Subscribe(stateChangedObserver);
+                this._stateChangedSubscription = this._speechSynthesizer.Events().StateChanged.Subscribe(stateChangedObserver);
             }
 
             if (visemeReachedObserver != null)
             {
-                this.speechSynthesizer.Events().VisemeReached.Subscribe(visemeReachedObserver);
+                this._visemeReachedSubscription = this._speechSynthesizer.Events().VisemeReached.Subscribe(visemeReachedObserver);
             }
 
             if (voiceChangeObserver != null)
             {
-                this.speechSynthesizer.Events().VoiceChange.Subscribe(voiceChangeObserver);
+                this._voiceChangeSubscription = this._speechSynthesizer.Events().VoiceChange.Subscribe(voiceChangeObserver);
             }
         }
 
@@ -99,13 +107,21 @@ namespace Dhgms.Whipstaff.Model
                 throw new ArgumentNullException(nameof(text));
             }
 
-            speechSynthesizer.Speak(text);
+            _speechSynthesizer.Speak(text);
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            this.speechSynthesizer.Dispose();
+            this._speechSynthesizer.Dispose();
+            this._bookmarkReachedSubscription?.Dispose();
+            this._phonemeReachedSubscription?.Dispose();
+            this._speakCompletedSubscription?.Dispose();
+            this._speakProgressSubscription?.Dispose();
+            this._speakStartedSubscription?.Dispose();
+            this._stateChangedSubscription?.Dispose();
+            this._visemeReachedSubscription?.Dispose();
+            this._voiceChangeSubscription?.Dispose();
             GC.SuppressFinalize(this);
         }
     }

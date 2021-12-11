@@ -552,26 +552,28 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    _ => errorCount++,
-                    () => completedCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    _ = await observable.Execute(Unit.Default);
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               _ => errorCount++,
+                               () => completedCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                        _ = await observable.Execute(Unit.Default);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
+                    }
                 }
             }
 

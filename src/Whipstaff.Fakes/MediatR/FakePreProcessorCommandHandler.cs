@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Whipstaff.Core.Logging;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
@@ -17,6 +18,7 @@ namespace Whipstaff.Testing.MediatR
     {
         private readonly DbContextOptions<FakeDbContext> _fakeDbContextOptions;
         private readonly ILogger<FakePreProcessorCommandHandler> _logger;
+        private readonly Action<ILogger, int, Exception?> _saveResultLogMessage;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudAddCommandHandler"/> class.
@@ -29,6 +31,7 @@ namespace Whipstaff.Testing.MediatR
         {
             _fakeDbContextOptions = fakeDbContextOptions ?? throw new ArgumentNullException(nameof(fakeDbContextOptions));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _saveResultLogMessage = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
         }
 
         /// <inheritdoc />
@@ -51,7 +54,10 @@ namespace Whipstaff.Testing.MediatR
                 var saveResult = await dbContext.SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
 
-                this._logger.LogDebug($"DbContext Save Result: {saveResult}");
+                _saveResultLogMessage(
+                    _logger,
+                    saveResult,
+                    null);
             }
         }
     }

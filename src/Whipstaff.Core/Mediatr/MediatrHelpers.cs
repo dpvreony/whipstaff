@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Whipstaff.Core.Logging;
 
 namespace Whipstaff.Core.Mediatr
 {
@@ -62,26 +63,36 @@ namespace Whipstaff.Core.Mediatr
 
         private static void Register<T>(
             IServiceCollection services,
-            ILogger logger,
-            IList<Func<T>> registrations)
+            ILogger? logger,
+            ICollection<Func<T>> registrations)
             where T : IMediatrRegistrationModel
         {
             if (registrations == null || registrations.Count < 1)
             {
-                logger?.LogInformation($"No {typeof(T)} handlers registered.");
+                if (logger != null)
+                {
+                    var loggerMessage = LoggerMessageFactory.GetNoMediatRHandlersRegisteredForTypeLoggerMessageAction();
+                    loggerMessage(logger, typeof(T), null);
+                }
+
                 return;
             }
-
-            logger?.LogInformation($"{registrations.Count} mediatr handlers registered.");
 
             foreach (var registration in registrations)
             {
                 var registrationInstance = registration();
                 var serviceType = registrationInstance.ServiceType;
                 var implementationType = registrationInstance.ImplementationType;
-                services.AddTransient(
+
+                _ = services.AddTransient(
                     serviceType,
                     implementationType);
+            }
+
+            if (logger != null)
+            {
+                var loggerMessage = LoggerMessageFactory.GetCountOfMediatRHandlersRegisteredLoggerMessageAction();
+                loggerMessage(logger, typeof(T), registrations.Count, null);
             }
         }
     }
