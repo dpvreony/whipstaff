@@ -36,11 +36,11 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override void OnConfigureServices(IServiceCollection services)
+        protected override void OnConfigureServices(IServiceCollection serviceCollection)
         {
-            services.AddStuntman(_stuntmanOptions);
+            serviceCollection.AddStuntman(_stuntmanOptions);
             var databaseName = Guid.NewGuid().ToString();
-            services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+            _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseInMemoryDatabase(databaseName: databaseName)
                 .Options);
         }

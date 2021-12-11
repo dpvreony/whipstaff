@@ -63,6 +63,10 @@ namespace Whipstaff.OpenXml.Excel
         {
             var worksheet = worksheetPart.Worksheet;
             var sheetData = worksheet.GetFirstChild<SheetData>();
+            if (sheetData == null)
+            {
+                throw new InvalidOperationException("No sheet data in worksheet");
+            }
 
             var row = new Row();
 
@@ -72,7 +76,7 @@ namespace Whipstaff.OpenXml.Excel
                 ConstructCell("Surname"),
                 ConstructCell("Date Of Birth"));
 
-            sheetData.AppendChild(row);
+            _ = sheetData.AppendChild(row);
             worksheet.Save();
         }
 

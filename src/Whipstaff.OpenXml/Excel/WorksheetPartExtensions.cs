@@ -123,13 +123,18 @@ namespace Whipstaff.OpenXml.Excel
         {
             var worksheet = worksheetPart.Worksheet;
             var sheetData = worksheet.GetFirstChild<SheetData>();
+            if (sheetData == null)
+            {
+                throw new InvalidOperationException("No sheet data in worksheet");
+            }
+
             var cellReference = columnName + rowIndex;
 
             // If the worksheet does not contain a row with the specified row index, insert one.
-            var row = sheetData.Elements<Row>().FirstOrDefault(r => r.RowIndex == rowIndex);
+            var row = sheetData.Elements<Row>().FirstOrDefault(r => r.RowIndex?.Value == rowIndex);
             if (row != null)
             {
-                var cell = row.Elements<Cell>().FirstOrDefault(c => c.CellReference.Value == cellReference);
+                var cell = row.Elements<Cell>().FirstOrDefault(c => c.CellReference?.Value == cellReference);
                 if (cell != null)
                 {
                     return cell;
@@ -141,12 +146,12 @@ namespace Whipstaff.OpenXml.Excel
                 sheetData.Append(row);
             }
 
-            Cell refCell = null;
+            Cell? refCell = null;
             foreach (var cell in row.Elements<Cell>())
             {
-                if (cell.CellReference.Value.Length == cellReference.Length)
+                if (cell.CellReference?.Value?.Length == cellReference.Length)
                 {
-                    if (string.Compare(cell.CellReference.Value, cellReference, true, CultureInfo.InvariantCulture) > 0)
+                    if (string.Compare(cell.CellReference.Value, cellReference, StringComparison.Ordinal) > 0)
                     {
                         refCell = cell;
                         break;
@@ -155,7 +160,7 @@ namespace Whipstaff.OpenXml.Excel
             }
 
             var newCell = new Cell { CellReference = cellReference };
-            row.InsertBefore(newCell, refCell);
+            _ = row.InsertBefore(newCell, refCell);
 
             worksheet.Save();
             return newCell;
