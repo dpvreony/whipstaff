@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 using Dhgms.Whipstaff.Model.Helper;
 
 namespace Whipstaff.Windows
@@ -11,6 +6,7 @@ namespace Whipstaff.Windows
     internal static class NativeMethods
     {
         [DllImport("Wscapi.dll")]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         public static extern HRESULT WscGetSecurityProviderHealth(int providers, out int healthState);
     }
 }

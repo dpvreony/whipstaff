@@ -4,7 +4,7 @@ using System.Reactive.Subjects;
 namespace Whipstaff.Rx
 {
     /// <summary>
-    /// Represents a <see cref="T:System.Reactive.Subjects.BehaviorSubject">BehaviorSubject</see> that has been wrapped to make it read only by hiding the next, error, completed methods.
+    /// Represents a <see cref="System.Reactive.Subjects.BehaviorSubject{T}">BehaviorSubject</see> that has been wrapped to make it read only by hiding the next, error, completed methods.
     /// </summary>
     /// <typeparam name="T">The type being exposed by the subject.</typeparam>
     public class ReadOnlyBehaviorObservable<T> : IReadOnlyObservable<T>
@@ -29,7 +29,18 @@ namespace Whipstaff.Rx
         /// <inheritdoc />>
         public bool TryGetValue(out T value)
         {
-            return _behaviorSubject.TryGetValue(out value);
+            value = default!;
+
+            try
+            {
+                return _behaviorSubject.TryGetValue(out value!);
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                return false;
+            }
         }
     }
 }

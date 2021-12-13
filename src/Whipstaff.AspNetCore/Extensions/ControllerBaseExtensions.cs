@@ -38,18 +38,28 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
-            [NotNull]this ControllerBase instance,
-            [NotNull]ILogger logger,
-            [NotNull]IMediator mediator,
-            [NotNull]IAuthorizationService authorizationService,
-            [NotNull]TAddRequestDto addRequestDto,
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TAddRequestDto addRequestDto,
             EventId eventId,
-            [NotNull]string addPolicyName,
-            [NotNull]Func<TAddResponseDto, Task<IActionResult>> getAddActionResultAsync,
-            [NotNull]Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
+            string addPolicyName,
+            Func<TAddResponseDto, Task<IActionResult>> getAddActionResultAsync,
+            Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
         {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            if (mediator == null)
+            {
+                throw new ArgumentNullException(nameof(mediator));
+            }
+
             logger.TraceMethodEntry();
 
             if (instance == null)
@@ -128,17 +138,27 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
             this ControllerBase instance,
-            [NotNull] ILogger logger,
-            [NotNull] IMediator mediator,
-            [NotNull] IAuthorizationService authorizationService,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
             long id,
             EventId eventId,
-            [NotNull] string deletePolicyName,
-            [NotNull] Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
-            [NotNull] Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
+            string deletePolicyName,
+            Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
+            Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
         {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            if (mediator == null)
+            {
+                throw new ArgumentNullException(nameof(mediator));
+            }
+
             logger.LogDebug(
                 eventId,
                 "Entered DeleteAsync");
@@ -220,19 +240,29 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery>(
-            [NotNull] this ControllerBase instance,
-            [NotNull] ILogger logger,
-            [NotNull] IMediator mediator,
-            [NotNull] IAuthorizationService authorizationService,
-            [NotNull] TListRequestDto listRequestDto,
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TListRequestDto listRequestDto,
             EventId eventId,
-            [NotNull] string listPolicyName,
-            [NotNull] Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
-            [NotNull] Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
+            string listPolicyName,
+            Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
+            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TListQuery : IRequest<TListResponseDto>
             where TListResponseDto : class
         {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            if (mediator == null)
+            {
+                throw new ArgumentNullException(nameof(mediator));
+            }
+
             logger.LogDebug(eventId, "Entered ListAsync");
 
             if (instance == null)
@@ -321,15 +351,15 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
-            [NotNull] this ControllerBase instance,
-            [NotNull] ILogger logger,
-            [NotNull] IMediator mediator,
-            [NotNull] IAuthorizationService authorizationService,
-            [NotNull] TListRequestDto listRequestDto,
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TListRequestDto listRequestDto,
             EventId eventId,
-            [NotNull] string listPolicyName,
-            [NotNull] Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
-            [NotNull] Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
+            string listPolicyName,
+            Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
+            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
             where TListResponseDto : class
@@ -365,19 +395,29 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
-            [NotNull] this ControllerBase instance,
-            [NotNull] ILogger logger,
-            [NotNull] IMediator mediator,
-            [NotNull] IAuthorizationService authorizationService,
-            [NotNull] TViewRequestDto viewRequestDto,
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TViewRequestDto viewRequestDto,
             EventId eventId,
-            [NotNull] string viewPolicyName,
-            [NotNull] Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
-            [NotNull] Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
+            string viewPolicyName,
+            Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
+            Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto>
             where TViewResponseDto : class
         {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            if (mediator == null)
+            {
+                throw new ArgumentNullException(nameof(mediator));
+            }
+
             logger.LogDebug(eventId, "Entered ViewAsync");
 
             if (instance == null)
@@ -467,22 +507,31 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
-            [NotNull] this ControllerBase instance,
-            [NotNull] ILogger logger,
-            [NotNull] IMediator mediator,
-            [NotNull] IAuthorizationService authorizationService,
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
             long id,
-            [NotNull] TUpdateRequestDto updateRequestDto,
+            TUpdateRequestDto updateRequestDto,
             EventId eventId,
-            [NotNull] string updatePolicyName,
-            [NotNull] Func<TUpdateResponseDto, Task<IActionResult>> getUpdateActionResultAsync,
-            [NotNull]
+            string updatePolicyName,
+            Func<TUpdateResponseDto, Task<IActionResult>> getUpdateActionResultAsync,
             Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>>
                 updateCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
             where TUpdateResponseDto : class
         {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            if (mediator == null)
+            {
+                throw new ArgumentNullException(nameof(mediator));
+            }
+
             logger.LogDebug(eventId, "Entered UpdateAsync");
 
             if (instance == null)

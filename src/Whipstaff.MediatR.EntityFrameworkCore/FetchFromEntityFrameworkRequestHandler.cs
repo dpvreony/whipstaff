@@ -19,9 +19,9 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
     /// <typeparam name="TResult">The type for the Result.</typeparam>
-    public abstract class FetchFromEntityFrameworkRequestHandler<TRequest, TDbContext, TEntity, TResult> : IRequestHandler<TRequest, TResult>
+    public abstract class FetchFromEntityFrameworkRequestHandler<TRequest, TDbContext, TEntity, TResult> : IRequestHandler<TRequest, TResult?>
         where TDbContext : DbContext
-        where TRequest : IRequest<TResult>
+        where TRequest : IRequest<TResult?>
         where TEntity : class
     {
         private readonly Func<Task<TDbContext>> _dbContextFactory;
@@ -36,7 +36,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         }
 
         /// <inheritdoc/>
-        public async Task<TResult> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<TResult?> Handle(TRequest request, CancellationToken cancellationToken)
         {
             using (var dbContext = await _dbContextFactory().ConfigureAwait(false))
             {
@@ -46,7 +46,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
                     .Where(GetWherePredicate(request))
                     .Select(GetSelector());
 
-                return await GetResultAsync(query)
+                return await GetResultAsync(query, cancellationToken)
                     .ConfigureAwait(false);
             }
         }
@@ -75,7 +75,8 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// Gets the result from the query.
         /// </summary>
         /// <param name="queryable">Query to process.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Result from query.</returns>
-        protected abstract Task<TResult> GetResultAsync(IQueryable<TResult> queryable);
+        protected abstract Task<TResult?> GetResultAsync(IQueryable<TResult> queryable, CancellationToken cancellationToken);
     }
 }

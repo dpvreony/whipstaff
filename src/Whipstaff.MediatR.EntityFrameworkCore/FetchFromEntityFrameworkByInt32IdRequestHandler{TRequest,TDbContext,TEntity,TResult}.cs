@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -41,9 +42,9 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         }
 
         /// <inheritdoc/>
-        protected override Task<TResult> GetResultAsync(IQueryable<TResult> queryable)
+        protected override Task<TResult?> GetResultAsync(IQueryable<TResult> queryable, CancellationToken cancellationToken)
         {
-            return queryable.FirstOrDefaultAsync();
+            return queryable.FirstOrDefaultAsync(cancellationToken);
         }
     }
 }

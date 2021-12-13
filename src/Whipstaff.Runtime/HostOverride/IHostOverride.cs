@@ -20,6 +20,6 @@ namespace Whipstaff.Runtime.HostOverride
         /// </summary>
         /// <param name="host">The host to check.</param>
         /// <returns>A target host, or null if no override.</returns>
-        string Resolve(string host);
+        string? Resolve(string host);
     }
 }

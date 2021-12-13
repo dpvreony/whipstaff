@@ -74,9 +74,9 @@ namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
 
         private static async Task WriteResponseAsync(
             HttpResponse response,
-            WhipcordHttpStatusCode statusCode)
+            int statusCode)
         {
-            response.StatusCode = (int)statusCode;
+            response.StatusCode = statusCode;
             await response.WriteAsync("Load Balancer Configuration Issue.")
                 .ConfigureAwait(false);
         }

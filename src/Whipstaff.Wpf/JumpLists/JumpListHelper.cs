@@ -18,8 +18,8 @@ namespace Dhgms.Whipstaff.Desktop.Helper
     {
         private readonly JumpList _jumpList;
         private readonly ILogger<JumpListHelper> _logger;
-        private readonly IDisposable _jumpItemsRemovedByUserSubscription;
-        private readonly IDisposable _jumpItemsRejectedSubscription;
+        private readonly IDisposable? _jumpItemsRemovedByUserSubscription;
+        private readonly IDisposable? _jumpItemsRejectedSubscription;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JumpListHelper"/> class.
@@ -31,8 +31,8 @@ namespace Dhgms.Whipstaff.Desktop.Helper
         public JumpListHelper(
             JumpList jumpList,
             ILogger<JumpListHelper> logger,
-            Action<EventPattern<JumpItemsRemovedEventArgs>> jumpItemsRemovedByUserSubscription,
-            Action<EventPattern<JumpItemsRejectedEventArgs>> jumpItemsRejectedSubscription)
+            Action<EventPattern<JumpItemsRemovedEventArgs>>? jumpItemsRemovedByUserSubscription,
+            Action<EventPattern<JumpItemsRejectedEventArgs>>? jumpItemsRejectedSubscription)
         {
             _jumpList = jumpList ?? throw new ArgumentNullException(nameof(jumpList));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -128,7 +128,9 @@ namespace Dhgms.Whipstaff.Desktop.Helper
             var jumpList = JumpList.GetJumpList(applicationContext);
             if (jumpList == null)
             {
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
                 logger.LogInformation("No jump list registered. Creating a new one");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
                 jumpList = new JumpList(jumpItems, true, true);
 
                 JumpList.SetJumpList(applicationContext, jumpList);

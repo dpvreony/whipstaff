@@ -1,8 +1,9 @@
-﻿namespace Dhgms.Whipstaff.Model.Helper.SecurityCenter
+﻿using Dhgms.Whipstaff.Model.Excptn.Security.AntiSpyware;
+using Whipstaff.Windows.SecurityCenter.AntiSpyware;
+
+namespace Dhgms.Whipstaff.Model.Helper.SecurityCenter
 {
     using Dhgms.Whipstaff.Core.Model;
-
-    using UnexpectedProductState = Dhgms.Whipstaff.Model.Excptn.Security.AntiSpyware.UnexpectedProductState;
 
     /// <summary>
     /// Checks on the security center status for the anti spyware
@@ -19,7 +20,7 @@
 
         protected override void OnBadHealthState(SecurityProviderHealth health)
         {
-            throw new UnexpectedProductState(health);
+            throw new UnexpectedProductStateException(health);
         }
     }
 }

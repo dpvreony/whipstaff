@@ -3,7 +3,7 @@
 namespace Whipstaff.Rx
 {
     /// <summary>
-    /// Represents a <see cref="T:System.Reactive.Subjects.BehaviorSubject">BehaviorSubject</see> that has been wrapped to make it read only by hiding the next, error, completed methods.
+    /// Represents a <see cref="System.Reactive.Subjects.BehaviorSubject{T}">BehaviorSubject</see> that has been wrapped to make it read only by hiding the next, error, completed methods.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IReadOnlyObservable<T> : IObservable<T>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
 using Whipstaff.Testing.MediatR;
@@ -17,7 +18,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
     /// <summary>
     /// Startup object for the WebAPI example Application.
     /// </summary>
-    public class Startup : App.BaseStartup
+    public class Startup : BaseStartup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.

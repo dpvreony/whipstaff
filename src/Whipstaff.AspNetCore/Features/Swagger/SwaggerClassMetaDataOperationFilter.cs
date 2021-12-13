@@ -90,11 +90,10 @@ namespace Whipstaff.AspNetCore.Features.Swagger
         {
             return apiDesc.ControllerAttributes().OfType<SwaggerClassMetaDataAttribute>().ToArray();
         }
-        */
 
         private static Type GetSuccessResponseType(OperationFilterContext context)
         {
-            context.ApiDescription.TryGetMethodInfo(out var methodInfo);
+            _ = context.ApiDescription.TryGetMethodInfo(out var methodInfo);
             var declaringType = methodInfo.DeclaringType;
             var baseType = declaringType.BaseType;
             var comparison = typeof(QueryOnlyController<,,,,,>);
@@ -106,5 +105,6 @@ namespace Whipstaff.AspNetCore.Features.Swagger
 
             return null;
         }
+        */
     }
 }

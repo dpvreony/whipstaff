@@ -21,10 +21,7 @@ namespace Whipstaff.Wpf.Controls
     /// </remarks>
     public class GridLayout : Grid
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public readonly DependencyProperty ChildMarginProperty = DependencyProperty.Register(
+        private readonly DependencyProperty _childMarginProperty = DependencyProperty.Register(
             "ChildMargin",
             typeof(Thickness),
             typeof(GridLayout),
@@ -48,12 +45,12 @@ namespace Whipstaff.Wpf.Controls
         {
             get
             {
-                return (Thickness)GetValue(ChildMarginProperty);
+                return (Thickness)GetValue(_childMarginProperty);
             }
 
             set
             {
-                SetValue(ChildMarginProperty, value);
+                SetValue(_childMarginProperty, value);
                 UpdateChildMargins();
             }
         }

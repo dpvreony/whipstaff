@@ -14,6 +14,12 @@ namespace Whipstaff.Core.ExceptionHandling
     /// </summary>
     public static class TaskHelpers
     {
+        private static readonly Action<ILogger, Exception?> _defaultingResultDueToExceptionLogMessageAction =
+            LoggerMessage.Define(
+                LogLevel.Warning,
+                EventIdFactory.DefaultIfException(),
+                "Defaulting Result due to exception");
+
         /// <summary>
         /// Encapsulates a method that has no parameters, and in case of any exception it catches it and returns a default value.
         /// </summary>
@@ -40,7 +46,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -74,7 +84,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -113,7 +127,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -156,7 +174,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -203,7 +225,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -254,7 +280,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -309,7 +339,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -368,7 +402,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -431,7 +469,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -498,7 +540,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -569,7 +615,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -644,7 +694,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -723,7 +777,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -806,7 +864,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -893,7 +955,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -984,7 +1050,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }
@@ -1079,7 +1149,11 @@ namespace Whipstaff.Core.ExceptionHandling
             catch (Exception e)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                logger?.WarningIfEnabled(e, () => "Defaulting Result due to exception");
+                if (logger != null)
+                {
+                    _defaultingResultDueToExceptionLogMessageAction(logger, e);
+                }
+
                 return defaultResult;
             }
         }

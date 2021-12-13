@@ -29,7 +29,7 @@ namespace Whipstaff.Core.Mediatr
         /// </param>
         public static void RegisterMediatrWithExplicitTypes(
             IServiceCollection services,
-            ILogger logger,
+            ILogger? logger,
             MediatRServiceConfiguration serviceConfiguration,
             IMediatrRegistration mediatrRegistration)
         {

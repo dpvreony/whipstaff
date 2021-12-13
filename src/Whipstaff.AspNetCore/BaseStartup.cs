@@ -31,7 +31,7 @@ using Whipstaff.AspNetCore.Features.StartUp;
 using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.Core.Mediatr;
 
-namespace Dhgms.AspNetCoreContrib.App
+namespace Whipstaff.AspNetCore
 {
     /// <summary>
     /// Core Initialization logic.
@@ -72,7 +72,16 @@ namespace Dhgms.AspNetCoreContrib.App
             }
 
             var env = app.ApplicationServices.GetService<IWebHostEnvironment>();
+            if (env == null)
+            {
+                throw new InvalidOperationException("Failed to retrieve Environment Registration");
+            }
+
             var logger = app.ApplicationServices.GetService<ILoggerFactory>();
+            if (logger == null)
+            {
+                throw new InvalidOperationException("Failed to retrieve Logger Factory");
+            }
 
             Configure(app, env, logger);
         }
@@ -175,7 +184,9 @@ namespace Dhgms.AspNetCoreContrib.App
             _ = diagnosticListener.SubscribeWithAdapter(new LogDiagnosticListener(logDiagnosticListenerLogger));
 
             var logger = loggerFactory.CreateLogger<BaseStartup>();
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
             logger.LogInformation("Starting configuration");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
 
             if (env.IsDevelopment())
             {
@@ -203,14 +214,18 @@ namespace Dhgms.AspNetCoreContrib.App
             _ = app.UseStaticFiles();
 
             _ = app.UseAuditMiddleware(_ => _
-                .FilterByRequest(rq => !rq.Path.Value.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase))
+                .FilterByRequest(rq =>
+                {
+                    var pathValue = rq.Path.Value;
+                    return pathValue != null && !pathValue.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase);
+                })
                 .WithEventType("{verb}:{url}")
                 .IncludeHeaders()
                 .IncludeRequestBody()
                 .IncludeResponseHeaders()
                 .IncludeResponseBody());
-            var fileDataProvider = Audit.Core.Configuration.DataProvider as FileDataProvider;
-            if (fileDataProvider != null)
+
+            if (Audit.Core.Configuration.DataProvider is FileDataProvider fileDataProvider)
             {
                 // this was done so files don't get added to git
                 // as the visual studio .gitignore ignores log folders.
