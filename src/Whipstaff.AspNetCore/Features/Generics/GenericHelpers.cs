@@ -22,15 +22,16 @@ namespace Whipstaff.AspNetCore.Features.Generics
         /// <returns>Whether the class is a subclass of a specific generic.</returns>
         public static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
         {
-            while (toCheck != null && toCheck != typeof(object))
+            Type? temp = toCheck;
+            while (temp != null && temp != typeof(object))
             {
-                var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
+                var cur = temp.IsGenericType ? temp.GetGenericTypeDefinition() : temp;
                 if (generic == cur)
                 {
                     return true;
                 }
 
-                toCheck = toCheck.BaseType;
+                temp = temp.BaseType;
             }
 
             return false;

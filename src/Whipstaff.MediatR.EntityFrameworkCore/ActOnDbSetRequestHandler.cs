@@ -18,9 +18,9 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
     /// <typeparam name="TRequest">The type for the MediatR Request.</typeparam>
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
-    public abstract class ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity> : IRequestHandler<TRequest>
+    public abstract class ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity> : IRequestHandler<TRequest, int>
         where TDbContext : DbContext
-        where TRequest : IRequest<Unit>
+        where TRequest : IRequest<int>
     {
         private readonly Func<Task<TDbContext>> _dbContextFactory;
         private readonly ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> _logger;
@@ -39,7 +39,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         }
 
         /// <inheritdoc/>
-        public async Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<int> Handle(TRequest request, CancellationToken cancellationToken)
         {
             using (var dbContext = await _dbContextFactory().ConfigureAwait(false))
             {
@@ -52,11 +52,14 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
                 if (dbContext.ChangeTracker.HasChanges())
                 {
                     var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                    _logger.LogDebug($"Save Result: {saveResult}");
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+                    _logger.LogDebug($"Save Result: {0}", saveResult);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
+                    return saveResult;
                 }
             }
 
-            return Unit.Value;
+            return 0;
         }
 
         /// <summary>

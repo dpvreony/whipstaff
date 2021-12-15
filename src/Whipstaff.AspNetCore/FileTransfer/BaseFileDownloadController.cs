@@ -22,7 +22,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
     /// <typeparam name="TGetRequestDto">The type for the api request dto.</typeparam>
     /// <typeparam name="TQueryDto">The type for the CQRS query dto.</typeparam>
     public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
-        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStream>
+        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStreamModel>
     {
         private readonly IAuthorizationService _authorizationService;
 
@@ -63,7 +63,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
             var viewPolicyName = GetViewPolicyName();
             var eventId = GetViewEventId();
 
-            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStream, TQueryDto>(
+            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel, TQueryDto>(
                 _logger,
                 _mediator,
                 _authorizationService,
@@ -105,7 +105,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <returns>The mime type.</returns>
         protected abstract string GetMediaTypeHeaderString();
 
-        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStream file)
+        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStreamModel file)
         {
             return await Task.Run(() =>
             {

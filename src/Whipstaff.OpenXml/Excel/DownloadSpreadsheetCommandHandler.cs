@@ -18,10 +18,10 @@ namespace Whipstaff.OpenXml.Excel
     /// <summary>
     /// Sample handler for generating and\or serving spreadsheets.
     /// </summary>
-    public sealed class DownloadSpreadsheetCommandHandler : IRequestHandler<DownloadSpreadsheetRequestDto, FileNameAndStream>
+    public sealed class DownloadSpreadsheetCommandHandler : IRequestHandler<DownloadSpreadsheetRequestDto, FileNameAndStreamModel>
     {
         /// <inheritdoc/>
-        public async Task<FileNameAndStream> Handle(DownloadSpreadsheetRequestDto request, CancellationToken cancellationToken)
+        public async Task<FileNameAndStreamModel?> Handle(DownloadSpreadsheetRequestDto request, CancellationToken cancellationToken)
         {
             return await Task.Run(() =>
             {
@@ -43,11 +43,7 @@ namespace Whipstaff.OpenXml.Excel
 
                 var fileName = $"{Guid.NewGuid()}.xlsx";
 
-                return new FileNameAndStream
-                {
-                    FileName = fileName,
-                    FileStream = stream,
-                };
+                return new FileNameAndStreamModel(fileName, stream);
             });
         }
 

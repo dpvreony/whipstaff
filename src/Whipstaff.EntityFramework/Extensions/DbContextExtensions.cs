@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.Core.Entities;
+using Whipstaff.Runtime.Exceptions;
 
 namespace Whipstaff.EntityFramework.Extensions
 {
@@ -34,19 +35,32 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class
         {
-            var d = dbSetSelectorFunc(instance);
-            var item = d.FirstOrDefault(predicate);
-
-            if (item != null)
+            if (instance == null)
             {
-                return item;
+                throw new ArgumentNullException(nameof(instance));
             }
 
-            item = addEntityFactoryFunc();
-            await instance.SaveChangesAsync()
-                .ConfigureAwait(false);
+            if (dbSetSelectorFunc == null)
+            {
+                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
+            }
 
-            return item;
+            if (predicate == null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
+            if (addEntityFactoryFunc == null)
+            {
+                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
+            }
+
+            return await InternalGetOrAddAsync(
+                instance,
+                dbSetSelectorFunc,
+                predicate,
+                addEntityFactoryFunc)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -67,11 +81,32 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, IIntId
         {
-            return await GetOrAddAsync(
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (dbSetSelectorFunc == null)
+            {
+                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
+            }
+
+            if (id < 1)
+            {
+                throw new NumberTooLowInteger32Exception(nameof(id), 1, id);
+            }
+
+            if (addEntityFactoryFunc == null)
+            {
+                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
+            }
+
+            return await InternalGetOrAddAsync(
                 instance,
                 dbSetSelectorFunc,
                 x => x.Id == id,
-                addEntityFactoryFunc).ConfigureAwait(false);
+                addEntityFactoryFunc)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -92,11 +127,32 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, ILongId
         {
-            return await GetOrAddAsync(
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (dbSetSelectorFunc == null)
+            {
+                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
+            }
+
+            if (id < 1)
+            {
+                throw new NumberTooLowInteger64Exception(nameof(id), 1, id);
+            }
+
+            if (addEntityFactoryFunc == null)
+            {
+                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
+            }
+
+            return await InternalGetOrAddAsync(
                 instance,
                 dbSetSelectorFunc,
                 x => x.Id == id,
-                addEntityFactoryFunc).ConfigureAwait(false);
+                addEntityFactoryFunc)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -117,11 +173,32 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, IGuidId
         {
-            return await GetOrAddAsync(
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (dbSetSelectorFunc == null)
+            {
+                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
+            }
+
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentException("Guid must not be empty");
+            }
+
+            if (addEntityFactoryFunc == null)
+            {
+                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
+            }
+
+            return await InternalGetOrAddAsync(
                 instance,
                 dbSetSelectorFunc,
                 x => x.Id == id,
-                addEntityFactoryFunc).ConfigureAwait(false);
+                addEntityFactoryFunc)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -142,11 +219,55 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, INameable
         {
-            return await GetOrAddAsync(
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (dbSetSelectorFunc == null)
+            {
+                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
+            }
+
+            if (addEntityFactoryFunc == null)
+            {
+                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
+            }
+
+            return await InternalGetOrAddAsync(
                 instance,
                 dbSetSelectorFunc,
                 x => x.Name == name,
-                addEntityFactoryFunc).ConfigureAwait(false);
+                addEntityFactoryFunc)
+                .ConfigureAwait(false);
+        }
+
+        private static async Task<TEntity> InternalGetOrAddAsync<TDbContext, TEntity>(
+            this TDbContext instance,
+            Func<TDbContext, DbSet<TEntity>> dbSetSelectorFunc,
+            Expression<Func<TEntity, bool>> predicate,
+            Func<TEntity> addEntityFactoryFunc)
+            where TDbContext : DbContext
+            where TEntity : class
+        {
+            var d = dbSetSelectorFunc(instance);
+            var item = d.FirstOrDefault(predicate);
+
+            if (item != null)
+            {
+                return item;
+            }
+
+            item = addEntityFactoryFunc();
+
+            _ = await d.AddAsync(item)
+                .ConfigureAwait(false);
+
+            var saveResult = await instance
+                .SaveChangesAsync()
+                .ConfigureAwait(false);
+
+            return item;
         }
     }
 }

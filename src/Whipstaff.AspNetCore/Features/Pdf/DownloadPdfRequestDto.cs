@@ -10,7 +10,7 @@ namespace Whipstaff.AspNetCore.Features.Pdf
     /// <summary>
     /// Represents a PDF download request dto.
     /// </summary>
-    public sealed class DownloadPdfRequestDto : AuditableRequest<int, FileNameAndStream>
+    public sealed class DownloadPdfRequestDto : AuditableRequest<int, FileNameAndStreamModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DownloadPdfRequestDto"/> class.

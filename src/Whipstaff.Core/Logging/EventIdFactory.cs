@@ -42,5 +42,23 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <returns></returns>
         public static EventId DefaultIfException() => new (6, "Defaulting Result due to exception");
+
+        /// <summary>
+        /// Gets the Event Id for the Middleware Starting event.
+        /// </summary>
+        /// <returns></returns>
+        public static EventId MiddlewareStarting() => new (7, "Middleware Starting");
+
+        /// <summary>
+        /// Gets the Event Id for the Middleware Exception event.
+        /// </summary>
+        /// <returns></returns>
+        public static EventId MiddlewareException() => new (7, "Middleware Exception");
+
+        /// <summary>
+        /// Gets the Event Id for the Middleware Finished event.
+        /// </summary>
+        /// <returns></returns>
+        public static EventId MiddlewareFinished() => new (7, "Middleware Finished");
     }
 }
