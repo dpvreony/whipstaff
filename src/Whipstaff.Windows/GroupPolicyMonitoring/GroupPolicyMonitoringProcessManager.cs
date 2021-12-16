@@ -12,22 +12,22 @@ namespace Dhgms.Whipstaff.Desktop.Features.GroupPolicyMonitoring
     public sealed class GroupPolicyMonitoringProcessManager : IDisposable
     {
         private readonly ILogger<GroupPolicyMonitoringProcessManager> _logger;
+        private readonly Action _onUserPreferenceChangingGroupPolicy;
+
+        private readonly Action<ILogger, Exception?> _groupPolicyRefreshDetectedLogMessage =
+            LoggerMessage.Define(LogLevel.Information, new EventId(1001, "Group Policy Refresh Detected"), "Group Policy Refresh Detected");
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="logger"></param>
-        public GroupPolicyMonitoringProcessManager(ILogger<GroupPolicyMonitoringProcessManager> logger)
+        /// <param name="onUserPreferenceChangingGroupPolicy"></param>
+        public GroupPolicyMonitoringProcessManager(
+            ILogger<GroupPolicyMonitoringProcessManager> logger,
+            Action onUserPreferenceChangingGroupPolicy)
         {
             this._logger = logger;
-        }
-
-        private static void HandledEvent<T>(
-            object sender,
-            T userPreferenceChangingEventArgs,
-            Action<T> action)
-        {
-            action(userPreferenceChangingEventArgs);
+            _onUserPreferenceChangingGroupPolicy = onUserPreferenceChangingGroupPolicy;
         }
 
         /// <summary>
@@ -57,14 +57,21 @@ namespace Dhgms.Whipstaff.Desktop.Features.GroupPolicyMonitoring
             switch (userPreferenceChangingEventArgs.Category)
             {
                 case UserPreferenceCategory.Policy:
-                    this._logger.LogInformation("Group Policy Refresh Detected");
-                    this.OnGroupPolicyRefresh();
+                    this._groupPolicyRefreshDetectedLogMessage(_logger, null);
+
+                    try
+                    {
+                        _onUserPreferenceChangingGroupPolicy?.Invoke();
+                    }
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch
+#pragma warning restore CA1031 // Do not catch general exception types
+                    {
+                        // ignored
+                    }
+
                     break;
             }
-        }
-
-        private void OnGroupPolicyRefresh()
-        {
         }
     }
 }
