@@ -110,7 +110,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
             return await Task.Run(() =>
             {
                 var contentType = GetMediaTypeHeaderString();
-                file.FileStream.Seek(0, SeekOrigin.Begin);
+                _ = file.FileStream.Seek(0, SeekOrigin.Begin);
                 return File(file.FileStream, contentType, file.FileName);
             }).ConfigureAwait(false);
         }

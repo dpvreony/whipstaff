@@ -14,6 +14,12 @@ namespace Whipstaff.AspNetCore.FileTransfer
     /// </summary>
     public sealed class FileNameAndStreamModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileNameAndStreamModel"/> class.
+        /// </summary>
+        /// <param name="fileName">The filename to associate with the stream.</param>
+        /// <param name="fileStream">The stream of file content.</param>
+        /// <exception cref="ArgumentNullException"></exception>
         public FileNameAndStreamModel(
             string fileName,
             Stream fileStream)

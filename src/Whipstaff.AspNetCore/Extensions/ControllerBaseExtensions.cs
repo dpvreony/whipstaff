@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -31,7 +30,12 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="addRequestDto">The Request DTO for the Add operation.</param>
-        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="finishedAddAsyncLogAction">
+        /// Log Message Action for the event to log against when the Add action completes.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.</param>
         /// <param name="addPolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getAddActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
         /// <param name="addCommandFactoryAsync">The Command Factory for the Add operation.</param>
@@ -43,7 +47,7 @@ namespace Whipstaff.AspNetCore.Extensions
             IMediator mediator,
             IAuthorizationService authorizationService,
             TAddRequestDto addRequestDto,
-            EventId eventId,
+            Action<ILogger, Exception?> finishedAddAsyncLogAction,
             string addPolicyName,
             Func<TAddResponseDto, Task<IActionResult>> getAddActionResultAsync,
             Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
@@ -82,6 +86,11 @@ namespace Whipstaff.AspNetCore.Extensions
                 throw new ArgumentNullException(nameof(getAddActionResultAsync));
             }
 
+            if (finishedAddAsyncLogAction == null)
+            {
+                throw new ArgumentNullException(nameof(finishedAddAsyncLogAction));
+            }
+
             if (!instance.Request.IsHttps)
             {
                 return instance.BadRequest();
@@ -113,9 +122,7 @@ namespace Whipstaff.AspNetCore.Extensions
                 cancellationToken).ConfigureAwait(false);
 
             var viewResult = await getAddActionResultAsync(result).ConfigureAwait(false);
-            logger.LogDebug(
-                eventId,
-                "Finished AddAsync");
+            finishedAddAsyncLogAction(logger, null);
 
             return viewResult;
         }
@@ -199,6 +206,7 @@ namespace Whipstaff.AspNetCore.Extensions
                 user,
                 id,
                 deletePolicyName).ConfigureAwait(false);
+
             if (!methodAuthorization.Succeeded)
             {
                 return instance.Forbid();

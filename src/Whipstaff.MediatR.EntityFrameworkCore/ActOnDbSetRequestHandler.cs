@@ -53,7 +53,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
                 {
                     var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-                    _logger.LogDebug($"Save Result: {0}", saveResult);
+                    _logger.LogDebug("Save Result: {SaveResult}", saveResult);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
                     return saveResult;
                 }

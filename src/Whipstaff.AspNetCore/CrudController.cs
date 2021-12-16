@@ -121,7 +121,7 @@ namespace Whipstaff.AspNetCore
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetAddEventIdAsync().ConfigureAwait(false);
+            var finishedAddAsyncLogAction = GetFinishedAddAsyncLogAction();
             var addPolicyName = await GetAddPolicyAsync().ConfigureAwait(false);
 
             return await this.GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
@@ -129,7 +129,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 addRequestDto,
-                eventId,
+                finishedAddAsyncLogAction,
                 addPolicyName,
                 GetAddActionResultAsync,
                 GetAddCommandAsync,
@@ -184,10 +184,10 @@ namespace Whipstaff.AspNetCore
             CancellationToken cancellationToken);
 
         /// <summary>
-        /// Gets the event id for Add Event. Used in logging and APM tools.
+        /// Gets the log action for recording when an add action has completed.
         /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<EventId> GetAddEventIdAsync();
+        /// <returns>Log action for recording when an add action has completed.</returns>
+        protected abstract Action<ILogger, Exception?> GetFinishedAddAsyncLogAction();
 
         /// <summary>
         /// Gets the authorization policy for the Add operation.

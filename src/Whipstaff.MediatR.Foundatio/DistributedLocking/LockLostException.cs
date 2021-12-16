@@ -9,7 +9,9 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
     /// <summary>
     /// Exception for when a lock has been lost and the behaviour is to error.
     /// </summary>
+#pragma warning disable CA1032 // Implement standard exception constructors
     public sealed class LockLostException : Exception
+#pragma warning restore CA1032 // Implement standard exception constructors
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LockLostException"/> class.
