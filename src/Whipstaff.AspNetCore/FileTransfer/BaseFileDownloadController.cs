@@ -22,7 +22,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
     /// <typeparam name="TGetRequestDto">The type for the api request dto.</typeparam>
     /// <typeparam name="TQueryDto">The type for the CQRS query dto.</typeparam>
     public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
-        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStreamModel>
+        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStreamModel?>
     {
         private readonly IAuthorizationService _authorizationService;
 
@@ -61,14 +61,14 @@ namespace Whipstaff.AspNetCore.FileTransfer
             CancellationToken cancellationToken)
         {
             var viewPolicyName = GetViewPolicyName();
-            var eventId = GetViewEventId();
+            var viewLogAction = GetViewLogAction();
 
-            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel, TQueryDto>(
+            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel?, TQueryDto>(
                 _logger,
                 _mediator,
                 _authorizationService,
                 request,
-                eventId,
+                viewLogAction,
                 viewPolicyName,
                 GetViewActionResultAsync,
                 ViewCommandFactoryAsync,
@@ -76,10 +76,10 @@ namespace Whipstaff.AspNetCore.FileTransfer
         }
 
         /// <summary>
-        /// Gets the view event id. used for auditing, apm and logging.
+        /// Gets the view log action.
         /// </summary>
         /// <returns>The event id.</returns>
-        protected abstract EventId GetViewEventId();
+        protected abstract Action<ILogger, string, Exception?> GetViewLogAction();
 
         /// <summary>
         /// Gets the policy name for authorizing viewing of the file.
@@ -105,8 +105,13 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <returns>The mime type.</returns>
         protected abstract string GetMediaTypeHeaderString();
 
-        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStreamModel file)
+        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStreamModel? file)
         {
+            if (file == null)
+            {
+                return NotFound();
+            }
+
             return await Task.Run(() =>
             {
                 var contentType = GetMediaTypeHeaderString();

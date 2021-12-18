@@ -30,12 +30,13 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="addRequestDto">The Request DTO for the Add operation.</param>
-        /// <param name="finishedAddAsyncLogAction">
-        /// Log Message Action for the event to log against when the Add action completes.
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
         ///
-        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define{T}(LogLevel, EventId, string)"/>.
         /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
-        /// for you to choose.</param>
+        /// for you to choose.
+        /// </param>
         /// <param name="addPolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getAddActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
         /// <param name="addCommandFactoryAsync">The Command Factory for the Add operation.</param>
@@ -47,7 +48,7 @@ namespace Whipstaff.AspNetCore.Extensions
             IMediator mediator,
             IAuthorizationService authorizationService,
             TAddRequestDto addRequestDto,
-            Action<ILogger, Exception?> finishedAddAsyncLogAction,
+            Action<ILogger, string, Exception?> logAction,
             string addPolicyName,
             Func<TAddResponseDto, Task<IActionResult>> getAddActionResultAsync,
             Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
@@ -59,12 +60,17 @@ namespace Whipstaff.AspNetCore.Extensions
                 throw new ArgumentNullException(nameof(logger));
             }
 
+            if (logAction == null)
+            {
+                throw new ArgumentNullException(nameof(logAction));
+            }
+
+            logAction(logger, "Started", null);
+
             if (mediator == null)
             {
                 throw new ArgumentNullException(nameof(mediator));
             }
-
-            logger.TraceMethodEntry();
 
             if (instance == null)
             {
@@ -86,13 +92,9 @@ namespace Whipstaff.AspNetCore.Extensions
                 throw new ArgumentNullException(nameof(getAddActionResultAsync));
             }
 
-            if (finishedAddAsyncLogAction == null)
-            {
-                throw new ArgumentNullException(nameof(finishedAddAsyncLogAction));
-            }
-
             if (!instance.Request.IsHttps)
             {
+                logAction(logger, "Non HTTPS request", null);
                 return instance.BadRequest();
             }
 
@@ -109,6 +111,7 @@ namespace Whipstaff.AspNetCore.Extensions
 
             if (!methodAuthorization.Succeeded)
             {
+                logAction(logger, "Method Authorization Failed", null);
                 return instance.Forbid();
             }
 
@@ -122,7 +125,7 @@ namespace Whipstaff.AspNetCore.Extensions
                 cancellationToken).ConfigureAwait(false);
 
             var viewResult = await getAddActionResultAsync(result).ConfigureAwait(false);
-            finishedAddAsyncLogAction(logger, null);
+            logAction(logger, "Finished", null);
 
             return viewResult;
         }
@@ -137,7 +140,13 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="id">Unique Id for the identity being deleted.</param>
-        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define{T}(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
         /// <param name="deletePolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getDeleteActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
         /// <param name="deleteCommandFactoryAsync">The Command Factory for the Delete operation.</param>
@@ -149,7 +158,7 @@ namespace Whipstaff.AspNetCore.Extensions
             IMediator mediator,
             IAuthorizationService authorizationService,
             long id,
-            EventId eventId,
+            Action<ILogger, string, Exception?> logAction,
             string deletePolicyName,
             Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
             Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
@@ -161,14 +170,17 @@ namespace Whipstaff.AspNetCore.Extensions
                 throw new ArgumentNullException(nameof(logger));
             }
 
+            if (logAction == null)
+            {
+                throw new ArgumentNullException(nameof(logAction));
+            }
+
+            logAction(logger, "Started", null);
+
             if (mediator == null)
             {
                 throw new ArgumentNullException(nameof(mediator));
             }
-
-            logger.LogDebug(
-                eventId,
-                "Entered DeleteAsync");
 
             if (instance == null)
             {
@@ -204,11 +216,22 @@ namespace Whipstaff.AspNetCore.Extensions
 
             var methodAuthorization = await authorizationService.AuthorizeAsync(
                 user,
-                id,
                 deletePolicyName).ConfigureAwait(false);
 
             if (!methodAuthorization.Succeeded)
             {
+                logAction(logger, "Resource Authorization Failed", null);
+                return instance.Forbid();
+            }
+
+            var resourceAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                id,
+                deletePolicyName).ConfigureAwait(false);
+
+            if (!resourceAuthorization.Succeeded)
+            {
+                logAction(logger, "Resource Authorization Failed", null);
                 return instance.Forbid();
             }
 
@@ -222,9 +245,7 @@ namespace Whipstaff.AspNetCore.Extensions
                 cancellationToken).ConfigureAwait(false);
 
             var viewResult = await getDeleteActionResultAsync(result).ConfigureAwait(false);
-            logger.LogDebug(
-                eventId,
-                "Finished DeleteAsync");
+            logAction(logger, "Finished", null);
 
             return viewResult;
         }
@@ -241,7 +262,13 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
-        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
         /// <param name="listPolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getListActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
         /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
@@ -253,17 +280,22 @@ namespace Whipstaff.AspNetCore.Extensions
             IMediator mediator,
             IAuthorizationService authorizationService,
             TListRequestDto listRequestDto,
-            EventId eventId,
+            Action<ILogger, string, Exception?> logAction,
             string listPolicyName,
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TListQuery : IRequest<TListResponseDto>
-            where TListResponseDto : class
+            where TListResponseDto : class?
         {
             if (logger == null)
             {
                 throw new ArgumentNullException(nameof(logger));
+            }
+
+            if (logAction == null)
+            {
+                throw new ArgumentNullException(nameof(logAction));
             }
 
             if (mediator == null)
@@ -271,7 +303,7 @@ namespace Whipstaff.AspNetCore.Extensions
                 throw new ArgumentNullException(nameof(mediator));
             }
 
-            logger.LogDebug(eventId, "Entered ListAsync");
+            logAction(logger, "Started", null);
 
             if (instance == null)
             {
@@ -334,9 +366,7 @@ namespace Whipstaff.AspNetCore.Extensions
             }
 
             var viewResult = await getListActionResultAsync(result).ConfigureAwait(false);
-            logger.LogDebug(
-                eventId,
-                "Finished ListAsync");
+            logAction(logger, "Finished", null);
 
             return viewResult;
         }
@@ -352,7 +382,13 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
-        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
         /// <param name="listPolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getListActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
         /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
@@ -364,13 +400,13 @@ namespace Whipstaff.AspNetCore.Extensions
             IMediator mediator,
             IAuthorizationService authorizationService,
             TListRequestDto listRequestDto,
-            EventId eventId,
+            Action<ILogger, string, Exception?> logAction,
             string listPolicyName,
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
-            where TListResponseDto : class
+            where TListResponseDto : class?
         {
             return GetListActionFlexibleAsync(
                 instance,
@@ -378,7 +414,7 @@ namespace Whipstaff.AspNetCore.Extensions
                 mediator,
                 authorizationService,
                 listRequestDto,
-                eventId,
+                logAction,
                 listPolicyName,
                 getListActionResultAsync,
                 listCommandFactoryAsync,
@@ -396,7 +432,13 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="viewRequestDto">The Request DTO for the View operation.</param>
-        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
         /// <param name="viewPolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getViewActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
         /// <param name="viewCommandFactoryAsync">The Command Factory for the View operation.</param>
@@ -408,25 +450,30 @@ namespace Whipstaff.AspNetCore.Extensions
             IMediator mediator,
             IAuthorizationService authorizationService,
             TViewRequestDto viewRequestDto,
-            EventId eventId,
+            Action<ILogger, string, Exception?> logAction,
             string viewPolicyName,
             Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
             Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto>
-            where TViewResponseDto : class
+            where TViewResponseDto : class?
         {
             if (logger == null)
             {
                 throw new ArgumentNullException(nameof(logger));
             }
 
+            if (logAction == null)
+            {
+                throw new ArgumentNullException(nameof(logAction));
+            }
+
+            logAction(logger, "Started", null);
+
             if (mediator == null)
             {
                 throw new ArgumentNullException(nameof(mediator));
             }
-
-            logger.LogDebug(eventId, "Entered ViewAsync");
 
             if (instance == null)
             {
@@ -489,9 +536,7 @@ namespace Whipstaff.AspNetCore.Extensions
             }
 
             var viewResult = await getViewActionResultAsync(result).ConfigureAwait(false);
-            logger.LogDebug(
-                eventId,
-                "Finished ViewAsync");
+            logAction(logger, "View Finished", null);
 
             return viewResult;
         }
@@ -508,7 +553,13 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="id">The unique id of the entity to be updated.</param>
         /// <param name="updateRequestDto">The Request DTO for the Update operation.</param>
-        /// <param name="eventId">The unique event id for logging, application performance management feature usage tracking, etc.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define{T}(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
         /// <param name="updatePolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getUpdateActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
         /// <param name="updateCommandFactoryAsync">The Command Factory for the Update operation.</param>
@@ -521,26 +572,31 @@ namespace Whipstaff.AspNetCore.Extensions
             IAuthorizationService authorizationService,
             long id,
             TUpdateRequestDto updateRequestDto,
-            EventId eventId,
+            Action<ILogger, string, Exception?> logAction,
             string updatePolicyName,
             Func<TUpdateResponseDto, Task<IActionResult>> getUpdateActionResultAsync,
             Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>>
                 updateCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
-            where TUpdateResponseDto : class
+            where TUpdateResponseDto : class?
         {
             if (logger == null)
             {
                 throw new ArgumentNullException(nameof(logger));
             }
 
+            if (logAction == null)
+            {
+                throw new ArgumentNullException(nameof(logAction));
+            }
+
+            logAction(logger, "Started UpdateAsync", null);
+
             if (mediator == null)
             {
                 throw new ArgumentNullException(nameof(mediator));
             }
-
-            logger.LogDebug(eventId, "Entered UpdateAsync");
 
             if (instance == null)
             {
@@ -569,6 +625,7 @@ namespace Whipstaff.AspNetCore.Extensions
 
             if (id < 1)
             {
+                logAction(logger, "Id less than 1", null);
                 return instance.NotFound();
             }
 
@@ -578,8 +635,10 @@ namespace Whipstaff.AspNetCore.Extensions
                 user,
                 updateRequestDto,
                 updatePolicyName).ConfigureAwait(false);
+
             if (!methodAuthorization.Succeeded)
             {
+                logAction(logger, "Method Authorization Failed", null);
                 return instance.Forbid();
             }
 
@@ -597,13 +656,12 @@ namespace Whipstaff.AspNetCore.Extensions
             // or the user doesn't have permission to update
             if (result == null)
             {
+                logAction(logger, "No result from mediator", null);
                 return instance.NotFound();
             }
 
             var viewResult = await getUpdateActionResultAsync(result).ConfigureAwait(false);
-            logger.LogDebug(
-                eventId,
-                "Finished UpdateAsync");
+            logAction(logger, "Finished", null);
 
             return viewResult;
         }

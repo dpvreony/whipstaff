@@ -49,7 +49,10 @@ namespace Whipstaff.Testing.MediatR
 
                 _ = dbContext.FakeAddAudit.Add(entity);
                 var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-                this._logger.LogDebug($"DbContext Save Result: {saveResult}");
+
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+                this._logger.LogDebug("DbContext Save Result: {SaveResult}", saveResult);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 
             return await Task.FromResult(request.RequestDto).ConfigureAwait(false);

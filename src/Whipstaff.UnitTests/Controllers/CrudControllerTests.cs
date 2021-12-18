@@ -30,7 +30,7 @@ namespace Whipstaff.UnitTests.Controllers
     [ExcludeFromCodeCoverage]
     public static class CrudControllerTests
     {
-        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new Mock<IAuthorizationService>(MockBehavior.Strict);
+        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new (MockBehavior.Strict);
 
         private static Mock<ILogger<FakeCrudController>> MockLoggerFactory()
         {
@@ -39,7 +39,7 @@ namespace Whipstaff.UnitTests.Controllers
             return logger;
         }
 
-        private static Mock<IMediator> MockMediatorFactory() => new Mock<IMediator>(MockBehavior.Strict);
+        private static Mock<IMediator> MockMediatorFactory() => new (MockBehavior.Strict);
 
         private static Mock<IAuditableCommandFactory<
             FakeCrudAddCommand,
@@ -49,27 +49,14 @@ namespace Whipstaff.UnitTests.Controllers
             long,
             FakeCrudUpdateCommand,
             int,
-            FakeCrudUpdateResponse>> MockCommandFactory() => new Mock<IAuditableCommandFactory<
-                FakeCrudAddCommand,
-                int,
-                int,
-                FakeCrudDeleteCommand,
-                long,
-                FakeCrudUpdateCommand,
-                int,
-                FakeCrudUpdateResponse>>(MockBehavior.Strict);
+            FakeCrudUpdateResponse?>> MockCommandFactory() => new (MockBehavior.Strict);
 
         private static Mock<IAuditableQueryFactory<
             FakeCrudListQuery,
             FakeCrudListRequest,
             IList<int>,
             FakeCrudViewQuery,
-            FakeCrudViewResponse>> MockQueryFactory() => new Mock<IAuditableQueryFactory<
-                FakeCrudListQuery,
-                FakeCrudListRequest,
-                IList<int>,
-                FakeCrudViewQuery,
-                FakeCrudViewResponse>>(MockBehavior.Strict);
+            FakeCrudViewResponse?>> MockQueryFactory() => new (MockBehavior.Strict);
 
         /// <summary>
         /// Unit tests for the constructor.
@@ -126,15 +113,15 @@ namespace Whipstaff.UnitTests.Controllers
                         FakeCrudListRequest,
                         IList<int>,
                         FakeCrudViewQuery,
-                        FakeCrudViewResponse>> queryFactory,
+                        FakeCrudViewResponse?>> queryFactory,
                 string argumentNullExceptionParameterName)
             {
                 var ex = Assert.Throws<ArgumentNullException>(() => new FakeCrudController(
-                    authorizationService?.Object,
-                    logger?.Object,
-                    mediator?.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object));
+                    authorizationService?.Object!,
+                    logger?.Object!,
+                    mediator?.Object!,
+                    commandFactory?.Object!,
+                    queryFactory?.Object!));
 
                 Assert.Equal(argumentNullExceptionParameterName, ex.ParamName);
 
@@ -159,8 +146,8 @@ namespace Whipstaff.UnitTests.Controllers
                     mockAuthorizationService.Object,
                     mockLogger.Object,
                     mockMediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object))
+                    commandFactory.Object,
+                    queryFactory.Object))
                 {
                     Assert.NotNull(instance);
                 }
@@ -331,8 +318,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -419,8 +406,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -462,8 +449,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -507,8 +494,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -590,8 +577,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -637,8 +624,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -720,8 +707,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -763,8 +750,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -859,8 +846,8 @@ namespace Whipstaff.UnitTests.Controllers
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
-                    commandFactory?.Object,
-                    queryFactory?.Object)
+                    commandFactory.Object,
+                    queryFactory.Object)
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -878,7 +865,7 @@ namespace Whipstaff.UnitTests.Controllers
                 }
             }
 
-            private static Task<FakeCrudViewResponse> MockViewMediatorHandlerAsync(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
+            private static Task<FakeCrudViewResponse?> MockViewMediatorHandlerAsync(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
             {
                 return Task.FromResult(auditableRequest.RequestDto == 1 ? new FakeCrudViewResponse() : null);
             }

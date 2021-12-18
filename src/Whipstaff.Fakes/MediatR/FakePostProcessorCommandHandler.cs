@@ -32,6 +32,11 @@ namespace Whipstaff.Testing.MediatR
             int response,
             CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             using (var dbContext = new FakeDbContext(_fakeDbContextOptions))
             {
                 var entity = new FakeAddPostProcessAuditDbSet
@@ -40,8 +45,9 @@ namespace Whipstaff.Testing.MediatR
                     Created = DateTimeOffset.UtcNow
                 };
 
-                dbContext.FakeAddPostProcessAudit.Add(entity);
-                await dbContext.SaveChangesAsync(cancellationToken)
+                _ = dbContext.FakeAddPostProcessAudit.Add(entity);
+
+                var saveResult = await dbContext.SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
             }
         }

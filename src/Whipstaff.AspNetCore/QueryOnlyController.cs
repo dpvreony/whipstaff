@@ -35,6 +35,9 @@ namespace Whipstaff.AspNetCore
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
         where TViewQueryResponse : class
     {
+        private readonly Action<ILogger, string, Exception?> _listLogMessageAction;
+        private readonly Action<ILogger, string, Exception?> _viewLogMessageAction;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryOnlyController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse}"/> class.
         /// </summary>
@@ -42,11 +45,15 @@ namespace Whipstaff.AspNetCore
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
+        /// <param name="listLogMessageAction"></param>
+        /// <param name="viewLogMessageAction"></param>
         protected QueryOnlyController(
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
             IMediator mediator,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse?, TViewQuery, TViewQueryResponse?> queryFactory,
+            Action<ILogger, string, Exception?> listLogMessageAction,
+            Action<ILogger, string, Exception?> viewLogMessageAction)
         {
             AuthorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
@@ -57,6 +64,9 @@ namespace Whipstaff.AspNetCore
 
             QueryFactory = queryFactory ??
                             throw new ArgumentNullException(nameof(queryFactory));
+
+            _listLogMessageAction = listLogMessageAction ?? throw new ArgumentNullException(nameof(listLogMessageAction));
+            _viewLogMessageAction = viewLogMessageAction ?? throw new ArgumentNullException(nameof(viewLogMessageAction));
         }
 
         /// <summary>
@@ -80,9 +90,9 @@ namespace Whipstaff.AspNetCore
         protected IAuditableQueryFactory<
             TListQuery,
             TListRequestDto,
-            TListQueryResponse,
+            TListQueryResponse?,
             TViewQuery,
-            TViewQueryResponse> QueryFactory { get; }
+            TViewQueryResponse?> QueryFactory { get; }
 
         /// <summary>
         /// Entry point for HTTP GET operations.
@@ -129,23 +139,12 @@ namespace Whipstaff.AspNetCore
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
 
-        /// <summary>
-        /// Gets the event id for List Event. Used in logging and APM tools.
-        /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<EventId> GetListEventIdAsync();
 
         /// <summary>
         /// Gets the authorization policy for the List operation.
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task<string> GetListPolicyAsync();
-
-        /// <summary>
-        /// Gets the event id for View Event. Used in logging and APM tools.
-        /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<EventId> GetViewEventIdAsync();
 
         /// <summary>
         /// Gets the authorization policy for the View operation.
@@ -174,7 +173,6 @@ namespace Whipstaff.AspNetCore
 
         private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
-            var eventId = await GetListEventIdAsync().ConfigureAwait(false);
             var listPolicyName = await GetListPolicyAsync().ConfigureAwait(false);
             var requestDto = new TListRequestDto();
 
@@ -183,7 +181,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 requestDto,
-                eventId,
+                _listLogMessageAction,
                 listPolicyName,
                 GetListActionResultAsync,
                 GetListQueryAsync,
@@ -194,7 +192,6 @@ namespace Whipstaff.AspNetCore
             long id,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetViewEventIdAsync().ConfigureAwait(false);
             var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
 
             return await this.GetViewActionAsync<long, TViewQueryResponse, TViewQuery>(
@@ -202,7 +199,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 id,
-                eventId,
+                _viewLogMessageAction,
                 viewPolicyName,
                 GetViewActionResultAsync,
                 GetViewQueryAsync,

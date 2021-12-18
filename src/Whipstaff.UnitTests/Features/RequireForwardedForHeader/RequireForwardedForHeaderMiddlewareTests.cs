@@ -66,13 +66,13 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             [MemberData(nameof(RejectsRequestTestData))]
             public async Task RejectsRequest(
                 HttpContext httpContext,
-                WhipcordHttpStatusCode expectedHttpStatusCode)
+                int expectedHttpStatusCode)
             {
                 var instance = new RequireForwardedForHeaderMiddleware(Next);
                 await instance.InvokeAsync(httpContext)
                     .ConfigureAwait(false);
 
-                Assert.Equal((int)expectedHttpStatusCode,
+                Assert.Equal(expectedHttpStatusCode,
                         httpContext.Response.StatusCode);
             }
 
