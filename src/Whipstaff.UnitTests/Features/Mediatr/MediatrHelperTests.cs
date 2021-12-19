@@ -57,7 +57,8 @@ namespace Whipstaff.UnitTests.Features.Mediatr
 
                 var serviceProvider = services.BuildServiceProvider();
 
-                using (var dbContext = new FakeDbContext(serviceProvider.GetService<DbContextOptions<FakeDbContext>>()))
+                var dbContextOptions = serviceProvider.GetService<DbContextOptions<FakeDbContext>>();
+                using (var dbContext = new FakeDbContext(dbContextOptions!))
                 {
                     var entityCount = dbContext.FakeAddAudit.Count();
                     Assert.Equal(0, entityCount);
@@ -65,11 +66,11 @@ namespace Whipstaff.UnitTests.Features.Mediatr
 
                 var mediator = serviceProvider.GetService<IMediator>();
                 const int expected = 987654321;
-                var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current);
-                var sendResult = await mediator.Send(request).ConfigureAwait(false);
+                var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current!);
+                var sendResult = await mediator!.Send(request).ConfigureAwait(false);
                 Assert.Equal(expected, sendResult);
 
-                using (var dbContext = new FakeDbContext(serviceProvider.GetService<DbContextOptions<FakeDbContext>>()))
+                using (var dbContext = new FakeDbContext(dbContextOptions!))
                 {
                     var entityCount = dbContext.FakeAddAudit.Count();
                     Assert.Equal(1, entityCount);

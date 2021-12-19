@@ -49,14 +49,14 @@ namespace Whipstaff.UnitTests.Controllers
             long?,
             FakeCrudUpdateCommand,
             int,
-            FakeCrudUpdateResponse?>> MockCommandFactory() => new (MockBehavior.Strict);
+            FakeCrudUpdateResponse>> MockCommandFactory() => new (MockBehavior.Strict);
 
         private static Mock<IAuditableQueryFactory<
             FakeCrudListQuery,
             FakeCrudListRequest,
             IList<int>,
             FakeCrudViewQuery,
-            FakeCrudViewResponse?>> MockQueryFactory() => new (MockBehavior.Strict);
+            FakeCrudViewResponse>> MockQueryFactory() => new (MockBehavior.Strict);
 
         /// <summary>
         /// Unit tests for the constructor.
@@ -66,13 +66,71 @@ namespace Whipstaff.UnitTests.Controllers
             /// <summary>
             /// Test Data for checking an Argument Null Exception is thrown.
             /// </summary>
-            public static readonly IEnumerable<object[]> ThrowsArgumentNullExceptionTestData = new[]
+            public static readonly TheoryData<
+                    Mock<IAuthorizationService>?,
+                    Mock<ILogger<FakeCrudController>>?,
+                    Mock<IMediator>?,
+                    Mock<IAuditableCommandFactory<
+                        FakeCrudAddCommand,
+                        int,
+                        int?,
+                        FakeCrudDeleteCommand,
+                        long?,
+                        FakeCrudUpdateCommand,
+                        int,
+                        FakeCrudUpdateResponse?>>?,
+                    Mock<IAuditableQueryFactory<
+                        FakeCrudListQuery,
+                        FakeCrudListRequest,
+                        IList<int>,
+                        FakeCrudViewQuery,
+                        FakeCrudViewResponse?>>?,
+                    string> ThrowsArgumentNullExceptionTestData = new()
             {
-                GetAuthorizationServiceNullTestData(),
-                GetLoggerNullTestData(),
-                GetMediatorNullTestData(),
-                GetCommandFactoryNullTestData(),
-                GetQueryFactoryNullTestData(),
+                {
+                    null,
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
+                    MockQueryFactory(),
+                    "authorizationService"
+                },
+
+                {
+                    MockAuthorizationServiceFactory(),
+                    null,
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
+                    MockQueryFactory(),
+                    "logger"
+                },
+
+                {
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    null,
+                    MockCommandFactory(),
+                    MockQueryFactory(),
+                    "mediator"
+                },
+
+                {
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    null,
+                    MockQueryFactory(),
+                    "commandFactory"
+                },
+
+                {
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
+                    null,
+                    "queryFactory"
+                },
             };
 
             /// <summary>
@@ -155,71 +213,6 @@ namespace Whipstaff.UnitTests.Controllers
                 mockAuthorizationService.VerifyNoOtherCalls();
                 mockLogger.VerifyNoOtherCalls();
                 mockMediator.VerifyNoOtherCalls();
-            }
-
-            private static object[] GetAuthorizationServiceNullTestData()
-            {
-                return new object[]
-                {
-                    (Mock<IAuthorizationService>)null,
-                    MockLoggerFactory(),
-                    MockMediatorFactory(),
-                    MockCommandFactory(),
-                    MockQueryFactory(),
-                    "authorizationService",
-                };
-            }
-
-            private static object[] GetLoggerNullTestData()
-            {
-                return new object[]
-                {
-                    MockAuthorizationServiceFactory(),
-                    (Mock<ILogger<FakeCrudController>>)null,
-                    MockMediatorFactory(),
-                    MockCommandFactory(),
-                    MockQueryFactory(),
-                    "logger",
-                };
-            }
-
-            private static object[] GetMediatorNullTestData()
-            {
-                return new object[]
-                {
-                    MockAuthorizationServiceFactory(),
-                    MockLoggerFactory(),
-                    (Mock<IMediator>)null,
-                    MockCommandFactory(),
-                    MockQueryFactory(),
-                    "mediator",
-                };
-            }
-
-            private static object[] GetCommandFactoryNullTestData()
-            {
-                return new object[]
-                {
-                    MockAuthorizationServiceFactory(),
-                    MockLoggerFactory(),
-                    MockMediatorFactory(),
-                    null,
-                    MockQueryFactory(),
-                    "commandFactory",
-                };
-            }
-
-            private static object[] GetQueryFactoryNullTestData()
-            {
-                return new object[]
-                {
-                    MockAuthorizationServiceFactory(),
-                    MockLoggerFactory(),
-                    MockMediatorFactory(),
-                    MockCommandFactory(),
-                    null,
-                    "queryFactory",
-                };
             }
         }
 
