@@ -1,0 +1,15 @@
+{
+    "name": "dpvreony-website",
+    "version": "1.0.0",
+    "devDependencies": {
+        "@mermaid-js/mermaid-cli": "^8.13.3"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "5.15.4",
+        "@popperjs/core": "2.10.2",
+        "bootstrap": "5.1.3",
+        "cookieconsent": "3.1.1",
+        "highlight.js": "^11.3.1",
+        "jquery": "^3.6.0"
+    }
+}
