@@ -53,7 +53,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TAddResponseDto, Task<IActionResult>> getAddActionResultAsync,
             Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
+            where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
         {
             if (logger == null)
             {
@@ -124,6 +124,11 @@ namespace Whipstaff.AspNetCore.Extensions
                 query,
                 cancellationToken).ConfigureAwait(false);
 
+            if (result == null)
+            {
+                return instance.NotFound();
+            }
+
             var viewResult = await getAddActionResultAsync(result).ConfigureAwait(false);
             logAction(logger, "Finished", null);
 
@@ -163,7 +168,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
             Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
+            where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
         {
             if (logger == null)
             {
@@ -244,6 +249,11 @@ namespace Whipstaff.AspNetCore.Extensions
                 query,
                 cancellationToken).ConfigureAwait(false);
 
+            if (result == null)
+            {
+                return instance.NotFound();
+            }
+
             var viewResult = await getDeleteActionResultAsync(result).ConfigureAwait(false);
             logAction(logger, "Finished", null);
 
@@ -285,8 +295,8 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto>
-            where TListResponseDto : class?
+            where TListQuery : IRequest<TListResponseDto?>
+            where TListResponseDto : class
         {
             if (logger == null)
             {
@@ -405,8 +415,8 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto>
-            where TListResponseDto : class?
+            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto?>
+            where TListResponseDto : class
         {
             return GetListActionFlexibleAsync(
                 instance,
@@ -455,8 +465,8 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
             Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto>
-            where TViewResponseDto : class?
+            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewResponseDto : class
         {
             if (logger == null)
             {
@@ -575,11 +585,10 @@ namespace Whipstaff.AspNetCore.Extensions
             Action<ILogger, string, Exception?> logAction,
             string updatePolicyName,
             Func<TUpdateResponseDto, Task<IActionResult>> getUpdateActionResultAsync,
-            Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>>
-                updateCommandFactoryAsync,
+            Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
-            where TUpdateResponseDto : class?
+            where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
+            where TUpdateResponseDto : class
         {
             if (logger == null)
             {

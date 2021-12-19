@@ -29,6 +29,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
         private readonly ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> _logger;
 
         private readonly IMediator _mediator;
+        private readonly Action<ILogger, string, Exception?> _viewLogAction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseFileDownloadController{TGetRequestDto, TQueryDto}"/> class.
@@ -36,10 +37,12 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <param name="authorizationService">Authorization service instance for verifying requests.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <param name="mediator">CQRS handler.</param>
+        /// <param name="viewLogAction"></param>
         protected BaseFileDownloadController(
             IAuthorizationService authorizationService,
             ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> logger,
-            IMediator mediator)
+            IMediator mediator,
+            Action<ILogger, string, Exception?> viewLogAction)
         {
             _authorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
@@ -48,6 +51,8 @@ namespace Whipstaff.AspNetCore.FileTransfer
                            throw new ArgumentNullException(nameof(logger));
 
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            _viewLogAction = viewLogAction;
         }
 
         /// <summary>
@@ -61,25 +66,18 @@ namespace Whipstaff.AspNetCore.FileTransfer
             CancellationToken cancellationToken)
         {
             var viewPolicyName = GetViewPolicyName();
-            var viewLogAction = GetViewLogAction();
 
-            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel?, TQueryDto>(
+            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel, TQueryDto>(
                 _logger,
                 _mediator,
                 _authorizationService,
                 request,
-                viewLogAction,
+                _viewLogAction,
                 viewPolicyName,
                 GetViewActionResultAsync,
                 ViewCommandFactoryAsync,
                 cancellationToken).ConfigureAwait(false);
         }
-
-        /// <summary>
-        /// Gets the view log action.
-        /// </summary>
-        /// <returns>The event id.</returns>
-        protected abstract Action<ILogger, string, Exception?> GetViewLogAction();
 
         /// <summary>
         /// Gets the policy name for authorizing viewing of the file.

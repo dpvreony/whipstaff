@@ -30,9 +30,9 @@ namespace Whipstaff.AspNetCore
         : Controller
         where TInheritingClass : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
         where TListRequestDto : class, new()
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListQueryResponse : class
-        where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
+        where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
         where TViewQueryResponse : class
     {
         private readonly Action<ILogger, string, Exception?> _listLogMessageAction;
@@ -51,7 +51,7 @@ namespace Whipstaff.AspNetCore
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
             IMediator mediator,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse?, TViewQuery, TViewQueryResponse?> queryFactory,
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             Action<ILogger, string, Exception?> listLogMessageAction,
             Action<ILogger, string, Exception?> viewLogMessageAction)
         {
@@ -90,9 +90,9 @@ namespace Whipstaff.AspNetCore
         protected IAuditableQueryFactory<
             TListQuery,
             TListRequestDto,
-            TListQueryResponse?,
+            TListQueryResponse,
             TViewQuery,
-            TViewQueryResponse?> QueryFactory { get; }
+            TViewQueryResponse> QueryFactory { get; }
 
         /// <summary>
         /// Entry point for HTTP GET operations.

@@ -32,7 +32,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             [Fact]
             public void ThrowsArgumentNullException()
             {
-                var exception = Assert.Throws<ArgumentNullException>(() => new RequireForwardedForHeaderMiddleware(null));
+                var exception = Assert.Throws<ArgumentNullException>(() => new RequireForwardedForHeaderMiddleware(null!));
 
                 Assert.Equal("next", exception.ParamName);
             }

@@ -13,7 +13,7 @@ namespace Whipstaff.Testing.MediatR
     /// <summary>
     /// Fake Crud Command Handler.
     /// </summary>
-    public sealed class FakeCrudAddCommandHandler : IRequestHandler<FakeCrudAddCommand, int>
+    public sealed class FakeCrudAddCommandHandler : IRequestHandler<FakeCrudAddCommand, int?>
     {
         private readonly DbContextOptions<FakeDbContext> _fakeDbContextOptions;
         private readonly ILogger<FakeCrudAddCommandHandler> _logger;
@@ -32,7 +32,7 @@ namespace Whipstaff.Testing.MediatR
         }
 
         /// <inheritdoc />
-        public async Task<int> Handle(FakeCrudAddCommand request, CancellationToken cancellationToken)
+        public async Task<int?> Handle(FakeCrudAddCommand request, CancellationToken cancellationToken)
         {
             if (request == null)
             {

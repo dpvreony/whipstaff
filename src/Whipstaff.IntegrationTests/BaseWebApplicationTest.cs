@@ -50,17 +50,23 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         {
             if (response == null)
             {
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
                 _logger.LogInformation("No HTTP Response Message.");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
                 return;
             }
 
             foreach (var (key, value) in response.Headers)
             {
-                _logger.LogInformation($"{key}: {string.Join(",", value)}");
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+                _logger.LogInformation("Header Item: {Key} -> {Values}", key, string.Join(",", value));
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 
             var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            _logger.LogInformation(result);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _logger.LogInformation("Result: {Result}", result);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
     }
 }

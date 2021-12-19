@@ -44,9 +44,9 @@ namespace Whipstaff.UnitTests.Controllers
         private static Mock<IAuditableCommandFactory<
             FakeCrudAddCommand,
             int,
-            int,
+            int?,
             FakeCrudDeleteCommand,
-            long,
+            long?,
             FakeCrudUpdateCommand,
             int,
             FakeCrudUpdateResponse?>> MockCommandFactory() => new (MockBehavior.Strict);
@@ -96,24 +96,24 @@ namespace Whipstaff.UnitTests.Controllers
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
             public void ThrowsArgumentNullException(
-                Mock<IAuthorizationService> authorizationService,
-                Mock<ILogger<FakeCrudController>> logger,
-                Mock<IMediator> mediator,
+                Mock<IAuthorizationService>? authorizationService,
+                Mock<ILogger<FakeCrudController>>? logger,
+                Mock<IMediator>? mediator,
                 Mock<IAuditableCommandFactory<
-                        FakeCrudAddCommand,
-                        int,
-                        int,
-                        FakeCrudDeleteCommand,
-                        long,
-                        FakeCrudUpdateCommand,
-                        int,
-                        FakeCrudUpdateResponse>> commandFactory,
+                    FakeCrudAddCommand,
+                    int,
+                    int?,
+                    FakeCrudDeleteCommand,
+                    long?,
+                    FakeCrudUpdateCommand,
+                    int,
+                    FakeCrudUpdateResponse?>>? commandFactory,
                 Mock<IAuditableQueryFactory<
-                        FakeCrudListQuery,
-                        FakeCrudListRequest,
-                        IList<int>,
-                        FakeCrudViewQuery,
-                        FakeCrudViewResponse?>> queryFactory,
+                    FakeCrudListQuery,
+                    FakeCrudListRequest,
+                    IList<int>,
+                    FakeCrudViewQuery,
+                    FakeCrudViewResponse?>>? queryFactory,
                 string argumentNullExceptionParameterName)
             {
                 var ex = Assert.Throws<ArgumentNullException>(() => new FakeCrudController(

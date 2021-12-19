@@ -34,17 +34,31 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for re-use in pattern")]
-    public abstract class CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto>
+    public abstract class CrudController<
+            TInheritingClass,
+            TListQuery,
+            TListRequestDto,
+            TListQueryResponse,
+            TViewQuery,
+            TViewQueryResponse,
+            TAddCommand,
+            TAddRequestDto,
+            TAddResponseDto,
+            TDeleteCommand,
+            TDeleteResponseDto,
+            TUpdateCommand,
+            TUpdateRequestDto,
+            TUpdateResponseDto>
         : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
         where TInheritingClass : CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto>
-        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
-        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
+        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
+        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListQueryResponse : class
         where TListRequestDto : class, new()
-        where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
+        where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
         where TViewQueryResponse : class
-        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
+        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
         where TUpdateResponseDto : class
     {
         private readonly Action<ILogger, string, Exception?> _addLogAction;
@@ -68,8 +82,8 @@ namespace Whipstaff.AspNetCore
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
             IMediator mediator,
-            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto?, TDeleteCommand, TDeleteResponseDto?, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto?> commandFactory,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse?, TViewQuery, TViewQueryResponse?> queryFactory,
+            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             Action<ILogger, string, Exception?> addLogAction,
             Action<ILogger, string, Exception?> deleteLogAction,
             Action<ILogger, string, Exception?> listLogAction,
@@ -95,12 +109,12 @@ namespace Whipstaff.AspNetCore
         protected IAuditableCommandFactory<
             TAddCommand,
             TAddRequestDto,
-            TAddResponseDto?,
+            TAddResponseDto,
             TDeleteCommand,
-            TDeleteResponseDto?,
+            TDeleteResponseDto,
             TUpdateCommand,
             TUpdateRequestDto,
-            TUpdateResponseDto?> CommandFactory
+            TUpdateResponseDto> CommandFactory
         {
             get;
         }

@@ -24,7 +24,21 @@ namespace Whipstaff.Testing
     /// </summary>
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
-    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse?, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse?>
+    public sealed class FakeCrudController : CrudController<
+        FakeCrudController,
+        FakeCrudListQuery,
+        FakeCrudListRequest,
+        IList<int>,
+        FakeCrudViewQuery,
+        FakeCrudViewResponse,
+        FakeCrudAddCommand,
+        int,
+        int?,
+        FakeCrudDeleteCommand,
+        long?,
+        FakeCrudUpdateCommand,
+        int,
+        FakeCrudUpdateResponse>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudController"/> class.
@@ -40,18 +54,18 @@ namespace Whipstaff.Testing
             IAuditableCommandFactory<
                 FakeCrudAddCommand,
                 int,
-                int,
+                int?,
                 FakeCrudDeleteCommand,
-                long,
+                long?,
                 FakeCrudUpdateCommand,
                 int,
-                FakeCrudUpdateResponse?> commandFactory,
+                FakeCrudUpdateResponse> commandFactory,
             IAuditableQueryFactory<
                 FakeCrudListQuery,
                 FakeCrudListRequest,
                 IList<int>,
                 FakeCrudViewQuery,
-                FakeCrudViewResponse?> queryFactory)
+                FakeCrudViewResponse> queryFactory)
             : base(
                 authorizationService,
                 logger,
@@ -92,7 +106,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetViewActionResultAsync(FakeCrudViewResponse viewResponse)
+        protected override async Task<IActionResult> GetViewActionResultAsync(FakeCrudViewResponse? viewResponse)
         {
             return await Task.FromResult(Ok(viewResponse)).ConfigureAwait(false);
         }
@@ -104,7 +118,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetAddActionResultAsync(int result)
+        protected override async Task<IActionResult> GetAddActionResultAsync(int? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
@@ -131,7 +145,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetDeleteActionResultAsync(long result)
+        protected override async Task<IActionResult> GetDeleteActionResultAsync(long? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
