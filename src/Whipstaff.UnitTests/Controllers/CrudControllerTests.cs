@@ -78,13 +78,13 @@ namespace Whipstaff.UnitTests.Controllers
                         long?,
                         FakeCrudUpdateCommand,
                         int,
-                        FakeCrudUpdateResponse?>>?,
+                        FakeCrudUpdateResponse>>?,
                     Mock<IAuditableQueryFactory<
                         FakeCrudListQuery,
                         FakeCrudListRequest,
                         IList<int>,
                         FakeCrudViewQuery,
-                        FakeCrudViewResponse?>>?,
+                        FakeCrudViewResponse>>?,
                     string> ThrowsArgumentNullExceptionTestData = new()
             {
                 {
@@ -640,9 +640,11 @@ namespace Whipstaff.UnitTests.Controllers
                 }
             }
 
-            private static Task<IList<int>> MockListMediatorHandlerAsync(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+            private static async Task<IList<int>?> MockListMediatorHandlerAsync(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             {
-                return Task.FromResult(new List<int> { 1, 2, 3 } as IList<int>);
+                return new List<int> { 1, 2, 3 };
             }
 
             private static Task<FakeCrudListQuery> MockListQueryAsync(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken _)
@@ -762,9 +764,9 @@ namespace Whipstaff.UnitTests.Controllers
                 }
             }
 
-            private static Task<FakeCrudUpdateResponse> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
+            private static Task<FakeCrudUpdateResponse?> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
             {
-                return Task.FromResult(new FakeCrudUpdateResponse());
+                return Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse());
             }
 
             private static Task<FakeCrudUpdateCommand> MockUpdateCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken _)
