@@ -34,20 +34,23 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         /// <summary>
         /// Checks that GET requests work.
         /// </summary>
-        /// <param name="requestUri">URL to test.</param>
+        /// <param name="requestPath">URL to test.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestUri)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
         {
             var client = Factory.CreateClient();
-            var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+
+#pragma warning disable CA2234 // Pass system uri objects instead of strings
+            var response = await client.GetAsync(requestPath).ConfigureAwait(false);
+#pragma warning restore CA2234 // Pass system uri objects instead of strings
 
             _ = response.EnsureSuccessStatusCode();
 
             Assert.Equal(
                 "application/json; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
+                response.Content.Headers.ContentType!.ToString());
 
             await LogResponseAsync(response).ConfigureAwait(false);
         }

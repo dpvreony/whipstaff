@@ -92,24 +92,20 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, Task<int>> func,
+                Func<int, Task<int>> arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => func.DefaultIfExceptionAsync(1, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, -1))
                     .ConfigureAwait(false);
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -158,14 +154,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -228,14 +220,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -300,14 +288,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -374,14 +358,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -450,14 +430,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -528,14 +504,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -608,14 +580,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -690,14 +658,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -774,14 +738,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -860,14 +820,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -948,14 +904,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -1038,14 +990,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -1130,14 +1078,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -1224,14 +1168,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
@@ -1320,24 +1260,20 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static IEnumerable<object[]> ThrowsArgumentNullExceptionAsyncTestData = new[]
+            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                new object[]
-                {
-                    null,
-                    "func",
-                },
+                {null, "arg"}
             };
 
             /// <inheritdoc/>
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, -1))
                     .ConfigureAwait(false);
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }

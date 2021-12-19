@@ -43,7 +43,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var services = new ServiceCollection();
 
                 var databaseName = Guid.NewGuid().ToString();
-                services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+                _ = services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                     .UseInMemoryDatabase(databaseName: databaseName)
                     .Options);
 

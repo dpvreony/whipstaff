@@ -49,7 +49,7 @@ namespace Whipstaff.IntegrationTests
             _ = response.EnsureSuccessStatusCode();
             Assert.Equal(
                 "text/html; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
+                response.Content.Headers.ContentType!.ToString());
 
             await LogResponseAsync(response).ConfigureAwait(false);
         }
