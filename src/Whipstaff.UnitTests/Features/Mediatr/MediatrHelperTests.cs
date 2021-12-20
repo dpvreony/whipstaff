@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
@@ -42,12 +43,13 @@ namespace Whipstaff.UnitTests.Features.Mediatr
             {
                 var services = new ServiceCollection();
 
+                _ = services.AddScoped<ILoggerFactory>(_ => this.Log);
+                _ = services.AddLogging();
+
                 var databaseName = Guid.NewGuid().ToString();
                 _ = services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                     .UseInMemoryDatabase(databaseName: databaseName)
                     .Options);
-
-                // services.AddEntityFrameworkInMemoryDatabase();
 
                 MediatrHelpers.RegisterMediatrWithExplicitTypes(
                     services,
@@ -61,6 +63,12 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 using (var dbContext = new FakeDbContext(dbContextOptions!))
                 {
                     var entityCount = dbContext.FakeAddAudit.Count();
+                    Assert.Equal(0, entityCount);
+
+                    entityCount = dbContext.FakeAddPreProcessAudit.Count();
+                    Assert.Equal(0, entityCount);
+
+                    entityCount = dbContext.FakeAddPostProcessAudit.Count();
                     Assert.Equal(0, entityCount);
                 }
 
