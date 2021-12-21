@@ -13,7 +13,7 @@ namespace Whipstaff.Testing.MediatR
     /// Fake Post Processor for MediatR.
     /// </summary>
     public sealed class FakePostProcessorCommandHandler
-        : IRequestPostProcessor<FakeCrudAddCommand, int>
+        : IRequestPostProcessor<FakeCrudAddCommand, int?>
     {
         private readonly DbContextOptions<FakeDbContext> _fakeDbContextOptions;
 
@@ -29,7 +29,7 @@ namespace Whipstaff.Testing.MediatR
         /// <inheritdoc />
         public async Task Process(
             FakeCrudAddCommand request,
-            int response,
+            int? response,
             CancellationToken cancellationToken)
         {
             if (request == null)

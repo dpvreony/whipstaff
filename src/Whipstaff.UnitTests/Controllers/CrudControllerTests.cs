@@ -256,7 +256,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandlerAsync);
+                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int?>, CancellationToken>(MockAddMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -300,9 +300,9 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setup(s => s.Send(
-                    It.IsAny<IAuditableRequest<int, int>>(),
+                    It.IsAny<IAuditableRequest<int, int?>>(),
                     It.IsAny<CancellationToken>()))
-                    .Returns<IAuditableRequest<int, int>, CancellationToken>(MockAddMediatorHandlerAsync);
+                    .Returns<IAuditableRequest<int, int?>, CancellationToken>(MockAddMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -330,7 +330,7 @@ namespace Whipstaff.UnitTests.Controllers
                 }
             }
 
-            private static async Task<int> MockAddMediatorHandlerAsync(IAuditableRequest<int, int> auditableRequest, CancellationToken cancellationToken)
+            private static async Task<int?> MockAddMediatorHandlerAsync(IAuditableRequest<int, int?> auditableRequest, CancellationToken cancellationToken)
             {
                 return await Task.FromResult(auditableRequest.RequestDto).ConfigureAwait(false);
             }
@@ -390,7 +390,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandlerAsync);
+                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long?>, CancellationToken>(MockDeleteMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -433,7 +433,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandlerAsync);
+                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long?>, CancellationToken>(MockDeleteMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -478,7 +478,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long>, CancellationToken>(MockDeleteMediatorHandlerAsync);
+                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long?>, CancellationToken>(MockDeleteMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -506,7 +506,7 @@ namespace Whipstaff.UnitTests.Controllers
                 }
             }
 
-            private static async Task<long> MockDeleteMediatorHandlerAsync(IAuditableRequest<long, long> arg1, CancellationToken arg2)
+            private static async Task<long?> MockDeleteMediatorHandlerAsync(IAuditableRequest<long, long?> arg1, CancellationToken arg2)
             {
                 return await Task.FromResult(arg1.RequestDto).ConfigureAwait(false);
             }
