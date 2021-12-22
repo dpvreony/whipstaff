@@ -14,9 +14,9 @@ namespace Whipstaff.Testing.MediatR
         public IList<Func<IRequestHandlerRegistrationHandler>> RequestHandlers => new
             List<Func<IRequestHandlerRegistrationHandler>>
         {
-            () => new RequestHandlerRegistrationHandler<FakeCrudAddCommandHandler, FakeCrudAddCommand, int>(),
-            () => new RequestHandlerRegistrationHandler<FakeCrudListQueryHandler, FakeCrudListQuery, IList<int>>(),
-            () => new RequestHandlerRegistrationHandler<FakeCrudViewQueryHandler, FakeCrudViewQuery, FakeCrudViewResponse>(),
+            () => new RequestHandlerRegistrationHandler<FakeCrudAddCommandHandler, FakeCrudAddCommand, int?>(),
+            () => new RequestHandlerRegistrationHandler<FakeCrudListQueryHandler, FakeCrudListQuery, IList<int>?>(),
+            () => new RequestHandlerRegistrationHandler<FakeCrudViewQueryHandler, FakeCrudViewQuery, FakeCrudViewResponse?>(),
         };
 
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace Whipstaff.Testing.MediatR
         /// <inheritdoc />
         public IList<Func<IRequestPostProcessorRegistrationHandler>> RequestPostProcessors => new List<Func<IRequestPostProcessorRegistrationHandler>>
         {
-            () => new RequestPostProcessorRegistrationHandler<FakePostProcessorCommandHandler, FakeCrudAddCommand, int>()
+            () => new RequestPostProcessorRegistrationHandler<FakePostProcessorCommandHandler, FakeCrudAddCommand, int?>()
         };
     }
 }

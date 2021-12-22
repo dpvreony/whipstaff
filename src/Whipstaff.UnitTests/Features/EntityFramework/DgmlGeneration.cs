@@ -10,7 +10,7 @@ namespace Whipstaff.UnitTests.Features.EntityFramework
     /// Initial test logic for generating DGML
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class DgmlGeneration
+    public static class DgmlGeneration
     {
         /// <summary>
         /// Generates a DGML diagram.
@@ -19,14 +19,14 @@ namespace Whipstaff.UnitTests.Features.EntityFramework
         /// Taken from https://github.com/ErikEJ/EFCorePowerTools/wiki/Inspect-your-DbContext-model
         /// made re-usable to run in build and tests.
         /// </remarks>
-        public void GeneratesDgml<T>()
+        public static void GeneratesDgml<T>()
             where T : DbContext, new()
         {
             using (var myContext = new T())
             {
                 var path = Path.GetTempFileName() + ".dgml";
                 File.WriteAllText(path, myContext.AsDgml(), Encoding.UTF8);
-                Process.Start(path);
+                _ = Process.Start(path);
             }
         }
     }

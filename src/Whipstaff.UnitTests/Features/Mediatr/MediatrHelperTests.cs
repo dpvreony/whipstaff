@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
@@ -42,12 +43,13 @@ namespace Whipstaff.UnitTests.Features.Mediatr
             {
                 var services = new ServiceCollection();
 
+                _ = services.AddScoped<ILoggerFactory>(_ => this.Log);
+                _ = services.AddLogging();
+
                 var databaseName = Guid.NewGuid().ToString();
-                services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+                _ = services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                     .UseInMemoryDatabase(databaseName: databaseName)
                     .Options);
-
-                // services.AddEntityFrameworkInMemoryDatabase();
 
                 MediatrHelpers.RegisterMediatrWithExplicitTypes(
                     services,
@@ -57,19 +59,26 @@ namespace Whipstaff.UnitTests.Features.Mediatr
 
                 var serviceProvider = services.BuildServiceProvider();
 
-                using (var dbContext = new FakeDbContext(serviceProvider.GetService<DbContextOptions<FakeDbContext>>()))
+                var dbContextOptions = serviceProvider.GetService<DbContextOptions<FakeDbContext>>();
+                using (var dbContext = new FakeDbContext(dbContextOptions!))
                 {
                     var entityCount = dbContext.FakeAddAudit.Count();
+                    Assert.Equal(0, entityCount);
+
+                    entityCount = dbContext.FakeAddPreProcessAudit.Count();
+                    Assert.Equal(0, entityCount);
+
+                    entityCount = dbContext.FakeAddPostProcessAudit.Count();
                     Assert.Equal(0, entityCount);
                 }
 
                 var mediator = serviceProvider.GetService<IMediator>();
                 const int expected = 987654321;
-                var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current);
-                var sendResult = await mediator.Send(request).ConfigureAwait(false);
+                var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current!);
+                var sendResult = await mediator!.Send(request).ConfigureAwait(false);
                 Assert.Equal(expected, sendResult);
 
-                using (var dbContext = new FakeDbContext(serviceProvider.GetService<DbContextOptions<FakeDbContext>>()))
+                using (var dbContext = new FakeDbContext(dbContextOptions!))
                 {
                     var entityCount = dbContext.FakeAddAudit.Count();
                     Assert.Equal(1, entityCount);

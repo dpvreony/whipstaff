@@ -8,7 +8,7 @@ using Whipstaff.Core;
 namespace Whipstaff.AspNetCore
 {
     /// <inheritdoc />
-    public class AuditableRequest<TRequestDto, TResponse> : IAuditableRequest<TRequestDto, TResponse>
+    public class AuditableRequest<TRequestDto, TResponse> : IAuditableRequest<TRequestDto, TResponse?>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuditableRequest{TRequestDto, TResponse}"/> class.

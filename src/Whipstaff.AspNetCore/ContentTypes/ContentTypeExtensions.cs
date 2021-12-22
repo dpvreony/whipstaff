@@ -36,6 +36,16 @@ namespace Whipstaff.AspNetCore.ContentTypes
             this ContentType instance,
             FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (fileExtensionContentTypeProvider == null)
+            {
+                throw new ArgumentNullException(nameof(fileExtensionContentTypeProvider));
+            }
+
             var mediaType = instance.MediaType;
 
             var mapping = fileExtensionContentTypeProvider.Mappings

@@ -32,7 +32,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             [Fact]
             public void ThrowsArgumentNullException()
             {
-                var exception = Assert.Throws<ArgumentNullException>(() => new RequireForwardedForHeaderMiddleware(null));
+                var exception = Assert.Throws<ArgumentNullException>(() => new RequireForwardedForHeaderMiddleware(null!));
 
                 Assert.Equal("next", exception.ParamName);
             }
@@ -56,7 +56,9 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             /// <summary>
             /// Test Data for the Rejection of Http Requests.
             /// </summary>
+#pragma warning disable CA2211 // Non-constant fields should not be visible
             public static IEnumerable<object[]> RejectsRequestTestData = GetRejectsRequestTestData();
+#pragma warning restore CA2211 // Non-constant fields should not be visible
 
             /// <summary>
             /// Tests to ensure the middleware rejects requests without
@@ -66,14 +68,16 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             [MemberData(nameof(RejectsRequestTestData))]
             public async Task RejectsRequest(
                 HttpContext httpContext,
-                WhipcordHttpStatusCode expectedHttpStatusCode)
+                int expectedHttpStatusCode)
             {
                 var instance = new RequireForwardedForHeaderMiddleware(Next);
                 await instance.InvokeAsync(httpContext)
                     .ConfigureAwait(false);
 
-                Assert.Equal((int)expectedHttpStatusCode,
+                Assert.Equal(expectedHttpStatusCode,
+#pragma warning disable CA1062 // Validate arguments of public methods
                         httpContext.Response.StatusCode);
+#pragma warning restore CA1062 // Validate arguments of public methods
             }
 
             private static IEnumerable<object[]> GetRejectsRequestTestData()

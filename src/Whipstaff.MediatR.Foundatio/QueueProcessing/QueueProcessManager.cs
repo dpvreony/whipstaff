@@ -65,7 +65,9 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
                     await Task.Delay(5000, cancellationToken).ConfigureAwait(false);
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 // no op
             }
@@ -135,7 +137,9 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
                 await OnMessageReceivedAsync(queueEntry).ConfigureAwait(false);
                 return QueueMessageRecoveryStrategy.Complete;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 return await TaskHelpers.DefaultIfExceptionAsync(
                     GetRecoveryStrategyAsync,

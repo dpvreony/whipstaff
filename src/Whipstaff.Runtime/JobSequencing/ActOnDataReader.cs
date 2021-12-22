@@ -10,18 +10,18 @@ namespace Whipstaff.Runtime.JobSequencing
     /// <summary>
     /// Helper to act on a data reader collection of results.
     /// </summary>
-    public abstract class ActOnDataReader : ActOnCollection<IDataReader, IDataReader>
+    public abstract class ActOnDataReader : ActOnCollectionHelper<IDataReader, IDataReader>
     {
         /// <inheritdoc/>
-        public sealed override async Task ActOnCollectionAsync(IDataReader dataReader)
+        public sealed override async Task ActOnCollectionAsync(IDataReader queryable)
         {
-            if (dataReader.Read())
+            if (queryable != null && queryable.Read())
             {
                 do
                 {
-                    await ActOnItemAsync(dataReader).ConfigureAwait(false);
+                    await ActOnItemAsync(queryable).ConfigureAwait(false);
                 }
-                while (dataReader.Read());
+                while (queryable.Read());
 
                 return;
             }

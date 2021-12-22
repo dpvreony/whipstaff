@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.MediatR.EntityFrameworkCore
 {
@@ -17,23 +18,28 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
     /// <typeparam name="TRequest">The type for the MediatR Request.</typeparam>
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
-    public abstract class ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity> : IRequestHandler<TRequest>
+    public abstract class ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity> : IRequestHandler<TRequest, int>
         where TDbContext : DbContext
-        where TRequest : IRequest<Unit>
+        where TRequest : IRequest<int>
     {
         private readonly Func<Task<TDbContext>> _dbContextFactory;
+        private readonly ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActOnDbSetRequestHandler{TRequest, TDbContext, TEntity}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
-        protected ActOnDbSetRequestHandler(Func<Task<TDbContext>> dbContextFactory)
+        /// <param name="logger">Logging framework instance.</param>
+        protected ActOnDbSetRequestHandler(
+            Func<Task<TDbContext>> dbContextFactory,
+            ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> logger)
         {
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc/>
-        public async Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<int> Handle(TRequest request, CancellationToken cancellationToken)
         {
             using (var dbContext = await _dbContextFactory().ConfigureAwait(false))
             {
@@ -45,11 +51,15 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
 
                 if (dbContext.ChangeTracker.HasChanges())
                 {
-                    await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                    var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+                    _logger.LogDebug("Save Result: {SaveResult}", saveResult);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
+                    return saveResult;
                 }
             }
 
-            return Unit.Value;
+            return 0;
         }
 
         /// <summary>

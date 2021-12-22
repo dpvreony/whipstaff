@@ -16,6 +16,7 @@ namespace Whipstaff.Core.Mediatr
     public sealed class RequestPostProcessorRegistrationHandler<TImplementationType, TRequest, TResponse>
         : IRequestPostProcessorRegistrationHandler
         where TImplementationType : class, IRequestPostProcessor<TRequest, TResponse>
+        where TRequest : notnull
     {
         /// <inheritdoc/>
         public Type ServiceType => typeof(IRequestPostProcessor<TRequest, TResponse>);

@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Dhgms.NetContrib.UnitTests.Features.Extensions
+namespace Whipstaff.Runtime.Extensions
 {
     /// <summary>
     /// Extensions for String manipulation.
@@ -21,8 +21,13 @@ namespace Dhgms.NetContrib.UnitTests.Features.Extensions
         public static string Remove(
             this string instance,
             string value,
-            bool ignoreCase = true)
+            bool ignoreCase = false)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
             return instance.Replace(
                 value,
                 string.Empty,

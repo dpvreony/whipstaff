@@ -121,41 +121,44 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             }
 
             var lockTimeout = TimeSpan.FromSeconds(5);
-            var inMemoryLockCacheClient = new InMemoryCacheClient();
-            var distributedLockCacheClient = new HybridCacheClient(inMemoryLockCacheClient, _messageBus);
-            var lockProvider = new CacheLockProvider(distributedLockCacheClient, _messageBus);
 
-            while (!cancellationToken.IsCancellationRequested)
+            using (var inMemoryLockCacheClient = new InMemoryCacheClient())
+            using(var distributedLockCacheClient = new HybridCacheClient(inMemoryLockCacheClient, _messageBus))
             {
-                var lockHandle = await lockProvider.AcquireAsync(
-                    lockName,
-                    lockTimeout,
-                    cancellationToken)
-                    .ConfigureAwait(false);
+                var lockProvider = new CacheLockProvider(distributedLockCacheClient, _messageBus);
 
-                if (lockHandle != null)
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    try
+                    var lockHandle = await lockProvider.AcquireAsync(
+                        lockName,
+                        lockTimeout,
+                        cancellationToken)
+                        .ConfigureAwait(false);
+
+                    if (lockHandle != null)
                     {
-                        // we have the lock
-                        // keep renewing it
-                        await HoldAndRenewAsync(
-                            lockHandle,
-                            cancellationToken)
-                            .ConfigureAwait(false);
-                    }
-                    catch (Exception e)
-                    {
-                        switch (lockLostBehavior)
+                        try
                         {
-                            case LockLostBehavior.Complete:
-                                return;
-                            case LockLostBehavior.Error:
-                                throw new LockLostException(lockName, e);
-                            case LockLostBehavior.Retry:
-                                break;
-                            default:
-                                break;
+                            // we have the lock
+                            // keep renewing it
+                            await HoldAndRenewAsync(
+                                lockHandle,
+                                cancellationToken)
+                                .ConfigureAwait(false);
+                        }
+                        catch (Exception e)
+                        {
+                            switch (lockLostBehavior)
+                            {
+                                case LockLostBehavior.Complete:
+                                    return;
+                                case LockLostBehavior.Error:
+                                    throw new LockLostException(lockName, e);
+                                case LockLostBehavior.Retry:
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }

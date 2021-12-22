@@ -3,7 +3,7 @@
     <Company>DPVreony and Contributors</Company>
 	<StartYear>2016</StartYear>
 	<Copyright>© $(StartYear)-$([System.DateTime]::Now.Year) $(Company)</Copyright>
-    <Product>Whipcords ($(TargetFramework))</Product>
+    <Product>Whipstaff ($(TargetFramework))</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
@@ -28,6 +28,10 @@
     <EnableSourceControlManagerQueries>$(EnableSourceLink)</EnableSourceControlManagerQueries>
 	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	<WarningsAsErrors />
+	<Nullable>enable</Nullable>
+	<Packable>false</Packable>
+	<Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.'))">false</Packable>
+    <LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsTestProject)">
@@ -65,6 +69,12 @@
   
   <ItemGroup>
     <None Include="..\..\readme.md" Pack="true" PackagePath="\"/>
+    <Compile Include="..\Common.Assembly.cs" />
   </ItemGroup>
-</Project>
 
+  
+  <!-- Net Analyzers config taken from : https://docs.microsoft.com/en-gb/visualstudio/code-quality/migrate-from-fxcop-analyzers-to-net-analyzers?view=vs-2019 -->
+  <PropertyGroup>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+</Project>

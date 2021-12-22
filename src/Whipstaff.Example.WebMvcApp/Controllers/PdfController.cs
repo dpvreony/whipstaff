@@ -33,12 +33,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
             IAuthorizationService authorizationService,
             ILogger<PdfController> logger,
             IMediator mediator)
-            : base(authorizationService, logger, mediator)
+            : base(
+                authorizationService,
+                logger,
+                mediator,
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"))
         {
         }
-
-        /// <inheritdoc />
-        protected override EventId GetViewEventId() => new EventId(1, "View PDF");
 
         /// <inheritdoc />
         protected override string GetViewPolicyName() => "View PDF";

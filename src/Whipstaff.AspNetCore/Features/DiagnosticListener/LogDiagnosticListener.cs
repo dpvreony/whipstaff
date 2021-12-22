@@ -6,6 +6,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DiagnosticAdapter;
 using Microsoft.Extensions.Logging;
+using Whipstaff.Core.Logging;
 
 namespace Whipstaff.AspNetCore.Features.DiagnosticListener
 {
@@ -20,13 +21,33 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
     {
         private readonly ILogger<LogDiagnosticListener> _logger;
 
+        private readonly Action<ILogger, string, int?, Exception?> _middlewareFinishedLogAction;
+        private readonly Action<ILogger, string, string?, Exception?> _middlewareStartingLogAction;
+        private readonly Action<ILogger, string, Exception?> _middlewareExceptionLogAction;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LogDiagnosticListener"/> class.
         /// </summary>
         /// <param name="logger">Logging Framework Instance.</param>
         public LogDiagnosticListener(ILogger<LogDiagnosticListener> logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            _middlewareFinishedLogAction = LoggerMessage.Define<string, int?>(
+                LogLevel.Information,
+                EventIdFactory.MiddlewareFinished(),
+                "MiddlewareStarting: {Name}: {StatusCode}");
+
+
+            _middlewareStartingLogAction = LoggerMessage.Define<string, string?>(
+                LogLevel.Information,
+                EventIdFactory.MiddlewareStarting(),
+                "MiddlewareStarting: {Name}: {Path}");
+
+            _middlewareExceptionLogAction = LoggerMessage.Define<string>(
+                LogLevel.Information,
+                EventIdFactory.MiddlewareException(),
+                "MiddlewareStarting: {Name}");
         }
 
         /// <summary>
@@ -37,7 +58,11 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
         [DiagnosticName("Microsoft.AspNetCore.MiddlewareAnalysis.MiddlewareStarting")]
         public void OnMiddlewareStarting(HttpContext httpContext, string name)
         {
-            _logger.LogInformation($"MiddlewareStarting: {name}; {httpContext?.Request.Path}");
+            _middlewareStartingLogAction(
+                _logger,
+                name,
+                httpContext?.Request.Path.Value,
+                null);
         }
 
         /// <summary>
@@ -48,9 +73,7 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
         [DiagnosticName("Microsoft.AspNetCore.MiddlewareAnalysis.MiddlewareException")]
         public void OnMiddlewareException(Exception exception, string name)
         {
-            _logger.LogInformation(
-                $"MiddlewareException: {name}",
-                exception);
+            _middlewareExceptionLogAction(_logger, name, exception);
         }
 
         /// <summary>
@@ -61,8 +84,11 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
         [DiagnosticName("Microsoft.AspNetCore.MiddlewareAnalysis.MiddlewareFinished")]
         public void OnMiddlewareFinished(HttpContext httpContext, string name)
         {
-            _logger.LogInformation(
-                $"MiddlewareFinished: {name}; {httpContext?.Response.StatusCode}");
+            _middlewareFinishedLogAction(
+                _logger,
+                name,
+                httpContext?.Response.StatusCode,
+                null);
         }
     }
 }

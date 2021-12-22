@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
+using Whipstaff.AspNetCore;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
 using Whipstaff.Testing.EntityFramework;
@@ -21,7 +22,7 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
     /// <summary>
     /// Start up logic for the sample Web MVC app.
     /// </summary>
-    public class Startup : Dhgms.AspNetCoreContrib.App.BaseStartup
+    public class Startup : BaseStartup
     {
         private readonly StuntmanOptions _stuntmanOptions;
 
@@ -36,11 +37,11 @@ namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override void OnConfigureServices(IServiceCollection services)
+        protected override void OnConfigureServices(IServiceCollection serviceCollection)
         {
-            services.AddStuntman(_stuntmanOptions);
+            serviceCollection.AddStuntman(_stuntmanOptions);
             var databaseName = Guid.NewGuid().ToString();
-            services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+            _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseInMemoryDatabase(databaseName: databaseName)
                 .Options);
         }
