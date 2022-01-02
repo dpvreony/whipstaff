@@ -34,6 +34,10 @@ namespace Whipstaff.Wpf.ReactiveCommands
                 Func<TParam1, TResult1> commandFunc1,
                 Func<TParam2, TResult2> commandFunc2)
         {
+            ArgumentNullException.ThrowIfNull(canExecuteObservable);
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+
             var cmd1 = ReactiveCommand.Create(
                 commandFunc1,
                 canExecuteObservable);
@@ -76,6 +80,12 @@ namespace Whipstaff.Wpf.ReactiveCommands
                 Func<TParam2, TResult2> commandFunc2,
                 IObservable<bool> commandCanExecute2)
         {
+            ArgumentNullException.ThrowIfNull(canExecuteObservable);
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandCanExecute1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandCanExecute2);
+
             var cmd1 = ReactiveCommand.Create(
                 commandFunc1,
                 commandCanExecute1.Merge(canExecuteObservable));
@@ -84,7 +94,9 @@ namespace Whipstaff.Wpf.ReactiveCommands
                 commandFunc2,
                 commandCanExecute2.Merge(canExecuteObservable));
 
-            return (cmd1, cmd2);
+            return (
+                cmd1,
+                cmd2);
         }
 
         /// <summary>
@@ -119,6 +131,11 @@ namespace Whipstaff.Wpf.ReactiveCommands
                 Func<TParam2, TResult2> commandFunc2,
                 Func<TParam3, TResult3> commandFunc3)
         {
+            ArgumentNullException.ThrowIfNull(canExecuteObservable);
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
+
             var cmd1 = ReactiveCommand.Create(
                 commandFunc1,
                 canExecuteObservable);
@@ -176,6 +193,12 @@ namespace Whipstaff.Wpf.ReactiveCommands
                 Func<TParam3, TResult3> commandFunc3,
                 Func<TParam4, TResult4> commandFunc4)
         {
+            ArgumentNullException.ThrowIfNull(canExecuteObservable);
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
+            ArgumentNullException.ThrowIfNull(commandFunc4);
+
             var cmd1 = ReactiveCommand.Create(
                 commandFunc1,
                 canExecuteObservable);
@@ -245,6 +268,13 @@ namespace Whipstaff.Wpf.ReactiveCommands
                 Func<TParam4, TResult4> commandFunc4,
                 Func<TParam5, TResult5> commandFunc5)
         {
+            ArgumentNullException.ThrowIfNull(canExecuteObservable);
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
+            ArgumentNullException.ThrowIfNull(commandFunc4);
+            ArgumentNullException.ThrowIfNull(commandFunc5);
+
             var cmd1 = ReactiveCommand.Create(
                 commandFunc1,
                 canExecuteObservable);
@@ -326,6 +356,14 @@ namespace Whipstaff.Wpf.ReactiveCommands
                 Func<TParam5, TResult5> commandFunc5,
                 Func<TParam6, TResult6> commandFunc6)
         {
+            ArgumentNullException.ThrowIfNull(canExecuteObservable);
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
+            ArgumentNullException.ThrowIfNull(commandFunc4);
+            ArgumentNullException.ThrowIfNull(commandFunc5);
+            ArgumentNullException.ThrowIfNull(commandFunc6);
+
             var cmd1 = ReactiveCommand.Create(
                 commandFunc1,
                 canExecuteObservable);

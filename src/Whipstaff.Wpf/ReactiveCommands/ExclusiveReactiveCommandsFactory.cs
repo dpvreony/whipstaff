@@ -208,25 +208,31 @@ namespace Whipstaff.Wpf.ReactiveCommands
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
 
-            var cmd1 = ReactiveCommand.Create(commandFunc1, nobodyIsExecuting);
-            var cmd2 = ReactiveCommand.Create(commandFunc2, nobodyIsExecuting);
-            var cmd3 = ReactiveCommand.Create(commandFunc3, nobodyIsExecuting);
-            var cmd4 = ReactiveCommand.Create(commandFunc4, nobodyIsExecuting);
+            var (
+                command1,
+                command2,
+                command3,
+                command4) = CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
+                nobodyIsExecuting,
+                commandFunc1,
+                commandFunc2,
+                commandFunc3,
+                commandFunc4);
 
             _ = Observable.Merge(
-                    cmd1.IsExecuting,
-                    cmd2.IsExecuting,
-                    cmd3.IsExecuting,
-                    cmd4.IsExecuting)
+                    command1.IsExecuting,
+                    command2.IsExecuting,
+                    command3.IsExecuting,
+                    command4.IsExecuting)
                 .ScanNumberThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
                 numberExecuting,
-                cmd1,
-                cmd2,
-                cmd3,
-                cmd4);
+                command1,
+                command2,
+                command3,
+                command4);
         }
 
         /// <summary>
@@ -280,28 +286,35 @@ namespace Whipstaff.Wpf.ReactiveCommands
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
 
-            var cmd1 = ReactiveCommand.Create(commandFunc1, nobodyIsExecuting);
-            var cmd2 = ReactiveCommand.Create(commandFunc2, nobodyIsExecuting);
-            var cmd3 = ReactiveCommand.Create(commandFunc3, nobodyIsExecuting);
-            var cmd4 = ReactiveCommand.Create(commandFunc4, nobodyIsExecuting);
-            var cmd5 = ReactiveCommand.Create(commandFunc5, nobodyIsExecuting);
+            var (
+                command1,
+                command2,
+                command3,
+                command4,
+                command5) = CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
+                nobodyIsExecuting,
+                commandFunc1,
+                commandFunc2,
+                commandFunc3,
+                commandFunc4,
+                commandFunc5);
 
             _ = Observable.Merge(
-                    cmd1.IsExecuting,
-                    cmd2.IsExecuting,
-                    cmd3.IsExecuting,
-                    cmd4.IsExecuting,
-                    cmd5.IsExecuting)
+                    command1.IsExecuting,
+                    command2.IsExecuting,
+                    command3.IsExecuting,
+                    command4.IsExecuting,
+                    command5.IsExecuting)
                 .ScanNumberThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
                 numberExecuting,
-                cmd1,
-                cmd2,
-                cmd3,
-                cmd4,
-                cmd5);
+                command1,
+                command2,
+                command3,
+                command4,
+                command5);
         }
 
         /// <summary>
@@ -363,31 +376,39 @@ namespace Whipstaff.Wpf.ReactiveCommands
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
 
-            var cmd1 = ReactiveCommand.Create(commandFunc1, nobodyIsExecuting);
-            var cmd2 = ReactiveCommand.Create(commandFunc2, nobodyIsExecuting);
-            var cmd3 = ReactiveCommand.Create(commandFunc3, nobodyIsExecuting);
-            var cmd4 = ReactiveCommand.Create(commandFunc4, nobodyIsExecuting);
-            var cmd5 = ReactiveCommand.Create(commandFunc5, nobodyIsExecuting);
-            var cmd6 = ReactiveCommand.Create(commandFunc6, nobodyIsExecuting);
+            var (
+                command1,
+                command2,
+                command3,
+                command4,
+                command5,
+                command6) = CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
+                nobodyIsExecuting,
+                commandFunc1,
+                commandFunc2,
+                commandFunc3,
+                commandFunc4,
+                commandFunc5,
+                commandFunc6);
 
             _ = Observable.Merge(
-                    cmd1.IsExecuting,
-                    cmd2.IsExecuting,
-                    cmd3.IsExecuting,
-                    cmd4.IsExecuting,
-                    cmd5.IsExecuting,
-                    cmd6.IsExecuting)
+                    command1.IsExecuting,
+                    command2.IsExecuting,
+                    command3.IsExecuting,
+                    command4.IsExecuting,
+                    command5.IsExecuting,
+                    command6.IsExecuting)
                 .ScanNumberThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
                 numberExecuting,
-                cmd1,
-                cmd2,
-                cmd3,
-                cmd4,
-                cmd5,
-                cmd6);
+                command1,
+                command2,
+                command3,
+                command4,
+                command5,
+                command6);
         }
     }
 }
