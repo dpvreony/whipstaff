@@ -21,6 +21,16 @@ namespace Whipstaff.Runtime.HostOverride
             this HttpRequestMessage instance,
             IHostOverride hostOverride)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            if (hostOverride == null)
+            {
+                throw new ArgumentNullException(nameof(hostOverride));
+            }
+
             var requestUri = instance.RequestUri;
             var host = requestUri.Host;
             var target = hostOverride.Resolve(host) ?? host;

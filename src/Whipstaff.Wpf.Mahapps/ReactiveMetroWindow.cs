@@ -54,20 +54,20 @@ namespace Whipstaff.Wpf.Mahapps
         /// <summary>
         /// Gets the binding root view model.
         /// </summary>
-        public TViewModel BindingRoot => ViewModel;
+        public TViewModel? BindingRoot => ViewModel;
 
         /// <inheritdoc/>
-        public TViewModel ViewModel
+        public TViewModel? ViewModel
         {
             get => (TViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
         /// <inheritdoc/>
-        object IViewFor.ViewModel
+        object? IViewFor.ViewModel
         {
             get => ViewModel;
-            set => ViewModel = (TViewModel)value;
+            set => ViewModel = (TViewModel?)value;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Whipstaff.Testing.MediatR
     /// Fake Post Processor for MediatR.
     /// </summary>
     public sealed class FakePostProcessorCommandHandler
-        : IRequestPostProcessor<FakeCrudAddCommand, int>
+        : IRequestPostProcessor<FakeCrudAddCommand, int?>
     {
         private readonly DbContextOptions<FakeDbContext> _fakeDbContextOptions;
 
@@ -29,9 +29,14 @@ namespace Whipstaff.Testing.MediatR
         /// <inheritdoc />
         public async Task Process(
             FakeCrudAddCommand request,
-            int response,
+            int? response,
             CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             using (var dbContext = new FakeDbContext(_fakeDbContextOptions))
             {
                 var entity = new FakeAddPostProcessAuditDbSet
@@ -40,8 +45,9 @@ namespace Whipstaff.Testing.MediatR
                     Created = DateTimeOffset.UtcNow
                 };
 
-                dbContext.FakeAddPostProcessAudit.Add(entity);
-                await dbContext.SaveChangesAsync(cancellationToken)
+                _ = dbContext.FakeAddPostProcessAudit.Add(entity);
+
+                var saveResult = await dbContext.SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
             }
         }

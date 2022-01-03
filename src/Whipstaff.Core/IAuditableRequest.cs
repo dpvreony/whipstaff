@@ -12,7 +12,7 @@ namespace Whipstaff.Core
     /// </summary>
     /// <typeparam name="TRequestDto">The type of the request object.</typeparam>
     /// <typeparam name="TResponse">The type of the response object.</typeparam>
-    public interface IAuditableRequest<out TRequestDto, out TResponse> : IRequest<TResponse>
+    public interface IAuditableRequest<out TRequestDto, out TResponse> : IRequest<TResponse?>
     {
         /// <summary>
         /// Gets the request DTO for.

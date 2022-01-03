@@ -22,13 +22,14 @@ namespace Whipstaff.AspNetCore.FileTransfer
     /// <typeparam name="TGetRequestDto">The type for the api request dto.</typeparam>
     /// <typeparam name="TQueryDto">The type for the CQRS query dto.</typeparam>
     public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
-        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStream>
+        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStreamModel?>
     {
         private readonly IAuthorizationService _authorizationService;
 
         private readonly ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> _logger;
 
         private readonly IMediator _mediator;
+        private readonly Action<ILogger, string, Exception?> _viewLogAction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseFileDownloadController{TGetRequestDto, TQueryDto}"/> class.
@@ -36,10 +37,12 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <param name="authorizationService">Authorization service instance for verifying requests.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <param name="mediator">CQRS handler.</param>
+        /// <param name="viewLogAction"></param>
         protected BaseFileDownloadController(
             IAuthorizationService authorizationService,
             ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> logger,
-            IMediator mediator)
+            IMediator mediator,
+            Action<ILogger, string, Exception?> viewLogAction)
         {
             _authorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
@@ -48,6 +51,8 @@ namespace Whipstaff.AspNetCore.FileTransfer
                            throw new ArgumentNullException(nameof(logger));
 
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            _viewLogAction = viewLogAction;
         }
 
         /// <summary>
@@ -61,25 +66,18 @@ namespace Whipstaff.AspNetCore.FileTransfer
             CancellationToken cancellationToken)
         {
             var viewPolicyName = GetViewPolicyName();
-            var eventId = GetViewEventId();
 
-            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStream, TQueryDto>(
+            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel, TQueryDto>(
                 _logger,
                 _mediator,
                 _authorizationService,
                 request,
-                eventId,
+                _viewLogAction,
                 viewPolicyName,
                 GetViewActionResultAsync,
                 ViewCommandFactoryAsync,
                 cancellationToken).ConfigureAwait(false);
         }
-
-        /// <summary>
-        /// Gets the view event id. used for auditing, apm and logging.
-        /// </summary>
-        /// <returns>The event id.</returns>
-        protected abstract EventId GetViewEventId();
 
         /// <summary>
         /// Gets the policy name for authorizing viewing of the file.
@@ -105,12 +103,17 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <returns>The mime type.</returns>
         protected abstract string GetMediaTypeHeaderString();
 
-        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStream file)
+        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStreamModel? file)
         {
+            if (file == null)
+            {
+                return NotFound();
+            }
+
             return await Task.Run(() =>
             {
                 var contentType = GetMediaTypeHeaderString();
-                file.FileStream.Seek(0, SeekOrigin.Begin);
+                _ = file.FileStream.Seek(0, SeekOrigin.Begin);
                 return File(file.FileStream, contentType, file.FileName);
             }).ConfigureAwait(false);
         }

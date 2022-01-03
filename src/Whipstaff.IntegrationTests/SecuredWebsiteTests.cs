@@ -5,16 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Examples.WebMvcApp;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
+using Dhgms.AspNetCoreContrib.IntegrationTests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.IntegrationTests
+namespace Whipstaff.IntegrationTests
 {
     /// <summary>
     /// Unit Tests for a secured website.
@@ -40,19 +36,20 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         /// <summary>
         /// Checks that GET requests work.
         /// </summary>
-        /// <param name="requestUri">URL to test.</param>
+        /// <param name="requestPath">relative URL to test.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestUri)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
         {
             var client = Factory.CreateClient();
-            var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+            var relativeUri = new Uri(requestPath, UriKind.Relative);
+            var response = await client.GetAsync(relativeUri).ConfigureAwait(false);
 
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
             Assert.Equal(
                 "text/html; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
+                response.Content.Headers.ContentType!.ToString());
 
             await LogResponseAsync(response).ConfigureAwait(false);
         }

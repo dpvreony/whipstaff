@@ -25,7 +25,7 @@ namespace Whipstaff.Runtime.HostOverride
         }
 
         /// <inheritdoc/>
-        public string Resolve(string host)
+        public string? Resolve(string host)
         {
             if (string.IsNullOrWhiteSpace(host))
             {

@@ -34,19 +34,26 @@ namespace Dhgms.AspNetCoreContrib.IntegrationTests
         /// <summary>
         /// Checks that GET requests work.
         /// </summary>
-        /// <param name="requestUri">URL to test.</param>
+        /// <param name="requestPath">URL to test.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestUri)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
         {
             var client = Factory.CreateClient();
+            var requestUri = new Uri(requestPath, UriKind.Relative);
             var response = await client.GetAsync(requestUri).ConfigureAwait(false);
 
-            response.EnsureSuccessStatusCode();
+            _ = response.EnsureSuccessStatusCode();
+
+            var contentType = response.Content.Headers.ContentType;
+            Assert.NotNull(contentType);
+
             Assert.Equal(
                 "text/html; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                contentType.ToString());
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             await LogResponseAsync(response).ConfigureAwait(false);
         }

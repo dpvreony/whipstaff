@@ -34,19 +34,37 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for re-use in pattern")]
-    public abstract class CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto>
+    public abstract class CrudController<
+            TInheritingClass,
+            TListQuery,
+            TListRequestDto,
+            TListQueryResponse,
+            TViewQuery,
+            TViewQueryResponse,
+            TAddCommand,
+            TAddRequestDto,
+            TAddResponseDto,
+            TDeleteCommand,
+            TDeleteResponseDto,
+            TUpdateCommand,
+            TUpdateRequestDto,
+            TUpdateResponseDto>
         : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
         where TInheritingClass : CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto>
-        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto>
-        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
+        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
+        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListQueryResponse : class
         where TListRequestDto : class, new()
-        where TViewQuery : IAuditableRequest<long, TViewQueryResponse>
+        where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
         where TViewQueryResponse : class
-        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto>
+        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
         where TUpdateResponseDto : class
     {
+        private readonly Action<ILogger, string, Exception?> _addLogAction;
+        private readonly Action<ILogger, string, Exception?> _deleteLogAction;
+        private readonly Action<ILogger, string, Exception?> _updateLogAction;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CrudController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto}"/> class.
         /// </summary>
@@ -55,19 +73,34 @@ namespace Whipstaff.AspNetCore
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="commandFactory">The factory for generating Command messages.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
+        /// <param name="addLogAction"></param>
+        /// <param name="deleteLogAction"></param>
+        /// <param name="listLogAction"></param>
+        /// <param name="updateLogAction"></param>
+        /// <param name="viewLogAction"></param>
         protected CrudController(
             IAuthorizationService authorizationService,
             ILogger<TInheritingClass> logger,
             IMediator mediator,
             IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory)
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
+            Action<ILogger, string, Exception?> addLogAction,
+            Action<ILogger, string, Exception?> deleteLogAction,
+            Action<ILogger, string, Exception?> listLogAction,
+            Action<ILogger, string, Exception?> updateLogAction,
+            Action<ILogger, string, Exception?> viewLogAction)
             : base(
                   authorizationService,
                   logger,
                   mediator,
-                  queryFactory)
+                  queryFactory,
+                  listLogAction,
+                  viewLogAction)
         {
             CommandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+            _addLogAction = addLogAction ?? throw new ArgumentNullException(nameof(addLogAction));
+            _deleteLogAction = deleteLogAction ?? throw new ArgumentNullException(nameof(deleteLogAction));
+            _updateLogAction = updateLogAction ?? throw new ArgumentNullException(nameof(updateLogAction));
         }
 
         /// <summary>
@@ -96,7 +129,6 @@ namespace Whipstaff.AspNetCore
             int id,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetDeleteEventIdAsync().ConfigureAwait(false);
             var deletePolicyName = await GetDeletePolicyAsync().ConfigureAwait(false);
 
             return await this.GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
@@ -104,7 +136,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 id,
-                eventId,
+                _deleteLogAction,
                 deletePolicyName,
                 GetDeleteActionResultAsync,
                 GetDeleteCommandAsync,
@@ -121,7 +153,6 @@ namespace Whipstaff.AspNetCore
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetAddEventIdAsync().ConfigureAwait(false);
             var addPolicyName = await GetAddPolicyAsync().ConfigureAwait(false);
 
             return await this.GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
@@ -129,7 +160,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 addRequestDto,
-                eventId,
+                _addLogAction,
                 addPolicyName,
                 GetAddActionResultAsync,
                 GetAddCommandAsync,
@@ -148,7 +179,6 @@ namespace Whipstaff.AspNetCore
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
         {
-            var eventId = await GetUpdateEventIdAsync().ConfigureAwait(false);
             var updatePolicyName = await GetUpdatePolicyAsync().ConfigureAwait(false);
 
             return await this.GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
@@ -157,7 +187,7 @@ namespace Whipstaff.AspNetCore
                 AuthorizationService,
                 id,
                 updateRequestDto,
-                eventId,
+                _updateLogAction,
                 updatePolicyName,
                 GetUpdateActionResultAsync,
                 GetUpdateCommandAsync,
@@ -182,12 +212,6 @@ namespace Whipstaff.AspNetCore
             TAddRequestDto addRequestDto,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Gets the event id for Add Event. Used in logging and APM tools.
-        /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<EventId> GetAddEventIdAsync();
 
         /// <summary>
         /// Gets the authorization policy for the Add operation.
@@ -215,12 +239,6 @@ namespace Whipstaff.AspNetCore
             CancellationToken cancellationToken);
 
         /// <summary>
-        /// Gets the event id for Delete Event. Used in logging and APM tools.
-        /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<EventId> GetDeleteEventIdAsync();
-
-        /// <summary>
         /// Gets the authorization policy for the Delete operation.
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
@@ -244,12 +262,6 @@ namespace Whipstaff.AspNetCore
             TUpdateRequestDto updateRequestDto,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Gets the event id for Update Event. Used in logging and APM tools.
-        /// </summary>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<EventId> GetUpdateEventIdAsync();
 
         /// <summary>
         /// Gets the authorization policy for the Update operation.

@@ -11,7 +11,7 @@ namespace Whipstaff.Runtime.JobSequencing
     /// </summary>
     /// <typeparam name="TCollection">The type for the collection.</typeparam>
     /// <typeparam name="TItem">The type for the item in the collection.</typeparam>
-    public abstract class ActOnCollection<TCollection, TItem>
+    public abstract class ActOnCollectionHelper<TCollection, TItem>
     {
         /// <summary>
         /// Action to carry out on the collection.

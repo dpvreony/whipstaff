@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
@@ -23,7 +24,21 @@ namespace Whipstaff.Testing
     /// </summary>
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
-    public sealed class FakeCrudController : CrudController<FakeCrudController, FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse, FakeCrudAddCommand, int, int, FakeCrudDeleteCommand, long, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse>
+    public sealed class FakeCrudController : CrudController<
+        FakeCrudController,
+        FakeCrudListQuery,
+        FakeCrudListRequest,
+        IList<int>,
+        FakeCrudViewQuery,
+        FakeCrudViewResponse,
+        FakeCrudAddCommand,
+        int,
+        int?,
+        FakeCrudDeleteCommand,
+        long?,
+        FakeCrudUpdateCommand,
+        int,
+        FakeCrudUpdateResponse>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudController"/> class.
@@ -39,9 +54,9 @@ namespace Whipstaff.Testing
             IAuditableCommandFactory<
                 FakeCrudAddCommand,
                 int,
-                int,
+                int?,
                 FakeCrudDeleteCommand,
-                long,
+                long?,
                 FakeCrudUpdateCommand,
                 int,
                 FakeCrudUpdateResponse> commandFactory,
@@ -56,7 +71,12 @@ namespace Whipstaff.Testing
                 logger,
                 mediator,
                 commandFactory,
-                queryFactory)
+                queryFactory,
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"),
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(2), "{Message}"),
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(3), "{Message}"),
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(4), "{Message}"),
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(5), "{Message}"))
         {
         }
 
@@ -65,18 +85,6 @@ namespace Whipstaff.Testing
             CancellationToken cancellationToken)
         {
             return Task.FromResult(new FakeCrudListQuery(listRequestDto, claimsPrincipal));
-        }
-
-        /// <inheritdoc />
-        protected override async Task<EventId> GetListEventIdAsync()
-        {
-            return await Task.Run(() => new EventId(1)).ConfigureAwait(false);
-        }
-
-        /// <inheritdoc />
-        protected override async Task<EventId> GetViewEventIdAsync()
-        {
-            return await Task.Run(() => new EventId(2)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -98,7 +106,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetViewActionResultAsync(FakeCrudViewResponse viewResponse)
+        protected override async Task<IActionResult> GetViewActionResultAsync(FakeCrudViewResponse? viewResponse)
         {
             return await Task.FromResult(Ok(viewResponse)).ConfigureAwait(false);
         }
@@ -110,7 +118,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetAddActionResultAsync(int result)
+        protected override async Task<IActionResult> GetAddActionResultAsync(int? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
@@ -119,12 +127,6 @@ namespace Whipstaff.Testing
         protected override Task<FakeCrudAddCommand> GetAddCommandAsync(int addRequestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
         {
             return Task.FromResult(new FakeCrudAddCommand(addRequestDto, claimsPrincipal));
-        }
-
-        /// <inheritdoc />
-        protected override async Task<EventId> GetAddEventIdAsync()
-        {
-            return await Task.FromResult(new EventId(3)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -143,13 +145,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<EventId> GetDeleteEventIdAsync()
-        {
-            return await Task.FromResult(new EventId(4)).ConfigureAwait(false);
-        }
-
-        /// <inheritdoc />
-        protected override async Task<IActionResult> GetDeleteActionResultAsync(long result)
+        protected override async Task<IActionResult> GetDeleteActionResultAsync(long? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
@@ -167,12 +163,6 @@ namespace Whipstaff.Testing
             CancellationToken cancellationToken)
         {
             return Task.FromResult(new FakeCrudUpdateCommand(updateRequestDto, claimsPrincipal));
-        }
-
-        /// <inheritdoc />
-        protected override async Task<EventId> GetUpdateEventIdAsync()
-        {
-            return await Task.Run(() => new EventId(5)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

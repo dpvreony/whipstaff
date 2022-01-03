@@ -37,7 +37,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{B4DE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Rx", "Whipstaff.Rx\Whipstaff.Rx.csproj", "{169B792E-8529-43E6-A1D2-7CCA3DE0B557}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Wpf.Mahapps", "Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj", "{EAE78277-C018-40CB-939F-4C077B7C50F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.Mahapps", "Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj", "{EAE78277-C018-40CB-939F-4C077B7C50F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Windows", "Whipstaff.Windows\Whipstaff.Windows.csproj", "{CA159AE1-8795-43F7-A7DC-3A2682C8E6CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,10 @@ Global
 		{EAE78277-C018-40CB-939F-4C077B7C50F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAE78277-C018-40CB-939F-4C077B7C50F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE78277-C018-40CB-939F-4C077B7C50F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA159AE1-8795-43F7-A7DC-3A2682C8E6CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA159AE1-8795-43F7-A7DC-3A2682C8E6CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA159AE1-8795-43F7-A7DC-3A2682C8E6CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA159AE1-8795-43F7-A7DC-3A2682C8E6CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

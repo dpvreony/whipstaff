@@ -33,7 +33,7 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                var observable = new Subject<int>();
+                using (var observable = new Subject<int>())
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                     _ => nextCount++,
                     featureUsageTrackingManager,
@@ -57,7 +57,7 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
+                using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                     _ => nextCount++,
                     featureUsageTrackingManager,
@@ -88,7 +88,7 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                var observable = new Subject<int>();
+                using (var observable = new Subject<int>())
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                     _ => nextCount++,
                     () => completedCount++,
@@ -116,7 +116,7 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
+                using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                     _ => nextCount++,
                     () => completedCount++,
@@ -147,23 +147,25 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var errorCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = new Subject<int>();
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    _ => errorCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, errorCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    observable.OnNext(1);
+                    using (var observable = new Subject<int>())
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               _ => errorCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, errorCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, errorCount);
+                        observable.OnNext(1);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, errorCount);
+                    }
                 }
             }
 
@@ -178,7 +180,7 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
+                using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                     _ => nextCount++,
                     _ => errorCount++,
@@ -213,7 +215,7 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                var observable = new Subject<int>();
+                using (var observable = new Subject<int>())
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                     _ => nextCount++,
                     _ => errorCount++,
@@ -242,26 +244,28 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    _ => errorCount++,
-                    () => completedCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    _ = await observable.Execute(Unit.Default);
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               _ => errorCount++,
+                               () => completedCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                        _ = await observable.Execute(Unit.Default);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
+                    }
                 }
             }
 
@@ -340,20 +344,22 @@ namespace Whipstaff.UnitTests.Rx
             public void SubjectFiresOffNextSubscription()
             {
                 var nextCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = new Subject<int>();
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    observable.OnNext(1);
+                    using (var observable = new Subject<int>())
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
 
-                    Assert.Equal(1, nextCount);
+                        observable.OnNext(1);
+
+                        Assert.Equal(1, nextCount);
+                    }
                 }
             }
 
@@ -364,20 +370,22 @@ namespace Whipstaff.UnitTests.Rx
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
                 var nextCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    _ = await observable.Execute(Unit.Default);
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
 
-                    Assert.Equal(1, nextCount);
+                        _ = await observable.Execute(Unit.Default);
+
+                        Assert.Equal(1, nextCount);
+                    }
                 }
             }
         }
@@ -395,23 +403,25 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = new Subject<int>();
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    () => completedCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, completedCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    observable.OnNext(1);
+                    using (var observable = new Subject<int>())
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               () => completedCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, completedCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, completedCount);
+                        observable.OnNext(1);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, completedCount);
+                    }
                 }
             }
 
@@ -423,23 +433,26 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
 
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    () => completedCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, completedCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    _ = await observable.Execute(Unit.Default);
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               () => completedCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, completedCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, completedCount);
+                        _ = await observable.Execute(Unit.Default);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, completedCount);
+                    }
                 }
             }
         }
@@ -457,23 +470,25 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var errorCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = new Subject<int>();
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    _ => errorCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, errorCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    observable.OnNext(1);
+                    using (var observable = new Subject<int>())
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               _ => errorCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, errorCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, errorCount);
+                        observable.OnNext(1);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, errorCount);
+                    }
                 }
             }
 
@@ -485,23 +500,25 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var errorCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    _ => errorCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, errorCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    _ = await observable.Execute(Unit.Default);
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               _ => errorCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, errorCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, errorCount);
+                        _ = await observable.Execute(Unit.Default);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, errorCount);
+                    }
                 }
             }
         }
@@ -520,26 +537,28 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = new Subject<int>();
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    _ => errorCount++,
-                    () => completedCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    observable.OnNext(1);
+                    using (var observable = new Subject<int>())
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               _ => errorCount++,
+                               () => completedCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                        observable.OnNext(1);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
+                    }
                 }
             }
 
@@ -552,26 +571,28 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
-                var subFeatureName = "FeatureTwo";
-
-                var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit));
-                using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
-                    _ => nextCount++,
-                    _ => errorCount++,
-                    () => completedCount++,
-                    featureUsageTrackingSession,
-                    subFeatureName))
+                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    Assert.Equal(0, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                    var subFeatureName = "FeatureTwo";
 
-                    _ = await observable.Execute(Unit.Default);
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
+                               _ => nextCount++,
+                               _ => errorCount++,
+                               () => completedCount++,
+                               featureUsageTrackingSession,
+                               subFeatureName))
+                    {
+                        Assert.Equal(0, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
 
-                    Assert.Equal(1, nextCount);
-                    Assert.Equal(0, errorCount);
-                    Assert.Equal(0, completedCount);
+                        _ = await observable.Execute(Unit.Default);
+
+                        Assert.Equal(1, nextCount);
+                        Assert.Equal(0, errorCount);
+                        Assert.Equal(0, completedCount);
+                    }
                 }
             }
 

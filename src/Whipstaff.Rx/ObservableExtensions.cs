@@ -18,7 +18,7 @@ namespace Whipstaff.Rx
         /// <typeparam name="TSource">The type for the input observable.</typeparam>
         /// <param name="source">The input observable source.</param>
         /// <returns>A tuple representing the previous and current values.</returns>
-        public static IObservable<(TSource Previous, TSource Current)> ObserveCurrentAndPrevious<TSource>(this IObservable<TSource> source)
+        public static IObservable<(TSource? Previous, TSource? Current)> ObserveCurrentAndPrevious<TSource>(this IObservable<TSource> source)
         {
             return source.Scan(
                 (Previous: default(TSource), Current: default(TSource)),
@@ -37,8 +37,8 @@ namespace Whipstaff.Rx
         /// <param name="selector">Selector to process the tuple of the previous and current values.</param>
         /// <returns>The output of the selector function.</returns>
         public static IObservable<TResult> ObserveCurrentAndPrevious<TSource, TResult>(
-            this IObservable<TSource> source,
-            Func<TSource, TSource, TResult> selector)
+            this IObservable<TSource?> source,
+            Func<TSource?, TSource?, TResult> selector)
         {
             return source.Scan(
                 Tuple.Create(default(TSource), default(TSource)),

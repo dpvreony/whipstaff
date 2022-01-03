@@ -49,7 +49,9 @@ namespace Whipstaff.Runtime.FileProcessing
             {
                 fileAction(tempFileName);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 exceptions.Add(e);
             }
@@ -74,7 +76,7 @@ namespace Whipstaff.Runtime.FileProcessing
         /// <param name="fileAction">The action to carry out referencing the file.</param>
         /// <param name="skipDeleteException">Whether to skip the exception from attempting to delete the temporary file.</param>
         /// <returns>Result from the file action.</returns>
-        public static TResult WithTempFile<TResult>(
+        public static TResult? WithTempFile<TResult>(
             byte[] fileAsBytes,
             string fileExtension,
             Func<string, TResult> fileAction,
@@ -104,7 +106,9 @@ namespace Whipstaff.Runtime.FileProcessing
             {
                 result = fileAction(tempFileName);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 exceptions.Add(e);
             }
@@ -128,7 +132,9 @@ namespace Whipstaff.Runtime.FileProcessing
             {
                 File.Delete(tempFileName);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 if (!skipDeleteException)
                 {

@@ -8,12 +8,12 @@ namespace Whipstaff.Testing.MediatR
     /// <summary>
     /// CQRS Query Handler for the CRUD View Query.
     /// </summary>
-    public class FakeCrudViewQueryHandler : IRequestHandler<FakeCrudViewQuery, FakeCrudViewResponse>
+    public class FakeCrudViewQueryHandler : IRequestHandler<FakeCrudViewQuery, FakeCrudViewResponse?>
     {
         /// <inheritdoc />
-        public Task<FakeCrudViewResponse> Handle(FakeCrudViewQuery request, CancellationToken cancellationToken)
+        public Task<FakeCrudViewResponse?> Handle(FakeCrudViewQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new FakeCrudViewResponse());
+            return Task.FromResult(new FakeCrudViewResponse())!;
         }
     }
 }
