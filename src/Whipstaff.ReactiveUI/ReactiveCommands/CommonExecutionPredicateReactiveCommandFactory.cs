@@ -475,7 +475,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
 
             if (commandFunc6 == null)
             {
-                throw new ArgumentNullException(nameof(commandFunc5));
+                throw new ArgumentNullException(nameof(commandFunc6));
             }
 
             var cmd1 = ReactiveCommand.Create(
