@@ -47,6 +47,15 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
+    - name: Install DotNet workloads
+      shell: bash
+      run: |
+        dotnet workload install android
+        dotnet workload install ios
+        dotnet workload install tvos
+        dotnet workload install macos
+        dotnet workload install maui
+
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
       run: dotnet nuget locals all --clear
