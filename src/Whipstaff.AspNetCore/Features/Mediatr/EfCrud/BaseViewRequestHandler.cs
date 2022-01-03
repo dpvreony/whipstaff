@@ -19,13 +19,13 @@ namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
     /// <typeparam name="TResponse">The response type coming out of MediatR.</typeparam>
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the Entity Framework DB Set.</typeparam>
-    public abstract class BaseViewRequestHandler<TRequest, TResponse, TDbContext, TEntity> : IRequestHandler<TRequest, TResponse>
+    public abstract class BaseViewRequestHandler<TRequest, TResponse, TDbContext, TEntity> : IRequestHandler<TRequest, TResponse?>
         where TDbContext : DbContext
         where TEntity : class
-        where TRequest : IRequest<TResponse>
+        where TRequest : IRequest<TResponse?>
     {
         /// <inheritdoc />
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<TResponse?> Handle(TRequest request, CancellationToken cancellationToken)
         {
             using (var dbContext = GetDbContext())
             {
