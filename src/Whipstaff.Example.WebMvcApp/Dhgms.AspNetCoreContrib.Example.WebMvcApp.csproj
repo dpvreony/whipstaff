@@ -4,6 +4,14 @@
     <TargetFramework>netcoreapp6.0</TargetFramework>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Content Remove="package.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="package.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
@@ -15,5 +23,18 @@
     <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
   </ItemGroup>
+  
+  <!-- these tasks remove the need for gulp, grunt, npm, etc. to be used for file copying -->
+  <ItemGroup>
+    <NpmBootStrapFilesToCopy Include="$(ProjectDir)node_modules\bootstrap\dist\**\*.*" />
+    <NpmJQueryFilesToCopy Include="$(ProjectDir)node_modules\jquery\dist\**\*.*" />
+    <NpmFontAwesomeFreeFilesToCopy Include="$(ProjectDir)node_modules\@fortawesome\fontawesome-free\**\*.*" />
+  </ItemGroup>
+  <Target Name="CopyNpmTasks" BeforeTargets="BeforeBuild">
+    <Message Text="Starting NPM Package Copy Task" />
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmBootStrapFilesToCopy)" DestinationFiles="@(NpmBootStrapFilesToCopy->'$(ProjectDir)theme\input\lib\bootstrap\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmJQueryFilesToCopy)" DestinationFiles="@(NpmJQueryFilesToCopy->'$(ProjectDir)theme\input\lib\jquery\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmFontAwesomeFreeFilesToCopy)" DestinationFiles="@(NpmFontAwesomeFreeFilesToCopy->'$(ProjectDir)theme\input\lib\fontawesome-free\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
 
 </Project>

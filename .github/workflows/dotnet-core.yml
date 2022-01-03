@@ -89,6 +89,12 @@ jobs:
         dotnet list ${{ env.solutionpath }} package --vulnerable
         # TODO: pipe to text file, echo text file and error level fail build if not empty file?
 
+    - name: NPM package restore
+      run: |
+        pushd src\Whipstaff.Example.WebMvcApp\
+        npm install
+        popd
+
     - name: Run Build
       run: |
         dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true 
