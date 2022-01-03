@@ -106,7 +106,8 @@ jobs:
 
     - name: Run Build
       run: |
-        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true 
+        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
+      working-directory: src
 
     - name: Run Unit Tests
       run: |
@@ -119,10 +120,6 @@ jobs:
         bash <(curl -s https://codecov.io/bash) -X gcov -X coveragepy -t ${{ env.CODECOV_TOKEN }} -s '$PWD/artifacts/opencover' -f '*.xml'
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-    - name: Produce Nuget Packages
-      run: |
-        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
 
     - name: List outdated packages
       run: |
