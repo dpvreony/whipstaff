@@ -32,6 +32,18 @@ jobs:
     - name: Verify the head ref context
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
 
+    - name: Install Windows SDK 10.0.16299
+      shell: pwsh
+      run: |
+        Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
+        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+        $startInfo.FileName = "winsdk.exe"
+        $startInfo.Arguments = "/norestart /quiet"
+        $process = New-Object System.Diagnostics.Process
+        $process.StartInfo = $startInfo
+        $process.Start()
+        $process.WaitForExit()
+
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
