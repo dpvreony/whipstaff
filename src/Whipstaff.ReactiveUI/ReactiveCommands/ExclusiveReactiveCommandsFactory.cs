@@ -23,6 +23,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
             BehaviorSubject<int> ExclusiveLockSubject,
+            IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2) GetExclusiveCommands<
                 TParam1,
@@ -52,7 +53,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc1,
                 commandFunc2);
 
-            _ = Observable.Merge(
+            var exclusiveLockSubscription = Observable.Merge(
                     command1.IsExecuting,
                     command2.IsExecuting)
                 .ScanNumberThatAreTrue()
@@ -60,6 +61,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
 
             return (
                 numberExecuting,
+                exclusiveLockSubscription,
                 command1,
                 command2);
         }
@@ -78,6 +80,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
             BehaviorSubject<int> ExclusiveLockSubject,
+            IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2) GetExclusiveCommands<
                 TParam1,
@@ -120,13 +123,17 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc2,
                 commandCanExecute2.Merge(nobodyIsExecuting));
 
-            _ = Observable.Merge(
+            var exclusiveLockSubscription = Observable.Merge(
                     cmd1.IsExecuting,
                     cmd2.IsExecuting)
                 .ScanNumberThatAreTrue()
                 .Subscribe(numberExecuting);
 
-            return (numberExecuting, cmd1, cmd2);
+            return (
+                numberExecuting,
+                exclusiveLockSubscription,
+                cmd1,
+                cmd2);
         }
 
         /// <summary>
@@ -144,6 +151,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
             BehaviorSubject<int> ExclusiveLockSubject,
+            IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2,
             ReactiveCommand<TParam3, TResult3> Command3) GetExclusiveCommands<
@@ -184,7 +192,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc2,
                 commandFunc3);
 
-            _ = Observable.Merge(
+            var exclusiveLockSubscription = Observable.Merge(
                     command1.IsExecuting,
                     command2.IsExecuting,
                     command3.IsExecuting)
@@ -193,6 +201,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
 
             return (
                 numberExecuting,
+                exclusiveLockSubscription,
                 command1,
                 command2,
                 command3);
@@ -216,6 +225,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
             BehaviorSubject<int> ExclusiveLockSubject,
+            IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2,
             ReactiveCommand<TParam3, TResult3> Command3,
@@ -267,7 +277,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc3,
                 commandFunc4);
 
-            _ = Observable.Merge(
+            var exclusiveLockSubscription = Observable.Merge(
                     command1.IsExecuting,
                     command2.IsExecuting,
                     command3.IsExecuting,
@@ -277,6 +287,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
 
             return (
                 numberExecuting,
+                exclusiveLockSubscription,
                 command1,
                 command2,
                 command3,
@@ -304,6 +315,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
             BehaviorSubject<int> ExclusiveLockSubject,
+            IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2,
             ReactiveCommand<TParam3, TResult3> Command3,
@@ -366,7 +378,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc4,
                 commandFunc5);
 
-            _ = Observable.Merge(
+            var exclusiveLockSubscription = Observable.Merge(
                     command1.IsExecuting,
                     command2.IsExecuting,
                     command3.IsExecuting,
@@ -377,6 +389,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
 
             return (
                 numberExecuting,
+                exclusiveLockSubscription,
                 command1,
                 command2,
                 command3,
@@ -408,6 +421,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
             BehaviorSubject<int> ExclusiveLockSubject,
+            IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2,
             ReactiveCommand<TParam3, TResult3> Command3,
@@ -481,7 +495,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc5,
                 commandFunc6);
 
-            _ = Observable.Merge(
+            var exclusiveLockSubscription = Observable.Merge(
                     command1.IsExecuting,
                     command2.IsExecuting,
                     command3.IsExecuting,
@@ -493,6 +507,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
 
             return (
                 numberExecuting,
+                exclusiveLockSubscription,
                 command1,
                 command2,
                 command3,
