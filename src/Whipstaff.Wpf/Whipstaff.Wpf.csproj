@@ -10,4 +10,8 @@
     <PackageReference Include="ReactiveUI.WPF" Version="17.1.17" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
+  </ItemGroup>
+
 </Project>

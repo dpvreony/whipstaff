@@ -32,6 +32,7 @@
     <ProjectReference Include="..\Whipstaff.MsSql\Whipstaff.MsSql.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
     <ProjectReference Include="..\Whipstaff.Oracle\Whipstaff.Oracle.csproj" />
+    <ProjectReference Include="..\Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
     <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />

@@ -10,6 +10,18 @@ namespace Whipstaff.Rx
     public static class ObservableExtensions
     {
         /// <summary>
+        /// Produces an observable that scans for the number of items in the sequence that are true.
+        /// </summary>
+        /// <param name="observable">The observable boolean sequence to scan.</param>
+        /// <returns></returns>
+        public static IObservable<int> ScanNumberThatAreTrue(this IObservable<bool> observable)
+        {
+            return observable.Scan(
+                0,
+                (accumulatedTotal, isRunning) => accumulatedTotal + (isRunning ? 1 : 0));
+        }
+
+        /// <summary>
         /// Produces an observable for monitoring the previous and current values.
         /// </summary>
         /// <remarks>
