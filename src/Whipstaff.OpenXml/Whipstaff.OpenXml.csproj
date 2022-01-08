@@ -6,7 +6,7 @@
 
   <ItemGroup>
       <PackageReference Include="DocumentFormat.OpenXml" Version="2.15.0" />
-      <PackageReference Include="MediatR" Version="9.0.0" />
+      <PackageReference Include="MediatR" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>

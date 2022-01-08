@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using MediatR;
 using MediatR.Pipeline;
 
 namespace Whipstaff.Core.Mediatr
@@ -16,7 +17,7 @@ namespace Whipstaff.Core.Mediatr
     public sealed class RequestPostProcessorRegistrationHandler<TImplementationType, TRequest, TResponse>
         : IRequestPostProcessorRegistrationHandler
         where TImplementationType : class, IRequestPostProcessor<TRequest, TResponse>
-        where TRequest : notnull
+        where TRequest : IRequest<TResponse>
     {
         /// <inheritdoc/>
         public Type ServiceType => typeof(IRequestPostProcessor<TRequest, TResponse>);
