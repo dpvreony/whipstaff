@@ -38,7 +38,8 @@ namespace Whipstaff.Testing
         long?,
         FakeCrudUpdateCommand,
         int,
-        FakeCrudUpdateResponse>
+        FakeCrudUpdateResponse,
+        FakeCrudControllerLogMessageActions>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudController"/> class.
@@ -48,6 +49,7 @@ namespace Whipstaff.Testing
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="commandFactory"></param>
         /// <param name="queryFactory"></param>
+        /// <param name="logMessageActions"></param>
         public FakeCrudController(IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
@@ -65,18 +67,15 @@ namespace Whipstaff.Testing
                 FakeCrudListRequest,
                 IList<int>,
                 FakeCrudViewQuery,
-                FakeCrudViewResponse> queryFactory)
+                FakeCrudViewResponse> queryFactory,
+            FakeCrudControllerLogMessageActions logMessageActions)
             : base(
                 authorizationService,
                 logger,
                 mediator,
                 commandFactory,
                 queryFactory,
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"),
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(2), "{Message}"),
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(3), "{Message}"),
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(4), "{Message}"),
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(5), "{Message}"))
+                logMessageActions)
         {
         }
 
