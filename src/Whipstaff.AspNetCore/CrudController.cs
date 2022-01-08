@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
+using Whipstaff.AspNetCore.Features.Logging;
 using Whipstaff.Core;
 
 namespace Whipstaff.AspNetCore
@@ -19,7 +20,6 @@ namespace Whipstaff.AspNetCore
     /// <summary>
     /// A generic controller supporting CRUD operations. Pre-defines CQRS activities along with Authorization and logging.
     /// </summary>
-    /// <typeparam name="TInheritingClass">The type of the inheriting class. Used for compile time validation of objects passed in such as the logger.</typeparam>
     /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
     /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
     /// <typeparam name="TListQueryResponse">The type for the Response DTO for the List Operation.</typeparam>
@@ -33,9 +33,9 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateCommand">The type for the Update Command.</typeparam>
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
+    /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for re-use in pattern")]
     public abstract class CrudController<
-            TInheritingClass,
             TListQuery,
             TListRequestDto,
             TListQueryResponse,
@@ -48,9 +48,9 @@ namespace Whipstaff.AspNetCore
             TDeleteResponseDto,
             TUpdateCommand,
             TUpdateRequestDto,
-            TUpdateResponseDto>
-        : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
-        where TInheritingClass : CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto>
+            TUpdateResponseDto,
+            TCrudControllerLogMessageActions>
+        : QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
         where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
         where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
@@ -60,47 +60,46 @@ namespace Whipstaff.AspNetCore
         where TViewQueryResponse : class
         where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
         where TUpdateResponseDto : class
+        where TCrudControllerLogMessageActions : ICrudControllerLogMessageActions
     {
-        private readonly Action<ILogger, string, Exception?> _addLogAction;
-        private readonly Action<ILogger, string, Exception?> _deleteLogAction;
-        private readonly Action<ILogger, string, Exception?> _updateLogAction;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="CrudController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto}"/> class.
+        /// Initializes a new instance of the <see cref="CrudController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="commandFactory">The factory for generating Command messages.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
-        /// <param name="addLogAction"></param>
-        /// <param name="deleteLogAction"></param>
-        /// <param name="listLogAction"></param>
-        /// <param name="updateLogAction"></param>
-        /// <param name="viewLogAction"></param>
+        /// <param name="logMessageActions">Log Message Actions for the logging events in the controller.</param>
         protected CrudController(
             IAuthorizationService authorizationService,
-            ILogger<TInheritingClass> logger,
+            ILogger<CrudController<
+                TListQuery,
+                TListRequestDto,
+                TListQueryResponse,
+                TViewQuery,
+                TViewQueryResponse,
+                TAddCommand,
+                TAddRequestDto,
+                TAddResponseDto,
+                TDeleteCommand,
+                TDeleteResponseDto,
+                TUpdateCommand,
+                TUpdateRequestDto,
+                TUpdateResponseDto,
+                TCrudControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
-            Action<ILogger, string, Exception?> addLogAction,
-            Action<ILogger, string, Exception?> deleteLogAction,
-            Action<ILogger, string, Exception?> listLogAction,
-            Action<ILogger, string, Exception?> updateLogAction,
-            Action<ILogger, string, Exception?> viewLogAction)
+            TCrudControllerLogMessageActions logMessageActions)
             : base(
                   authorizationService,
                   logger,
                   mediator,
                   queryFactory,
-                  listLogAction,
-                  viewLogAction)
+                  logMessageActions)
         {
             CommandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
-            _addLogAction = addLogAction ?? throw new ArgumentNullException(nameof(addLogAction));
-            _deleteLogAction = deleteLogAction ?? throw new ArgumentNullException(nameof(deleteLogAction));
-            _updateLogAction = updateLogAction ?? throw new ArgumentNullException(nameof(updateLogAction));
         }
 
         /// <summary>
@@ -136,7 +135,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 id,
-                _deleteLogAction,
+                this.LogMessageActionMappings.DeleteEventLogMessageAction,
                 deletePolicyName,
                 GetDeleteActionResultAsync,
                 GetDeleteCommandAsync,
@@ -160,7 +159,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 addRequestDto,
-                _addLogAction,
+                this.LogMessageActionMappings.AddEventLogMessageAction,
                 addPolicyName,
                 GetAddActionResultAsync,
                 GetAddCommandAsync,
@@ -187,7 +186,7 @@ namespace Whipstaff.AspNetCore
                 AuthorizationService,
                 id,
                 updateRequestDto,
-                _updateLogAction,
+                this.LogMessageActionMappings.UpdateEventLogMessageAction,
                 updatePolicyName,
                 GetUpdateActionResultAsync,
                 GetUpdateCommandAsync,

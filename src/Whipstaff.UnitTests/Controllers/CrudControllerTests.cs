@@ -85,6 +85,7 @@ namespace Whipstaff.UnitTests.Controllers
                         IList<int>,
                         FakeCrudViewQuery,
                         FakeCrudViewResponse>>?,
+                    FakeCrudControllerLogMessageActions?,
                     string> ThrowsArgumentNullExceptionTestData = new()
             {
                 {
@@ -93,6 +94,7 @@ namespace Whipstaff.UnitTests.Controllers
                     MockMediatorFactory(),
                     MockCommandFactory(),
                     MockQueryFactory(),
+                    new FakeCrudControllerLogMessageActions(),
                     "authorizationService"
                 },
 
@@ -102,6 +104,7 @@ namespace Whipstaff.UnitTests.Controllers
                     MockMediatorFactory(),
                     MockCommandFactory(),
                     MockQueryFactory(),
+                    new FakeCrudControllerLogMessageActions(),
                     "logger"
                 },
 
@@ -111,6 +114,7 @@ namespace Whipstaff.UnitTests.Controllers
                     null,
                     MockCommandFactory(),
                     MockQueryFactory(),
+                    new FakeCrudControllerLogMessageActions(),
                     "mediator"
                 },
 
@@ -120,6 +124,7 @@ namespace Whipstaff.UnitTests.Controllers
                     MockMediatorFactory(),
                     null,
                     MockQueryFactory(),
+                    new FakeCrudControllerLogMessageActions(),
                     "commandFactory"
                 },
 
@@ -129,7 +134,18 @@ namespace Whipstaff.UnitTests.Controllers
                     MockMediatorFactory(),
                     MockCommandFactory(),
                     null,
+                    new FakeCrudControllerLogMessageActions(),
                     "queryFactory"
+                },
+
+                {
+                    MockAuthorizationServiceFactory(),
+                    MockLoggerFactory(),
+                    MockMediatorFactory(),
+                    MockCommandFactory(),
+                    MockQueryFactory(),
+                    null,
+                    "logMessageActionMappings"
                 },
             };
 
@@ -150,6 +166,7 @@ namespace Whipstaff.UnitTests.Controllers
             /// <param name="mediator">Instance of the CQRS mediator instance.</param>
             /// <param name="commandFactory">Instance of the Command factory used for creating commands to pass to the mediator.</param>
             /// <param name="queryFactory">Instance of the Query factory used for creating queries to pass to the mediator.</param>
+            /// <param name="logMessageActionMappings">Log Message Action Mapping.</param>
             /// <param name="argumentNullExceptionParameterName">Name of the parameter expected to cause the exception.</param>
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
@@ -172,6 +189,7 @@ namespace Whipstaff.UnitTests.Controllers
                     IList<int>,
                     FakeCrudViewQuery,
                     FakeCrudViewResponse?>>? queryFactory,
+                FakeCrudControllerLogMessageActions? logMessageActionMappings,
                 string argumentNullExceptionParameterName)
             {
                 var ex = Assert.Throws<ArgumentNullException>(() => new FakeCrudController(
@@ -179,7 +197,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger?.Object!,
                     mediator?.Object!,
                     commandFactory?.Object!,
-                    queryFactory?.Object!));
+                    queryFactory?.Object!,
+                    logMessageActionMappings!));
 
                 Assert.Equal(argumentNullExceptionParameterName, ex.ParamName);
 
@@ -205,7 +224,8 @@ namespace Whipstaff.UnitTests.Controllers
                     mockLogger.Object,
                     mockMediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object))
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions()))
                 {
                     Assert.NotNull(instance);
                 }
@@ -266,7 +286,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -312,7 +333,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -400,7 +422,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -443,7 +466,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -488,7 +512,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -571,7 +596,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -618,7 +644,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -703,7 +730,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -746,7 +774,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -842,7 +871,8 @@ namespace Whipstaff.UnitTests.Controllers
                     logger.Object,
                     mediator.Object,
                     commandFactory.Object,
-                    queryFactory.Object)
+                    queryFactory.Object,
+                    new FakeCrudControllerLogMessageActions())
                 {
                     ControllerContext = new ControllerContext
                     {

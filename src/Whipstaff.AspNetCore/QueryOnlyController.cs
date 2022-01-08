@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
+using Whipstaff.AspNetCore.Features.Logging;
 using Whipstaff.Core;
 
 namespace Whipstaff.AspNetCore
@@ -19,41 +20,36 @@ namespace Whipstaff.AspNetCore
     /// <summary>
     /// A generic controller supporting List and View operations. Pre-defines CQRS activities along with Authorization and logging.
     /// </summary>
-    /// <typeparam name="TInheritingClass">The type of the inheriting class. Used for compile time validation of objects passed in such as the logger.</typeparam>
     /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
     /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
     /// <typeparam name="TListQueryResponse">The type for the Response DTO for the List Operation.</typeparam>
     /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
+    /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for ru-use in pattern")]
-    public abstract class QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
+    public abstract class QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
         : Controller
-        where TInheritingClass : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse>
         where TListRequestDto : class, new()
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListQueryResponse : class
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
         where TViewQueryResponse : class
+        where TQueryOnlyControllerLogMessageActions : IQueryOnlyControllerLogMessageActions
     {
-        private readonly Action<ILogger, string, Exception?> _listLogMessageAction;
-        private readonly Action<ILogger, string, Exception?> _viewLogMessageAction;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueryOnlyController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse}"/> class.
+        /// Initializes a new instance of the <see cref="QueryOnlyController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
-        /// <param name="listLogMessageAction"></param>
-        /// <param name="viewLogMessageAction"></param>
+        /// <param name="logMessageActionMappings">Log Message Action mappings</param>
         protected QueryOnlyController(
             IAuthorizationService authorizationService,
-            ILogger<TInheritingClass> logger,
+            ILogger<QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
-            Action<ILogger, string, Exception?> listLogMessageAction,
-            Action<ILogger, string, Exception?> viewLogMessageAction)
+            TQueryOnlyControllerLogMessageActions logMessageActionMappings)
         {
             AuthorizationService = authorizationService ??
                                          throw new ArgumentNullException(nameof(authorizationService));
@@ -65,8 +61,7 @@ namespace Whipstaff.AspNetCore
             QueryFactory = queryFactory ??
                             throw new ArgumentNullException(nameof(queryFactory));
 
-            _listLogMessageAction = listLogMessageAction ?? throw new ArgumentNullException(nameof(listLogMessageAction));
-            _viewLogMessageAction = viewLogMessageAction ?? throw new ArgumentNullException(nameof(viewLogMessageAction));
+            LogMessageActionMappings = logMessageActionMappings ?? throw new ArgumentNullException(nameof(logMessageActionMappings));
         }
 
         /// <summary>
@@ -77,7 +72,12 @@ namespace Whipstaff.AspNetCore
         /// <summary>
         /// Gets the logging framework instance.
         /// </summary>
-        protected ILogger<TInheritingClass> Logger { get; }
+        protected ILogger Logger { get; }
+
+        /// <summary>
+        /// Gets the log message action mappings.
+        /// </summary>
+        protected TQueryOnlyControllerLogMessageActions LogMessageActionMappings { get; }
 
         /// <summary>
         /// Gets the Mediator instance used for issuing CQRS messages.
@@ -181,7 +181,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 requestDto,
-                _listLogMessageAction,
+                LogMessageActionMappings.ListEventLogMessageAction,
                 listPolicyName,
                 GetListActionResultAsync,
                 GetListQueryAsync,
@@ -199,7 +199,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 id,
-                _viewLogMessageAction,
+                LogMessageActionMappings.ViewEventLogMessageAction,
                 viewPolicyName,
                 GetViewActionResultAsync,
                 GetViewQueryAsync,
