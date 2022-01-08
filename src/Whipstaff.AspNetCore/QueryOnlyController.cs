@@ -20,7 +20,6 @@ namespace Whipstaff.AspNetCore
     /// <summary>
     /// A generic controller supporting List and View operations. Pre-defines CQRS activities along with Authorization and logging.
     /// </summary>
-    /// <typeparam name="TInheritingClass">The type of the inheriting class. Used for compile time validation of objects passed in such as the logger.</typeparam>
     /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
     /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
     /// <typeparam name="TListQueryResponse">The type for the Response DTO for the List Operation.</typeparam>
@@ -28,9 +27,8 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for ru-use in pattern")]
-    public abstract class QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
+    public abstract class QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
         : Controller
-        where TInheritingClass : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
         where TListRequestDto : class, new()
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListQueryResponse : class
@@ -39,7 +37,7 @@ namespace Whipstaff.AspNetCore
         where TQueryOnlyControllerLogMessageActions : IQueryOnlyControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueryOnlyController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="QueryOnlyController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
@@ -48,7 +46,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="logMessageActionMappings">Log Message Action mappings</param>
         protected QueryOnlyController(
             IAuthorizationService authorizationService,
-            ILogger<TInheritingClass> logger,
+            ILogger<QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             TQueryOnlyControllerLogMessageActions logMessageActionMappings)

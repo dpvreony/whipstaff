@@ -20,7 +20,6 @@ namespace Whipstaff.AspNetCore
     /// <summary>
     /// A generic controller supporting CRUD operations. Pre-defines CQRS activities along with Authorization and logging.
     /// </summary>
-    /// <typeparam name="TInheritingClass">The type of the inheriting class. Used for compile time validation of objects passed in such as the logger.</typeparam>
     /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
     /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
     /// <typeparam name="TListQueryResponse">The type for the Response DTO for the List Operation.</typeparam>
@@ -37,7 +36,6 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
     [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for re-use in pattern")]
     public abstract class CrudController<
-            TInheritingClass,
             TListQuery,
             TListRequestDto,
             TListQueryResponse,
@@ -52,8 +50,7 @@ namespace Whipstaff.AspNetCore
             TUpdateRequestDto,
             TUpdateResponseDto,
             TCrudControllerLogMessageActions>
-        : QueryOnlyController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
-        where TInheritingClass : CrudController<TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions>
+        : QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
         where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
         where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
@@ -66,7 +63,7 @@ namespace Whipstaff.AspNetCore
         where TCrudControllerLogMessageActions : ICrudControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CrudController{TInheritingClass, TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="CrudController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
@@ -76,7 +73,21 @@ namespace Whipstaff.AspNetCore
         /// <param name="logMessageActions">Log Message Actions for the logging events in the controller.</param>
         protected CrudController(
             IAuthorizationService authorizationService,
-            ILogger<TInheritingClass> logger,
+            ILogger<CrudController<
+                TListQuery,
+                TListRequestDto,
+                TListQueryResponse,
+                TViewQuery,
+                TViewQueryResponse,
+                TAddCommand,
+                TAddRequestDto,
+                TAddResponseDto,
+                TDeleteCommand,
+                TDeleteResponseDto,
+                TUpdateCommand,
+                TUpdateRequestDto,
+                TUpdateResponseDto,
+                TCrudControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
