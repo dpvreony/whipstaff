@@ -41,7 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.Mahapps", "Wh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Windows", "Whipstaff.Windows\Whipstaff.Windows.csproj", "{CA159AE1-8795-43F7-A7DC-3A2682C8E6CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.ReactiveUI", "Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj", "{FC16B508-41FF-47CE-A16A-A8AB3B26309A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.ReactiveUI", "Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj", "{FC16B508-41FF-47CE-A16A-A8AB3B26309A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Entityframework.Relational", "Whipstaff.Entityframework.Relational\Whipstaff.Entityframework.Relational.csproj", "{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +127,10 @@ Global
 		{FC16B508-41FF-47CE-A16A-A8AB3B26309A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC16B508-41FF-47CE-A16A-A8AB3B26309A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC16B508-41FF-47CE-A16A-A8AB3B26309A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
