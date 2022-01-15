@@ -70,6 +70,13 @@ namespace Whipstaff.Windows.ActiveDirectory
         public static TimeSpan? GetMaxPasswordAge()
         {
             using (Domain d = Domain.GetCurrentDomain())
+            {
+                return GetMaxPasswordAge(d);
+            }
+        }
+
+        public static TimeSpan? GetMaxPasswordAge(Domain d)
+        {
             using (DirectoryEntry domain = d.GetDirectoryEntry())
             {
                 using (DirectorySearcher ds = new(
@@ -104,15 +111,13 @@ namespace Whipstaff.Windows.ActiveDirectory
 
                         ResultPropertyValueCollection valueCollection = (ResultPropertyValueCollection)dictionaryEntry.Value;
                         var resultAsObject = valueCollection[0];
-                        if (resultAsObject == null)
-                        {
-                            return null;
-                        }
 
                         var resultAsLong = (long)resultAsObject;
 
                         return TimeSpan.FromTicks(resultAsLong).Duration();
                     }
+
+                    return null;
                 }
             }
         }
