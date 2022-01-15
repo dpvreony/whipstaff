@@ -1,20 +1,34 @@
-﻿using System;
+﻿// Copyright (c) 2019 dpvreony and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
 using System.Collections;
-using System.Collections.Generic;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices.ActiveDirectory;
 
 namespace Whipstaff.Windows.ActiveDirectory
 {
+    /// <summary>
+    /// Helper methods for Active Directory User Accounts.
+    /// </summary>
     public static class UserAccountHelpers
     {
-        public static UserAccountState GetActiveDirectoryUserState(UserPrincipal userPrincipal, TimeSpan expiryThreshold)
+        /// <summary>
+        /// Gets the state of a user account. It checks if the account is locked, the password has expired,
+        /// the password is close to expiring based on a threshold, the account has expired, or the
+        /// account is close to expiring.
+        /// </summary>
+        /// <param name="authenticablePrincipal">The account principal to check.</param>
+        /// <param name="expiryThreshold">The expiry threshold to check for.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">authenticablePrincipal is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">expiryThreshold is not a positive number.</exception>
+        public static UserAccountState GetActiveDirectoryUserState(
+            AuthenticablePrincipal authenticablePrincipal,
+            TimeSpan expiryThreshold)
         {
-            if (userPrincipal == null)
-            {
-                throw new ArgumentNullException(nameof(userPrincipal));
-            }
+            ArgumentNullException.ThrowIfNull(authenticablePrincipal);
 
             if (expiryThreshold.TotalMilliseconds < 0)
             {
@@ -23,15 +37,15 @@ namespace Whipstaff.Windows.ActiveDirectory
 
             var useThreshold = Math.Abs(expiryThreshold.TotalMilliseconds) > 1;
 
-            if (userPrincipal.IsAccountLockedOut())
+            if (authenticablePrincipal.IsAccountLockedOut())
             {
                 return UserAccountState.Locked;
             }
 
             var maxDays = GetMaxPasswordAge()?.TotalDays;
-            if (!userPrincipal.PasswordNeverExpires && userPrincipal.LastPasswordSet.HasValue && maxDays.HasValue)
+            if (!authenticablePrincipal.PasswordNeverExpires && authenticablePrincipal.LastPasswordSet.HasValue && maxDays.HasValue)
             {
-                var expiry = userPrincipal.LastPasswordSet.Value.AddDays(maxDays.Value);
+                var expiry = authenticablePrincipal.LastPasswordSet.Value.AddDays(maxDays.Value);
 
                 // don't reorder these
                 if (expiry < DateTime.Now)
@@ -46,7 +60,7 @@ namespace Whipstaff.Windows.ActiveDirectory
                 }
             }
 
-            var accountExpiry = userPrincipal.AccountExpirationDate;
+            var accountExpiry = authenticablePrincipal.AccountExpirationDate;
             if (accountExpiry.HasValue && accountExpiry.Value < DateTime.Now.Add(expiryThreshold))
             {
                 // don't reorder these
@@ -67,6 +81,10 @@ namespace Whipstaff.Windows.ActiveDirectory
             return UserAccountState.Ok;
         }
 
+        /// <summary>
+        /// Gets the Maximum Password Age on the current domain.
+        /// </summary>
+        /// <returns>The max password age, if set.</returns>
         public static TimeSpan? GetMaxPasswordAge()
         {
             using (Domain d = Domain.GetCurrentDomain())
@@ -75,12 +93,19 @@ namespace Whipstaff.Windows.ActiveDirectory
             }
         }
 
-        public static TimeSpan? GetMaxPasswordAge(Domain d)
+        /// <summary>
+        /// Gets the maximum password age on the specified domain.
+        /// </summary>
+        /// <param name="domain">The active directory domain to check.</param>
+        /// <returns>The max password age, if set.</returns>
+        public static TimeSpan? GetMaxPasswordAge(Domain domain)
         {
-            using (DirectoryEntry domain = d.GetDirectoryEntry())
+            ArgumentNullException.ThrowIfNull(domain);
+
+            using (DirectoryEntry directoryEntry = domain.GetDirectoryEntry())
             {
                 using (DirectorySearcher ds = new(
-                           domain,
+                           directoryEntry,
                            "(objectClass=*)",
                            null,
                            SearchScope.Base
