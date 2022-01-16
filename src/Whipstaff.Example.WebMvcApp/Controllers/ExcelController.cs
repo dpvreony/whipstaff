@@ -12,7 +12,7 @@ using Whipstaff.AspNetCore.FileTransfer;
 using Whipstaff.Core.MediaTypeHeaders;
 using Whipstaff.OpenXml.Excel;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
+namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
 {
     /// <summary>
     /// Sample web controller for an XLSX download.

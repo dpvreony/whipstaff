@@ -11,9 +11,8 @@ using Couchbase.Extensions.DependencyInjection;
 using Couchbase.Extensions.Locks;
 using Couchbase.KeyValue;
 using Foundatio.Lock;
-using Whipstaff.Couchbase;
 
-namespace Dhgms.NetContrib.Playground.Features.Couchbase.Foundatio
+namespace Whipstaff.Couchbase
 {
     /// <summary>
     /// A Couchbase Lock Distributed Log Provider.

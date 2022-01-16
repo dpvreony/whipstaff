@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Examples.WebMvcApp;
-using Microsoft.AspNetCore.Mvc.Testing;
+using Dhgms.AspNetCoreContrib.Example.WebMvcApp;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.IntegrationTests
+namespace Whipstaff.IntegrationTests
 {
     /// <summary>
     /// Unit Tests for a Web MVC app startup.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class WebMvcAppApplicationTest : BaseWebApplicationTest<Dhgms.AspNetCoreContrib.Examples.WebMvcApp.Startup>
+    public class WebMvcAppApplicationTest : BaseWebApplicationTest<Startup>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WebMvcAppApplicationTest"/> class.
