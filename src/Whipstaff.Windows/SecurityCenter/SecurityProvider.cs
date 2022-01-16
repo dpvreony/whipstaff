@@ -1,4 +1,4 @@
-﻿namespace Dhgms.Whipstaff.Core.Model
+﻿namespace Whipstaff.Windows.SecurityCenter
 {
     /// <summary>
     /// Enumeration representing the available security providers

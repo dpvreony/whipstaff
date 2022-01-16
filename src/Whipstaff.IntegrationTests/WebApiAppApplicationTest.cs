@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebApiApp;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.IntegrationTests
+namespace Whipstaff.IntegrationTests
 {
     /// <summary>
     /// Unit Tests for a Web API app startup.

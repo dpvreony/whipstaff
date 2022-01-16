@@ -17,7 +17,7 @@ using Whipstaff.Testing;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.MediatR;
 
-namespace Dhgms.AspNetCoreContrib.Examples.WebMvcApp
+namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
 {
     /// <summary>
     /// Start up logic for the sample Web MVC app.

@@ -2,21 +2,17 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Features.Pdf;
 using Whipstaff.AspNetCore.FileTransfer;
 using Whipstaff.Core.MediaTypeHeaders;
 
-namespace Dhgms.AspNetCoreContrib.Example.WebSite.Controllers
+namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
 {
     /// <summary>
     /// Example controller for serving pdf files.

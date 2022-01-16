@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Whipstaff.EntityFramework;
+using Whipstaff.Entityframework.Relational;
 using Xunit;
 
 namespace Whipstaff.UnitTests.EntityFramework.Relational

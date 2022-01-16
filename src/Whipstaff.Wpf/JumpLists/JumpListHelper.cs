@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -9,7 +7,7 @@ using System.Windows;
 using System.Windows.Shell;
 using Microsoft.Extensions.Logging;
 
-namespace Dhgms.Whipstaff.Desktop.Helper
+namespace Whipstaff.Wpf.JumpLists
 {
     /// <summary>
     /// Jump List Process Manager

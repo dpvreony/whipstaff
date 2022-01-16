@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using Dhgms.Whipstaff.Model.Helper;
 
 namespace Whipstaff.Windows
 {

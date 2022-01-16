@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using System.Reactive.Linq;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+
 // using ReactiveMarbles.ObservableEvents;
 
-namespace Dhgms.Whipstaff.Desktop.Features.GroupPolicyMonitoring
+namespace Whipstaff.Windows.GroupPolicyMonitoring
 {
     /// <summary>
     /// Process Manager for handling Group Policy changes.

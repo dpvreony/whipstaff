@@ -1,4 +1,4 @@
-﻿namespace Dhgms.Whipstaff.Core.Model
+﻿namespace Whipstaff.Windows.SecurityCenter
 {
     /// <summary>
     /// Enumeration of Security Provider Health States
