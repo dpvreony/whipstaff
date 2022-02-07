@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 using ReactiveUI;
 using Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction;
 
@@ -29,11 +30,15 @@ namespace Whipstaff.Wpf.InteractionFlows
         /// <param name="interaction"></param>
         /// <param name="outputFunc"></param>
         /// <returns></returns>
-        public static IDisposable RegisterHandlerToOutputFunc<TInput, TOutput>(this Interaction<TInput, TOutput> interaction, Func<TInput, TOutput> outputFunc)
+        public static IDisposable RegisterHandlerToOutputFunc<TInput, TOutput>(this Interaction<TInput, TOutput> interaction, Func<TInput, Task<TOutput>> outputFunc)
         {
             ArgumentNullException.ThrowIfNull(interaction);
 
-            return interaction.RegisterHandler(x => x.SetOutput(outputFunc(x.Input)));
+            return interaction.RegisterHandler(async x =>
+                {
+                    var result = await outputFunc(x.Input).ConfigureAwait(false);
+                    x.SetOutput(result);
+                });
         }
     }
 }

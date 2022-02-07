@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Whipstaff.Core.Entities;
 
 namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
 {
-    public sealed class OpenFileDialogRequest
+    /// <summary>
+    /// Request DTO for firing off an Open File Dialog interaction.
+    /// </summary>
+    /// <param name="Title">The title to set on the dialog.</param>
+    public sealed record OpenFileDialogRequest(string Title) : ITitle
     {
-        public string? Title { get; init; }
     }
 }

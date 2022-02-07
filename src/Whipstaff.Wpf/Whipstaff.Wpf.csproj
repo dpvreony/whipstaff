@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
     <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
   </ItemGroup>

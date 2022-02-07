@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using ReactiveUI;
 using Whipstaff.Runtime.Extensions;
 
@@ -14,7 +15,7 @@ namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static OpenFileDialogResult OnOpenFileDialog(OpenFileDialogRequest request)
+        public static Task<OpenFileDialogResult> OnOpenFileDialog(OpenFileDialogRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
 
@@ -26,11 +27,11 @@ namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
 
             if (!dialogResult)
             {
-                return OpenFileDialogResult.Cancelled();
+                return Task.FromResult(OpenFileDialogResult.Cancelled());
             }
 
             var fileNames = dialog.FileNames;
-            return OpenFileDialogResult.Proceed(fileNames);
+            return Task.FromResult(OpenFileDialogResult.Proceed(fileNames));
         }
     }
 }
