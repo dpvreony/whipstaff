@@ -54,10 +54,11 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
+# don't move beyond 6.0.100 until https://github.com/dotnet/sdk/issues/23972 is resolved
     - name: Install .NET 6
       uses: actions/setup-dotnet@v1.8.2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.100
 
     - name: Install DotNet workloads
       shell: bash
