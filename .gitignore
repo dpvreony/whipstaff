@@ -319,3 +319,6 @@ ASALocalRun/
 # MSBuild Binary and Structured Log
 *.binlog
 src/docfx_project/log.txt
+
+#npm assets
+**/theme/input/
