@@ -7,7 +7,7 @@ using Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction;
 namespace Whipstaff.Wpf.InteractionFlows
 {
     /// <summary>
-    /// Simple Registration Logic for re-usuable interaction flows.
+    /// Simple Registration Logic for re-usable interaction flows.
     /// </summary>
     public static class InteractionRegistrations
     {
@@ -15,10 +15,14 @@ namespace Whipstaff.Wpf.InteractionFlows
         /// Registers the WPF File Open Dialog interaction flow.
         /// </summary>
         /// <param name="compositeDisposable">The composite disposable to use to track the lifetime of the registration.</param>
-        public static void RegisterFileOpenDialog(CompositeDisposable compositeDisposable)
+        /// <param name="interactions">WPF Interaction Helper.</param>
+        public static void RegisterFileOpenDialog(CompositeDisposable compositeDisposable, Interactions interactions)
         {
+            ArgumentNullException.ThrowIfNull(compositeDisposable);
+            ArgumentNullException.ThrowIfNull(interactions);
+
             // ReSharper disable once ConvertClosureToMethodGroup
-            _ = Interactions.FileOpenDialog.RegisterHandlerToOutputFunc(request => OpenFileDialogHandler.OnOpenFileDialog(request))
+            _ = interactions.FileOpenDialog.RegisterHandlerToOutputFunc(request => OpenFileDialogHandler.OnOpenFileDialog(request))
                 .DisposeWith(compositeDisposable);
         }
 

@@ -20,7 +20,7 @@ namespace Whipstaff.Wpf.InteractionFlows
         /// <param name="fileOpenDialogHandler">The handling logic for a File Open Dialog Interaction request.</param>
         /// <param name="fileSaveDialogHandler">The handling logic for a File Save Dialog Interaction request.</param>
         /// <param name="printDialogHandler">The handling logic for a Print Dialog Interaction request.</param>
-        /// <param name="compositeDisposable">The composit disposable handler to register handler disposal management on.</param>
+        /// <param name="compositeDisposable">The composite disposable handler to register handler disposal management on.</param>
         /// <param name="handlerScheduler">The scheduler to register the interactions on, useful for overriding in unit\integration test scenarios.</param>
         public Interactions(
             Func<OpenFileDialogRequest, Task<OpenFileDialogResult>>? fileOpenDialogHandler,
