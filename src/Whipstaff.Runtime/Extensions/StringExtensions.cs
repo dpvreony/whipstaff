@@ -12,6 +12,27 @@ namespace Whipstaff.Runtime.Extensions
     public static class StringExtensions
     {
         /// <summary>
+        /// Carries out an action if a string is not null or whitespace.
+        /// </summary>
+        /// <param name="input">The input string to check.</param>
+        /// <param name="action">The action to carry out.</param>
+        /// <exception cref="ArgumentNullException">No action is provided.</exception>
+        public static void ActIfNotNullOrWhiteSpace(this string? input, Action<string> action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return;
+            }
+
+            action(input);
+        }
+
+        /// <summary>
         /// Removes all instances of a string.
         /// </summary>
         /// <param name="instance">The string to work on.</param>

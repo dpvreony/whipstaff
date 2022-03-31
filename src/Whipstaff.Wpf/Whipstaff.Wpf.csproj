@@ -8,9 +8,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
     <PackageReference Include="ReactiveUI.WPF" Version="17.1.50" />
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.1.4" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
     <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
   </ItemGroup>
 
