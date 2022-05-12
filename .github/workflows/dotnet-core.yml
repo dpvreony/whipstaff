@@ -162,43 +162,43 @@ jobs:
     # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: binlogs
         path: artifacts/binlog
         
     - name: store docfx
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: docfx
         path: artifacts/docfx
         
     - name: store nuget packages
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: nuget
         path: artifacts/nuget
         
     - name: store omd
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: omd
         path: artifacts/omd
         
     - name: store outdated
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: outdated
         path: artifacts/outdated
         
     - name: store snitch
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: snitch
         path: artifacts/snitch
 
     - name: store resharper dupfinder
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: dupfinder
         path: artifacts/dupfinder
