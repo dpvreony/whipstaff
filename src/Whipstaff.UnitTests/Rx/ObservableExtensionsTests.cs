@@ -16,7 +16,7 @@ namespace Whipstaff.UnitTests.Rx
     /// <summary>
     /// Unit Tests for the Observable Extensions.
     /// </summary>
-    public static class ObservableExtensionTests
+    public static partial class ObservableExtensionsTests
     {
         /// <summary>
         /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes a Next action.
