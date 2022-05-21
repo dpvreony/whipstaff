@@ -57,6 +57,10 @@
   <PropertyGroup Condition="$(TargetFramework.StartsWith('tizen'))">
     <DefineConstants>$(DefineConstants);TIZEN</DefineConstants>
   </PropertyGroup>
+  
+  <Target Name="CheckVersionSet" BeforeTargets="Compile">
+    <Error Condition="$(Version) == '' or $(Version) == '0.0.0.0' or $(Version) == '1.0.0.0'" Text="The Version is not set. Check the CI process has NBGV enabled and configured correctly." />
+  </Target>
 
   <Target Name="ValidateNugetProperties" Condition="!$(IsTestProject) or $(IsTestProject) == ''" BeforeTargets="Compile">
     <Error Condition="$(PackageDescription) == '' or $(PackageDescription) == $(DefaultPackageDescription)" Text="The Nuget PackageDescription property needs to be set for the project. Currently : '$(PackageDescription)'" />

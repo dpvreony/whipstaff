@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.5" />
     <PackageReference Include="RimDev.Stuntman" Version="3.0.0" />
   </ItemGroup>
 
@@ -32,9 +32,9 @@
   </ItemGroup>
   <Target Name="CopyNpmTasks" BeforeTargets="BeforeBuild">
     <Message Text="Starting NPM Package Copy Task" />
-    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmBootStrapFilesToCopy)" DestinationFiles="@(NpmBootStrapFilesToCopy->'$(ProjectDir)theme\input\lib\bootstrap\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmJQueryFilesToCopy)" DestinationFiles="@(NpmJQueryFilesToCopy->'$(ProjectDir)theme\input\lib\jquery\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmFontAwesomeFreeFilesToCopy)" DestinationFiles="@(NpmFontAwesomeFreeFilesToCopy->'$(ProjectDir)theme\input\lib\fontawesome-free\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmBootStrapFilesToCopy)" DestinationFiles="@(NpmBootStrapFilesToCopy->'$(ProjectDir)wwwroot\lib\bootstrap\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmJQueryFilesToCopy)" DestinationFiles="@(NpmJQueryFilesToCopy->'$(ProjectDir)wwwroot\\lib\jquery\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmFontAwesomeFreeFilesToCopy)" DestinationFiles="@(NpmFontAwesomeFreeFilesToCopy->'$(ProjectDir)wwwroot\lib\fontawesome-free\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 
 </Project>

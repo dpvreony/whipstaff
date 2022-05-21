@@ -1,6 +1,4 @@
 ﻿using System.Reactive.Linq;
-using Dhgms.Whipstaff.Core.Model;
-using Dhgms.Whipstaff.Model.Helper;
 
 namespace Whipstaff.Windows.SecurityCenter
 {

@@ -1,5 +1,5 @@
 ﻿
-namespace Dhgms.Whipstaff.Model.Helper
+namespace Whipstaff.Windows
 {
     /// <summary>
     /// HRESULT for WinApi calls

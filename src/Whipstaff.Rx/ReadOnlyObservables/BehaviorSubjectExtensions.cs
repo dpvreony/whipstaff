@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Subjects;
 
-namespace Whipstaff.Rx
+namespace Whipstaff.Rx.ReadOnlyObservables
 {
     /// <summary>
     /// Extension Methods for <see cref="System.Reactive.Subjects.BehaviorSubject{T}">BehaviorSubject</see>

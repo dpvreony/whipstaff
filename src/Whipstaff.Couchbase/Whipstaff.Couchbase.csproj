@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Couchbase.Extensions.Locks" Version="2.0.0" />
+    <PackageReference Include="Foundatio" Version="10.5.0" />
+  </ItemGroup>
+</Project>

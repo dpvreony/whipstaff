@@ -4,14 +4,11 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
 using System.Speech.Synthesis;
 using ReactiveMarbles.ObservableEvents;
 
-namespace Dhgms.Whipstaff.Model
+namespace Whipstaff.Windows.SpeechSynthesis
 {
-
-    using Dhgms.Whipstaff.Core.Model;
     /// <summary>
     /// Handler for speech synthesis.
     /// </summary>

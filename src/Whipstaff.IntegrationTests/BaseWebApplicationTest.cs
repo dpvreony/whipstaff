@@ -2,19 +2,15 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Dhgms.AspNetCoreContrib.IntegrationTests
+namespace Whipstaff.IntegrationTests
 {
     /// <summary>
     /// Base class for unit tests for netcore web apps.

@@ -21,7 +21,7 @@ jobs:
       unittestprojectpath: src/Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
         
@@ -45,19 +45,20 @@ jobs:
         $process.WaitForExit()
 
     - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
     - name: Setup .NET 5
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 5.0.x
 
+# don't move beyond 6.0.100 until https://github.com/dotnet/sdk/issues/23972 is resolved
     - name: Install .NET 6
-      uses: actions/setup-dotnet@v1.8.2
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.100
 
     - name: Install DotNet workloads
       shell: bash
@@ -161,43 +162,43 @@ jobs:
     # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: binlogs
         path: artifacts/binlog
         
     - name: store docfx
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: docfx
         path: artifacts/docfx
         
     - name: store nuget packages
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: nuget
         path: artifacts/nuget
         
     - name: store omd
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: omd
         path: artifacts/omd
         
     - name: store outdated
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: outdated
         path: artifacts/outdated
         
     - name: store snitch
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: snitch
         path: artifacts/snitch
 
     - name: store resharper dupfinder
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: dupfinder
         path: artifacts/dupfinder
@@ -212,7 +213,7 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
     steps:
     - name: Download NuGet Packages
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: nuget
 
