@@ -10,6 +10,12 @@
             "labels": ["dependencies"]
         },
         {
+            "matchPackagePatterns": ["Exceptionless.*"],
+            "groupName": "all exceptionless dependencies",
+            "groupSlug": "all-exceptionless",
+            "labels": ["dependencies"]
+        },
+        {
             "matchPackagePatterns": ["Foundatio.*"],
             "groupName": "all foundatio dependencies",
             "groupSlug": "all-foundatio",
