@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
@@ -25,7 +29,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
         /// <summary>
         /// Unit tests for the RegisterMediatrWithExplicitTypes method.
         /// </summary>
-        public sealed class RegisterMediatrWithExplicitTypesMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class RegisterMediatrWithExplicitTypesMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="RegisterMediatrWithExplicitTypesMethod"/> class.

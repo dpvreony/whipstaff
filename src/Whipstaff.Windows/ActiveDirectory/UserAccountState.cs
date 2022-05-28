@@ -1,4 +1,8 @@
-﻿namespace Whipstaff.Windows.ActiveDirectory
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+namespace Whipstaff.Windows.ActiveDirectory
 {
     /// <summary>
     /// Represents the state of a user account.
@@ -6,7 +10,7 @@
     public enum UserAccountState
     {
         /// <summary>
-        /// The account state 
+        /// The account state is unknown.
         /// </summary>
         Unknown,
 
@@ -16,7 +20,7 @@
         Ok,
 
         /// <summary>
-        /// The account is locked
+        /// The account is locked.
         /// </summary>
         Locked,
 

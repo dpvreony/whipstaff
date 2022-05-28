@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2020 DHGMS Solutions and Contributors. All rights reserved.
-// DHGMS Solutions and Contributors licenses this file to you under the MIT license.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
 using System;
@@ -23,7 +23,7 @@ namespace Whipstaff.Couchbase
         /// </param>
         /// <param name="resource">Name of the resource.</param>
         /// <param name="aquiredTimeUtc">The timestamp for when the lock was aquired.</param>
-        /// <param name="timeWaitedForLock">The time waited for the lock</param>
+        /// <param name="timeWaitedForLock">The time waited for the lock.</param>
         public CouchbaseLock(
             ICouchbaseMutex mutex,
             string resource,

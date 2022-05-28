@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +20,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
         /// <summary>
         /// Unit tests for the constructor method.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.

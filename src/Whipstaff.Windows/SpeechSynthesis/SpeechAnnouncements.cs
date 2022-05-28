@@ -1,8 +1,6 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="SpeechSynthesizer.cs" company="">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
 
 using System.Speech.Synthesis;
 using ReactiveMarbles.ObservableEvents;
@@ -45,7 +43,7 @@ namespace Whipstaff.Windows.SpeechSynthesis
             IObserver<VisemeReachedEventArgs>? visemeReachedObserver,
             IObserver<VoiceChangeEventArgs>? voiceChangeObserver)
         {
-            this._speechSynthesizer = new SpeechSynthesizer
+            _speechSynthesizer = new SpeechSynthesizer
             {
                 Volume = 50,
                 Rate = 3
@@ -53,50 +51,49 @@ namespace Whipstaff.Windows.SpeechSynthesis
 
             if (bookmarkReachedObserver != null)
             {
-                this._bookmarkReachedSubscription = this._speechSynthesizer.Events().BookmarkReached.Subscribe(bookmarkReachedObserver);
+                _bookmarkReachedSubscription = _speechSynthesizer.Events().BookmarkReached.Subscribe(bookmarkReachedObserver);
             }
 
             if (phonemeReachedObserver != null)
             {
-                this._phonemeReachedSubscription = this._speechSynthesizer.Events().PhonemeReached.Subscribe(phonemeReachedObserver);
+                _phonemeReachedSubscription = _speechSynthesizer.Events().PhonemeReached.Subscribe(phonemeReachedObserver);
             }
 
             if (speakCompletedObserver != null)
             {
-                this._speakCompletedSubscription = this._speechSynthesizer.Events().SpeakCompleted.Subscribe(speakCompletedObserver);
+                _speakCompletedSubscription = _speechSynthesizer.Events().SpeakCompleted.Subscribe(speakCompletedObserver);
             }
 
             if (speakProgressObserver != null)
             {
-                this._speakProgressSubscription = this._speechSynthesizer.Events().SpeakProgress.Subscribe(speakProgressObserver);
+                _speakProgressSubscription = _speechSynthesizer.Events().SpeakProgress.Subscribe(speakProgressObserver);
             }
 
             if (speakStartedObserver != null)
             {
-                this._speakStartedSubscription = this._speechSynthesizer.Events().SpeakStarted.Subscribe(speakStartedObserver);
+                _speakStartedSubscription = _speechSynthesizer.Events().SpeakStarted.Subscribe(speakStartedObserver);
             }
 
             if (stateChangedObserver != null)
             {
-                this._stateChangedSubscription = this._speechSynthesizer.Events().StateChanged.Subscribe(stateChangedObserver);
+                _stateChangedSubscription = _speechSynthesizer.Events().StateChanged.Subscribe(stateChangedObserver);
             }
 
             if (visemeReachedObserver != null)
             {
-                this._visemeReachedSubscription = this._speechSynthesizer.Events().VisemeReached.Subscribe(visemeReachedObserver);
+                _visemeReachedSubscription = _speechSynthesizer.Events().VisemeReached.Subscribe(visemeReachedObserver);
             }
 
             if (voiceChangeObserver != null)
             {
-                this._voiceChangeSubscription = this._speechSynthesizer.Events().VoiceChange.Subscribe(voiceChangeObserver);
+                _voiceChangeSubscription = _speechSynthesizer.Events().VoiceChange.Subscribe(voiceChangeObserver);
             }
         }
 
         /// <summary>
-        /// 
+        /// Uses Text To Speech to make an announcement.
         /// </summary>
-        /// <param name="text"></param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="text">Message to convert to speech.</param>
         public void Announce(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -110,15 +107,15 @@ namespace Whipstaff.Windows.SpeechSynthesis
         /// <inheritdoc />
         public void Dispose()
         {
-            this._speechSynthesizer.Dispose();
-            this._bookmarkReachedSubscription?.Dispose();
-            this._phonemeReachedSubscription?.Dispose();
-            this._speakCompletedSubscription?.Dispose();
-            this._speakProgressSubscription?.Dispose();
-            this._speakStartedSubscription?.Dispose();
-            this._stateChangedSubscription?.Dispose();
-            this._visemeReachedSubscription?.Dispose();
-            this._voiceChangeSubscription?.Dispose();
+            _speechSynthesizer.Dispose();
+            _bookmarkReachedSubscription?.Dispose();
+            _phonemeReachedSubscription?.Dispose();
+            _speakCompletedSubscription?.Dispose();
+            _speakProgressSubscription?.Dispose();
+            _speakStartedSubscription?.Dispose();
+            _stateChangedSubscription?.Dispose();
+            _visemeReachedSubscription?.Dispose();
+            _voiceChangeSubscription?.Dispose();
             GC.SuppressFinalize(this);
         }
     }

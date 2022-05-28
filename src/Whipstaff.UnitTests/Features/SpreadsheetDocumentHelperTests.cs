@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -25,7 +25,7 @@ namespace Whipstaff.UnitTests.Features
         /// <summary>
         /// Unit tests for workbook generation.
         /// </summary>
-        public sealed class GetWorkbookSpreadSheetDocumentMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class GetWorkbookSpreadSheetDocumentMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWorkbookSpreadSheetDocumentMethod"/> class.
@@ -62,7 +62,7 @@ namespace Whipstaff.UnitTests.Features
             private static void CreateSheet1(Sheet sheet, WorksheetPart worksheetPart)
             {
                 uint currentRow = 1;
-                worksheetPart.InsertCellInWorksheet("A", currentRow, "title");
+                _ = worksheetPart.InsertCellInWorksheet("A", currentRow, "title");
             }
         }
     }

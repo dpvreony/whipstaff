@@ -1,10 +1,11 @@
-﻿// Copyright (c) 2020 DHGMS Solutions and Contributors. All rights reserved.
-// DHGMS Solutions and Contributors licenses this file to you under the MIT license.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Whipstaff.Entityframework.Relational
@@ -78,7 +79,8 @@ namespace Whipstaff.Entityframework.Relational
         /// <param name="modelBuilder">Entity Framework Model Builder being configured.</param>
         /// <param name="entityClrType">The CLR type of the Entity represented as a DBSet.</param>
         /// <param name="propertyName">The name of the property that's to be converted from DateTimeOffset.</param>
-        public static void ConvertDateTimeOffSetPropertyToLong(
+        /// <returns>Property builder for the column..</returns>
+        public static PropertyBuilder ConvertDateTimeOffSetPropertyToLong(
             ModelBuilder modelBuilder,
             Type entityClrType,
             string propertyName)
@@ -98,7 +100,7 @@ namespace Whipstaff.Entityframework.Relational
                 throw new ArgumentNullException(nameof(propertyName));
             }
 
-            InternalConvertDateTimeOffSetPropertyToLong(
+            return InternalConvertDateTimeOffSetPropertyToLong(
                 modelBuilder,
                 entityClrType,
                 propertyName);
@@ -109,7 +111,7 @@ namespace Whipstaff.Entityframework.Relational
         /// </summary>
         /// <returns>Value convertor.</returns>
         public static ValueConverter<DateTimeOffset, long> GetDateTimeOffSetToUnixTimeMillisecondsLongValueConverter() =>
-            new ValueConverter<DateTimeOffset, long>(
+            new(
                 offset => offset.ToUnixTimeMilliseconds(),
                 milliseconds => DateTimeOffset.FromUnixTimeMilliseconds(milliseconds));
 
@@ -119,7 +121,7 @@ namespace Whipstaff.Entityframework.Relational
             {
                 if (p.ClrType == typeof(DateTimeOffset))
                 {
-                    ConvertDateTimeOffSetPropertyToLong(
+                    _ = ConvertDateTimeOffSetPropertyToLong(
                         modelBuilder,
                         mutableEntityType.ClrType,
                         p.Name);
@@ -127,12 +129,12 @@ namespace Whipstaff.Entityframework.Relational
             }
         }
 
-        private static void InternalConvertDateTimeOffSetPropertyToLong(
+        private static PropertyBuilder InternalConvertDateTimeOffSetPropertyToLong(
             ModelBuilder modelBuilder,
             Type entityClrType,
             string propertyName)
         {
-            modelBuilder.Entity(entityClrType)
+            return modelBuilder.Entity(entityClrType)
                 .Property(propertyName)
                 .HasColumnType("INTEGER")
                 .HasConversion(GetDateTimeOffSetToUnixTimeMillisecondsLongValueConverter());
