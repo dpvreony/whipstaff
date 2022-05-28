@@ -21,7 +21,7 @@ jobs:
       unittestprojectpath: src/Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
         
@@ -45,18 +45,18 @@ jobs:
         $process.WaitForExit()
 
     - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 3.1.x
 
     - name: Setup .NET 5
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 5.0.x
 
 # don't move beyond 6.0.100 until https://github.com/dotnet/sdk/issues/23972 is resolved
     - name: Install .NET 6
-      uses: actions/setup-dotnet@v1.8.2
+      uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.100
 
@@ -85,13 +85,7 @@ jobs:
         setAllVars: true
 
     - name: Install dotnet tools
-      run: |
-        dotnet tool install --global dotMorten.OmdGenerator
-        dotnet tool install --global ConfigValidate
-        dotnet tool install --global dotnet-outdated-tool
-        dotnet tool install --global snitch
-        dotnet tool install --global dotnet-sonarscanner
-        dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2021.2.2
+      run: dotnet tool restore
 
     - name: Prepare Artifact Directory
       run: |
@@ -100,7 +94,6 @@ jobs:
         mkdir artifacts\outdated
         mkdir artifacts\snitch
         mkdir artifacts\omd
-        mkdir artifacts\docfx
 
     - name: Restore Packages
       run: |
@@ -143,13 +136,9 @@ jobs:
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
 
-    - name: Run Resharper Duplicate Code Finder
-      run: |
-        jb dupfinder ${{ env.solutionpath }} -o=artifacts\dupfinder\report.xml
-
     - name: VirusTotal Monitor Scan
       if: ${{ env.VIRUSTOTAL_API_KEY != 0 }}
-      uses: crazy-max/ghaction-virustotal@v2
+      uses: crazy-max/ghaction-virustotal@v3
       with:
         vt_api_key: ${{ env.VIRUSTOTAL_API_KEY }}
         vt_monitor: true
@@ -162,43 +151,43 @@ jobs:
     # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: binlogs
         path: artifacts/binlog
         
     - name: store docfx
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: docfx
         path: artifacts/docfx
         
     - name: store nuget packages
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: nuget
         path: artifacts/nuget
         
     - name: store omd
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: omd
         path: artifacts/omd
         
     - name: store outdated
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: outdated
         path: artifacts/outdated
         
     - name: store snitch
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: snitch
         path: artifacts/snitch
 
     - name: store resharper dupfinder
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: dupfinder
         path: artifacts/dupfinder
@@ -213,7 +202,7 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
     steps:
     - name: Download NuGet Packages
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: nuget
 
