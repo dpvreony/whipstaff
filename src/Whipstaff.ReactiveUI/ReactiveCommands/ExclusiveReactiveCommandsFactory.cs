@@ -60,7 +60,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var exclusiveLockSubscription = Observable.Merge(
                     command1.IsExecuting,
                     command2.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -130,7 +130,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var exclusiveLockSubscription = Observable.Merge(
                     cmd1.IsExecuting,
                     cmd2.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -200,7 +200,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command1.IsExecuting,
                     command2.IsExecuting,
                     command3.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -286,7 +286,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command2.IsExecuting,
                     command3.IsExecuting,
                     command4.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -388,7 +388,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command3.IsExecuting,
                     command4.IsExecuting,
                     command5.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -506,7 +506,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command4.IsExecuting,
                     command5.IsExecuting,
                     command6.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (

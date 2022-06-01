@@ -8,7 +8,9 @@ namespace Whipstaff.Runtime.Exceptions
     /// The number passed in was higher than the allowed maximum.
     /// </summary>
     [System.Serializable]
+#pragma warning disable RCS1194 // Implement exception constructors.
     public class NumberTooLowClrCharException
+#pragma warning restore RCS1194 // Implement exception constructors.
         : System.ArgumentOutOfRangeException
     {
         /// <summary>

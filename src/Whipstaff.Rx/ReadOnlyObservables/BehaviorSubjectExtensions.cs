@@ -8,7 +8,7 @@ using System.Reactive.Subjects;
 namespace Whipstaff.Rx.ReadOnlyObservables
 {
     /// <summary>
-    /// Extension Methods for <see cref="System.Reactive.Subjects.BehaviorSubject{T}">BehaviorSubject</see>
+    /// Extension Methods for <see cref="System.Reactive.Subjects.BehaviorSubject{T}">BehaviorSubject</see>.
     /// </summary>
     public static class BehaviorSubjectExtensions
     {

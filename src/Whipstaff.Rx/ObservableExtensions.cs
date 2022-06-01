@@ -17,19 +17,17 @@ namespace Whipstaff.Rx
         /// Produces an observable that scans for the number of items in the sequence that are true.
         /// </summary>
         /// <param name="observable">The observable boolean sequence to scan.</param>
-        /// <returns></returns>
-        public static IObservable<int> ScanNumberThatAreTrue(this IObservable<bool> observable)
+        /// <returns>Observable representing number of items that are true.</returns>
+        public static IObservable<int> CountThatAreTrue(this IObservable<bool> observable)
         {
-            return observable.Scan(
-                0,
-                (accumulatedTotal, isRunning) => accumulatedTotal + (isRunning ? 1 : 0));
+            return observable.Count(x => x);
         }
 
         /// <summary>
         /// Produces an observable for monitoring the previous and current values.
         /// </summary>
         /// <remarks>
-        /// Based upon http://www.zerobugbuild.com/?p=213
+        /// Based upon http://www.zerobugbuild.com/?p=213 2021-12-22.
         /// </remarks>
         /// <typeparam name="TSource">The type for the input observable.</typeparam>
         /// <param name="source">The input observable source.</param>
@@ -45,7 +43,7 @@ namespace Whipstaff.Rx
         /// Produces an observable for monitoring the previous and current values, allowing manipulation of the result via a selector.
         /// </summary>
         /// <remarks>
-        /// Based upon http://www.zerobugbuild.com/?p=213
+        /// Based upon http://www.zerobugbuild.com/?p=213 2021-12-22.
         /// </remarks>
         /// <typeparam name="TSource">The type for the input observable.</typeparam>
         /// <typeparam name="TResult">The type for the result returned by the method.</typeparam>
@@ -72,9 +70,9 @@ namespace Whipstaff.Rx
         /// <typeparam name="T">The type for the input observable.</typeparam>
         /// <param name="source">Observable sequence to subscribe to.</param>
         /// <param name="onNext">Action to invoke for each element in the observable sequence.</param>
-        /// <param name="featureUsageTrackingManager"></param>
-        /// <param name="featureName"></param>
-        /// <returns></returns>
+        /// <param name="featureUsageTrackingManager">Feature Usage Tracking Manager instance.</param>
+        /// <param name="featureName">The name of the feature to track.</param>
+        /// <returns>Subscription for a Feature Usage Session.</returns>
         public static IDisposable SubscribeWithFeatureUsageTracking<T>(
             this IObservable<T> source,
             Action<T> onNext,
@@ -94,9 +92,9 @@ namespace Whipstaff.Rx
         /// <param name="source">Observable sequence to subscribe to.</param>
         /// <param name="onNext">Action to invoke for each element in the observable sequence.</param>
         /// <param name="onError">Action to invoke upon exceptional termination of the observable sequence.</param>
-        /// <param name="featureUsageTrackingManager"></param>
-        /// <param name="featureName"></param>
-        /// <returns></returns>
+        /// <param name="featureUsageTrackingManager">Feature Usage Tracking Manager instance.</param>
+        /// <param name="featureName">The name of the feature to track.</param>
+        /// <returns>Subscription for a Feature Usage Session.</returns>
         public static IDisposable SubscribeWithFeatureUsageTracking<T>(
             this IObservable<T> source,
             Action<T> onNext,
@@ -195,7 +193,7 @@ namespace Whipstaff.Rx
         public static IDisposable SubscribeWithSubFeatureUsageTracking<T>(
             this IObservable<T> source,
             Action<T> onNext,
-            IFeatureUsageTrackingSession  featureUsageTrackingSession,
+            IFeatureUsageTrackingSession featureUsageTrackingSession,
             string featureName)
         {
             return source.Subscribe(
@@ -218,7 +216,7 @@ namespace Whipstaff.Rx
             this IObservable<T> source,
             Action<T> onNext,
             Action<Exception> onError,
-            IFeatureUsageTrackingSession  featureUsageTrackingSession,
+            IFeatureUsageTrackingSession featureUsageTrackingSession,
             string featureName)
         {
             return source.Subscribe(
@@ -242,7 +240,7 @@ namespace Whipstaff.Rx
             this IObservable<T> source,
             Action<T> onNext,
             Action onCompleted,
-            IFeatureUsageTrackingSession  featureUsageTrackingSession,
+            IFeatureUsageTrackingSession featureUsageTrackingSession,
             string featureName)
         {
             return source.Subscribe(
@@ -268,7 +266,7 @@ namespace Whipstaff.Rx
             Action<T> onNext,
             Action<Exception> onError,
             Action onCompleted,
-            IFeatureUsageTrackingSession  featureUsageTrackingSession,
+            IFeatureUsageTrackingSession featureUsageTrackingSession,
             string featureName)
         {
             return source.Subscribe(
@@ -291,7 +289,7 @@ namespace Whipstaff.Rx
         public static IDisposable SubscribeWithSubFeatureUsageTracking<T>(
             this IObservable<T> source,
             IObserver<T> observer,
-            IFeatureUsageTrackingSession  featureUsageTrackingSession,
+            IFeatureUsageTrackingSession featureUsageTrackingSession,
             string featureName)
         {
             return source.Subscribe(

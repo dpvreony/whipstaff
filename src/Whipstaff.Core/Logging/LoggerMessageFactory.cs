@@ -19,7 +19,7 @@ namespace Whipstaff.Core.Logging
         public static Action<ILogger, int, Exception?> GetDbContextSaveResultLoggerMessageAction() => LoggerMessage.Define<int>(
             LogLevel.Debug,
             EventIdFactory.DbContextSaveResultEventId(),
-        formatString: "DbContext Save Result: {SaveResult}");
+            formatString: "DbContext Save Result: {SaveResult}");
 
         /// <summary>
         /// Gets the Logger Message definition for "No MediatR handlers registered for type" event.
@@ -71,7 +71,7 @@ namespace Whipstaff.Core.Logging
             GetBasicLoggerMessageActionForLogLevelAndEventId(
                 LogLevel.Error,
                 eventId);
-        
+
         /// <summary>
         /// Gets a basic information logger message action for an event id. Useful for basic logging of events where there is only
         /// ever a basic message.

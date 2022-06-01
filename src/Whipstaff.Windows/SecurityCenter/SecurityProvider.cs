@@ -5,7 +5,7 @@
 namespace Whipstaff.Windows.SecurityCenter
 {
     /// <summary>
-    /// Enumeration representing the available security providers
+    /// Enumeration representing the available security providers.
     /// </summary>
     [Flags]
     public enum SecurityProvider
@@ -16,42 +16,42 @@ namespace Whipstaff.Windows.SecurityCenter
         None = 0,
 
         /// <summary>
-        /// 
+        /// Firewall.
         /// </summary>
         WscSecurityProviderFirewall = 1,
 
         /// <summary>
-        /// 
+        /// Auto update Settings.
         /// </summary>
         WscSecurityProviderAutoupdateSettings = 2,
 
         /// <summary>
-        /// 
+        /// Anti Virus.
         /// </summary>
         WscSecurityProviderAntivirus = 4,
 
         /// <summary>
-        /// 
+        /// Anti Spyware.
         /// </summary>
         WscSecurityProviderAntispyware = 8,
 
         /// <summary>
-        /// 
+        /// Internet Settings.
         /// </summary>
         WscSecurityProviderInternetSettings = 16,
 
         /// <summary>
-        /// 
+        /// User Account Control.
         /// </summary>
         WscSecurityProviderUserAccountControl = 32,
 
         /// <summary>
-        /// 
+        /// Service.
         /// </summary>
         WscSecurityProviderService = 64,
 
         /// <summary>
-        /// 
+        /// Selects all the other flags.
         /// </summary>
         WscSecurityProviderAll = WscSecurityProviderFirewall | WscSecurityProviderAutoupdateSettings |
             WscSecurityProviderAntivirus | WscSecurityProviderAntispyware |
