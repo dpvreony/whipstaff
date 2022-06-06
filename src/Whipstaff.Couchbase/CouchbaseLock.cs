@@ -22,17 +22,17 @@ namespace Whipstaff.Couchbase
         ///     Couchbase mutex manager.
         /// </param>
         /// <param name="resource">Name of the resource.</param>
-        /// <param name="aquiredTimeUtc">The timestamp for when the lock was aquired.</param>
+        /// <param name="acquiredTimeUtc">The timestamp for when the lock was acquired.</param>
         /// <param name="timeWaitedForLock">The time waited for the lock</param>
         public CouchbaseLock(
             ICouchbaseMutex mutex,
             string resource,
-            DateTime aquiredTimeUtc,
+            DateTime acquiredTimeUtc,
             TimeSpan timeWaitedForLock)
         {
             _mutex = mutex ?? throw new ArgumentNullException(nameof(mutex));
             Resource = resource ?? throw new ArgumentNullException(nameof(resource));
-            AcquiredTimeUtc = aquiredTimeUtc;
+            AcquiredTimeUtc = acquiredTimeUtc;
             TimeWaitedForLock = timeWaitedForLock;
             RenewalCount = 0;
         }
