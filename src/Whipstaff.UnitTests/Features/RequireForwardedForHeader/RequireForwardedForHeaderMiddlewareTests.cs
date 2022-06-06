@@ -16,7 +16,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
         /// <summary>
         /// Unit tests for the constructor method.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.

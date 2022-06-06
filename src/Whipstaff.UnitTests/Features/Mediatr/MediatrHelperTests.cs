@@ -25,7 +25,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
         /// <summary>
         /// Unit tests for the RegisterMediatrWithExplicitTypes method.
         /// </summary>
-        public sealed class RegisterMediatrWithExplicitTypesMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class RegisterMediatrWithExplicitTypesMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="RegisterMediatrWithExplicitTypesMethod"/> class.

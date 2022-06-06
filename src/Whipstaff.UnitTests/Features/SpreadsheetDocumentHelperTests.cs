@@ -25,7 +25,7 @@ namespace Whipstaff.UnitTests.Features
         /// <summary>
         /// Unit tests for workbook generation.
         /// </summary>
-        public sealed class GetWorkbookSpreadSheetDocumentMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class GetWorkbookSpreadSheetDocumentMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWorkbookSpreadSheetDocumentMethod"/> class.
@@ -62,7 +62,7 @@ namespace Whipstaff.UnitTests.Features
             private static void CreateSheet1(Sheet sheet, WorksheetPart worksheetPart)
             {
                 uint currentRow = 1;
-                worksheetPart.InsertCellInWorksheet("A", currentRow, "title");
+                _ = worksheetPart.InsertCellInWorksheet("A", currentRow, "title");
             }
         }
     }
