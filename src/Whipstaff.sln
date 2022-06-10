@@ -45,7 +45,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.ReactiveUI", "Whi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Entityframework.Relational", "Whipstaff.Entityframework.Relational\Whipstaff.Entityframework.Relational.csproj", "{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Couchbase", "Whipstaff.Couchbase\Whipstaff.Couchbase.csproj", "{8107A239-69D2-40AC-918B-59A77159EC52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Couchbase", "Whipstaff.Couchbase\Whipstaff.Couchbase.csproj", "{8107A239-69D2-40AC-918B-59A77159EC52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.NodaTime", "Whipstaff.NodaTime\Whipstaff.NodaTime.csproj", "{74CF7649-3848-4265-BC96-A5DCA8D176AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,10 @@ Global
 		{8107A239-69D2-40AC-918B-59A77159EC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8107A239-69D2-40AC-918B-59A77159EC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8107A239-69D2-40AC-918B-59A77159EC52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

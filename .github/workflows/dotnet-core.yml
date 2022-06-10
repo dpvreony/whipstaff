@@ -85,13 +85,7 @@ jobs:
         setAllVars: true
 
     - name: Install dotnet tools
-      run: |
-        dotnet tool install --global dotMorten.OmdGenerator
-        dotnet tool install --global ConfigValidate
-        dotnet tool install --global dotnet-outdated-tool
-        dotnet tool install --global snitch
-        dotnet tool install --global dotnet-sonarscanner
-        dotnet tool install --global JetBrains.ReSharper.GlobalTools --version 2021.2.2
+      run: dotnet tool restore
 
     - name: Prepare Artifact Directory
       run: |
@@ -100,7 +94,6 @@ jobs:
         mkdir artifacts\outdated
         mkdir artifacts\snitch
         mkdir artifacts\omd
-        mkdir artifacts\docfx
 
     - name: Restore Packages
       run: |
@@ -143,13 +136,9 @@ jobs:
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
 
-    - name: Run Resharper Duplicate Code Finder
-      run: |
-        jb dupfinder ${{ env.solutionpath }} -o=artifacts\dupfinder\report.xml
-
     - name: VirusTotal Monitor Scan
       if: ${{ env.VIRUSTOTAL_API_KEY != 0 }}
-      uses: crazy-max/ghaction-virustotal@v2
+      uses: crazy-max/ghaction-virustotal@v3
       with:
         vt_api_key: ${{ env.VIRUSTOTAL_API_KEY }}
         vt_monitor: true
