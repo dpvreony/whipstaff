@@ -90,6 +90,7 @@ jobs:
     - name: Prepare Artifact Directory
       run: |
         mkdir artifacts
+        mkdir artifacts\appinspector
         mkdir artifacts\nupkg
         mkdir artifacts\outdated
         mkdir artifacts\snitch
