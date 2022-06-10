@@ -12,17 +12,12 @@ namespace Whipstaff.Runtime.Bitwise
     public sealed class OnceTrueLatch
     {
         /// <summary>
-        /// A flag indicating whether the latch has been set to true.
-        /// </summary>
-        private bool _internalValue;
-
-        /// <summary>
         /// Gets a value indicating whether the flag has been set.
         /// </summary>
         public bool Value
         {
-            get => _internalValue;
-            private set => _internalValue = value;
+            get;
+            private set;
         }
 
         /// <summary>
