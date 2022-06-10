@@ -61,7 +61,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Test Data for checking an Argument Null Exception is thrown.
@@ -239,7 +239,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the Post call.
         /// </summary>
-        public sealed class PostAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class PostAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for testing POST methods succeed.
@@ -366,7 +366,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the Delete call.
         /// </summary>
-        public sealed class DeleteAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class DeleteAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for testing DELETE methods succeed.
@@ -545,7 +545,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the List call.
         /// </summary>
-        public sealed class ListAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class ListAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit Test Source for ensuring the list request succeeds.
@@ -683,7 +683,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the PUT request.
         /// </summary>
-        public sealed class PutAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class PutAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for making sure PUT requests succeed.
@@ -807,7 +807,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the View call.
         /// </summary>
-        public sealed class ViewAsyncMethod : Foundatio.Logging.Xunit.TestWithLoggingBase
+        public sealed class ViewAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test data source for making sure View requests succeed.
