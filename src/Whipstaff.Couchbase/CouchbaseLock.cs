@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -27,12 +27,12 @@ namespace Whipstaff.Couchbase
         public CouchbaseLock(
             ICouchbaseMutex mutex,
             string resource,
-            DateTime aquiredTimeUtc,
+            DateTime acquiredTimeUtc,
             TimeSpan timeWaitedForLock)
         {
             _mutex = mutex ?? throw new ArgumentNullException(nameof(mutex));
             Resource = resource ?? throw new ArgumentNullException(nameof(resource));
-            AcquiredTimeUtc = aquiredTimeUtc;
+            AcquiredTimeUtc = acquiredTimeUtc;
             TimeWaitedForLock = timeWaitedForLock;
             RenewalCount = 0;
         }

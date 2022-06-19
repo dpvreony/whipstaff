@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp6.0-windows</TargetFrameworks>
@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="6.0.0" />
     <PackageReference Include="Foundatio.Xunit" Version="10.5.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.6" />
     <PackageReference Include="Moq" Version="4.18.1" />
     <PackageReference Include="NetTestRegimentation" Version="1.5.3" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
@@ -25,17 +25,20 @@
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.Couchbase\Whipstaff.Couchbase.csproj" />
     <ProjectReference Include="..\Whipstaff.Entityframework.Relational\Whipstaff.Entityframework.Relational.csproj" />
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.Foundatio\Whipstaff.MediatR.Foundatio.csproj" />
     <ProjectReference Include="..\Whipstaff.MsSql\Whipstaff.MsSql.csproj" />
+    <ProjectReference Include="..\Whipstaff.NodaTime\Whipstaff.NodaTime.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
     <ProjectReference Include="..\Whipstaff.Oracle\Whipstaff.Oracle.csproj" />
     <ProjectReference Include="..\Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
     <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
+    <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
   </ItemGroup>
