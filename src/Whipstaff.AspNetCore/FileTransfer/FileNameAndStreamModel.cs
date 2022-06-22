@@ -19,7 +19,6 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// </summary>
         /// <param name="fileName">The filename to associate with the stream.</param>
         /// <param name="fileStream">The stream of file content.</param>
-        /// <exception cref="ArgumentNullException"></exception>
         public FileNameAndStreamModel(
             string fileName,
             Stream fileStream)
@@ -39,12 +38,12 @@ namespace Whipstaff.AspNetCore.FileTransfer
         }
 
         /// <summary>
-        /// Gets or sets the file name.
+        /// Gets the file name.
         /// </summary>
         public string FileName { get; }
 
         /// <summary>
-        /// Gets or sets the file stream.
+        /// Gets the file stream.
         /// </summary>
         public Stream FileStream { get; }
     }

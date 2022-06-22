@@ -22,7 +22,7 @@ namespace Whipstaff.Testing.MediatR
         private readonly DbContextOptions<FakeDbContext> _fakeDbContextOptions;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCrudAddCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="FakePostProcessorCommandHandler"/> class.
         /// </summary>
         /// <param name="fakeDbContextOptions">Entity Framework DB Context options for initializing instance.</param>
         public FakePostProcessorCommandHandler(DbContextOptions<FakeDbContext> fakeDbContextOptions)

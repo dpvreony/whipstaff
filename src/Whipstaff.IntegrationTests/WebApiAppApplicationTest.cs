@@ -18,7 +18,7 @@ namespace Whipstaff.IntegrationTests
     public sealed class WebApiAppApplicationTest : BaseWebApplicationTest<Startup>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebMvcAppApplicationTest"/> class.
+        /// Initializes a new instance of the <see cref="WebApiAppApplicationTest"/> class.
         /// </summary>
         /// <param name="output">XUnit Logging output helper.</param>
         public WebApiAppApplicationTest(ITestOutputHelper output)

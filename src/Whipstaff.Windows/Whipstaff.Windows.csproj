@@ -17,4 +17,8 @@
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.1.4" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PInvoke\" />
+  </ItemGroup>
+
 </Project>

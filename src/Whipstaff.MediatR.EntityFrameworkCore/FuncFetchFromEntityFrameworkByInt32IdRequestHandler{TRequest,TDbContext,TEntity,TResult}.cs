@@ -35,7 +35,8 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         public FuncFetchFromEntityFrameworkByInt32IdRequestHandler(
             Func<Task<TDbContext>> dbContextFactory,
             Func<TDbContext, DbSet<TEntity>> dbSetFunc,
-            Expression<Func<TEntity, TResult>> selector) : base(dbContextFactory)
+            Expression<Func<TEntity, TResult>> selector)
+            : base(dbContextFactory)
         {
             _dbSetFunc = dbSetFunc;
             _selector = selector;

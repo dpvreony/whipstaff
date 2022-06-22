@@ -23,16 +23,16 @@ namespace Whipstaff.Windows.SpeechSynthesis
         private readonly IDisposable? _voiceChangeSubscription;
 
         /// <summary>
-        /// Creates an instance of <see cref="SpeechAnnouncements"/>
+        /// Initializes a new instance of the <see cref="SpeechAnnouncements"/> class.
         /// </summary>
-        /// <param name="bookmarkReachedObserver"></param>
-        /// <param name="phonemeReachedObserver"></param>
-        /// <param name="speakCompletedObserver"></param>
-        /// <param name="speakProgressObserver"></param>
-        /// <param name="speakStartedObserver"></param>
-        /// <param name="stateChangedObserver"></param>
-        /// <param name="visemeReachedObserver"></param>
-        /// <param name="voiceChangeObserver"></param>
+        /// <param name="bookmarkReachedObserver">Observer for when a bookmark has been reached.</param>
+        /// <param name="phonemeReachedObserver">Observer for when a phoneme has been reached.</param>
+        /// <param name="speakCompletedObserver">Observer for when a speak method has been completed.</param>
+        /// <param name="speakProgressObserver">Observer for when a speak progress event has triggered.</param>
+        /// <param name="speakStartedObserver">Observer for when a speak method has started.</param>
+        /// <param name="stateChangedObserver">Observer for when a speech state has changed.</param>
+        /// <param name="visemeReachedObserver">Observer for when a viseme has been reached.</param>
+        /// <param name="voiceChangeObserver">Observer for when the Voice has changed.</param>
         public SpeechAnnouncements(
             IObserver<BookmarkReachedEventArgs>? bookmarkReachedObserver,
             IObserver<PhonemeReachedEventArgs>? phonemeReachedObserver,

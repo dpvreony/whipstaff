@@ -25,7 +25,7 @@ namespace Whipstaff.Testing.MediatR
         private readonly Action<ILogger, int, Exception?> _saveResultLogMessage;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCrudAddCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="FakePreProcessorCommandHandler"/> class.
         /// </summary>
         /// <param name="fakeDbContextOptions">Entity Framework DB Context options for initializing instance.</param>
         /// <param name="logger">Logging framework instance.</param>

@@ -27,7 +27,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         private readonly Func<TDbContext, DbSet<TEntity>> _dbSetFunc;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FetchFromEntityFrameworkByLongIdRequestHandler{TRequest, TDbContext, TEntity,TResult}"/> class.
+        /// Initializes a new instance of the <see cref="FuncFetchFromEntityFrameworkByLongIdRequestHandler{TRequest, TDbContext, TEntity, TResult}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
         /// <param name="dbSetFunc">Function for selecting the DBSet from the Entity Framework Context.</param>
@@ -35,7 +35,8 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         public FuncFetchFromEntityFrameworkByLongIdRequestHandler(
             Func<Task<TDbContext>> dbContextFactory,
             Func<TDbContext, DbSet<TEntity>> dbSetFunc,
-            Expression<Func<TEntity, TResult>> selector) : base(dbContextFactory)
+            Expression<Func<TEntity, TResult>> selector)
+            : base(dbContextFactory)
         {
             _dbSetFunc = dbSetFunc;
             _selector = selector;

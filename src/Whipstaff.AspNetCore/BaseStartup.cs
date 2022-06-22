@@ -267,6 +267,7 @@ namespace Whipstaff.AspNetCore
                 _ = services.AddControllers(options =>
                     {
                         options.Conventions.Add(new AddAuthorizePolicyControllerConvention());
+
                         // if you have a load balancer in front, you can have an issue if there is no cache-control specified
                         // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
                         options.CacheProfiles.Add("nostore", new CacheProfile { NoStore = true });

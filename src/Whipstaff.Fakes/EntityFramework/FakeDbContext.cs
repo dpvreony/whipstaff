@@ -21,17 +21,17 @@ namespace Whipstaff.Testing.EntityFramework
         }
 
         /// <summary>
-        /// Gets or sets the Fake Add Audit Db Set.
+        /// Gets the Fake Add Audit Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddAuditDbSet> FakeAddAudit => Set<DbSets.FakeAddAuditDbSet>();
 
         /// <summary>
-        /// Gets or sets the Fake Add Audit Pre Process Db Set.
+        /// Gets the Fake Add Audit Pre Process Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddPreProcessAuditDbSet> FakeAddPreProcessAudit => Set<DbSets.FakeAddPreProcessAuditDbSet>();
 
         /// <summary>
-        /// Gets or sets the Fake Add Audit Post Process Db Set.
+        /// Gets the Fake Add Audit Post Process Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddPostProcessAuditDbSet> FakeAddPostProcessAudit => Set<DbSets.FakeAddPostProcessAuditDbSet>();
     }

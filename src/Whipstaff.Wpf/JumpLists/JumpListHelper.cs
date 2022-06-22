@@ -147,8 +147,8 @@ namespace Whipstaff.Wpf.JumpLists
         /// <inheritdoc />
         public void Dispose()
         {
-            this._jumpItemsRemovedByUserSubscription?.Dispose();
-            this._jumpItemsRejectedSubscription?.Dispose();
+            _jumpItemsRemovedByUserSubscription?.Dispose();
+            _jumpItemsRejectedSubscription?.Dispose();
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
-// DHGMS Solutions and Contributors licenses this file to you under the MIT license.
+// This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
 using System;
@@ -73,6 +73,24 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
             }
         }
 
+        private static async Task DoAbandonMessageAsync(IQueueEntry<TMessage> queueEntry)
+        {
+            await queueEntry.AbandonAsync()
+                .ConfigureAwait(false);
+        }
+
+        private static async Task DoCompleteMessageAsync(IQueueEntry<TMessage> queueEntry)
+        {
+            await queueEntry.CompleteAsync()
+                .ConfigureAwait(false);
+        }
+
+        private static Task DoDeadLetterMessageAsync(IQueueEntry<TMessage> queueEntry)
+        {
+            // we need to make the queue processor aware of ms servicebus rather than the generic interface.
+            throw new NotSupportedException("Dead letter not yet supported.");
+        }
+
         private async Task RunInternalAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
@@ -116,7 +134,8 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
                         }
 
                         attempt++;
-                    } while (attempt <= maxRetries);
+                    }
+                    while (attempt <= maxRetries);
 
                     innerCancellationTokenSource.Cancel();
 
@@ -177,34 +196,15 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
             }
         }
 
-        private static async Task DoAbandonMessageAsync(IQueueEntry<TMessage> queueEntry)
-        {
-            await queueEntry.AbandonAsync()
-                .ConfigureAwait(false);
-        }
-
-        private static async Task DoCompleteMessageAsync(IQueueEntry<TMessage> queueEntry)
-        {
-            await queueEntry.CompleteAsync()
-                .ConfigureAwait(false);
-        }
-
-        private static Task DoDeadLetterMessageAsync(IQueueEntry<TMessage> queueEntry)
-        {
-            // we need to make the queue processor aware of ms servicebus rather than the generic interface.
-            throw new NotSupportedException("Dead letter not yet supported.");
-        }
-
         private async Task DoRequeueMessageAsync(IQueueEntry<TMessage> queueEntry)
         {
             // this won't work if duplicate detection is enabled and the message
             // is in the time frame.
             // we need to check the config moving forward.
-
             var enqueuedMessageId = await _queue.EnqueueAsync(queueEntry.Value)
                 .ConfigureAwait(false);
 
-            this._logger.LogInformation($"Requeued Message {queueEntry.Id} as {enqueuedMessageId}");
+            _logger.LogInformation($"Requeued Message {queueEntry.Id} as {enqueuedMessageId}");
 
             // complete after enqueue, if enqueue fails, this should drop back to abandon or deadletter.
             await queueEntry.CompleteAsync()

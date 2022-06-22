@@ -1,5 +1,5 @@
 ﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
-// DHGMS Solutions and Contributors licenses this file to you under the MIT license.
+// This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
 using System;
@@ -15,7 +15,7 @@ namespace Whipstaff.MediatR.Foundatio
     /// <summary>
     /// Abstract logic for a mediator request to insert a record to a database then send a message on a queue.
     /// </summary>
-    /// <typeparam name="TRequest">The type for the mediator request</typeparam>
+    /// <typeparam name="TRequest">The type for the mediator request.</typeparam>
     /// <typeparam name="TDbContext">The type for the entity framework database context.</typeparam>
     /// <typeparam name="TEntityFrameworkEntity">The type for the entity being inserted into the database.</typeparam>
     /// <typeparam name="TQueueMessage">The type for the message being added to the queue.</typeparam>
@@ -30,7 +30,7 @@ namespace Whipstaff.MediatR.Foundatio
         private readonly ILogger<AbstractAddToDatabaseThenQueueRequestHandler<TRequest, TDbContext, TEntityFrameworkEntity, TQueueMessage>> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddToQueueRequestHandler{TRequest}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractAddToDatabaseThenQueueRequestHandler{TRequest, TDbContext, TEntityFrameworkEntity, TQueueMessage}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">Factory for creating a database context instance.</param>
         /// <param name="queue">The queue to add the requests to.</param>
@@ -121,7 +121,7 @@ namespace Whipstaff.MediatR.Foundatio
         /// </summary>
         /// <param name="request">The original mediator request.</param>
         /// <param name="entityInserted">The entity inserted into the database.</param>
-        /// <returns></returns>
+        /// <returns>Queue Message.</returns>
         protected abstract TQueueMessage GetQueueMessage(
             TRequest request,
             TEntityFrameworkEntity entityInserted);

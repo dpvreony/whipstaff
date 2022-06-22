@@ -46,10 +46,11 @@ namespace Whipstaff.Testing
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
-        /// <param name="commandFactory"></param>
-        /// <param name="queryFactory"></param>
-        /// <param name="logMessageActions"></param>
-        public FakeCrudController(IAuthorizationService authorizationService,
+        /// <param name="commandFactory">Factory for Commands.</param>
+        /// <param name="queryFactory">Factory for Queries.</param>
+        /// <param name="logMessageActions">Logging Framework Message Actions Factory.</param>
+        public FakeCrudController(
+            IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
             IAuditableCommandFactory<
@@ -79,7 +80,9 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override Task<FakeCrudListQuery> GetListQueryAsync(FakeCrudListRequest listRequestDto, ClaimsPrincipal claimsPrincipal,
+        protected override Task<FakeCrudListQuery> GetListQueryAsync(
+            FakeCrudListRequest listRequestDto,
+            ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
             return Task.FromResult(new FakeCrudListQuery(listRequestDto, claimsPrincipal));
