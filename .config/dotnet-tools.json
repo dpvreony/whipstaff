@@ -37,6 +37,12 @@
       "commands": [
         "dotnet-outdated"
       ]
+    },
+    "microsoft.cst.applicationinspector.cli": {
+      "version": "1.5.13",
+      "commands": [
+        "appinspector"
+      ]
     }
   }
 }
