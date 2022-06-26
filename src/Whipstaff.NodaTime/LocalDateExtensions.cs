@@ -16,7 +16,7 @@ namespace Whipstaff.NodaTime
         /// Outputs a string in yyyy-MM-dd format.
         /// </summary>
         /// <param name="instance">Local Date instance.</param>
-        /// <returns>string representation of local date</returns>
+        /// <returns>string representation of local date.</returns>
         public static string ToYearMonthDayString(this LocalDate instance)
         {
             return instance.ToString("yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo);

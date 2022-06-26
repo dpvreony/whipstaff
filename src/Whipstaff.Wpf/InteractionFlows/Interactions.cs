@@ -19,7 +19,7 @@ namespace Whipstaff.Wpf.InteractionFlows
     public sealed class Interactions
     {
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="Interactions"/> class.
         /// </summary>
         /// <param name="fileOpenDialogHandler">The handling logic for a File Open Dialog Interaction request.</param>
         /// <param name="fileSaveDialogHandler">The handling logic for a File Save Dialog Interaction request.</param>

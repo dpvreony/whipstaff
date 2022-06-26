@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 dpvreony and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -25,14 +25,14 @@ namespace Whipstaff.Wpf.Controls
             "ChildMargin",
             typeof(Thickness),
             typeof(GridLayout),
-            new FrameworkPropertyMetadata(new Thickness (5))
+            new FrameworkPropertyMetadata(new Thickness(5))
             {
                 AffectsArrange = true,
                 AffectsMeasure = true
             });
 
         /// <summary>
-        /// Gets of sets the thickness of the child margin.
+        /// Gets or sets the thickness of the child margin.
         /// </summary>
         /// <remarks>
         /// The child margin defines a margin that will be automatically applied to all children of this Grid.
@@ -69,9 +69,14 @@ namespace Whipstaff.Wpf.Controls
                 int row = GetRow(element);
                 int column = GetColumn(element);
                 if (row > maxRow)
+                {
                     maxRow = row;
+                }
+
                 if (column > maxColumn)
+                {
                     maxColumn = column;
+                }
             }
 
             foreach (UIElement element in InternalChildren)
@@ -80,26 +85,40 @@ namespace Whipstaff.Wpf.Controls
                 {
                     int row = GetRow(fe);
                     int column = GetColumn(fe);
-                    double factorLeft   = 0.5;
-                    double factorTop    = 0.5;
-                    double factorRight  = 0.5;
+                    double factorLeft = 0.5;
+                    double factorTop = 0.5;
+                    double factorRight = 0.5;
                     double factorBottom = 0.5;
+
                     // Top row - no top margin
                     if (row == 0)
+                    {
                         factorTop = 0;
+                    }
+
                     // Bottom row - no bottom margin
                     if (row == maxRow)
+                    {
                         factorBottom = 0;
+                    }
+
                     // Leftmost column = no left margin
                     if (column == 0)
+                    {
                         factorLeft = 0;
+                    }
+
                     // Rightmost column - no right margin
                     if (column == maxColumn)
+                    {
                         factorRight = 0;
-                    fe.Margin = new Thickness (ChildMargin.Left   * factorLeft,
-                                               ChildMargin.Top    * factorTop,
-                                               ChildMargin.Right  * factorRight,
-                                               ChildMargin.Bottom * factorBottom);
+                    }
+
+                    fe.Margin = new Thickness(
+                        ChildMargin.Left * factorLeft,
+                        ChildMargin.Top * factorTop,
+                        ChildMargin.Right * factorRight,
+                        ChildMargin.Bottom * factorBottom);
                 }
             }
         }

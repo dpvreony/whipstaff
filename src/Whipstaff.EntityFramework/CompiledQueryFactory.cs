@@ -22,7 +22,7 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, CancellationToken, Task<Task<long>>> GetMaxRowVersionCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
@@ -39,7 +39,7 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, long> GetMaxRowVersionCompiledQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
@@ -54,7 +54,7 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, long, long, IAsyncEnumerable<TDbSet>> GetWhereRowVersionBetweenCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
@@ -69,7 +69,7 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, long, IAsyncEnumerable<TDbSet>> GetWhereRowVersionGreaterThanCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
@@ -83,7 +83,7 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, int, IAsyncEnumerable<TDbSet>> GetWhereUniqueIntIdEqualsCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
@@ -98,8 +98,8 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
-        /// <returns></returns>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
+        /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, int, IEnumerable<TDbSet>> GetWhereUniqueIntIdEqualsCompiledQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
             where TDbSet : class, IIntId
@@ -113,7 +113,7 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, long, IAsyncEnumerable<TDbSet>> GetWhereUniqueLongIdEqualsCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
@@ -128,8 +128,8 @@ namespace Whipstaff.EntityFramework
         /// </summary>
         /// <typeparam name="TDbContext">The type for the database context.</typeparam>
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
-        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query</param>
-        /// <returns></returns>
+        /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
+        /// <returns>Compiled EF Query.</returns>
         public static Func<TDbContext, long, IEnumerable<TDbSet>> GetWhereUniqueLongIdEqualsCompiledQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
             where TDbSet : class, ILongId

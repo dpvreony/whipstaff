@@ -21,7 +21,7 @@ namespace Whipstaff.Wpf
 #pragma warning restore IDE0052 // Remove unread private members
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="WpfApplication"/> class.
         /// </summary>
         protected WpfApplication()
         {

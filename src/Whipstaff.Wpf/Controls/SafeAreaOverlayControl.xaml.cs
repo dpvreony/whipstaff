@@ -7,9 +7,9 @@ using System.Windows.Controls;
 namespace Whipstaff.Wpf.Controls
 {
     /// <summary>
-    /// Interaction logic for SafeAreaOverlayControl.xaml
+    /// Interaction logic for Safe Area Overlay Control.
     /// </summary>
-    public partial class SafeAreaOverlayControl : UserControl
+    public partial class SafeAreaOverlayControl
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SafeAreaOverlayControl"/> class.
