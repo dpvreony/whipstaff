@@ -14,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace Whipstaff.Wpf.JumpLists
 {
     /// <summary>
-    /// Jump List Process Manager
+    /// Jump List Process Manager.
     /// </summary>
     public sealed class JumpListHelper : IDisposable
     {
