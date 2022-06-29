@@ -95,7 +95,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -157,7 +157,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -223,7 +223,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -291,7 +291,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -361,7 +361,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" },
             };
 
             /// <inheritdoc/>
@@ -433,7 +433,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -507,7 +507,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -583,7 +583,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -661,7 +661,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -741,7 +741,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -823,7 +823,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -907,7 +907,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -993,7 +993,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -1081,7 +1081,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -1171,7 +1171,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>
@@ -1263,7 +1263,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
 #pragma warning restore CA2211 // Non-constant fields should not be visible
             {
-                {null, "func"}
+                { null, "func" }
             };
 
             /// <inheritdoc/>

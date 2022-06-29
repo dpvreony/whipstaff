@@ -38,7 +38,6 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
                 EventIdFactory.MiddlewareFinished(),
                 "MiddlewareStarting: {Name}: {StatusCode}");
 
-
             _middlewareStartingLogAction = LoggerMessage.Define<string, string?>(
                 LogLevel.Information,
                 EventIdFactory.MiddlewareStarting(),

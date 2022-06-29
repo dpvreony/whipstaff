@@ -139,7 +139,6 @@ namespace Whipstaff.AspNetCore
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
 
-
         /// <summary>
         /// Gets the authorization policy for the List operation.
         /// </summary>

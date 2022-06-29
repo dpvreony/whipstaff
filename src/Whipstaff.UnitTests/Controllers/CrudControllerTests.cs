@@ -30,7 +30,7 @@ namespace Whipstaff.UnitTests.Controllers
     [ExcludeFromCodeCoverage]
     public static class CrudControllerTests
     {
-        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new (MockBehavior.Strict);
+        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new(MockBehavior.Strict);
 
         private static Mock<ILogger<FakeCrudController>> MockLoggerFactory()
         {
@@ -39,7 +39,7 @@ namespace Whipstaff.UnitTests.Controllers
             return logger;
         }
 
-        private static Mock<IMediator> MockMediatorFactory() => new (MockBehavior.Strict);
+        private static Mock<IMediator> MockMediatorFactory() => new(MockBehavior.Strict);
 
         private static Mock<IAuditableCommandFactory<
             FakeCrudAddCommand,
@@ -49,14 +49,14 @@ namespace Whipstaff.UnitTests.Controllers
             long?,
             FakeCrudUpdateCommand,
             int,
-            FakeCrudUpdateResponse>> MockCommandFactory() => new (MockBehavior.Strict);
+            FakeCrudUpdateResponse>> MockCommandFactory() => new(MockBehavior.Strict);
 
         private static Mock<IAuditableQueryFactory<
             FakeCrudListQuery,
             FakeCrudListRequest,
             IList<int>,
             FakeCrudViewQuery,
-            FakeCrudViewResponse>> MockQueryFactory() => new (MockBehavior.Strict);
+            FakeCrudViewResponse>> MockQueryFactory() => new(MockBehavior.Strict);
 
         /// <summary>
         /// Unit tests for the constructor.

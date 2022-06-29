@@ -8,12 +8,12 @@ using Xunit.Abstractions;
 namespace Whipstaff.UnitTests.EntityFramework
 {
     /// <summary>
-    /// Unit Tests for <see cref="CompiledQueryFactory"/>
+    /// Unit Tests for <see cref="CompiledQueryFactory"/>.
     /// </summary>
     public static class CompiledQueryFactoryTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetMaxRowVersionCompiledAsyncQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetMaxRowVersionCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetMaxRowVersionCompiledAsyncQueryMethod : Foundatio.Xunit.TestWithLoggingBase
         {
@@ -21,65 +21,59 @@ namespace Whipstaff.UnitTests.EntityFramework
             /// Initializes a new instance of the <see cref="GetMaxRowVersionCompiledAsyncQueryMethod"/> class.
             /// </summary>
             /// <param name="output">XUnit logging output helper.</param>
-            public GetMaxRowVersionCompiledAsyncQueryMethod(ITestOutputHelper output) : base(output)
+            public GetMaxRowVersionCompiledAsyncQueryMethod(ITestOutputHelper output)
+                : base(output)
             {
             }
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetMaxRowVersionCompiledQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetMaxRowVersionCompiledQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetMaxRowVersionCompiledQueryMethod
         {
-
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereRowVersionBetweenCompiledAsyncQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereRowVersionBetweenCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetWhereRowVersionBetweenCompiledAsyncQueryMethod
         {
-
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereRowVersionGreaterThanCompiledAsyncQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereRowVersionGreaterThanCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetWhereRowVersionGreaterThanCompiledAsyncQueryMethod
         {
-
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueIntIdEqualsCompiledAsyncQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueIntIdEqualsCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetWhereUniqueIntIdEqualsCompiledAsyncQueryMethod
         {
-
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueIntIdEqualsCompiledQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueIntIdEqualsCompiledQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetWhereUniqueIntIdEqualsCompiledQueryMethod
         {
-
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueLongIdEqualsCompiledAsyncQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueLongIdEqualsCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetWhereUniqueLongIdEqualsCompiledAsyncQueryMethod
         {
-
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueLongIdEqualsCompiledQuery{TDbContext, TDbSet}"/>
+        /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueLongIdEqualsCompiledQuery{TDbContext, TDbSet}"/>.
         /// </summary>
         public sealed class GetWhereUniqueLongIdEqualsCompiledQueryMethod
         {
-
         }
     }
 }

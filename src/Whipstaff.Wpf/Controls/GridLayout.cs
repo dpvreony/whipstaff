@@ -129,8 +129,8 @@ namespace Whipstaff.Wpf.Controls
         /// the margin will trigger a LayoutUpdate, which in turn would lead to an endless recursion,
         /// but apparantly WPF takes care of this.
         /// </summary>
-        /// <param name="constraint"></param>
-        /// <returns></returns>
+        /// <param name="constraint">Sizing constraint.</param>
+        /// <returns>Size to apply.</returns>
         protected override Size MeasureOverride(Size constraint)
         {
             UpdateChildMargins();
