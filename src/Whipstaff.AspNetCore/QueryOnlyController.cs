@@ -26,7 +26,6 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
-    [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for ru-use in pattern")]
     public abstract class QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
         : Controller
         where TListRequestDto : class, new()
@@ -43,7 +42,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
-        /// <param name="logMessageActionMappings">Log Message Action mappings</param>
+        /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
         protected QueryOnlyController(
             IAuthorizationService authorizationService,
             ILogger<QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
@@ -133,7 +132,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="listRequestDto">The List Request DTO.</param>
         /// <param name="claimsPrincipal">The claims principal for the user making the list request.</param>
         /// <param name="cancellationToken">The cancellation token for the request.</param>
-        /// <returns>The list query</returns>
+        /// <returns>The list query.</returns>
         protected abstract Task<TListQuery> GetListQueryAsync(
             TListRequestDto listRequestDto,
             ClaimsPrincipal claimsPrincipal,
@@ -164,7 +163,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">Unique id of the item to view.</param>
         /// <param name="claimsPrincipal">The claims principal of the user requesting the view.</param>
         /// <param name="cancellationToken">Cancellation token for the request.</param>
-        /// <returns></returns>
+        /// <returns>The view query.</returns>
         protected abstract Task<TViewQuery> GetViewQueryAsync(
             long id,
             ClaimsPrincipal claimsPrincipal,

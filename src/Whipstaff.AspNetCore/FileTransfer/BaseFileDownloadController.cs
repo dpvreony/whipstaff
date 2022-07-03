@@ -37,7 +37,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <param name="authorizationService">Authorization service instance for verifying requests.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <param name="mediator">CQRS handler.</param>
-        /// <param name="viewLogAction"></param>
+        /// <param name="viewLogAction">Log Message Action for the View event.</param>
         protected BaseFileDownloadController(
             IAuthorizationService authorizationService,
             ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> logger,
