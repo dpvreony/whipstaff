@@ -28,6 +28,12 @@
             "labels": ["dependencies"]
         },
         {
+            "matchPackagePatterns": ["^PInvoke.*"],
+            "groupName": "all pinvoke dependencies",
+            "groupSlug": "all-pinvoke",
+            "labels": ["dependencies"]
+        },
+        {
             "matchPackagePatterns": ["^ReactiveUI.*"],
             "groupName": "all reactiveui dependencies",
             "groupSlug": "all-reactiveui",
