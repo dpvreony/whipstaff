@@ -35,19 +35,21 @@ namespace Whipstaff.UnitTests.Features.Mediatr
             /// Initializes a new instance of the <see cref="RegisterMediatrWithExplicitTypesMethod"/> class.
             /// </summary>
             /// <param name="output">XUnit Test Output helper.</param>
-            public RegisterMediatrWithExplicitTypesMethod(ITestOutputHelper output) : base(output)
+            public RegisterMediatrWithExplicitTypesMethod(ITestOutputHelper output)
+                : base(output)
             {
             }
 
             /// <summary>
             /// Tests to ensure registration successfully takes place.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ShouldSucceed()
             {
                 var services = new ServiceCollection();
 
-                _ = services.AddScoped<ILoggerFactory>(_ => this.Log);
+                _ = services.AddScoped<ILoggerFactory>(_ => Log);
                 _ = services.AddLogging();
 
                 var databaseName = Guid.NewGuid().ToString();

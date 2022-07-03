@@ -50,6 +50,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
@@ -108,6 +109,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
@@ -172,6 +174,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
@@ -238,6 +241,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
@@ -366,6 +370,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
@@ -428,6 +433,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
@@ -495,6 +501,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {
@@ -565,6 +572,7 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscription()
             {

@@ -48,7 +48,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             /// <summary>
             /// Unit Tests for ensuring a result is returned.
             /// </summary>
-            /// <returns></returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
             public async Task ReturnsResult()
             {

@@ -97,7 +97,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "authorizationService"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     null,
@@ -107,7 +106,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "logger"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
@@ -117,7 +115,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "mediator"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
@@ -127,7 +124,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "commandFactory"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
@@ -137,7 +133,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "queryFactory"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),

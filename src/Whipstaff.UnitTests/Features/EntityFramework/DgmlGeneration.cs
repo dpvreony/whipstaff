@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Whipstaff.UnitTests.Features.EntityFramework
 {
     /// <summary>
-    /// Initial test logic for generating DGML
+    /// Initial test logic for generating DGML.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public static class DgmlGeneration
@@ -23,10 +23,11 @@ namespace Whipstaff.UnitTests.Features.EntityFramework
         /// Taken from https://github.com/ErikEJ/EFCorePowerTools/wiki/Inspect-your-DbContext-model
         /// made re-usable to run in build and tests.
         /// </remarks>
-        public static void GeneratesDgml<T>()
-            where T : DbContext, new()
+        /// <typeparam name="TDbContext">The type for the EF Core DB Context.</typeparam>
+        public static void GeneratesDgml<TDbContext>()
+            where TDbContext : DbContext, new()
         {
-            using (var myContext = new T())
+            using (var myContext = new TDbContext())
             {
                 var path = Path.GetTempFileName() + ".dgml";
                 File.WriteAllText(path, myContext.AsDgml(), Encoding.UTF8);
