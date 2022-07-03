@@ -18,7 +18,7 @@ namespace Whipstaff.Wpf.InteractionFlows.SaveFileDialogInteraction
         }
 
         /// <summary>
-        /// Gets a flag indicating whether the user chose to proceed with the file open dialog.
+        /// Gets a value indicating whether the user chose to proceed with the file open dialog.
         /// </summary>
         public bool UserProceeded { get; }
 
@@ -26,7 +26,7 @@ namespace Whipstaff.Wpf.InteractionFlows.SaveFileDialogInteraction
         /// Gets an array of file names, if the user chose to proceed.
         /// </summary>
         public string? FileName { get; }
-        
+
         /// <summary>
         /// Creates an instance of <see cref="SaveFileDialogResult"/> indicating the user chose to cancel saving a file.
         /// </summary>

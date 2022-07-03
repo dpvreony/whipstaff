@@ -37,14 +37,12 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "canExecuteObservable"
                 },
-
                 {
                     BasicObservable(),
                     null,
                     BasicFunc(),
                     "commandFunc1"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -92,7 +90,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "canExecuteObservable"
                 },
-
                 {
                     BasicObservable(),
                     null,
@@ -100,7 +97,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc1"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -108,7 +104,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc2"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -160,7 +155,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "canExecuteObservable"
                 },
-
                 {
                     BasicObservable(),
                     null,
@@ -169,7 +163,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc1"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -178,7 +171,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc2"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -187,7 +179,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc3"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -243,7 +234,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "canExecuteObservable"
                 },
-
                 {
                     BasicObservable(),
                     null,
@@ -253,7 +243,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc1"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -263,7 +252,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc2"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -273,7 +261,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc3"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -283,7 +270,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc4"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -343,7 +329,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "canExecuteObservable"
                 },
-
                 {
                     BasicObservable(),
                     null,
@@ -354,7 +339,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc1"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -365,7 +349,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc2"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -376,7 +359,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc3"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -387,7 +369,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc4"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),
@@ -398,7 +379,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     BasicFunc(),
                     "commandFunc5"
                 },
-
                 {
                     BasicObservable(),
                     BasicFunc(),

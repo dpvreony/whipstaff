@@ -14,15 +14,15 @@ namespace Whipstaff.Wpf.InteractionFlows.PrintDialogInteraction
     public static class PrintDialogHandler
     {
         /// <summary>
-        /// 
+        /// Helper for handling the Windows Print Dialog.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request">Request settings for the Print Dialog.</param>
+        /// <returns>Whether the Print Dialog was confirmed or cancelled.</returns>
         public static Task<PrintDialogResult> OnPrintDialog(PrintDialogRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            PrintDialog dialog = new ();
+            PrintDialog dialog = new();
 
             var dialogResult = dialog.ShowDialog() ?? false;
 

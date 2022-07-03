@@ -20,7 +20,7 @@ namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
         }
 
         /// <summary>
-        /// Gets a flag indicating whether the user chose to proceed with the file open dialog.
+        /// Gets a value indicating whether the user chose to proceed with the file open dialog.
         /// </summary>
         public bool UserProceeded { get; }
 

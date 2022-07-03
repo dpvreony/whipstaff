@@ -14,10 +14,10 @@ namespace Whipstaff.Wpf.InteractionFlows.SaveFileDialogInteraction
     public static class SaveFileDialogHandler
     {
         /// <summary>
-        /// 
+        /// Helper for handling the Windows Save File Dialog.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request">Request settings for the Save File Dialog.</param>
+        /// <returns>Whether the Save File Dialog was confirmed or cancelled.</returns>
         public static Task<SaveFileDialogResult> OnSaveFileDialog(SaveFileDialogRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
