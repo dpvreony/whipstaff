@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
@@ -15,7 +19,7 @@ namespace Whipstaff.Wpf.InteractionFlows
     public sealed class Interactions
     {
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="Interactions"/> class.
         /// </summary>
         /// <param name="fileOpenDialogHandler">The handling logic for a File Open Dialog Interaction request.</param>
         /// <param name="fileSaveDialogHandler">The handling logic for a File Save Dialog Interaction request.</param>
@@ -53,24 +57,6 @@ namespace Whipstaff.Wpf.InteractionFlows
         }
 
         /// <summary>
-        /// Sets up the WPF interaction flows with default windows operating system dialogs.
-        /// </summary>
-        /// <param name="compositeDisposable">The composit disposable handler to register handler disposal management on.</param>
-        /// <param name="handlerScheduler">The scheduler to register the interactions on, useful for overriding in unit\integration test scenarios.</param>
-        /// <returns></returns>
-        public static Interactions CreateWithDefaults(
-            CompositeDisposable compositeDisposable,
-            IScheduler? handlerScheduler = null)
-        {
-            return new Interactions(
-                OpenFileDialogHandler.OnOpenFileDialog,
-                SaveFileDialogHandler.OnSaveFileDialog,
-                PrintDialogHandler.OnPrintDialog,
-                compositeDisposable,
-                handlerScheduler);
-        }
-
-        /// <summary>
         /// Gets the interaction handler for a WPF File Open Dialog.
         /// </summary>
         public Interaction<OpenFileDialogRequest, OpenFileDialogResult> FileOpenDialog { get; }
@@ -84,5 +70,23 @@ namespace Whipstaff.Wpf.InteractionFlows
         /// Gets the interaction handler for a WPF Print Dialog.
         /// </summary>
         public Interaction<PrintDialogRequest, PrintDialogResult> PrintDialog { get; }
+
+        /// <summary>
+        /// Sets up the WPF interaction flows with default windows operating system dialogs.
+        /// </summary>
+        /// <param name="compositeDisposable">The composit disposable handler to register handler disposal management on.</param>
+        /// <param name="handlerScheduler">The scheduler to register the interactions on, useful for overriding in unit\integration test scenarios.</param>
+        /// <returns>Instance of Windows OS interaction flows.</returns>
+        public static Interactions CreateWithDefaults(
+            CompositeDisposable compositeDisposable,
+            IScheduler? handlerScheduler = null)
+        {
+            return new Interactions(
+                OpenFileDialogHandler.OnOpenFileDialog,
+                SaveFileDialogHandler.OnSaveFileDialog,
+                PrintDialogHandler.OnPrintDialog,
+                compositeDisposable,
+                handlerScheduler);
+        }
     }
 }

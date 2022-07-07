@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using Microsoft.EntityFrameworkCore;
 
 namespace Whipstaff.Testing.EntityFramework
 {
@@ -17,17 +21,17 @@ namespace Whipstaff.Testing.EntityFramework
         }
 
         /// <summary>
-        /// Gets or sets the Fake Add Audit Db Set.
+        /// Gets the Fake Add Audit Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddAuditDbSet> FakeAddAudit => Set<DbSets.FakeAddAuditDbSet>();
 
         /// <summary>
-        /// Gets or sets the Fake Add Audit Pre Process Db Set.
+        /// Gets the Fake Add Audit Pre Process Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddPreProcessAuditDbSet> FakeAddPreProcessAudit => Set<DbSets.FakeAddPreProcessAuditDbSet>();
 
         /// <summary>
-        /// Gets or sets the Fake Add Audit Post Process Db Set.
+        /// Gets the Fake Add Audit Post Process Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddPostProcessAuditDbSet> FakeAddPostProcessAudit => Set<DbSets.FakeAddPostProcessAuditDbSet>();
     }

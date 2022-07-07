@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reactive.Linq;
 using ReactiveUI;
 
@@ -74,9 +78,9 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <typeparam name="TResult2">The result type for the second command.</typeparam>
         /// <param name="canExecuteObservable">Predicate observable for if the commands can execute.</param>
         /// <param name="commandFunc1">Function to execute in the first command.</param>
-        /// <param name="commandCanExecute1"></param>
+        /// <param name="commandCanExecute1">Observable for whether the first command can execute. Is merged with canExecuteObservable.</param>
         /// <param name="commandFunc2">Function to execute in the second command.</param>
-        /// <param name="commandCanExecute2"></param>
+        /// <param name="commandCanExecute2">Observable for whether the second command can execute. Is merged with canExecuteObservable.</param>
         /// <returns>A tuple representing the created commands.</returns>
         public static (
             ReactiveCommand<TParam1, TResult1> Command1,

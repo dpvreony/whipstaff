@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using ReactiveUI;
@@ -29,11 +33,11 @@ namespace Whipstaff.Wpf.InteractionFlows
         /// <summary>
         /// Registers an interaction to trigger a func and map the result to the interaction output.
         /// </summary>
-        /// <typeparam name="TInput"></typeparam>
-        /// <typeparam name="TOutput"></typeparam>
-        /// <param name="interaction"></param>
-        /// <param name="outputFunc"></param>
-        /// <returns></returns>
+        /// <typeparam name="TInput">The type for the input passed into interaction.</typeparam>
+        /// <typeparam name="TOutput">The output returned from the interaction.</typeparam>
+        /// <param name="interaction">The interaction that takes an input and passes an output.</param>
+        /// <param name="outputFunc">Function to apply to the output from the interaction.</param>
+        /// <returns>Disposable subscription for the handler.</returns>
         public static IDisposable RegisterHandlerToOutputFunc<TInput, TOutput>(this Interaction<TInput, TOutput> interaction, Func<TInput, Task<TOutput>> outputFunc)
         {
             ArgumentNullException.ThrowIfNull(interaction);

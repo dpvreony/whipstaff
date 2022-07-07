@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -46,10 +46,11 @@ namespace Whipstaff.Testing
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
-        /// <param name="commandFactory"></param>
-        /// <param name="queryFactory"></param>
-        /// <param name="logMessageActions"></param>
-        public FakeCrudController(IAuthorizationService authorizationService,
+        /// <param name="commandFactory">Factory for Commands.</param>
+        /// <param name="queryFactory">Factory for Queries.</param>
+        /// <param name="logMessageActions">Logging Framework Message Actions Factory.</param>
+        public FakeCrudController(
+            IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
             IAuditableCommandFactory<
@@ -79,7 +80,9 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override Task<FakeCrudListQuery> GetListQueryAsync(FakeCrudListRequest listRequestDto, ClaimsPrincipal claimsPrincipal,
+        protected override Task<FakeCrudListQuery> GetListQueryAsync(
+            FakeCrudListRequest listRequestDto,
+            ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
             return Task.FromResult(new FakeCrudListQuery(listRequestDto, claimsPrincipal));

@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
 
 namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
 {
@@ -16,7 +20,7 @@ namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
         }
 
         /// <summary>
-        /// Gets a flag indicating whether the user chose to proceed with the file open dialog.
+        /// Gets a value indicating whether the user chose to proceed with the file open dialog.
         /// </summary>
         public bool UserProceeded { get; }
 

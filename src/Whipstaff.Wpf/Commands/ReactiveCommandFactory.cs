@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 dpvreony and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -20,11 +20,11 @@ namespace Whipstaff.Wpf.Commands
         /// <summary>
         /// Gets a command for launching the log file folder via shell execute, which will typically launch windows explorer.
         /// </summary>
-        /// <param name="directoryInfo"></param>
-        /// <param name="canExecute"></param>
-        /// <param name="outputScheduler"></param>
-        /// <returns></returns>
-        public static ReactiveCommand<Unit, Unit> GetOpenLogFileLocationCommand(
+        /// <param name="directoryInfo">Directory representation.</param>
+        /// <param name="canExecute">Observable for whether the command can execute.</param>
+        /// <param name="outputScheduler">Schedule to run the command on.</param>
+        /// <returns>UI Command.</returns>
+        public static ReactiveCommand<Unit, int?> GetOpenLogFileLocationCommand(
             DirectoryInfo directoryInfo,
             IObservable<bool>? canExecute = null,
             IScheduler? outputScheduler = null)
@@ -40,21 +40,21 @@ namespace Whipstaff.Wpf.Commands
         /// <summary>
         /// Gets a command for using shell execute for windows interactions.
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="canExecute"></param>
-        /// <param name="outputScheduler"></param>
-        /// <returns></returns>
-        public static ReactiveCommand<Unit, Unit> GetShellExecuteCommand(
+        /// <param name="fileName">File name to shell execute.</param>
+        /// <param name="canExecute">Observable for whether the command can execute.</param>
+        /// <param name="outputScheduler">Schedule to run the command on.</param>
+        /// <returns>UI Command.</returns>
+        public static ReactiveCommand<Unit, int?> GetShellExecuteCommand(
             string fileName,
             IObservable<bool>? canExecute = null,
             IScheduler? outputScheduler = null)
         {
 #pragma warning disable CA2000 // Dispose objects before losing scope
-            return ReactiveCommand.CreateFromTask<Unit>(() => OnShellExecute(fileName), canExecute, outputScheduler);
+            return ReactiveCommand.CreateFromTask(() => OnShellExecute(fileName), canExecute, outputScheduler);
 #pragma warning restore CA2000 // Dispose objects before losing scope
         }
 
-        private static Task<Unit> OnShellExecute(string fileName)
+        private static Task<int?> OnShellExecute(string fileName)
         {
             var processStartInfo = new ProcessStartInfo(fileName)
             {
@@ -63,7 +63,7 @@ namespace Whipstaff.Wpf.Commands
 
             var process = Process.Start(processStartInfo);
 
-            return Task.FromResult(Unit.Default);
+            return Task.FromResult(process?.Id);
         }
     }
 }

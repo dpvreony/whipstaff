@@ -1,4 +1,8 @@
-﻿using NodaTime;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using NodaTime;
 using Whipstaff.NodaTime;
 using Xunit;
 using Xunit.Abstractions;
@@ -11,7 +15,7 @@ namespace Whipstaff.UnitTests.NodaTime
     public static class LocalDateExtensionsTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="LocalDateExtensions.ToYearMonthDayString"/>
+        /// Unit Tests for <see cref="LocalDateExtensions.ToYearMonthDayString"/>.
         /// </summary>
         public sealed class ToYearMonthDayStringMethod : Foundatio.Xunit.TestWithLoggingBase
         {
@@ -19,8 +23,8 @@ namespace Whipstaff.UnitTests.NodaTime
             /// Initializes a new instance of the <see cref="ToYearMonthDayStringMethod"/> class.
             /// </summary>
             /// <param name="output">XUnit Test Output helper.</param>
-
-            public ToYearMonthDayStringMethod(ITestOutputHelper output) : base(output)
+            public ToYearMonthDayStringMethod(ITestOutputHelper output)
+                : base(output)
             {
             }
 

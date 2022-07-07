@@ -1,7 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Win32;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
 
-// using ReactiveMarbles.ObservableEvents;
+using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
+using ReactiveMarbles.ObservableEvents;
+
+[assembly: GenerateStaticEventObservables(typeof(SystemEvents))]
 
 namespace Whipstaff.Windows.GroupPolicyMonitoring
 {
@@ -16,47 +21,34 @@ namespace Whipstaff.Windows.GroupPolicyMonitoring
         private readonly Action<ILogger, Exception?> _groupPolicyRefreshDetectedLogMessage =
             LoggerMessage.Define(LogLevel.Information, new EventId(1001, "Group Policy Refresh Detected"), "Group Policy Refresh Detected");
 
+        private readonly IDisposable _userPreferenceChangingSubscription;
+
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="GroupPolicyMonitoringProcessManager"/> class.
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="onUserPreferenceChangingGroupPolicy"></param>
-        public GroupPolicyMonitoringProcessManager(
+        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="onUserPreferenceChangingGroupPolicy">action to carry out when user preferences are changing via group policy.</param>
+        private GroupPolicyMonitoringProcessManager(
             ILogger<GroupPolicyMonitoringProcessManager> logger,
             Action onUserPreferenceChangingGroupPolicy)
         {
-            this._logger = logger;
+            _logger = logger;
             _onUserPreferenceChangingGroupPolicy = onUserPreferenceChangingGroupPolicy;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Run()
-        {
-            SystemEvents.UserPreferenceChanging += this.SystemEventsOnUserPreferenceChanging;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Stop()
-        {
-            SystemEvents.UserPreferenceChanging -= this.SystemEventsOnUserPreferenceChanging;
+            _userPreferenceChangingSubscription = RxEvents.SystemEventsUserPreferenceChanging.Subscribe(OnSystemEventsOnUserPreferenceChanging);
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            SystemEvents.UserPreferenceChanging -= this.SystemEventsOnUserPreferenceChanging;
+            _userPreferenceChangingSubscription.Dispose();
         }
 
-        private void SystemEventsOnUserPreferenceChanging(object sender, UserPreferenceChangingEventArgs userPreferenceChangingEventArgs)
+        private void OnSystemEventsOnUserPreferenceChanging(UserPreferenceChangingEventArgs userPreferenceChangingEventArgs)
         {
             switch (userPreferenceChangingEventArgs.Category)
             {
                 case UserPreferenceCategory.Policy:
-                    this._groupPolicyRefreshDetectedLogMessage(_logger, null);
+                    _groupPolicyRefreshDetectedLogMessage(_logger, null);
 
                     try
                     {
