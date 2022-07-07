@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core;
-using Whipstaff.Core.Logging;
 
 namespace Whipstaff.AspNetCore.Extensions
 {
@@ -262,7 +261,7 @@ namespace Whipstaff.AspNetCore.Extensions
 
         /// <summary>
         /// Extension method for common behaviour in List API operations, this method doesn't constrain the requirement for an auditable request.
-        /// However the auditable request calls this. ;)
+        /// However the auditable request does call this.
         /// </summary>
         /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
         /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>

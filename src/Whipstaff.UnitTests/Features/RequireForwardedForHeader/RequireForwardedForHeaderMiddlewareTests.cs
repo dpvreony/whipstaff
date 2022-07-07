@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -9,10 +13,15 @@ using Xunit.Abstractions;
 namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
 {
     /// <summary>
-    /// Unit Tests for the RequireForwardedForHeaderMiddleware
+    /// Unit Tests for the RequireForwardedForHeaderMiddleware.
     /// </summary>
     public static class RequireForwardedForHeaderMiddlewareTests
     {
+        private static Task Next(HttpContext httpContext)
+        {
+            return Task.CompletedTask;
+        }
+
         /// <summary>
         /// Unit tests for the constructor method.
         /// </summary>
@@ -22,7 +31,8 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
             /// </summary>
             /// <param name="output">XUnit Test Output helper.</param>
-            public ConstructorMethod(ITestOutputHelper output) : base(output)
+            public ConstructorMethod(ITestOutputHelper output)
+                : base(output)
             {
             }
 
@@ -57,13 +67,18 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             /// Test Data for the Rejection of Http Requests.
             /// </summary>
 #pragma warning disable CA2211 // Non-constant fields should not be visible
+#pragma warning disable SA1401 // Fields should be private
             public static IEnumerable<object[]> RejectsRequestTestData = GetRejectsRequestTestData();
+#pragma warning restore SA1401 // Fields should be private
 #pragma warning restore CA2211 // Non-constant fields should not be visible
 
             /// <summary>
             /// Tests to ensure the middleware rejects requests without
             /// X-Forwarded-... http headers.
             /// </summary>
+            /// <param name="httpContext">The request HTTP context.</param>
+            /// <param name="expectedHttpStatusCode">The expected HTTP Status code that will be returned.</param>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Theory]
             [MemberData(nameof(RejectsRequestTestData))]
             public async Task RejectsRequest(
@@ -74,15 +89,16 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
                 await instance.InvokeAsync(httpContext)
                     .ConfigureAwait(false);
 
-                Assert.Equal(expectedHttpStatusCode,
+                Assert.Equal(
+                    expectedHttpStatusCode,
 #pragma warning disable CA1062 // Validate arguments of public methods
-                        httpContext.Response.StatusCode);
+                    httpContext.Response.StatusCode);
 #pragma warning restore CA1062 // Validate arguments of public methods
             }
 
             private static IEnumerable<object[]> GetRejectsRequestTestData()
             {
-                return new []
+                return new[]
                 {
                     GetXForwardedForRequestTestData(),
                     GetXForwardedProtoHttpMissingRequestTestData(),
@@ -171,11 +187,6 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
 
                 return httpContext;
             }
-        }
-
-        private static Task Next(HttpContext _)
-        {
-            return Task.CompletedTask;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -267,6 +267,7 @@ namespace Whipstaff.AspNetCore
                 _ = services.AddControllers(options =>
                     {
                         options.Conventions.Add(new AddAuthorizePolicyControllerConvention());
+
                         // if you have a load balancer in front, you can have an issue if there is no cache-control specified
                         // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
                         options.CacheProfiles.Add("nostore", new CacheProfile { NoStore = true });

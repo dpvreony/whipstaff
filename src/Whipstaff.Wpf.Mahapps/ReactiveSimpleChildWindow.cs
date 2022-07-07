@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System.Windows;
 using MahApps.Metro.SimpleChildWindow;
 using ReactiveUI;
 
@@ -40,11 +44,11 @@ namespace Whipstaff.Wpf.Mahapps
         where TViewModel : class
     {
         /// <summary>
-        /// Dependency Property for the view model
+        /// Dependency Property for the view model.
         /// </summary>
-        // ReSharper disable StaticFieldInGenericType
+#pragma warning disable RCS1158 // Static member in generic type should use a type parameter.
         public static readonly DependencyProperty ViewModelProperty =
-            // ReSharper restore StaticFieldInGenericType
+#pragma warning restore RCS1158 // Static member in generic type should use a type parameter.
             DependencyProperty.Register(
                 "ViewModel",
                 typeof(TViewModel),

@@ -4,43 +4,49 @@
     ],
     "assigneesFromCodeOwners": true,
         "packageRules": [{
-            "matchPackagePatterns": ["Audit.*"],
+            "matchPackagePatterns": ["^Audit.*"],
             "groupName": "all audit.net dependencies",
             "groupSlug": "all-audit-net",
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["Exceptionless.*"],
+            "matchPackagePatterns": ["^Exceptionless.*"],
             "groupName": "all exceptionless dependencies",
             "groupSlug": "all-exceptionless",
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["Foundatio.*"],
+            "matchPackagePatterns": ["^Foundatio.*"],
             "groupName": "all foundatio dependencies",
             "groupSlug": "all-foundatio",
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["Microsoft.*", "System.*"],
+            "matchPackagePatterns": ["^Microsoft.*", "^System.*"],
             "groupName": "all microsoft dependencies",
             "groupSlug": "all-microsoft",
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["ReactiveUI.*"],
+            "matchPackagePatterns": ["^PInvoke.*"],
+            "groupName": "all pinvoke dependencies",
+            "groupSlug": "all-pinvoke",
+            "labels": ["dependencies"]
+        },
+        {
+            "matchPackagePatterns": ["^ReactiveUI.*"],
             "groupName": "all reactiveui dependencies",
             "groupSlug": "all-reactiveui",
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["Xamarin.*"],
+            "matchPackagePatterns": ["^Xamarin.*"],
             "groupName": "all xamarin dependencies",
             "groupSlug": "all-xamarin",
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["Xunit.*"],
+            "matchPackagePatterns": ["^Xunit.*"],
             "groupName": "all xunit dependencies",
             "groupSlug": "all-xunit",
             "labels": ["dependencies"]

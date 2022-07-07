@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -30,7 +30,7 @@ namespace Whipstaff.UnitTests.Controllers
     [ExcludeFromCodeCoverage]
     public static class CrudControllerTests
     {
-        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new (MockBehavior.Strict);
+        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new(MockBehavior.Strict);
 
         private static Mock<ILogger<FakeCrudController>> MockLoggerFactory()
         {
@@ -39,7 +39,7 @@ namespace Whipstaff.UnitTests.Controllers
             return logger;
         }
 
-        private static Mock<IMediator> MockMediatorFactory() => new (MockBehavior.Strict);
+        private static Mock<IMediator> MockMediatorFactory() => new(MockBehavior.Strict);
 
         private static Mock<IAuditableCommandFactory<
             FakeCrudAddCommand,
@@ -49,14 +49,14 @@ namespace Whipstaff.UnitTests.Controllers
             long?,
             FakeCrudUpdateCommand,
             int,
-            FakeCrudUpdateResponse>> MockCommandFactory() => new (MockBehavior.Strict);
+            FakeCrudUpdateResponse>> MockCommandFactory() => new(MockBehavior.Strict);
 
         private static Mock<IAuditableQueryFactory<
             FakeCrudListQuery,
             FakeCrudListRequest,
             IList<int>,
             FakeCrudViewQuery,
-            FakeCrudViewResponse>> MockQueryFactory() => new (MockBehavior.Strict);
+            FakeCrudViewResponse>> MockQueryFactory() => new(MockBehavior.Strict);
 
         /// <summary>
         /// Unit tests for the constructor.
@@ -97,7 +97,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "authorizationService"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     null,
@@ -107,7 +106,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "logger"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
@@ -117,7 +115,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "mediator"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
@@ -127,7 +124,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "commandFactory"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
@@ -137,7 +133,6 @@ namespace Whipstaff.UnitTests.Controllers
                     new FakeCrudControllerLogMessageActions(),
                     "queryFactory"
                 },
-
                 {
                     MockAuthorizationServiceFactory(),
                     MockLoggerFactory(),
@@ -357,7 +352,7 @@ namespace Whipstaff.UnitTests.Controllers
                 return await Task.FromResult(auditableRequest.RequestDto).ConfigureAwait(false);
             }
 
-            private static async Task<FakeCrudAddCommand> MockAddCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken _)
+            private static async Task<FakeCrudAddCommand> MockAddCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
                 return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
@@ -536,7 +531,7 @@ namespace Whipstaff.UnitTests.Controllers
                 return await Task.FromResult(arg1.RequestDto).ConfigureAwait(false);
             }
 
-            private static async Task<FakeCrudDeleteCommand> MockDeleteCommandAsync(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken _)
+            private static async Task<FakeCrudDeleteCommand> MockDeleteCommandAsync(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
                 return await Task.FromResult(new FakeCrudDeleteCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
             }
@@ -674,7 +669,7 @@ namespace Whipstaff.UnitTests.Controllers
                 return new List<int> { 1, 2, 3 };
             }
 
-            private static Task<FakeCrudListQuery> MockListQueryAsync(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken _)
+            private static Task<FakeCrudListQuery> MockListQueryAsync(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
                 return Task.FromResult(new FakeCrudListQuery(requestDto, claimsPrincipal));
             }
@@ -798,7 +793,7 @@ namespace Whipstaff.UnitTests.Controllers
                 return Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse());
             }
 
-            private static Task<FakeCrudUpdateCommand> MockUpdateCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken _)
+            private static Task<FakeCrudUpdateCommand> MockUpdateCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
                 return Task.FromResult(new FakeCrudUpdateCommand(requestDto, claimsPrincipal));
             }
@@ -895,7 +890,7 @@ namespace Whipstaff.UnitTests.Controllers
                 return Task.FromResult(auditableRequest.RequestDto == 1 ? new FakeCrudViewResponse() : null);
             }
 
-            private static Task<FakeCrudViewQuery> MockViewQueryAsync(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken _)
+            private static Task<FakeCrudViewQuery> MockViewQueryAsync(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
                 return Task.FromResult(new FakeCrudViewQuery(requestDto, claimsPrincipal));
             }

@@ -17,22 +17,22 @@
     <PackageReference Include="Audit.NET" Version="19.1.4" />
     <PackageReference Include="Audit.WebApi.Core" Version="19.1.4" />
     <PackageReference Include="Ben.BlockingDetector" Version="0.0.4" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.16.0" />
-    <PackageReference Include="DynamicData" Version="7.9.1" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.17.1" />
+    <PackageReference Include="DynamicData" Version="7.9.4" />
     <PackageReference Include="Exceptionless.AspNetCore" Version="4.8.0" />
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="4.8.0" />
     <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.4.2" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
-    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="6.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.5" />
-    <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.25" />
+    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
+    <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.26" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="6.0.0" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
     <PackageReference Include="OwaspHeaders.Core" Version="4.5.1" />
-    <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.58" />
+    <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.62" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />-->
   </ItemGroup>

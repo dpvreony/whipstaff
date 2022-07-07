@@ -1,17 +1,21 @@
-﻿using System.Reactive.Linq;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System.Reactive.Linq;
 
 namespace Whipstaff.Windows.SecurityCenter
 {
     /// <summary>
-    /// Helpers for the Security Providers
+    /// Helpers for the Security Providers.
     /// </summary>
     public static class SecurityProviderHelpers
     {
         /// <summary>
-        /// Gets the health status of a health provider
+        /// Gets the health status of a health provider.
         /// </summary>
-        /// <param name="provider">The provider to query the health status of</param>
-        /// <returns></returns>
+        /// <param name="provider">The provider to query the health status of.</param>
+        /// <returns>Health Status.</returns>
         public static SecurityProviderHealth GetHealthStatus(int provider)
         {
             var resultCode = NativeMethods.WscGetSecurityProviderHealth(provider, out var health);
@@ -24,10 +28,10 @@ namespace Whipstaff.Windows.SecurityCenter
         }
 
         /// <summary>
-        /// Gets the health status of a health provider
+        /// Gets the health status of a health provider.
         /// </summary>
-        /// <param name="provider">The provider to query the health status of</param>
-        /// <returns></returns>
+        /// <param name="provider">The provider to query the health status of.</param>
+        /// <returns>Health Status.</returns>
         public static SecurityProviderHealth GetHealthStatus(SecurityProvider provider)
         {
             return GetHealthStatus((int)provider);
@@ -36,7 +40,7 @@ namespace Whipstaff.Windows.SecurityCenter
         /// <summary>
         /// Gets an Observable sequence of Security Provider Health Statuses that repeats on a given time period.
         /// </summary>
-        /// <param name="provider">The provider to query the health status of</param>
+        /// <param name="provider">The provider to query the health status of.</param>
         /// <param name="period">
         /// Period to produce subsequent values. If this value is equal to TimeSpan.Zero,
         ///  the timer will recur as fast as possible.
@@ -50,7 +54,7 @@ namespace Whipstaff.Windows.SecurityCenter
         /// <summary>
         /// Gets an Observable sequence of Security Provider Health Statuses that repeats on a given time period.
         /// </summary>
-        /// <param name="provider">The provider to query the health status of</param>
+        /// <param name="provider">The provider to query the health status of.</param>
         /// <param name="period">
         /// Period to produce subsequent values. If this value is equal to TimeSpan.Zero,
         ///  the timer will recur as fast as possible.

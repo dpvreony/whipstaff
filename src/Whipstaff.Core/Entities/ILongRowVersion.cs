@@ -2,14 +2,16 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-
 namespace Whipstaff.Core.Entities
 {
     /// <summary>
-    /// Represents a User Identifier that is a Guid.
+    /// Represents an entity that has a row version for concurrency checks.
     /// </summary>
-    public interface IGuidUserId : IUserId<Guid>
+    public interface ILongRowVersion
     {
+        /// <summary>
+        /// Gets or sets the row version.
+        /// </summary>
+        long RowVersion { get; set; }
     }
 }

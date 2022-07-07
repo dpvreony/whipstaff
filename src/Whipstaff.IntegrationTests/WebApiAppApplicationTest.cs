@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebApiApp;
@@ -14,7 +18,7 @@ namespace Whipstaff.IntegrationTests
     public sealed class WebApiAppApplicationTest : BaseWebApplicationTest<Startup>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebMvcAppApplicationTest"/> class.
+        /// Initializes a new instance of the <see cref="WebApiAppApplicationTest"/> class.
         /// </summary>
         /// <param name="output">XUnit Logging output helper.</param>
         public WebApiAppApplicationTest(ITestOutputHelper output)

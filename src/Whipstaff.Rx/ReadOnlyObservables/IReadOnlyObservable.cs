@@ -1,11 +1,15 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 
 namespace Whipstaff.Rx.ReadOnlyObservables
 {
     /// <summary>
     /// Represents a <see cref="System.Reactive.Subjects.BehaviorSubject{T}">BehaviorSubject</see> that has been wrapped to make it read only by hiding the next, error, completed methods.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type to observe.</typeparam>
     public interface IReadOnlyObservable<T> : IObservable<T>
     {
         /// <summary>

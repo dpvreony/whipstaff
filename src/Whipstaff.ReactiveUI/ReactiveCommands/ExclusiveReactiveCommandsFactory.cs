@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ReactiveUI;
@@ -56,7 +60,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var exclusiveLockSubscription = Observable.Merge(
                     command1.IsExecuting,
                     command2.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -126,7 +130,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var exclusiveLockSubscription = Observable.Merge(
                     cmd1.IsExecuting,
                     cmd2.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -196,7 +200,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command1.IsExecuting,
                     command2.IsExecuting,
                     command3.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -282,7 +286,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command2.IsExecuting,
                     command3.IsExecuting,
                     command4.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -384,7 +388,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command3.IsExecuting,
                     command4.IsExecuting,
                     command5.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (
@@ -502,7 +506,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     command4.IsExecuting,
                     command5.IsExecuting,
                     command6.IsExecuting)
-                .ScanNumberThatAreTrue()
+                .CountThatAreTrue()
                 .Subscribe(numberExecuting);
 
             return (

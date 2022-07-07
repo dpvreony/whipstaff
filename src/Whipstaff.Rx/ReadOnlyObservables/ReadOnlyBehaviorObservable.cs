@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reactive.Subjects;
 
 namespace Whipstaff.Rx.ReadOnlyObservables
@@ -12,9 +16,9 @@ namespace Whipstaff.Rx.ReadOnlyObservables
         private readonly BehaviorSubject<T> _behaviorSubject;
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="ReadOnlyBehaviorObservable{T}"/> class.
         /// </summary>
-        /// <param name="behaviorSubject"></param>
+        /// <param name="behaviorSubject">The behaviour subject to wrap as read only.</param>
         public ReadOnlyBehaviorObservable(BehaviorSubject<T> behaviorSubject)
         {
             _behaviorSubject = behaviorSubject ?? throw new ArgumentNullException(nameof(behaviorSubject));

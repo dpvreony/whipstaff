@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 dpvreony and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -21,7 +21,7 @@ namespace Whipstaff.Windows.ActiveDirectory
         /// </summary>
         /// <param name="authenticablePrincipal">The account principal to check.</param>
         /// <param name="expiryThreshold">The expiry threshold to check for.</param>
-        /// <returns></returns>
+        /// <returns>State of the User Account.</returns>
         /// <exception cref="ArgumentNullException">authenticablePrincipal is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException">expiryThreshold is not a positive number.</exception>
         public static UserAccountState GetActiveDirectoryUserState(
@@ -64,14 +64,12 @@ namespace Whipstaff.Windows.ActiveDirectory
             if (accountExpiry.HasValue && accountExpiry.Value < DateTime.Now.Add(expiryThreshold))
             {
                 // don't reorder these
-
                 if (accountExpiry.Value < DateTime.Now)
                 {
                     return UserAccountState.AccountExpired;
                 }
 
                 // don't reorder these
-
                 if (useThreshold && accountExpiry.Value < DateTime.Now.Add(expiryThreshold))
                 {
                     return UserAccountState.AccountExpiringWithinThreshold;
@@ -108,8 +106,7 @@ namespace Whipstaff.Windows.ActiveDirectory
                            directoryEntry,
                            "(objectClass=*)",
                            null,
-                           SearchScope.Base
-                       ))
+                           SearchScope.Base))
                 {
                     var sr = ds.FindOne();
                     if (sr == null)

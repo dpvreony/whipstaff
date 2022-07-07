@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -10,7 +14,7 @@ using Microsoft.Extensions.Logging;
 namespace Whipstaff.Wpf.JumpLists
 {
     /// <summary>
-    /// Jump List Process Manager
+    /// Jump List Process Manager.
     /// </summary>
     public sealed class JumpListHelper : IDisposable
     {
@@ -53,15 +57,15 @@ namespace Whipstaff.Wpf.JumpLists
         }
 
         /// <summary>
-        /// 
+        /// Helper to set up an instance of the Jump List Helper.
         /// </summary>
-        /// <typeparam name="TApplication"></typeparam>
-        /// <param name="applicationContext"></param>
-        /// <param name="logger"></param>
-        /// <param name="jumpItemsFunc"></param>
-        /// <param name="jumpItemsRemovedByUserSubscription"></param>
-        /// <param name="jumpItemsRejectedSubscription"></param>
-        /// <returns></returns>
+        /// <typeparam name="TApplication">The type for the application.</typeparam>
+        /// <param name="applicationContext">Instance of the application context.</param>
+        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="jumpItemsFunc">Function to produce a set of Jump List items.</param>
+        /// <param name="jumpItemsRemovedByUserSubscription">Handler for the event fired off when a jump item is removed by a user.</param>
+        /// <param name="jumpItemsRejectedSubscription">Handler for the event fired off when when the jump items are rejected.</param>
+        /// <returns>Instance of <see cref="JumpListHelper"/>.</returns>
         public static JumpListHelper GetInstance<TApplication>(
             TApplication applicationContext,
             ILogger<JumpListHelper> logger,
@@ -82,16 +86,15 @@ namespace Whipstaff.Wpf.JumpLists
         }
 
         /// <summary>
-        /// 
+        /// Helper to set up an instance of the Jump List Helper.
         /// </summary>
-        /// <param name="applicationContext"></param>
-        /// <param name="logger"></param>
-        /// <param name="assembly"></param>
-        /// <param name="jumpItemsFunc"></param>
-        /// <param name="jumpItemsRemovedByUserSubscription"></param>
-        /// <param name="jumpItemsRejectedSubscription"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="applicationContext">Instance of the application context.</param>
+        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="assembly">Assembly to associate the jump list to.</param>
+        /// <param name="jumpItemsFunc">Function to produce a set of Jump List items.</param>
+        /// <param name="jumpItemsRemovedByUserSubscription">Handler for the event fired off when a jump item is removed by a user.</param>
+        /// <param name="jumpItemsRejectedSubscription">Handler for the event fired off when when the jump items are rejected.</param>
+        /// <returns>Instance of <see cref="JumpListHelper"/>.</returns>
         public static JumpListHelper GetInstance(
             Application applicationContext,
             ILogger<JumpListHelper> logger,
@@ -143,8 +146,8 @@ namespace Whipstaff.Wpf.JumpLists
         /// <inheritdoc />
         public void Dispose()
         {
-            this._jumpItemsRemovedByUserSubscription?.Dispose();
-            this._jumpItemsRejectedSubscription?.Dispose();
+            _jumpItemsRemovedByUserSubscription?.Dispose();
+            _jumpItemsRejectedSubscription?.Dispose();
         }
     }
 }

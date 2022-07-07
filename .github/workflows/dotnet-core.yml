@@ -90,6 +90,7 @@ jobs:
     - name: Prepare Artifact Directory
       run: |
         mkdir artifacts
+        mkdir artifacts\appinspector
         mkdir artifacts\nupkg
         mkdir artifacts\outdated
         mkdir artifacts\snitch
@@ -148,6 +149,10 @@ jobs:
       env:
         VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
 
+    - name: Generate App Inspector Report
+      run: |
+        dotnet appinspector analyze -s src -f html -o artifacts\appinspector\appinspector.html
+
     # only store binlog on failure      
     - name: store binlogs
       if: ${{ failure() }}
@@ -186,11 +191,11 @@ jobs:
         name: snitch
         path: artifacts/snitch
 
-    - name: store resharper dupfinder
+    - name: store appinspector
       uses: actions/upload-artifact@v3
       with:
-        name: dupfinder
-        path: artifacts/dupfinder
+        name: appinspector
+        path: artifacts/appinspector
   release:
     runs-on: ubuntu-latest
     needs: build

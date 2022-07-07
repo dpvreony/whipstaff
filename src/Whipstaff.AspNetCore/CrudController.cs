@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019 DHGMS Solutions and Contributors. All rights reserved.
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
@@ -34,7 +34,6 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
     /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
-    [SuppressMessage("csharpsquid", "S2436: Classes and methods should not have too many generic parameters", Justification = "By design, need large number of generics to make this powerful enough for re-use in pattern")]
     public abstract class CrudController<
             TListQuery,
             TListRequestDto,
@@ -135,7 +134,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 id,
-                this.LogMessageActionMappings.DeleteEventLogMessageAction,
+                LogMessageActionMappings.DeleteEventLogMessageAction,
                 deletePolicyName,
                 GetDeleteActionResultAsync,
                 GetDeleteCommandAsync,
@@ -159,7 +158,7 @@ namespace Whipstaff.AspNetCore
                 Mediator,
                 AuthorizationService,
                 addRequestDto,
-                this.LogMessageActionMappings.AddEventLogMessageAction,
+                LogMessageActionMappings.AddEventLogMessageAction,
                 addPolicyName,
                 GetAddActionResultAsync,
                 GetAddCommandAsync,
@@ -186,7 +185,7 @@ namespace Whipstaff.AspNetCore
                 AuthorizationService,
                 id,
                 updateRequestDto,
-                this.LogMessageActionMappings.UpdateEventLogMessageAction,
+                LogMessageActionMappings.UpdateEventLogMessageAction,
                 updatePolicyName,
                 GetUpdateActionResultAsync,
                 GetUpdateCommandAsync,
@@ -206,7 +205,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="addRequestDto">The Add Request DTO.</param>
         /// <param name="claimsPrincipal">The claims principal of the user requesting the add.</param>
         /// <param name="cancellationToken">The cancellation token for the request.</param>
-        /// <returns></returns>
+        /// <returns>Command for performing an Add.</returns>
         protected abstract Task<TAddCommand> GetAddCommandAsync(
             TAddRequestDto addRequestDto,
             ClaimsPrincipal claimsPrincipal,
@@ -226,12 +225,12 @@ namespace Whipstaff.AspNetCore
         protected abstract Task<IActionResult> GetDeleteActionResultAsync(TDeleteResponseDto result);
 
         /// <summary>
-        /// Gets the CQRS Delete Command
+        /// Gets the CQRS Delete Command.
         /// </summary>
         /// <param name="id">Unique Id for the entity to delete.</param>
         /// <param name="claimsPrincipal">Claims Principal of the user requesting deletion.</param>
         /// <param name="cancellationToken">Cancellation token for the request.</param>
-        /// <returns></returns>
+        /// <returns>Command for performing a delete.</returns>
         protected abstract Task<TDeleteCommand> GetDeleteCommandAsync(
             long id,
             ClaimsPrincipal claimsPrincipal,
@@ -253,7 +252,7 @@ namespace Whipstaff.AspNetCore
         /// <summary>
         /// Gets the CQRS update command for the request.
         /// </summary>
-        /// <param name="updateRequestDto">The Update request DTO</param>
+        /// <param name="updateRequestDto">The Update request DTO.</param>
         /// <param name="claimsPrincipal">The claims principal of the user requesting the update.</param>
         /// <param name="cancellationToken">The cancellation token for the request.</param>
         /// <returns>CQRS Update Command.</returns>

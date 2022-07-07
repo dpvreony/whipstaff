@@ -1,8 +1,8 @@
 <Project>
   <PropertyGroup>
     <Company>DPVreony and Contributors</Company>
-	<StartYear>2016</StartYear>
-	<Copyright>© $(StartYear)-$([System.DateTime]::Now.Year) $(Company)</Copyright>
+    <StartYear>2016</StartYear>
+    <Copyright>© $(StartYear)-$([System.DateTime]::Now.Year) $(Company)</Copyright>
     <Product>Whipstaff ($(TargetFramework))</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>dpvreony</Authors>
@@ -45,7 +45,7 @@
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.0" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,7 +72,14 @@
     <Compile Include="..\Common.Assembly.cs" />
   </ItemGroup>
 
-  
+  <ItemGroup>
+    <PackageReference Include="ThisAssembly" Version="1.0.9" PrivateAssets="all" />
+    <PackageReference Include="stylecop.analyzers" Version="1.2.0-beta.406" PrivateAssets="all" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.1.0" PrivateAssets="All" />
+    <PackageReference Include="InclusivenessAnalyzer" Version="1.2.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
   <!-- Net Analyzers config taken from : https://docs.microsoft.com/en-gb/visualstudio/code-quality/migrate-from-fxcop-analyzers-to-net-analyzers?view=vs-2019 -->
   <PropertyGroup>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
