@@ -23,22 +23,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsyncNoArgsMethod : ITestAsyncMethodWithNullableParameters<Func<Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                {
-                    null,
-                    "func"
-                },
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<Task<int>> arg,
                 string expectedParameterNameForException)
@@ -81,6 +68,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             private static Task<int> ReturnsValue() => Task.FromResult(1);
 
             private static Task<int> Throws() => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -88,19 +90,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync1ArgMethod : ITestAsyncMethodWithNullableParameters<Func<int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -143,6 +135,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             private static Task<int> ReturnsValue(int arg) => Task.FromResult(arg);
 
             private static Task<int> Throws(int arg) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -150,19 +157,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync2ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -209,6 +206,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             private static Task<int> Throws(
                 int arg1,
                 int arg2) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -216,19 +228,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync3ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -277,6 +279,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg1,
                 int arg2,
                 int arg3) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -284,19 +301,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync4ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -347,6 +354,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg2,
                 int arg3,
                 int arg4) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -354,19 +376,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync5ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" },
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -419,6 +431,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg3,
                 int arg4,
                 int arg5) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -426,19 +453,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync6ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -493,6 +510,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg4,
                 int arg5,
                 int arg6) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -500,19 +532,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync7ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -569,6 +591,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg5,
                 int arg6,
                 int arg7) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -576,19 +613,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync8ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -647,6 +674,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg6,
                 int arg7,
                 int arg8) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -654,19 +696,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync9ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -727,6 +759,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg7,
                 int arg8,
                 int arg9) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -734,19 +781,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync10ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -809,6 +846,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg8,
                 int arg9,
                 int arg10) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -816,19 +868,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync11ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -893,6 +935,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg9,
                 int arg10,
                 int arg11) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -900,19 +957,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync12ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -979,6 +1026,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg10,
                 int arg11,
                 int arg12) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -986,19 +1048,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync13ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -1067,6 +1119,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg11,
                 int arg12,
                 int arg13) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -1074,19 +1141,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync14ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -1157,6 +1214,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg12,
                 int arg13,
                 int arg14) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -1164,19 +1236,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync15ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
                 string expectedParameterNameForException)
@@ -1249,6 +1311,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg13,
                 int arg14,
                 int arg15) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
 
         /// <summary>
@@ -1256,19 +1333,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
         /// </summary>
         public sealed class DefaultIfExceptionAsync16ArgsMethod : ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>>
         {
-            /// <summary>
-            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
-            /// </summary>
-#pragma warning disable CA2211 // Non-constant fields should not be visible
-            public static TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string> ThrowsArgumentNullExceptionAsyncTestData = new()
-#pragma warning restore CA2211 // Non-constant fields should not be visible
-            {
-                { null, "func" }
-            };
-
             /// <inheritdoc/>
             [Theory]
-            [MemberData(nameof(ThrowsArgumentNullExceptionAsyncTestData))]
+            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
@@ -1343,6 +1410,21 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg14,
                 int arg15,
                 int arg16) => throw new NotImplementedException();
+
+            /// <summary>
+            /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestData
+                : TheoryData<Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>?, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestData"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionAsyncTestData()
+                {
+                    Add(null, "func");
+                }
+            }
         }
     }
 }
