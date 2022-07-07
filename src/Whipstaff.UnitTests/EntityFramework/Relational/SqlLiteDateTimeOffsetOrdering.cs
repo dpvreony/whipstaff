@@ -53,7 +53,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             }
 
             /// <summary>
-            /// Gets or sets the test entity db set.
+            /// Gets the test entity db set.
             /// </summary>
             public DbSet<TestEntity> TestEntity => Set<TestEntity>();
         }
