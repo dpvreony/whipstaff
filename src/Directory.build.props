@@ -64,7 +64,7 @@
   </ItemGroup>
 
   <ItemGroup>	
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.107" PrivateAssets="all" />	
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.5.108" PrivateAssets="all" />	
   </ItemGroup>
   
   <ItemGroup>
@@ -74,8 +74,8 @@
 
   <ItemGroup>
     <PackageReference Include="ThisAssembly" Version="1.0.9" PrivateAssets="all" />
-    <PackageReference Include="stylecop.analyzers" Version="1.2.0-beta.406" PrivateAssets="all" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.1.0" PrivateAssets="All" />
+    <PackageReference Include="stylecop.analyzers" Version="1.2.0-beta.435" PrivateAssets="all" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.1.1" PrivateAssets="All" />
     <PackageReference Include="InclusivenessAnalyzer" Version="1.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0" PrivateAssets="all" />
   </ItemGroup>
