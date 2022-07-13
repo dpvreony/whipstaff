@@ -1,6 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ReactiveUI;
 using Whipstaff.Rx;
@@ -8,7 +11,10 @@ using Xunit;
 
 namespace Whipstaff.UnitTests.Rx
 {
-    public static partial class ObservableExtensionsTests
+    /// <summary>
+    /// Extension methods for performing split on an observable.
+    /// </summary>
+    public static class SplitExtensionsTests
     {
         /// <summary>
         /// Mass Test Object for splitting.
@@ -18,7 +24,7 @@ namespace Whipstaff.UnitTests.Rx
             private int _one;
 
             /// <summary>
-            /// 
+            /// Initializes a new instance of the <see cref="SomeMassObject"/> class.
             /// </summary>
             public SomeMassObject()
             {

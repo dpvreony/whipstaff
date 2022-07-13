@@ -1,8 +1,15 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Reactive.Linq;
 
 namespace Whipstaff.Rx
 {
+    /// <summary>
+    /// Extensions for working with Observables.
+    /// </summary>
     public static partial class ObservableExtensions
     {
         /// <summary>
@@ -14,8 +21,8 @@ namespace Whipstaff.Rx
         /// <param name="observable">The upstream observable.</param>
         /// <param name="selector1">The selector to apply to the upstream observable in order to create the first consuming observable.</param>
         /// <param name="selector2">The selector to apply to the upstream observable in order to create the second consuming observable.</param>
-        /// <returns></returns>
-        public static (IObservable<TResult1>, IObservable<TResult2>) Split<TInput, TResult1, TResult2>(
+        /// <returns>Tuple of 2 split observables.</returns>
+        public static (IObservable<TResult1> Observable1, IObservable<TResult2> Observable2) Split<TInput, TResult1, TResult2>(
             this IObservable<TInput> observable,
             Func<TInput, TResult1> selector1,
             Func<TInput, TResult2> selector2)
@@ -36,8 +43,8 @@ namespace Whipstaff.Rx
         /// <param name="selector1">The selector to apply to the upstream observable in order to create the first consuming observable.</param>
         /// <param name="selector2">The selector to apply to the upstream observable in order to create the second consuming observable.</param>
         /// <param name="selector3">The selector to apply to the upstream observable in order to create the third consuming observable.</param>
-        /// <returns></returns>
-        public static (IObservable<TResult1>, IObservable<TResult2>, IObservable<TResult3>) Split<TInput, TResult1, TResult2, TResult3>(
+        /// <returns>Tuple of 3 split observables.</returns>
+        public static (IObservable<TResult1> Observable1, IObservable<TResult2> Observable2, IObservable<TResult3> Observable3) Split<TInput, TResult1, TResult2, TResult3>(
             this IObservable<TInput> observable,
             Func<TInput, TResult1> selector1,
             Func<TInput, TResult2> selector2,
@@ -62,8 +69,8 @@ namespace Whipstaff.Rx
         /// <param name="selector2">The selector to apply to the upstream observable in order to create the second consuming observable.</param>
         /// <param name="selector3">The selector to apply to the upstream observable in order to create the third consuming observable.</param>
         /// <param name="selector4">The selector to apply to the upstream observable in order to create the fourth consuming observable.</param>
-        /// <returns></returns>
-        public static (IObservable<TResult1>, IObservable<TResult2>, IObservable<TResult3>, IObservable<TResult4>) Split<TInput, TResult1, TResult2, TResult3, TResult4>(
+        /// <returns>Tuple of 4 split observables.</returns>
+        public static (IObservable<TResult1> Observable1, IObservable<TResult2> Observable2, IObservable<TResult3> Observable3, IObservable<TResult4> Observable4) Split<TInput, TResult1, TResult2, TResult3, TResult4>(
             this IObservable<TInput> observable,
             Func<TInput, TResult1> selector1,
             Func<TInput, TResult2> selector2,
@@ -92,8 +99,8 @@ namespace Whipstaff.Rx
         /// <param name="selector3">The selector to apply to the upstream observable in order to create the third consuming observable.</param>
         /// <param name="selector4">The selector to apply to the upstream observable in order to create the fourth consuming observable.</param>
         /// <param name="selector5">The selector to apply to the upstream observable in order to create the fifth consuming observable.</param>
-        /// <returns></returns>
-        public static (IObservable<TResult1>, IObservable<TResult2>, IObservable<TResult3>, IObservable<TResult4>, IObservable<TResult5>) Split<TInput, TResult1, TResult2, TResult3, TResult4, TResult5>(
+        /// <returns>Tuple of 5 split observables.</returns>
+        public static (IObservable<TResult1> Observable1, IObservable<TResult2> Observable2, IObservable<TResult3> Observable3, IObservable<TResult4> Observable4, IObservable<TResult5> Observable5) Split<TInput, TResult1, TResult2, TResult3, TResult4, TResult5>(
             this IObservable<TInput> observable,
             Func<TInput, TResult1> selector1,
             Func<TInput, TResult2> selector2,
@@ -126,8 +133,8 @@ namespace Whipstaff.Rx
         /// <param name="selector4">The selector to apply to the upstream observable in order to create the fourth consuming observable.</param>
         /// <param name="selector5">The selector to apply to the upstream observable in order to create the fifth consuming observable.</param>
         /// <param name="selector6">The selector to apply to the upstream observable in order to create the sixth consuming observable.</param>
-        /// <returns></returns>
-        public static (IObservable<TResult1>, IObservable<TResult2>, IObservable<TResult3>, IObservable<TResult4>, IObservable<TResult5>, IObservable<TResult6>) Split<TInput, TResult1, TResult2, TResult3, TResult4, TResult5, TResult6>(
+        /// <returns>Tuple of 6 split observables.</returns>
+        public static (IObservable<TResult1> Observable1, IObservable<TResult2> Observable2, IObservable<TResult3> Observable3, IObservable<TResult4> Observable4, IObservable<TResult5> Observable5, IObservable<TResult6> Observable6) Split<TInput, TResult1, TResult2, TResult3, TResult4, TResult5, TResult6>(
             this IObservable<TInput> observable,
             Func<TInput, TResult1> selector1,
             Func<TInput, TResult2> selector2,
@@ -164,8 +171,8 @@ namespace Whipstaff.Rx
         /// <param name="selector5">The selector to apply to the upstream observable in order to create the fifth consuming observable.</param>
         /// <param name="selector6">The selector to apply to the upstream observable in order to create the sixth consuming observable.</param>
         /// <param name="selector7">The selector to apply to the upstream observable in order to create the seventh consuming observable.</param>
-        /// <returns></returns>
-        public static (IObservable<TResult1>, IObservable<TResult2>, IObservable<TResult3>, IObservable<TResult4>, IObservable<TResult5>, IObservable<TResult6>, IObservable<TResult7>) Split<TInput, TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7>(
+        /// <returns>Tuple of 7 split observables.</returns>
+        public static (IObservable<TResult1> Observable1, IObservable<TResult2> Observable2, IObservable<TResult3> Observable3, IObservable<TResult4> Observable4, IObservable<TResult5> Observable5, IObservable<TResult6> Observable6, IObservable<TResult7> Observable7) Split<TInput, TResult1, TResult2, TResult3, TResult4, TResult5, TResult6, TResult7>(
             this IObservable<TInput> observable,
             Func<TInput, TResult1> selector1,
             Func<TInput, TResult2> selector2,
@@ -206,16 +213,16 @@ namespace Whipstaff.Rx
         /// <param name="selector6">The selector to apply to the upstream observable in order to create the sixth consuming observable.</param>
         /// <param name="selector7">The selector to apply to the upstream observable in order to create the seventh consuming observable.</param>
         /// <param name="selector8">The selector to apply to the upstream observable in order to create the eighth consuming observable.</param>
-        /// <returns></returns>
+        /// <returns>Tuple of 8 split observables.</returns>
         public static (
-            IObservable<TResult1>,
-            IObservable<TResult2>,
-            IObservable<TResult3>,
-            IObservable<TResult4>,
-            IObservable<TResult5>,
-            IObservable<TResult6>,
-            IObservable<TResult7>,
-            IObservable<TResult8>) Split<
+            IObservable<TResult1> Observable1,
+            IObservable<TResult2> Observable2,
+            IObservable<TResult3> Observable3,
+            IObservable<TResult4> Observable4,
+            IObservable<TResult5> Observable5,
+            IObservable<TResult6> Observable6,
+            IObservable<TResult7> Observable7,
+            IObservable<TResult8> Observable8) Split<
                 TInput,
                 TResult1,
                 TResult2,
