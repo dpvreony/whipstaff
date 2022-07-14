@@ -11,7 +11,7 @@ namespace Whipstaff.Rx
     /// <summary>
     /// Extension methods for LINQ observables.
     /// </summary>
-    public static class ObservableExtensions
+    public static partial class ObservableExtensions
     {
         /// <summary>
         /// Produces an observable that scans for the number of items in the sequence that are true.
