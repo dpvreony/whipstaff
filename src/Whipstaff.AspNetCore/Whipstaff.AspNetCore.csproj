@@ -12,7 +12,7 @@
     <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="6.0.3" />
     <PackageReference Include="AspNetCore.HealthChecks.Publisher.ApplicationInsights" Version="6.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.4" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
     <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
     <PackageReference Include="Audit.NET" Version="19.1.4" />
     <PackageReference Include="Audit.WebApi.Core" Version="19.1.4" />
