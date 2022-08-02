@@ -46,7 +46,7 @@
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["^Xunit.*"],
+            "matchPackagePatterns": ["^xunit.*"],
             "groupName": "all xunit dependencies",
             "groupSlug": "all-xunit",
             "labels": ["dependencies"]
