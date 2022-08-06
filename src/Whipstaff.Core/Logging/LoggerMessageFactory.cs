@@ -10,8 +10,21 @@ using Microsoft.Extensions.Logging;
 namespace Whipstaff.Core.Logging
 {
     /// <summary>
-    /// Factory Methods for Logger Messages.
+    /// Factory Methods for Logger Messages. These are aimed at simplifying some use cases for logging.
+    ///
+    /// There are methods that allow passing in functions to the logging so that you can delay the generation \ evaluation
+    /// of any output. This can help with avoiding expensive operations when a log level may not be enabled.
+    ///
+    /// There are also some common log message actions that are used in downstream code, including Roslyn Source generators
+    /// sat in Nucleotide.
     /// </summary>
+    /// <remarks>
+    /// This code is based upon https://github.com/dotnet/runtime/blob/e8a85b78f804578729392acd9d6307918c3b23f5/src/libraries/Microsoft.Extensions.Logging.Abstractions/src/LoggerMessage.cs
+    /// which carries the following license.
+    /// 
+    /// Licensed to the .NET Foundation under one or more agreements.
+    /// The .NET Foundation licenses this file to you under the MIT license.
+    /// </remarks>
     public static class LoggerMessageFactory
     {
         /// <summary>
