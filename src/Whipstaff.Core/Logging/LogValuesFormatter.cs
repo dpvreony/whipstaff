@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
@@ -15,6 +16,7 @@ namespace Whipstaff.Core.Logging
     /// <summary>
     /// Formatter to convert the named format items like {NamedformatItem} to <see cref="string.Format(IFormatProvider, string, object)"/> format.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     internal sealed class LogValuesFormatter
     {
         private const string NullValue = "(null)";
@@ -28,7 +30,9 @@ namespace Whipstaff.Core.Logging
 
             OriginalFormat = format;
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
             var vsb = new ValueStringBuilder(stackalloc char[256]);
+#pragma warning restore CA2000 // Dispose objects before losing scope
             int scanIndex = 0;
             int endIndex = format.Length;
 
@@ -55,7 +59,7 @@ namespace Whipstaff.Core.Logging
                     int formatDelimiterIndex = FindIndexOfAny(format, FormatDelimiters, openBraceIndex, closeBraceIndex);
 
                     vsb.Append(format.AsSpan(scanIndex, openBraceIndex - scanIndex + 1));
-                    vsb.Append(_valueNames.Count.ToString());
+                    vsb.Append(_valueNames.Count.ToString(NumberFormatInfo.InvariantInfo));
                     _valueNames.Add(format.Substring(openBraceIndex + 1, formatDelimiterIndex - openBraceIndex - 1));
                     vsb.Append(format.AsSpan(formatDelimiterIndex, closeBraceIndex - formatDelimiterIndex + 1));
 
@@ -124,7 +128,9 @@ namespace Whipstaff.Core.Logging
             return findIndex == -1 ? endIndex : findIndex;
         }
 
+#pragma warning disable SA1202 // Elements should be ordered by access
         public string Format(object?[]? values)
+#pragma warning restore SA1202 // Elements should be ordered by access
         {
             object?[]? formattedValues = values;
 
@@ -145,6 +151,7 @@ namespace Whipstaff.Core.Logging
                         {
                             formattedValues[i] = FormatArgument(values[i]);
                         }
+
                         break;
                     }
 #pragma warning restore SA1515 // Single-line comment should be preceded by blank line
@@ -188,11 +195,15 @@ namespace Whipstaff.Core.Logging
             return string.Format(CultureInfo.InvariantCulture, _format, FormatArgument(arg0), FormatArgument(arg1), FormatArgument(arg2));
         }
 
+#pragma warning disable SA1202 // Elements should be ordered by access
         public KeyValuePair<string, object?> GetValue(object?[] values, int index)
+#pragma warning restore SA1202 // Elements should be ordered by access
         {
             if (index < 0 || index > _valueNames.Count)
             {
+#pragma warning disable CA2201 // Do not raise reserved exception types
                 throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore CA2201 // Do not raise reserved exception types
             }
 
             if (_valueNames.Count > index)
@@ -231,7 +242,9 @@ namespace Whipstaff.Core.Logging
             // if the value implements IEnumerable, build a comma separated string.
             if (value is IEnumerable enumerable)
             {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                 var vsb = new ValueStringBuilder(stackalloc char[256]);
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 bool first = true;
                 foreach (object? e in enumerable)
                 {
@@ -243,6 +256,7 @@ namespace Whipstaff.Core.Logging
                     vsb.Append(e != null ? e.ToString() : NullValue);
                     first = false;
                 }
+
                 return vsb.ToString();
             }
 

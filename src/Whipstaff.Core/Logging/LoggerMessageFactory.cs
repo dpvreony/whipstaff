@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Core.Logging
@@ -488,7 +489,7 @@ namespace Whipstaff.Core.Logging
             if (actualCount != expectedNamedParameterCount)
             {
                 throw new ArgumentException(
-                    SR.Format(SR.UnexpectedNumberOfNamedParameters, formatString, expectedNamedParameterCount, actualCount));
+                    SR.Format(CultureInfo.InvariantCulture, "The format string '{0}' does not have the expected number of named parameters. Expected {1} parameter(s) but found {2} parameter(s).", formatString, expectedNamedParameterCount, actualCount));
             }
 
             return logValuesFormatter;
