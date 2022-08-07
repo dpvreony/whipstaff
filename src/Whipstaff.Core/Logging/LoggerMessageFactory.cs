@@ -21,7 +21,7 @@ namespace Whipstaff.Core.Logging
     /// <remarks>
     /// This code is based upon https://github.com/dotnet/runtime/blob/e8a85b78f804578729392acd9d6307918c3b23f5/src/libraries/Microsoft.Extensions.Logging.Abstractions/src/LoggerMessage.cs
     /// which carries the following license.
-    /// 
+    ///
     /// Licensed to the .NET Foundation under one or more agreements.
     /// The .NET Foundation licenses this file to you under the MIT license.
     /// </remarks>
@@ -252,10 +252,10 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <typeparam name="T1">The type of the first parameter passed to the named format string.</typeparam>
         /// <typeparam name="T2">The type of the second parameter passed to the named format string.</typeparam>
-        /// <param name="logLevel">The <see cref="LogLevel"/></param>
-        /// <param name="eventId">The event id</param>
-        /// <param name="formatString">The named format string</param>
-        /// <param name="options">The <see cref="LogDefineOptions"/></param>
+        /// <param name="logLevel">The <see cref="LogLevel"/>.</param>
+        /// <param name="eventId">The event id.</param>
+        /// <param name="formatString">The named format string.</param>
+        /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
         public static Action<ILogger, Func<T1>, Func<T2>, Exception?> DefineWithFunc<T1, T2>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
@@ -286,9 +286,9 @@ namespace Whipstaff.Core.Logging
         /// <typeparam name="T1">The type of the first parameter passed to the named format string.</typeparam>
         /// <typeparam name="T2">The type of the second parameter passed to the named format string.</typeparam>
         /// <typeparam name="T3">The type of the third parameter passed to the named format string.</typeparam>
-        /// <param name="logLevel">The <see cref="LogLevel"/></param>
-        /// <param name="eventId">The event id</param>
-        /// <param name="formatString">The named format string</param>
+        /// <param name="logLevel">The <see cref="LogLevel"/>.</param>
+        /// <param name="eventId">The event id.</param>
+        /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
         public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Exception?> DefineWithFunc<T1, T2, T3>(LogLevel logLevel, EventId eventId, string formatString)
             => DefineWithFunc<T1, T2, T3>(logLevel, eventId, formatString, options: null);
@@ -334,9 +334,9 @@ namespace Whipstaff.Core.Logging
         /// <typeparam name="T2">The type of the second parameter passed to the named format string.</typeparam>
         /// <typeparam name="T3">The type of the third parameter passed to the named format string.</typeparam>
         /// <typeparam name="T4">The type of the fourth parameter passed to the named format string.</typeparam>
-        /// <param name="logLevel">The <see cref="LogLevel"/></param>
-        /// <param name="eventId">The event id</param>
-        /// <param name="formatString">The named format string</param>
+        /// <param name="logLevel">The <see cref="LogLevel"/>.</param>
+        /// <param name="eventId">The event id.</param>
+        /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
         public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Exception?> DefineWithFunc<T1, T2, T3, T4>(LogLevel logLevel, EventId eventId, string formatString)
             => DefineWithFunc<T1, T2, T3, T4>(logLevel, eventId, formatString, options: null);
@@ -436,9 +436,9 @@ namespace Whipstaff.Core.Logging
         /// <typeparam name="T4">The type of the fourth parameter passed to the named format string.</typeparam>
         /// <typeparam name="T5">The type of the fifth parameter passed to the named format string.</typeparam>
         /// <typeparam name="T6">The type of the sixth parameter passed to the named format string.</typeparam>
-        /// <param name="logLevel">The <see cref="LogLevel"/></param>
-        /// <param name="eventId">The event id</param>
-        /// <param name="formatString">The named format string</param>
+        /// <param name="logLevel">The <see cref="LogLevel"/>.</param>
+        /// <param name="eventId">The event id.</param>
+        /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
         public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Func<T6>, Exception?> DefineWithFunc<T1, T2, T3, T4, T5, T6>(LogLevel logLevel, EventId eventId, string formatString)
             => DefineWithFunc<T1, T2, T3, T4, T5, T6>(logLevel, eventId, formatString, options: null);
@@ -452,10 +452,10 @@ namespace Whipstaff.Core.Logging
         /// <typeparam name="T4">The type of the fourth parameter passed to the named format string.</typeparam>
         /// <typeparam name="T5">The type of the fifth parameter passed to the named format string.</typeparam>
         /// <typeparam name="T6">The type of the sixth parameter passed to the named format string.</typeparam>
-        /// <param name="logLevel">The <see cref="LogLevel"/></param>
-        /// <param name="eventId">The event id</param>
-        /// <param name="formatString">The named format string</param>
-        /// <param name="options">The <see cref="LogDefineOptions"/></param>
+        /// <param name="logLevel">The <see cref="LogLevel"/>.</param>
+        /// <param name="eventId">The event id.</param>
+        /// <param name="formatString">The named format string.</param>
+        /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
         public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Func<T6>, Exception?> DefineWithFunc<T1, T2, T3, T4, T5, T6>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
@@ -518,12 +518,16 @@ namespace Whipstaff.Core.Logging
                         case 1:
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
+#pragma warning disable CA2201 // Do not raise reserved exception types
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
             }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
             public int Count => 2;
+#pragma warning restore SA1201 // Elements should appear in the correct order
 
             public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
             {
@@ -569,12 +573,16 @@ namespace Whipstaff.Core.Logging
                         case 2:
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
+#pragma warning disable CA2201 // Do not raise reserved exception types
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
             }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
             public int Count => 3;
+#pragma warning restore SA1201 // Elements should appear in the correct order
 
             public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
             {
@@ -618,12 +626,16 @@ namespace Whipstaff.Core.Logging
                         case 3:
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
+#pragma warning disable CA2201 // Do not raise reserved exception types
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
             }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
             public LogValues(LogValuesFormatter formatter, T0 value0, T1 value1, T2 value2)
+#pragma warning restore SA1201 // Elements should appear in the correct order
             {
                 _formatter = formatter;
                 _value0 = value0;
@@ -676,12 +688,16 @@ namespace Whipstaff.Core.Logging
                         case 4:
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
+#pragma warning disable CA2201 // Do not raise reserved exception types
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
             }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
             public LogValues(LogValuesFormatter formatter, T0 value0, T1 value1, T2 value2, T3 value3)
+#pragma warning restore SA1201 // Elements should appear in the correct order
             {
                 _formatter = formatter;
                 _value0 = value0;
@@ -692,7 +708,9 @@ namespace Whipstaff.Core.Logging
 
             private object?[] ToArray() => new object?[] { _value0, _value1, _value2, _value3 };
 
+#pragma warning disable SA1202 // Elements should be ordered by access
             public override string ToString() => _formatter.FormatWithOverwrite(ToArray());
+#pragma warning restore SA1202 // Elements should be ordered by access
 
             public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
             {
@@ -740,12 +758,16 @@ namespace Whipstaff.Core.Logging
                         case 5:
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
+#pragma warning disable CA2201 // Do not raise reserved exception types
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
             }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
             public LogValues(LogValuesFormatter formatter, T0 value0, T1 value1, T2 value2, T3 value3, T4 value4)
+#pragma warning restore SA1201 // Elements should appear in the correct order
             {
                 _formatter = formatter;
                 _value0 = value0;
@@ -757,7 +779,9 @@ namespace Whipstaff.Core.Logging
 
             private object?[] ToArray() => new object?[] { _value0, _value1, _value2, _value3, _value4 };
 
+#pragma warning disable SA1202 // Elements should be ordered by access
             public override string ToString() => _formatter.FormatWithOverwrite(ToArray());
+#pragma warning restore SA1202 // Elements should be ordered by access
 
             public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
             {
@@ -808,12 +832,16 @@ namespace Whipstaff.Core.Logging
                         case 6:
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
+#pragma warning disable CA2201 // Do not raise reserved exception types
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
             }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
             public LogValues(LogValuesFormatter formatter, T0 value0, T1 value1, T2 value2, T3 value3, T4 value4, T5 value5)
+#pragma warning restore SA1201 // Elements should appear in the correct order
             {
                 _formatter = formatter;
                 _value0 = value0;
@@ -826,7 +854,9 @@ namespace Whipstaff.Core.Logging
 
             private object?[] ToArray() => new object?[] { _value0, _value1, _value2, _value3, _value4, _value5 };
 
+#pragma warning disable SA1202 // Elements should be ordered by access
             public override string ToString() => _formatter.FormatWithOverwrite(ToArray());
+#pragma warning restore SA1202 // Elements should be ordered by access
 
             public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
             {
