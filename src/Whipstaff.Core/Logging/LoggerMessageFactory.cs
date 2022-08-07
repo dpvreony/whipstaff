@@ -73,7 +73,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="eventId">The event id to define a log message action for.</param>
         /// <returns>Log Message Action.</returns>
         public static Action<ILogger, Func<string>, Exception?> GetCriticalBasicLoggerMessageActionForEventIdWithFunc(EventId eventId) =>
-            GetBasicLoggerMessageActionForLogLevelAndEventIdWithFunc(
+            GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc(
                 LogLevel.Critical,
                 eventId);
 
@@ -94,8 +94,8 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <param name="eventId">The event id to define a log message action for.</param>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Func<string>, Exception?> GetDebugBasicLoggerMessageActionForEventIdWithFunc(EventId eventId) =>
-            GetBasicLoggerMessageActionForLogLevelAndEventIdWithFunc(
+        public static Action<ILogger, Func<string>, Exception?> GetDebugBasicLoggerMessageActionForEventIdAndFunc(EventId eventId) =>
+            GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc(
                 LogLevel.Debug,
                 eventId);
 
@@ -116,8 +116,8 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <param name="eventId">The event id to define a log message action for.</param>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Func<string>, Exception?> GetErrorBasicLoggerMessageActionForEventIdWithFunc(EventId eventId) =>
-            GetBasicLoggerMessageActionForLogLevelAndEventIdWithFunc(
+        public static Action<ILogger, Func<string>, Exception?> GetErrorBasicLoggerMessageActionForEventIdAndFunc(EventId eventId) =>
+            GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc(
                 LogLevel.Error,
                 eventId);
 
@@ -138,8 +138,8 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <param name="eventId">The event id to define a log message action for.</param>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Func<string>, Exception?> GetInformationBasicLoggerMessageActionForEventIdWithFunc(EventId eventId) =>
-            GetBasicLoggerMessageActionForLogLevelAndEventIdWithFunc(
+        public static Action<ILogger, Func<string>, Exception?> GetInformationBasicLoggerMessageActionForEventIdAndFunc(EventId eventId) =>
+            GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc(
                 LogLevel.Information,
                 eventId);
 
@@ -160,8 +160,8 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <param name="eventId">The event id to define a log message action for.</param>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Func<string>, Exception?> GetWarningBasicLoggerMessageActionForEventIdWithFunc(EventId eventId) =>
-            GetBasicLoggerMessageActionForLogLevelAndEventIdWithFunc(
+        public static Action<ILogger, Func<string>, Exception?> GetWarningBasicLoggerMessageActionForEventIdAndFunc(EventId eventId) =>
+            GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc(
                 LogLevel.Warning,
                 eventId);
 
@@ -185,10 +185,10 @@ namespace Whipstaff.Core.Logging
         /// <param name="logLevel">The logging level.</param>
         /// <param name="eventId">The event id.</param>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Func<string>, Exception?> GetBasicLoggerMessageActionForLogLevelAndEventIdWithFunc(
+        public static Action<ILogger, Func<string>, Exception?> GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc(
             LogLevel logLevel,
             EventId eventId) =>
-            DefineWithFunc<string>(
+            DefineForFunc<string>(
                 logLevel,
                 eventId,
                 "{Message}");
@@ -201,8 +201,8 @@ namespace Whipstaff.Core.Logging
         /// <param name="eventId">The event id.</param>
         /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Exception?> DefineWithFunc<T1>(LogLevel logLevel, EventId eventId, string formatString)
-            => DefineWithFunc<T1>(logLevel, eventId, formatString, options: null);
+        public static Action<ILogger, Func<T1>, Exception?> DefineForFunc<T1>(LogLevel logLevel, EventId eventId, string formatString)
+            => DefineForFunc<T1>(logLevel, eventId, formatString, options: null);
 
         /// <summary>
         /// Creates a delegate which can be invoked for logging a message.
@@ -213,7 +213,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="formatString">The named format string.</param>
         /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Exception?> DefineWithFunc<T1>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
+        public static Action<ILogger, Func<T1>, Exception?> DefineForFunc<T1>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
             LogValuesFormatter formatter = CreateLogValuesFormatter(formatString, expectedNamedParameterCount: 1);
 
@@ -245,8 +245,8 @@ namespace Whipstaff.Core.Logging
         /// <param name="eventId">The event id.</param>
         /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Exception?> DefineWithFunc<T1, T2>(LogLevel logLevel, EventId eventId, string formatString)
-            => DefineWithFunc<T1, T2>(logLevel, eventId, formatString, options: null);
+        public static Action<ILogger, Func<T1>, Func<T2>, Exception?> DefineForFunc<T1, T2>(LogLevel logLevel, EventId eventId, string formatString)
+            => DefineForFunc<T1, T2>(logLevel, eventId, formatString, options: null);
 
         /// <summary>
         /// Creates a delegate which can be invoked for logging a message.
@@ -258,7 +258,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="formatString">The named format string.</param>
         /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Exception?> DefineWithFunc<T1, T2>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
+        public static Action<ILogger, Func<T1>, Func<T2>, Exception?> DefineForFunc<T1, T2>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
             LogValuesFormatter formatter = CreateLogValuesFormatter(formatString, expectedNamedParameterCount: 2);
 
@@ -291,8 +291,8 @@ namespace Whipstaff.Core.Logging
         /// <param name="eventId">The event id.</param>
         /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Exception?> DefineWithFunc<T1, T2, T3>(LogLevel logLevel, EventId eventId, string formatString)
-            => DefineWithFunc<T1, T2, T3>(logLevel, eventId, formatString, options: null);
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Exception?> DefineForFunc<T1, T2, T3>(LogLevel logLevel, EventId eventId, string formatString)
+            => DefineForFunc<T1, T2, T3>(logLevel, eventId, formatString, options: null);
 
         /// <summary>
         /// Creates a delegate which can be invoked for logging a message.
@@ -305,7 +305,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="formatString">The named format string.</param>
         /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Exception?> DefineWithFunc<T1, T2, T3>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Exception?> DefineForFunc<T1, T2, T3>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
             LogValuesFormatter formatter = CreateLogValuesFormatter(formatString, expectedNamedParameterCount: 3);
 
@@ -339,8 +339,8 @@ namespace Whipstaff.Core.Logging
         /// <param name="eventId">The event id.</param>
         /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Exception?> DefineWithFunc<T1, T2, T3, T4>(LogLevel logLevel, EventId eventId, string formatString)
-            => DefineWithFunc<T1, T2, T3, T4>(logLevel, eventId, formatString, options: null);
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Exception?> DefineForFunc<T1, T2, T3, T4>(LogLevel logLevel, EventId eventId, string formatString)
+            => DefineForFunc<T1, T2, T3, T4>(logLevel, eventId, formatString, options: null);
 
         /// <summary>
         /// Creates a delegate which can be invoked for logging a message.
@@ -354,7 +354,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="formatString">The named format string.</param>
         /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Exception?> DefineWithFunc<T1, T2, T3, T4>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Exception?> DefineForFunc<T1, T2, T3, T4>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
             LogValuesFormatter formatter = CreateLogValuesFormatter(formatString, expectedNamedParameterCount: 4);
 
@@ -389,8 +389,8 @@ namespace Whipstaff.Core.Logging
         /// <param name="eventId">The event id.</param>
         /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Exception?> DefineWithFunc<T1, T2, T3, T4, T5>(LogLevel logLevel, EventId eventId, string formatString)
-            => DefineWithFunc<T1, T2, T3, T4, T5>(logLevel, eventId, formatString, options: null);
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Exception?> DefineForFunc<T1, T2, T3, T4, T5>(LogLevel logLevel, EventId eventId, string formatString)
+            => DefineForFunc<T1, T2, T3, T4, T5>(logLevel, eventId, formatString, options: null);
 
         /// <summary>
         /// Creates a delegate which can be invoked for logging a message.
@@ -405,7 +405,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="formatString">The named format string.</param>
         /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Exception?> DefineWithFunc<T1, T2, T3, T4, T5>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Exception?> DefineForFunc<T1, T2, T3, T4, T5>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
             LogValuesFormatter formatter = CreateLogValuesFormatter(formatString, expectedNamedParameterCount: 5);
 
@@ -441,8 +441,8 @@ namespace Whipstaff.Core.Logging
         /// <param name="eventId">The event id.</param>
         /// <param name="formatString">The named format string.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Func<T6>, Exception?> DefineWithFunc<T1, T2, T3, T4, T5, T6>(LogLevel logLevel, EventId eventId, string formatString)
-            => DefineWithFunc<T1, T2, T3, T4, T5, T6>(logLevel, eventId, formatString, options: null);
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Func<T6>, Exception?> DefineForFunc<T1, T2, T3, T4, T5, T6>(LogLevel logLevel, EventId eventId, string formatString)
+            => DefineForFunc<T1, T2, T3, T4, T5, T6>(logLevel, eventId, formatString, options: null);
 
         /// <summary>
         /// Creates a delegate which can be invoked for logging a message.
@@ -458,7 +458,7 @@ namespace Whipstaff.Core.Logging
         /// <param name="formatString">The named format string.</param>
         /// <param name="options">The <see cref="LogDefineOptions"/>.</param>
         /// <returns>A delegate which when invoked creates a log message.</returns>
-        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Func<T6>, Exception?> DefineWithFunc<T1, T2, T3, T4, T5, T6>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
+        public static Action<ILogger, Func<T1>, Func<T2>, Func<T3>, Func<T4>, Func<T5>, Func<T6>, Exception?> DefineForFunc<T1, T2, T3, T4, T5, T6>(LogLevel logLevel, EventId eventId, string formatString, LogDefineOptions? options)
         {
             LogValuesFormatter formatter = CreateLogValuesFormatter(formatString, expectedNamedParameterCount: 6);
 
