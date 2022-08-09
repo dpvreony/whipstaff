@@ -72,7 +72,7 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <param name="eventId">The event id to define a log message action for.</param>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Func<string>, Exception?> GetCriticalBasicLoggerMessageActionForEventIdWithFunc(EventId eventId) =>
+        public static Action<ILogger, Func<string>, Exception?> GetCriticalBasicLoggerMessageActionForEventIdAndFunc(EventId eventId) =>
             GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc(
                 LogLevel.Critical,
                 eventId);

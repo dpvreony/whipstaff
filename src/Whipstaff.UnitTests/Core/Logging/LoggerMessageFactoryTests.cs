@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
 using Xunit;
@@ -14,6 +15,13 @@ namespace Whipstaff.UnitTests.Core.Logging
     /// </summary>
     public static class LoggerMessageFactoryTests
     {
+        private const string FormatString1 = "Some Log Message. {Arg}";
+        private const string FormatString2 = "Some Log Message. {Arg1} {Arg2}";
+        private const string FormatString3 = "Some Log Message. {Arg1} {Arg2} {Arg3}";
+        private const string FormatString4 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4}";
+        private const string FormatString5 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5}";
+        private const string FormatString6 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5} {Arg6}";
+
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction"/>.
         /// </summary>
@@ -109,21 +117,21 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetCriticalBasicLoggerMessageActionForEventId(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="LoggerMessageFactory.GetCriticalBasicLoggerMessageActionForEventIdWithFunc"/>.
+        /// Unit Tests for <see cref="LoggerMessageFactory.GetCriticalBasicLoggerMessageActionForEventIdAndFunc"/>.
         /// </summary>
-        public sealed class GetCriticalBasicLoggerMessageActionForEventIdWithFuncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetCriticalBasicLoggerMessageActionForEventIdAndFuncMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="GetCriticalBasicLoggerMessageActionForEventIdWithFuncMethod"/> class.
+            /// Initializes a new instance of the <see cref="GetCriticalBasicLoggerMessageActionForEventIdAndFuncMethod"/> class.
             /// </summary>
-                        /// <param name="output">XUnit test output helper instance.</param>
-            public GetCriticalBasicLoggerMessageActionForEventIdWithFuncMethod(ITestOutputHelper output)
+            /// <param name="output">XUnit test output helper instance.</param>
+            public GetCriticalBasicLoggerMessageActionForEventIdAndFuncMethod(ITestOutputHelper output)
                 : base(output)
             {
             }
@@ -134,7 +142,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetCriticalBasicLoggerMessageActionForEventIdAndFunc(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -159,7 +167,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventId(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -184,7 +192,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetCriticalBasicLoggerMessageActionForEventIdAndFunc(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -209,7 +217,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetErrorBasicLoggerMessageActionForEventId(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -234,7 +242,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetErrorBasicLoggerMessageActionForEventIdAndFunc(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -259,7 +267,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetInformationBasicLoggerMessageActionForEventId(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -284,7 +292,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetInformationBasicLoggerMessageActionForEventIdAndFunc(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -309,7 +317,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetWarningBasicLoggerMessageActionForEventId(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -334,7 +342,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetWarningBasicLoggerMessageActionForEventIdAndFunc(new EventId(1, "Event"));
                 Assert.NotNull(instance);
             }
         }
@@ -347,7 +355,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             /// <summary>
             /// Initializes a new instance of the <see cref="GetBasicLoggerMessageActionForLogLevelAndEventIdMethod"/> class.
             /// </summary>
-                        /// <param name="output">XUnit test output helper instance.</param>
+            /// <param name="output">XUnit test output helper instance.</param>
             public GetBasicLoggerMessageActionForLogLevelAndEventIdMethod(ITestOutputHelper output)
                 : base(output)
             {
@@ -390,9 +398,97 @@ namespace Whipstaff.UnitTests.Core.Logging
         }
 
         /// <summary>
+        /// Abstraction of unit tests for logger message define calls.
+        /// </summary>
+        /// <typeparam name="TLogMessageAction">The action signature for the log message action.</typeparam>
+        public abstract class AbstractDefineForFuncMethod<TLogMessageAction> : Foundatio.Xunit.TestWithLoggingBase
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="AbstractDefineForFuncMethod{TAction}"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            protected AbstractDefineForFuncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <summary>
+            /// Test to ensure a log message action instance is created.
+            /// </summary>
+            [Fact]
+            public void ReturnsLogMessageAction()
+            {
+                var instance = GetLoggerMessageAction();
+
+                Assert.NotNull(instance);
+            }
+
+            /// <summary>
+            /// Test to ensure a message is logged when the log level allows.
+            /// </summary>
+            [Fact]
+            public void LogsMessage()
+            {
+                var instance = GetLoggerMessageAction();
+
+                var count = Log.LogEntries.Count;
+                var callCount = 0;
+
+                InvokeLogMessageAction(
+                    instance,
+                    () =>
+                    {
+                        callCount++;
+                        return 1;
+                    });
+
+                Assert.True(Log.LogEntries.Count > count);
+                Assert.Equal(1, callCount);
+            }
+
+            /// <summary>
+            /// Test to ensure a log message action instance is created.
+            /// </summary>
+            [Fact]
+            public void SkipsMessage()
+            {
+                var instance = GetLoggerMessageAction();
+
+                Log.MinimumLevel = LogLevel.Error;
+
+                var count = Log.LogEntries.Count;
+                var callCount = 0;
+
+                InvokeLogMessageAction(
+                    instance,
+                    () =>
+                    {
+                        callCount++;
+                        return 1;
+                    });
+
+                Assert.Equal(Log.LogEntries.Count, count);
+                Assert.Equal(0, callCount);
+            }
+
+            /// <summary>
+            /// Logger Message Action to test.
+            /// </summary>
+            /// <returns>Logger Message Action instance.</returns>
+            protected abstract TLogMessageAction GetLoggerMessageAction();
+
+            /// <summary>
+            /// Called to allow the implementing test class to fire off the logger with the correct number of args.
+            /// </summary>
+            /// <param name="instance">Logger Message Action instance.</param>
+            /// <param name="trackingFunc">The func to pass into arg 1 to track execution counts.</param>
+            protected abstract void InvokeLogMessageAction(TLogMessageAction instance, Func<int> trackingFunc);
+        }
+
+        /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1}(LogLevel, EventId, string)"/>.
         /// </summary>
-        public sealed class DefineForFuncT1Method : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class DefineForFuncT1Method : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Exception?>>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="DefineForFuncT1Method"/> class.
@@ -403,25 +499,29 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
             }
 
-            /// <summary>
-            /// Test to ensure a log message action instance is created.
-            /// </summary>
-            [Fact]
-            public void ReturnsLogMessageAction()
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Exception?> GetLoggerMessageAction()
             {
-                var instance = LoggerMessageFactory.DefineForFunc<int>(
+                return LoggerMessageFactory.DefineForFunc<int>(
                     LogLevel.Information,
                     new EventId(1, "Event"),
-                    "Some Log Message. {Arg}");
+                    FormatString1);
+            }
 
-                Assert.NotNull(instance);
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    null);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1}(LogLevel, EventId, string, LogDefineOptions)"/>.
         /// </summary>
-        public sealed class DefineForFuncT1WithOptionsMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class DefineForFuncT1WithOptionsMethod : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Exception?>>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="DefineForFuncT1WithOptionsMethod"/> class.
@@ -432,18 +532,388 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
             }
 
-            /// <summary>
-            /// Test to ensure a log message action instance is created.
-            /// </summary>
-            [Fact]
-            public void ReturnsLogMessageAction()
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Exception?> GetLoggerMessageAction()
             {
-                var instance = LoggerMessageFactory.DefineForFunc<int>(
+                return LoggerMessageFactory.DefineForFunc<int>(
                     LogLevel.Information,
                     new EventId(1, "Event"),
-                    "Some Log Message. {Arg}",
+                    FormatString1,
                     new LogDefineOptions());
-                Assert.NotNull(instance);
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2}(LogLevel, EventId, string)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT2Method : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT2Method"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT2Method(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString2);
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2}(LogLevel, EventId, string, LogDefineOptions)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT2WithOptionsMethod : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT2WithOptionsMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT2WithOptionsMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString2,
+                    new LogDefineOptions());
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3}(LogLevel, EventId, string)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT3Method : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT3Method"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT3Method(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString3);
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3}(LogLevel, EventId, string, LogDefineOptions)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT3WithOptionsMethod : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT3WithOptionsMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT3WithOptionsMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString3,
+                    new LogDefineOptions());
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3, T4}(LogLevel, EventId, string)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT4Method : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT4Method"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT4Method(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString4);
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    () => 4,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3, T4}(LogLevel, EventId, string, LogDefineOptions)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT4WithOptionsMethod : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT4WithOptionsMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT4WithOptionsMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString4,
+                    new LogDefineOptions());
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    () => 4,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3, T4, T5}(LogLevel, EventId, string)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT5Method : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT5Method"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT5Method(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString5);
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    () => 4,
+                    () => 5,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3, T4, T5}(LogLevel, EventId, string, LogDefineOptions)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT5WithOptionsMethod : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT5WithOptionsMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT5WithOptionsMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString5,
+                    new LogDefineOptions());
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    () => 4,
+                    () => 5,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3, T4, T5, T6}(LogLevel, EventId, string)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT6Method : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT6Method"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT6Method(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int, int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString6);
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    () => 4,
+                    () => 5,
+                    () => 6,
+                    null);
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="LoggerMessageFactory.DefineForFunc{T1, T2, T3, T4, T5, T6}(LogLevel, EventId, string, LogDefineOptions)"/>.
+        /// </summary>
+        public sealed class DefineForFuncT6WithOptionsMethod : AbstractDefineForFuncMethod<Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?>>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DefineForFuncT6WithOptionsMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public DefineForFuncT6WithOptionsMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> GetLoggerMessageAction()
+            {
+                return LoggerMessageFactory.DefineForFunc<int, int, int, int, int, int>(
+                    LogLevel.Information,
+                    new EventId(1, "Event"),
+                    FormatString6,
+                    new LogDefineOptions());
+            }
+
+            /// <inheritdoc/>
+            protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
+            {
+                instance(
+                    _logger,
+                    trackingFunc,
+                    () => 2,
+                    () => 3,
+                    () => 4,
+                    () => 5,
+                    () => 6,
+                    null);
             }
         }
     }
