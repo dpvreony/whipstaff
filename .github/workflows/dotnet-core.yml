@@ -54,16 +54,15 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
-# don't move beyond 6.0.100 until https://github.com/dotnet/sdk/issues/23972 is resolved
     - name: Install .NET 6
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 6.0.300
 
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet workload install android ios tvos macos maui --sdk-version 6.0.300
 
     - name: Add MSBuild to PATH
       uses: glennawatson/setup-msbuild@v1.0.3
