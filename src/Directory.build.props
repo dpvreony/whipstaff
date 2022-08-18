@@ -39,13 +39,19 @@
   </PropertyGroup>
   
   <ItemGroup Condition="$(IsTestProject)">
+    <PackageReference Include="Foundatio.Xunit" Version="10.5.0" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.0" />
+    <PackageReference Include="Moq" Version="4.18.2" />
+    <PackageReference Include="NetTestRegimentation" Version="1.5.3" />
+    <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="xunit" Version="2.4.2" />
+    <PackageReference Include="xunit.analyzers" Version="1.0.0" />
+    <PackageReference Include="xunit.runner.reporters" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>
