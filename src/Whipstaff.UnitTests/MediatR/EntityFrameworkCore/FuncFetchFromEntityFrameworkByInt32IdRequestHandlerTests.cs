@@ -31,7 +31,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
                 Func<Task<FakeDbContext>> dbContextFactory = () => Task.FromResult(new FakeDbContext(options));
 
                 var instance =
-                    new FuncFetchFromEntityFrameworkByInt32IdRequestHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
+                    new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
                         dbContextFactory,
                         context => context.FakeAddAudit,
                         set => set.Id);
@@ -57,7 +57,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
                 Func<Task<FakeDbContext>> dbContextFactory = () => Task.FromResult(new FakeDbContext(options));
 
                 var instance =
-                    new FuncFetchFromEntityFrameworkByInt32IdRequestHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
+                    new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
                         dbContextFactory,
                         context => context.FakeAddAudit,
                         set => set.Id);

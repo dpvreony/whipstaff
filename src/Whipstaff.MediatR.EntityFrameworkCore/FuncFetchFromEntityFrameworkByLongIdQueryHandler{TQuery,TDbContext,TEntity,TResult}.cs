@@ -8,31 +8,32 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.Core.Entities;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.MediatR.EntityFrameworkCore
 {
     /// <summary>
     /// MediatR request handler for acting on an entity framework dbset.
     /// </summary>
-    /// <typeparam name="TRequest">The type for the MediatR Request.</typeparam>
+    /// <typeparam name="TQuery">The type for the MediatR Query.</typeparam>
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
     /// <typeparam name="TResult">The type for the Result.</typeparam>
-    public sealed class FuncFetchFromEntityFrameworkByInt32IdRequestHandler<TRequest, TDbContext, TEntity, TResult> : FetchFromEntityFrameworkByInt32IdRequestHandler<TRequest, TDbContext, TEntity, TResult>
+    public sealed class FuncFetchFromEntityFrameworkByLongIdQueryHandler<TQuery, TDbContext, TEntity, TResult> : FetchFromEntityFrameworkByLongIdQueryHandler<TQuery, TDbContext, TEntity, TResult>
         where TDbContext : DbContext
-        where TRequest : IRequest<TResult>, IIntId
-        where TEntity : class, IIntId
+        where TQuery : IQuery<TResult>, ILongId
+        where TEntity : class, ILongId
     {
         private readonly Expression<Func<TEntity, TResult>> _selector;
         private readonly Func<TDbContext, DbSet<TEntity>> _dbSetFunc;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FuncFetchFromEntityFrameworkByInt32IdRequestHandler{TRequest, TDbContext, TEntity,TResult}"/> class.
+        /// Initializes a new instance of the <see cref="FuncFetchFromEntityFrameworkByLongIdQueryHandler{TQuery, TDbContext, TEntity, TResult}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
         /// <param name="dbSetFunc">Function for selecting the DBSet from the Entity Framework Context.</param>
         /// <param name="selector">Selector for the result output.</param>
-        public FuncFetchFromEntityFrameworkByInt32IdRequestHandler(
+        public FuncFetchFromEntityFrameworkByLongIdQueryHandler(
             Func<Task<TDbContext>> dbContextFactory,
             Func<TDbContext, DbSet<TEntity>> dbSetFunc,
             Expression<Func<TEntity, TResult>> selector)
