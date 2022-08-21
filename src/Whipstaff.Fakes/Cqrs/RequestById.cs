@@ -4,13 +4,14 @@
 
 using MediatR;
 using Whipstaff.Core.Entities;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.Testing.Cqrs
 {
     /// <summary>
     /// Represents a Test Request by an int 32.
     /// </summary>
-    public sealed class RequestById : IRequest<int>, IIntId
+    public sealed class RequestById : IQuery<int>, IIntId
     {
         /// <inheritdoc />
         public int Id { get; init; }
