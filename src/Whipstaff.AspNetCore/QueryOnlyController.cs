@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.AspNetCore.Features.Logging;
-using Whipstaff.Core;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.AspNetCore
 {
@@ -23,20 +22,22 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
     /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
     /// <typeparam name="TListQueryResponse">The type for the Response DTO for the List Operation.</typeparam>
+    /// <typeparam name="TListApiResponse">The type for the API Response DTO for the List Operation.</typeparam>
     /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
+    /// <typeparam name="TViewApiResponse">The type for the API Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
-    public abstract class QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
+    public abstract class QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TListApiResponse, TViewQuery, TViewQueryResponse, TViewApiResponse, TQueryOnlyControllerLogMessageActions>
         : Controller
+        where TListQuery : IAuditableQuery<TListRequestDto, TListQueryResponse?>
         where TListRequestDto : class, new()
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListQueryResponse : class
-        where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
+        where TViewQuery : IAuditableQuery<long, TViewQueryResponse?>
         where TViewQueryResponse : class
         where TQueryOnlyControllerLogMessageActions : IQueryOnlyControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueryOnlyController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="QueryOnlyController{TListQuery, TListRequestDto, TListQueryResponse, TListApiResponse, TViewQuery, TViewQueryResponse, TViewApiResponse, TQueryOnlyControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
@@ -45,7 +46,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
         protected QueryOnlyController(
             IAuthorizationService authorizationService,
-            ILogger<QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
+            ILogger<QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TListApiResponse, TViewQuery, TViewQueryResponse, TViewApiResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             TQueryOnlyControllerLogMessageActions logMessageActionMappings)
@@ -94,29 +95,49 @@ namespace Whipstaff.AspNetCore
             TViewQueryResponse> QueryFactory { get; }
 
         /// <summary>
-        /// Entry point for HTTP GET operations.
+        /// Entry point for HTTP GET LIST operations.
         /// </summary>
-        /// <remarks>
-        /// Directs requests to List or View operations depending on whether an id is passed.
-        /// </remarks>
-        /// <param name="id">unique id of the entity to view. or null if being used to list.</param>
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Get(
-            long? id,
+        /// <returns>A <see cref="ActionResult{TListApiResponse}"/> representing the result of the HTTP operation.</returns>
+        public async Task<ActionResult<TListApiResponse>> ListAsync(CancellationToken cancellationToken)
+        {
+            var listPolicyName = await GetListPolicyAsync().ConfigureAwait(false);
+            var requestDto = new TListRequestDto();
+
+            return await this.GetListActionAsync<TListRequestDto, TListQueryResponse, TListQuery, TListApiResponse>(
+                Logger,
+                Mediator,
+                AuthorizationService,
+                requestDto,
+                LogMessageActionMappings.ListEventLogMessageAction,
+                listPolicyName,
+                GetListActionResultAsync,
+                GetListQueryAsync,
+                cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Entry point for HTTP GET VIEW operations.
+        /// </summary>
+        /// <param name="id">Unique id of the record to retrieve.</param>
+        /// <param name="cancellationToken">Cancellation token for the operations.</param>
+        /// <returns>A <see cref="ActionResult{TViewApiResponse}"/> representing the result of the HTTP operation.</returns>
+        public async Task<ActionResult<TViewApiResponse>> ViewAsync(
+            long id,
             CancellationToken cancellationToken)
         {
-            if (!Request.IsHttps)
-            {
-                return BadRequest();
-            }
+            var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
 
-            if (!id.HasValue)
-            {
-                return await ListAsync(cancellationToken).ConfigureAwait(false);
-            }
-
-            return await ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
+            return await this.GetViewActionAsync<long, TViewQueryResponse, TViewQuery, TViewApiResponse>(
+                Logger,
+                Mediator,
+                AuthorizationService,
+                id,
+                LogMessageActionMappings.ViewEventLogMessageAction,
+                viewPolicyName,
+                GetViewActionResultAsync,
+                GetViewQueryAsync,
+                cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -124,7 +145,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="listResponse">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
+        protected abstract Task<ActionResult<TListApiResponse>> GetListActionResultAsync(TListQueryResponse listResponse);
 
         /// <summary>
         /// Gets the CQRS List Query.
@@ -155,7 +176,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="viewResponse">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse viewResponse);
+        protected abstract Task<ActionResult<TViewApiResponse>> GetViewActionResultAsync(TViewQueryResponse viewResponse);
 
         /// <summary>
         /// Gets CQRS the View Query for the request.
@@ -168,40 +189,5 @@ namespace Whipstaff.AspNetCore
             long id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
-
-        private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
-        {
-            var listPolicyName = await GetListPolicyAsync().ConfigureAwait(false);
-            var requestDto = new TListRequestDto();
-
-            return await this.GetListActionAsync<TListRequestDto, TListQueryResponse, TListQuery>(
-                Logger,
-                Mediator,
-                AuthorizationService,
-                requestDto,
-                LogMessageActionMappings.ListEventLogMessageAction,
-                listPolicyName,
-                GetListActionResultAsync,
-                GetListQueryAsync,
-                cancellationToken).ConfigureAwait(false);
-        }
-
-        private async Task<IActionResult> ViewAsync(
-            long id,
-            CancellationToken cancellationToken)
-        {
-            var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
-
-            return await this.GetViewActionAsync<long, TViewQueryResponse, TViewQuery>(
-                Logger,
-                Mediator,
-                AuthorizationService,
-                id,
-                LogMessageActionMappings.ViewEventLogMessageAction,
-                viewPolicyName,
-                GetViewActionResultAsync,
-                GetViewQueryAsync,
-                cancellationToken).ConfigureAwait(false);
-        }
     }
 }

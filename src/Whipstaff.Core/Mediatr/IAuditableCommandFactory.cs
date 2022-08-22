@@ -5,7 +5,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Whipstaff.Core
+namespace Whipstaff.Core.Mediatr
 {
     /// <summary>
     /// Represents a command factory for auditable Requests.
@@ -20,9 +20,9 @@ namespace Whipstaff.Core
     /// <typeparam name="TUpdateRequestDto">The type of the Request DTO for the Update Command.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type of the Response DTO for the Update Command.</typeparam>
     public interface IAuditableCommandFactory<TAddCommand, in TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, in TUpdateRequestDto, TUpdateResponseDto>
-        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
-        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
-        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
+        where TAddCommand : IAuditableCommand<TAddRequestDto, TAddResponseDto?>
+        where TDeleteCommand : IAuditableCommand<long, TDeleteResponseDto?>
+        where TUpdateCommand : IAuditableCommand<TUpdateRequestDto, TUpdateResponseDto?>
     {
         /// <summary>
         /// Gets the auditable Command for use in an Add Operation.

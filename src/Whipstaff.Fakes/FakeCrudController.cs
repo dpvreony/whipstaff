@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.Swagger;
-using Whipstaff.Core;
+using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing.Cqrs;
 
 namespace Whipstaff.Testing

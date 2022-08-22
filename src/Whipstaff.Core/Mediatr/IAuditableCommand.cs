@@ -3,21 +3,20 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Security.Claims;
-using MediatR;
 
-namespace Whipstaff.Core
+namespace Whipstaff.Core.Mediatr
 {
     /// <summary>
-    /// Represents a request that requires auditing.
+    /// Represents a command that requires auditing.
     /// </summary>
-    /// <typeparam name="TRequestDto">The type of the request object.</typeparam>
+    /// <typeparam name="TCommandDto">The type of the request object.</typeparam>
     /// <typeparam name="TResponse">The type of the response object.</typeparam>
-    public interface IAuditableRequest<out TRequestDto, out TResponse> : IRequest<TResponse?>
+    public interface IAuditableCommand<out TCommandDto, out TResponse> : IQuery<TResponse?>
     {
         /// <summary>
-        /// Gets the request DTO for.
+        /// Gets the command DTO for the actual command.
         /// </summary>
-        TRequestDto RequestDto { get; }
+        TCommandDto CommandDto { get; }
 
         /// <summary>
         /// Gets the claims principal attached to the request.

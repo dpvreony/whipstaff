@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.AspNetCore.Features.Logging;
-using Whipstaff.Core;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.AspNetCore
 {
@@ -21,48 +20,58 @@ namespace Whipstaff.AspNetCore
     /// A generic controller supporting CRUD operations. Pre-defines CQRS activities along with Authorization and logging.
     /// </summary>
     /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
-    /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+    /// <typeparam name="TListQueryDto">The type for the Request DTO for the List Operation.</typeparam>
     /// <typeparam name="TListQueryResponse">The type for the Response DTO for the List Operation.</typeparam>
+    /// <typeparam name="TListApiResponse">The type for the API Response DTO for the List Operation.</typeparam>
     /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
-    /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
+    /// <typeparam name="TViewQueryResponse">The type for the Query Response DTO for the View Operation.</typeparam>
+    /// <typeparam name="TViewApiResponse">The type for the API Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TAddCommand">The type for the Add Command.</typeparam>
     /// <typeparam name="TAddRequestDto">The type for the Request DTO for the Add Operation.</typeparam>
     /// <typeparam name="TAddResponseDto">The type for the Response DTO for the Add Operation.</typeparam>
+    /// <typeparam name="TAddApiResponseDto">The type for the API Response DTO for the Add Operation.</typeparam>
     /// <typeparam name="TDeleteCommand">The type for the Delete Command.</typeparam>
-    /// <typeparam name="TDeleteResponseDto">The type for the Request DTO for the Delete Operation.</typeparam>
+    /// <typeparam name="TDeleteResponseDto">The type for the Response DTO for the Delete Operation.</typeparam>
+    /// <typeparam name="TDeleteApiResponseDto">The type for the API Response DTO for the Delete Operation.</typeparam>
     /// <typeparam name="TUpdateCommand">The type for the Update Command.</typeparam>
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
+    /// <typeparam name="TUpdateApiResponseDto">The type for the API DTO for the Update Operation.</typeparam>
     /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
     public abstract class CrudController<
             TListQuery,
-            TListRequestDto,
+            TListQueryDto,
             TListQueryResponse,
+            TListApiResponse,
             TViewQuery,
             TViewQueryResponse,
+            TViewApiResponse,
             TAddCommand,
             TAddRequestDto,
             TAddResponseDto,
+            TAddApiResponseDto,
             TDeleteCommand,
             TDeleteResponseDto,
+            TDeleteApiResponseDto,
             TUpdateCommand,
             TUpdateRequestDto,
             TUpdateResponseDto,
+            TUpdateApiResponseDto,
             TCrudControllerLogMessageActions>
-        : QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
-        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
-        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
+        : QueryOnlyController<TListQuery, TListQueryDto, TListQueryResponse, TListApiResponse, TViewQuery, TViewQueryResponse, TViewApiResponse, TCrudControllerLogMessageActions>
+        where TAddCommand : IAuditableCommand<TAddRequestDto, TAddResponseDto?>
+        where TDeleteCommand : IAuditableCommand<long, TDeleteResponseDto?>
+        where TListQuery : IAuditableQuery<TListQueryDto, TListQueryResponse?>
         where TListQueryResponse : class
-        where TListRequestDto : class, new()
-        where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
+        where TListQueryDto : class, new()
+        where TViewQuery : IAuditableQuery<long, TViewQueryResponse?>
         where TViewQueryResponse : class
-        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
+        where TUpdateCommand : IAuditableCommand<TUpdateRequestDto, TUpdateResponseDto?>
         where TUpdateResponseDto : class
         where TCrudControllerLogMessageActions : ICrudControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CrudController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="CrudController{TListQuery, TListQueryDto, TListQueryResponse, TListApiResponse, TViewQuery, TViewQueryResponse, TViewApiResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TAddApiResponseDto, TDeleteCommand, TDeleteResponseDto, TDeleteApiResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TUpdateApiResponseDto, TCrudControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
@@ -74,22 +83,27 @@ namespace Whipstaff.AspNetCore
             IAuthorizationService authorizationService,
             ILogger<CrudController<
                 TListQuery,
-                TListRequestDto,
+                TListQueryDto,
                 TListQueryResponse,
+                TListApiResponse,
                 TViewQuery,
                 TViewQueryResponse,
+                TViewApiResponse,
                 TAddCommand,
                 TAddRequestDto,
                 TAddResponseDto,
+                TAddApiResponseDto,
                 TDeleteCommand,
                 TDeleteResponseDto,
+                TDeleteApiResponseDto,
                 TUpdateCommand,
                 TUpdateRequestDto,
                 TUpdateResponseDto,
+                TUpdateApiResponseDto,
                 TCrudControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
+            IAuditableQueryFactory<TListQuery, TListQueryDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             TCrudControllerLogMessageActions logMessageActions)
             : base(
                   authorizationService,
@@ -123,13 +137,13 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">Unique ID of the entity to be deleted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Delete(
+        public async Task<ActionResult<TDeleteApiResponseDto>> Delete(
             int id,
             CancellationToken cancellationToken)
         {
             var deletePolicyName = await GetDeletePolicyAsync().ConfigureAwait(false);
 
-            return await this.GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
+            return await this.GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand, TDeleteApiResponseDto>(
                 Logger,
                 Mediator,
                 AuthorizationService,
@@ -147,13 +161,13 @@ namespace Whipstaff.AspNetCore
         /// <param name="addRequestDto">The Request DTO for the Add Operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Post(
+        public async Task<ActionResult<TAddApiResponseDto>> Post(
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
             var addPolicyName = await GetAddPolicyAsync().ConfigureAwait(false);
 
-            return await this.GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
+            return await this.GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand, TAddApiResponseDto>(
                 Logger,
                 Mediator,
                 AuthorizationService,
@@ -172,14 +186,14 @@ namespace Whipstaff.AspNetCore
         /// <param name="updateRequestDto">The Request DTO of the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Put(
+        public async Task<ActionResult<TUpdateApiResponseDto>> Put(
             long id,
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
         {
             var updatePolicyName = await GetUpdatePolicyAsync().ConfigureAwait(false);
 
-            return await this.GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
+            return await this.GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand, TUpdateApiResponseDto>(
                 Logger,
                 Mediator,
                 AuthorizationService,
@@ -197,7 +211,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetAddActionResultAsync(TAddResponseDto result);
+        protected abstract Task<ActionResult<TAddApiResponseDto>> GetAddActionResultAsync(TAddResponseDto result);
 
         /// <summary>
         /// Gets the CQRS Command for the Add operation.
@@ -222,7 +236,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetDeleteActionResultAsync(TDeleteResponseDto result);
+        protected abstract Task<ActionResult<TDeleteApiResponseDto>> GetDeleteActionResultAsync(TDeleteResponseDto result);
 
         /// <summary>
         /// Gets the CQRS Delete Command.
@@ -247,7 +261,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetUpdateActionResultAsync(TUpdateResponseDto result);
+        protected abstract Task<ActionResult<TUpdateApiResponseDto>> GetUpdateActionResultAsync(TUpdateResponseDto result);
 
         /// <summary>
         /// Gets the CQRS update command for the request.

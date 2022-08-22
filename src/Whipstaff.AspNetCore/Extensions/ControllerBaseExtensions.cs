@@ -9,7 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Whipstaff.Core;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.AspNetCore.Extensions
 {
@@ -21,9 +21,10 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <summary>
         /// Extension method for common behaviour in Add API operations.
         /// </summary>
-        /// <typeparam name="TAddRequestDto">The type for the Request DTO for the Add Operation.</typeparam>
-        /// <typeparam name="TAddResponseDto">The type for the Response DTO for the Add Operation.</typeparam>
+        /// <typeparam name="TAddCommandRequestDto">The type for the Request DTO for the Add Operation.</typeparam>
+        /// <typeparam name="TAddCommandResponseDto">The type for the Response DTO for the Add Operation.</typeparam>
         /// <typeparam name="TAddCommand">The type for the CQRS Command for the Add Operation.</typeparam>
+        /// <typeparam name="TAddApiResponseDto">The type for API response of the Add Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
@@ -41,18 +42,18 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="addCommandFactoryAsync">The Command Factory for the Add operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
+        public static async Task<ActionResult<TAddApiResponseDto>> GetAddActionAsync<TAddCommandRequestDto, TAddCommandResponseDto, TAddCommand, TAddApiResponseDto>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
             IAuthorizationService authorizationService,
-            TAddRequestDto addRequestDto,
+            TAddCommandRequestDto addRequestDto,
             Action<ILogger, string, Exception?> logAction,
             string addPolicyName,
-            Func<TAddResponseDto, Task<IActionResult>> getAddActionResultAsync,
-            Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
+            Func<TAddCommandResponseDto, Task<ActionResult<TAddApiResponseDto>>> getAddActionResultAsync,
+            Func<TAddCommandRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
+            where TAddCommand : IAuditableCommand<TAddCommandRequestDto, TAddCommandResponseDto?>
         {
             if (logger == null)
             {
@@ -137,8 +138,9 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <summary>
         /// Extension method for common behaviour in Delete API operations.
         /// </summary>
-        /// <typeparam name="TDeleteResponseDto">The type for the Response DTO for the Add Operation.</typeparam>
+        /// <typeparam name="TDeleteCommandResponseDto">The type for the Response DTO for the Add Operation.</typeparam>
         /// <typeparam name="TDeleteCommand">The type for the CQRS Command for the Delete Operation.</typeparam>
+        /// <typeparam name="TDeleteApiResponseDto">The type for API response of the Add Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
@@ -156,7 +158,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="deleteCommandFactoryAsync">The Command Factory for the Delete operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
+        public static async Task<ActionResult<TDeleteApiResponseDto>> GetDeleteActionAsync<TDeleteCommandResponseDto, TDeleteCommand, TDeleteApiResponseDto>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
@@ -164,10 +166,10 @@ namespace Whipstaff.AspNetCore.Extensions
             long id,
             Action<ILogger, string, Exception?> logAction,
             string deletePolicyName,
-            Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
+            Func<TDeleteCommandResponseDto, Task<ActionResult<TDeleteApiResponseDto>>> getDeleteActionResultAsync,
             Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
+            where TDeleteCommand : IAuditableCommand<long, TDeleteCommandResponseDto?>
         {
             if (logger == null)
             {
@@ -263,9 +265,10 @@ namespace Whipstaff.AspNetCore.Extensions
         /// Extension method for common behaviour in List API operations, this method doesn't constrain the requirement for an auditable request.
         /// However the auditable request does call this.
         /// </summary>
-        /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
-        /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQueryRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQueryResponseDto">The type for the Response DTO for the List Operation.</typeparam>
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
+        /// <typeparam name="TListApiResponseDto">The type for API response of the Add Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
@@ -280,22 +283,22 @@ namespace Whipstaff.AspNetCore.Extensions
         /// </param>
         /// <param name="listPolicyName">The policy name to use for Authorization verification.</param>
         /// <param name="getListActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
-        /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
+        /// <param name="listQueryFactoryAsync">The Query Factory for the List operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery>(
+        public static async Task<ActionResult<TListApiResponseDto>> GetListActionFlexibleAsync<TListQueryRequestDto, TListQueryResponseDto, TListQuery, TListApiResponseDto>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
             IAuthorizationService authorizationService,
-            TListRequestDto listRequestDto,
+            TListQueryRequestDto listRequestDto,
             Action<ILogger, string, Exception?> logAction,
             string listPolicyName,
-            Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
-            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
+            Func<TListQueryResponseDto, Task<ActionResult<TListApiResponseDto>>> getListActionResultAsync,
+            Func<TListQueryRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listQueryFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto?>
-            where TListResponseDto : class
+            where TListQuery : IQuery<TListQueryResponseDto?>
+            where TListQueryResponseDto : class
         {
             if (logger == null)
             {
@@ -324,9 +327,9 @@ namespace Whipstaff.AspNetCore.Extensions
                 throw new ArgumentNullException(nameof(authorizationService));
             }
 
-            if (listCommandFactoryAsync == null)
+            if (listQueryFactoryAsync == null)
             {
-                throw new ArgumentNullException(nameof(listCommandFactoryAsync));
+                throw new ArgumentNullException(nameof(listQueryFactoryAsync));
             }
 
             if (getListActionResultAsync == null)
@@ -350,7 +353,7 @@ namespace Whipstaff.AspNetCore.Extensions
                 return instance.Forbid();
             }
 
-            var query = await listCommandFactoryAsync(
+            var query = await listQueryFactoryAsync(
                 listRequestDto,
                 user,
                 cancellationToken).ConfigureAwait(false);
@@ -383,9 +386,10 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <summary>
         /// Extension method for common behaviour in List API operations.
         /// </summary>
-        /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
-        /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQueryRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQueryResponseDto">The type for the Response DTO for the List Operation.</typeparam>
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
+        /// <typeparam name="TListApiResponseDto">The type for API response of the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
@@ -403,19 +407,19 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
+        public static Task<ActionResult<TListApiResponseDto>> GetListActionAsync<TListQueryRequestDto, TListQueryResponseDto, TListQuery, TListApiResponseDto>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
             IAuthorizationService authorizationService,
-            TListRequestDto listRequestDto,
+            TListQueryRequestDto listRequestDto,
             Action<ILogger, string, Exception?> logAction,
             string listPolicyName,
-            Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
-            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
+            Func<TListQueryResponseDto, Task<ActionResult<TListApiResponseDto>>> getListActionResultAsync,
+            Func<TListQueryRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto?>
-            where TListResponseDto : class
+            where TListQuery : IAuditableQuery<TListQueryRequestDto, TListQueryResponseDto?>
+            where TListQueryResponseDto : class
         {
             return GetListActionFlexibleAsync(
                 instance,
@@ -433,9 +437,10 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <summary>
         /// Extension method for common behaviour in View API operations.
         /// </summary>
-        /// <typeparam name="TViewRequestDto">The type for the Request DTO for the View Operation.</typeparam>
-        /// <typeparam name="TViewResponseDto">The type for the Response DTO for the View Operation.</typeparam>
+        /// <typeparam name="TViewQueryRequestDto">The type for the Query DTO for the View Operation.</typeparam>
+        /// <typeparam name="TViewQueryResponseDto">The type for the Query Response DTO for the View Operation.</typeparam>
         /// <typeparam name="TViewQuery">The type for the CQRS Command for the View Operation.</typeparam>
+        /// <typeparam name="TViewApiResponseDto">The type for API response of the View Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
@@ -453,19 +458,19 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="viewCommandFactoryAsync">The Command Factory for the View operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
+        public static async Task<ActionResult<TViewApiResponseDto>> GetViewActionAsync<TViewQueryRequestDto, TViewQueryResponseDto, TViewQuery, TViewApiResponseDto>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
             IAuthorizationService authorizationService,
-            TViewRequestDto viewRequestDto,
+            TViewQueryRequestDto viewRequestDto,
             Action<ILogger, string, Exception?> logAction,
             string viewPolicyName,
-            Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
-            Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
+            Func<TViewQueryResponseDto, Task<ActionResult<TViewApiResponseDto>>> getViewActionResultAsync,
+            Func<TViewQueryRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
-            where TViewResponseDto : class
+            where TViewQuery : IAuditableQuery<TViewQueryRequestDto, TViewQueryResponseDto?>
+            where TViewQueryResponseDto : class
         {
             if (logger == null)
             {
@@ -553,9 +558,10 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <summary>
         /// Extension method for common behaviour in Update API operations.
         /// </summary>
-        /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
-        /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
+        /// <typeparam name="TUpdateCommandRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
+        /// <typeparam name="TUpdateCommandResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
         /// <typeparam name="TUpdateCommand">The type for the CQRS Command for the Update Operation.</typeparam>
+        /// <typeparam name="TUpdateApiResponseDto">The type for API response of the View Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
         /// <param name="mediator">Mediatr object for publishing commands to.</param>
@@ -574,20 +580,20 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="updateCommandFactoryAsync">The Command Factory for the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
+        public static async Task<ActionResult<TUpdateApiResponseDto>> GetUpdateActionAsync<TUpdateCommandRequestDto, TUpdateCommandResponseDto, TUpdateCommand, TUpdateApiResponseDto>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
             IAuthorizationService authorizationService,
             long id,
-            TUpdateRequestDto updateRequestDto,
+            TUpdateCommandRequestDto updateRequestDto,
             Action<ILogger, string, Exception?> logAction,
             string updatePolicyName,
-            Func<TUpdateResponseDto, Task<IActionResult>> getUpdateActionResultAsync,
-            Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
+            Func<TUpdateCommandResponseDto, Task<ActionResult<TUpdateApiResponseDto>>> getUpdateActionResultAsync,
+            Func<TUpdateCommandRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
-            where TUpdateResponseDto : class
+            where TUpdateCommand : IAuditableCommand<TUpdateCommandRequestDto, TUpdateCommandResponseDto?>
+            where TUpdateCommandResponseDto : class
         {
             if (logger == null)
             {
