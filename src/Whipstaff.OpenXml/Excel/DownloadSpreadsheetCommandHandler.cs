@@ -25,7 +25,8 @@ namespace Whipstaff.OpenXml.Excel
         {
             return await Task.Run(() =>
             {
-                if (request.RequestDto != 0 && request.RequestDto % 2 == 0)
+#error this is an example, move it.
+                if (request.QueryDto != 0 && request.QueryDto % 2 == 0)
                 {
                     // crude test for checking the 404 logic on even request ids.
                     return null;

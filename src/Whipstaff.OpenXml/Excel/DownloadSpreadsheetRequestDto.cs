@@ -11,16 +11,7 @@ namespace Whipstaff.OpenXml.Excel
     /// <summary>
     /// Auditable request for a spreadsheet download.
     /// </summary>
-    public sealed class DownloadSpreadsheetRequestDto : AuditableRequest<int, FileNameAndStreamModel?>
+    public sealed record DownloadSpreadsheetRequestDto(int QueryDto, ClaimsPrincipal ClaimsPrincipal) : AuditableQuery<int, FileNameAndStreamModel?>(QueryDto, ClaimsPrincipal)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DownloadSpreadsheetRequestDto"/> class.
-        /// </summary>
-        /// <param name="requestDto">DTO for the request.</param>
-        /// <param name="claimsPrincipal">Claims principal attached to the request.</param>
-        public DownloadSpreadsheetRequestDto(int requestDto, ClaimsPrincipal claimsPrincipal)
-            : base(requestDto, claimsPrincipal)
-        {
-        }
     }
 }

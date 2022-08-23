@@ -12,16 +12,7 @@ namespace Whipstaff.Testing.Cqrs
     /// Represents a fake CRUD update command.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudUpdateCommand : AuditableRequest<int, FakeCrudUpdateResponse?>
+    public sealed record FakeCrudUpdateCommand(int CommandDto, ClaimsPrincipal ClaimsPrincipal) : AuditableCommand<int, FakeCrudUpdateResponse?>(CommandDto, ClaimsPrincipal)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCrudUpdateCommand"/> class.
-        /// </summary>
-        /// <param name="requestDto">the unique id for the request.</param>
-        /// <param name="claimsPrincipal">the claims principal associated with the request.</param>
-        public FakeCrudUpdateCommand(int requestDto, ClaimsPrincipal claimsPrincipal)
-            : base(requestDto, claimsPrincipal)
-        {
-        }
     }
 }

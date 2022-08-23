@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.Core;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.AspNetCore.FileTransfer
 {
@@ -22,7 +23,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
     /// <typeparam name="TGetRequestDto">The type for the api request dto.</typeparam>
     /// <typeparam name="TQueryDto">The type for the CQRS query dto.</typeparam>
     public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
-        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStreamModel?>
+        where TQueryDto : IAuditableQuery<TGetRequestDto, FileNameAndStreamModel?>
     {
         private readonly IAuthorizationService _authorizationService;
 
@@ -61,13 +62,13 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <param name="request">The request dto.</param>
         /// <param name="cancellationToken">Cancellation token for the process.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> GetAsync(
+        public async Task<ActionResult<Unit>> GetAsync(
             TGetRequestDto request,
             CancellationToken cancellationToken)
         {
             var viewPolicyName = GetViewPolicyName();
 
-            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel, TQueryDto>(
+            return await this.GetViewActionAsync<TGetRequestDto, FileNameAndStreamModel, TQueryDto, Unit>(
                 _logger,
                 _mediator,
                 _authorizationService,
@@ -103,7 +104,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <returns>The mime type.</returns>
         protected abstract string GetMediaTypeHeaderString();
 
-        private async Task<IActionResult> GetViewActionResultAsync(FileNameAndStreamModel? file)
+        private async Task<ActionResult<Unit>> GetViewActionResultAsync(FileNameAndStreamModel? file)
         {
             if (file == null)
             {

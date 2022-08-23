@@ -10,16 +10,12 @@ namespace Whipstaff.AspNetCore.Features.Pdf
     /// <summary>
     /// Represents a PDF download request dto.
     /// </summary>
-    public sealed class DownloadPdfRequestDto : AuditableRequest<int, FileNameAndStreamModel>
+    public sealed record DownloadPdfRequestDto(
+        int QueryDto,
+        ClaimsPrincipal ClaimsPrincipal)
+        : AuditableQuery<int, FileNameAndStreamModel>(
+            QueryDto,
+            ClaimsPrincipal)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DownloadPdfRequestDto"/> class.
-        /// </summary>
-        /// <param name="requestDto">Unique id for the file.</param>
-        /// <param name="claimsPrincipal">The claims principal associated with the request.</param>
-        public DownloadPdfRequestDto(int requestDto, ClaimsPrincipal claimsPrincipal)
-            : base(requestDto, claimsPrincipal)
-        {
-        }
     }
 }
