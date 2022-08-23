@@ -12,8 +12,9 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using MediatR;
 using Whipstaff.AspNetCore.FileTransfer;
+using Whipstaff.OpenXml.Excel;
 
-namespace Whipstaff.OpenXml.Excel
+namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Features.Excel
 {
     /// <summary>
     /// Sample handler for generating and\or serving spreadsheets.
@@ -25,7 +26,6 @@ namespace Whipstaff.OpenXml.Excel
         {
             return await Task.Run(() =>
             {
-#error this is an example, move it.
                 if (request.QueryDto != 0 && request.QueryDto % 2 == 0)
                 {
                     // crude test for checking the 404 logic on even request ids.

@@ -30,6 +30,7 @@
     <NpmJQueryFilesToCopy Include="$(ProjectDir)node_modules\jquery\dist\**\*.*" />
     <NpmFontAwesomeFreeFilesToCopy Include="$(ProjectDir)node_modules\@fortawesome\fontawesome-free\**\*.*" />
   </ItemGroup>
+
   <Target Name="CopyNpmTasks" BeforeTargets="BeforeBuild">
     <Message Text="Starting NPM Package Copy Task" />
     <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmBootStrapFilesToCopy)" DestinationFiles="@(NpmBootStrapFilesToCopy->'$(ProjectDir)wwwroot\lib\bootstrap\%(RecursiveDir)%(Filename)%(Extension)')" />

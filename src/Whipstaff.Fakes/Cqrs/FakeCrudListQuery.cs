@@ -13,16 +13,7 @@ namespace Whipstaff.Testing.Cqrs
     /// Represents a fake CRUD list query.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudListQuery : AuditableRequest<FakeCrudListRequest, IList<int>?>
+    public sealed record FakeCrudListQuery(FakeCrudListRequest QueryDto, ClaimsPrincipal ClaimsPrincipal) : AuditableQuery<FakeCrudListRequest, IList<int>?>(QueryDto, ClaimsPrincipal)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCrudListQuery"/> class.
-        /// </summary>
-        /// <param name="requestDto">the request dto.</param>
-        /// <param name="claimsPrincipal">the claims principal associated with the request.</param>
-        public FakeCrudListQuery(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal)
-            : base(requestDto, claimsPrincipal)
-        {
-        }
     }
 }

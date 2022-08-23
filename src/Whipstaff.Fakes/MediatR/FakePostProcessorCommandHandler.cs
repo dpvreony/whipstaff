@@ -45,7 +45,7 @@ namespace Whipstaff.Testing.MediatR
             {
                 var entity = new FakeAddPostProcessAuditDbSet
                 {
-                    Value = request.RequestDto,
+                    Value = request.CommandDto,
                     Created = DateTimeOffset.UtcNow
                 };
 

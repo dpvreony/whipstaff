@@ -9,19 +9,12 @@ using Whipstaff.AspNetCore;
 namespace Whipstaff.Testing.Cqrs
 {
     /// <summary>
-    /// Represents a fake CRUD delete command.
+    /// Initializes a new instance of the <see cref="FakeCrudDeleteCommand"/> class.
     /// </summary>
+    /// <param name="CommandDto">The request dto.</param>
+    /// <param name="ClaimsPrincipal">Claims principal associated with the request.</param>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudDeleteCommand : AuditableRequest<long, long?>
+    public sealed record FakeCrudDeleteCommand(long CommandDto, ClaimsPrincipal ClaimsPrincipal) : AuditableCommand<long, long?>(CommandDto, ClaimsPrincipal)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCrudDeleteCommand"/> class.
-        /// </summary>
-        /// <param name="requestDto">The request dto.</param>
-        /// <param name="claimsPrincipal">Claims principal associated with the request.</param>
-        public FakeCrudDeleteCommand(long requestDto, ClaimsPrincipal claimsPrincipal)
-            : base(requestDto, claimsPrincipal)
-        {
-        }
     }
 }

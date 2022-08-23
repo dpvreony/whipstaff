@@ -47,7 +47,7 @@ namespace Whipstaff.Testing.MediatR
             {
                 var entity = new FakeAddAuditDbSet
                 {
-                    Value = request.RequestDto,
+                    Value = request.CommandDto,
                     Created = DateTimeOffset.UtcNow
                 };
 
@@ -59,7 +59,7 @@ namespace Whipstaff.Testing.MediatR
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 
-            return await Task.FromResult(request.RequestDto).ConfigureAwait(false);
+            return await Task.FromResult(request.CommandDto).ConfigureAwait(false);
         }
     }
 }

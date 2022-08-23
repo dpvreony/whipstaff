@@ -12,16 +12,7 @@ namespace Whipstaff.Testing.Cqrs
     /// Represents a fake CRUD view query.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudViewQuery : AuditableRequest<long, FakeCrudViewResponse?>
+    public sealed record FakeCrudViewQuery(long QueryDto, ClaimsPrincipal ClaimsPrincipal) : AuditableQuery<long, FakeCrudViewResponse?>(QueryDto, ClaimsPrincipal)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeCrudViewQuery"/> class.
-        /// </summary>
-        /// <param name="requestDto">the unique id for the request.</param>
-        /// <param name="claimsPrincipal">the claims principal associated with the request.</param>
-        public FakeCrudViewQuery(long requestDto, ClaimsPrincipal claimsPrincipal)
-            : base(requestDto, claimsPrincipal)
-        {
-        }
     }
 }

@@ -99,7 +99,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
         /// <returns>A <see cref="ActionResult{TListApiResponse}"/> representing the result of the HTTP operation.</returns>
-        public async Task<ActionResult<TListApiResponse>> ListAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult<TListApiResponse>> GetListAsync(CancellationToken cancellationToken)
         {
             var listPolicyName = await GetListPolicyAsync().ConfigureAwait(false);
             var requestDto = new TListRequestDto();
@@ -122,7 +122,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">Unique id of the record to retrieve.</param>
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
         /// <returns>A <see cref="ActionResult{TViewApiResponse}"/> representing the result of the HTTP operation.</returns>
-        public async Task<ActionResult<TViewApiResponse>> ViewAsync(
+        public async Task<ActionResult<TViewApiResponse>> GetItemAsync(
             long id,
             CancellationToken cancellationToken)
         {
