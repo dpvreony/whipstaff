@@ -16,6 +16,30 @@ namespace Whipstaff.EntityFramework.CascadeDeletion
     public static class CascadeDeletionExtensions
     {
         /// <summary>
+        /// Walks through the entities and lists the foreign key with <see cref="DeleteBehavior.Cascade"/>.
+        /// </summary>
+        /// <param name="modelBuilder">Model to check foreign keys with cascade delete behaviour.</param>
+        /// <returns>Foreign keys with <see cref="DeleteBehavior.Cascade"/>.</returns>
+        public static IEnumerable<IMutableForeignKey> GetForeignKeysWithCascadeDelete(this ModelBuilder modelBuilder)
+        {
+            ArgumentNullException.ThrowIfNull(modelBuilder);
+
+            return InternalGetForeignKeysWithCascadeDelete(modelBuilder.Model.GetEntityTypes());
+        }
+
+        /// <summary>
+        /// Walks through the entities and lists the foreign key with <see cref="DeleteBehavior.Cascade"/>.
+        /// </summary>
+        /// <param name="entityTypes">Entity Types to check and modify.</param>
+        /// <returns>Foreign keys with <see cref="DeleteBehavior.Cascade"/>.</returns>
+        public static IEnumerable<IMutableForeignKey> GetForeignKeysWithCascadeDelete(this IEnumerable<IMutableEntityType> entityTypes)
+        {
+            ArgumentNullException.ThrowIfNull(entityTypes);
+
+            return InternalGetForeignKeysWithCascadeDelete(entityTypes);
+        }
+
+        /// <summary>
         /// Walks through the entities and removes the foreign key cascade <see cref="DeleteBehavior"/>.
         /// </summary>
         /// <param name="modelBuilder">Model to check and modify.</param>
@@ -37,10 +61,15 @@ namespace Whipstaff.EntityFramework.CascadeDeletion
             InternalRemoveCascadeDeletionBehaviors(entityTypes);
         }
 
+        private static IEnumerable<IMutableForeignKey> InternalGetForeignKeysWithCascadeDelete(IEnumerable<IMutableEntityType> entityTypes)
+        {
+            return entityTypes.SelectMany(t => t.GetForeignKeys())
+                .Where(foreignKey => !foreignKey.IsOwnership && foreignKey.DeleteBehavior == DeleteBehavior.Cascade);
+        }
+
         private static void InternalRemoveCascadeDeletionBehaviors(IEnumerable<IMutableEntityType> entityTypes)
         {
-            var foreignKeysWithCascadeDeleteBehaviour = entityTypes.SelectMany(t => t.GetForeignKeys())
-                .Where(foreignKey => !foreignKey.IsOwnership && foreignKey.DeleteBehavior == DeleteBehavior.Cascade);
+            var foreignKeysWithCascadeDeleteBehaviour = InternalGetForeignKeysWithCascadeDelete(entityTypes);
 
             foreach (var foreignKey in foreignKeysWithCascadeDeleteBehaviour)
             {
