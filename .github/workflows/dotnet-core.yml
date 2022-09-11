@@ -67,7 +67,7 @@ jobs:
     - name: Download SBOM
       shell: pwsh
       run: |
-        Invoke-WebRequest -Uri https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64 -OutFile sbom-tool.exe
+        Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "sbom-tool.exe"
 
     - name: Add MSBuild to PATH
       uses: glennawatson/setup-msbuild@v1.0.3
