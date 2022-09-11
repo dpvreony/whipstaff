@@ -165,7 +165,7 @@ jobs:
       with:
         name: binlogs
         path: artifacts/binlog
-        
+
     - name: store docfx
       uses: actions/upload-artifact@v3
       with:
@@ -184,6 +184,12 @@ jobs:
         name: omd
         path: artifacts/omd
         
+    - name: store licenses
+      uses: actions/upload-artifact@v3
+      with:
+        name: licenses
+        path: artifacts/licenses
+
     - name: store outdated
       uses: actions/upload-artifact@v3
       with:
