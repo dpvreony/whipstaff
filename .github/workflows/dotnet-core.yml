@@ -134,6 +134,10 @@ jobs:
       with:
         directory: src
 
+    - name: List licenses
+      run: |
+        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
+
     - name: List outdated packages
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
@@ -161,7 +165,7 @@ jobs:
       with:
         name: binlogs
         path: artifacts/binlog
-        
+
     - name: store docfx
       uses: actions/upload-artifact@v3
       with:
@@ -180,6 +184,12 @@ jobs:
         name: omd
         path: artifacts/omd
         
+    - name: store licenses
+      uses: actions/upload-artifact@v3
+      with:
+        name: licenses
+        path: artifacts/licenses
+
     - name: store outdated
       uses: actions/upload-artifact@v3
       with:
