@@ -93,6 +93,7 @@ jobs:
         mkdir artifacts\appinspector
         mkdir artifacts\nupkg
         mkdir artifacts\outdated
+        mkdir artifacts\sbom
         mkdir artifacts\snitch
         mkdir artifacts\omd
 
