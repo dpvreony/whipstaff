@@ -128,6 +128,11 @@ jobs:
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+    - name: Train Intellicode Model
+      uses: microsoft/vs-intellicode@v1
+      with:
+        directory: src
+
     - name: List outdated packages
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
