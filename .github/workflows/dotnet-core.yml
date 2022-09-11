@@ -136,7 +136,7 @@ jobs:
 
     - name: List licenses
       run: |
-        dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
+        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
 
     - name: List outdated packages
       run: |
