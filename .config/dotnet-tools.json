@@ -43,6 +43,12 @@
       "commands": [
         "appinspector"
       ]
+    },
+    "dotnet-project-licenses": {
+      "version": "2.4.0",
+      "commands": [
+        "dotnet-project-licenses"
+      ]
     }
   }
 }
