@@ -64,6 +64,11 @@ jobs:
       run: |
         dotnet workload install android ios tvos macos maui
 
+    - name: Download SBOM
+      shell: pwsh
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "D:\a\_temp\sbom-tool.exe"
+
     - name: Add MSBuild to PATH
       uses: glennawatson/setup-msbuild@v1.0.3
       with:
@@ -88,6 +93,7 @@ jobs:
         mkdir artifacts\appinspector
         mkdir artifacts\nupkg
         mkdir artifacts\outdated
+        mkdir artifacts\sbom
         mkdir artifacts\snitch
         mkdir artifacts\omd
 
@@ -138,6 +144,11 @@ jobs:
       run: |
         dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
 
+    - name: Generate SBOM
+      shell: pwsh
+      run: |
+        D:\a\_temp\sbom-tool.exe generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -V Verbose -m artifacts\sbom
+
     - name: List outdated packages
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
@@ -158,7 +169,7 @@ jobs:
       run: |
         dotnet appinspector analyze -s src -f html -o artifacts\appinspector\appinspector.html
 
-    # only store binlog on failure      
+    # only store binlog on failure
     - name: store binlogs
       if: ${{ failure() }}
       uses: actions/upload-artifact@v3
@@ -189,6 +200,12 @@ jobs:
       with:
         name: licenses
         path: artifacts/licenses
+
+    - name: store sbom
+      uses: actions/upload-artifact@v3
+      with:
+        name: sbom
+        path: artifacts/sbom
 
     - name: store outdated
       uses: actions/upload-artifact@v3
