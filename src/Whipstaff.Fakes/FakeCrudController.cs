@@ -90,7 +90,7 @@ namespace Whipstaff.Testing
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult(new FakeCrudListQuery(listRequestDto, claimsPrincipal));
+            return QueryFactory.GetListQueryAsync(listRequestDto, claimsPrincipal, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -120,7 +120,7 @@ namespace Whipstaff.Testing
         /// <inheritdoc />
         protected override Task<FakeCrudViewQuery> GetViewQueryAsync(long id, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new FakeCrudViewQuery(id, claimsPrincipal));
+            return QueryFactory.GetViewQueryAsync(id, claimsPrincipal, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -132,7 +132,7 @@ namespace Whipstaff.Testing
         /// <inheritdoc />
         protected override Task<FakeCrudAddCommand> GetAddCommandAsync(int addRequestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new FakeCrudAddCommand(addRequestDto, claimsPrincipal));
+            return CommandFactory.GetAddCommandAsync(addRequestDto, claimsPrincipal, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace Whipstaff.Testing
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult(new FakeCrudDeleteCommand(id, claimsPrincipal));
+            return CommandFactory.GetDeleteCommandAsync(id, claimsPrincipal, cancellationToken);
         }
 
         /// <inheritdoc />
@@ -168,7 +168,7 @@ namespace Whipstaff.Testing
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
         {
-            return Task.FromResult(new FakeCrudUpdateCommand(updateRequestDto, claimsPrincipal));
+            return CommandFactory.GetUpdateCommandAsync(updateRequestDto, claimsPrincipal, cancellationToken);
         }
 
         /// <inheritdoc />
