@@ -129,7 +129,8 @@ jobs:
     - name: Upload Code Coverage
       uses: codecov/codecov-action@v3
       with:
-        directory: '$PWD/artifacts/opencover/**/coverage.opencover.xml'
+        directory: '$PWD/artifacts/opencover/'
+        files: 'coverage.opencover.xml'
         fail_ci_if_error: true
     
     - name: Train Intellicode Model
