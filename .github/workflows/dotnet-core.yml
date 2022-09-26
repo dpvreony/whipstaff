@@ -129,9 +129,8 @@ jobs:
     - name: Upload Code Coverage
       run: |
         Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-         $reportFolder = Get-ChildItem '$PWD/artifacts/opencover' -Directory | Select-Object Name -First 1
-         $coverageFolder = '$PWD/artifacts/opencover/$reportFolder'
-        .\codecov.exe -t ${env.CODECOV_TOKEN} -s $coverageFolder -f '*.xml' -v
+        $reportFolder = Get-ChildItem 'artifacts/opencover' -Directory | Select-Object FullName -First 1
+        .\codecov.exe -t ${env.CODECOV_TOKEN} -s $reportFolder -f '*.xml' -v
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     
