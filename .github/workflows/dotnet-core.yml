@@ -127,11 +127,11 @@ jobs:
         dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\opencover --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
     - name: Upload Code Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        directory: $PWD/artifacts/opencover/
-        files: '*.xml'
-        fail_ci_if_error: true
+      run: |
+        Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
+        .\codecov.exe -t ${env.CODECOV_TOKEN} -s '$PWD/artifacts/opencover' -f '*.xml'
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     
     - name: Train Intellicode Model
       uses: microsoft/vs-intellicode@v1
