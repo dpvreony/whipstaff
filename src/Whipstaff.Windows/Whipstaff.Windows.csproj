@@ -13,7 +13,7 @@
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="6.0.0" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="System.Speech" Version="6.0.0" />
-    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.1.4" PrivateAssets="all" />
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.2.3" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
