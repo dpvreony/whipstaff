@@ -10,16 +10,16 @@ using System.Text;
 namespace Whipstaff.Runtime.Cryptography.X509
 {
     /// <summary>
-    /// Helpers for <see cref="X509Store"/>.
+    /// Extension methods for <see cref="X509Store"/>.
     /// </summary>
-    public static class X509StoreHelpers
+    public static class X509StoreExtensions
     {
         /// <summary>
         /// Gets a collection of expired certificates.
         /// </summary>
         /// <param name="store">The X509 store.</param>
         /// <returns>Expired certificates.</returns>
-        public static IEnumerable<X509Certificate2> GetExpiredCertificateCollection(X509Store store)
+        public static IEnumerable<X509Certificate2> GetExpiredCertificateCollection(this X509Store store)
         {
             var cutOff = DateTime.UtcNow;
 
@@ -32,7 +32,7 @@ namespace Whipstaff.Runtime.Cryptography.X509
         /// <param name="store">The X509 store.</param>
         /// <param name="cutOff">The timestamp to use as the cut off.</param>
         /// <returns>Expiring certificates.</returns>
-        public static IEnumerable<X509Certificate2> GetExpiringCertificateCollection(X509Store store, DateTime cutOff)
+        public static IEnumerable<X509Certificate2> GetExpiringCertificateCollection(this X509Store store, DateTime cutOff)
         {
             return GetCertificateCollectionViaSelector(
                 store,
@@ -45,7 +45,7 @@ namespace Whipstaff.Runtime.Cryptography.X509
         /// <param name="store">The X509 store.</param>
         /// <param name="selectorFunc">Filter to apply to the certificate collection.</param>
         /// <returns>Collection of certificates.</returns>
-        public static IEnumerable<X509Certificate2> GetCertificateCollectionViaSelector(X509Store store, Func<X509Certificate2, bool> selectorFunc)
+        public static IEnumerable<X509Certificate2> GetCertificateCollectionViaSelector(this X509Store store, Func<X509Certificate2, bool> selectorFunc)
         {
             if (store == null)
             {
