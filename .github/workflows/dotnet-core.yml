@@ -129,11 +129,7 @@ jobs:
     - name: Upload Code Coverage
       run: |
         Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-        $reportFolder = (Get-ChildItem 'artifacts/opencover' -Directory | Select-Object FullName -First 1)
-        echo $reportFolder
-        $reportFolder = $reportFolder.ToString().Replace("\", "/")
-        echo $reportFolder
-        .\codecov.exe -s $reportFolder -f '*.xml' -v
+        .\codecov.exe -s 'artifacts/opencover' -f '*.xml' -v
     
     - name: Train Intellicode Model
       uses: microsoft/vs-intellicode@v1
