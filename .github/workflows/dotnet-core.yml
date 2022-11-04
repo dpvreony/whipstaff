@@ -131,9 +131,7 @@ jobs:
         Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
         $reportFolder = Get-ChildItem 'artifacts/opencover' -Directory | Select-Object FullName -First 1
         echo $reportFolder
-        .\codecov.exe -t ${env.CODECOV_TOKEN} -s $reportFolder -f '*.xml' -v
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        .\codecov.exe -s $reportFolder -f '*.xml' -v
     
     - name: Train Intellicode Model
       uses: microsoft/vs-intellicode@v1
