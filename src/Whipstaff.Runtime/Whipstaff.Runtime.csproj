@@ -4,4 +4,8 @@
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DateTime\" />
+  </ItemGroup>
+
 </Project>
