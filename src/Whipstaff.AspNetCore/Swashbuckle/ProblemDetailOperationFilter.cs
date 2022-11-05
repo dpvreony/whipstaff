@@ -3,11 +3,9 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Whipstaff.Runtime.Exceptions;
 
 namespace Whipstaff.AspNetCore.Swashbuckle
 {
@@ -24,7 +22,9 @@ namespace Whipstaff.AspNetCore.Swashbuckle
 
             if (context.ApiDescription.SupportedResponseTypes.Count < 1)
             {
-                throw new NumberTooLowInteger32Exception()
+                throw new ArgumentException(
+                    "ApiDescription.SupportedResponseTypes must have at least 1 element",
+                    nameof(context));
             }
 
             var supportedRequestFormats = context.ApiDescription.SupportedResponseTypes[0].ApiResponseFormats;
