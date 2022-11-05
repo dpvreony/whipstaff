@@ -25,12 +25,18 @@ jobs:
       with:
         fetch-depth: 0
         
-
     - name: Verify the ref context
       run: echo 'Ref Context is ${{ github.ref }}'
 
     - name: Verify the head ref context
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
+
+    # java is used by sonar scanner
+    - name: Setup Java 11
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '11'
 
     - name: Install Windows SDK 10.0.16299
       shell: pwsh
@@ -68,6 +74,20 @@ jobs:
       shell: pwsh
       run: |
         Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "D:\a\_temp\sbom-tool.exe"
+
+    #- name: Download Sonar Scanner MsBuild
+    #  uses: robinraju/release-downloader@v1.6
+    #  with:
+    #    repository: "SonarSource/sonar-scanner-msbuild"
+    #    latest: true
+    #    fileName: "sonar-scanner-msbuild-*-net46.zip"
+    #    out-file-path: "downloads/sonar"
+
+    #- name: Extract Sonar Scanner MsBuild
+    #  run: |
+    #    Get-ChildItem *.zip | Expand-Archive -DestinationPath ../../tools/sonar
+    #    del *.zip
+    #  working-directory: downloads/sonar
 
     - name: Add MSBuild to PATH
       uses: glennawatson/setup-msbuild@v1.0.3
@@ -121,6 +141,8 @@ jobs:
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
         dotnet sonarscanner begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/opencover/**/*.xml"
+        # .\..\tools\sonar\SonarScanner.MSBuild.exe begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/opencover/**/*.xml"
+      working-directory: src
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
@@ -139,6 +161,8 @@ jobs:
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
         dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+        # .\..\tools\sonar\SonarScanner.MSBuild.exe end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+      working-directory: src
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
