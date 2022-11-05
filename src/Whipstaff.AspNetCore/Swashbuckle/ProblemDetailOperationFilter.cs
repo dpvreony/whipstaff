@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Whipstaff.Runtime.Exceptions;
 
 namespace Whipstaff.AspNetCore.Swashbuckle
 {
@@ -21,7 +22,12 @@ namespace Whipstaff.AspNetCore.Swashbuckle
             ArgumentNullException.ThrowIfNull(operation);
             ArgumentNullException.ThrowIfNull(context);
 
-            var supportedRequestFormats = context.ApiDescription.SupportedResponseTypes.First().ApiResponseFormats;
+            if (context.ApiDescription.SupportedResponseTypes.Count < 1)
+            {
+                throw new NumberTooLowInteger32Exception()
+            }
+
+            var supportedRequestFormats = context.ApiDescription.SupportedResponseTypes[0].ApiResponseFormats;
 
             var problemDetailsReferenceSchema = context.EnsureTypeRegistered<ProblemDetails>();
 
