@@ -74,7 +74,7 @@ jobs:
       with:
         repository: "SonarSource/sonar-scanner-msbuild"
         latest: true
-        fileName: "sonar-scanner-msbuild-*-net5.0.zip"
+        fileName: "sonar-scanner-msbuild-*-net46.zip"
         out-file-path: "downloads/sonar"
 
     - name: Extract Sonar Scanner MsBuild
