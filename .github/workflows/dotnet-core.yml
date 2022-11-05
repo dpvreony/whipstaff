@@ -135,8 +135,8 @@ jobs:
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
         # dotnet sonarscanner begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/opencover/**/*.xml"
-        .\SonarScanner.MSBuild.exe begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/opencover/**/*.xml"
-      working-directory: tools/sonar
+        .\..\tools\sonar\SonarScanner.MSBuild.exe begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/opencover/**/*.xml"
+      working-directory: src
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
@@ -155,8 +155,8 @@ jobs:
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
         # dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
-        .\SonarScanner.MSBuild.exe end /d:sonar.login="${{ env.SONAR_TOKEN }}"
-      working-directory: tools/sonar
+        .\..\tools\sonar\SonarScanner.MSBuild.exe end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+      working-directory: src
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
