@@ -140,8 +140,8 @@ jobs:
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
-        dotnet sonarscanner begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/opencover/**/*.xml"
-        # .\..\tools\sonar\SonarScanner.MSBuild.exe begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/opencover/**/*.xml"
+        dotnet sonarscanner begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/unittestcoverage/**/*.xml"
+        # .\..\tools\sonar\SonarScanner.MSBuild.exe begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="artifacts/unittestcoverage/**/*.xml"
       working-directory: src
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -155,7 +155,7 @@ jobs:
 
     - name: Run Unit Tests
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\opencover --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\unittestcoverage --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
     - name: Run Sonar Scanner end
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -172,8 +172,10 @@ jobs:
     - name: Upload Code Coverage
       run: |
         Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-        .\codecov.exe -X gcov -X coveragepy -s 'artifacts/opencover' -f '*.xml' -v
-    
+        .\codecov.exe -X gcov -X coveragepy -s 'artifacts/unittestcoverage' -f '*.xml' -v -t '${{ env.CODECOV_TOKEN }}'
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
     - name: Train Intellicode Model
       uses: microsoft/vs-intellicode@v1
       if: github.ref == 'refs/heads/main'
@@ -216,6 +218,12 @@ jobs:
       with:
         name: binlogs
         path: artifacts/binlog
+
+    - name: store unit test coverage
+      uses: actions/upload-artifact@v3
+      with:
+        name: unittestcoverage
+        path: artifacts/unittestcoverage
 
     - name: store docfx
       uses: actions/upload-artifact@v3
