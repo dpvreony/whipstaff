@@ -25,12 +25,18 @@ jobs:
       with:
         fetch-depth: 0
         
-
     - name: Verify the ref context
       run: echo 'Ref Context is ${{ github.ref }}'
 
     - name: Verify the head ref context
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
+
+    # java is used by sonar scanner
+    - name: Setup Java 11
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '11'
 
     - name: Install Windows SDK 10.0.16299
       shell: pwsh
