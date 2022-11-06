@@ -176,6 +176,14 @@ jobs:
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+    - name: Report Unit Test Coverage
+      run: |
+        $opencoverxmlpath = Get-ChildItem 'artifacts/unittestcoverage/**/*.xml' | Select-Object -First 1
+        $unitTestCoverage = Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage'
+        $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
+        echo "::notice::$coverageMessage"
+        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+
     - name: Train Intellicode Model
       uses: microsoft/vs-intellicode@v1
       if: github.ref == 'refs/heads/main'
