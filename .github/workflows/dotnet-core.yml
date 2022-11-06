@@ -179,7 +179,7 @@ jobs:
     - name: Report Unit Test Coverage
       run: |
         $opencoverxmlpath = Get-ChildItem 'artifacts/unittestcoverage/**/*.xml' | Select-Object -First 1
-        $unitTestCoverage = Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage'
+        $unitTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
         echo "::notice::$coverageMessage"
         echo $coverageMessage >> $GITHUB_STEP_SUMMARY
