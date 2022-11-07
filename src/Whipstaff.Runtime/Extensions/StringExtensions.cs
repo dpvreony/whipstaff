@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace Whipstaff.Runtime.Extensions
 {
@@ -33,6 +36,16 @@ namespace Whipstaff.Runtime.Extensions
         }
 
         /// <summary>
+        /// Checks to see if a string is Hexadecimal.
+        /// </summary>
+        /// <param name="instance">String to check.</param>
+        /// <returns>Whether the string is Hexadecimal.</returns>
+        public static bool IsHexadecimal(this string instance)
+        {
+            return instance.All(character => character.IsHexadecimal());
+        }
+
+        /// <summary>
         /// Removes all instances of a string.
         /// </summary>
         /// <param name="instance">The string to work on.</param>
@@ -53,6 +66,22 @@ namespace Whipstaff.Runtime.Extensions
                 value,
                 string.Empty,
                 ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// Converts a string to a memory stream.
+        /// </summary>
+        /// <param name="instance">String to convert.</param>
+        /// <returns>Memory stream.</returns>
+        public static MemoryStream ToMemoryStream(this string instance)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            var byteArray = Encoding.Unicode.GetBytes(instance);
+            return new MemoryStream(byteArray);
         }
     }
 }
