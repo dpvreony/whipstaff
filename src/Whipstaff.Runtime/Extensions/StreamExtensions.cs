@@ -9,25 +9,54 @@ using System.Threading.Tasks;
 
 namespace Whipstaff.Runtime.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="Stream"/>.
+    /// </summary>
     public static class StreamExtensions
     {
-        public static async Task<TResult> GetPocoResponseFromJsonViaDataContractAsync<TResult>(this Stream stream)
+        /// <summary>
+        /// Deserializes an object from a stream by using Data Contracts.
+        /// </summary>
+        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
+        /// <param name="stream">The stream to read from.</param>
+        /// <returns>The deserialized object.</returns>
+        public static async Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream)
         {
-            return await Task.FromResult(GetPocoResponseFromJsonViaDataContract<TResult>(stream)).ConfigureAwait(false);
+            return await Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream)).ConfigureAwait(false);
         }
 
-        public static async Task<TResult> GetPocoResponseFromJsonViaDataContractAsync<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
+        /// <summary>
+        /// Deserializes an object from a stream by using Data Contracts. This version is for use with a cached <see cref="DataContractJsonSerializer"/>.
+        /// </summary>
+        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
+        /// <param name="stream">The stream to read from.</param>
+        /// <param name="dataContractJsonSerializer">The Json Data Contract Serializer to use.</param>
+        /// <returns>The deserialized object.</returns>
+        public static async Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
         {
-            return await Task.FromResult(GetPocoResponseFromJsonViaDataContract<TResult>(stream, dataContractJsonSerializer)).ConfigureAwait(false);
+            return await Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream, dataContractJsonSerializer)).ConfigureAwait(false);
         }
 
-        public static TResult GetPocoResponseFromJsonViaDataContract<TResult>(this Stream stream)
+        /// <summary>
+        /// Deserializes an object from a stream by using Data Contracts.
+        /// </summary>
+        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
+        /// <param name="stream">The stream to read from.</param>
+        /// <returns>The deserialized object.</returns>
+        public static TResult DeserializeFromJsonViaDataContract<TResult>(this Stream stream)
         {
             var serializer = new DataContractJsonSerializer(typeof(TResult));
             return (TResult)serializer.ReadObject(stream);
         }
 
-        public static TResult GetPocoResponseFromJsonViaDataContract<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
+        /// <summary>
+        /// Deserializes an object from a stream by using Data Contracts. This version is for use with a cached <see cref="DataContractJsonSerializer"/>.
+        /// </summary>
+        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
+        /// <param name="stream">The stream to read from.</param>
+        /// <param name="dataContractJsonSerializer">The Json Data Contract Serializer to use.</param>
+        /// <returns>The deserialized object.</returns>
+        public static TResult DeserializeFromJsonViaDataContract<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
         {
             if (dataContractJsonSerializer == null)
             {
