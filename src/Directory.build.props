@@ -16,7 +16,8 @@
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)analyzers.ruleset</CodeAnalysisRuleSet>
     <IsTestProject>$(MSBuildProjectName.Contains('Tests'))</IsTestProject>
     <IsWasmProject>$(MSBuildProjectName.Contains('Wasm'))</IsWasmProject>
-    <DebugType>Embedded</DebugType>
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
@@ -39,10 +40,17 @@
   </PropertyGroup>
   
   <ItemGroup Condition="$(IsTestProject)">
-    <PackageReference Include="coverlet.collector" Version="3.2.0" />
+    <PackageReference Include="coverlet.collector" Version="3.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.msbuild" Version="3.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Foundatio.Xunit" Version="10.5.0" />
     <PackageReference Include="GitHubActionsTestLogger" Version="2.0.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="NetTestRegimentation" Version="1.5.3" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
