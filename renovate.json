@@ -22,6 +22,12 @@
             "labels": ["dependencies"]
         },
         {
+            "matchPackagePatterns": ["^MediatR","^MediatR.*"],
+            "groupName": "all mediatr dependencies",
+            "groupSlug": "all-mediatr",
+            "labels": ["dependencies"]
+        },
+        {
             "matchPackagePatterns": ["^Microsoft.*", "^System.*"],
             "groupName": "all microsoft dependencies",
             "groupSlug": "all-microsoft",

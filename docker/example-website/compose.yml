@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    depends_on: 
+      - exceptionless
+  exceptionless:
+    image: exceptionless/exceptionless:7.2.1

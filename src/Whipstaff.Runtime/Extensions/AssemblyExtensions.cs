@@ -11,12 +11,12 @@ using Whipstaff.Runtime.Exceptions;
 namespace Whipstaff.Runtime.Extensions
 {
     /// <summary>
-    /// Assembly Extensions.
+    /// Extensions methods for reflecting on an assembly.
     /// </summary>
     public static class AssemblyExtensions
     {
         /// <summary>
-        /// The get classes in namespace.
+        /// Gets all classes in an assembly.
         /// </summary>
         /// <param name="assembly">
         /// The assembly to search.

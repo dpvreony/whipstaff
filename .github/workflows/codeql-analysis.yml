@@ -59,28 +59,24 @@ jobs:
         $process.WaitForExit()
 
     - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 3.1.x
 
     - name: Setup .NET 5
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 5.0.x
 
     - name: Install .NET 6
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.100
+        dotnet-version: 6.0.x
 
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android
-        dotnet workload install ios
-        dotnet workload install tvos
-        dotnet workload install macos
-        dotnet workload install maui
+        dotnet workload install android ios tvos macos maui
 
     - name: Add MSBuild to PATH
       uses: glennawatson/setup-msbuild@v1.0.3

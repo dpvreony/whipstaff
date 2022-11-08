@@ -4,9 +4,4 @@
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Cryptography\" />
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
-
 </Project>
