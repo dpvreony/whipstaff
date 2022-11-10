@@ -33,7 +33,7 @@
       ]
     },
     "dotnet-outdated-tool": {
-      "version": "4.3.1",
+      "version": "4.3.2",
       "commands": [
         "dotnet-outdated"
       ]
