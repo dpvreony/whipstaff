@@ -2,7 +2,7 @@
     "name": "whipstaff-mvcsample",
     "version": "1.0.0",
     "dependencies": {
-        "@fortawesome/fontawesome-free": "6.2.0",
+        "@fortawesome/fontawesome-free": "6.2.1",
         "@popperjs/core": "2.11.6",
         "bootstrap": "5.2.2",
         "cookieconsent": "3.1.1",
