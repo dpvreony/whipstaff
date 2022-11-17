@@ -114,6 +114,7 @@ namespace Whipstaff.AspNetCore
                     c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
                     c.OperationFilter<ProblemDetailOperationFilter>();
                     c.UseAllOfToExtendReferenceSchemas();
+                    c.CustomSchemaIds(x => x.FullName);
                 });
             }
 
