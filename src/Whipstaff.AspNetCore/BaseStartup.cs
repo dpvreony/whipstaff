@@ -29,6 +29,7 @@ using Whipstaff.AspNetCore.Features.Apm.HealthChecks;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
 using Whipstaff.AspNetCore.Features.StartUp;
 using Whipstaff.AspNetCore.Features.Swagger;
+using Whipstaff.AspNetCore.Swashbuckle;
 using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.AspNetCore
@@ -111,6 +112,9 @@ namespace Whipstaff.AspNetCore
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                     c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+                    c.OperationFilter<ProblemDetailOperationFilter>();
+                    c.UseAllOfToExtendReferenceSchemas();
+                    c.CustomSchemaIds(x => x.FullName);
                 });
             }
 
