@@ -18,7 +18,8 @@ namespace Whipstaff.AspNetCore.Features.Apm.ApplicationInsights
             IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddApplicationInsightsTelemetryProcessor<SignalRTelemetryProcessor>();
+            _ = services.AddApplicationInsightsTelemetryProcessor<SignalRTelemetryProcessor>();
+            _ = services.AddServiceProfiler();
         }
     }
 }
