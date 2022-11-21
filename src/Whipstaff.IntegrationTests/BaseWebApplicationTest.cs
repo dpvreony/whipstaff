@@ -18,7 +18,7 @@ namespace Whipstaff.IntegrationTests
     /// <typeparam name="TStartup">The type of the startup class.</typeparam>
     [ExcludeFromCodeCoverage]
     public class BaseWebApplicationTest<TStartup>
-        : Foundatio.Xunit.TestWithLoggingBase, IClassFixture<WebApplicationFactory<TStartup>>
+        : Foundatio.Xunit.TestWithLoggingBase
         where TStartup : class
     {
         /// <summary>

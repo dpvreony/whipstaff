@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebApiApp;
+using Whipstaff.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -15,7 +16,7 @@ namespace Whipstaff.IntegrationTests
     /// Unit Tests for a Web API app startup.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class WebApiAppApplicationTest : BaseWebApplicationTest<Startup>
+    public sealed class WebApiAppApplicationTest : BaseWebApplicationTest<FakeWebApiStartup>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WebApiAppApplicationTest"/> class.
