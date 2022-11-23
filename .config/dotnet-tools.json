@@ -45,7 +45,7 @@
       ]
     },
     "dotnet-project-licenses": {
-      "version": "2.4.0",
+      "version": "100.100.100",
       "commands": [
         "dotnet-project-licenses"
       ]
