@@ -2,9 +2,11 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -29,13 +31,21 @@ namespace Whipstaff.IntegrationTests
             ITestOutputHelper output)
             : base(output)
         {
-            Factory = new WebApplicationFactory<TStartup>();
         }
 
         /// <summary>
         /// Gets the Web Application Factory.
         /// </summary>
-        protected WebApplicationFactory<TStartup> Factory { get; }
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected Task WithWebApplicationFactory(Func<WebApplicationFactory<TStartup>, Task> webApplicationFunc)
+        {
+            ArgumentNullException.ThrowIfNull(webApplicationFunc);
+
+            using (var factory = new WebApplicationFactory<TStartup>().WithWebHostBuilder(configuration => configuration.UseStartup<TStartup>()))
+            {
+                return webApplicationFunc(factory);
+            }
+        }
 
         /// <summary>
         /// Helper method to log the http response.

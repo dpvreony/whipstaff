@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp;
+using Whipstaff.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -16,7 +17,7 @@ namespace Whipstaff.IntegrationTests
     /// Unit Tests for a secured website.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class SecuredWebsiteTests : BaseWebApplicationTest<Startup>
+    public sealed class SecuredWebsiteTests : BaseWebApplicationTest<FakeWebApiStartup>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SecuredWebsiteTests"/> class.
