@@ -39,7 +39,7 @@ namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
 
             var headers = context.Request.Headers;
 
-            if (!headers.ContainsKey("X-Forwarded-For"))
+            if (headers.ContainsKey("X-Forwarded-For"))
             {
                 await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedFor)
                     .ConfigureAwait(false);
@@ -53,12 +53,21 @@ namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
                 return;
             }
 
-            if (xForwardedProto.Count != 1
-                || !xForwardedProto.First().Equals("https", StringComparison.OrdinalIgnoreCase))
+            switch (xForwardedProto.Count)
             {
-                await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedProto)
-                    .ConfigureAwait(false);
-                return;
+                case 1:
+                    var value = xForwardedProto[0];
+                    if (string.IsNullOrWhiteSpace(value) || !value.Equals("https", StringComparison.OrdinalIgnoreCase))
+                    {
+                        await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedProto)
+                            .ConfigureAwait(false);
+                    }
+
+                    break;
+                default:
+                    await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedProto)
+                        .ConfigureAwait(false);
+                    return;
             }
 
             if (!headers.ContainsKey("X-Forwarded-Host"))
