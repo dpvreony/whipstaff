@@ -39,7 +39,7 @@ namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
 
             var headers = context.Request.Headers;
 
-            if (headers.ContainsKey("X-Forwarded-For"))
+            if (!headers.ContainsKey("X-Forwarded-For"))
             {
                 await WriteResponseAsync(context.Response, WhipcordHttpStatusCode.ExpectedXForwardedFor)
                     .ConfigureAwait(false);
