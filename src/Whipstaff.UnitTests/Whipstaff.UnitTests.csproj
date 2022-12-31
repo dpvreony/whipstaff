@@ -36,4 +36,8 @@
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Runtime\" />
+  </ItemGroup>
+
 </Project>
