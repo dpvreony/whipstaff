@@ -18,7 +18,7 @@ namespace Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.With
         public ThrowsArgumentNullExceptionTestSource()
         {
             var arg1 = new byte[] { 1 };
-            const string arg2 = "arg2";
+            const string arg2 = ".txt";
             Action<string> arg3 = _ =>
             {
             };

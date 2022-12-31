@@ -18,7 +18,7 @@ namespace Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.With
         public ThrowsArgumentNullExceptionTestSource()
         {
             var arg1 = new byte[] { 1 };
-            const string arg2 = "arg2";
+            const string arg2 = ".txt";
             Func<string, int> arg3 = _ => 1;
             Add(null, arg2, arg3, "fileAsBytes");
             Add(arg1, null, arg3, "fileExtension");
