@@ -147,9 +147,9 @@ namespace Whipstaff.Runtime.FileProcessing
             byte[] fileAsBytes,
             string fileExtension)
         {
-            var tempFileName = Path.Join(
+            var tempFileName = Path.Combine(
                 Path.GetTempPath(),
-                $"{Path.GetRandomFileName()}.{fileExtension}");
+                $"{Path.GetRandomFileName()}{fileExtension}");
 
             using (var stream = File.Create(tempFileName))
             {

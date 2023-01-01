@@ -32,7 +32,13 @@ namespace Whipstaff.Runtime.Extensions
                 return;
             }
 
+#if NET48
+#pragma warning disable CS8604
+#endif
             action(input);
+#if NET48
+#pragma warning restore CS8604
+#endif
         }
 
         /// <summary>
@@ -45,6 +51,7 @@ namespace Whipstaff.Runtime.Extensions
             return instance.All(character => character.IsHexadecimal());
         }
 
+#if NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Removes all instances of a string.
         /// </summary>
@@ -67,6 +74,7 @@ namespace Whipstaff.Runtime.Extensions
                 string.Empty,
                 ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
+#endif
 
         /// <summary>
         /// Converts a string to a memory stream.
