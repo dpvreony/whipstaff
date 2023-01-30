@@ -36,14 +36,19 @@ namespace Whipstaff.IntegrationTests
         /// <summary>
         /// Gets the Web Application Factory.
         /// </summary>
+        /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         protected Task WithWebApplicationFactory(Func<WebApplicationFactory<TStartup>, Task> webApplicationFunc)
         {
             ArgumentNullException.ThrowIfNull(webApplicationFunc);
 
-            using (var factory = new WebApplicationFactory<TStartup>().WithWebHostBuilder(configuration => configuration.UseStartup<TStartup>()))
+            using (var factory = new WebApplicationFactory<TStartup>())
             {
-                return webApplicationFunc(factory);
+                var runner = factory.WithWebHostBuilder(configuration => configuration.UseStartup<TStartup>());
+                using (runner)
+                {
+                    return webApplicationFunc(factory);
+                }
             }
         }
 

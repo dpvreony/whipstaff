@@ -43,16 +43,19 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
         {
-            var client = Factory.CreateClient();
-            var relativeUri = new Uri(requestPath, UriKind.Relative);
-            var response = await client.GetAsync(relativeUri).ConfigureAwait(false);
+            await WithWebApplicationFactory(async factory =>
+            {
+                var client = factory.CreateClient();
+                var relativeUri = new Uri(requestPath, UriKind.Relative);
+                var response = await client.GetAsync(relativeUri).ConfigureAwait(false);
 
-            _ = response.EnsureSuccessStatusCode();
-            Assert.Equal(
-                "text/html; charset=utf-8",
-                response.Content.Headers.ContentType!.ToString());
+                _ = response.EnsureSuccessStatusCode();
+                Assert.Equal(
+                    "text/html; charset=utf-8",
+                    response.Content.Headers.ContentType!.ToString());
 
-            await LogResponseAsync(response).ConfigureAwait(false);
+                await LogResponseAsync(response).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
         private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypeTestSource()

@@ -42,22 +42,25 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
         {
-            var client = Factory.CreateClient();
-            var requestUri = new Uri(requestPath, UriKind.Relative);
-            var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+            await WithWebApplicationFactory(async factory =>
+            {
+                var client = factory.CreateClient();
+                var requestUri = new Uri(requestPath, UriKind.Relative);
+                var response = await client.GetAsync(requestUri).ConfigureAwait(false);
 
-            _ = response.EnsureSuccessStatusCode();
+                _ = response.EnsureSuccessStatusCode();
 
-            var contentType = response.Content.Headers.ContentType;
-            Assert.NotNull(contentType);
+                var contentType = response.Content.Headers.ContentType;
+                Assert.NotNull(contentType);
 
-            Assert.Equal(
-                "text/html; charset=utf-8",
+                Assert.Equal(
+                    "text/html; charset=utf-8",
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                contentType.ToString());
+                    contentType.ToString());
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-            await LogResponseAsync(response).ConfigureAwait(false);
+                await LogResponseAsync(response).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
         private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypeTestSource()

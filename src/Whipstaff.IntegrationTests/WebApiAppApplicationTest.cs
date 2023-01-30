@@ -42,19 +42,22 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
         {
-            var client = Factory.CreateClient();
+            await WithWebApplicationFactory(async factory =>
+            {
+                var client = factory.CreateClient();
 
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
-            var response = await client.GetAsync(requestPath).ConfigureAwait(false);
+                var response = await client.GetAsync(requestPath).ConfigureAwait(false);
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
 
-            _ = response.EnsureSuccessStatusCode();
+                _ = response.EnsureSuccessStatusCode();
 
-            Assert.Equal(
-                "application/json; charset=utf-8",
-                response.Content.Headers.ContentType!.ToString());
+                Assert.Equal(
+                    "application/json; charset=utf-8",
+                    response.Content.Headers.ContentType!.ToString());
 
-            await LogResponseAsync(response).ConfigureAwait(false);
+                await LogResponseAsync(response).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
         private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
