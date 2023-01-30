@@ -4,6 +4,12 @@
     ],
     "assigneesFromCodeOwners": true,
         "packageRules": [{
+            "matchPackagePatterns": ["^AspNetCore.HealthChecks.*"],
+            "groupName": "all AspNetCore HealthChecks dependencies",
+            "groupSlug": "all-aspnetcore-healthchecks",
+            "labels": ["dependencies"]
+        },
+        {
             "matchPackagePatterns": ["^Audit.*"],
             "groupName": "all audit.net dependencies",
             "groupSlug": "all-audit-net",
