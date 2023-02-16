@@ -21,7 +21,6 @@
     <PackageReference Include="DynamicData" Version="7.12.11" />
     <PackageReference Include="Exceptionless.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="5.0.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Profiler.AspNetCore" Version="2.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="7.0.3" />
