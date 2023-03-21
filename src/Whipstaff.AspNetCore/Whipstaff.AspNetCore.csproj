@@ -22,7 +22,7 @@
     <PackageReference Include="Exceptionless.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.Profiler.AspNetCore" Version="2.5.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.Profiler.AspNetCore" Version="2.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="7.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.4" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
