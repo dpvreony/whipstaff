@@ -10,9 +10,9 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="6.1.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.Publisher.ApplicationInsights" Version="6.1.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.1.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.1.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.Publisher.ApplicationInsights" Version="6.0.2" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
     <PackageReference Include="Audit.NET" Version="21.0.0" />
     <PackageReference Include="Audit.WebApi.Core" Version="21.0.0" />
