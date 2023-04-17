@@ -8,6 +8,7 @@ using System.Reflection;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
+using Hellang.Middleware.ProblemDetails;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
