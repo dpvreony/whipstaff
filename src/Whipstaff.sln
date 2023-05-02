@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Entityframework.R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Couchbase", "Whipstaff.Couchbase\Whipstaff.Couchbase.csproj", "{8107A239-69D2-40AC-918B-59A77159EC52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.NodaTime", "Whipstaff.NodaTime\Whipstaff.NodaTime.csproj", "{74CF7649-3848-4265-BC96-A5DCA8D176AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.NodaTime", "Whipstaff.NodaTime\Whipstaff.NodaTime.csproj", "{74CF7649-3848-4265-BC96-A5DCA8D176AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Playwright", "Whipstaff.Playwright\Whipstaff.Playwright.csproj", "{6C010B59-155B-4E48-9FDF-DCCD549706A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +145,10 @@ Global
 		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C010B59-155B-4E48-9FDF-DCCD549706A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C010B59-155B-4E48-9FDF-DCCD549706A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C010B59-155B-4E48-9FDF-DCCD549706A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C010B59-155B-4E48-9FDF-DCCD549706A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
