@@ -91,5 +91,27 @@ namespace Whipstaff.Runtime.Extensions
             var byteArray = Encoding.Unicode.GetBytes(instance);
             return new MemoryStream(byteArray);
         }
+
+        /// <summary>
+        /// Checks whether a string is all ASCII letter or number.
+        /// </summary>
+        /// <param name="instance">string to check.</param>
+        /// <returns>Whether a character is an ASCII letter or number.</returns>
+        public static bool IsAsciiLettersOrNumbers(this string instance)
+        {
+            return instance.All(character => character.IsAsciiLetterOrNumber());
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentNullException"/> if a string is null or whitespace.
+        /// </summary>
+        /// <param name="instance">string to check.</param>
+        public static void ThrowIfNullOrWhitespace(this string? instance)
+        {
+            if (string.IsNullOrWhiteSpace(instance))
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+        }
     }
 }

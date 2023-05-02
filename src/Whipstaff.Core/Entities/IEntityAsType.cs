@@ -14,7 +14,7 @@ namespace Whipstaff.Core.Entities
     /// and easier to track changes on.
     /// </summary>
     /// <typeparam name="TValue">Type for the wrapped value.</typeparam>
-    public interface IEntityAsType<TValue>
+    public interface IEntityAsType<out TValue>
     {
         /// <summary>
         /// Gets the wrapped value.
