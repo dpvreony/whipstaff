@@ -36,43 +36,57 @@ namespace Whipstaff.Nuget
         /// <inheritdoc/>
         public void LogDebug(string data)
         {
-            _internalLogger.LogDebug(data);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _internalLogger.LogDebug("{Data}", data);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
         public void LogVerbose(string data)
         {
-            _internalLogger.LogInformation(data);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _internalLogger.LogInformation("{Data}", data);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
         public void LogInformation(string data)
         {
-            _internalLogger.LogInformation(data);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _internalLogger.LogInformation("{Data}", data);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
         public void LogMinimal(string data)
         {
-            _internalLogger.LogInformation(data);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _internalLogger.LogInformation("{Data}", data);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
         public void LogWarning(string data)
         {
-            _internalLogger.LogWarning(data);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _internalLogger.LogWarning("{Data}", data);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
         public void LogError(string data)
         {
-            _internalLogger.LogError(data);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _internalLogger.LogError("{Data}", data);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
         public void LogInformationSummary(string data)
         {
-            _internalLogger.LogInformation(data);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _internalLogger.LogInformation("{Data}", data);
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
@@ -91,12 +105,22 @@ namespace Whipstaff.Nuget
         /// <inheritdoc/>
         public void Log(ILogMessage message)
         {
+            if (message == null)
+            {
+                return;
+            }
+
             _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
         }
 
         /// <inheritdoc/>
         public Task LogAsync(ILogMessage message)
         {
+            if (message == null)
+            {
+                return Task.CompletedTask;
+            }
+
             _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
             return Task.CompletedTask;
         }
