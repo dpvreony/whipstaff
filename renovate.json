@@ -34,6 +34,18 @@
             "labels": ["dependencies"]
         },
         {
+            "matchPackagePatterns": ["^NuGet.*"],
+            "groupName": "all nuget dependencies",
+            "groupSlug": "all-nuget",
+            "labels": ["dependencies"]
+        },
+        {
+            "matchPackagePatterns": ["^Microsoft.Reactive.*", "^System.Reactive", "^System.Reactive.*"],
+            "groupName": "all reactive extensions",
+            "groupSlug": "all-rx",
+            "labels": ["dependencies"]
+        },
+        {
             "matchPackagePatterns": ["^Microsoft.*", "^System.*"],
             "groupName": "all microsoft dependencies",
             "groupSlug": "all-microsoft",
