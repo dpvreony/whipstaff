@@ -3,7 +3,14 @@
         "config:base"
     ],
     "assigneesFromCodeOwners": true,
-        "packageRules": [{
+        "packageRules": [
+        {
+            "matchPackagePatterns": ["^Microsoft.*", "^System.*"],
+            "groupName": "all microsoft dependencies",
+            "groupSlug": "all-microsoft",
+            "labels": ["dependencies"]
+        },
+        {
             "matchPackagePatterns": ["^AspNetCore.HealthChecks.*"],
             "groupName": "all AspNetCore HealthChecks dependencies",
             "groupSlug": "all-aspnetcore-healthchecks",
@@ -43,12 +50,6 @@
             "matchPackagePatterns": ["^Microsoft.Reactive.*", "^System.Reactive", "^System.Reactive.*"],
             "groupName": "all reactive extensions",
             "groupSlug": "all-rx",
-            "labels": ["dependencies"]
-        },
-        {
-            "matchPackagePatterns": ["^Microsoft.*", "^System.*"],
-            "groupName": "all microsoft dependencies",
-            "groupSlug": "all-microsoft",
             "labels": ["dependencies"]
         },
         {
