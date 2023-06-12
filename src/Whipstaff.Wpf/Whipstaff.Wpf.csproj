@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.3" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
-    <PackageReference Include="ReactiveUI.WPF" Version="18.4.44" />
+    <PackageReference Include="ReactiveUI.WPF" Version="19.2.1" />
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.2.3" PrivateAssets="all" />
   </ItemGroup>
 
