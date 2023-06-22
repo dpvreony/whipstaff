@@ -2,15 +2,11 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.ApplicationInsights;
+using Whipstaff.AspNetCore.Features.Apm.ApplicationInsights;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
 {
@@ -33,8 +29,17 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// </summary>
         /// <param name="args">Command line arguments.</param>
         /// <returns>Web host builder.</returns>
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        public static IHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            var applicationInsights = new ApplicationInsightsApplicationStartHelper();
+
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => _ = webBuilder.UseStartup<Startup>())
+                .ConfigureLogging((context, builder) =>
+                {
+                    // TODO: add default logging configuration
+                    applicationInsights.ConfigureLogging(context, builder);
+                });
+        }
     }
 }

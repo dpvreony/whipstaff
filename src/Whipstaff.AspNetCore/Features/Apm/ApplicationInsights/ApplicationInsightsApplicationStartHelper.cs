@@ -4,6 +4,9 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.ApplicationInsights;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Whipstaff.AspNetCore.Features.Apm.ApplicationInsights
@@ -11,8 +14,18 @@ namespace Whipstaff.AspNetCore.Features.Apm.ApplicationInsights
     /// <summary>
     /// Initialization logic for Application Insights.
     /// </summary>
-    public sealed class ApplicationInsightsApplicationStartHelper : IConfigureService
+    public sealed class ApplicationInsightsApplicationStartHelper : IConfigureLogging, IConfigureService
     {
+        /// <inheritdoc />
+        public void ConfigureLogging(
+            HostBuilderContext hostBuilderContext,
+            ILoggingBuilder loggingBuilder)
+        {
+            _ = loggingBuilder.AddApplicationInsights();
+
+            _ = loggingBuilder.AddFilter<ApplicationInsightsLoggerProvider>(level => level >= LogLevel.Warning);
+        }
+
         /// <inheritdoc />
         public void ConfigureService(
             IServiceCollection services,
