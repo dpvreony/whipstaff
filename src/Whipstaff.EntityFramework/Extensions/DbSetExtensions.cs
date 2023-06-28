@@ -253,7 +253,6 @@ namespace Whipstaff.EntityFramework.Extensions
 
         /// <summary>
         /// Gets the rows where the row version is greater than the previous max row version and less than or equal to the current max row version.
-        ///
         /// This is to facilitate getting rows that have been updated since the last sync of a process.
         /// </summary>
         /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
