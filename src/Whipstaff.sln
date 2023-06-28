@@ -49,9 +49,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Couchbase", "Whip
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.NodaTime", "Whipstaff.NodaTime\Whipstaff.NodaTime.csproj", "{74CF7649-3848-4265-BC96-A5DCA8D176AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Nuget", "Whipstaff.Nuget\Whipstaff.Nuget.csproj", "{D5E1AC46-891E-4D02-B1F3-A169C4901875}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Nuget", "Whipstaff.Nuget\Whipstaff.Nuget.csproj", "{D5E1AC46-891E-4D02-B1F3-A169C4901875}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Playwright", "Whipstaff.Playwright\Whipstaff.Playwright.csproj", "{6C010B59-155B-4E48-9FDF-DCCD549706A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Playwright", "Whipstaff.Playwright\Whipstaff.Playwright.csproj", "{6C010B59-155B-4E48-9FDF-DCCD549706A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Healthchecks.EntityFramework.Relational", "Whipstaff.Healthchecks.EntityFramework.Relational\Whipstaff.Healthchecks.EntityFramework.Relational.csproj", "{D386331F-1CCC-4320-9ADE-736FA82E4E97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +157,10 @@ Global
 		{6C010B59-155B-4E48-9FDF-DCCD549706A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C010B59-155B-4E48-9FDF-DCCD549706A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C010B59-155B-4E48-9FDF-DCCD549706A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D386331F-1CCC-4320-9ADE-736FA82E4E97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D386331F-1CCC-4320-9ADE-736FA82E4E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D386331F-1CCC-4320-9ADE-736FA82E4E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D386331F-1CCC-4320-9ADE-736FA82E4E97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
