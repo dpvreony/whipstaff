@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Whipstaff.Core.Entities;
+using Whipstaff.EntityFramework.Extensions;
 
 namespace Whipstaff.Healthchecks.EntityFramework.Relational
 {
@@ -39,8 +40,8 @@ namespace Whipstaff.Healthchecks.EntityFramework.Relational
             using (var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken)
                        .ConfigureAwait(false))
             {
-                var maxRowVersion = dbContext.Set<TEntity>().Max(
-                    x => (long?)x.RowVersion);
+                var maxRowVersion = dbContext.Set<TEntity>()
+                    .GetMaxRowVersionOrDefault();
 
                 return new HealthCheckResult(
                     maxRowVersion != null ? HealthStatus.Healthy : HealthStatus.Degraded,

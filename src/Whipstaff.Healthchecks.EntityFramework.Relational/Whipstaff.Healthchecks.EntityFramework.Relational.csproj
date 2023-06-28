@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>
