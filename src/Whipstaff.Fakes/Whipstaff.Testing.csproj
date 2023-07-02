@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.19" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
   </ItemGroup>
 

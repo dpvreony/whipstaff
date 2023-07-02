@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.Core.Entities;
 
@@ -25,6 +26,18 @@ namespace Whipstaff.EntityFramework.Extensions
             where TEntity : class, IIntId
         {
             return dbSet.Max(x => (int?)x.Id);
+        }
+
+        /// <summary>
+        /// Gets the maximum Id value from the DbSet or null if there are no rows.
+        /// </summary>
+        /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
+        /// <param name="dbSet">EFCore DBSet Instance.</param>
+        /// <returns>Maximum id or null if there are no rows.</returns>
+        public static Task<int?> GetMaxIntIdOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet)
+            where TEntity : class, IIntId
+        {
+            return dbSet.MaxAsync(x => (int?)x.Id);
         }
 
         /// <summary>

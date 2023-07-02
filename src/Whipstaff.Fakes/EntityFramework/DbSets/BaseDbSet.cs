@@ -10,7 +10,7 @@ namespace Whipstaff.Testing.EntityFramework.DbSets
     /// <summary>
     /// Represents a base db set.
     /// </summary>
-    public class BaseDbSet : IIntId
+    public class BaseDbSet : IIntId, IModifiable, ILongRowVersion
     {
         /// <summary>
         /// Gets or sets the unique id of the audit.
@@ -22,9 +22,13 @@ namespace Whipstaff.Testing.EntityFramework.DbSets
         /// </summary>
         public int Value { get; set; }
 
-        /// <summary>
-        /// Gets or sets the timestamp for when the record was created.
-        /// </summary>
+        /// <inheritdoc/>
         public DateTimeOffset Created { get; set; }
+
+        /// <inheritdoc/>
+        public DateTimeOffset Modified { get; set; }
+
+        /// <inheritdoc/>
+        public long RowVersion { get; set; }
     }
 }
