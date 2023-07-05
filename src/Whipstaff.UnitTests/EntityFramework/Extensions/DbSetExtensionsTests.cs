@@ -66,14 +66,14 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="DbSetExtensions.GetMaxIntIdOrDefault"/>.
+        /// Unit Tests for <see cref="DbSetExtensions.GetMaxIntIdOrDefaultAsync"/>.
         /// </summary>
         public sealed class GetMaxIntIdOrDefaultAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
         {
             private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="GetMaxIntIdOrDefaultMethod"/> class.
+            /// Initializes a new instance of the <see cref="GetMaxIntIdOrDefaultAsyncMethod"/> class.
             /// </summary>
             /// <param name="output">XUnit logging output helper.</param>
             public GetMaxIntIdOrDefaultAsyncMethod(ITestOutputHelper output)
