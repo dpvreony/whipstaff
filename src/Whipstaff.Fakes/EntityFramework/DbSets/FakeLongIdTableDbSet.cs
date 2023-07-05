@@ -8,17 +8,12 @@ using Whipstaff.Core.Entities;
 namespace Whipstaff.Testing.EntityFramework.DbSets
 {
     /// <summary>
-    /// Represents a base db set.
+    /// Represents a table with a long primary key.
     /// </summary>
-    public class BaseDbSet : IIntId, IModifiable, ILongRowVersion
+    public class FakeLongIdTableDbSet : ILongId, IModifiable, ILongRowVersion
     {
         /// <inheritdoc/>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value.
-        /// </summary>
-        public int Value { get; set; }
+        public long Id { get; set; }
 
         /// <inheritdoc/>
         public DateTimeOffset Created { get; set; }

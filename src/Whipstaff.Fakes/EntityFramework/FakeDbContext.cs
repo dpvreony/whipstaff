@@ -34,5 +34,10 @@ namespace Whipstaff.Testing.EntityFramework
         /// Gets the Fake Add Audit Post Process Db Set.
         /// </summary>
         public DbSet<DbSets.FakeAddPostProcessAuditDbSet> FakeAddPostProcessAudit => Set<DbSets.FakeAddPostProcessAuditDbSet>();
+
+        /// <summary>
+        /// Gets the Fake Long Id table Db Set.
+        /// </summary>
+        public DbSet<DbSets.FakeLongIdTableDbSet> FakeLongIdTable => Set<DbSets.FakeLongIdTableDbSet>();
     }
 }

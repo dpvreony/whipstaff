@@ -53,6 +53,18 @@ namespace Whipstaff.EntityFramework.Extensions
         }
 
         /// <summary>
+        /// Gets the maximum Id value from the DbSet or null if there are no rows.
+        /// </summary>
+        /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
+        /// <param name="dbSet">EFCore DBSet Instance.</param>
+        /// <returns>Maximum id or null if there are no rows.</returns>
+        public static Task<long?> GetMaxLongIdOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet)
+            where TEntity : class, ILongId
+        {
+            return dbSet.MaxAsync(x => (long?)x.Id);
+        }
+
+        /// <summary>
         /// Gets the maximum row version from the DbSet or null if there are no rows.
         /// </summary>
         /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
@@ -62,6 +74,18 @@ namespace Whipstaff.EntityFramework.Extensions
             where TEntity : class, ILongRowVersion
         {
             return dbSet.Max(x => (long?)x.RowVersion);
+        }
+
+        /// <summary>
+        /// Gets the maximum row version from the DbSet or null if there are no rows.
+        /// </summary>
+        /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
+        /// <param name="dbSet">EFCore DBSet Instance.</param>
+        /// <returns>Maximum row version or null.</returns>
+        public static Task<long?> GetMaxRowVersionOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet)
+            where TEntity : class, ILongRowVersion
+        {
+            return dbSet.MaxAsync(x => (long?)x.RowVersion);
         }
 
         /// <summary>
