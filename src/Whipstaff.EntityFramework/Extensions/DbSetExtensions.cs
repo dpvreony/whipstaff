@@ -298,7 +298,7 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <param name="maxRowVersion">The row version that records can be up to.</param>
         /// <param name="takeRecords">Maximum number of records to take.</param>
         /// <returns>Queryable representing the rows to return.</returns>
-        public static IQueryable<TEntity> GetRowsGreaterThanAndLessThanOrEqualToRowVersion<TEntity>(
+        public static IQueryable<TEntity> GetRowsGreaterThanAndLessThanOrEqualToRowVersions<TEntity>(
             this DbSet<TEntity> dbSet,
             long greaterThanRowVersion,
             long maxRowVersion,
