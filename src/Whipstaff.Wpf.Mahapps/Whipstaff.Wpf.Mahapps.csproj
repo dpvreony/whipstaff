@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
-    <PackageReference Include="ReactiveUI.WPF" Version="19.2.1" />
+    <PackageReference Include="ReactiveUI.WPF" Version="19.4.1" />
   </ItemGroup>
 
 </Project>
