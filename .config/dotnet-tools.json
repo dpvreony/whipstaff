@@ -39,7 +39,7 @@
       ]
     },
     "microsoft.cst.applicationinspector.cli": {
-      "version": "1.5.20",
+      "version": "1.9.6",
       "commands": [
         "appinspector"
       ]
@@ -48,6 +48,12 @@
       "version": "2.7.1",
       "commands": [
         "dotnet-project-licenses"
+      ]
+    },
+    "microsoft.sbom.dotnettool": {
+      "version": "1.1.7",
+      "commands": [
+        "sbom-tool"
       ]
     }
   }

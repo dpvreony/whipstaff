@@ -48,17 +48,31 @@ namespace Whipstaff.Core.Mediatr
                 logger,
                 mediatrRegistration.NotificationHandlers);
 
-            Register(
-                services,
-                logger,
-                mediatrRegistration.RequestPreProcessors);
+            RegisterPipelineEvents(
+                mediatrRegistration.RequestPreProcessors,
+                serviceConfiguration.AddRequestPostProcessor);
 
-            Register(
-                services,
-                logger,
-                mediatrRegistration.RequestPostProcessors);
+            RegisterPipelineEvents(
+                mediatrRegistration.RequestPostProcessors,
+                serviceConfiguration.AddRequestPreProcessor);
 
             MediatR.Registration.ServiceRegistrar.AddRequiredServices(services, serviceConfiguration);
+        }
+
+        private static void RegisterPipelineEvents<TRegistrationModel>(
+            IList<Func<TRegistrationModel>> registrationModels,
+            Func<Type, Type, ServiceLifetime, MediatRServiceConfiguration> mediatrRegistrationFunc)
+            where TRegistrationModel : IMediatrRegistrationModel
+        {
+            foreach (var serviceRegistrationModelFunc in registrationModels)
+            {
+                var registrationModel = serviceRegistrationModelFunc();
+
+                _ = mediatrRegistrationFunc(
+                    registrationModel.ServiceType,
+                    registrationModel.ImplementationType,
+                    ServiceLifetime.Transient);
+            }
         }
 
         private static void Register<T>(

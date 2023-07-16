@@ -70,11 +70,6 @@ jobs:
       run: |
         dotnet workload install android ios tvos macos maui
 
-    - name: Download SBOM
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "D:\a\_temp\sbom-tool.exe"
-
     #- name: Download Sonar Scanner MsBuild
     #  uses: robinraju/release-downloader@v1.6
     #  with:
@@ -194,10 +189,9 @@ jobs:
       run: |
         dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
 
-#    - name: Generate SBOM
-#      shell: pwsh
-#      run: |
-#        D:\a\_temp\sbom-tool.exe generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -V Verbose -m artifacts\sbom
+    - name: Generate SBOM
+      run: |
+        dotnet sbom-tool generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -m artifacts\sbom
 
     - name: List outdated packages
       run: |
