@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -394,6 +395,248 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         }
 
         /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanLongId{TEntity}(DbSet{TEntity}, long)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanLongIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanLongIdMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanLongIdMethod(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(1).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Equal(2, result.Length);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(3).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanLongId{TEntity}(DbSet{TEntity}, long)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanLongIdMethodWithTakeRecords : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanLongIdMethodWithTakeRecords"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanLongIdMethodWithTakeRecords(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(1, 1).ToArray();
+
+                    Assert.NotNull(result);
+                    _ = Assert.Single(result);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(3, 1).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanLongId{TEntity}(DbSet{TEntity}, long)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanLongIdMethodWithSelector : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanLongIdMethodWithSelector"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanLongIdMethodWithSelector(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(
+                        2,
+                        set => set).ToArray();
+
+                    Assert.NotNull(result);
+                    _ = Assert.Single(result);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(
+                        3,
+                        set => set).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanLongIdMethodWithTakeRecordsAndSelector : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanLongIdMethodWithTakeRecordsAndSelector"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanLongIdMethodWithTakeRecordsAndSelector(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(
+                        1,
+                        1,
+                        set => set).ToArray();
+
+                    Assert.NotNull(result);
+                    _ = Assert.Single(result);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeLongIdTable.GetRowsGreaterThanLongId(
+                        3,
+                        1,
+                        set => set).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
+                }
+            }
+        }
+
+        /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
         public sealed class GetRowsGreaterThanIntIdMethod : Foundatio.Xunit.TestWithLoggingBase
@@ -540,7 +783,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     _ = dbContext.SaveChanges();
 
                     var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(
-                        1,
+                        2,
                         set => set).ToArray();
 
                     Assert.NotNull(result);

@@ -192,29 +192,10 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <returns>Queryable representing the rows to return.</returns>
         public static IQueryable<TEntity> GetRowsGreaterThanLongId<TEntity>(
             this DbSet<TEntity> dbSet,
-            int id)
+            long id)
             where TEntity : class, ILongId
         {
             return dbSet.Where(x => x.Id > id);
-        }
-
-        /// <summary>
-        /// Gets rows where the Id is greater than the previous max Id.
-        /// </summary>
-        /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
-        /// <typeparam name="TResult">Type for the output result selector.</typeparam>
-        /// <param name="dbSet">EFCore DBSet Instance.</param>
-        /// <param name="id">The unique id records must be greater than.</param>
-        /// <param name="selector">A projection function to apply to each element.</param>
-        /// <returns>Queryable representing the rows to return.</returns>
-        public static IQueryable<TResult> GetRowsGreaterThanLongId<TEntity, TResult>(
-            this DbSet<TEntity> dbSet,
-            int id,
-            Expression<Func<TEntity, TResult>> selector)
-            where TEntity : class, ILongId
-        {
-            return dbSet.Where(x => x.Id > id)
-                .Select(selector);
         }
 
         /// <summary>
@@ -227,7 +208,7 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <returns>Queryable representing the rows to return.</returns>
         public static IQueryable<TEntity> GetRowsGreaterThanLongId<TEntity>(
             this DbSet<TEntity> dbSet,
-            int id,
+            long id,
             int takeRecords)
             where TEntity : class, ILongId
         {
