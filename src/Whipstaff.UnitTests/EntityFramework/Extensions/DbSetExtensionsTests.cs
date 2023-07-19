@@ -48,8 +48,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     _ = dbContext.SaveChanges();
 
                     var result = dbContext.FakeAddAudit.GetMaxIntIdOrDefault();
-                    Assert.NotNull(result);
-                    Assert.True(result.Value > 0);
+                    var validatedResult = Assert.NotNull(result);
+                    Assert.True(validatedResult > 0);
                 }
             }
 
@@ -100,8 +100,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     var result = await dbContext.FakeAddAudit.GetMaxIntIdOrDefaultAsync()
                         .ConfigureAwait(false);
 
-                    Assert.NotNull(result);
-                    Assert.True(result.Value > 0);
+                    var validatedResult = Assert.NotNull(result);
+                    Assert.True(validatedResult > 0);
                 }
             }
 
@@ -152,8 +152,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     _ = dbContext.SaveChanges();
 
                     var result = dbContext.FakeLongIdTable.GetMaxLongIdOrDefault();
-                    Assert.NotNull(result);
-                    Assert.True(result.Value > 0);
+                    var validatedResult = Assert.NotNull(result);
+                    Assert.True(validatedResult > 0);
                 }
             }
 
@@ -205,8 +205,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     var result = await dbContext.FakeLongIdTable.GetMaxLongIdOrDefaultAsync()
                         .ConfigureAwait(false);
 
-                    Assert.NotNull(result);
-                    Assert.True(result.Value > 0);
+                    var validatedResult = Assert.NotNull(result);
+                    Assert.True(validatedResult > 0);
                 }
             }
 
@@ -259,8 +259,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
 
                     var result = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
 
-                    Assert.NotNull(result);
-                    Assert.True(result.Value > 0);
+                    var validatedResult = Assert.NotNull(result);
+                    Assert.True(validatedResult > 0);
                 }
             }
 
@@ -312,8 +312,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     var result = await dbContext.FakeAddAudit.GetMaxRowVersionOrDefaultAsync()
                         .ConfigureAwait(false);
 
-                    Assert.NotNull(result);
-                    Assert.True(result.Value > 0);
+                    var validatedResult = Assert.NotNull(result);
+                    Assert.True(validatedResult > 0);
                 }
             }
 
@@ -331,6 +331,64 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                         .ConfigureAwait(false);
 
                     Assert.Null(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanAndLessThanOrEqualToRowVersionsMethod : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanAndLessThanOrEqualToRowVersionsMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanAndLessThanOrEqualToRowVersionsMethod(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2, RowVersion = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3, RowVersion = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(1, 3, 2).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Equal(2, result.Length);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2, RowVersion = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3, RowVersion = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(3, 3, 2).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
                 }
             }
         }
@@ -386,6 +444,190 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     _ = dbContext.SaveChanges();
 
                     var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(3).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanIntIdMethodWithTakeRecords : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanIntIdMethodWithTakeRecords"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanIntIdMethodWithTakeRecords(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(1, 1).ToArray();
+
+                    Assert.NotNull(result);
+                    _ = Assert.Single(result);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(3, 1).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanIntIdMethodWithSelector : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanIntIdMethodWithSelector"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanIntIdMethodWithSelector(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(
+                        1,
+                        set => set).ToArray();
+
+                    Assert.NotNull(result);
+                    _ = Assert.Single(result);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(
+                        3,
+                        set => set).ToArray();
+
+                    Assert.NotNull(result);
+                    Assert.Empty(result);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
+        /// </summary>
+        public sealed class GetRowsGreaterThanIntIdMethodWithTakeRecordsAndSelector : Foundatio.Xunit.TestWithLoggingBase
+        {
+            private readonly IDbContextFactory<FakeDbContext> _dbContextFactory;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetRowsGreaterThanIntIdMethodWithTakeRecordsAndSelector"/> class.
+            /// </summary>
+            /// <param name="output">XUnit logging output helper.</param>
+            public GetRowsGreaterThanIntIdMethodWithTakeRecordsAndSelector(ITestOutputHelper output)
+                : base(output)
+            {
+                _dbContextFactory = new FakeDbContextFactory();
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsRows()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(
+                        1,
+                        1,
+                        set => set).ToArray();
+
+                    Assert.NotNull(result);
+                    _ = Assert.Single(result);
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns empty when there an no new records.
+            /// </summary>
+            [Fact]
+            public void ReturnsEmpty()
+            {
+                using (var dbContext = _dbContextFactory.CreateDbContext())
+                {
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanIntId(
+                        3,
+                        1,
+                        set => set).ToArray();
 
                     Assert.NotNull(result);
                     Assert.Empty(result);

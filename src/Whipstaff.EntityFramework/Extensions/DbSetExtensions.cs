@@ -89,6 +89,27 @@ namespace Whipstaff.EntityFramework.Extensions
         }
 
         /// <summary>
+        /// Gets the rows where the row version is greater than the previous max row version and less than or equal to the current max row version.
+        /// This is to facilitate getting rows that have been updated since the last sync of a process.
+        /// </summary>
+        /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
+        /// <param name="dbSet">EFCore DBSet Instance.</param>
+        /// <param name="greaterThanRowVersion">The rowVersion records must be greater than.</param>
+        /// <param name="maxRowVersion">The row version that records can be up to.</param>
+        /// <param name="takeRecords">Maximum number of records to take.</param>
+        /// <returns>Queryable representing the rows to return.</returns>
+        public static IQueryable<TEntity> GetRowsGreaterThanAndLessThanOrEqualToRowVersions<TEntity>(
+            this DbSet<TEntity> dbSet,
+            long greaterThanRowVersion,
+            long maxRowVersion,
+            int takeRecords)
+            where TEntity : class, ILongRowVersion
+        {
+            return dbSet.Where(x => x.RowVersion > greaterThanRowVersion && x.RowVersion <= maxRowVersion)
+                .Take(takeRecords);
+        }
+
+        /// <summary>
         /// Gets rows where the Id is greater than the previous max Id.
         /// </summary>
         /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
@@ -285,27 +306,6 @@ namespace Whipstaff.EntityFramework.Extensions
             where TEntity : class, ILongRowVersion
         {
             return dbSet.Where(x => x.RowVersion > rowVersion)
-                .Take(takeRecords);
-        }
-
-        /// <summary>
-        /// Gets the rows where the row version is greater than the previous max row version and less than or equal to the current max row version.
-        /// This is to facilitate getting rows that have been updated since the last sync of a process.
-        /// </summary>
-        /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
-        /// <param name="dbSet">EFCore DBSet Instance.</param>
-        /// <param name="greaterThanRowVersion">The rowVersion records must be greater than.</param>
-        /// <param name="maxRowVersion">The row version that records can be up to.</param>
-        /// <param name="takeRecords">Maximum number of records to take.</param>
-        /// <returns>Queryable representing the rows to return.</returns>
-        public static IQueryable<TEntity> GetRowsGreaterThanAndLessThanOrEqualToRowVersions<TEntity>(
-            this DbSet<TEntity> dbSet,
-            long greaterThanRowVersion,
-            long maxRowVersion,
-            int takeRecords)
-            where TEntity : class, ILongRowVersion
-        {
-            return dbSet.Where(x => x.RowVersion > greaterThanRowVersion && x.RowVersion <= maxRowVersion)
                 .Take(takeRecords);
         }
     }
