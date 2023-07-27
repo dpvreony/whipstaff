@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Splat" Version="14.6.37" />
+    <PackageReference Include="Splat" Version="14.7.1" />
     <PackageReference Include="System.Reactive.Linq" Version="6.0.0" />
   </ItemGroup>
 
