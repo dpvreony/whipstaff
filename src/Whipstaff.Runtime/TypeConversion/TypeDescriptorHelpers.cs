@@ -2,7 +2,6 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
 using System.ComponentModel;
 
 namespace Whipstaff.Runtime.TypeConversion
@@ -13,17 +12,18 @@ namespace Whipstaff.Runtime.TypeConversion
     public static class TypeDescriptorHelpers
     {
         /// <summary>
-        /// Adds a type convertor to the type descriptor.
+        /// Adds a type converter to the type descriptor. This wrapper allows constraining the type converter to a subclass of <see cref="TypeConverter"/> where the built in
+        /// .NET framework doesn't do this.
         /// </summary>
         /// <typeparam name="TTarget">The target type for the conversion.</typeparam>
         /// <typeparam name="TConvertor">The type that carries out the conversion.</typeparam>
         /// <returns>The newly created <see cref="TypeDescriptionProvider"/> that was used to add the specified attributes.</returns>
-        public static TypeDescriptionProvider AddConvertor<TTarget, TConvertor>()
+        public static TypeDescriptionProvider AddConverter<TTarget, TConvertor>()
             where TConvertor : TypeConverter
         {
             return TypeDescriptor.AddAttributes(
                 typeof(TTarget),
-                new Attribute[] { new TypeDescriptionProviderAttribute(typeof(TConvertor)) });
+                new TypeDescriptionProviderAttribute(typeof(TConvertor)));
         }
     }
 }

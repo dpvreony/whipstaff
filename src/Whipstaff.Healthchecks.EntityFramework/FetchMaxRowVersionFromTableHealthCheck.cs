@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +10,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Whipstaff.Core.Entities;
 using Whipstaff.EntityFramework.Extensions;
 
-namespace Whipstaff.Healthchecks.EntityFramework.Relational
+namespace Whipstaff.Healthchecks.EntityFramework
 {
     /// <summary>
     /// Healthcheck to fetch the max row version from a table.
@@ -35,13 +34,16 @@ namespace Whipstaff.Healthchecks.EntityFramework.Relational
         }
 
         /// <inheritdoc/>
-        public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        public async Task<HealthCheckResult> CheckHealthAsync(
+            HealthCheckContext context,
+            CancellationToken cancellationToken = default)
         {
             using (var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken)
                        .ConfigureAwait(false))
             {
-                var maxRowVersion = dbContext.Set<TEntity>()
-                    .GetMaxRowVersionOrDefault();
+                var maxRowVersion = await dbContext.Set<TEntity>()
+                    .GetMaxRowVersionOrDefaultAsync()
+                    .ConfigureAwait(false);
 
                 return new HealthCheckResult(
                     maxRowVersion != null ? HealthStatus.Healthy : HealthStatus.Degraded,
