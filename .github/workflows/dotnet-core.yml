@@ -50,16 +50,6 @@ jobs:
         $process.Start()
         $process.WaitForExit()
 
-    #- name: Setup .NET Core 3.1
-    #  uses: actions/setup-dotnet@v3
-    #  with:
-    #    dotnet-version: 3.1.x
-
-    #- name: Setup .NET 5
-    #  uses: actions/setup-dotnet@v3
-    #  with:
-    #    dotnet-version: 5.0.x
-
     - name: Install .NET 7
       uses: actions/setup-dotnet@v3
       with:
@@ -179,11 +169,11 @@ jobs:
         echo "::notice::$coverageMessage"
         echo $coverageMessage >> $GITHUB_STEP_SUMMARY
 
-    - name: Train Intellicode Model
-      uses: microsoft/vs-intellicode@v1
-      if: github.ref == 'refs/heads/main'
-      with:
-        directory: src
+    #- name: Train Intellicode Model
+    #  uses: microsoft/vs-intellicode@v1
+    #  if: github.ref == 'refs/heads/main'
+    #  with:
+    #    directory: src
 
     - name: List licenses
       run: |

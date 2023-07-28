@@ -14,6 +14,6 @@ namespace Whipstaff.Core.Entities
         /// <summary>
         /// Gets when the entity was created.
         /// </summary>
-        DateTime Created { get; }
+        DateTimeOffset Created { get; }
     }
 }
