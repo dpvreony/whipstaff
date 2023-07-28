@@ -12,11 +12,21 @@ namespace Whipstaff.Testing.EntityFramework
     /// </summary>
     public sealed class FakeDbContextFactory : IDbContextFactory<FakeDbContext>
     {
+        private readonly string _databaseName;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeDbContextFactory"/> class.
+        /// </summary>
+        public FakeDbContextFactory()
+        {
+            _databaseName = Guid.NewGuid().ToString();
+        }
+
         /// <inheritdoc/>
         public FakeDbContext CreateDbContext()
         {
             var dbContextOptions = new DbContextOptionsBuilder<FakeDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .UseInMemoryDatabase(_databaseName)
                 .Options;
 
             return new FakeDbContext(dbContextOptions);
