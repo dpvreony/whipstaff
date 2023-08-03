@@ -36,7 +36,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '11'
+        java-version: '17'
 
     - name: Install Windows SDK 10.0.16299
       shell: pwsh
