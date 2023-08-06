@@ -38,7 +38,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '11'
+        java-version: '17'
 
     - name: Install Windows SDK 10.0.16299
       shell: pwsh
@@ -52,16 +52,6 @@ jobs:
         $process.Start()
         $process.WaitForExit()
 
-    #- name: Setup .NET Core 3.1
-    #  uses: actions/setup-dotnet@v3
-    #  with:
-    #    dotnet-version: 3.1.x
-
-    #- name: Setup .NET 5
-    #  uses: actions/setup-dotnet@v3
-    #  with:
-    #    dotnet-version: 5.0.x
-
     - name: Install .NET 7
       uses: actions/setup-dotnet@v3
       with:
@@ -72,10 +62,19 @@ jobs:
       run: |
         dotnet workload install android ios tvos macos maui
 
-    - name: Download SBOM
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri "https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-win-x64.exe" -OutFile "D:\a\_temp\sbom-tool.exe"
+    #- name: Download Sonar Scanner MsBuild
+    #  uses: robinraju/release-downloader@v1.6
+    #  with:
+    #    repository: "SonarSource/sonar-scanner-msbuild"
+    #    latest: true
+    #    fileName: "sonar-scanner-msbuild-*-net46.zip"
+    #    out-file-path: "downloads/sonar"
+
+    #- name: Extract Sonar Scanner MsBuild
+    #  run: |
+    #    Get-ChildItem *.zip | Expand-Archive -DestinationPath ../../tools/sonar
+    #    del *.zip
+    #  working-directory: downloads/sonar
 
     - name: Add MSBuild to PATH
       uses: glennawatson/setup-msbuild@v1.0.3
@@ -183,20 +182,13 @@ jobs:
         echo "::notice::$coverageMessage"
         echo $coverageMessage >> $GITHUB_STEP_SUMMARY
 
-    - name: Train Intellicode Model
-      uses: microsoft/vs-intellicode@v1
-      if: github.ref == 'refs/heads/main'
-      with:
-        directory: src
-
     - name: List licenses
       run: |
         dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
 
-#    - name: Generate SBOM
-#      shell: pwsh
-#      run: |
-#        D:\a\_temp\sbom-tool.exe generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -V Verbose -m artifacts\sbom
+    - name: Generate SBOM
+      run: |
+        dotnet sbom-tool generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -m artifacts\sbom
 
     - name: List outdated packages
       run: |
