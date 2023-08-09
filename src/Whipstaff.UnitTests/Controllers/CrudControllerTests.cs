@@ -13,11 +13,14 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Whipstaff.Core;
+using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
+using Whipstaff.Testing.MediatR;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -55,7 +58,7 @@ namespace Whipstaff.UnitTests.Controllers
 
         public static IMediator MockMediatorFactory()
         {
-            throw new NotImplementedException();
+            return new Mediator(null!);
         }
 
         public static IAuditableCommandFactory<FakeCrudAddCommand, int, int?, FakeCrudDeleteCommand, long?, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse> MockCommandFactory()
