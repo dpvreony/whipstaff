@@ -56,16 +56,41 @@ namespace Whipstaff.UnitTests.Controllers
                 return Task.FromResult(AuthorizationResult.Failed());
             };
 
+        /// <summary>
+        /// Gets an empty mediator.
+        /// </summary>
+        /// <returns>Empty mediator.</returns>
         public static IMediator MockMediatorFactory()
         {
             return new Mediator(null!);
         }
 
+        /// <summary>
+        /// Gets a mediator with a mocked request handler.
+        /// </summary>
+        /// <typeparam name="TRequest">Type for the mediator request.</typeparam>
+        /// <typeparam name="TResponse">Type for the mediator response.</typeparam>
+        /// <param name="func">Test function to handle the request.</param>
+        /// <returns>Mediator with simple registration.</returns>
+        public static IMediator MockMediatorFactory<TRequest, TResponse>(Func<TRequest, CancellationToken, Task<TResponse>> func)
+            where TRequest : IRequest<TResponse>
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets a mock command factory.
+        /// </summary>
+        /// <returns>Command Factory.</returns>
         public static IAuditableCommandFactory<FakeCrudAddCommand, int, int?, FakeCrudDeleteCommand, long?, FakeCrudUpdateCommand, int, FakeCrudUpdateResponse> MockCommandFactory()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Gets a mock query factory.
+        /// </summary>
+        /// <returns>Query Factory.</returns>
         public static IAuditableQueryFactory<FakeCrudListQuery, FakeCrudListRequest, IList<int>, FakeCrudViewQuery, FakeCrudViewResponse> MockQueryFactory()
         {
             throw new NotImplementedException();
@@ -273,8 +298,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("addPolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<int, int?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<int, int?>, CancellationToken>(MockAddMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<IAuditableRequest<int, int?>, int?>(MockAddMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -315,11 +339,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("addPolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(
-                    It.IsAny<IAuditableRequest<int, int?>>(),
-                    It.IsAny<CancellationToken>()))
-                    .Returns<IAuditableRequest<int, int?>, CancellationToken>(MockAddMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<IAuditableRequest<int, int?>, int?>(MockAddMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -405,8 +425,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("deletePolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long?>, CancellationToken>(MockDeleteMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<IAuditableRequest<long, long?>, long?>(MockDeleteMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -447,8 +466,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("deletePolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long?>, CancellationToken>(MockDeleteMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<IAuditableRequest<long, long?>, long?>(MockDeleteMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -491,8 +509,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("deletePolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<IAuditableRequest<long, long?>>(), It.IsAny<CancellationToken>())).Returns<IAuditableRequest<long, long?>, CancellationToken>(MockDeleteMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<IAuditableRequest<long, long?>, long?>(MockDeleteMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -573,8 +590,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("listPolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<FakeCrudListQuery, IList<int>?>(MockListMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -619,8 +635,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("listPolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<FakeCrudListQuery, IList<int>?>(MockListMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -703,8 +718,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("updatePolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(MockUpdateMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<FakeCrudUpdateCommand, FakeCrudUpdateResponse?>(MockUpdateMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -745,8 +759,7 @@ namespace Whipstaff.UnitTests.Controllers
                     AuthorizeAsyncUserResourcePolicyNameFunc = GetSimplePolicyNameFunc("updatePolicyName"),
                 };
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudUpdateCommand>(), It.IsAny<CancellationToken>())).Returns<FakeCrudUpdateCommand, CancellationToken>(MockUpdateMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<FakeCrudUpdateCommand, FakeCrudUpdateResponse?>(MockUpdateMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
@@ -847,8 +860,7 @@ namespace Whipstaff.UnitTests.Controllers
                     .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
 #endif
 
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(MockViewMediatorHandlerAsync);
+                var mediator = MockMediatorFactory<FakeCrudViewQuery, FakeCrudViewResponse?>(MockViewMediatorHandlerAsync);
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
