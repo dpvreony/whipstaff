@@ -62,7 +62,7 @@ jobs:
         dotnet workload list
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@1ff57057b5cfdc39105cd07a01d78e9b0ea0c14c
+      uses: microsoft/setup-msbuild@3404ff3d40458f8d1fdf55c2bcc442b970404ad7
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
