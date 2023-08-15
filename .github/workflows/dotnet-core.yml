@@ -52,34 +52,19 @@ jobs:
         $process.Start()
         $process.WaitForExit()
 
-    - name: Install .NET 7
+    - name: Install .NET 6
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 6.0.x
 
     - name: Install DotNet workloads
       shell: bash
       run: |
         dotnet workload install android ios tvos macos maui
-
-    #- name: Download Sonar Scanner MsBuild
-    #  uses: robinraju/release-downloader@v1.6
-    #  with:
-    #    repository: "SonarSource/sonar-scanner-msbuild"
-    #    latest: true
-    #    fileName: "sonar-scanner-msbuild-*-net46.zip"
-    #    out-file-path: "downloads/sonar"
-
-    #- name: Extract Sonar Scanner MsBuild
-    #  run: |
-    #    Get-ChildItem *.zip | Expand-Archive -DestinationPath ../../tools/sonar
-    #    del *.zip
-    #  working-directory: downloads/sonar
+        dotnet workload list
 
     - name: Add MSBuild to PATH
-      uses: glennawatson/setup-msbuild@v1.0.3
-      with:
-        prerelease: true
+      uses: microsoft/setup-msbuild@3404ff3d40458f8d1fdf55c2bcc442b970404ad7
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
