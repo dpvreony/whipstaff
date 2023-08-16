@@ -45,7 +45,7 @@ namespace Whipstaff.IntegrationTests
             await WithWebApplicationFactory(async factory =>
             {
                 var client = factory.CreateClient();
-                var requestUri = new Uri(requestPath, UriKind.Relative);
+                var requestUri = new Uri(requestPath, UriKind.Absolute);
                 var response = await client.GetAsync(requestUri).ConfigureAwait(false);
 
                 _ = response.EnsureSuccessStatusCode();
@@ -69,7 +69,11 @@ namespace Whipstaff.IntegrationTests
             {
                 new object[]
                 {
-                    "/",
+                    "https://localhost/api/fakecrud",
+                },
+                new object[]
+                {
+                    "https://localhost/swagger",
                 },
             };
         }

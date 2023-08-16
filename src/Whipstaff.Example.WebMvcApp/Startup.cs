@@ -12,8 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
 using Whipstaff.AspNetCore;
+using Whipstaff.Core;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
+using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.MediatR;
 
@@ -31,7 +33,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// </summary>
         /// <param name="configuration">Application configuration.</param>
         public Startup(IConfiguration configuration)
-            : base(configuration, false)
+            : base(configuration, true)
         {
             _stuntmanOptions = new StuntmanOptions();
         }
@@ -39,7 +41,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <inheritdoc />
         protected override void OnConfigureServices(IServiceCollection serviceCollection)
         {
+            _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
+            _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
+            _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+
+            /*
             serviceCollection.AddStuntman(_stuntmanOptions);
+            */
             var databaseName = Guid.NewGuid().ToString();
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseInMemoryDatabase(databaseName: databaseName)
@@ -52,7 +60,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+            /*
             app.UseStuntman(_stuntmanOptions);
+            */
         }
 
         /// <inheritdoc />

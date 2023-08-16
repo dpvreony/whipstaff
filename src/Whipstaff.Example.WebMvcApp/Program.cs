@@ -30,7 +30,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    _ = webBuilder.UseStartup<Startup>();
                 });
     }
 }

@@ -587,7 +587,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
-            where TUpdateResponseDto : class
+            where TUpdateResponseDto : class?
         {
             if (logger == null)
             {

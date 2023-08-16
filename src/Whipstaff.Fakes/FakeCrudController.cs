@@ -37,7 +37,7 @@ namespace Whipstaff.Testing
         long?,
         FakeCrudUpdateCommand,
         int,
-        FakeCrudUpdateResponse,
+        FakeCrudUpdateResponse?,
         FakeCrudControllerLogMessageActions>
     {
         /// <summary>
@@ -53,21 +53,8 @@ namespace Whipstaff.Testing
             IAuthorizationService authorizationService,
             ILogger<FakeCrudController> logger,
             IMediator mediator,
-            IAuditableCommandFactory<
-                FakeCrudAddCommand,
-                int,
-                int?,
-                FakeCrudDeleteCommand,
-                long?,
-                FakeCrudUpdateCommand,
-                int,
-                FakeCrudUpdateResponse> commandFactory,
-            IAuditableQueryFactory<
-                FakeCrudListQuery,
-                FakeCrudListRequest,
-                IList<int>,
-                FakeCrudViewQuery,
-                FakeCrudViewResponse> queryFactory,
+            FakeAuditableCommandFactory commandFactory,
+            FakeAuditableQueryFactory queryFactory,
             FakeCrudControllerLogMessageActions logMessageActions)
             : base(
                 authorizationService,
@@ -173,7 +160,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetUpdateActionResultAsync(FakeCrudUpdateResponse result)
+        protected override async Task<IActionResult> GetUpdateActionResultAsync(FakeCrudUpdateResponse? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
