@@ -125,6 +125,7 @@ namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryIniti
 
         private static void ConfigureLogging(ILoggingBuilder loggingBuilder, ILoggerFactory loggerFactory)
         {
+            _ = loggingBuilder.AddApplicationInsights();
             _ = loggingBuilder.Services.AddSingleton(loggerFactory);
         }
 

@@ -8,7 +8,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Whipstaff.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -31,6 +33,7 @@ namespace Whipstaff.IntegrationTests
             ITestOutputHelper output)
             : base(output)
         {
+            Log.MinimumLevel = LogLevel.Debug;
         }
 
         /// <summary>
@@ -38,17 +41,13 @@ namespace Whipstaff.IntegrationTests
         /// </summary>
         /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task WithWebApplicationFactory(Func<WebApplicationFactory<TStartup>, Task> webApplicationFunc)
+        protected async Task WithWebApplicationFactory(Func<WhipstaffWebApplicationFactory<TStartup>, Task> webApplicationFunc)
         {
             ArgumentNullException.ThrowIfNull(webApplicationFunc);
 
-            using (var factory = new WebApplicationFactory<TStartup>())
+            using (var factory = new WhipstaffWebApplicationFactory<TStartup>(Log))
             {
-                var runner = factory.WithWebHostBuilder(configuration => configuration.UseStartup<TStartup>());
-                using (runner)
-                {
-                    await webApplicationFunc(runner).ConfigureAwait(false);
-                }
+                await webApplicationFunc(factory).ConfigureAwait(false);
             }
         }
 

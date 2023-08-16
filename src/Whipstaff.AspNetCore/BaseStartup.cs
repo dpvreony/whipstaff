@@ -232,6 +232,7 @@ namespace Whipstaff.AspNetCore
             logger.LogInformation("Starting configuration");
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
 
+#if TBC
             if (env.IsDevelopment())
             {
                 _ = app.UseBrowserLink();
@@ -241,6 +242,7 @@ namespace Whipstaff.AspNetCore
             {
                 _ = app.UseExceptionHandler("/Home/Error");
             }
+#endif
 
             _ = app.UseBlockingDetection();
 
@@ -289,6 +291,8 @@ namespace Whipstaff.AspNetCore
                 .IncludeResponseHeaders()
                 .IncludeResponseBody());
 
+            // TODO: allow using in memory provider for testing.
+            // TODO: allow using sql server \ service bus provider for production.
             if (Audit.Core.Configuration.DataProvider is FileDataProvider fileDataProvider)
             {
                 // this was done so files don't get added to git
@@ -300,8 +304,10 @@ namespace Whipstaff.AspNetCore
             _miniProfilerApplicationStartHelper.ConfigureApplication(app);
             */
 
+            // TODO: change boolean flag to belong to a proper configuration object.
             if (_useSwagger)
             {
+                // TODO: allow injection of endpoints
                 _ = app.UseSwagger();
                 _ = app.UseSwaggerUI(c =>
                 {
@@ -313,6 +319,7 @@ namespace Whipstaff.AspNetCore
 
             _ = app.UseEndpoints(endpoints =>
             {
+                // TODO: map other HTTP verbs.
                 _ = endpoints.MapControllerRoute(
                     "get",
                     "api/{controller}/{id?}",
@@ -326,24 +333,27 @@ namespace Whipstaff.AspNetCore
         private void ConfigureControllerService(IServiceCollection services)
         {
             var controllerAssemblies = GetControllerAssemblies();
+
+            var mvcBuilder = services.AddControllers(options =>
+            {
+                /*
+                if (options.Conventions.All(t => t.GetType() != typeof(AddAuthorizePolicyControllerConvention)))
+                {
+                    options.Conventions.Add(new AddAuthorizePolicyControllerConvention());
+                }
+                */
+
+                // if you have a load balancer in front, you can have an issue if there is no cache-control specified
+                // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
+                _ = options.CacheProfiles.TryAdd("nostore", new CacheProfile { NoStore = true });
+            });
+
             foreach (var controllerAssembly in controllerAssemblies)
             {
-                _ = services.AddControllers(options =>
-                    {
-                        /*
-                        if (options.Conventions.All(t => t.GetType() != typeof(AddAuthorizePolicyControllerConvention)))
-                        {
-                            options.Conventions.Add(new AddAuthorizePolicyControllerConvention());
-                        }
-                        */
-
-                        // if you have a load balancer in front, you can have an issue if there is no cache-control specified
-                        // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
-                        _ = options.CacheProfiles.TryAdd("nostore", new CacheProfile { NoStore = true });
-                    })
-                    .AddApplicationPart(controllerAssembly)
-                    .AddControllersAsServices();
+                mvcBuilder = mvcBuilder.AddApplicationPart(controllerAssembly);
             }
+
+            _ = mvcBuilder.AddControllersAsServices();
         }
 
         private void ConfigureMediatrService(IServiceCollection services)

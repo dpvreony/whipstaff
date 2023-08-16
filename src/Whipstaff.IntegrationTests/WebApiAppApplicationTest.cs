@@ -16,7 +16,7 @@ namespace Whipstaff.IntegrationTests
     /// Unit Tests for a Web API app startup.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public sealed class WebApiAppApplicationTest : BaseWebApplicationTest<FakeWebApiStartup>
+    public sealed class WebApiAppApplicationTest : BaseWebApplicationTest<Dhgms.AspNetCoreContrib.Example.WebApiApp.Startup>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WebApiAppApplicationTest"/> class.
@@ -71,6 +71,14 @@ namespace Whipstaff.IntegrationTests
                 new object[]
                 {
                     "https://localhost/api/fakecrud/1",
+                },
+                new object[]
+                {
+                    "https://localhost/swagger",
+                },
+                new object[]
+                {
+                    "https://localhost/swagger/v1/swagger.json",
                 },
             };
         }

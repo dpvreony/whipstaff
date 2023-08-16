@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
+using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.MediatR;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
@@ -32,6 +33,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// <inheritdoc />
         protected override void OnConfigureServices(IServiceCollection serviceCollection)
         {
+            _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
+            _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
+            _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
         }
 
         /// <inheritdoc />
