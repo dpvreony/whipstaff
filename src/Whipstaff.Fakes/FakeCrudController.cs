@@ -24,7 +24,7 @@ namespace Whipstaff.Testing
     /// </summary>
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
-    public sealed class FakeCrudController : CrudController<
+    public sealed class FakeCrudController : CrudApiController<
         FakeCrudListQuery,
         FakeCrudListRequest,
         IList<int>,

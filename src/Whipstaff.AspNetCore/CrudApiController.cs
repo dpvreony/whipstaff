@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,7 +33,7 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
     /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
-    public abstract class CrudController<
+    public abstract class CrudApiController<
             TListQuery,
             TListRequestDto,
             TListQueryResponse,
@@ -49,7 +48,7 @@ namespace Whipstaff.AspNetCore
             TUpdateRequestDto,
             TUpdateResponseDto,
             TCrudControllerLogMessageActions>
-        : QueryOnlyController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
+        : QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
         where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
         where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
@@ -62,7 +61,7 @@ namespace Whipstaff.AspNetCore
         where TCrudControllerLogMessageActions : ICrudControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CrudController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="CrudApiController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
@@ -70,9 +69,9 @@ namespace Whipstaff.AspNetCore
         /// <param name="commandFactory">The factory for generating Command messages.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
         /// <param name="logMessageActions">Log Message Actions for the logging events in the controller.</param>
-        protected CrudController(
+        protected CrudApiController(
             IAuthorizationService authorizationService,
-            ILogger<CrudController<
+            ILogger<CrudApiController<
                 TListQuery,
                 TListRequestDto,
                 TListQueryResponse,

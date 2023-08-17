@@ -175,16 +175,14 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     mockAuthorizationService.Object,
                     mockLogger.Object,
                     mockMediator.Object,
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions()))
-                {
-                    Assert.NotNull(instance);
-                }
+                    new FakeCrudControllerLogMessageActions());
+                Assert.NotNull(instance);
 
                 mockAuthorizationService.VerifyNoOtherCalls();
                 mockLogger.VerifyNoOtherCalls();
@@ -237,7 +235,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -253,12 +251,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
                         },
                     },
-                })
-                {
-                    var result = await instance.Post(addRequestDto, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<OkObjectResult>(result);
-                }
+                };
+
+                var result = await instance.Post(addRequestDto, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<OkObjectResult>(result);
             }
 
             /// <summary>
@@ -284,7 +281,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -300,12 +297,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new ClaimsIdentity()),
                         },
                     },
-                })
-                {
-                    var result = await instance.Post(1, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<BadRequestResult>(result);
-                }
+                };
+
+                var result = await instance.Post(1, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<BadRequestResult>(result);
             }
 
             private static async Task<int?> MockAddMediatorHandlerAsync(IAuditableRequest<int, int?> auditableRequest, CancellationToken cancellationToken)
@@ -373,7 +369,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -389,12 +385,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new ClaimsIdentity()),
                         },
                     },
-                })
-                {
-                    var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<OkObjectResult>(result);
-                }
+                };
+
+                var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<OkObjectResult>(result);
             }
 
             /// <summary>
@@ -417,7 +412,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -433,12 +428,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
                         },
                     },
-                })
-                {
-                    var result = await instance.Delete(1, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<BadRequestResult>(result);
-                }
+                };
+
+                var result = await instance.Delete(1, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<BadRequestResult>(result);
             }
 
             /// <summary>
@@ -463,7 +457,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -479,12 +473,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
                         },
                     },
-                })
-                {
-                    var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<NotFoundResult>(result);
-                }
+                };
+
+                var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<NotFoundResult>(result);
             }
 
             private static async Task<long?> MockDeleteMediatorHandlerAsync(IAuditableRequest<long, long?> arg1, CancellationToken arg2)
@@ -547,7 +540,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -567,12 +560,11 @@ namespace Whipstaff.UnitTests.Controllers
                             },
                         },
                     },
-                })
-                {
-                    var result = await instance.Get(null, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<OkObjectResult>(result);
-                }
+                };
+
+                var result = await instance.Get(null, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<OkObjectResult>(result);
             }
 
             /// <summary>
@@ -595,7 +587,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -615,12 +607,11 @@ namespace Whipstaff.UnitTests.Controllers
                             },
                         },
                     },
-                })
-                {
-                    var result = await instance.Get(null, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<BadRequestResult>(result);
-                }
+                };
+
+                var result = await instance.Get(null, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<BadRequestResult>(result);
             }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -681,7 +672,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -697,12 +688,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
                         },
                     },
-                })
-                {
-                    var result = await instance.Put(1, updateRequestDto, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<OkObjectResult>(result);
-                }
+                };
+
+                var result = await instance.Put(1, updateRequestDto, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<OkObjectResult>(result);
             }
 
             /// <summary>
@@ -725,7 +715,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -741,12 +731,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
                         },
                     },
-                })
-                {
-                    var result = await instance.Put(1, 1, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    _ = Assert.IsType<BadRequestResult>(result);
-                }
+                };
+
+                var result = await instance.Put(1, 1, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                _ = Assert.IsType<BadRequestResult>(result);
             }
 
             private static Task<FakeCrudUpdateResponse?> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
@@ -822,7 +811,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
-                using (var instance = new FakeCrudController(
+                var instance = new FakeCrudController(
                     authorizationService.Object,
                     logger.Object,
                     mediator.Object,
@@ -838,12 +827,11 @@ namespace Whipstaff.UnitTests.Controllers
                             User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
                         },
                     },
-                })
-                {
-                    var result = await instance.Get(listRequest, CancellationToken.None).ConfigureAwait(false);
-                    Assert.NotNull(result);
-                    Assert.IsType(expectedResultType, result);
-                }
+                };
+
+                var result = await instance.Get(listRequest, CancellationToken.None).ConfigureAwait(false);
+                Assert.NotNull(result);
+                Assert.IsType(expectedResultType, result);
             }
 
             private static Task<FakeCrudViewResponse?> MockViewMediatorHandlerAsync(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
