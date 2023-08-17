@@ -189,6 +189,12 @@ namespace Whipstaff.AspNetCore
         /// <returns>Array of assemblies.</returns>
         protected abstract IMediatrRegistration GetMediatrRegistration();
 
+        /// <summary>
+        /// Gets the action to use when configuring the controllers.
+        /// </summary>
+        /// <returns>Action to execute, or null if no endpoints to be registered.</returns>
+        protected abstract Action<IEndpointRouteBuilder>? GetOnUseEndpointsAction();
+
         private static void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
         {
             authorizationOptions.AddPolicy("ListPolicyName", builder => builder.RequireAssertion(_ => true).Build());
@@ -317,15 +323,11 @@ namespace Whipstaff.AspNetCore
 
             _ = app.UseRouting();
 
-            _ = app.UseEndpoints(endpoints =>
+            var useEndpointsAction = GetOnUseEndpointsAction();
+            if (useEndpointsAction != null)
             {
-                // TODO: map other HTTP verbs.
-                _ = endpoints.MapControllerRoute(
-                    "get",
-                    "api/{controller}/{id?}",
-                    new { action = "Get" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
-            });
+                _ = app.UseEndpoints(endpointRouteBuilder => useEndpointsAction(endpointRouteBuilder));
+            }
 
             OnConfigure(app, env, loggerFactory);
         }

@@ -2,9 +2,12 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -59,6 +62,34 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         protected override IMediatrRegistration GetMediatrRegistration()
         {
             return new FakeMediatrRegistration();
+        }
+
+        /// <inheritdoc/>
+        protected override Action<IEndpointRouteBuilder>? GetOnUseEndpointsAction()
+        {
+            return endpoints =>
+            {
+                _ = endpoints.MapControllerRoute(
+                    "create",
+                    "api/{controller}",
+                    new { action = "Post" },
+                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
+                _ = endpoints.MapControllerRoute(
+                    "read",
+                    "api/{controller}/{id?}",
+                    new { action = "Get" },
+                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
+                _ = endpoints.MapControllerRoute(
+                    "update",
+                    "api/{controller}/{id?}",
+                    new { action = "Patch" },
+                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PATCH") }));
+                _ = endpoints.MapControllerRoute(
+                    "delete",
+                    "api/{controller}/{id?}",
+                    new { action = "Delete" },
+                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
+            };
         }
     }
 }

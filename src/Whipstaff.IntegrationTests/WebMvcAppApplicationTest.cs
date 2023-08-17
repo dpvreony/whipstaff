@@ -30,7 +30,7 @@ namespace Whipstaff.IntegrationTests
         /// <summary>
         /// Gets the XUnit test source for checking GET requests succeed.
         /// </summary>
-        public static IEnumerable<object[]> GetReturnsSuccessAndCorrectContentTypeTestSource =>
+        public static TheoryData<string> GetReturnsSuccessAndCorrectContentTypeTestSource =>
             GetGetReturnsSuccessAndCorrectContentTypeTestSource();
 
         /// <summary>
@@ -63,18 +63,12 @@ namespace Whipstaff.IntegrationTests
             }).ConfigureAwait(false);
         }
 
-        private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
+        private static TheoryData<string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
         {
-            return new[]
+            return new TheoryData<string>
             {
-                new object[]
-                {
-                    "https://localhost/api/fakecrud",
-                },
-                new object[]
-                {
-                    "https://localhost/swagger",
-                },
+                "https://localhost/fakecrud",
+                "https://localhost/fakecrud/1",
             };
         }
     }
