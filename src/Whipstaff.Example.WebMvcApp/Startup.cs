@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
 using Whipstaff.AspNetCore;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
@@ -51,13 +52,14 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
 
-            /*
             serviceCollection.AddStuntman(_stuntmanOptions);
-            */
             var databaseName = Guid.NewGuid().ToString();
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseInMemoryDatabase(databaseName: databaseName)
                 .Options);
+
+            // TODO: need to allow base class to control this, as it's having part of it called twice at the moment.
+            _ = serviceCollection.AddControllersWithViews();
         }
 
         /// <inheritdoc />
@@ -66,9 +68,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
-            /*
             app.UseStuntman(_stuntmanOptions);
-            */
 
             _ = app.UseStaticFiles();
         }
@@ -93,42 +93,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         {
             return endpoints =>
             {
-                /*
                 _ = endpoints.Map("home", context =>
                 {
                     context.Response.StatusCode = 404;
                     return Task.CompletedTask;
                 });
-                */
 
-                _ = endpoints.MapControllerRoute(
-                    "test",
-                    "{controller}/{id?}",
-                    new { action = "Get", controller = "Home" });
-
-                _ = endpoints.MapControllerRoute(
-                    "create",
+                _ = endpoints.DoCrudMapControllerRoute(
                     "{controller=Home}",
-                    new { action = "Post" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
-
-                _ = endpoints.MapControllerRoute(
-                    "read",
-                    "{controller=Home}/{id?}",
-                    new { action = "Get" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
-
-                _ = endpoints.MapControllerRoute(
-                    "update",
-                    "{controller=Home}/{id?}",
-                    new { action = "Patch" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PATCH") }));
-
-                _ = endpoints.MapControllerRoute(
-                    "delete",
-                    "{controller=Home}/{id?}",
-                    new { action = "Delete" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
+                    null);
             };
         }
     }

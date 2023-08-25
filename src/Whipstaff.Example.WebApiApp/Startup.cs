@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
@@ -64,26 +65,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         {
             return endpoints =>
             {
-                _ = endpoints.MapControllerRoute(
-                    "create",
+                _ = endpoints.DoCrudMapControllerRoute(
                     "api/{controller}",
-                    new { action = "Post" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
-                _ = endpoints.MapControllerRoute(
-                    "read",
-                    "api/{controller}/{id?}",
-                    new { action = "Get" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
-                _ = endpoints.MapControllerRoute(
-                    "update",
-                    "api/{controller}/{id?}",
-                    new { action = "Patch" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PATCH") }));
-                _ = endpoints.MapControllerRoute(
-                    "delete",
-                    "api/{controller}/{id?}",
-                    new { action = "Delete" },
-                    new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
+                    null);
             };
         }
     }
