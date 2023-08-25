@@ -5,6 +5,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -49,7 +50,6 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
-            _ = serviceCollection.AddControllersWithViews(options => options.EnableEndpointRouting = true);
 
             /*
             serviceCollection.AddStuntman(_stuntmanOptions);
@@ -76,7 +76,10 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <inheritdoc />
         protected override Assembly[] GetControllerAssemblies()
         {
-            return Array.Empty<Assembly>();
+            return new[]
+            {
+                typeof(HomeController).Assembly,
+            };
         }
 
         /// <inheritdoc />
