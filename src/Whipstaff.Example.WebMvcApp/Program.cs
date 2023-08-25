@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
 {
@@ -18,7 +19,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            WebHostFactory.GetWebHost<Startup>(args).Run();
         }
 
         /// <summary>

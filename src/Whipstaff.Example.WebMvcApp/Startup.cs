@@ -49,7 +49,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
-            _ = serviceCollection.AddControllersWithViews();
+            _ = serviceCollection.AddControllersWithViews(options => options.EnableEndpointRouting = true);
 
             /*
             serviceCollection.AddStuntman(_stuntmanOptions);
@@ -69,6 +69,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             /*
             app.UseStuntman(_stuntmanOptions);
             */
+
+            _ = app.UseStaticFiles();
         }
 
         /// <inheritdoc />
@@ -95,6 +97,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
                     return Task.CompletedTask;
                 });
                 */
+
+                _ = endpoints.MapControllerRoute(
+                    "test",
+                    "{controller}/{id?}",
+                    new { action = "Get", controller = "Home" });
 
                 _ = endpoints.MapControllerRoute(
                     "create",
