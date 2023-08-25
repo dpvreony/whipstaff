@@ -29,16 +29,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// Serves the home page.
         /// </summary>
         /// <returns>View.</returns>
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Serves the privacy page.
-        /// </summary>
-        /// <returns>View.</returns>
-        public IActionResult Privacy()
+        public IActionResult Get()
         {
             return View();
         }

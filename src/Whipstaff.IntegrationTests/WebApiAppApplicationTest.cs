@@ -30,17 +30,18 @@ namespace Whipstaff.IntegrationTests
         /// <summary>
         /// Gets the XUnit test source for checking GET requests succeed.
         /// </summary>
-        public static IEnumerable<object[]> GetReturnsSuccessAndCorrectContentTypeTestSource =>
+        public static TheoryData<string, string> GetReturnsSuccessAndCorrectContentTypeTestSource =>
             GetGetReturnsSuccessAndCorrectContentTypeTestSource();
 
         /// <summary>
         /// Checks that GET requests work.
         /// </summary>
         /// <param name="requestPath">URL to test.</param>
+        /// <param name="expectedContentType">Content Type expected back in the HTTP response.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
             await WithWebApplicationFactory(async factory =>
             {
@@ -53,32 +54,32 @@ namespace Whipstaff.IntegrationTests
                 _ = response.EnsureSuccessStatusCode();
 
                 Assert.Equal(
-                    "application/json; charset=utf-8",
+                    expectedContentType,
                     response.Content.Headers.ContentType!.ToString());
 
                 await LogResponseAsync(response).ConfigureAwait(false);
             }).ConfigureAwait(false);
         }
 
-        private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
+        private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
         {
-            return new[]
+            return new TheoryData<string, string>
             {
-                new object[]
                 {
                     "https://localhost/api/fakecrud/",
+                    "application/json; charset=utf-8"
                 },
-                new object[]
                 {
                     "https://localhost/api/fakecrud/1",
+                    "application/json; charset=utf-8"
                 },
-                new object[]
                 {
                     "https://localhost/swagger",
+                    "text/html; charset=utf-8"
                 },
-                new object[]
                 {
                     "https://localhost/swagger/v1/swagger.json",
+                    "application/json; charset=utf-8"
                 },
             };
         }

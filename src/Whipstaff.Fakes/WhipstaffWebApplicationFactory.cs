@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Whipstaff.Testing
 {
     /// <summary>
     /// Web Application Factory Wrapper that configures hooking up logging into the XUnit test runner.
     /// </summary>
-    /// <typeparam name="TEntryPoint">A type in the entry point assembly of the application.
-    /// Typically the Startup or Program classes can be used.</typeparam>
-    public class WhipstaffWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>
-        where TEntryPoint : class
+    /// <typeparam name="TStartup">The type for the startup class. This is not an interface based on the ASP.NET core <see cref="IStartup"/>, this one provides hosting context and takes the app away from reflection whilst enforcing some design contract.</typeparam>
+    public class WhipstaffWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+        where TStartup : class, IWhipstaffWebAppStartup, new()
     {
         private readonly ILoggerFactory _logFactory;
 
@@ -34,14 +34,13 @@ namespace Whipstaff.Testing
         /// <inheritdoc/>
         protected override IHostBuilder? CreateHostBuilder()
         {
-            return base.CreateHostBuilder()?
-                .ConfigureLogging(loggingBuilder => OnConfigureLogging(loggingBuilder));
+            return null;
         }
 
         /// <inheritdoc/>
         protected override IWebHostBuilder? CreateWebHostBuilder()
         {
-            return base.CreateWebHostBuilder()?.ConfigureLogging(loggingBuilder => OnConfigureLogging(loggingBuilder));
+            return WebHostBuilderFactory.GetHostBuilder<TStartup>(Array.Empty<string>()).ConfigureLogging(loggingBuilder => OnConfigureLogging(loggingBuilder));
         }
 
         private void OnConfigureLogging(ILoggingBuilder loggingBuilder)

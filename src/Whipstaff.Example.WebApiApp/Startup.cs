@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore;
@@ -22,14 +21,10 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
     /// <summary>
     /// Startup object for the WebAPI example Application.
     /// </summary>
-    public class Startup : BaseStartup
+    public sealed class Startup : BaseStartup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration object for the application instance.</param>
-        public Startup(IConfiguration configuration)
-            : base(configuration, true)
+        /// <inheritdoc />
+        public override void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
         {
         }
 

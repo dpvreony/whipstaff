@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Testing;
 using Xunit;
 using Xunit.Abstractions;
@@ -23,7 +24,7 @@ namespace Whipstaff.IntegrationTests
     [ExcludeFromCodeCoverage]
     public class BaseWebApplicationTest<TStartup>
         : Foundatio.Xunit.TestWithLoggingBase
-        where TStartup : class
+        where TStartup : class, IWhipstaffWebAppStartup, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseWebApplicationTest{TStartup}"/> class.

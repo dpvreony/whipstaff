@@ -21,14 +21,10 @@ namespace Whipstaff.Testing
     /// <summary>
     /// Startup object for the WebAPI example Application.
     /// </summary>
-    public class FakeWebApiStartup : BaseStartup
+    public sealed class FakeWebApiStartup : BaseStartup
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FakeWebApiStartup"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration object for the application instance.</param>
-        public FakeWebApiStartup(IConfiguration configuration)
-            : base(configuration, true)
+        /// <inheritdoc />
+        public override void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
         {
         }
 

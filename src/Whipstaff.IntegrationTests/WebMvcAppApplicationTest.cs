@@ -30,17 +30,18 @@ namespace Whipstaff.IntegrationTests
         /// <summary>
         /// Gets the XUnit test source for checking GET requests succeed.
         /// </summary>
-        public static TheoryData<string> GetReturnsSuccessAndCorrectContentTypeTestSource =>
+        public static TheoryData<string, string> GetReturnsSuccessAndCorrectContentTypeTestSource =>
             GetGetReturnsSuccessAndCorrectContentTypeTestSource();
 
         /// <summary>
         /// Checks that GET requests work.
         /// </summary>
         /// <param name="requestPath">URL to test.</param>
+        /// <param name="expectedContentType">Content Type expected back in the HTTP response.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
             await WithWebApplicationFactory(async factory =>
             {
@@ -54,7 +55,7 @@ namespace Whipstaff.IntegrationTests
                 Assert.NotNull(contentType);
 
                 Assert.Equal(
-                    "text/html; charset=utf-8",
+                    expectedContentType,
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
                     contentType.ToString());
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
@@ -63,12 +64,33 @@ namespace Whipstaff.IntegrationTests
             }).ConfigureAwait(false);
         }
 
-        private static TheoryData<string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
+        /// <summary>
+        /// Test to ensure the home controller can only be accessed from the root of the site.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitly()
         {
-            return new TheoryData<string>
+            await WithWebApplicationFactory(async factory =>
             {
-                "https://localhost/fakecrud",
-                "https://localhost/fakecrud/1",
+                var client = factory.CreateClient();
+                var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
+                var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+
+                Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+
+                await LogResponseAsync(response).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+        }
+
+        private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
+        {
+            return new TheoryData<string, string>
+            {
+                {
+                    "https://localhost/",
+                    "text/html; charset=utf-8"
+                }
             };
         }
     }

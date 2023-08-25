@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -14,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
 using Whipstaff.AspNetCore;
-using Whipstaff.Core;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
@@ -26,18 +26,21 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     /// <summary>
     /// Start up logic for the sample Web MVC app.
     /// </summary>
-    public class Startup : BaseStartup
+    public sealed class Startup : BaseStartup
     {
         private readonly StuntmanOptions _stuntmanOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        /// <param name="configuration">Application configuration.</param>
-        public Startup(IConfiguration configuration)
-            : base(configuration, true)
+        public Startup()
         {
             _stuntmanOptions = new StuntmanOptions();
+        }
+
+        /// <inheritdoc />
+        public override void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
+        {
         }
 
         /// <inheritdoc />
@@ -46,6 +49,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+            _ = serviceCollection.AddControllersWithViews();
 
             /*
             serviceCollection.AddStuntman(_stuntmanOptions);
@@ -70,10 +74,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <inheritdoc />
         protected override Assembly[] GetControllerAssemblies()
         {
-            return new[]
-            {
-                typeof(FakeCrudController).Assembly,
-            };
+            return Array.Empty<Assembly>();
         }
 
         /// <inheritdoc />
@@ -87,24 +88,35 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         {
             return endpoints =>
             {
+                /*
+                _ = endpoints.Map("home", context =>
+                {
+                    context.Response.StatusCode = 404;
+                    return Task.CompletedTask;
+                });
+                */
+
                 _ = endpoints.MapControllerRoute(
                     "create",
-                    "{controller}",
+                    "{controller=Home}",
                     new { action = "Post" },
                     new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("POST") }));
+
                 _ = endpoints.MapControllerRoute(
                     "read",
-                    "{controller}/{id?}",
+                    "{controller=Home}/{id?}",
                     new { action = "Get" },
                     new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("GET") }));
+
                 _ = endpoints.MapControllerRoute(
                     "update",
-                    "{controller}/{id?}",
+                    "{controller=Home}/{id?}",
                     new { action = "Patch" },
                     new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("PATCH") }));
+
                 _ = endpoints.MapControllerRoute(
                     "delete",
-                    "{controller}/{id?}",
+                    "{controller=Home}/{id?}",
                     new { action = "Delete" },
                     new RouteValueDictionary(new { httpMethod = new HttpMethodRouteConstraint("DELETE") }));
             };

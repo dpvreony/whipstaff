@@ -5,34 +5,27 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using Audit.Core;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
 using Hellang.Middleware.ProblemDetails;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
-using NetEscapades.AspNetCore.SecurityHeaders;
-using OwaspHeaders.Core.Extensions;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using Whipstaff.AspNetCore.Features.ApiAuthorization;
 using Whipstaff.AspNetCore.Features.Apm.HealthChecks;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
 using Whipstaff.AspNetCore.Features.StartUp;
 using Whipstaff.AspNetCore.Features.Swagger;
@@ -44,62 +37,42 @@ namespace Whipstaff.AspNetCore
     /// <summary>
     /// Core Initialization logic.
     /// </summary>
-    public abstract class BaseStartup
+    public abstract class BaseStartup : IWhipstaffWebAppStartup
     {
-        private readonly MiniProfilerApplicationStartHelper _miniProfilerApplicationStartHelper;
-        private readonly bool _useSwagger;
+        /// <inheritdoc/>
+        public abstract void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder);
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseStartup"/> class.
-        /// </summary>
-        /// <param name="configuration">Application configuration.</param>
-        /// <param name="useSwagger">Flag indicating whether to enable swagger.</param>
-        protected BaseStartup(
-            IConfiguration configuration,
-            bool useSwagger)
+        /// <inheritdoc/>
+        public void ConfigureWebApplication(WebHostBuilderContext webHostBuilderContext, IApplicationBuilder applicationBuilder)
         {
-            Configuration = configuration;
-            _miniProfilerApplicationStartHelper = new MiniProfilerApplicationStartHelper();
-            _useSwagger = useSwagger;
-        }
-
-        /// <summary>
-        /// Gets the application configuration.
-        /// </summary>
-        public IConfiguration Configuration { get; }
-
-        /// <summary>
-        /// Configure the web application.
-        /// </summary>
-        /// <param name="app">Application Builder.</param>
-        public void Configure(IApplicationBuilder app)
-        {
-            if (app == null)
+            if (applicationBuilder == null)
             {
-                throw new ArgumentNullException(nameof(app));
+                throw new ArgumentNullException(nameof(applicationBuilder));
             }
 
-            var env = app.ApplicationServices.GetService<IWebHostEnvironment>();
+            var env = applicationBuilder.ApplicationServices.GetService<IWebHostEnvironment>();
             if (env == null)
             {
                 throw new InvalidOperationException("Failed to retrieve Environment Registration");
             }
 
-            var logger = app.ApplicationServices.GetService<ILoggerFactory>();
+            var logger = applicationBuilder.ApplicationServices.GetService<ILoggerFactory>();
             if (logger == null)
             {
                 throw new InvalidOperationException("Failed to retrieve Logger Factory");
             }
 
-            Configure(app, env, logger);
+            Configure(applicationBuilder, env, logger);
         }
 
-        /// <summary>
-        /// Configure the services for the web application.
-        /// </summary>
-        /// <param name="services">DI services collection instance.</param>
-        public void ConfigureServices(IServiceCollection services)
+        /// <inheritdoc/>
+        public void ConfigureServices(WebHostBuilderContext hostBuilderContext, IServiceCollection services)
         {
+            ArgumentNullException.ThrowIfNull(hostBuilderContext);
+            ArgumentNullException.ThrowIfNull(services);
+
+            var configuration = hostBuilderContext.Configuration;
+
             _ = services.AddFeatureManagement();
             _ = services.AddMiddlewareAnalysis();
 
@@ -111,22 +84,17 @@ namespace Whipstaff.AspNetCore
 
             _ = services.AddAuthorization(ConfigureAuthorization);
 
-            new HealthChecksApplicationStartHelper().ConfigureService(services, Configuration);
+            new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
 
-            if (_useSwagger)
+            var useSwagger = configuration.GetValue("useSwagger", false);
+
+            if (useSwagger)
             {
                 // taken from https://mderriey.com/2020/12/14/how-to-lock-down-csp-using-swachbuckle/
                 _ = services.AddHttpContextAccessor();
                 _ = services
                     .AddOptions<SwaggerUIOptions>()
-                    .Configure<IHttpContextAccessor>((swaggerUiOptions, httpContextAccessor) =>
-                    {
-                        // 2. Take a reference of the original Stream factory which reads from Swashbuckle's embedded resources
-                        var originalIndexStreamFactory = swaggerUiOptions.IndexStream;
-
-                        // 3. Override the Stream factory
-                        swaggerUiOptions.IndexStream = () => ApplyNonceToSwaggerIndexPage(originalIndexStreamFactory, httpContextAccessor);
-                    });
+                    .Configure<IHttpContextAccessor>((swaggerUiOptions, httpContextAccessor) => swaggerUiOptions.ApplyNonceToSwaggerIndexStream(httpContextAccessor));
                 _ = services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -201,27 +169,6 @@ namespace Whipstaff.AspNetCore
             authorizationOptions.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build());
             authorizationOptions.AddPolicy("ViewPolicyName", builder => builder.RequireAssertion(_ => true).Build());
             authorizationOptions.AddPolicy("ControllerAuthenticatedUser", builder => builder.RequireAuthenticatedUser().Build());
-        }
-
-        private static Stream ApplyNonceToSwaggerIndexPage(
-            Func<Stream> originalIndexStreamFactory,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            // 4. Read the original index.html file
-            using var originalStream = originalIndexStreamFactory();
-            using var originalStreamReader = new StreamReader(originalStream);
-            var originalIndexHtmlContents = originalStreamReader.ReadToEnd();
-
-            // 5. Get the request-specific nonce generated by NetEscapades.AspNetCore.SecurityHeaders
-            var requestSpecificNonce = httpContextAccessor.HttpContext!.GetNonce();
-
-            // 6. Replace inline `<script>` and `<style>` tags by adding a `nonce` attribute to them
-            var nonceEnabledIndexHtmlContents = originalIndexHtmlContents
-                .Replace("<script>", $"<script nonce=\"{requestSpecificNonce}\">", StringComparison.OrdinalIgnoreCase)
-                .Replace("<style>", $"<style nonce=\"{requestSpecificNonce}\">", StringComparison.OrdinalIgnoreCase);
-
-            // 7. Return a new Stream that contains our modified contents
-            return new MemoryStream(Encoding.UTF8.GetBytes(nonceEnabledIndexHtmlContents));
         }
 
         private void Configure(
@@ -311,7 +258,9 @@ namespace Whipstaff.AspNetCore
             */
 
             // TODO: change boolean flag to belong to a proper configuration object.
-            if (_useSwagger)
+            var configuration = app.ApplicationServices.GetService<IConfiguration>();
+            var useSwagger = configuration.GetValue("useSwagger", false);
+            if (useSwagger)
             {
                 // TODO: allow injection of endpoints
                 _ = app.UseSwagger();
