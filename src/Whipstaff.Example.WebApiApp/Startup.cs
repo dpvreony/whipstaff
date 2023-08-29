@@ -90,6 +90,10 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// <inheritdoc />
         protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
         {
+            ArgumentNullException.ThrowIfNull(authorizationOptions);
+
+            authorizationOptions.AddPolicy("ListPolicyName", builder => builder.RequireAssertion(_ => true).Build());
+            authorizationOptions.AddPolicy("ViewPolicyName", builder => builder.RequireAssertion(_ => true).Build());
         }
 
         /// <inheritdoc />

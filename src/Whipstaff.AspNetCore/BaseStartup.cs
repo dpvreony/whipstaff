@@ -171,7 +171,7 @@ namespace Whipstaff.AspNetCore
         /// <returns>Collection of Swagger endpoints.</returns>
         protected abstract IEnumerable<(string Url, string Name)>? GetSwaggerEndpoints();
 
-        private static Func<ServiceCollection, Action<MvcOptions>, IMvcBuilder>? GetControllerFunc(MvcServiceMode mvcServiceMode)
+        private static Func<IServiceCollection, Action<MvcOptions>, IMvcBuilder>? GetControllerFunc(MvcServiceMode mvcServiceMode)
         {
             return mvcServiceMode switch
             {
@@ -307,7 +307,9 @@ namespace Whipstaff.AspNetCore
                 return;
             }
 
-            var mvcBuilder = services.AddControllers(options =>
+            var mvcBuilder = controllerFunc(
+                services,
+                options =>
             {
                 // if you have a load balancer in front, you can have an issue if there is no cache-control specified
                 // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
