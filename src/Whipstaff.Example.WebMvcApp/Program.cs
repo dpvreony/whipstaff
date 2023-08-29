@@ -21,17 +21,5 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         {
             WebHostFactory.GetWebHost<Startup>(args).Run();
         }
-
-        /// <summary>
-        /// Helper to create the App Host.
-        /// </summary>
-        /// <param name="args">Command line arguments.</param>
-        /// <returns>Host Builder object.</returns>
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    _ = webBuilder.UseStartup<Startup>();
-                });
     }
 }
