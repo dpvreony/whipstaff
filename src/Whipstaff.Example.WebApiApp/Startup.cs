@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore;
@@ -18,6 +19,7 @@ using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
+using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.MediatR;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
@@ -38,6 +40,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+
+            var databaseName = Guid.NewGuid().ToString();
+            _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
+                .UseInMemoryDatabase(databaseName: databaseName)
+                .Options);
         }
 
         /// <inheritdoc />

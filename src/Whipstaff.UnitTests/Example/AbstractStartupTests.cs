@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
@@ -29,8 +30,9 @@ namespace Whipstaff.UnitTests.Example
         /// <summary>
         /// Tests that the Startup class can be created without error.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public void ReturnsApp()
+        public async Task ReturnsApp()
         {
             var args = new[]
             {
@@ -47,6 +49,9 @@ namespace Whipstaff.UnitTests.Example
 
             var app = builder.Build();
             Assert.NotNull(app);
+
+            await app.StartAsync().ConfigureAwait(false);
+            await app.StopAsync().ConfigureAwait(false);
         }
     }
 }
