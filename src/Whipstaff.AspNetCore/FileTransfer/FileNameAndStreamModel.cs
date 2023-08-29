@@ -23,15 +23,8 @@ namespace Whipstaff.AspNetCore.FileTransfer
             string fileName,
             Stream fileStream)
         {
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            if (fileStream == null)
-            {
-                throw new ArgumentNullException(nameof(fileStream));
-            }
+            ArgumentNullException.ThrowIfNull(fileName);
+            ArgumentNullException.ThrowIfNull(fileStream);
 
             FileName = fileName;
             FileStream = fileStream;

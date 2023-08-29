@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.UnitTests", "Whipstaff.UnitTests\Whipstaff.UnitTests.csproj", "{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Testing", "Whipstaff.Fakes\Whipstaff.Testing.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Testing", "Whipstaff.Testing\Whipstaff.Testing.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.IntegrationTests", "Whipstaff.IntegrationTests\Whipstaff.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
 EndProject
@@ -49,7 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Couchbase", "Whip
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.NodaTime", "Whipstaff.NodaTime\Whipstaff.NodaTime.csproj", "{74CF7649-3848-4265-BC96-A5DCA8D176AE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Nuget", "Whipstaff.Nuget\Whipstaff.Nuget.csproj", "{D5E1AC46-891E-4D02-B1F3-A169C4901875}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Benchmarks", "Whipstaff.Benchmarks\Whipstaff.Benchmarks.csproj", "{4E4F5C70-5FE2-4744-833C-A0BE0B8B66F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Nuget", "Whipstaff.Nuget\Whipstaff.Nuget.csproj", "{D5E1AC46-891E-4D02-B1F3-A169C4901875}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Playwright", "Whipstaff.Playwright\Whipstaff.Playwright.csproj", "{6C010B59-155B-4E48-9FDF-DCCD549706A4}"
 EndProject
@@ -149,6 +151,10 @@ Global
 		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74CF7649-3848-4265-BC96-A5DCA8D176AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E4F5C70-5FE2-4744-833C-A0BE0B8B66F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E4F5C70-5FE2-4744-833C-A0BE0B8B66F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E4F5C70-5FE2-4744-833C-A0BE0B8B66F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E4F5C70-5FE2-4744-833C-A0BE0B8B66F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D5E1AC46-891E-4D02-B1F3-A169C4901875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D5E1AC46-891E-4D02-B1F3-A169C4901875}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5E1AC46-891E-4D02-B1F3-A169C4901875}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -169,6 +175,7 @@ Global
 		{5CA40CE7-778D-42FC-92F8-E8CA5298C46B} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
 		{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
 		{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
+		{4E4F5C70-5FE2-4744-833C-A0BE0B8B66F2} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DB2718A-6FAF-4785-856D-2A081D493A02}

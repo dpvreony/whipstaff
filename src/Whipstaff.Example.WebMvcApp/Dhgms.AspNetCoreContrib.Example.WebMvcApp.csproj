@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
-    <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
+    <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
   </ItemGroup>
   

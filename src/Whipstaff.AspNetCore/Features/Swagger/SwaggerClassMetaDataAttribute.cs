@@ -20,7 +20,8 @@ namespace Whipstaff.AspNetCore.Features.Swagger
         public SwaggerClassMetaDataAttribute(Type metadataClass)
         {
             // todo: use a roslyn analyzer to ensure the type passed in is correct.
-            MetadataClass = metadataClass ?? throw new ArgumentNullException(nameof(metadataClass));
+            ArgumentNullException.ThrowIfNull(metadataClass);
+            MetadataClass = metadataClass;
         }
 
         /// <summary>

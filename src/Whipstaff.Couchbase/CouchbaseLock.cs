@@ -30,8 +30,15 @@ namespace Whipstaff.Couchbase
             DateTime acquiredTimeUtc,
             TimeSpan timeWaitedForLock)
         {
-            _mutex = mutex ?? throw new ArgumentNullException(nameof(mutex));
-            Resource = resource ?? throw new ArgumentNullException(nameof(resource));
+            ArgumentNullException.ThrowIfNull(mutex);
+            ArgumentNullException.ThrowIfNull(resource);
+            if (string.IsNullOrWhiteSpace(resource))
+            {
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(resource));
+            }
+
+            _mutex = mutex;
+            Resource = resource;
             AcquiredTimeUtc = acquiredTimeUtc;
             TimeWaitedForLock = timeWaitedForLock;
             RenewalCount = 0;

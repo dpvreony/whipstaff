@@ -54,48 +54,15 @@ namespace Whipstaff.AspNetCore.Extensions
             CancellationToken cancellationToken)
             where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            if (logAction == null)
-            {
-                throw new ArgumentNullException(nameof(logAction));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logAction);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(addCommandFactoryAsync);
+            ArgumentNullException.ThrowIfNull(getAddActionResultAsync);
 
             logAction(logger, "Started", null);
-
-            if (mediator == null)
-            {
-                throw new ArgumentNullException(nameof(mediator));
-            }
-
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (authorizationService == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationService));
-            }
-
-            if (addCommandFactoryAsync == null)
-            {
-                throw new ArgumentNullException(nameof(addCommandFactoryAsync));
-            }
-
-            if (getAddActionResultAsync == null)
-            {
-                throw new ArgumentNullException(nameof(getAddActionResultAsync));
-            }
-
-            if (!instance.Request.IsHttps)
-            {
-                logAction(logger, "Non HTTPS request", null);
-                return instance.BadRequest();
-            }
 
             var user = instance.HttpContext.User;
 
@@ -169,47 +136,13 @@ namespace Whipstaff.AspNetCore.Extensions
             CancellationToken cancellationToken)
             where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            if (logAction == null)
-            {
-                throw new ArgumentNullException(nameof(logAction));
-            }
-
-            logAction(logger, "Started", null);
-
-            if (mediator == null)
-            {
-                throw new ArgumentNullException(nameof(mediator));
-            }
-
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (authorizationService == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationService));
-            }
-
-            if (deleteCommandFactoryAsync == null)
-            {
-                throw new ArgumentNullException(nameof(deleteCommandFactoryAsync));
-            }
-
-            if (getDeleteActionResultAsync == null)
-            {
-                throw new ArgumentNullException(nameof(getDeleteActionResultAsync));
-            }
-
-            if (!instance.Request.IsHttps)
-            {
-                return instance.BadRequest();
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logAction);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(deleteCommandFactoryAsync);
+            ArgumentNullException.ThrowIfNull(getDeleteActionResultAsync);
 
             if (id < 1)
             {
@@ -297,47 +230,15 @@ namespace Whipstaff.AspNetCore.Extensions
             where TListQuery : IRequest<TListResponseDto?>
             where TListResponseDto : class
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            if (logAction == null)
-            {
-                throw new ArgumentNullException(nameof(logAction));
-            }
-
-            if (mediator == null)
-            {
-                throw new ArgumentNullException(nameof(mediator));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logAction);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(getListActionResultAsync);
+            ArgumentNullException.ThrowIfNull(listCommandFactoryAsync);
 
             logAction(logger, "Started", null);
-
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (authorizationService == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationService));
-            }
-
-            if (listCommandFactoryAsync == null)
-            {
-                throw new ArgumentNullException(nameof(listCommandFactoryAsync));
-            }
-
-            if (getListActionResultAsync == null)
-            {
-                throw new ArgumentNullException(nameof(getListActionResultAsync));
-            }
-
-            if (!instance.Request.IsHttps)
-            {
-                return instance.BadRequest();
-            }
 
             var user = instance.HttpContext.User;
 
@@ -467,47 +368,15 @@ namespace Whipstaff.AspNetCore.Extensions
             where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            if (logAction == null)
-            {
-                throw new ArgumentNullException(nameof(logAction));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logAction);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(getViewActionResultAsync);
+            ArgumentNullException.ThrowIfNull(viewCommandFactoryAsync);
 
             logAction(logger, "Started", null);
-
-            if (mediator == null)
-            {
-                throw new ArgumentNullException(nameof(mediator));
-            }
-
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (authorizationService == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationService));
-            }
-
-            if (viewCommandFactoryAsync == null)
-            {
-                throw new ArgumentNullException(nameof(viewCommandFactoryAsync));
-            }
-
-            if (getViewActionResultAsync == null)
-            {
-                throw new ArgumentNullException(nameof(getViewActionResultAsync));
-            }
-
-            if (!instance.Request.IsHttps)
-            {
-                return instance.BadRequest();
-            }
 
             var user = instance.HttpContext.User;
 
@@ -587,49 +456,15 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
-            where TUpdateResponseDto : class
+            where TUpdateResponseDto : class?
         {
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            if (logAction == null)
-            {
-                throw new ArgumentNullException(nameof(logAction));
-            }
-
-            logAction(logger, "Started UpdateAsync", null);
-
-            if (mediator == null)
-            {
-                throw new ArgumentNullException(nameof(mediator));
-            }
-
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (authorizationService == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationService));
-            }
-
-            if (updateCommandFactoryAsync == null)
-            {
-                throw new ArgumentNullException(nameof(updateCommandFactoryAsync));
-            }
-
-            if (getUpdateActionResultAsync == null)
-            {
-                throw new ArgumentNullException(nameof(getUpdateActionResultAsync));
-            }
-
-            if (!instance.Request.IsHttps)
-            {
-                return instance.BadRequest();
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logAction);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(updateCommandFactoryAsync);
+            ArgumentNullException.ThrowIfNull(getUpdateActionResultAsync);
 
             if (id < 1)
             {

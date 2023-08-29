@@ -30,44 +30,67 @@ namespace Whipstaff.IntegrationTests
         /// <summary>
         /// Gets the XUnit test source for checking GET requests succeed.
         /// </summary>
-        public static IEnumerable<object[]> GetReturnsSuccessAndCorrectContentTypeTestSource =>
+        public static TheoryData<string, string> GetReturnsSuccessAndCorrectContentTypeTestSource =>
             GetGetReturnsSuccessAndCorrectContentTypeTestSource();
 
         /// <summary>
         /// Checks that GET requests work.
         /// </summary>
         /// <param name="requestPath">URL to test.</param>
+        /// <param name="expectedContentType">Content Type expected back in the HTTP response.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Theory]
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
-        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath)
+        public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            var client = Factory.CreateClient();
-            var requestUri = new Uri(requestPath, UriKind.Relative);
-            var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+            await WithWebApplicationFactory(async factory =>
+            {
+                var client = factory.CreateClient();
+                var requestUri = new Uri(requestPath, UriKind.Absolute);
+                var response = await client.GetAsync(requestUri).ConfigureAwait(false);
 
-            _ = response.EnsureSuccessStatusCode();
+                _ = response.EnsureSuccessStatusCode();
 
-            var contentType = response.Content.Headers.ContentType;
-            Assert.NotNull(contentType);
+                var contentType = response.Content.Headers.ContentType;
+                Assert.NotNull(contentType);
 
-            Assert.Equal(
-                "text/html; charset=utf-8",
+                Assert.Equal(
+                    expectedContentType,
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-                contentType.ToString());
+                    contentType.ToString());
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-            await LogResponseAsync(response).ConfigureAwait(false);
+                await LogResponseAsync(response).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
-        private static IEnumerable<object[]> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
+        /// <summary>
+        /// Test to ensure the home controller can only be accessed from the root of the site.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitly()
         {
-            return new[]
+            await WithWebApplicationFactory(async factory =>
             {
-                new object[]
+                var client = factory.CreateClient();
+                var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
+                var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+
+                Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+
+                await LogResponseAsync(response).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+        }
+
+        private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
+        {
+            return new TheoryData<string, string>
+            {
                 {
-                    "/",
-                },
+                    "https://localhost/",
+                    "text/html; charset=utf-8"
+                }
             };
         }
     }

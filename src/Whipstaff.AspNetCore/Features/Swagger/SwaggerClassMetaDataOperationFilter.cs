@@ -21,15 +21,8 @@ namespace Whipstaff.AspNetCore.Features.Swagger
             OpenApiOperation operation,
             OperationFilterContext context)
         {
-            if (operation == null)
-            {
-                throw new ArgumentNullException(nameof(operation));
-            }
-
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            ArgumentNullException.ThrowIfNull(operation);
+            ArgumentNullException.ThrowIfNull(context);
 
             /*
             var successResponseType = GetSuccessResponseType(context);

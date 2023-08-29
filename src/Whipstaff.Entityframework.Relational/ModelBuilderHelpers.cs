@@ -26,10 +26,7 @@ namespace Whipstaff.Entityframework.Relational
         /// <param name="modelBuilder">Entity Framework Model Builder being configured.</param>
         public static void ConvertAllDateTimeOffSetPropertiesOnModelBuilderToLong(ModelBuilder modelBuilder)
         {
-            if (modelBuilder == null)
-            {
-                throw new ArgumentNullException(nameof(modelBuilder));
-            }
+            ArgumentNullException.ThrowIfNull(modelBuilder);
 
             foreach (var mutableEntityType in modelBuilder.Model.GetEntityTypes())
             {
@@ -53,15 +50,8 @@ namespace Whipstaff.Entityframework.Relational
             ModelBuilder modelBuilder,
             IMutableEntityType mutableEntityType)
         {
-            if (modelBuilder == null)
-            {
-                throw new ArgumentNullException(nameof(modelBuilder));
-            }
-
-            if (mutableEntityType == null)
-            {
-                throw new ArgumentNullException(nameof(mutableEntityType));
-            }
+            ArgumentNullException.ThrowIfNull(modelBuilder);
+            ArgumentNullException.ThrowIfNull(mutableEntityType);
 
             InternalConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(
                 modelBuilder,
@@ -85,15 +75,8 @@ namespace Whipstaff.Entityframework.Relational
             Type entityClrType,
             string propertyName)
         {
-            if (modelBuilder == null)
-            {
-                throw new ArgumentNullException(nameof(modelBuilder));
-            }
-
-            if (entityClrType == null)
-            {
-                throw new ArgumentNullException(nameof(modelBuilder));
-            }
+            ArgumentNullException.ThrowIfNull(modelBuilder);
+            ArgumentNullException.ThrowIfNull(entityClrType);
 
             if (string.IsNullOrWhiteSpace(propertyName))
             {

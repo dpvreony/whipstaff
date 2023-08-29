@@ -21,42 +21,40 @@ namespace Whipstaff.AspNetCore.Features.StartUp
             IServiceCollection services,
             IConfiguration configuration)
         {
-            if (configuration == null)
-            {
-                throw new ArgumentNullException(nameof(configuration));
-            }
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(configuration);
 
             // needed to load configuration from appsettings.json
-            services.AddOptions();
+            _ = services.AddOptions();
 
             // needed to store rate limit counters and ip rules
-            services.AddMemoryCache();
+            _ = services.AddMemoryCache();
 
             // load general configuration from appsettings.json
-            services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+            _ = services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
 
             // load ip rules from appsettings.json
-            services.Configure<IpRateLimitPolicies>(configuration.GetSection("IpRateLimitPolicies"));
+            _ = services.Configure<IpRateLimitPolicies>(configuration.GetSection("IpRateLimitPolicies"));
 
             var useDistributedCache = false;
 
             // inject counter and rules stores
             if (useDistributedCache)
             {
-                services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
-                services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
+                _ = services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
+                _ = services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
             }
             else
             {
-                services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-                services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+                _ = services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+                _ = services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             }
         }
 
         /// <inheritdoc />
         public void ConfigureApplication(IApplicationBuilder app)
         {
-            app.UseIpRateLimiting();
+            _ = app.UseIpRateLimiting();
         }
     }
 }

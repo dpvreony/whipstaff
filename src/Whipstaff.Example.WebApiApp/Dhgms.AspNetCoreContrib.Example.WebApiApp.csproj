@@ -12,11 +12,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.21" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.20.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
-    <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
+    <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,17 +3,25 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
+using Audit.Core;
+using Audit.Core.Providers;
+using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
 using Whipstaff.AspNetCore;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Core.Mediatr;
 using Whipstaff.Testing;
+using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.MediatR;
 
@@ -22,23 +30,30 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     /// <summary>
     /// Start up logic for the sample Web MVC app.
     /// </summary>
-    public class Startup : BaseStartup
+    public sealed class Startup : BaseStartup
     {
         private readonly StuntmanOptions _stuntmanOptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        /// <param name="configuration">Application configuration.</param>
-        public Startup(IConfiguration configuration)
-            : base(configuration, false)
+        public Startup()
         {
             _stuntmanOptions = new StuntmanOptions();
         }
 
         /// <inheritdoc />
+        public override void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
+        {
+        }
+
+        /// <inheritdoc />
         protected override void OnConfigureServices(IServiceCollection serviceCollection)
         {
+            _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
+            _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
+            _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+
             serviceCollection.AddStuntman(_stuntmanOptions);
             var databaseName = Guid.NewGuid().ToString();
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
@@ -53,6 +68,8 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             ILoggerFactory loggerFactory)
         {
             app.UseStuntman(_stuntmanOptions);
+
+            _ = app.UseStaticFiles();
         }
 
         /// <inheritdoc />
@@ -60,7 +77,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         {
             return new[]
             {
-                typeof(FakeCrudController).Assembly,
+                typeof(HomeController).Assembly,
             };
         }
 
@@ -68,6 +85,46 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         protected override IMediatrRegistration GetMediatrRegistration()
         {
             return new FakeMediatrRegistration();
+        }
+
+        /// <inheritdoc/>
+        protected override Action<IEndpointRouteBuilder>? GetOnUseEndpointsAction()
+        {
+            return endpoints =>
+            {
+                _ = endpoints.Map("home", context =>
+                {
+                    context.Response.StatusCode = 404;
+                    return Task.CompletedTask;
+                });
+
+                _ = endpoints.DoCrudMapControllerRoute(
+                    "{controller=Home}",
+                    null);
+            };
+        }
+
+        /// <inheritdoc/>
+        protected override MvcServiceMode GetMvcServiceMode()
+        {
+            return MvcServiceMode.ControllersWithViews;
+        }
+
+        /// <inheritdoc />
+        protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
+        {
+        }
+
+        /// <inheritdoc />
+        protected override AuditDataProvider? GetAuditDataProvider()
+        {
+            return new InMemoryDataProvider();
+        }
+
+        /// <inheritdoc />
+        protected override IEnumerable<(string Url, string Name)> GetSwaggerEndpoints()
+        {
+            return Array.Empty<(string Url, string Name)>();
         }
     }
 }

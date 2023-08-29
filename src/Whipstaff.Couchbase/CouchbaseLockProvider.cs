@@ -28,7 +28,8 @@ namespace Whipstaff.Couchbase
         /// <param name="couchbaseCollection">The couchbase collection.</param>
         public CouchbaseLockProvider(ICouchbaseCollection couchbaseCollection)
         {
-            _couchbaseCollection = couchbaseCollection ?? throw new ArgumentNullException(nameof(couchbaseCollection));
+            ArgumentNullException.ThrowIfNull(couchbaseCollection);
+            _couchbaseCollection = couchbaseCollection;
         }
 
         /// <summary>
@@ -38,10 +39,7 @@ namespace Whipstaff.Couchbase
         /// <returns>Instance of <see cref="CouchbaseLockProvider"/>.</returns>
         public static async Task<CouchbaseLockProvider> GetInstance(IBucketProvider bucketProvider)
         {
-            if (bucketProvider == null)
-            {
-                throw new ArgumentNullException(nameof(bucketProvider));
-            }
+            ArgumentNullException.ThrowIfNull(bucketProvider);
 
             var bucket = await bucketProvider.GetBucketAsync("default")
                 .ConfigureAwait(false);
@@ -56,10 +54,7 @@ namespace Whipstaff.Couchbase
         /// <returns>Instance of <see cref="CouchbaseLockProvider"/>.</returns>
         public static CouchbaseLockProvider GetInstance(IBucket bucket)
         {
-            if (bucket == null)
-            {
-                throw new ArgumentNullException(nameof(bucket));
-            }
+            ArgumentNullException.ThrowIfNull(bucket);
 
             var collection = bucket.DefaultCollection();
 

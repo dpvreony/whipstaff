@@ -2,11 +2,16 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
+using Whipstaff.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -18,8 +23,8 @@ namespace Whipstaff.IntegrationTests
     /// <typeparam name="TStartup">The type of the startup class.</typeparam>
     [ExcludeFromCodeCoverage]
     public class BaseWebApplicationTest<TStartup>
-        : Foundatio.Xunit.TestWithLoggingBase, IClassFixture<WebApplicationFactory<TStartup>>
-        where TStartup : class
+        : Foundatio.Xunit.TestWithLoggingBase
+        where TStartup : class, IWhipstaffWebAppStartup, new()
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseWebApplicationTest{TStartup}"/> class.
@@ -29,13 +34,23 @@ namespace Whipstaff.IntegrationTests
             ITestOutputHelper output)
             : base(output)
         {
-            Factory = new WebApplicationFactory<TStartup>();
+            Log.MinimumLevel = LogLevel.Debug;
         }
 
         /// <summary>
         /// Gets the Web Application Factory.
         /// </summary>
-        protected WebApplicationFactory<TStartup> Factory { get; }
+        /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected async Task WithWebApplicationFactory(Func<WhipstaffWebApplicationFactory<TStartup>, Task> webApplicationFunc)
+        {
+            ArgumentNullException.ThrowIfNull(webApplicationFunc);
+
+            using (var factory = new WhipstaffWebApplicationFactory<TStartup>(Log))
+            {
+                await webApplicationFunc(factory).ConfigureAwait(false);
+            }
+        }
 
         /// <summary>
         /// Helper method to log the http response.
