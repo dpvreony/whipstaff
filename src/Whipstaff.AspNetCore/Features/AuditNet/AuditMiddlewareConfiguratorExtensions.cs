@@ -48,7 +48,7 @@ namespace Whipstaff.AspNetCore.Features.AuditNet
         private static bool IgnoreFavIcon(HttpRequest rq)
         {
             var pathValue = rq.Path.Value;
-            return pathValue != null && !pathValue.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase);
+            return pathValue?.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase) == false;
         }
     }
 }

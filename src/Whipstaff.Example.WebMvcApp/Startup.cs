@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Audit.Core;
@@ -118,6 +119,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         protected override AuditDataProvider? GetAuditDataProvider()
         {
             return new InMemoryDataProvider();
+        }
+
+        /// <inheritdoc />
+        protected override IEnumerable<(string Url, string Name)> GetSwaggerEndpoints()
+        {
+            return Array.Empty<(string Url, string Name)>();
         }
     }
 }

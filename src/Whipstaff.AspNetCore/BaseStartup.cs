@@ -165,6 +165,12 @@ namespace Whipstaff.AspNetCore
         /// <returns>Audit Data Provider to use, if any.</returns>
         protected abstract AuditDataProvider? GetAuditDataProvider();
 
+        /// <summary>
+        /// Gets the swagger endpoints to register on the UI.
+        /// </summary>
+        /// <returns>Collection of Swagger endpoints.</returns>
+        protected abstract IEnumerable<(string Url, string Name)>? GetSwaggerEndpoints();
+
         private static Func<ServiceCollection, Action<MvcOptions>, IMvcBuilder>? GetControllerFunc(MvcServiceMode mvcServiceMode)
         {
             return mvcServiceMode switch
@@ -242,12 +248,19 @@ namespace Whipstaff.AspNetCore
             var useSwagger = configuration.GetValue("useSwagger", false);
             if (useSwagger)
             {
-                // TODO: allow injection of endpoints
                 _ = app.UseSwagger();
-                _ = app.UseSwaggerUI(c =>
+
+                var swaggerEndpoints = GetSwaggerEndpoints();
+                if (swaggerEndpoints != null)
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                });
+                    _ = app.UseSwaggerUI(c =>
+                    {
+                        foreach (var (url, name) in swaggerEndpoints)
+                        {
+                            c.SwaggerEndpoint(url, name);
+                        }
+                    });
+                }
             }
 
             _ = app.UseRouting();
