@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.UnitTests", "Whipstaff.UnitTests\Whipstaff.UnitTests.csproj", "{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Testing", "Whipstaff.Fakes\Whipstaff.Testing.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Testing", "Whipstaff.Testing\Whipstaff.Testing.csproj", "{D2B9B1A2-1AEB-45AB-9CAD-1696DB13CD00}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.IntegrationTests", "Whipstaff.IntegrationTests\Whipstaff.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
 EndProject
