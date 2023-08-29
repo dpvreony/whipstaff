@@ -35,25 +35,10 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (dbSetSelectorFunc == null)
-            {
-                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
-            }
-
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
-            if (addEntityFactoryFunc == null)
-            {
-                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(dbSetSelectorFunc);
+            ArgumentNullException.ThrowIfNull(predicate);
+            ArgumentNullException.ThrowIfNull(addEntityFactoryFunc);
 
             return await InternalGetOrAddAsync(
                 instance,
@@ -81,24 +66,13 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, IIntId
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (dbSetSelectorFunc == null)
-            {
-                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(dbSetSelectorFunc);
+            ArgumentNullException.ThrowIfNull(addEntityFactoryFunc);
 
             if (id < 1)
             {
                 throw new NumberTooLowInteger32Exception(nameof(id), 1, id);
-            }
-
-            if (addEntityFactoryFunc == null)
-            {
-                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
             }
 
             return await InternalGetOrAddAsync(
@@ -127,24 +101,13 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, ILongId
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (dbSetSelectorFunc == null)
-            {
-                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(dbSetSelectorFunc);
+            ArgumentNullException.ThrowIfNull(addEntityFactoryFunc);
 
             if (id < 1)
             {
                 throw new NumberTooLowInteger64Exception(nameof(id), 1, id);
-            }
-
-            if (addEntityFactoryFunc == null)
-            {
-                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
             }
 
             return await InternalGetOrAddAsync(
@@ -173,24 +136,13 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, IGuidId
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (dbSetSelectorFunc == null)
-            {
-                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(dbSetSelectorFunc);
+            ArgumentNullException.ThrowIfNull(addEntityFactoryFunc);
 
             if (id == Guid.Empty)
             {
                 throw new ArgumentException("Guid must not be empty");
-            }
-
-            if (addEntityFactoryFunc == null)
-            {
-                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
             }
 
             return await InternalGetOrAddAsync(
@@ -219,20 +171,9 @@ namespace Whipstaff.EntityFramework.Extensions
             where TDbContext : DbContext
             where TEntity : class, INameable
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (dbSetSelectorFunc == null)
-            {
-                throw new ArgumentNullException(nameof(dbSetSelectorFunc));
-            }
-
-            if (addEntityFactoryFunc == null)
-            {
-                throw new ArgumentNullException(nameof(addEntityFactoryFunc));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(dbSetSelectorFunc);
+            ArgumentNullException.ThrowIfNull(addEntityFactoryFunc);
 
             return await InternalGetOrAddAsync(
                 instance,

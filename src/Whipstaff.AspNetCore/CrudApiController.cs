@@ -97,7 +97,8 @@ namespace Whipstaff.AspNetCore
                   queryFactory,
                   logMessageActions)
         {
-            CommandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
+            ArgumentNullException.ThrowIfNull(commandFactory);
+            CommandFactory = commandFactory;
         }
 
         /// <summary>

@@ -45,10 +45,8 @@ namespace Whipstaff.AspNetCore
         /// <inheritdoc/>
         public void ConfigureWebApplication(WebHostBuilderContext webHostBuilderContext, IApplicationBuilder applicationBuilder)
         {
-            if (applicationBuilder == null)
-            {
-                throw new ArgumentNullException(nameof(applicationBuilder));
-            }
+            ArgumentNullException.ThrowIfNull(webHostBuilderContext);
+            ArgumentNullException.ThrowIfNull(applicationBuilder);
 
             var env = applicationBuilder.ApplicationServices.GetService<IWebHostEnvironment>();
             if (env == null)

@@ -49,17 +49,17 @@ namespace Whipstaff.AspNetCore
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             TQueryOnlyControllerLogMessageActions logMessageActionMappings)
         {
-            AuthorizationService = authorizationService ??
-                                         throw new ArgumentNullException(nameof(authorizationService));
-            Logger = logger ??
-                                         throw new ArgumentNullException(nameof(logger));
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(queryFactory);
+            ArgumentNullException.ThrowIfNull(logMessageActionMappings);
 
-            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-
-            QueryFactory = queryFactory ??
-                            throw new ArgumentNullException(nameof(queryFactory));
-
-            LogMessageActionMappings = logMessageActionMappings ?? throw new ArgumentNullException(nameof(logMessageActionMappings));
+            AuthorizationService = authorizationService;
+            Logger = logger;
+            Mediator = mediator;
+            QueryFactory = queryFactory;
+            LogMessageActionMappings = logMessageActionMappings;
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             {
                 var optionsBuilder = new DbContextOptionsBuilder().UseInMemoryDatabase("test");
                 var options = optionsBuilder.Options;
-                Func<Task<FakeDbContext>> dbContextFactory = () => Task.FromResult(new FakeDbContext(options));
+                var dbContextFactory = new FakeDbContextFactory();
 
                 var instance =
                     new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
@@ -54,7 +54,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             {
                 var optionsBuilder = new DbContextOptionsBuilder().UseInMemoryDatabase("test");
                 var options = optionsBuilder.Options;
-                Func<Task<FakeDbContext>> dbContextFactory = () => Task.FromResult(new FakeDbContext(options));
+                var dbContextFactory = new FakeDbContextFactory();
 
                 var instance =
                     new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
