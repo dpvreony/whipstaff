@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -65,6 +66,17 @@ namespace Whipstaff.Testing
                     "api/{controller}",
                     null);
             };
+        }
+
+        /// <inheritdoc/>
+        protected override MvcServiceMode GetMvcServiceMode()
+        {
+            return MvcServiceMode.Basic;
+        }
+
+        /// <inheritdoc />
+        protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
+        {
         }
     }
 }

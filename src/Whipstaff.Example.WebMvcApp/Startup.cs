@@ -6,6 +6,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
@@ -55,9 +56,6 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseInMemoryDatabase(databaseName: databaseName)
                 .Options);
-
-            // TODO: need to allow base class to control this, as it's having part of it called twice at the moment.
-            _ = serviceCollection.AddControllersWithViews();
         }
 
         /// <inheritdoc />
@@ -101,6 +99,17 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
                     "{controller=Home}",
                     null);
             };
+        }
+
+        /// <inheritdoc/>
+        protected override MvcServiceMode GetMvcServiceMode()
+        {
+            return MvcServiceMode.ControllersWithViews;
+        }
+
+        /// <inheritdoc />
+        protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
+        {
         }
     }
 }

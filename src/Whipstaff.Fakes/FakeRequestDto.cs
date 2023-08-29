@@ -9,7 +9,5 @@ namespace Whipstaff.Testing
     /// </summary>
     /// <param name="Name">Sample Name.</param>
     /// <param name="Age">Sample Age.</param>
-    public sealed record FakeRequestDto(string? Name, int? Age)
-    {
-    }
+    public sealed record FakeRequestDto(string? Name, int? Age);
 }

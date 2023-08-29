@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using Audit.Core;
 using Audit.Core.Providers;
@@ -16,6 +17,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +26,7 @@ using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Whipstaff.AspNetCore.Features.ApiAuthorization;
 using Whipstaff.AspNetCore.Features.Apm.HealthChecks;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
@@ -31,6 +34,7 @@ using Whipstaff.AspNetCore.Features.StartUp;
 using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.AspNetCore.Swashbuckle;
 using Whipstaff.Core.Mediatr;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.AspNetCore
 {
@@ -161,12 +165,26 @@ namespace Whipstaff.AspNetCore
         /// <returns>Action to execute, or null if no endpoints to be registered.</returns>
         protected abstract Action<IEndpointRouteBuilder>? GetOnUseEndpointsAction();
 
-        private static void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
+        /// <summary>
+        /// Gets the mode to configure MVC services with.
+        /// </summary>
+        /// <returns>MVC Service Mode to use.</returns>
+        protected abstract MvcServiceMode GetMvcServiceMode();
+
+        /// <summary>
+        /// Configures Authorization policies.
+        /// </summary>
+        /// <param name="authorizationOptions">Authorization options instance to modify.</param>
+        protected abstract void ConfigureAuthorization(AuthorizationOptions authorizationOptions);
+
+        private static Func<ServiceCollection, Action<MvcOptions>, IMvcBuilder>? GetControllerFunc(MvcServiceMode mvcServiceMode)
         {
-            authorizationOptions.AddPolicy("ListPolicyName", builder => builder.RequireAssertion(_ => true).Build());
-            authorizationOptions.AddPolicy("ViewSpreadSheet", builder => builder.RequireAssertion(_ => true).Build());
-            authorizationOptions.AddPolicy("ViewPolicyName", builder => builder.RequireAssertion(_ => true).Build());
-            authorizationOptions.AddPolicy("ControllerAuthenticatedUser", builder => builder.RequireAuthenticatedUser().Build());
+            return mvcServiceMode switch
+            {
+                MvcServiceMode.Basic => MvcServiceCollectionExtensions.AddControllers,
+                MvcServiceMode.ControllersWithViews => MvcServiceCollectionExtensions.AddControllersWithViews,
+                _ => null
+            };
         }
 
         private void Configure(
@@ -283,15 +301,16 @@ namespace Whipstaff.AspNetCore
         {
             var controllerAssemblies = GetControllerAssemblies();
 
+            var mvcServiceMode = GetMvcServiceMode();
+            var controllerFunc = GetControllerFunc(mvcServiceMode);
+
+            if (controllerFunc == null)
+            {
+                return;
+            }
+
             var mvcBuilder = services.AddControllers(options =>
             {
-                /*
-                if (options.Conventions.All(t => t.GetType() != typeof(AddAuthorizePolicyControllerConvention)))
-                {
-                    options.Conventions.Add(new AddAuthorizePolicyControllerConvention());
-                }
-                */
-
                 // if you have a load balancer in front, you can have an issue if there is no cache-control specified
                 // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
                 _ = options.CacheProfiles.TryAdd("nostore", new CacheProfile { NoStore = true });
