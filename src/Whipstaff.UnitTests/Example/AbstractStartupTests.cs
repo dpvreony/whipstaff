@@ -41,7 +41,7 @@ namespace Whipstaff.UnitTests.Example
             };
 
             var builder = AspNetCore.Features.ApplicationStartup.WebHostBuilderFactory.GetHostBuilder<TStartUp>(args).UseTestServer().UseDefaultServiceProvider(
-                (context, options) =>
+                (_, options) =>
                 {
                     options.ValidateScopes = true;
                     options.ValidateOnBuild = true;
