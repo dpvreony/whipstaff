@@ -4,6 +4,8 @@
 
 using System;
 using System.Reflection;
+using Audit.Core;
+using Audit.Core.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -77,6 +79,12 @@ namespace Whipstaff.Testing
         /// <inheritdoc />
         protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
         {
+        }
+
+        /// <inheritdoc />
+        protected override AuditDataProvider? GetAuditDataProvider()
+        {
+            return new InMemoryDataProvider();
         }
     }
 }

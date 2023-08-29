@@ -5,6 +5,8 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Audit.Core;
+using Audit.Core.Providers;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -110,6 +112,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <inheritdoc />
         protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
         {
+        }
+
+        /// <inheritdoc />
+        protected override AuditDataProvider? GetAuditDataProvider()
+        {
+            return new InMemoryDataProvider();
         }
     }
 }

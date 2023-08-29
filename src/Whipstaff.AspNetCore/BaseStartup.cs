@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,15 +25,13 @@ using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using Whipstaff.AspNetCore.Features.ApiAuthorization;
 using Whipstaff.AspNetCore.Features.Apm.HealthChecks;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
+using Whipstaff.AspNetCore.Features.AuditNet;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
-using Whipstaff.AspNetCore.Features.StartUp;
 using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.AspNetCore.Swashbuckle;
 using Whipstaff.Core.Mediatr;
-using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.AspNetCore
 {
@@ -107,21 +104,6 @@ namespace Whipstaff.AspNetCore
                 });
             }
 
-            /*
-            _miniProfilerApplicationStartHelper.ConfigureService(services, Configuration);
-            */
-
-            /*
-            services.AddSingleton(new IgnoreHangfireTelemetryOptions
-            {
-                SqlConnectionString = Configuration.GetConnectionString("hangfire")
-            });
-            services.AddSingleton(new IgnorePathsTelemetryOptions
-            {
-                Paths = new[] { "/_admin" }
-            });
-            */
-
             _ = services.AddApplicationInsightsTelemetry();
             _ = services.AddApplicationInsightsTelemetryProcessor<IgnoreHangfireTelemetry>();
             _ = services.AddApplicationInsightsTelemetryProcessor<IgnorePathsTelemetry>();
@@ -176,6 +158,12 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="authorizationOptions">Authorization options instance to modify.</param>
         protected abstract void ConfigureAuthorization(AuthorizationOptions authorizationOptions);
+
+        /// <summary>
+        /// Gets the data provider to use for audit logging.
+        /// </summary>
+        /// <returns>Audit Data Provider to use, if any.</returns>
+        protected abstract AuditDataProvider? GetAuditDataProvider();
 
         private static Func<ServiceCollection, Action<MvcOptions>, IMvcBuilder>? GetControllerFunc(MvcServiceMode mvcServiceMode)
         {
@@ -248,32 +236,8 @@ namespace Whipstaff.AspNetCore
 
             _ = app.UseStaticFiles();
 
-            _ = app.UseAuditMiddleware(_ => _
-                .FilterByRequest(rq =>
-                {
-                    var pathValue = rq.Path.Value;
-                    return pathValue != null && !pathValue.EndsWith("favicon.ico", StringComparison.OrdinalIgnoreCase);
-                })
-                .WithEventType("{verb}:{url}")
-                .IncludeHeaders()
-                .IncludeRequestBody()
-                .IncludeResponseHeaders()
-                .IncludeResponseBody());
+            DoAuditNetConfiguration(app);
 
-            // TODO: allow using in memory provider for testing.
-            // TODO: allow using sql server \ service bus provider for production.
-            if (Audit.Core.Configuration.DataProvider is FileDataProvider fileDataProvider)
-            {
-                // this was done so files don't get added to git
-                // as the visual studio .gitignore ignores log folders.
-                fileDataProvider.DirectoryPath = "log";
-            }
-
-            /*
-            _miniProfilerApplicationStartHelper.ConfigureApplication(app);
-            */
-
-            // TODO: change boolean flag to belong to a proper configuration object.
             var configuration = app.ApplicationServices.GetService<IConfiguration>();
             var useSwagger = configuration.GetValue("useSwagger", false);
             if (useSwagger)
@@ -295,6 +259,27 @@ namespace Whipstaff.AspNetCore
             }
 
             OnConfigure(app, env, loggerFactory);
+        }
+
+        private void DoAuditNetConfiguration(IApplicationBuilder applicationBuilder)
+        {
+            var provider = GetAuditDataProvider();
+
+            if (provider == null)
+            {
+                return;
+            }
+
+            Audit.Core.Configuration.DataProvider = provider;
+
+            _ = applicationBuilder.UseAuditMiddleware(configurator => configurator.DoFullAuditMiddlewareConfig());
+
+            if (provider is FileDataProvider fileDataProvider)
+            {
+                // this was done so files don't get added to git
+                // as the visual studio .gitignore ignores log folders.
+                fileDataProvider.DirectoryPath = "log";
+            }
         }
 
         private void ConfigureControllerService(IServiceCollection services)
