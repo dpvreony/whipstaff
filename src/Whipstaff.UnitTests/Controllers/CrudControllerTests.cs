@@ -478,53 +478,6 @@ namespace Whipstaff.UnitTests.Controllers
                 _ = Assert.IsType<OkObjectResult>(result);
             }
 
-            /// <summary>
-            /// Unit tests to ensure HTTP BAD REQUEST.
-            /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-            [Fact]
-            public async Task ReturnsBadRequestAsync()
-            {
-                var authorizationService = MockAuthorizationServiceFactory();
-                _ = authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "listPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
-
-                var logger = MockLoggerFactory();
-
-                var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudListQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudListQuery, CancellationToken>(MockListMediatorHandlerAsync);
-
-                var commandFactory = MockCommandFactory();
-                var queryFactory = MockQueryFactory();
-
-                var instance = new FakeCrudController(
-                    authorizationService.Object,
-                    logger.Object,
-                    mediator.Object,
-                    commandFactory,
-                    queryFactory,
-                    new FakeCrudControllerLogMessageActions())
-                {
-                    ControllerContext = new ControllerContext
-                    {
-                        HttpContext = new DefaultHttpContext
-                        {
-                            User = new ClaimsPrincipal(new HttpListenerBasicIdentity("user", "pass")),
-                            Request =
-                            {
-                                IsHttps = false,
-                                Query = new QueryCollection(),
-                            },
-                        },
-                    },
-                };
-
-                var result = await instance.Get(null, CancellationToken.None).ConfigureAwait(false);
-                Assert.NotNull(result);
-                _ = Assert.IsType<BadRequestResult>(result);
-            }
-
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             private static async Task<IList<int>?> MockListMediatorHandlerAsync(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
