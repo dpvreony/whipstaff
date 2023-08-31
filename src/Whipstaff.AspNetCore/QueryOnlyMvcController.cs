@@ -17,7 +17,7 @@ using Whipstaff.Core;
 namespace Whipstaff.AspNetCore
 {
     /// <summary>
-    /// A generic API controller supporting List and View operations. Pre-defines CQRS activities along with Authorization and logging.
+    /// A generic MVC controller supporting List and View operations. Pre-defines CQRS activities along with Authorization and logging.
     /// </summary>
     /// <typeparam name="TListQuery">The type for the List Query.</typeparam>
     /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
@@ -25,8 +25,8 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
-    public abstract class QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
-        : ControllerBase
+    public abstract class QueryOnlyMvcController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
+        : Controller
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
@@ -35,14 +35,14 @@ namespace Whipstaff.AspNetCore
         where TQueryOnlyControllerLogMessageActions : IQueryOnlyControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueryOnlyApiController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="QueryOnlyMvcController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
         /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
-        protected QueryOnlyApiController(
+        protected QueryOnlyMvcController(
             IAuthorizationService authorizationService,
             ILogger<QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
@@ -105,6 +105,11 @@ namespace Whipstaff.AspNetCore
             long? id,
             CancellationToken cancellationToken)
         {
+            if (!Request.IsHttps)
+            {
+                return BadRequest();
+            }
+
             if (!id.HasValue)
             {
                 return await ListAsync(cancellationToken).ConfigureAwait(false);
