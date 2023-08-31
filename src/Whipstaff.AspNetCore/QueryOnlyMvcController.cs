@@ -44,7 +44,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
         protected QueryOnlyMvcController(
             IAuthorizationService authorizationService,
-            ILogger<QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
+            ILogger<QueryOnlyMvcController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             TQueryOnlyControllerLogMessageActions logMessageActionMappings)
