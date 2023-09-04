@@ -100,8 +100,8 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <returns>Queryable representing the rows to return.</returns>
         public static IQueryable<TEntity> GetRowsGreaterThanAndLessThanOrEqualToRowVersions<TEntity>(
             this DbSet<TEntity> dbSet,
-            long greaterThanRowVersion,
-            long maxRowVersion,
+            ulong greaterThanRowVersion,
+            ulong maxRowVersion,
             int takeRecords)
             where TEntity : class, ILongRowVersion
         {
@@ -266,7 +266,7 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <returns>Queryable representing the rows to return.</returns>
         public static IQueryable<TEntity> GetRowsGreaterThanRowVersion<TEntity>(
             this DbSet<TEntity> dbSet,
-            long id)
+            ulong id)
             where TEntity : class, ILongRowVersion
         {
             return dbSet.Where(x => x.RowVersion > id);
@@ -282,7 +282,7 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <returns>Queryable representing the rows to return.</returns>
         public static IQueryable<TEntity> GetRowsGreaterThanRowVersion<TEntity>(
             this DbSet<TEntity> dbSet,
-            long rowVersion,
+            ulong rowVersion,
             int takeRecords)
             where TEntity : class, ILongRowVersion
         {
