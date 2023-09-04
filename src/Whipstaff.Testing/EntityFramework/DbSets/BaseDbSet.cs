@@ -27,6 +27,6 @@ namespace Whipstaff.Testing.EntityFramework.DbSets
         public DateTimeOffset Modified { get; set; }
 
         /// <inheritdoc/>
-        public long RowVersion { get; set; }
+        public ulong RowVersion { get; set; }
     }
 }
