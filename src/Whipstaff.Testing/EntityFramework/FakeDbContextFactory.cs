@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Testing.EntityFramework
 {
@@ -13,13 +14,17 @@ namespace Whipstaff.Testing.EntityFramework
     public sealed class FakeDbContextFactory : IDbContextFactory<FakeDbContext>
     {
         private readonly string _databaseName;
+        private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeDbContextFactory"/> class.
         /// </summary>
-        public FakeDbContextFactory()
+        /// <param name="loggerFactory">Instance of the logger factory.</param>
+        public FakeDbContextFactory(ILoggerFactory loggerFactory)
         {
+            ArgumentNullException.ThrowIfNull(loggerFactory);
             _databaseName = Guid.NewGuid().ToString();
+            _loggerFactory = loggerFactory;
         }
 
         /// <inheritdoc/>
@@ -27,6 +32,7 @@ namespace Whipstaff.Testing.EntityFramework
         {
             var dbContextOptions = new DbContextOptionsBuilder<FakeDbContext>()
                 .UseInMemoryDatabase(_databaseName)
+                .UseLoggerFactory(_loggerFactory)
                 .Options;
 
             return new FakeDbContext(dbContextOptions);

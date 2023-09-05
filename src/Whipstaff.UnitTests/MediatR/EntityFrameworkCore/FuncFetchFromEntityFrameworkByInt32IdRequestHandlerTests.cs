@@ -6,11 +6,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.Logging;
 using Whipstaff.MediatR.EntityFrameworkCore;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
 {
@@ -20,15 +22,24 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
     public static class FuncFetchFromEntityFrameworkByInt32IdRequestHandlerTests
     {
         /// <inheritdoc />
-        public sealed class ConstructorMethod : NetTestRegimentation.ITestConstructorMethod
+        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase, NetTestRegimentation.ITestConstructorMethod
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public ConstructorMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
             /// <inheritdoc />
             [Fact]
             public void ReturnsInstance()
             {
                 var optionsBuilder = new DbContextOptionsBuilder().UseInMemoryDatabase("test");
                 var options = optionsBuilder.Options;
-                var dbContextFactory = new FakeDbContextFactory();
+                var dbContextFactory = new FakeDbContextFactory(Log);
 
                 var instance =
                     new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
@@ -43,8 +54,17 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
         /// <summary>
         /// Unit Tests for the Handle Method.
         /// </summary>
-        public sealed class HandleMethod
+        public sealed class HandleMethod : Foundatio.Xunit.TestWithLoggingBase
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="HandleMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public HandleMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
             /// <summary>
             /// Unit Tests for ensuring a result is returned.
             /// </summary>
@@ -54,7 +74,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             {
                 var optionsBuilder = new DbContextOptionsBuilder().UseInMemoryDatabase("test");
                 var options = optionsBuilder.Options;
-                var dbContextFactory = new FakeDbContextFactory();
+                var dbContextFactory = new FakeDbContextFactory(Log);
 
                 var instance =
                     new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
