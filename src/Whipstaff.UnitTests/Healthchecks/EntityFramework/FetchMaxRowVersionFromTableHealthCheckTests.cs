@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.VisualBasic.Logging;
 using NetTestRegimentation;
 using Whipstaff.Healthchecks.EntityFramework;
 using Whipstaff.Testing.EntityFramework;
@@ -23,13 +24,22 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
         /// <summary>
         /// Unit tests for the <see cref="FetchMaxRowVersionFromTableHealthCheck{TDbContext, TEntity}" /> constructor.
         /// </summary>
-        public sealed class ConstructorMethod : ITestConstructorMethodWithNullableParameters<IDbContextFactory<FakeDbContext>>
+        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<IDbContextFactory<FakeDbContext>>
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output helper instance.</param>
+            public ConstructorMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
             /// <inheritdoc/>
             [Fact]
             public void ReturnsInstance()
             {
-                Assert.NotNull(new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory()));
+                Assert.NotNull(new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(Log)));
             }
 
             /// <inheritdoc/>
@@ -63,7 +73,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             [Fact]
             public async Task ReturnsHealthy()
             {
-                var dbContextFactory = new FakeDbContextFactory();
+                var dbContextFactory = new FakeDbContextFactory(Log);
                 using (var dbContext = dbContextFactory.CreateDbContext())
                 {
                     _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 })
@@ -90,7 +100,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             [Fact]
             public async Task ReturnsDegraded()
             {
-                var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory());
+                var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(Log));
 
                 var context = new HealthCheckContext();
 

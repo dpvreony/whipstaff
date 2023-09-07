@@ -70,10 +70,12 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
         /// <param name="dbSet">EFCore DBSet Instance.</param>
         /// <returns>Maximum row version or null.</returns>
-        public static long? GetMaxRowVersionOrDefault<TEntity>(this DbSet<TEntity> dbSet)
+        public static ulong? GetMaxRowVersionOrDefault<TEntity>(this DbSet<TEntity> dbSet)
             where TEntity : class, ILongRowVersion
         {
-            return dbSet.Max(x => (long?)x.RowVersion);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            // NRT contract doesn't cater that there can be no rows returned.
+            return dbSet.Max(x => x != null ? x.RowVersion : default(ulong?));
         }
 
         /// <summary>
@@ -82,10 +84,12 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <typeparam name="TEntity">Type for the EF Core DBSet Entity.</typeparam>
         /// <param name="dbSet">EFCore DBSet Instance.</param>
         /// <returns>Maximum row version or null.</returns>
-        public static Task<long?> GetMaxRowVersionOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet)
+        public static Task<ulong?> GetMaxRowVersionOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet)
             where TEntity : class, ILongRowVersion
         {
-            return dbSet.MaxAsync(x => (long?)x.RowVersion);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            // NRT contract doesn't cater that there can be no rows returned.
+            return dbSet.MaxAsync(x => x != null ? x.RowVersion : default(ulong?));
         }
 
         /// <summary>
