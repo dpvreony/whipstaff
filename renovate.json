@@ -1,6 +1,6 @@
 {
     "extends": [
-        "config:base"
+        "config:recommended"
     ],
     "assigneesFromCodeOwners": true,
         "packageRules": [
