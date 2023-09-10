@@ -181,7 +181,7 @@ jobs:
 
     - name: VirusTotal Monitor Scan
       if: ${{ env.VIRUSTOTAL_API_KEY != 0 }}
-      uses: crazy-max/ghaction-virustotal@v3
+      uses: crazy-max/ghaction-virustotal@v4
       with:
         vt_api_key: ${{ env.VIRUSTOTAL_API_KEY }}
         vt_monitor: true
