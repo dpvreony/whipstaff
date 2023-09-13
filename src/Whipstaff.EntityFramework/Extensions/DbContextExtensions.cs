@@ -183,7 +183,7 @@ namespace Whipstaff.EntityFramework.Extensions
                 .ConfigureAwait(false);
         }
 
-        private static async Task<TEntity> InternalGetOrAddAsync<TDbContext, TEntity>(
+        internal static async Task<TEntity> InternalGetOrAddAsync<TDbContext, TEntity>(
             this TDbContext instance,
             Func<TDbContext, DbSet<TEntity>> dbSetSelectorFunc,
             Expression<Func<TEntity, bool>> predicate,

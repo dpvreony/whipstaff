@@ -193,24 +193,11 @@ namespace Whipstaff.EntityFramework.Extensions
         {
             using (var dbContext = await dbContextFactory.CreateDbContextAsync())
             {
-                var d = dbSetSelectorFunc(dbContext);
-                var item = d.FirstOrDefault(predicate);
-
-                if (item != null)
-                {
-                    return item;
-                }
-
-                item = addEntityFactoryFunc();
-
-                _ = await d.AddAsync(item)
+                return await dbContext.InternalGetOrAddAsync(
+                    dbSetSelectorFunc,
+                    predicate,
+                    addEntityFactoryFunc)
                     .ConfigureAwait(false);
-
-                var saveResult = await dbContext
-                    .SaveChangesAsync()
-                    .ConfigureAwait(false);
-
-                return item;
             }
         }
     }
