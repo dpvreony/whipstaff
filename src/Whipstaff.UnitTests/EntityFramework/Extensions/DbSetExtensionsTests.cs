@@ -94,7 +94,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
                 {
                     _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
-                    _ = dbContext.SaveChangesAsync()
+                    _ = await dbContext.SaveChangesAsync()
                         .ConfigureAwait(false);
 
                     var result = await dbContext.FakeAddAudit.GetMaxIntIdOrDefaultAsync()
@@ -199,7 +199,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
                 {
                     _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
-                    _ = dbContext.SaveChangesAsync()
+                    _ = await dbContext.SaveChangesAsync()
                         .ConfigureAwait(false);
 
                     var result = await dbContext.FakeLongIdTable.GetMaxLongIdOrDefaultAsync()
@@ -254,8 +254,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
                     _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.SaveChangesAsync()
-                        .ConfigureAwait(false);
+                    _ = dbContext.SaveChanges();
 
                     var result = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
 
@@ -306,7 +305,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
                 {
                     _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.SaveChangesAsync()
+                    _ = await dbContext.SaveChangesAsync()
                         .ConfigureAwait(false);
 
                     var result = await dbContext.FakeAddAudit.GetMaxRowVersionOrDefaultAsync()
@@ -360,12 +359,14 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2, RowVersion = 2 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3, RowVersion = 3 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
                     _ = dbContext.SaveChanges();
 
-                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(1, 3, 2).ToArray();
+                    var maxRowVersion = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(1, maxRowVersion!.Value, 2).ToArray();
 
                     Assert.NotNull(result);
                     Assert.Equal(2, result.Length);
@@ -380,12 +381,13 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2, RowVersion = 2 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3, RowVersion = 3 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
                     _ = dbContext.SaveChanges();
 
-                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(3, 3, 2).ToArray();
+                    var maxRowVersion = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(maxRowVersion!.Value, maxRowVersion!.Value, 2).ToArray();
 
                     Assert.NotNull(result);
                     Assert.Empty(result);
@@ -902,12 +904,16 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2, RowVersion = 2 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3, RowVersion = 3 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
                     _ = dbContext.SaveChanges();
 
-                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanRowVersion(2)
+                    var maxRowVersion = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
+
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
+                    _ = dbContext.SaveChanges();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanRowVersion(maxRowVersion!.Value)
                         .ToArray();
 
                     Assert.NotNull(result);
@@ -923,12 +929,14 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2, RowVersion = 2 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3, RowVersion = 3 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
                     _ = dbContext.SaveChanges();
 
-                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanRowVersion(3)
+                    var maxRowVersion = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanRowVersion(maxRowVersion!.Value)
                         .ToArray();
 
                     Assert.NotNull(result);
@@ -983,12 +991,14 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2, RowVersion = 2 });
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3, RowVersion = 3 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 2 });
+                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 3 });
                     _ = dbContext.SaveChanges();
 
-                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanRowVersion(3, 2)
+                    var maxVersion = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanRowVersion(maxVersion!.Value, 2)
                         .ToArray();
 
                     Assert.NotNull(result);

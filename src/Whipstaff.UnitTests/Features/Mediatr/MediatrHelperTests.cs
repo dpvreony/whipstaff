@@ -3,15 +3,19 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Mediatr;
+using Whipstaff.EntityFramework.ModelCreation;
+using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.MediatR;
@@ -52,10 +56,16 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 _ = services.AddScoped<ILoggerFactory>(_ => Log);
                 _ = services.AddLogging();
 
-                var databaseName = Guid.NewGuid().ToString();
+#pragma warning disable CA2000
+                var dbConnection = CreateInMemoryDatabase();
+#pragma warning restore CA2000
+
                 _ = services.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
-                    .UseInMemoryDatabase(databaseName: databaseName)
+                    .UseSqlite(dbConnection)
+                    .AddInterceptors(new RowVersionSaveChangesInterceptor())
                     .Options);
+                _ = services.AddSingleton<Func<IModelCreator<FakeDbContext>>>(x =>
+                    () => new SqliteFakeDbContextModelCreator());
 
                 MediatrHelpers.RegisterMediatrWithExplicitTypes(
                     services,
@@ -66,8 +76,10 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var serviceProvider = services.BuildServiceProvider();
 
                 var dbContextOptions = serviceProvider.GetService<DbContextOptions<FakeDbContext>>();
-                using (var dbContext = new FakeDbContext(dbContextOptions!))
+                using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
+                    _ = await dbContext.Database.EnsureCreatedAsync();
+
                     var entityCount = dbContext.FakeAddAudit.Count();
                     Assert.Equal(0, entityCount);
 
@@ -84,7 +96,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var sendResult = await mediator!.Send(request).ConfigureAwait(false);
                 Assert.Equal(expected, sendResult);
 
-                using (var dbContext = new FakeDbContext(dbContextOptions!))
+                using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
                     var entityCount = dbContext.FakeAddAudit.Count();
                     Assert.Equal(1, entityCount);
@@ -99,6 +111,15 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var notification = new FakeNotification();
                 await mediator.Publish(notification)
                     .ConfigureAwait(false);
+            }
+
+            private static DbConnection CreateInMemoryDatabase()
+            {
+                var connection = new SqliteConnection("Filename=:memory:");
+
+                connection.Open();
+
+                return connection;
             }
         }
     }

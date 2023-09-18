@@ -3,8 +3,11 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Data.Common;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Whipstaff.EntityFramework.RowVersionSaving;
 
 namespace Whipstaff.Testing.EntityFramework
 {
@@ -13,7 +16,7 @@ namespace Whipstaff.Testing.EntityFramework
     /// </summary>
     public sealed class FakeDbContextFactory : IDbContextFactory<FakeDbContext>
     {
-        private readonly string _databaseName;
+        private readonly DbConnection _dbConnection;
         private readonly ILoggerFactory _loggerFactory;
 
         /// <summary>
@@ -21,9 +24,20 @@ namespace Whipstaff.Testing.EntityFramework
         /// </summary>
         /// <param name="loggerFactory">Instance of the logger factory.</param>
         public FakeDbContextFactory(ILoggerFactory loggerFactory)
+            : this(CreateInMemoryDatabase(), loggerFactory)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeDbContextFactory"/> class.
+        /// </summary>
+        /// <param name="dbConnection">Database connection instance.</param>
+        /// <param name="loggerFactory">Instance of the logger factory.</param>
+        public FakeDbContextFactory(DbConnection dbConnection, ILoggerFactory loggerFactory)
+        {
+            ArgumentNullException.ThrowIfNull(dbConnection);
             ArgumentNullException.ThrowIfNull(loggerFactory);
-            _databaseName = Guid.NewGuid().ToString();
+            _dbConnection = dbConnection;
             _loggerFactory = loggerFactory;
         }
 
@@ -31,11 +45,27 @@ namespace Whipstaff.Testing.EntityFramework
         public FakeDbContext CreateDbContext()
         {
             var dbContextOptions = new DbContextOptionsBuilder<FakeDbContext>()
-                .UseInMemoryDatabase(_databaseName)
+                .UseSqlite(_dbConnection)
+                .AddInterceptors(new RowVersionSaveChangesInterceptor())
                 .UseLoggerFactory(_loggerFactory)
                 .Options;
 
-            return new FakeDbContext(dbContextOptions);
+            var dbContext = new FakeDbContext(
+                dbContextOptions,
+                () => new SqliteFakeDbContextModelCreator());
+
+            _ = dbContext.Database.EnsureCreated();
+
+            return dbContext;
+        }
+
+        private static DbConnection CreateInMemoryDatabase()
+        {
+            var connection = new SqliteConnection("Filename=:memory:");
+
+            connection.Open();
+
+            return connection;
         }
     }
 }
