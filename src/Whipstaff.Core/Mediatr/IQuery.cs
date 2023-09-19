@@ -9,9 +9,9 @@ namespace Whipstaff.Core.Mediatr
     /// <summary>
     /// Represents a MediatR Query. These extend the <see cref="MediatR.IRequest"/> to allow code by contract constraints downstream.
     /// </summary>
-    /// <typeparam name="TResponse">Response Type of the query.</typeparam>
+    /// <typeparam name="TQueryResponse">Response Type of the query.</typeparam>
 #pragma warning disable CA1040 // Avoid empty interfaces
-    public interface IQuery<out TResponse> : IRequest<TResponse>
+    public interface IQuery<out TQueryResponse> : IRequest<TQueryResponse>
 #pragma warning restore CA1040 // Avoid empty interfaces
     {
     }

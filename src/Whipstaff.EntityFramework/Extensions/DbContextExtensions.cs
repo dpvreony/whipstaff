@@ -163,7 +163,7 @@ namespace Whipstaff.EntityFramework.Extensions
         /// <param name="name">The name to search for.</param>
         /// <param name="addEntityFactoryFunc">Function for creating the item if it's not found.</param>
         /// <returns>The matched or newly created entity.</returns>
-        public static async Task<TEntity> GetOrAddByName<TDbContext, TEntity>(
+        public static async Task<TEntity> GetOrAddByNameAsync<TDbContext, TEntity>(
             this TDbContext instance,
             Func<TDbContext, DbSet<TEntity>> dbSetSelectorFunc,
             string name,

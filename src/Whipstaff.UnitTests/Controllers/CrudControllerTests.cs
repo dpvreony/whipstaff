@@ -253,7 +253,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Post(addRequestDto, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.PostAsync(addRequestDto, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -341,7 +341,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.DeleteAsync(id, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -386,7 +386,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.DeleteAsync(id, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 _ = Assert.IsType<NotFoundResult>(result);
             }
@@ -473,7 +473,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Get(null, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.GetAsync(null, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -554,7 +554,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Put(1, updateRequestDto, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.PutAsync(1, updateRequestDto, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -650,7 +650,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Get(listRequest, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.GetAsync(listRequest, CancellationToken.None).ConfigureAwait(false);
                 Assert.NotNull(result);
                 Assert.IsType(expectedResultType, result);
             }

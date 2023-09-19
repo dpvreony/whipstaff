@@ -37,7 +37,7 @@ namespace Whipstaff.Couchbase
         /// </summary>
         /// <param name="bucketProvider">Bucket Provider Instance to use.</param>
         /// <returns>Instance of <see cref="CouchbaseLockProvider"/>.</returns>
-        public static async Task<CouchbaseLockProvider> GetInstance(IBucketProvider bucketProvider)
+        public static async Task<CouchbaseLockProvider> GetInstanceAsync(IBucketProvider bucketProvider)
         {
             ArgumentNullException.ThrowIfNull(bucketProvider);
 

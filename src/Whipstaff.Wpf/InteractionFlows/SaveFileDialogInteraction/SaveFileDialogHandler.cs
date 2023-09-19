@@ -18,7 +18,7 @@ namespace Whipstaff.Wpf.InteractionFlows.SaveFileDialogInteraction
         /// </summary>
         /// <param name="request">Request settings for the Save File Dialog.</param>
         /// <returns>Whether the Save File Dialog was confirmed or cancelled.</returns>
-        public static Task<SaveFileDialogResult> OnSaveFileDialog(SaveFileDialogRequest request)
+        public static Task<SaveFileDialogResult> OnSaveFileDialogAsync(SaveFileDialogRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
 

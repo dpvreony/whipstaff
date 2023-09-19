@@ -25,7 +25,7 @@ namespace Whipstaff.Nuget
         /// <param name="nugetForwardingToNetCoreLogger">Forwarding logger instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of packages for the author.</returns>
-        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthor(
+        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthorAsync(
             this PackageSource packageSource,
             AuthorUsernameAsStringModel authorName,
             NugetForwardingToNetCoreLogger nugetForwardingToNetCoreLogger,
@@ -33,10 +33,10 @@ namespace Whipstaff.Nuget
         {
             ArgumentNullException.ThrowIfNull(packageSource);
 
-            var packageSearchResource = await packageSource.GetPackageSearchResource()
+            var packageSearchResource = await packageSource.GetPackageSearchResourceAsync()
                 .ConfigureAwait(false);
 
-            return await packageSearchResource.GetPackagesForAuthor(
+            return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,
                     nugetForwardingToNetCoreLogger,
                     cancellationToken)
@@ -53,7 +53,7 @@ namespace Whipstaff.Nuget
         /// <param name="nugetForwardingToNetCoreLogger">Forwarding logger instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of selected output based on packages for the author.</returns>
-        public static async Task<IList<TResult>> GetPackagesForAuthor<TResult>(
+        public static async Task<IList<TResult>> GetPackagesForAuthorAsync<TResult>(
             this PackageSource packageSource,
             AuthorUsernameAsStringModel authorName,
             Func<IPackageSearchMetadata, TResult> selector,
@@ -62,10 +62,10 @@ namespace Whipstaff.Nuget
         {
             ArgumentNullException.ThrowIfNull(packageSource);
 
-            var packageSearchResource = await packageSource.GetPackageSearchResource()
+            var packageSearchResource = await packageSource.GetPackageSearchResourceAsync()
                 .ConfigureAwait(false);
 
-            return await packageSearchResource.GetPackagesForAuthor(
+            return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,
                     selector,
                     nugetForwardingToNetCoreLogger,
@@ -97,7 +97,7 @@ namespace Whipstaff.Nuget
         /// </summary>
         /// <param name="packageSource">Package source to check.</param>
         /// <returns>Package search resource for the given package source.</returns>
-        public static Task<PackageSearchResource> GetPackageSearchResource(this PackageSource packageSource)
+        public static Task<PackageSearchResource> GetPackageSearchResourceAsync(this PackageSource packageSource)
         {
             ArgumentNullException.ThrowIfNull(packageSource);
 
