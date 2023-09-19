@@ -122,7 +122,7 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
 
                     var attempt = 1;
                     var maxRetries = 2;
-                    var recoveryStrategy = QueueMessageRecoveryStrategy.Complete;
+                    QueueMessageRecoveryStrategy recoveryStrategy;
                     do
                     {
                         recoveryStrategy = await OnProcessMessageAsync(queueEntry)

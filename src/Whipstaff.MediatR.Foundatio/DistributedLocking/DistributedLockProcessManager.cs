@@ -33,12 +33,12 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
         /// <param name="messageBus">The message bus to attach to.</param>
         /// <param name="lockName">The name of the lock.</param>
         /// <param name="lockLostBehavior">The behavior to carry out if the lock is lost.</param>
-        /// <param name="loggerFactory">The logging interface factory.</param>
+        /// <param name="logger">Logging framework instance.</param>
         public DistributedLockProcessManager(
             IMessageBus messageBus,
             string lockName,
             LockLostBehavior lockLostBehavior,
-            ILoggerFactory loggerFactory)
+            ILogger<DistributedLockProcessManager> logger)
         {
             _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
 
@@ -51,12 +51,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
 
             _lockLostBehaviour = lockLostBehavior;
 
-            if (loggerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(loggerFactory));
-            }
-
-            _log = loggerFactory.CreateLogger<DistributedLockProcessManager>();
+            _log = logger;
         }
 
         /// <summary>
@@ -91,7 +86,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
                 messageBus,
                 lockName,
                 lockLostBehavior,
-                loggerFactory);
+                loggerFactory.CreateLogger<DistributedLockProcessManager>());
 
             var hasLockSubscription = instance.HasLock.Subscribe(hasLockObserver);
             var task = instance.StartAsync(cancellationToken);

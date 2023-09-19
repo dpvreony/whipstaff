@@ -24,6 +24,7 @@ namespace Whipstaff.Core.Logging
         private readonly string _format;
         private readonly List<string> _valueNames = new List<string>();
 
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public LogValuesFormatter(string format)
         {
             ThrowHelper.ThrowIfNull(format);
@@ -69,6 +70,7 @@ namespace Whipstaff.Core.Logging
 
             _format = vsb.ToString();
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         public string OriginalFormat { get; private set; }
 
