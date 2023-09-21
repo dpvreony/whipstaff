@@ -71,7 +71,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsHealthy()
+            public async Task ReturnsHealthyAsync()
             {
                 var dbContextFactory = new FakeDbContextFactory(Log);
                 using (var dbContext = dbContextFactory.CreateDbContext())
@@ -98,7 +98,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsDegraded()
+            public async Task ReturnsDegradedAsync()
             {
                 var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(Log));
 

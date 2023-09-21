@@ -89,7 +89,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsValue()
+            public async Task ReturnsValueAsync()
             {
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
                 {
@@ -110,7 +110,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsNull()
+            public async Task ReturnsNullAsync()
             {
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync()
                            .ConfigureAwait(false))
@@ -194,7 +194,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsValue()
+            public async Task ReturnsValueAsync()
             {
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
                 {
@@ -215,7 +215,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsNull()
+            public async Task ReturnsNullAsync()
             {
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync()
                            .ConfigureAwait(false))
@@ -300,7 +300,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsValue()
+            public async Task ReturnsValueAsync()
             {
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync())
                 {
@@ -321,7 +321,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsNull()
+            public async Task ReturnsNullAsync()
             {
                 using (var dbContext = await _dbContextFactory.CreateDbContextAsync()
                            .ConfigureAwait(false))

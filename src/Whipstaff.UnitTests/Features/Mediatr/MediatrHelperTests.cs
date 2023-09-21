@@ -49,7 +49,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ShouldSucceed()
+            public async Task ShouldSucceedAsync()
             {
                 var services = new ServiceCollection();
 

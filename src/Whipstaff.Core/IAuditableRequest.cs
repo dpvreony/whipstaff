@@ -12,7 +12,7 @@ namespace Whipstaff.Core
     /// Represents a request that requires auditing.
     /// </summary>
     /// <typeparam name="TRequestDto">The type of the request object.</typeparam>
-    /// <typeparam name="TResponse">The type of the response object.</typeparam>
+    /// <typeparam name="TCommandResponse">The type of the response object.</typeparam>
     public interface IAuditableRequest<out TRequestDto, out TCommandResponse> : ICommand<TCommandResponse?>
     {
         /// <summary>

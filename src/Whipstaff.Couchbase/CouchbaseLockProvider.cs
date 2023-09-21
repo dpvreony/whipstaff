@@ -11,6 +11,7 @@ using Couchbase.Extensions.DependencyInjection;
 using Couchbase.Extensions.Locks;
 using Couchbase.KeyValue;
 using Foundatio.Lock;
+using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Couchbase
 {
@@ -21,52 +22,65 @@ namespace Whipstaff.Couchbase
     {
         private readonly ConcurrentDictionary<string, ICouchbaseMutex> _mutexDictionary = new ConcurrentDictionary<string, ICouchbaseMutex>();
         private readonly ICouchbaseCollection _couchbaseCollection;
+        private readonly ILogger<CouchbaseLockProvider> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CouchbaseLockProvider"/> class.
         /// </summary>
         /// <param name="couchbaseCollection">The couchbase collection.</param>
-        public CouchbaseLockProvider(ICouchbaseCollection couchbaseCollection)
+        /// <param name="logger">The logging framework instance.</param>
+        public CouchbaseLockProvider(
+            ICouchbaseCollection couchbaseCollection,
+            ILogger<CouchbaseLockProvider> logger)
         {
             ArgumentNullException.ThrowIfNull(couchbaseCollection);
+            ArgumentNullException.ThrowIfNull(logger);
             _couchbaseCollection = couchbaseCollection;
+            _logger = logger;
         }
 
         /// <summary>
         /// Gets a Couchbase Lock Provider using a bucket provider.
         /// </summary>
         /// <param name="bucketProvider">Bucket Provider Instance to use.</param>
+        /// <param name="logger">The logging framework instance.</param>
         /// <returns>Instance of <see cref="CouchbaseLockProvider"/>.</returns>
-        public static async Task<CouchbaseLockProvider> GetInstanceAsync(IBucketProvider bucketProvider)
+        public static async Task<CouchbaseLockProvider> GetInstanceAsync(
+            IBucketProvider bucketProvider,
+            ILogger<CouchbaseLockProvider> logger)
         {
             ArgumentNullException.ThrowIfNull(bucketProvider);
+            ArgumentNullException.ThrowIfNull(logger);
 
             var bucket = await bucketProvider.GetBucketAsync("default")
                 .ConfigureAwait(false);
 
-            return GetInstance(bucket);
+            return GetInstance(bucket, logger);
         }
 
         /// <summary>
         /// Gets a Couchbase Lock Provider using a bucket provider.
         /// </summary>
         /// <param name="bucket">Couchbase Bucket to use.</param>
+        /// <param name="logger">The logging framework instance.</param>
         /// <returns>Instance of <see cref="CouchbaseLockProvider"/>.</returns>
-        public static CouchbaseLockProvider GetInstance(IBucket bucket)
+        public static CouchbaseLockProvider GetInstance(
+            IBucket bucket,
+            ILogger<CouchbaseLockProvider> logger)
         {
             ArgumentNullException.ThrowIfNull(bucket);
 
             var collection = bucket.DefaultCollection();
 
-            return new CouchbaseLockProvider(collection);
+            return new CouchbaseLockProvider(collection, logger);
         }
 
         /// <inheritdoc/>
         public async Task<ILock> AcquireAsync(
             string resource,
-            TimeSpan? timeUntilExpires,
-            bool releaseOnDispose,
-            CancellationToken cancellationToken)
+            TimeSpan? timeUntilExpires = null,
+            bool releaseOnDispose = true,
+            CancellationToken cancellationToken = default)
         {
             var attemptStarted = DateTime.UtcNow;
 

@@ -42,7 +42,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -52,10 +52,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -65,9 +65,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue() => Task.FromResult(1);
+            private static Task<int> InternalReturnsValueAsync() => Task.FromResult(1);
 
-            private static Task<int> Throws() => throw new NotImplementedException();
+            private static Task<int> ThrowsAsync() => throw new NotImplementedException();
 
             /// <summary>
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
@@ -109,7 +109,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -119,10 +119,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -132,9 +132,9 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(int arg) => Task.FromResult(arg);
+            private static Task<int> InternalReturnsValueAsync(int arg) => Task.FromResult(arg);
 
-            private static Task<int> Throws(int arg) => throw new NotImplementedException();
+            private static Task<int> ThrowsAsync(int arg) => throw new NotImplementedException();
 
             /// <summary>
             /// Data Source for the Unit Test ThrowsArgumentNullExceptionAsync.
@@ -176,7 +176,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -186,10 +186,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -199,11 +199,11 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2) => throw new NotImplementedException();
 
@@ -247,7 +247,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -257,10 +257,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -270,12 +270,12 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3) => throw new NotImplementedException();
@@ -320,7 +320,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -330,10 +330,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -343,13 +343,13 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
                 int arg4) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -395,7 +395,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -405,10 +405,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -418,14 +418,14 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
                 int arg4,
                 int arg5) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -472,7 +472,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -482,10 +482,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -495,7 +495,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -503,7 +503,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg5,
                 int arg6) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -551,7 +551,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -561,10 +561,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -574,7 +574,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -583,7 +583,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg6,
                 int arg7) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -632,7 +632,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -642,10 +642,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -655,7 +655,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -665,7 +665,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg7,
                 int arg8) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -715,7 +715,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -725,10 +725,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -738,7 +738,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -749,7 +749,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg8,
                 int arg9) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -800,7 +800,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -810,10 +810,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -823,7 +823,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -835,7 +835,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg9,
                 int arg10) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -887,7 +887,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -897,10 +897,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -910,7 +910,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -923,7 +923,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg10,
                 int arg11) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -976,7 +976,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -986,10 +986,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -999,7 +999,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1013,7 +1013,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg11,
                 int arg12) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1067,7 +1067,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -1077,10 +1077,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -1090,7 +1090,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1105,7 +1105,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg12,
                 int arg13) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1160,7 +1160,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -1170,10 +1170,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -1183,7 +1183,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1199,7 +1199,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg13,
                 int arg14) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1255,7 +1255,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -1265,10 +1265,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -1278,7 +1278,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1295,7 +1295,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg14,
                 int arg15) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1352,7 +1352,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(InternalReturnsValueAsync, -1, 1).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -1362,10 +1362,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTaskAsync(ThrowsAsync, -1, -1).ConfigureAwait(false);
             }
 
-            private static async Task ReturnsFromTask(
+            private static async Task ReturnsFromTaskAsync(
                 Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> func,
                 int defaultResult,
                 int expected)
@@ -1375,7 +1375,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 Assert.Equal(expected, result);
             }
 
-            private static Task<int> ReturnsValue(
+            private static Task<int> InternalReturnsValueAsync(
                 int arg1,
                 int arg2,
                 int arg3,
@@ -1393,7 +1393,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 int arg15,
                 int arg16) => Task.FromResult(arg1);
 
-            private static Task<int> Throws(
+            private static Task<int> ThrowsAsync(
                 int arg1,
                 int arg2,
                 int arg3,

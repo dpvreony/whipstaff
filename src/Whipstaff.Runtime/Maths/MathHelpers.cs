@@ -892,6 +892,7 @@ namespace Whipstaff.Runtime.Maths
                 : arg1;
         }
 
+#pragma warning disable S2234 // Arguments should be passed in the same order as the method parameters
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static T ItemWithMaxInternal<T>(
             T arg1,
@@ -1787,5 +1788,6 @@ namespace Whipstaff.Runtime.Maths
                 arg16,
                 arg16Number);
         }
+#pragma warning restore S2234 // Arguments should be passed in the same order as the method parameters
     }
 }

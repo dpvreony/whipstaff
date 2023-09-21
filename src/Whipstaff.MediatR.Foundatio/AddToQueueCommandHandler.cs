@@ -6,7 +6,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Foundatio.Queues;
-using MediatR;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Mediatr;
 
@@ -26,7 +25,7 @@ namespace Whipstaff.MediatR.Foundatio
         /// Initializes a new instance of the <see cref="AddToQueueCommandHandler{TRequest}"/> class.
         /// </summary>
         /// <param name="queue">The queue to add the requests to.</param>
-        /// <param name="logger"></param>
+        /// <param name="logger">Logging framework instance.</param>
         public AddToQueueCommandHandler(global::Foundatio.Queues.IQueue<TCommand> queue, ILogger<AddToQueueCommandHandler<TCommand>> logger)
         {
             _queue = queue ?? throw new ArgumentNullException(nameof(queue));
@@ -34,9 +33,15 @@ namespace Whipstaff.MediatR.Foundatio
         }
 
         /// <inheritdoc/>
-        public Task<string> Handle(TCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(TCommand request, CancellationToken cancellationToken)
         {
-            return _queue.EnqueueAsync(request);
+            _logger.LogDebug("Enqueuing request of type {requestType}", typeof(TCommand));
+
+            var result = await _queue.EnqueueAsync(request).ConfigureAwait(false);
+
+            _logger.LogDebug("Enqueued request of type {requestType} with id {requestId}", typeof(TCommand), result);
+
+            return result;
         }
     }
 }

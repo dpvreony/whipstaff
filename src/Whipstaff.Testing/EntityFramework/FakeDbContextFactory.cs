@@ -23,16 +23,19 @@ namespace Whipstaff.Testing.EntityFramework
         /// Initializes a new instance of the <see cref="FakeDbContextFactory"/> class.
         /// </summary>
         /// <param name="loggerFactory">Instance of the logger factory.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public FakeDbContextFactory(ILoggerFactory loggerFactory)
             : this(CreateInMemoryDatabase(), loggerFactory)
         {
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeDbContextFactory"/> class.
         /// </summary>
         /// <param name="dbConnection">Database connection instance.</param>
         /// <param name="loggerFactory">Instance of the logger factory.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public FakeDbContextFactory(DbConnection dbConnection, ILoggerFactory loggerFactory)
         {
             ArgumentNullException.ThrowIfNull(dbConnection);
@@ -40,6 +43,7 @@ namespace Whipstaff.Testing.EntityFramework
             _dbConnection = dbConnection;
             _loggerFactory = loggerFactory;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public FakeDbContext CreateDbContext()
@@ -54,7 +58,9 @@ namespace Whipstaff.Testing.EntityFramework
                 dbContextOptions,
                 () => new SqliteFakeDbContextModelCreator());
 
+#pragma warning disable GR0019 // Do not use Entity Framework Database EnsureCreated.
             _ = dbContext.Database.EnsureCreated();
+#pragma warning restore GR0019 // Do not use Entity Framework Database EnsureCreated.
 
             return dbContext;
         }

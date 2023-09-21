@@ -43,7 +43,7 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            await WithWebApplicationFactory(async factory =>
+            await WithWebApplicationFactoryAsync(async factory =>
             {
                 var client = factory.CreateClient();
                 var requestUri = new Uri(requestPath, UriKind.Absolute);
@@ -69,9 +69,9 @@ namespace Whipstaff.IntegrationTests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitly()
+        public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitlyAsync()
         {
-            await WithWebApplicationFactory(async factory =>
+            await WithWebApplicationFactoryAsync(async factory =>
             {
                 var client = factory.CreateClient();
                 var requestUri = new Uri("https://localhost/home", UriKind.Absolute);

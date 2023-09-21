@@ -43,35 +43,40 @@ namespace Whipstaff.Windows.ActiveDirectory
                 return UserAccountState.Locked;
             }
 
+#pragma warning disable GR0014
+            var now = DateTime.Now;
+#pragma warning restore GR0014
+            var expiryTimestamp = now.Add(expiryThreshold);
             var maxDays = GetMaxPasswordAge()?.TotalDays;
+
             if (!authenticablePrincipal.PasswordNeverExpires && authenticablePrincipal.LastPasswordSet.HasValue && maxDays.HasValue)
             {
                 var expiry = authenticablePrincipal.LastPasswordSet.Value.AddDays(maxDays.Value);
 
                 // don't reorder these
-                if (expiry < DateTime.Now)
+                if (expiry < now)
                 {
                     return UserAccountState.PasswordExpired;
                 }
 
                 // don't reorder these
-                if (useThreshold && expiry < DateTime.Now.Add(expiryThreshold))
+                if (useThreshold && expiry < expiryTimestamp)
                 {
                     return UserAccountState.PasswordExpiringWithinThreshold;
                 }
             }
 
             var accountExpiry = authenticablePrincipal.AccountExpirationDate;
-            if (accountExpiry.HasValue && accountExpiry.Value < DateTime.Now.Add(expiryThreshold))
+            if (accountExpiry.HasValue && accountExpiry.Value < expiryTimestamp)
             {
                 // don't reorder these
-                if (accountExpiry.Value < DateTime.Now)
+                if (accountExpiry.Value < now)
                 {
                     return UserAccountState.AccountExpired;
                 }
 
                 // don't reorder these
-                if (useThreshold && accountExpiry.Value < DateTime.Now.Add(expiryThreshold))
+                if (useThreshold && accountExpiry.Value < expiryTimestamp)
                 {
                     return UserAccountState.AccountExpiringWithinThreshold;
                 }

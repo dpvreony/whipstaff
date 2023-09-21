@@ -43,7 +43,7 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            await WithWebApplicationFactory(async factory =>
+            await WithWebApplicationFactoryAsync(async factory =>
             {
                 var client = factory.CreateClient();
 
