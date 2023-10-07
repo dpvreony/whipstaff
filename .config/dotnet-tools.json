@@ -51,7 +51,7 @@
       ]
     },
     "microsoft.sbom.dotnettool": {
-      "version": "1.7.0",
+      "version": "1.7.1",
       "commands": [
         "sbom-tool"
       ]
