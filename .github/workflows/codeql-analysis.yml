@@ -68,10 +68,10 @@ jobs:
     #  with:
     #    dotnet-version: 5.0.x
 
-    - name: Install .NET 6
+    - name: Install .NET 8
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Install DotNet workloads
       shell: bash
@@ -79,9 +79,7 @@ jobs:
         dotnet workload install android ios tvos macos maui
 
     - name: Add MSBuild to PATH
-      uses: glennawatson/setup-msbuild@v1.0.3
-      with:
-        prerelease: true
+      uses: microsoft/setup-msbuild@3404ff3d40458f8d1fdf55c2bcc442b970404ad7
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage

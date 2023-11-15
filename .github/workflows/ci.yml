@@ -52,10 +52,10 @@ jobs:
         $process.Start()
         $process.WaitForExit()
 
-    - name: Install .NET 6
+    - name: Install .NET 8
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Install DotNet workloads
       shell: bash
