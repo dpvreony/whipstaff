@@ -95,13 +95,13 @@ jobs:
 
     - name: List Deprecated Packages
       run: |
-        dotnet list ${{ env.solutionpath }} package --deprecated
-        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
+        dotnet list package --deprecated
+      working-directory: src
 
     - name: List Vulnerable Packages
       run: |
-        dotnet list ${{ env.solutionpath }} package --vulnerable
-        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
+        dotnet list package --vulnerable
+      working-directory: src
 
     - name: NPM package restore
       run: |
