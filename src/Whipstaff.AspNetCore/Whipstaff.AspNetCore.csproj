@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <!-- https://github.com/dotnet/aspnetcore/issues/14370 details build issue with openapi which swashbuckle package causes -->
     <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
