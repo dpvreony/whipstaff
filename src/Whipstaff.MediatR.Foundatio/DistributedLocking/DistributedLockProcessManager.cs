@@ -21,7 +21,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
     /// </summary>
     public sealed class DistributedLockProcessManager : BackgroundService
     {
-        private readonly ISubject<bool> _hasLockSubject = new BehaviorSubject<bool>(false);
+        private readonly BehaviorSubject<bool> _hasLockSubject = new(false);
         private readonly ILogger<DistributedLockProcessManager> _log;
         private readonly IMessageBus _messageBus;
         private readonly string _lockName;
@@ -51,10 +51,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
 
             _lockLostBehaviour = lockLostBehavior;
 
-            if (loggerFactory == null)
-            {
-                throw new ArgumentNullException(nameof(loggerFactory));
-            }
+            ArgumentNullException.ThrowIfNull(loggerFactory);
 
             _log = loggerFactory.CreateLogger<DistributedLockProcessManager>();
         }
@@ -82,10 +79,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             IObserver<bool> hasLockObserver,
             CancellationToken cancellationToken)
         {
-            if (hasLockObserver == null)
-            {
-                throw new ArgumentNullException(nameof(hasLockObserver));
-            }
+            ArgumentNullException.ThrowIfNull(hasLockObserver);
 
             var instance = new DistributedLockProcessManager(
                 messageBus,
@@ -97,6 +91,17 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             var task = instance.StartAsync(cancellationToken);
 
             return (instance, task, hasLockSubscription);
+        }
+
+        /// <inheritdoc/>
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            if (!_hasLockSubject.IsDisposed)
+            {
+                _hasLockSubject.Dispose();
+            }
         }
 
         /// <inheritdoc/>

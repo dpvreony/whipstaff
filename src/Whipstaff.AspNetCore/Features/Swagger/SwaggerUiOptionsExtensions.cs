@@ -33,7 +33,7 @@ namespace Whipstaff.AspNetCore.Features.Swagger
             swaggerUiOptions.IndexStream = () => ApplyNonceToSwaggerIndexPage(originalIndexStreamFactory, httpContextAccessor);
         }
 
-        private static Stream ApplyNonceToSwaggerIndexPage(
+        private static MemoryStream ApplyNonceToSwaggerIndexPage(
             Func<Stream> originalIndexStreamFactory,
             IHttpContextAccessor httpContextAccessor)
         {
