@@ -8,6 +8,10 @@ using System.Linq;
 using System.Reflection;
 using Whipstaff.Runtime.Exceptions;
 
+#if NET48 || NETSTANDARD2_1
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.Extensions
 {
     /// <summary>
@@ -29,15 +33,8 @@ namespace Whipstaff.Runtime.Extensions
         /// </returns>
         public static Type[] GetClassesInNamespace(this Assembly assembly, string fullyQualifiedNamespace)
         {
-            if (string.IsNullOrWhiteSpace(fullyQualifiedNamespace))
-            {
-                throw new ArgumentNullException(nameof(fullyQualifiedNamespace));
-            }
-
-            if (assembly == null)
-            {
-                throw new ArgumentNullException(nameof(assembly));
-            }
+            ArgumentNullException.ThrowIfNull(assembly);
+            ArgumentNullException.ThrowIfNull(fullyQualifiedNamespace);
 
             return assembly.GetTypes()
                 .AsParallel()
@@ -73,20 +70,9 @@ namespace Whipstaff.Runtime.Extensions
             string resourceNamespace,
             string resourceFileName)
         {
-            if (assembly == null)
-            {
-                throw new ArgumentNullException(nameof(assembly));
-            }
-
-            if (string.IsNullOrWhiteSpace(resourceNamespace))
-            {
-                throw new ArgumentNullException(nameof(resourceNamespace));
-            }
-
-            if (string.IsNullOrWhiteSpace(resourceFileName))
-            {
-                throw new ArgumentNullException(nameof(resourceFileName));
-            }
+            ArgumentNullException.ThrowIfNull(assembly);
+            ArgumentNullException.ThrowIfNull(resourceNamespace);
+            ArgumentNullException.ThrowIfNull(resourceFileName);
 
             string result;
             var resourceName = resourceNamespace + "." + resourceFileName;

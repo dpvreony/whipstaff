@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
 
 #if NET48 || NETSTANDARD2_1
-using ArgumentNullException = Whipstaff.Internals.Exceptions.ArgumentNullException;
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
 #endif
 
 namespace Whipstaff.Core.ExceptionHandling
