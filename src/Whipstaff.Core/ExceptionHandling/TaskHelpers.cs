@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
 
+#if NET48 || NETSTANDARD2_1
+using ArgumentNullException = Whipstaff.Internals.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Core.ExceptionHandling
 {
     /// <summary>
@@ -33,10 +37,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -71,10 +72,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -112,10 +110,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -158,10 +153,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -208,10 +200,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -262,10 +251,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -320,10 +306,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -382,10 +365,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -448,10 +428,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -518,10 +495,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -592,10 +566,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -670,10 +641,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -752,10 +720,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -838,10 +803,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -928,10 +890,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -1022,10 +981,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
@@ -1120,10 +1076,7 @@ namespace Whipstaff.Core.ExceptionHandling
             TResult defaultResult,
             ILogger? logger = null)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
+            ArgumentNullException.ThrowIfNull(func);
 
             try
             {
