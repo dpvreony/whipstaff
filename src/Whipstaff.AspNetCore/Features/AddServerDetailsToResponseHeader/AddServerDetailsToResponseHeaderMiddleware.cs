@@ -73,8 +73,8 @@ namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
             var response = context.Response;
 
             var headers = response.Headers;
-            headers.Add("X-HOSTNAME", _hostName);
-            headers.Add("X-APPVERSION", _appVersion);
+            headers.Append("X-HOSTNAME", _hostName);
+            headers.Append("X-APPVERSION", _appVersion);
 
             await _next.Invoke(context);
         }
