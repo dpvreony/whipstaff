@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Whipstaff.Runtime.Exceptions;
 
-#if NET48 || NETSTANDARD2_1
+#if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
 #endif
 

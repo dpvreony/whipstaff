@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
 
-#if NET48 || NETSTANDARD2_1
+#if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
 #endif
 
