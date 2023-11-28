@@ -23,8 +23,4 @@
     <Reference Include="netstandard" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
-  </ItemGroup>
-
 </Project>
