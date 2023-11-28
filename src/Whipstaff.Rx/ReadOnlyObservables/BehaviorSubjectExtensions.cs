@@ -5,7 +5,7 @@
 using System;
 using System.Reactive.Subjects;
 
-#if ARGUMENT_NULL_EXCEPTION_SHIM 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
 #endif
 

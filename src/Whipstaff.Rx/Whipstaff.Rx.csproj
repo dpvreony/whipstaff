@@ -23,4 +23,7 @@
     <Reference Include="netstandard" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\_shared\**\*.cs" LinkBase="SharedInternals" />
+  </ItemGroup>
 </Project>
