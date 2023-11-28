@@ -77,10 +77,10 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
                 using (var dbContext = dbContextFactory.CreateDbContext())
                 {
                     _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 })
-                        .ConfigureAwait(false);
+;
 
                     _ = await dbContext.SaveChangesAsync()
-                        .ConfigureAwait(false);
+;
                 }
 
                 var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(dbContextFactory);
@@ -88,7 +88,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
                 var context = new HealthCheckContext();
 
                 var result = await instance.CheckHealthAsync(context)
-                    .ConfigureAwait(false);
+;
 
                 Assert.Equal(HealthStatus.Healthy, result.Status);
             }
@@ -105,7 +105,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
                 var context = new HealthCheckContext();
 
                 var result = await instance.CheckHealthAsync(context)
-                    .ConfigureAwait(false);
+;
 
                 Assert.Equal(HealthStatus.Degraded, result.Status);
             }

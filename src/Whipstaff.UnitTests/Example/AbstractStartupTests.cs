@@ -50,8 +50,8 @@ namespace Whipstaff.UnitTests.Example
             var app = builder.Build();
             Assert.NotNull(app);
 
-            await app.StartAsync().ConfigureAwait(false);
-            await app.StopAsync().ConfigureAwait(false);
+            await app.StartAsync();
+            await app.StopAsync();
         }
     }
 }

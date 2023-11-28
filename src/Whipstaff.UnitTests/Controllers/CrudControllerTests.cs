@@ -225,7 +225,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 _ = authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "addPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -253,7 +253,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Post(addRequestDto, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.Post(addRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -313,7 +313,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 _ = authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "deletePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -341,7 +341,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.Delete(id, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -358,7 +358,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 _ = authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "deletePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -386,7 +386,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Delete(id, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.Delete(id, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<NotFoundResult>(result);
             }
@@ -441,7 +441,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 _ = authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "listPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -473,7 +473,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Get(null, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.Get(null, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -526,7 +526,7 @@ namespace Whipstaff.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 _ = authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "updatePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -554,7 +554,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Put(1, updateRequestDto, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.Put(1, updateRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -619,10 +619,10 @@ namespace Whipstaff.UnitTests.Controllers
                 var authorizationService = MockAuthorizationServiceFactory();
                 _ = authorizationService.Setup(s =>
                     s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "viewPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
                 _ = authorizationService.Setup(s =>
                         s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "viewPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()).ConfigureAwait(false));
+                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -650,7 +650,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Get(listRequest, CancellationToken.None).ConfigureAwait(false);
+                var result = await instance.Get(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
                 Assert.IsType(expectedResultType, result);
             }
