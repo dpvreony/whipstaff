@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-#if NET48 || NETSTANDARD2_1
+#if ARGUMENT_NULL_EXCEPTION_SHIM
 using System;
 
 namespace Whipstaff.Runtime.CompilerServices

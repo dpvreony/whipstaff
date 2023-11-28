@@ -2,14 +2,14 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-#if NET48 || NETSTANDARD2_1
+#if ARGUMENT_NULL_EXCEPTION_SHIM
 using System.Runtime.CompilerServices;
 using Whipstaff.Runtime.CompilerServices;
 
 namespace Whipstaff.Runtime.Exceptions
 {
     /// <summary>
-    /// Shims for ArgumentNullException to provide compatability with NET48.
+    /// Shims for ArgumentNullException to provide compatibility with NET48.
     /// </summary>
     public static class ArgumentNullException
     {
