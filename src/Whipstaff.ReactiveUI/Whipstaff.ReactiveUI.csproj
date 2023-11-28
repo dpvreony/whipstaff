@@ -14,4 +14,7 @@
     <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Include="..\_shared\**\*.cs" LinkBase="SharedInternals" />
+  </ItemGroup>
 </Project>
