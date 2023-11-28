@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
 
 namespace Whipstaff.Core.Logging
 {
@@ -26,7 +29,7 @@ namespace Whipstaff.Core.Logging
 
         public LogValuesFormatter(string format)
         {
-            ThrowHelper.ThrowIfNull(format);
+            ArgumentNullException.ThrowIfNull(format);
 
             OriginalFormat = format;
 

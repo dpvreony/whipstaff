@@ -5,7 +5,7 @@
 #if CALLER_ARGUMENT_EXPRESSION_SHIM
 using System;
 
-namespace Whipstaff.Runtime.CompilerServices
+namespace System.Runtime.CompilerServices
 {
     /// <summary>
     /// Allows capturing of the expressions passed to a method.

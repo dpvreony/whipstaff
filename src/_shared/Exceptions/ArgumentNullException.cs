@@ -2,11 +2,6 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-#if CALLER_ARGUMENT_EXPRESSION_SHIM
-using CallerArgumentExpressionAttribute = Whipstaff.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
-#else
-using CallerArgumentExpressionAttribute = System.Runtime.CompilerServices.CallerArgumentExpressionAttribute;
-#endif
 using System.Runtime.CompilerServices;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
