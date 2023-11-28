@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Linq;
 using ReactiveUI;
 
-#if ARGUMENT_NULL_EXCEPTION_SHIM 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
 #endif
 
