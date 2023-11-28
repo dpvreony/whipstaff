@@ -5,7 +5,9 @@
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
   "image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
   "features": {
-    "ghcr.io/devcontainers/features/dotnet:1": {}
+    "ghcr.io/devcontainers/features/dotnet:2": {
+        "version": "8.0"
+    }
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
@@ -25,7 +27,8 @@
     "vscode": {
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
-        "streetsidesoftware.code-spell-checker"
+        "streetsidesoftware.code-spell-checker",
+        "ms-dotnettools.csdevkit"
       ]
     }
   }
