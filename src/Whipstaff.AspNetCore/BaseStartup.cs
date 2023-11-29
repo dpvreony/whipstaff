@@ -11,7 +11,6 @@ using Audit.Core;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
-using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +24,6 @@ using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using Whipstaff.AspNetCore.Features.Apm.HealthChecks;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.AspNetCore.Features.AuditNet;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
@@ -83,8 +81,7 @@ namespace Whipstaff.AspNetCore
 
             _ = services.AddAuthorization(ConfigureAuthorization);
 
-            new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
-
+            // new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
             var useSwagger = configuration.GetValue("useSwagger", false);
 
             if (useSwagger)
@@ -244,7 +241,7 @@ namespace Whipstaff.AspNetCore
 
             DoAuditNetConfiguration(app);
 
-            var configuration = app.ApplicationServices.GetService<IConfiguration>();
+            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
             var useSwagger = configuration.GetValue("useSwagger", false);
             if (useSwagger)
             {

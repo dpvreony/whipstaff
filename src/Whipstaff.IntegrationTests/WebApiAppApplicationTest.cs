@@ -48,7 +48,7 @@ namespace Whipstaff.IntegrationTests
                 var client = factory.CreateClient();
 
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
-                var response = await client.GetAsync(requestPath).ConfigureAwait(false);
+                var response = await client.GetAsync(requestPath);
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
 
                 _ = response.EnsureSuccessStatusCode();
@@ -57,8 +57,8 @@ namespace Whipstaff.IntegrationTests
                     expectedContentType,
                     response.Content.Headers.ContentType!.ToString());
 
-                await LogResponseAsync(response).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+                await LogResponseAsync(response);
+            });
         }
 
         private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()

@@ -81,7 +81,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var mediator = serviceProvider.GetService<IMediator>();
                 const int expected = 987654321;
                 var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current!);
-                var sendResult = await mediator!.Send(request).ConfigureAwait(false);
+                var sendResult = await mediator!.Send(request);
                 Assert.Equal(expected, sendResult);
 
                 using (var dbContext = new FakeDbContext(dbContextOptions!))
@@ -98,7 +98,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
 
                 var notification = new FakeNotification();
                 await mediator.Publish(notification)
-                    .ConfigureAwait(false);
+;
             }
         }
     }

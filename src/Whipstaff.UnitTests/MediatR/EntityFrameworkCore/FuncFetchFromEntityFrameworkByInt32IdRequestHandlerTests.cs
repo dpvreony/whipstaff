@@ -89,7 +89,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
 
                 var response = await instance.Handle(
                     request,
-                    CancellationToken.None).ConfigureAwait(false);
+                    CancellationToken.None);
             }
         }
     }
