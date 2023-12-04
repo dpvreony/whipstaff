@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "snitch": {
-      "version": "1.12.0",
+      "version": "2.0.0",
       "commands": [
         "snitch"
       ]
