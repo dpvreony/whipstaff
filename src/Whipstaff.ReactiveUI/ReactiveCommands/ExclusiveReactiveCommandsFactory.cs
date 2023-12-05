@@ -8,6 +8,10 @@ using System.Reactive.Subjects;
 using ReactiveUI;
 using Whipstaff.Rx;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.ReactiveUI.ReactiveCommands
 {
     /// <summary>
@@ -37,15 +41,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     Func<TParam1, TResult1> commandFunc1,
                     Func<TParam2, TResult2> commandFunc2)
         {
-            if (commandFunc1 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc1));
-            }
-
-            if (commandFunc2 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc2));
-            }
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
 
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
@@ -96,25 +93,10 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 Func<TParam2, TResult2> commandFunc2,
                 IObservable<bool> commandCanExecute2)
         {
-            if (commandFunc1 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc1));
-            }
-
-            if (commandCanExecute1 == null)
-            {
-                throw new ArgumentNullException(nameof(commandCanExecute1));
-            }
-
-            if (commandFunc2 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc2));
-            }
-
-            if (commandCanExecute2 == null)
-            {
-                throw new ArgumentNullException(nameof(commandCanExecute2));
-            }
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandCanExecute1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandCanExecute2);
 
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
@@ -169,20 +151,9 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 Func<TParam2, TResult2> commandFunc2,
                 Func<TParam3, TResult3> commandFunc3)
         {
-            if (commandFunc1 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc1));
-            }
-
-            if (commandFunc2 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc2));
-            }
-
-            if (commandFunc3 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc3));
-            }
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
 
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
@@ -247,25 +218,10 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 Func<TParam3, TResult3> commandFunc3,
                 Func<TParam4, TResult4> commandFunc4)
         {
-            if (commandFunc1 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc1));
-            }
-
-            if (commandFunc2 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc2));
-            }
-
-            if (commandFunc3 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc3));
-            }
-
-            if (commandFunc4 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc4));
-            }
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
+            ArgumentNullException.ThrowIfNull(commandFunc4);
 
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
@@ -341,30 +297,11 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 Func<TParam4, TResult4> commandFunc4,
                 Func<TParam5, TResult5> commandFunc5)
         {
-            if (commandFunc1 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc1));
-            }
-
-            if (commandFunc2 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc2));
-            }
-
-            if (commandFunc3 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc3));
-            }
-
-            if (commandFunc4 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc4));
-            }
-
-            if (commandFunc5 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc5));
-            }
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
+            ArgumentNullException.ThrowIfNull(commandFunc4);
+            ArgumentNullException.ThrowIfNull(commandFunc5);
 
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
@@ -451,35 +388,12 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 Func<TParam5, TResult5> commandFunc5,
                 Func<TParam6, TResult6> commandFunc6)
         {
-            if (commandFunc1 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc1));
-            }
-
-            if (commandFunc2 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc2));
-            }
-
-            if (commandFunc3 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc3));
-            }
-
-            if (commandFunc4 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc4));
-            }
-
-            if (commandFunc5 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc5));
-            }
-
-            if (commandFunc6 == null)
-            {
-                throw new ArgumentNullException(nameof(commandFunc5));
-            }
+            ArgumentNullException.ThrowIfNull(commandFunc1);
+            ArgumentNullException.ThrowIfNull(commandFunc2);
+            ArgumentNullException.ThrowIfNull(commandFunc3);
+            ArgumentNullException.ThrowIfNull(commandFunc4);
+            ArgumentNullException.ThrowIfNull(commandFunc5);
+            ArgumentNullException.ThrowIfNull(commandFunc6);
 
             var numberExecuting = new BehaviorSubject<int>(0);
             var nobodyIsExecuting = numberExecuting.Select(x => x < 1);

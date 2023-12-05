@@ -87,7 +87,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             {
                 var instance = new RequireForwardedForHeaderMiddleware(NextAsync);
                 await instance.InvokeAsync(httpContext)
-                    .ConfigureAwait(false);
+;
 
                 Assert.Equal(
                     expectedHttpStatusCode,
@@ -96,7 +96,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
 #pragma warning restore CA1062 // Validate arguments of public methods
             }
 
-            private static IEnumerable<object[]> GetRejectsRequestTestData()
+            private static object[][] GetRejectsRequestTestData()
             {
                 return new[]
                 {
@@ -143,47 +143,47 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
                 };
             }
 
-            private static HttpContext GetXForwardForHttpContext()
+            private static DefaultHttpContext GetXForwardForHttpContext()
             {
                 var httpContext = new DefaultHttpContext();
 
                 var headers = httpContext.Request.Headers;
-                headers.Add("X-Forwarded-Proto", "https");
-                headers.Add("X-Forwarded-Host", "localhost");
+                headers.Append("X-Forwarded-Proto", "https");
+                headers.Append("X-Forwarded-Host", "localhost");
 
                 return httpContext;
             }
 
-            private static HttpContext GetXForwardProtoHttpMissingProto()
+            private static DefaultHttpContext GetXForwardProtoHttpMissingProto()
             {
                 var httpContext = new DefaultHttpContext();
 
                 var headers = httpContext.Request.Headers;
-                headers.Add("X-Forwarded-For", "192.168.0.1");
-                headers.Add("X-Forwarded-Host", "localhost");
+                headers.Append("X-Forwarded-For", "192.168.0.1");
+                headers.Append("X-Forwarded-Host", "localhost");
 
                 return httpContext;
             }
 
-            private static HttpContext GetXForwardProtoHttpInsecureProto()
+            private static DefaultHttpContext GetXForwardProtoHttpInsecureProto()
             {
                 var httpContext = new DefaultHttpContext();
 
                 var headers = httpContext.Request.Headers;
-                headers.Add("X-Forwarded-For", "192.168.0.1");
-                headers.Add("X-Forwarded-Proto", "http");
-                headers.Add("X-Forwarded-Host", "localhost");
+                headers.Append("X-Forwarded-For", "192.168.0.1");
+                headers.Append("X-Forwarded-Proto", "http");
+                headers.Append("X-Forwarded-Host", "localhost");
 
                 return httpContext;
             }
 
-            private static HttpContext GetXForwardHostHttpHost()
+            private static DefaultHttpContext GetXForwardHostHttpHost()
             {
                 var httpContext = new DefaultHttpContext();
 
                 var headers = httpContext.Request.Headers;
-                headers.Add("X-Forwarded-For", "192.168.0.1");
-                headers.Add("X-Forwarded-Proto", "https");
+                headers.Append("X-Forwarded-For", "192.168.0.1");
+                headers.Append("X-Forwarded-Proto", "https");
 
                 return httpContext;
             }

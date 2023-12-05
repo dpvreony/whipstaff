@@ -2,12 +2,12 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using HealthChecks.UI.Client;
-using HealthChecks.UI.Configuration;
+#if TBC
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Whipstaff.AspNetCore.Features.Apm.HealthChecks
@@ -46,3 +46,4 @@ namespace Whipstaff.AspNetCore.Features.Apm.HealthChecks
         }
     }
 }
+#endif

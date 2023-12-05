@@ -23,7 +23,7 @@ jobs:
       benchmarkprojectpath: src/Whipstaff.IntegrationTests/Whipstaff.Benchmarks.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       with:
         fetch-depth: 0
         
@@ -35,7 +35,7 @@ jobs:
 
     # java is used by sonar scanner
     - name: Setup Java 11
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
@@ -52,10 +52,10 @@ jobs:
         $process.Start()
         $process.WaitForExit()
 
-    - name: Install .NET 6
-      uses: actions/setup-dotnet@v3
+    - name: Install .NET 8
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Install DotNet workloads
       shell: bash
@@ -68,7 +68,9 @@ jobs:
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
-      run: dotnet nuget locals all --clear
+      run: |
+        dotnet nuget locals all --clear
+        dotnet nuget remove source "Microsoft Visual Studio Offline Packages"
 
     - name: NBGV
       id: nbgv
@@ -95,13 +97,13 @@ jobs:
 
     - name: List Deprecated Packages
       run: |
-        dotnet list ${{ env.solutionpath }} package --deprecated
-        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
+        dotnet list package --deprecated
+      working-directory: src
 
     - name: List Vulnerable Packages
       run: |
-        dotnet list ${{ env.solutionpath }} package --vulnerable
-        # TODO: pipe to text file, echo text file and error level fail build if not empty file?
+        dotnet list package --vulnerable
+      working-directory: src
 
     - name: NPM package restore
       run: |

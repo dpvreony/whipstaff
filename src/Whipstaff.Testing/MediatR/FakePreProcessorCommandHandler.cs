@@ -46,10 +46,7 @@ namespace Whipstaff.Testing.MediatR
         /// <inheritdoc />
         public async Task Process(FakeCrudAddCommand request, CancellationToken cancellationToken)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            ArgumentNullException.ThrowIfNull(request);
 
             using (var dbContext = new FakeDbContext(_fakeDbContextOptions, _modelCreatorFunc))
             {

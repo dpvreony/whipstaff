@@ -137,7 +137,8 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
                     }
                     while (attempt <= maxRetries);
 
-                    innerCancellationTokenSource.Cancel();
+                    await innerCancellationTokenSource.CancelAsync()
+                        .ConfigureAwait(false);
 
                     // we wait for renewal to stop so we can complete the message off, or act upon
                     // it without a race condition.

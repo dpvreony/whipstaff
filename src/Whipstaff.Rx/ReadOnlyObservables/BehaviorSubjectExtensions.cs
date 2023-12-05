@@ -5,6 +5,10 @@
 using System;
 using System.Reactive.Subjects;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Rx.ReadOnlyObservables
 {
     /// <summary>
@@ -20,10 +24,7 @@ namespace Whipstaff.Rx.ReadOnlyObservables
         /// <returns>Readonly observable wrapper.</returns>
         public static IReadOnlyObservable<T> ToReadOnlyObservable<T>(this BehaviorSubject<T> behaviorSubject)
         {
-            if (behaviorSubject == null)
-            {
-                throw new ArgumentNullException(nameof(behaviorSubject));
-            }
+            ArgumentNullException.ThrowIfNull(behaviorSubject);
 
             return new ReadOnlyBehaviorObservable<T>(behaviorSubject);
         }

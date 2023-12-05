@@ -40,10 +40,7 @@ namespace Whipstaff.Testing.MediatR
             int? response,
             CancellationToken cancellationToken)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            ArgumentNullException.ThrowIfNull(request);
 
             using (var dbContext = new FakeDbContext(_fakeDbContextOptions, _modelCreatorFunc))
             {

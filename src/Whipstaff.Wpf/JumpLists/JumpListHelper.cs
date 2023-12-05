@@ -100,25 +100,10 @@ namespace Whipstaff.Wpf.JumpLists
             Action<JumpItemsRemovedEventArgs> jumpItemsRemovedByUserSubscription,
             Action<JumpItemsRejectedEventArgs> jumpItemsRejectedSubscription)
         {
-            if (applicationContext == null)
-            {
-                throw new ArgumentNullException(nameof(applicationContext));
-            }
-
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            if (assembly == null)
-            {
-                throw new ArgumentNullException(nameof(assembly));
-            }
-
-            if (jumpItemsFunc == null)
-            {
-                throw new ArgumentNullException(nameof(jumpItemsFunc));
-            }
+            ArgumentNullException.ThrowIfNull(applicationContext);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(assembly);
+            ArgumentNullException.ThrowIfNull(jumpItemsFunc);
 
             var cmdPath = assembly.Location;
             var jumpItems = jumpItemsFunc(cmdPath);

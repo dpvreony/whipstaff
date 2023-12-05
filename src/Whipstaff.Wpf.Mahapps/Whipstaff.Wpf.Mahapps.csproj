@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows10.0.19041</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
-    <PackageReference Include="ReactiveUI.WPF" Version="19.4.1" />
+    <PackageReference Include="ReactiveUI.WPF" Version="19.5.1" />
   </ItemGroup>
 
 </Project>
