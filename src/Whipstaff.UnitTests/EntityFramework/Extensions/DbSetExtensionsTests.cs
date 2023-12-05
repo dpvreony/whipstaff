@@ -246,7 +246,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
                     _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = dbContext.SaveChangesAsync();
+                    _ = dbContext.SaveChanges();
 
                     var result = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
 
