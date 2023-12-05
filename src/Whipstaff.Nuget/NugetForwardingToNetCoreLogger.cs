@@ -21,7 +21,7 @@ namespace Whipstaff.Nuget
     {
         // This event ID is believed to be unused anywhere else but is otherwise arbitrary.
         private const int DefaultLogEventId = 23847;
-        private static readonly EventId DefaultClientLogEvent = new EventId(DefaultLogEventId);
+        private static readonly EventId _defaultClientLogEvent = new EventId(DefaultLogEventId);
         private readonly Microsoft.Extensions.Logging.ILogger _internalLogger;
 
         /// <summary>
@@ -31,6 +31,42 @@ namespace Whipstaff.Nuget
         public NugetForwardingToNetCoreLogger(Microsoft.Extensions.Logging.ILogger logger)
         {
             _internalLogger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        /// <inheritdoc/>
+        public void Log(NuGet.Common.LogLevel level, string data)
+        {
+            _internalLogger.Log(GetLogLevel(level), _defaultClientLogEvent, data, null, (str, ex) => str);
+        }
+
+        /// <inheritdoc/>
+        public void Log(ILogMessage message)
+        {
+            if (message == null)
+            {
+                return;
+            }
+
+            _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
+        }
+
+        /// <inheritdoc/>
+        public Task LogAsync(NuGet.Common.LogLevel level, string data)
+        {
+            _internalLogger.Log(GetLogLevel(level), _defaultClientLogEvent, data, null, (str, ex) => str);
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
+        public Task LogAsync(ILogMessage message)
+        {
+            if (message == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
@@ -87,42 +123,6 @@ namespace Whipstaff.Nuget
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
             _internalLogger.LogInformation("{Data}", data);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
-        }
-
-        /// <inheritdoc/>
-        public void Log(NuGet.Common.LogLevel level, string data)
-        {
-            _internalLogger.Log(GetLogLevel(level), DefaultClientLogEvent, data, null, (str, ex) => str);
-        }
-
-        /// <inheritdoc/>
-        public Task LogAsync(NuGet.Common.LogLevel level, string data)
-        {
-            _internalLogger.Log(GetLogLevel(level), DefaultClientLogEvent, data, null, (str, ex) => str);
-            return Task.CompletedTask;
-        }
-
-        /// <inheritdoc/>
-        public void Log(ILogMessage message)
-        {
-            if (message == null)
-            {
-                return;
-            }
-
-            _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
-        }
-
-        /// <inheritdoc/>
-        public Task LogAsync(ILogMessage message)
-        {
-            if (message == null)
-            {
-                return Task.CompletedTask;
-            }
-
-            _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
-            return Task.CompletedTask;
         }
 
         private static Microsoft.Extensions.Logging.LogLevel GetLogLevel(NuGet.Common.LogLevel logLevel)

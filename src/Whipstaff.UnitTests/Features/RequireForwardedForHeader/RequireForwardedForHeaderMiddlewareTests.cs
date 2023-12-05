@@ -17,7 +17,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
     /// </summary>
     public static class RequireForwardedForHeaderMiddlewareTests
     {
-        private static Task Next(HttpContext httpContext)
+        private static Task NextAsync(HttpContext httpContext)
         {
             return Task.CompletedTask;
         }
@@ -53,7 +53,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             [Fact]
             public void ReturnsInstance()
             {
-                var instance = new RequireForwardedForHeaderMiddleware(Next);
+                var instance = new RequireForwardedForHeaderMiddleware(NextAsync);
                 Assert.NotNull(instance);
             }
         }
@@ -81,11 +81,11 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Theory]
             [MemberData(nameof(RejectsRequestTestData))]
-            public async Task RejectsRequest(
+            public async Task RejectsRequestAsync(
                 HttpContext httpContext,
                 int expectedHttpStatusCode)
             {
-                var instance = new RequireForwardedForHeaderMiddleware(Next);
+                var instance = new RequireForwardedForHeaderMiddleware(NextAsync);
                 await instance.InvokeAsync(httpContext)
 ;
 

@@ -253,19 +253,19 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Post(addRequestDto, CancellationToken.None);
+                var result = await instance.PostAsync(addRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
 
             private static async Task<int?> MockAddMediatorHandlerAsync(IAuditableRequest<int, int?> auditableRequest, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(auditableRequest.RequestDto).ConfigureAwait(false);
+                return await Task.FromResult(auditableRequest.RequestDto);
             }
 
             private static async Task<FakeCrudAddCommand> MockAddCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
             {
-                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
+                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal));
             }
         }
 
@@ -341,7 +341,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Delete(id, CancellationToken.None);
+                var result = await instance.DeleteAsync(id, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -386,7 +386,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Delete(id, CancellationToken.None);
+                var result = await instance.DeleteAsync(id, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<NotFoundResult>(result);
             }
@@ -473,7 +473,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Get(null, CancellationToken.None);
+                var result = await instance.GetAsync(null, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -554,7 +554,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Put(1, updateRequestDto, CancellationToken.None);
+                var result = await instance.PutAsync(1, updateRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -650,7 +650,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.Get(listRequest, CancellationToken.None);
+                var result = await instance.GetAsync(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
                 Assert.IsType(expectedResultType, result);
             }

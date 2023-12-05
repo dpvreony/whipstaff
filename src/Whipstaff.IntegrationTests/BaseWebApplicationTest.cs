@@ -42,7 +42,7 @@ namespace Whipstaff.IntegrationTests
         /// </summary>
         /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task WithWebApplicationFactory(Func<WhipstaffWebApplicationFactory<TStartup>, Task> webApplicationFunc)
+        protected async Task WithWebApplicationFactoryAsync(Func<WhipstaffWebApplicationFactory<TStartup>, Task> webApplicationFunc)
         {
             ArgumentNullException.ThrowIfNull(webApplicationFunc);
 

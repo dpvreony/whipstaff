@@ -107,7 +107,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsData()
+            public async Task ReturnsDataAsync()
             {
                 var dbContextOptionsBuilder = new DbContextOptionsBuilder();
                 using (var connection = CreateInMemoryDatabase())
@@ -130,7 +130,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsData2()
+            public async Task ReturnsData2Async()
             {
                 var dbContextOptionsBuilder = new DbContextOptionsBuilder();
 

@@ -15,30 +15,30 @@ namespace Whipstaff.MediatR.Foundatio
     /// <summary>
     /// Abstract logic for a mediator request to insert a record to a database then send a message on a queue.
     /// </summary>
-    /// <typeparam name="TRequest">The type for the mediator request.</typeparam>
+    /// <typeparam name="TCommand">The type for the mediator command.</typeparam>
     /// <typeparam name="TDbContext">The type for the entity framework database context.</typeparam>
     /// <typeparam name="TEntityFrameworkEntity">The type for the entity being inserted into the database.</typeparam>
     /// <typeparam name="TQueueMessage">The type for the message being added to the queue.</typeparam>
-    public abstract class AbstractAddToDatabaseThenQueueRequestHandler<TRequest, TDbContext, TEntityFrameworkEntity, TQueueMessage> : IRequestHandler<TRequest, string>
+    public abstract class AbstractAddToDatabaseThenQueueCommandHandler<TCommand, TDbContext, TEntityFrameworkEntity, TQueueMessage> : IRequestHandler<TCommand, string>
         where TDbContext : DbContext
-        where TRequest : IRequest<string>
+        where TCommand : IRequest<string>
         where TEntityFrameworkEntity : class
         where TQueueMessage : class
     {
         private readonly Func<Task<TDbContext>> _dbContextFactory;
         private readonly IQueue<TQueueMessage> _queue;
-        private readonly ILogger<AbstractAddToDatabaseThenQueueRequestHandler<TRequest, TDbContext, TEntityFrameworkEntity, TQueueMessage>> _logger;
+        private readonly ILogger<AbstractAddToDatabaseThenQueueCommandHandler<TCommand, TDbContext, TEntityFrameworkEntity, TQueueMessage>> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AbstractAddToDatabaseThenQueueRequestHandler{TRequest, TDbContext, TEntityFrameworkEntity, TQueueMessage}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractAddToDatabaseThenQueueCommandHandler{TCommand,TDbContext,TEntityFrameworkEntity,TQueueMessage}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">Factory for creating a database context instance.</param>
         /// <param name="queue">The queue to add the requests to.</param>
         /// <param name="logger">Logging framework instance.</param>
-        protected AbstractAddToDatabaseThenQueueRequestHandler(
+        protected AbstractAddToDatabaseThenQueueCommandHandler(
             Func<Task<TDbContext>> dbContextFactory,
             IQueue<TQueueMessage> queue,
-            ILogger<AbstractAddToDatabaseThenQueueRequestHandler<TRequest, TDbContext, TEntityFrameworkEntity, TQueueMessage>> logger)
+            ILogger<AbstractAddToDatabaseThenQueueCommandHandler<TCommand, TDbContext, TEntityFrameworkEntity, TQueueMessage>> logger)
         {
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
             _queue = queue ?? throw new ArgumentNullException(nameof(queue));
@@ -47,7 +47,7 @@ namespace Whipstaff.MediatR.Foundatio
 
         /// <inheritdoc />
         public async Task<string> Handle(
-            TRequest request,
+            TCommand request,
             CancellationToken cancellationToken)
         {
             using (var dbContext = await _dbContextFactory().ConfigureAwait(false))
@@ -104,7 +104,7 @@ namespace Whipstaff.MediatR.Foundatio
         /// </summary>
         /// <param name="request">The incoming mediator request.</param>
         /// <returns>The entity to insert.</returns>
-        protected abstract TEntityFrameworkEntity GetEntityToAddToDatabase(TRequest request);
+        protected abstract TEntityFrameworkEntity GetEntityToAddToDatabase(TCommand request);
 
         /// <summary>
         /// Gets the queue entry options, if required.
@@ -113,7 +113,7 @@ namespace Whipstaff.MediatR.Foundatio
         /// <param name="entityInserted">The entity inserted into the database.</param>
         /// <returns>Queue entry options, or null if not required.</returns>
         protected abstract QueueEntryOptions? GetQueueEntryOptions(
-            TRequest request,
+            TCommand request,
             TEntityFrameworkEntity entityInserted);
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Whipstaff.MediatR.Foundatio
         /// <param name="entityInserted">The entity inserted into the database.</param>
         /// <returns>Queue Message.</returns>
         protected abstract TQueueMessage GetQueueMessage(
-            TRequest request,
+            TCommand request,
             TEntityFrameworkEntity entityInserted);
     }
 }

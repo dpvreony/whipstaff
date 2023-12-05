@@ -24,7 +24,7 @@ namespace Whipstaff.Nuget
         /// <param name="logger">Nuget Logging Framework instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of packages for the author.</returns>
-        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthor(
+        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthorAsync(
             this SourceRepository sourceRepository,
             AuthorUsernameAsStringModel authorName,
             ILogger logger,
@@ -33,7 +33,7 @@ namespace Whipstaff.Nuget
             ArgumentNullException.ThrowIfNull(sourceRepository);
             var packageSearchResource = await sourceRepository.GetResourceAsync<PackageSearchResource>(cancellationToken).ConfigureAwait(false);
 
-            return await packageSearchResource.GetPackagesForAuthor(
+            return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,
                     logger,
                     cancellationToken)
@@ -50,7 +50,7 @@ namespace Whipstaff.Nuget
         /// <param name="logger">Nuget Logging Framework instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of selected output based on packages for the author.</returns>
-        public static async Task<IList<TResult>> GetPackagesForAuthor<TResult>(
+        public static async Task<IList<TResult>> GetPackagesForAuthorAsync<TResult>(
             this SourceRepository sourceRepository,
             AuthorUsernameAsStringModel authorName,
             Func<IPackageSearchMetadata, TResult> selector,
@@ -60,7 +60,7 @@ namespace Whipstaff.Nuget
             ArgumentNullException.ThrowIfNull(sourceRepository);
             var packageSearchResource = await sourceRepository.GetResourceAsync<PackageSearchResource>(cancellationToken).ConfigureAwait(false);
 
-            return await packageSearchResource.GetPackagesForAuthor(
+            return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,
                     selector,
                     logger,

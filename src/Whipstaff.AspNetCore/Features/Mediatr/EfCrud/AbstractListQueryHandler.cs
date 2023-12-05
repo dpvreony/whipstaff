@@ -10,24 +10,25 @@ using System.Threading.Tasks;
 using DynamicData;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
 {
     /// <summary>
     /// Base class for an EFCore List Operation.
     /// </summary>
-    /// <typeparam name="TRequest">The type for the CQRS request.</typeparam>
+    /// <typeparam name="TQuery">The type for the query.</typeparam>
     /// <typeparam name="TResponse">The type for the CQRS response.</typeparam>
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the Entity Framework Entity being queried.</typeparam>
     /// <typeparam name="TKey">The type for the Entity Primary Key.</typeparam>
-    public abstract class BaseListRequestHandler<TRequest, TResponse, TDbContext, TEntity, TKey> : IRequestHandler<TRequest, TResponse[]>
+    public abstract class AbstractListQueryHandler<TQuery, TResponse, TDbContext, TEntity, TKey> : IQueryHandler<TQuery, TResponse[]>
         where TDbContext : DbContext
         where TEntity : class
-        where TRequest : IRequest<TResponse[]>, IPageRequest
+        where TQuery : IQuery<TResponse[]>, IPageRequest
     {
         /// <inheritdoc />
-        public async Task<TResponse[]> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<TResponse[]> Handle(TQuery request, CancellationToken cancellationToken)
         {
             using (var dbContext = GetDbContext())
             {

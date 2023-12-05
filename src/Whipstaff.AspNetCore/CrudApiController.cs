@@ -123,7 +123,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">Unique ID of the entity to be deleted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Delete(
+        public async Task<IActionResult> DeleteAsync(
             int id,
             CancellationToken cancellationToken)
         {
@@ -147,7 +147,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="addRequestDto">The Request DTO for the Add Operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Post(
+        public async Task<IActionResult> PostAsync(
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
@@ -172,7 +172,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="updateRequestDto">The Request DTO of the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Put(
+        public async Task<IActionResult> PutAsync(
             long id,
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)

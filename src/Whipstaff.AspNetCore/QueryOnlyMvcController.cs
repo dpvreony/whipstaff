@@ -101,7 +101,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">unique id of the entity to view. or null if being used to list.</param>
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> Get(
+        public async Task<IActionResult> GetAsync(
             long? id,
             CancellationToken cancellationToken)
         {
