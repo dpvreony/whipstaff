@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
 
@@ -13,9 +14,10 @@ namespace Whipstaff.EntityFramework.SmokeTest
     /// </summary>
     /// <typeparam name="TDbContext">The type for the DBContext being tested.</typeparam>
     public sealed class DbSetCheckerLogMessageActions<TDbContext> : ILogMessageActions<AbstractDbSetChecker<TDbContext>>
+        where TDbContext : DbContext
     {
-        private Action<ILogger, Type, Exception?> _startingTestOfDbSet;
-        private Action<ILogger, Type, Exception?> _testOfDbSetFailed;
+        private readonly Action<ILogger, Type, Exception?> _startingTestOfDbSet;
+        private readonly Action<ILogger, Type, Exception?> _testOfDbSetFailed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DbSetCheckerLogMessageActions{TDbContext}"/> class.
@@ -33,11 +35,22 @@ namespace Whipstaff.EntityFramework.SmokeTest
                 "Failed during test of DBSet for {EntityType}");
         }
 
+        /// <summary>
+        /// Logs the start of a test of a DBSet.
+        /// </summary>
+        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="type">The type of the db set being tested.</param>
         public void StartingTestOfDbSet(ILogger logger, Type type)
         {
             _startingTestOfDbSet(logger, type, null);
         }
 
+        /// <summary>
+        /// Logs a failure during a test of a DBSet.
+        /// </summary>
+        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="type">The type of the db set being tested.</param>
+        /// <param name="exception">The exception that occurred.</param>
         public void TestOfDbSetFailed(ILogger logger, Type type, Exception exception)
         {
             _testOfDbSetFailed(logger, type, exception);

@@ -5,31 +5,52 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Whipstaff.Core.Logging;
 
 namespace Whipstaff.EntityFramework.SmokeTest
 {
+    /// <summary>
+    /// Abstract class for checking DBSets.
+    /// </summary>
+    /// <typeparam name="TDbContext">The type of the DbContext being tested.</typeparam>
     public abstract class AbstractDbSetChecker<TDbContext>
         where TDbContext : DbContext
     {
-        private AbstractLogMessageActionsWrapper<AbstractDbSetChecker<TDbContext>, DbSetCheckerLogMessageActions> _logMessageActionsWrapper;
+        private readonly DbSetCheckerLogMessageActionsWrapper<TDbContext> _logMessageActionsWrapper;
 
-        protected AbstractDbSetChecker(AbstractLogMessageActionsWrapper<AbstractDbSetChecker<TDbContext>, DbSetCheckerLogMessageActions> logMessageActionsWrapper)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractDbSetChecker{TDbContext}"/> class.
+        /// </summary>
+        /// <param name="logMessageActionsWrapper">Log Message Wrapper instance.</param>
+        protected AbstractDbSetChecker(DbSetCheckerLogMessageActionsWrapper<TDbContext> logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
             _logMessageActionsWrapper = logMessageActionsWrapper;
         }
 
+        /// <summary>
+        /// Carries out the testing of DB Sets.
+        /// </summary>
+        /// <param name="dbContext">Instance of the DbContext to test.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public abstract Task CheckDbSets(TDbContext dbContext);
 
-        private async Task CheckDbSet<TEntity>(DbSet<TEntity> dbSet)
+        /// <summary>
+        /// Carries out the test of an individual Db Set.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity being tested.</typeparam>
+        /// <param name="dbSet">The Db Set to test.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected async Task CheckDbSet<TEntity>(DbSet<TEntity> dbSet)
+            where TEntity : class
         {
             try
             {
                 _logMessageActionsWrapper.StartingTestOfDbSet(typeof(TEntity));
                 var result = await dbSet.FirstOrDefaultAsync().ConfigureAwait(false);
             }
+#pragma warning disable CA1031
             catch (Exception ex)
+#pragma warning restore CA1031
             {
                 _logMessageActionsWrapper.FailedToTestDbSet(ex, typeof(TEntity));
             }
