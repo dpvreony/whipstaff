@@ -25,7 +25,7 @@ namespace Whipstaff.Nuget
         /// <param name="nugetForwardingToNetCoreLogger">Forwarding logger instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of packages for the author.</returns>
-        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthor(
+        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthorAsync(
             AuthorUsernameAsStringModel authorName,
             NugetForwardingToNetCoreLogger nugetForwardingToNetCoreLogger,
             CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ namespace Whipstaff.Nuget
 
             foreach (var packageSource in sources)
             {
-                var packagesForAuthor = await packageSource.GetPackagesForAuthor(
+                var packagesForAuthor = await packageSource.GetPackagesForAuthorAsync(
                         authorName,
                         nugetForwardingToNetCoreLogger,
                         cancellationToken)
@@ -60,7 +60,7 @@ namespace Whipstaff.Nuget
         /// <param name="nugetForwardingToNetCoreLogger">Forwarding logger instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of selected output based on packages for the author.</returns>
-        public static async Task<IList<TResult>> GetPackagesForAuthor<TResult>(
+        public static async Task<IList<TResult>> GetPackagesForAuthorAsync<TResult>(
             AuthorUsernameAsStringModel authorName,
             Func<IPackageSearchMetadata, TResult> selector,
             NugetForwardingToNetCoreLogger nugetForwardingToNetCoreLogger,
@@ -74,7 +74,7 @@ namespace Whipstaff.Nuget
 
             foreach (var packageSource in sources)
             {
-                var packagesForAuthor = await packageSource.GetPackagesForAuthor(
+                var packagesForAuthor = await packageSource.GetPackagesForAuthorAsync(
                         authorName,
                         selector,
                         nugetForwardingToNetCoreLogger,

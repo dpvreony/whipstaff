@@ -4,6 +4,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Reflection;
 using System.Threading.Tasks;
 using Audit.Core;
@@ -13,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,6 +23,8 @@ using RimDev.Stuntman.Core;
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Core.Mediatr;
+using Whipstaff.EntityFramework.ModelCreation;
+using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
@@ -33,6 +38,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     public sealed class Startup : BaseStartup
     {
         private readonly StuntmanOptions _stuntmanOptions;
+        private readonly DbConnection _dbConnection;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
@@ -40,6 +46,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         public Startup()
         {
             _stuntmanOptions = new StuntmanOptions();
+            _dbConnection = CreateInMemoryDatabase();
         }
 
         /// <inheritdoc />
@@ -55,10 +62,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
 
             serviceCollection.AddStuntman(_stuntmanOptions);
-            var databaseName = Guid.NewGuid().ToString();
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
-                .UseInMemoryDatabase(databaseName: databaseName)
+                .UseSqlite(_dbConnection)
+                .AddInterceptors(new RowVersionSaveChangesInterceptor())
                 .Options);
+            _ = serviceCollection.AddSingleton<Func<IModelCreator<FakeDbContext>>>(x =>
+                () => new SqliteFakeDbContextModelCreator());
         }
 
         /// <inheritdoc />
@@ -125,6 +134,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         protected override IEnumerable<(string Url, string Name)> GetSwaggerEndpoints()
         {
             return Array.Empty<(string Url, string Name)>();
+        }
+
+        private static SqliteConnection CreateInMemoryDatabase()
+        {
+            var connection = new SqliteConnection("Filename=:memory:");
+
+            connection.Open();
+
+            return connection;
         }
     }
 }

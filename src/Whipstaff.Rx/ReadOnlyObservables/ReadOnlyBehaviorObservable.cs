@@ -19,10 +19,12 @@ namespace Whipstaff.Rx.ReadOnlyObservables
         /// Initializes a new instance of the <see cref="ReadOnlyBehaviorObservable{T}"/> class.
         /// </summary>
         /// <param name="behaviorSubject">The behaviour subject to wrap as read only.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public ReadOnlyBehaviorObservable(BehaviorSubject<T> behaviorSubject)
         {
             _behaviorSubject = behaviorSubject ?? throw new ArgumentNullException(nameof(behaviorSubject));
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc />
         public T Value => _behaviorSubject.Value;

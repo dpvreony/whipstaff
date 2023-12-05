@@ -4,6 +4,7 @@
 
 using System;
 using System.Speech.Synthesis;
+using Microsoft.Extensions.Logging;
 using ReactiveMarbles.ObservableEvents;
 
 namespace Whipstaff.Windows.SpeechSynthesis
@@ -34,6 +35,7 @@ namespace Whipstaff.Windows.SpeechSynthesis
         /// <param name="stateChangedObserver">Observer for when a speech state has changed.</param>
         /// <param name="visemeReachedObserver">Observer for when a viseme has been reached.</param>
         /// <param name="voiceChangeObserver">Observer for when the Voice has changed.</param>
+        /// <param name="logger">Logging framework instance.</param>
         public SpeechAnnouncements(
             IObserver<BookmarkReachedEventArgs>? bookmarkReachedObserver,
             IObserver<PhonemeReachedEventArgs>? phonemeReachedObserver,
@@ -42,52 +44,57 @@ namespace Whipstaff.Windows.SpeechSynthesis
             IObserver<SpeakStartedEventArgs>? speakStartedObserver,
             IObserver<StateChangedEventArgs>? stateChangedObserver,
             IObserver<VisemeReachedEventArgs>? visemeReachedObserver,
-            IObserver<VoiceChangeEventArgs>? voiceChangeObserver)
+            IObserver<VoiceChangeEventArgs>? voiceChangeObserver,
+            ILogger<SpeechAnnouncements> logger)
         {
+            ArgumentNullException.ThrowIfNull(logger);
+
             _speechSynthesizer = new SpeechSynthesizer
             {
                 Volume = 50,
                 Rate = 3
             };
 
+            var events = _speechSynthesizer.Events();
+
             if (bookmarkReachedObserver != null)
             {
-                _bookmarkReachedSubscription = _speechSynthesizer.Events().BookmarkReached.Subscribe(bookmarkReachedObserver);
+                _bookmarkReachedSubscription = events.BookmarkReached.Subscribe(bookmarkReachedObserver);
             }
 
             if (phonemeReachedObserver != null)
             {
-                _phonemeReachedSubscription = _speechSynthesizer.Events().PhonemeReached.Subscribe(phonemeReachedObserver);
+                _phonemeReachedSubscription = events.PhonemeReached.Subscribe(phonemeReachedObserver);
             }
 
             if (speakCompletedObserver != null)
             {
-                _speakCompletedSubscription = _speechSynthesizer.Events().SpeakCompleted.Subscribe(speakCompletedObserver);
+                _speakCompletedSubscription = events.SpeakCompleted.Subscribe(speakCompletedObserver);
             }
 
             if (speakProgressObserver != null)
             {
-                _speakProgressSubscription = _speechSynthesizer.Events().SpeakProgress.Subscribe(speakProgressObserver);
+                _speakProgressSubscription = events.SpeakProgress.Subscribe(speakProgressObserver);
             }
 
             if (speakStartedObserver != null)
             {
-                _speakStartedSubscription = _speechSynthesizer.Events().SpeakStarted.Subscribe(speakStartedObserver);
+                _speakStartedSubscription = events.SpeakStarted.Subscribe(speakStartedObserver);
             }
 
             if (stateChangedObserver != null)
             {
-                _stateChangedSubscription = _speechSynthesizer.Events().StateChanged.Subscribe(stateChangedObserver);
+                _stateChangedSubscription = events.StateChanged.Subscribe(stateChangedObserver);
             }
 
             if (visemeReachedObserver != null)
             {
-                _visemeReachedSubscription = _speechSynthesizer.Events().VisemeReached.Subscribe(visemeReachedObserver);
+                _visemeReachedSubscription = events.VisemeReached.Subscribe(visemeReachedObserver);
             }
 
             if (voiceChangeObserver != null)
             {
-                _voiceChangeSubscription = _speechSynthesizer.Events().VoiceChange.Subscribe(voiceChangeObserver);
+                _voiceChangeSubscription = events.VoiceChange.Subscribe(voiceChangeObserver);
             }
         }
 

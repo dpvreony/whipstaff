@@ -22,7 +22,7 @@ namespace Whipstaff.Runtime.Extensions
             where TListType : class
             where TRequiredType : TListType, new()
         {
-            if (list.All(t => t.GetType() != typeof(TRequiredType)))
+            if (list.All(t => t is not TRequiredType))
             {
                 list.Add(new TRequiredType());
             }

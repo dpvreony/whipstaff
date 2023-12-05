@@ -18,7 +18,7 @@ namespace Whipstaff.Wpf.InteractionFlows.PrintDialogInteraction
         /// </summary>
         /// <param name="request">Request settings for the Print Dialog.</param>
         /// <returns>Whether the Print Dialog was confirmed or cancelled.</returns>
-        public static Task<PrintDialogResult> OnPrintDialog(PrintDialogRequest request)
+        public static Task<PrintDialogResult> OnPrintDialogAsync(PrintDialogRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
 

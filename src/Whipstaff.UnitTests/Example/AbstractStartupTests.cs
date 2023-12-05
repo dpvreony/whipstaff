@@ -32,7 +32,7 @@ namespace Whipstaff.UnitTests.Example
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
         [Fact]
-        public async Task ReturnsApp()
+        public async Task ReturnsAppAsync()
         {
             var args = new[]
             {

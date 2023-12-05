@@ -9,9 +9,9 @@ namespace Whipstaff.Core.Mediatr
     /// <summary>
     /// Represents a MediatR Command.
     /// </summary>
-    /// <typeparam name="TResponse">Response of the command.</typeparam>
+    /// <typeparam name="TCommandResponse">Response of the command.</typeparam>
 #pragma warning disable CA1040 // Avoid empty interfaces
-    public interface ICommand<out TResponse> : IRequest<TResponse>
+    public interface ICommand<out TCommandResponse> : IRequest<TCommandResponse>
 #pragma warning restore CA1040 // Avoid empty interfaces
     {
     }

@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Shell;
 using Microsoft.Extensions.Logging;
+using ReactiveMarbles.ObservableEvents;
 
 namespace Whipstaff.Wpf.JumpLists
 {
@@ -27,32 +28,28 @@ namespace Whipstaff.Wpf.JumpLists
         /// Initializes a new instance of the <see cref="JumpListHelper"/> class.
         /// </summary>
         /// <param name="jumpList">Jump list associated with the application.</param>
-        /// <param name="logger">Logging framework instance.</param>
         /// <param name="jumpItemsRemovedByUserSubscription">Subscription action for handling the notification for when an item is removed from a jump list by a user.</param>
         /// <param name="jumpItemsRejectedSubscription">Subscription action for handling the notification for when a jump item is rejected.</param>
+        /// <param name="logger">Logging framework instance.</param>
         public JumpListHelper(
             JumpList jumpList,
-            ILogger<JumpListHelper> logger,
-            Action<EventPattern<JumpItemsRemovedEventArgs>>? jumpItemsRemovedByUserSubscription,
-            Action<EventPattern<JumpItemsRejectedEventArgs>>? jumpItemsRejectedSubscription)
+            Action<JumpItemsRemovedEventArgs>? jumpItemsRemovedByUserSubscription,
+            Action<JumpItemsRejectedEventArgs>? jumpItemsRejectedSubscription,
+            ILogger<JumpListHelper> logger)
         {
             _jumpList = jumpList ?? throw new ArgumentNullException(nameof(jumpList));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
+            var jumpListEvents = _jumpList.Events();
+
             if (jumpItemsRemovedByUserSubscription != null)
             {
-                _jumpItemsRemovedByUserSubscription = Observable.FromEventPattern<JumpItemsRemovedEventArgs>(
-                    x => _jumpList.JumpItemsRemovedByUser += x,
-                    x => _jumpList.JumpItemsRemovedByUser -= x)
-                    .Subscribe(jumpItemsRemovedByUserSubscription);
+                _jumpItemsRemovedByUserSubscription = jumpListEvents.JumpItemsRemovedByUser.Subscribe(jumpItemsRemovedByUserSubscription);
             }
 
             if (jumpItemsRejectedSubscription != null)
             {
-                _jumpItemsRejectedSubscription = Observable.FromEventPattern<JumpItemsRejectedEventArgs>(
-                    x => _jumpList.JumpItemsRejected += x,
-                    x => _jumpList.JumpItemsRejected -= x)
-                    .Subscribe(jumpItemsRejectedSubscription);
+                _jumpItemsRejectedSubscription = jumpListEvents.JumpItemsRejected.Subscribe(jumpItemsRejectedSubscription);
             }
         }
 
@@ -70,8 +67,8 @@ namespace Whipstaff.Wpf.JumpLists
             TApplication applicationContext,
             ILogger<JumpListHelper> logger,
             Func<string, IEnumerable<JumpItem>> jumpItemsFunc,
-            Action<EventPattern<JumpItemsRemovedEventArgs>> jumpItemsRemovedByUserSubscription,
-            Action<EventPattern<JumpItemsRejectedEventArgs>> jumpItemsRejectedSubscription)
+            Action<JumpItemsRemovedEventArgs> jumpItemsRemovedByUserSubscription,
+            Action<JumpItemsRejectedEventArgs> jumpItemsRejectedSubscription)
             where TApplication : Application
         {
             var assembly = typeof(TApplication).Assembly;
@@ -100,8 +97,8 @@ namespace Whipstaff.Wpf.JumpLists
             ILogger<JumpListHelper> logger,
             Assembly assembly,
             Func<string, IEnumerable<JumpItem>> jumpItemsFunc,
-            Action<EventPattern<JumpItemsRemovedEventArgs>> jumpItemsRemovedByUserSubscription,
-            Action<EventPattern<JumpItemsRejectedEventArgs>> jumpItemsRejectedSubscription)
+            Action<JumpItemsRemovedEventArgs> jumpItemsRemovedByUserSubscription,
+            Action<JumpItemsRejectedEventArgs> jumpItemsRejectedSubscription)
         {
             ArgumentNullException.ThrowIfNull(applicationContext);
             ArgumentNullException.ThrowIfNull(logger);
@@ -121,11 +118,8 @@ namespace Whipstaff.Wpf.JumpLists
 
                 JumpList.SetJumpList(applicationContext, jumpList);
             }
-            else
-            {
-            }
 
-            return new JumpListHelper(jumpList, logger, jumpItemsRemovedByUserSubscription, jumpItemsRejectedSubscription);
+            return new JumpListHelper(jumpList, jumpItemsRemovedByUserSubscription, jumpItemsRejectedSubscription, logger);
         }
 
         /// <inheritdoc />

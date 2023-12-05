@@ -27,6 +27,7 @@ namespace Whipstaff.Core.Logging
         private readonly string _format;
         private readonly List<string> _valueNames = new List<string>();
 
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public LogValuesFormatter(string format)
         {
             ArgumentNullException.ThrowIfNull(format);
@@ -72,6 +73,7 @@ namespace Whipstaff.Core.Logging
 
             _format = vsb.ToString();
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         public string OriginalFormat { get; private set; }
 
@@ -205,7 +207,9 @@ namespace Whipstaff.Core.Logging
             if (index < 0 || index > _valueNames.Count)
             {
 #pragma warning disable CA2201 // Do not raise reserved exception types
+#pragma warning disable S112
                 throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore S112
 #pragma warning restore CA2201 // Do not raise reserved exception types
             }
 
