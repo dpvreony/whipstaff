@@ -33,7 +33,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// <param name="dbSetFunc">Function for selecting the DBSet from the Entity Framework Context.</param>
         /// <param name="selector">Selector for the result output.</param>
         public FuncFetchFromEntityFrameworkByInt32IdQueryHandler(
-            Func<Task<TDbContext>> dbContextFactory,
+            IDbContextFactory<TDbContext> dbContextFactory,
             Func<TDbContext, DbSet<TEntity>> dbSetFunc,
             Expression<Func<TEntity, TResult>> selector)
             : base(dbContextFactory)

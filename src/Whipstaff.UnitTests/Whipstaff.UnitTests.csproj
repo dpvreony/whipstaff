@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp7.0-windows</TargetFrameworks>
+    <TargetFrameworks>netcoreapp8.0-windows10.0.19041</TargetFrameworks>
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject />
@@ -11,8 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,7 +22,10 @@
     <ProjectReference Include="..\Whipstaff.Couchbase\Whipstaff.Couchbase.csproj" />
     <ProjectReference Include="..\Whipstaff.Entityframework.Relational\Whipstaff.Entityframework.Relational.csproj" />
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
-    <ProjectReference Include="..\Whipstaff.Fakes\Whipstaff.Testing.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
+    <ProjectReference Include="..\Whipstaff.Healthchecks.EntityFramework\Whipstaff.Healthchecks.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.Foundatio\Whipstaff.MediatR.Foundatio.csproj" />
     <ProjectReference Include="..\Whipstaff.MsSql\Whipstaff.MsSql.csproj" />
@@ -34,10 +38,6 @@
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Runtime\" />
   </ItemGroup>
 
 </Project>

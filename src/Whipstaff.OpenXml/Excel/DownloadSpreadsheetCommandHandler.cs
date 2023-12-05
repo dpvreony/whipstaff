@@ -37,9 +37,12 @@ namespace Whipstaff.OpenXml.Excel
                     ("Sheet1", CreateSheetOne),
                     ("Sheet2", CreateSheetTwo),
                 };
-                var spreadsheet = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, worksheetActors);
-                spreadsheet.Save();
-                spreadsheet.Close();
+
+                using (var spreadsheet =
+                       SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, worksheetActors))
+                {
+                    spreadsheet.Save();
+                }
 
                 var fileName = $"{Guid.NewGuid()}.xlsx";
 

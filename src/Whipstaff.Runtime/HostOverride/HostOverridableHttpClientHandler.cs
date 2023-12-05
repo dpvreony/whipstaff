@@ -24,10 +24,12 @@ namespace Whipstaff.Runtime.HostOverride
         /// Initializes a new instance of the <see cref="HostOverridableHttpClientHandler"/> class.
         /// </summary>
         /// <param name="hostOverride">Implementation of a host override helper.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public HostOverridableHttpClientHandler(IHostOverride hostOverride)
         {
             _hostOverride = hostOverride ?? throw new ArgumentNullException(nameof(hostOverride));
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

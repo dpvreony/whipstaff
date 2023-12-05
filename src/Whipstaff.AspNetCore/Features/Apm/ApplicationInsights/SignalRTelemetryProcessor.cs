@@ -42,7 +42,7 @@ namespace Whipstaff.AspNetCore.Features.Apm.ApplicationInsights
                 {
                     var url = request.Url;
 
-                    if (url != null && _urlPaths.Any(urlPath => url.AbsolutePath.StartsWith(urlPath, StringComparison.OrdinalIgnoreCase)))
+                    if (url != null && Array.Exists(_urlPaths, urlPath => url.AbsolutePath.StartsWith(urlPath, StringComparison.OrdinalIgnoreCase)))
                     {
                         request.Duration = TimeSpan.Zero;
                     }

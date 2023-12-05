@@ -31,7 +31,8 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
         /// <param name="logger">Logging Framework Instance.</param>
         public LogDiagnosticListener(ILogger<LogDiagnosticListener> logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            ArgumentNullException.ThrowIfNull(logger);
+            _logger = logger;
 
             _middlewareFinishedLogAction = LoggerMessage.Define<string, int?>(
                 LogLevel.Information,

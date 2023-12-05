@@ -63,8 +63,10 @@ namespace Whipstaff.Runtime.Extensions
                 throw new ArgumentNullException(nameof(dataContractJsonSerializer));
             }
 
+#pragma warning disable GR0007
             var serializerType = dataContractJsonSerializer.GetType();
-            if (serializerType == typeof(TResult))
+#pragma warning restore GR0007
+            if (serializerType is not TResult)
             {
                 throw new ArgumentException($"Type on serializer is incorrect. Expected: {typeof(TResult)}, Got: {serializerType}", nameof(dataContractJsonSerializer));
             }

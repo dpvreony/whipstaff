@@ -24,13 +24,13 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         where TQuery : IQuery<TResult?>
         where TEntity : class
     {
-        private readonly Func<Task<TDbContext>> _dbContextFactory;
+        private readonly IDbContextFactory<TDbContext> _dbContextFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FetchFromEntityFrameworkQueryHandler{TRequest, TDbContext, TEntity,TResult}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
-        protected FetchFromEntityFrameworkQueryHandler(Func<Task<TDbContext>> dbContextFactory)
+        protected FetchFromEntityFrameworkQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
         }
@@ -38,7 +38,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// <inheritdoc/>
         public async Task<TResult?> Handle(TQuery request, CancellationToken cancellationToken)
         {
-            using (var dbContext = await _dbContextFactory().ConfigureAwait(false))
+            using (var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
             {
                 dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 

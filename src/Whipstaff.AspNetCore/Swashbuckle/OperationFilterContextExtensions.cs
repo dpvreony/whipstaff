@@ -20,10 +20,7 @@ namespace Whipstaff.AspNetCore.Swashbuckle
         /// <returns>Schema representation of the desired type.</returns>
         public static Microsoft.OpenApi.Models.OpenApiSchema EnsureTypeRegistered<T>(this OperationFilterContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
             var type = typeof(T);
             if (!context.SchemaRepository.TryLookupByType(type, out var problemDetailsReferenceSchema))

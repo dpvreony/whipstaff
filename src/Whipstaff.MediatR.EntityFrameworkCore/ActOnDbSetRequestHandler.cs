@@ -22,7 +22,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         where TDbContext : DbContext
         where TRequest : IRequest<int>
     {
-        private readonly Func<Task<TDbContext>> _dbContextFactory;
+        private readonly IDbContextFactory<TDbContext> _dbContextFactory;
         private readonly ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> _logger;
 
         /// <summary>
@@ -31,17 +31,20 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// <param name="dbContextFactory">The factory for the database context.</param>
         /// <param name="logger">Logging framework instance.</param>
         protected ActOnDbSetRequestHandler(
-            Func<Task<TDbContext>> dbContextFactory,
+            IDbContextFactory<TDbContext> dbContextFactory,
             ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> logger)
         {
-            _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            ArgumentNullException.ThrowIfNull(dbContextFactory);
+            ArgumentNullException.ThrowIfNull(logger);
+
+            _dbContextFactory = dbContextFactory;
+            _logger = logger;
         }
 
         /// <inheritdoc/>
         public async Task<int> Handle(TRequest request, CancellationToken cancellationToken)
         {
-            using (var dbContext = await _dbContextFactory().ConfigureAwait(false))
+            using (var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
             {
                 var dbQuery = await GetQueryAsync(dbContext).ConfigureAwait(false);
                 foreach (var requestEfModel in dbQuery)

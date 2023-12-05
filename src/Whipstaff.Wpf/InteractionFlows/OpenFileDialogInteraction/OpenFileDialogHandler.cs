@@ -18,7 +18,7 @@ namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
         /// </summary>
         /// <param name="request">Request settings for the Open File Dialog.</param>
         /// <returns>Whether the Open File Dialog was confirmed or cancelled.</returns>
-        public static Task<OpenFileDialogResult> OnOpenFileDialog(OpenFileDialogRequest request)
+        public static Task<OpenFileDialogResult> OnOpenFileDialogAsync(OpenFileDialogRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
 

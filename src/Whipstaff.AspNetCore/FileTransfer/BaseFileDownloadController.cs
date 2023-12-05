@@ -44,14 +44,14 @@ namespace Whipstaff.AspNetCore.FileTransfer
             IMediator mediator,
             Action<ILogger, string, Exception?> viewLogAction)
         {
-            _authorizationService = authorizationService ??
-                                         throw new ArgumentNullException(nameof(authorizationService));
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(viewLogAction);
 
-            _logger = logger ??
-                           throw new ArgumentNullException(nameof(logger));
-
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-
+            _authorizationService = authorizationService;
+            _logger = logger;
+            _mediator = mediator;
             _viewLogAction = viewLogAction;
         }
 

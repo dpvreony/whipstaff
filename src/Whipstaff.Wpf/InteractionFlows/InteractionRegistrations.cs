@@ -26,7 +26,7 @@ namespace Whipstaff.Wpf.InteractionFlows
             ArgumentNullException.ThrowIfNull(interactions);
 
             // ReSharper disable once ConvertClosureToMethodGroup
-            _ = interactions.FileOpenDialog.RegisterHandlerToOutputFunc(request => OpenFileDialogHandler.OnOpenFileDialog(request))
+            _ = interactions.FileOpenDialog.RegisterHandlerToOutputFunc(request => OpenFileDialogHandler.OnOpenFileDialogAsync(request))
                 .DisposeWith(compositeDisposable);
         }
 

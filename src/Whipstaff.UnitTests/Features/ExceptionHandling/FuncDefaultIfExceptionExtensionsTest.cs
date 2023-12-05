@@ -31,7 +31,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(-1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -42,7 +42,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -52,7 +52,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -98,7 +98,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -109,7 +109,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -119,7 +119,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -165,7 +165,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -176,7 +176,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -186,7 +186,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -236,7 +236,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -247,7 +247,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -257,7 +257,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -309,7 +309,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -320,7 +320,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -330,7 +330,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -384,7 +384,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -395,7 +395,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -405,7 +405,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -461,7 +461,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -472,7 +472,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -482,7 +482,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -540,7 +540,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -551,7 +551,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -561,7 +561,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -621,7 +621,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -632,7 +632,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -642,7 +642,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -704,7 +704,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -715,7 +715,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -725,7 +725,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -789,7 +789,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -800,7 +800,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -810,7 +810,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -876,7 +876,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -887,7 +887,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -897,7 +897,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -965,7 +965,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -976,7 +976,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -986,7 +986,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -1056,7 +1056,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -1067,7 +1067,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -1077,7 +1077,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -1149,7 +1149,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -1160,7 +1160,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -1170,7 +1170,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -1244,7 +1244,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -1255,7 +1255,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -1265,7 +1265,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(
@@ -1341,7 +1341,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
                 string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, -1))
-                    .ConfigureAwait(false);
+;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
@@ -1352,7 +1352,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsValueAsync()
             {
-                await ReturnsFromTask(ReturnsValue, -1, 1).ConfigureAwait(false);
+                await ReturnsFromTask(ReturnsValue, -1, 1);
             }
 
             /// <summary>
@@ -1362,7 +1362,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Fact]
             public async Task ReturnsDefaultAsync()
             {
-                await ReturnsFromTask(Throws, -1, -1).ConfigureAwait(false);
+                await ReturnsFromTask(Throws, -1, -1);
             }
 
             private static async Task ReturnsFromTask(

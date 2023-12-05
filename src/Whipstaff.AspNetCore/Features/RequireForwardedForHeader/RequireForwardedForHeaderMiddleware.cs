@@ -22,7 +22,8 @@ namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
         /// <param name="next">The next Middleware in the pipeline.</param>
         public RequireForwardedForHeaderMiddleware(RequestDelegate next)
         {
-            _next = next ?? throw new ArgumentNullException(nameof(next));
+            ArgumentNullException.ThrowIfNull(next);
+            _next = next;
         }
 
         /// <summary>
@@ -32,10 +33,7 @@ namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
             var headers = context.Request.Headers;
 

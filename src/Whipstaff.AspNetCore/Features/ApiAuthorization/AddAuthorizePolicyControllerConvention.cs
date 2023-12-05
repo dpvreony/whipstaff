@@ -19,10 +19,7 @@ namespace Whipstaff.AspNetCore.Features.ApiAuthorization
         /// <inheritdoc/>
         public void Apply(ControllerModel controller)
         {
-            if (controller == null)
-            {
-                throw new ArgumentNullException(nameof(controller));
-            }
+            ArgumentNullException.ThrowIfNull(controller);
 
             controller.Filters.Add(new AuthorizeFilter("ControllerAuthenticatedUser"));
         }

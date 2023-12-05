@@ -36,15 +36,8 @@ namespace Whipstaff.AspNetCore.ContentTypes
             this ContentType instance,
             FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (fileExtensionContentTypeProvider == null)
-            {
-                throw new ArgumentNullException(nameof(fileExtensionContentTypeProvider));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(fileExtensionContentTypeProvider);
 
             var mediaType = instance.MediaType;
 
@@ -58,7 +51,9 @@ namespace Whipstaff.AspNetCore.ContentTypes
                 return mapping;
             }
 
-            throw new ArgumentException($"Unable to map file extension for Media Type: {instance.MediaType}");
+            throw new ArgumentException(
+                $"Unable to map file extension for Media Type: {instance.MediaType}",
+                nameof(instance));
         }
     }
 }

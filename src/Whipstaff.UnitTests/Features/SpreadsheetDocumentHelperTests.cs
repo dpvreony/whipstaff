@@ -46,12 +46,13 @@ namespace Whipstaff.UnitTests.Features
                 {
                     var sheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>();
                     sheetActors.Add(("Sheet1", CreateSheet1));
-                    var workbook = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, sheetActors);
 
-                    Assert.NotNull(workbook);
+                    using (var workbook = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, sheetActors))
+                    {
+                        Assert.NotNull(workbook);
 
-                    workbook.Save();
-                    workbook.Close();
+                        workbook.Save();
+                    }
 
                     var buffer = stream.ToArray();
                     var stringOutput = Encoding.UTF8.GetString(buffer);

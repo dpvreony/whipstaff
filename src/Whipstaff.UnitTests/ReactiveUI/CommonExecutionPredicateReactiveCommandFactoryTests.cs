@@ -15,7 +15,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
     /// </summary>
     public static class CommonExecutionPredicateReactiveCommandFactoryTests
     {
-        private static IObservable<bool> BasicObservable() => new Subject<bool>();
+        private static Subject<bool> BasicObservable() => new();
 
         private static Func<int, int> BasicFunc() => input => input;
 
@@ -54,6 +54,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                 {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                     Add(
                         null,
                         BasicFunc(),
@@ -71,6 +72,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         BasicFunc(),
                         null,
                         "commandFunc2");
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 }
             }
         }
@@ -112,6 +114,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                 {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                     Add(
                         null,
                         BasicFunc(),
@@ -139,6 +142,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         BasicFunc(),
                         null,
                         "commandFunc3");
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 }
             }
         }
@@ -186,6 +190,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                 {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                     Add(
                         null,
                         BasicFunc(),
@@ -225,6 +230,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         BasicFunc(),
                         null,
                         "commandFunc4");
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 }
             }
         }
@@ -270,6 +276,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                 {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                     Add(
                         null,
                         BasicFunc(),
@@ -323,6 +330,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         BasicFunc(),
                         null,
                         "commandFunc5");
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 }
             }
         }
@@ -370,6 +378,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                 {
+#pragma warning disable CA2000 // Dispose objects before losing scope
                     Add(
                         null,
                         BasicFunc(),
@@ -439,6 +448,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         BasicFunc(),
                         null,
                         "commandFunc6");
+#pragma warning restore CA2000 // Dispose objects before losing scope
                 }
             }
         }

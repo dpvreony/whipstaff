@@ -14,6 +14,6 @@ namespace Whipstaff.Core.Entities
         /// <summary>
         /// Gets when a record was modified.
         /// </summary>
-        DateTime Modified { get; }
+        DateTimeOffset Modified { get; }
     }
 }

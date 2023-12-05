@@ -27,10 +27,7 @@ namespace Whipstaff.AspNetCore.Swashbuckle
             IList<Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseFormat> supportedResponseTypes,
             OpenApiSchema problemDetailsReferenceSchema)
         {
-            if (responses == null)
-            {
-                throw new ArgumentNullException(nameof(responses));
-            }
+            ArgumentNullException.ThrowIfNull(responses);
 
             var statusCodes = GetErrorHttpStatusCodes();
 

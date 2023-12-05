@@ -12,6 +12,6 @@ namespace Whipstaff.Core.Entities
         /// <summary>
         /// Gets or sets the row version.
         /// </summary>
-        long RowVersion { get; set; }
+        ulong RowVersion { get; set; }
     }
 }

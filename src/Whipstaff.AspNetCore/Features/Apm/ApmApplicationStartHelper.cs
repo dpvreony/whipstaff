@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Whipstaff.AspNetCore.Features.Apm.ApplicationInsights;
-using Whipstaff.AspNetCore.Features.Apm.HealthChecks;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Whipstaff.AspNetCore.Features.Apm
@@ -29,7 +28,7 @@ namespace Whipstaff.AspNetCore.Features.Apm
         public void ConfigureApplication(IApplicationBuilder app)
         {
             // ExceptionlessApplicationStartHelper.Configure(configuration, app, version);
-            new HealthChecksApplicationStartHelper().ConfigureApplication(app);
+            // new HealthChecksApplicationStartHelper().ConfigureApplication(app);
         }
     }
 }

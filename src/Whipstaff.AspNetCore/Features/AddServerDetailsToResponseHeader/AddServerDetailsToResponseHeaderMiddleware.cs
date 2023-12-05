@@ -55,7 +55,8 @@ namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
             string hostname,
             string appVersion)
         {
-            _next = next ?? throw new ArgumentNullException(nameof(next));
+            ArgumentNullException.ThrowIfNull(next);
+            _next = next;
             _hostName = hostname;
             _appVersion = appVersion;
         }
@@ -67,16 +68,13 @@ namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
             var response = context.Response;
 
             var headers = response.Headers;
-            headers.Add("X-HOSTNAME", _hostName);
-            headers.Add("X-APPVERSION", _appVersion);
+            headers.Append("X-HOSTNAME", _hostName);
+            headers.Append("X-APPVERSION", _appVersion);
 
             await _next.Invoke(context);
         }

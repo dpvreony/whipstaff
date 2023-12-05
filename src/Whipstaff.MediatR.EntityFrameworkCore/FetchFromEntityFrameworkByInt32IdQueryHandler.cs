@@ -30,7 +30,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// Initializes a new instance of the <see cref="FetchFromEntityFrameworkByInt32IdQueryHandler{TQuery, TDbContext, TEntity,TResult}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
-        protected FetchFromEntityFrameworkByInt32IdQueryHandler(Func<Task<TDbContext>> dbContextFactory)
+        protected FetchFromEntityFrameworkByInt32IdQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
             : base(dbContextFactory)
         {
         }

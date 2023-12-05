@@ -24,13 +24,15 @@ namespace Whipstaff.EntityFramework
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
         /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
-        public static Func<TDbContext, CancellationToken, Task<Task<long>>> GetMaxRowVersionCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
+        public static Func<TDbContext, CancellationToken, Task<Task<ulong?>>> GetMaxRowVersionCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
             where TDbSet : class, ILongRowVersion
         {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            // NRT contract doesn't cater that there can be no rows returned.
             return EF.CompileAsyncQuery((TDbContext context, CancellationToken cancellationToken) => dbSetSelector.Compile()(context)
                 .MaxAsync(
-                    entity => entity.RowVersion,
+                    x => x != null ? x.RowVersion : default(ulong?),
                     cancellationToken));
         }
 
@@ -41,12 +43,14 @@ namespace Whipstaff.EntityFramework
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
         /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
-        public static Func<TDbContext, long> GetMaxRowVersionCompiledQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
+        public static Func<TDbContext, ulong?> GetMaxRowVersionCompiledQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
             where TDbSet : class, ILongRowVersion
         {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            // NRT contract doesn't cater that there can be no rows returned.
             return EF.CompileQuery((TDbContext context) => dbSetSelector.Compile()(context)
-                .Max(entity => entity.RowVersion));
+                .Max(x => x != null ? x.RowVersion : default(ulong?)));
         }
 
         /// <summary>
@@ -56,11 +60,11 @@ namespace Whipstaff.EntityFramework
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
         /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
-        public static Func<TDbContext, long, long, IAsyncEnumerable<TDbSet>> GetWhereRowVersionBetweenCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
+        public static Func<TDbContext, ulong, ulong, IAsyncEnumerable<TDbSet>> GetWhereRowVersionBetweenCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
             where TDbSet : class, ILongRowVersion
         {
-            return EF.CompileAsyncQuery((TDbContext context, long min, long max) => dbSetSelector.Compile()(context)
+            return EF.CompileAsyncQuery((TDbContext context, ulong min, ulong max) => dbSetSelector.Compile()(context)
                 .Where(entity => entity.RowVersion >= min && entity.RowVersion <= max));
         }
 
@@ -71,11 +75,11 @@ namespace Whipstaff.EntityFramework
         /// <typeparam name="TDbSet">The type for the Database set.</typeparam>
         /// <param name="dbSetSelector">Function to select the DBSet used for the compiled query.</param>
         /// <returns>Compiled EF Query.</returns>
-        public static Func<TDbContext, long, IAsyncEnumerable<TDbSet>> GetWhereRowVersionGreaterThanCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
+        public static Func<TDbContext, ulong, IAsyncEnumerable<TDbSet>> GetWhereRowVersionGreaterThanCompiledAsyncQuery<TDbContext, TDbSet>(System.Linq.Expressions.Expression<Func<TDbContext, DbSet<TDbSet>>> dbSetSelector)
             where TDbContext : DbContext
             where TDbSet : class, ILongRowVersion
         {
-            return EF.CompileAsyncQuery((TDbContext context, long rowVersion) => dbSetSelector.Compile()(context).Where(entity => entity.RowVersion > rowVersion));
+            return EF.CompileAsyncQuery((TDbContext context, ulong rowVersion) => dbSetSelector.Compile()(context).Where(entity => entity.RowVersion > rowVersion));
         }
 
         /// <summary>

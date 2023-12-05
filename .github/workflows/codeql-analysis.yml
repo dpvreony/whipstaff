@@ -42,7 +42,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
       with:
         fetch-depth: 0
 
@@ -68,10 +68,10 @@ jobs:
     #  with:
     #    dotnet-version: 5.0.x
 
-    - name: Install .NET 7
-      uses: actions/setup-dotnet@v3
+    - name: Install .NET 8
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
 
     - name: Install DotNet workloads
       shell: bash
@@ -79,9 +79,7 @@ jobs:
         dotnet workload install android ios tvos macos maui
 
     - name: Add MSBuild to PATH
-      uses: glennawatson/setup-msbuild@v1.0.3
-      with:
-        prerelease: true
+      uses: microsoft/setup-msbuild@3404ff3d40458f8d1fdf55c2bcc442b970404ad7
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
@@ -89,7 +87,7 @@ jobs:
 
     - name: Restore Packages
       run: |
-        dotnet restore ${{ env.SOLUTION_PATH }} /bl:artifacts\\binlog\\restore.binlog
+        dotnet restore ${{ env.SOLUTION_PATH }}
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -103,19 +101,14 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget /p:UseSharedCompilation=false
+        msbuild /t:build /p:Configuration=Release /maxcpucount /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget /p:UseSharedCompilation=false
       working-directory: src
 
-    # ℹ️ Command-line programs to run using the OS shell.
-    # 📚 https://git.io/JvXDl
-
-    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
-    #    and modify them (or add more) to build your code if your project
-    #    uses a compiled language
-
-    #- run: |
-    #   make bootstrap
-    #   make release
+    # CodeQL runs out of disk space so we remove the src folder once we've finished build
+    - name: Remove src dir
+      shell: cmd
+      run: |
+        rmdir src /s /q
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

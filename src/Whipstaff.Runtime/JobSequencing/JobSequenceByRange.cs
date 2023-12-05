@@ -12,9 +12,6 @@ namespace Whipstaff.Runtime.JobSequencing
     /// <typeparam name="T">The type for the sequence.</typeparam>
     public sealed class JobSequenceByRange<T>
     {
-        private readonly T _start;
-        private readonly T _end;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="JobSequenceByRange{T}"/> class.
         /// </summary>
@@ -22,8 +19,24 @@ namespace Whipstaff.Runtime.JobSequencing
         /// <param name="end">The end point for the job.</param>
         public JobSequenceByRange(T start, T end)
         {
-            _start = start;
-            _end = end;
+            Start = start;
+            End = end;
+        }
+
+        /// <summary>
+        /// Gets the start point for the job.
+        /// </summary>
+        public T Start
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the end point for the job.
+        /// </summary>
+        public T End
+        {
+            get;
         }
 
         /// <summary>

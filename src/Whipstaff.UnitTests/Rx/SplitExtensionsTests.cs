@@ -17,102 +17,160 @@ namespace Whipstaff.UnitTests.Rx
     public static class SplitExtensionsTests
     {
         /// <summary>
+        /// interface for Mass Test Object for splitting.
+        /// </summary>
+        public interface ISomeMassObjectViewModel : IReactiveObject
+        {
+            /// <summary>
+            /// Gets or sets the first property.
+            /// </summary>
+            int One
+            {
+                get;
+                set;
+            }
+
+            /// <summary>
+            /// Gets or sets the second property.
+            /// </summary>
+            int Two { get; set; }
+
+            /// <summary>
+            /// Gets or sets the third property.
+            /// </summary>
+            int Three { get; set; }
+
+            /// <summary>
+            /// Gets or sets the fourth property.
+            /// </summary>
+            int Four { get; set; }
+
+            /// <summary>
+            /// Gets or sets the fifth property.
+            /// </summary>
+            int Five { get; set; }
+
+            /// <summary>
+            /// Gets or sets the sixth property.
+            /// </summary>
+            int Six { get; set; }
+
+            /// <summary>
+            /// Gets or sets the seventh property.
+            /// </summary>
+            int Seven { get; set; }
+
+            /// <summary>
+            /// Gets or sets the eight property.
+            /// </summary>
+            int Eight { get; set; }
+
+            /// <summary>
+            /// Gets or sets the ninth property.
+            /// </summary>
+            int Nine { get; set; }
+
+            /// <summary>
+            /// Gets or sets the tenth property.
+            /// </summary>
+            int Ten { get; set; }
+
+            /// <summary>
+            /// Gets or sets the eleventh property.
+            /// </summary>
+            int Eleven { get; set; }
+
+            /// <summary>
+            /// Gets or sets the twelfth property.
+            /// </summary>
+            int Twelve { get; set; }
+
+            /// <summary>
+            /// Gets or sets the thirteenth property.
+            /// </summary>
+            int Thirteen { get; set; }
+
+            /// <summary>
+            /// Gets or sets the fourteenth property.
+            /// </summary>
+            int Fourteen { get; set; }
+
+            /// <summary>
+            /// Gets or sets the fifteenth property.
+            /// </summary>
+            int Fifteen { get; set; }
+
+            /// <summary>
+            /// Gets or sets the sixteenth property.
+            /// </summary>
+            int Sixteen { get; set; }
+        }
+
+        /// <summary>
         /// Mass Test Object for splitting.
         /// </summary>
-        public sealed class SomeMassObject : ReactiveObject
+        public sealed class SomeMassObjectViewModel : ReactiveObject, ISomeMassObjectViewModel
         {
             private int _one;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="SomeMassObject"/> class.
+            /// Initializes a new instance of the <see cref="SomeMassObjectViewModel"/> class.
             /// </summary>
-            public SomeMassObject()
+            public SomeMassObjectViewModel()
             {
                 One = 1;
             }
 
-            /// <summary>
-            /// Gets or sets the first property.
-            /// </summary>
+            /// <inheritdoc />
             public int One
             {
                 get => _one;
                 set => this.RaiseAndSetIfChanged(ref _one, value);
             }
 
-            /// <summary>
-            /// Gets or sets the second property.
-            /// </summary>
+            /// <inheritdoc />
             public int Two { get; set; } = 2;
 
-            /// <summary>
-            /// Gets or sets the third property.
-            /// </summary>
+            /// <inheritdoc />
             public int Three { get; set; } = 3;
 
-            /// <summary>
-            /// Gets or sets the fourth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Four { get; set; } = 4;
 
-            /// <summary>
-            /// Gets or sets the fifth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Five { get; set; } = 5;
 
-            /// <summary>
-            /// Gets or sets the sixth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Six { get; set; } = 6;
 
-            /// <summary>
-            /// Gets or sets the seventh property.
-            /// </summary>
+            /// <inheritdoc />
             public int Seven { get; set; } = 7;
 
-            /// <summary>
-            /// Gets or sets the eight property.
-            /// </summary>
+            /// <inheritdoc />
             public int Eight { get; set; } = 8;
 
-            /// <summary>
-            /// Gets or sets the ninth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Nine { get; set; } = 9;
 
-            /// <summary>
-            /// Gets or sets the tenth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Ten { get; set; } = 10;
 
-            /// <summary>
-            /// Gets or sets the eleventh property.
-            /// </summary>
+            /// <inheritdoc />
             public int Eleven { get; set; } = 11;
 
-            /// <summary>
-            /// Gets or sets the twelfth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Twelve { get; set; } = 12;
 
-            /// <summary>
-            /// Gets or sets the thirteenth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Thirteen { get; set; } = 13;
 
-            /// <summary>
-            /// Gets or sets the fourteenth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Fourteen { get; set; } = 14;
 
-            /// <summary>
-            /// Gets or sets the fifteenth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Fifteen { get; set; } = 15;
 
-            /// <summary>
-            /// Gets or sets the sixteenth property.
-            /// </summary>
+            /// <inheritdoc />
             public int Sixteen { get; set; } = 16;
         }
 
@@ -127,7 +185,7 @@ namespace Whipstaff.UnitTests.Rx
             [Fact]
             public void ReturnsTwoObservables()
             {
-                using (var observable = new Subject<SomeMassObject>())
+                using (var observable = new Subject<SomeMassObjectViewModel>())
                 {
                     var (observable1, observable2) = observable.Split(
                         x => x.One,
@@ -144,7 +202,7 @@ namespace Whipstaff.UnitTests.Rx
                         cd.Add(observable1.Subscribe(i => item1 = i));
                         cd.Add(observable2.Subscribe(i => item2 = i));
 
-                        var massObjectToTest = new SomeMassObject();
+                        var massObjectToTest = new SomeMassObjectViewModel();
                         observable.OnNext(massObjectToTest);
 
                         Assert.Equal(massObjectToTest.One, item1);
@@ -165,7 +223,7 @@ namespace Whipstaff.UnitTests.Rx
             [Fact]
             public void ReturnsThreeObservables()
             {
-                using (var observable = new Subject<SomeMassObject>())
+                using (var observable = new Subject<SomeMassObjectViewModel>())
                 {
                     var (
                         observable1,
@@ -189,7 +247,7 @@ namespace Whipstaff.UnitTests.Rx
                         cd.Add(observable2.Subscribe(i => item2 = i));
                         cd.Add(observable3.Subscribe(i => item3 = i));
 
-                        var massObjectToTest = new SomeMassObject();
+                        var massObjectToTest = new SomeMassObjectViewModel();
                         observable.OnNext(massObjectToTest);
 
                         Assert.Equal(massObjectToTest.One, item1);
