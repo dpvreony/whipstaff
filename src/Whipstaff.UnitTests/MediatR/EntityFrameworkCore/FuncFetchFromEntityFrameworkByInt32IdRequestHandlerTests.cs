@@ -37,8 +37,6 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             [Fact]
             public void ReturnsInstance()
             {
-                var optionsBuilder = new DbContextOptionsBuilder().UseInMemoryDatabase("test");
-                var options = optionsBuilder.Options;
                 var dbContextFactory = new FakeDbContextFactory(Log);
 
                 var instance =
@@ -70,10 +68,8 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsResult()
+            public async Task ReturnsResultAsync()
             {
-                var optionsBuilder = new DbContextOptionsBuilder().UseInMemoryDatabase("test");
-                var options = optionsBuilder.Options;
                 var dbContextFactory = new FakeDbContextFactory(Log);
 
                 var instance =
@@ -89,7 +85,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
 
                 var response = await instance.Handle(
                     request,
-                    CancellationToken.None).ConfigureAwait(false);
+                    CancellationToken.None);
             }
         }
     }

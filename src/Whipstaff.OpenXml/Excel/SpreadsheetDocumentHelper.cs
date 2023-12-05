@@ -53,7 +53,11 @@ namespace Whipstaff.OpenXml.Excel
             {
                 var worksheetPart = workbookPart.AddNewPart<WorksheetPart>();
                 var sheetData = new SheetData();
-                var worksheet = new Worksheet(sheetData);
+                var sheetElements = new[]
+                {
+                    sheetData,
+                };
+                var worksheet = new Worksheet(sheetElements);
 
                 worksheetPart.Worksheet = worksheet;
                 var workSheetPartId = workbookPart.GetIdOfPart(worksheetPart);

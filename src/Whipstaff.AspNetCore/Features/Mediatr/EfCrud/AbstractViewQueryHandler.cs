@@ -7,25 +7,25 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
 {
     /// <summary>
     /// Base class for fetching a single record from mediatr.
     /// </summary>
-    /// <typeparam name="TRequest">The request type for the MediatR query.</typeparam>
+    /// <typeparam name="TQuery">The request type for the MediatR query.</typeparam>
     /// <typeparam name="TResponse">The response type coming out of MediatR.</typeparam>
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the Entity Framework DB Set.</typeparam>
-    public abstract class BaseViewRequestHandler<TRequest, TResponse, TDbContext, TEntity> : IRequestHandler<TRequest, TResponse?>
+    public abstract class AbstractViewQueryHandler<TQuery, TResponse, TDbContext, TEntity> : IQueryHandler<TQuery, TResponse?>
         where TDbContext : DbContext
         where TEntity : class
-        where TRequest : IRequest<TResponse?>
+        where TQuery : IQuery<TResponse?>
     {
         /// <inheritdoc />
-        public async Task<TResponse?> Handle(TRequest request, CancellationToken cancellationToken)
+        public async Task<TResponse?> Handle(TQuery request, CancellationToken cancellationToken)
         {
             using (var dbContext = GetDbContext())
             {

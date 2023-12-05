@@ -25,7 +25,7 @@ namespace Whipstaff.Nuget
         /// <param name="logger">NuGet logging framework instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of packages for the author.</returns>
-        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthor(
+        public static async Task<IList<IPackageSearchMetadata>> GetPackagesForAuthorAsync(
             this PackageSearchResource packageSearchResource,
             AuthorUsernameAsStringModel authorName,
             ILogger logger,
@@ -72,7 +72,7 @@ namespace Whipstaff.Nuget
         /// <param name="logger">NuGet logging framework instance.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>List of packages for the author.</returns>
-        public static async Task<IList<TResult>> GetPackagesForAuthor<TResult>(
+        public static async Task<IList<TResult>> GetPackagesForAuthorAsync<TResult>(
             this PackageSearchResource packageSearchResource,
             AuthorUsernameAsStringModel authorName,
             Func<IPackageSearchMetadata, TResult> selector,

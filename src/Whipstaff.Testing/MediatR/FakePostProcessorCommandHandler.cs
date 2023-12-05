@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
+using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
@@ -20,14 +21,17 @@ namespace Whipstaff.Testing.MediatR
         : IRequestPostProcessor<FakeCrudAddCommand, int?>
     {
         private readonly DbContextOptions<FakeDbContext> _fakeDbContextOptions;
+        private readonly Func<IModelCreator<FakeDbContext>> _modelCreatorFunc;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FakePostProcessorCommandHandler"/> class.
         /// </summary>
         /// <param name="fakeDbContextOptions">Entity Framework DB Context options for initializing instance.</param>
-        public FakePostProcessorCommandHandler(DbContextOptions<FakeDbContext> fakeDbContextOptions)
+        /// <param name="modelCreatorFunc">Function used to build the database model. Allows for extra control for versions, features, and provider specific customization to be injected.</param>
+        public FakePostProcessorCommandHandler(DbContextOptions<FakeDbContext> fakeDbContextOptions, Func<IModelCreator<FakeDbContext>> modelCreatorFunc)
         {
             _fakeDbContextOptions = fakeDbContextOptions ?? throw new ArgumentNullException(nameof(fakeDbContextOptions));
+            _modelCreatorFunc = modelCreatorFunc ?? throw new ArgumentNullException(nameof(modelCreatorFunc));
         }
 
         /// <inheritdoc />
@@ -36,12 +40,9 @@ namespace Whipstaff.Testing.MediatR
             int? response,
             CancellationToken cancellationToken)
         {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
+            ArgumentNullException.ThrowIfNull(request);
 
-            using (var dbContext = new FakeDbContext(_fakeDbContextOptions))
+            using (var dbContext = new FakeDbContext(_fakeDbContextOptions, _modelCreatorFunc))
             {
                 var entity = new FakeAddPostProcessAuditDbSet
                 {

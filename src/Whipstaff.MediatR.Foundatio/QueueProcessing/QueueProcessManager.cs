@@ -122,7 +122,7 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
 
                     var attempt = 1;
                     var maxRetries = 2;
-                    var recoveryStrategy = QueueMessageRecoveryStrategy.Complete;
+                    QueueMessageRecoveryStrategy recoveryStrategy;
                     do
                     {
                         recoveryStrategy = await OnProcessMessageAsync(queueEntry)
@@ -137,7 +137,8 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
                     }
                     while (attempt <= maxRetries);
 
-                    innerCancellationTokenSource.Cancel();
+                    await innerCancellationTokenSource.CancelAsync()
+                        .ConfigureAwait(false);
 
                     // we wait for renewal to stop so we can complete the message off, or act upon
                     // it without a race condition.

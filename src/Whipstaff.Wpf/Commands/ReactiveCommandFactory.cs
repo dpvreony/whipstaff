@@ -50,11 +50,11 @@ namespace Whipstaff.Wpf.Commands
             IScheduler? outputScheduler = null)
         {
 #pragma warning disable CA2000 // Dispose objects before losing scope
-            return ReactiveCommand.CreateFromTask(() => OnShellExecute(fileName), canExecute, outputScheduler);
+            return ReactiveCommand.CreateFromTask(() => OnShellExecuteAsync(fileName), canExecute, outputScheduler);
 #pragma warning restore CA2000 // Dispose objects before losing scope
         }
 
-        private static Task<int?> OnShellExecute(string fileName)
+        private static Task<int?> OnShellExecuteAsync(string fileName)
         {
             var processStartInfo = new ProcessStartInfo(fileName)
             {

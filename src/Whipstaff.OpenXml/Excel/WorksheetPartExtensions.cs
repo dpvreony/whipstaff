@@ -149,13 +149,10 @@ namespace Whipstaff.OpenXml.Excel
             Cell? refCell = null;
             foreach (var cell in row.Elements<Cell>())
             {
-                if (cell.CellReference?.Value?.Length == cellReference.Length)
+                if (cell.CellReference?.Value?.Length == cellReference.Length && string.Compare(cell.CellReference.Value, cellReference, StringComparison.Ordinal) > 0)
                 {
-                    if (string.Compare(cell.CellReference.Value, cellReference, StringComparison.Ordinal) > 0)
-                    {
-                        refCell = cell;
-                        break;
-                    }
+                    refCell = cell;
+                    break;
                 }
             }
 

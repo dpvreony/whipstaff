@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Runtime.HostOverride
 {
@@ -14,14 +15,17 @@ namespace Whipstaff.Runtime.HostOverride
     public sealed class InMemoryHostOverride : IHostOverride
     {
         private readonly IDictionary<string, string> _mappings;
+        private readonly ILogger<InMemoryHostOverride> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InMemoryHostOverride"/> class.
         /// </summary>
         /// <param name="mappings">Dictionary of mappings.</param>
-        public InMemoryHostOverride(IDictionary<string, string> mappings)
+        /// <param name="logger">Logging Framework instance.</param>
+        public InMemoryHostOverride(IDictionary<string, string> mappings, ILogger<InMemoryHostOverride> logger)
         {
             _mappings = mappings ?? throw new ArgumentNullException(nameof(mappings));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc/>
@@ -32,7 +36,18 @@ namespace Whipstaff.Runtime.HostOverride
                 throw new ArgumentNullException(nameof(host));
             }
 
-            return _mappings.FirstOrDefault(x => x.Key.Equals(host, StringComparison.Ordinal)).Value;
+            var value = _mappings.FirstOrDefault(x => x.Key.Equals(host, StringComparison.Ordinal)).Value;
+
+            if (value == null)
+            {
+                _logger.LogDebug("No override found for host \"{host}\"", host);
+            }
+            else
+            {
+                _logger.LogDebug("Found override for host \"{host}\" to \"{value}\"", host, value);
+            }
+
+            return value;
         }
     }
 }

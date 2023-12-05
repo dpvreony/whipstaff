@@ -82,9 +82,9 @@ namespace Whipstaff.Wpf.InteractionFlows
             IScheduler? handlerScheduler = null)
         {
             return new Interactions(
-                OpenFileDialogHandler.OnOpenFileDialog,
-                SaveFileDialogHandler.OnSaveFileDialog,
-                PrintDialogHandler.OnPrintDialog,
+                OpenFileDialogHandler.OnOpenFileDialogAsync,
+                SaveFileDialogHandler.OnSaveFileDialogAsync,
+                PrintDialogHandler.OnPrintDialogAsync,
                 compositeDisposable,
                 handlerScheduler);
         }

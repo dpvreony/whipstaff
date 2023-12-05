@@ -43,11 +43,11 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            await WithWebApplicationFactory(async factory =>
+            await WithWebApplicationFactoryAsync(async factory =>
             {
                 var client = factory.CreateClient();
                 var requestUri = new Uri(requestPath, UriKind.Absolute);
-                var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+                var response = await client.GetAsync(requestUri);
 
                 _ = response.EnsureSuccessStatusCode();
 
@@ -60,8 +60,8 @@ namespace Whipstaff.IntegrationTests
                     contentType.ToString());
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-                await LogResponseAsync(response).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+                await LogResponseAsync(response);
+            });
         }
 
         /// <summary>
@@ -69,18 +69,18 @@ namespace Whipstaff.IntegrationTests
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         [Fact]
-        public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitly()
+        public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitlyAsync()
         {
-            await WithWebApplicationFactory(async factory =>
+            await WithWebApplicationFactoryAsync(async factory =>
             {
                 var client = factory.CreateClient();
                 var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
-                var response = await client.GetAsync(requestUri).ConfigureAwait(false);
+                var response = await client.GetAsync(requestUri);
 
                 Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
 
-                await LogResponseAsync(response).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+                await LogResponseAsync(response);
+            });
         }
 
         private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()

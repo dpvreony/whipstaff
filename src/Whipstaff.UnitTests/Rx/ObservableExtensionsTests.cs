@@ -52,7 +52,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
@@ -111,7 +111,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 var completedCount = 0;
@@ -176,7 +176,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 var errorCount = 0;
@@ -243,7 +243,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 var errorCount = 0;
@@ -372,7 +372,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
@@ -435,7 +435,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 var completedCount = 0;
@@ -503,7 +503,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 var errorCount = 0;
@@ -574,7 +574,7 @@ namespace Whipstaff.UnitTests.Rx
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReactiveCommandFiresOffNextSubscription()
+            public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
                 var errorCount = 0;

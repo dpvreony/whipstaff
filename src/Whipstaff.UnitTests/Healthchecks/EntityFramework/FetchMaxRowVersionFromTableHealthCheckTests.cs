@@ -71,16 +71,16 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsHealthy()
+            public async Task ReturnsHealthyAsync()
             {
                 var dbContextFactory = new FakeDbContextFactory(Log);
                 using (var dbContext = dbContextFactory.CreateDbContext())
                 {
                     _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 })
-                        .ConfigureAwait(false);
+;
 
                     _ = await dbContext.SaveChangesAsync()
-                        .ConfigureAwait(false);
+;
                 }
 
                 var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(dbContextFactory);
@@ -88,7 +88,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
                 var context = new HealthCheckContext();
 
                 var result = await instance.CheckHealthAsync(context)
-                    .ConfigureAwait(false);
+;
 
                 Assert.Equal(HealthStatus.Healthy, result.Status);
             }
@@ -98,14 +98,14 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsDegraded()
+            public async Task ReturnsDegradedAsync()
             {
                 var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(Log));
 
                 var context = new HealthCheckContext();
 
                 var result = await instance.CheckHealthAsync(context)
-                    .ConfigureAwait(false);
+;
 
                 Assert.Equal(HealthStatus.Degraded, result.Status);
             }

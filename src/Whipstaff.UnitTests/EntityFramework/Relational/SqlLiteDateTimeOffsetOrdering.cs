@@ -107,7 +107,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsData()
+            public async Task ReturnsDataAsync()
             {
                 var dbContextOptionsBuilder = new DbContextOptionsBuilder();
                 using (var connection = CreateInMemoryDatabase())
@@ -116,12 +116,11 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
 
                     using (var dbContext = new TestWithOnModelCreatingDbContext(dbContextOptionsBuilder.Options))
                     {
-                        _ = dbContext.Database.EnsureCreated();
+                        _ = await dbContext.Database.EnsureCreatedAsync();
 
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
-                            .ToArrayAsync()
-                            .ConfigureAwait(false);
+                            .ToArrayAsync();
                     }
                 }
             }
@@ -131,7 +130,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsData2()
+            public async Task ReturnsData2Async()
             {
                 var dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
@@ -150,17 +149,16 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
 
                     using (var dbContext = new TestWithContextOptionsDbContext(dbContextOptionsBuilder.Options))
                     {
-                        _ = dbContext.Database.EnsureCreated();
+                        _ = await dbContext.Database.EnsureCreatedAsync();
 
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
-                            .ToArrayAsync()
-                            .ConfigureAwait(false);
+                            .ToArrayAsync();
                     }
                 }
             }
 
-            private static DbConnection CreateInMemoryDatabase()
+            private static SqliteConnection CreateInMemoryDatabase()
             {
                 var connection = new SqliteConnection("Filename=:memory:");
 
