@@ -22,7 +22,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
     public sealed class DistributedLockProcessManager : BackgroundService
     {
         private readonly BehaviorSubject<bool> _hasLockSubject = new(false);
-        private readonly ILogger<DistributedLockProcessManager> _log;
+        private readonly ILogger<DistributedLockProcessManager> _logger;
         private readonly IMessageBus _messageBus;
         private readonly string _lockName;
         private readonly LockLostBehavior _lockLostBehaviour;
@@ -40,20 +40,17 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             LockLostBehavior lockLostBehavior,
             ILogger<DistributedLockProcessManager> logger)
         {
-            _messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
-
+            ArgumentNullException.ThrowIfNull(messageBus);
+            ArgumentNullException.ThrowIfNull(logger);
             if (string.IsNullOrWhiteSpace(lockName))
             {
                 throw new ArgumentNullException(nameof(lockName));
             }
 
+            _messageBus = messageBus;
             _lockName = lockName;
-
             _lockLostBehaviour = lockLostBehavior;
-
-            ArgumentNullException.ThrowIfNull(loggerFactory);
-
-            _log = loggerFactory.CreateLogger<DistributedLockProcessManager>();
+            _logger = logger;
         }
 
         /// <summary>
@@ -118,7 +115,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             LockLostBehavior lockLostBehavior,
             CancellationToken cancellationToken)
         {
-            _log.TraceMethodEntry();
+            _logger.TraceMethodEntry();
 
             if (cancellationToken.IsCancellationRequested)
             {
@@ -174,7 +171,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             ILock lockHandle,
             CancellationToken cancellationToken)
         {
-            _log.TraceMethodEntry();
+            _logger.TraceMethodEntry();
             _hasLockSubject.OnNext(true);
 
             // however we keep in mind if the service bus dies
@@ -203,7 +200,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             ILock lockHandle,
             CancellationToken cancellationToken)
         {
-            _log.TraceMethodEntry();
+            _logger.TraceMethodEntry();
             const int timeout = 5000;
             await LoopUntilCancelledAsync(
                 () => lockHandle.RenewAsync(),
@@ -217,7 +214,7 @@ namespace Whipstaff.MediatR.Foundatio.DistributedLocking
             int timeout,
             CancellationToken cancellationToken)
         {
-            _log.TraceMethodEntry();
+            _logger.TraceMethodEntry();
 
             while (!cancellationToken.IsCancellationRequested)
             {

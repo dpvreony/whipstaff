@@ -113,7 +113,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
 ;
             }
 
-            private static DbConnection CreateInMemoryDatabase()
+            private static SqliteConnection CreateInMemoryDatabase()
             {
                 var connection = new SqliteConnection("Filename=:memory:");
 
