@@ -473,7 +473,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.GetAsync(null, CancellationToken.None);
+                var result = await instance.ListAsync(CancellationToken.None);
                 Assert.NotNull(result);
                 _ = Assert.IsType<OkObjectResult>(result);
             }
@@ -650,7 +650,7 @@ namespace Whipstaff.UnitTests.Controllers
                     },
                 };
 
-                var result = await instance.GetAsync(listRequest, CancellationToken.None);
+                var result = await instance.ViewAsync(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
                 Assert.IsType(expectedResultType, result);
             }

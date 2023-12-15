@@ -216,6 +216,95 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public static async Task<ActionResult<TListResponseDto>> GetApiListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery>(
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TListRequestDto listRequestDto,
+            Action<ILogger, string, Exception?> logAction,
+            string listPolicyName,
+            Func<TListResponseDto, Task<ActionResult<TListResponseDto>>> getListActionResultAsync,
+            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TListQuery : IRequest<TListResponseDto?>
+            where TListResponseDto : class
+        {
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logAction);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(getListActionResultAsync);
+            ArgumentNullException.ThrowIfNull(listCommandFactoryAsync);
+
+            logAction(logger, "Started", null);
+
+            var user = instance.HttpContext.User;
+
+            var methodAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                listRequestDto,
+                listPolicyName).ConfigureAwait(false);
+            if (!methodAuthorization.Succeeded)
+            {
+                return instance.Forbid();
+            }
+
+            var query = await listCommandFactoryAsync(
+                listRequestDto,
+                user,
+                cancellationToken).ConfigureAwait(false);
+
+            var result = await mediator.Send(
+                query,
+                cancellationToken).ConfigureAwait(false);
+
+            if (result == null)
+            {
+                return instance.NotFound();
+            }
+
+            var resourceAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                result,
+                listPolicyName).ConfigureAwait(false);
+            if (!resourceAuthorization.Succeeded)
+            {
+                // not found rather than forbidden
+                return instance.NotFound();
+            }
+
+            var viewResult = await getListActionResultAsync(result).ConfigureAwait(false);
+            logAction(logger, "Finished", null);
+
+            return viewResult;
+        }
+
+        /// <summary>
+        /// Extension method for common behaviour in List API operations, this method doesn't constrain the requirement for an auditable request.
+        /// However the auditable request does call this.
+        /// </summary>
+        /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="listRequestDto">The Request DTO for the List operation.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
+        /// <param name="listPolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getListActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static async Task<IActionResult> GetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery>(
             this ControllerBase instance,
             ILogger logger,
@@ -304,6 +393,56 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public static Task<ActionResult<TListResponseDto>> GetApiListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TListRequestDto listRequestDto,
+            Action<ILogger, string, Exception?> logAction,
+            string listPolicyName,
+            Func<TListResponseDto, Task<ActionResult<TListResponseDto>>> getListActionResultAsync,
+            Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto?>
+            where TListResponseDto : class
+        {
+            return GetApiListActionFlexibleAsync(
+                instance,
+                logger,
+                mediator,
+                authorizationService,
+                listRequestDto,
+                logAction,
+                listPolicyName,
+                getListActionResultAsync,
+                listCommandFactoryAsync,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Extension method for common behaviour in List API operations.
+        /// </summary>
+        /// <typeparam name="TListRequestDto">The type for the Request DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListResponseDto">The type for the Response DTO for the List Operation.</typeparam>
+        /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="listRequestDto">The Request DTO for the List operation.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
+        /// <param name="listPolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getListActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="listCommandFactoryAsync">The Command Factory for the List operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
             this ControllerBase instance,
             ILogger logger,
@@ -329,6 +468,94 @@ namespace Whipstaff.AspNetCore.Extensions
                 getListActionResultAsync,
                 listCommandFactoryAsync,
                 cancellationToken);
+        }
+
+        /// <summary>
+        /// Extension method for common behaviour in View API operations.
+        /// </summary>
+        /// <typeparam name="TViewRequestDto">The type for the Request DTO for the View Operation.</typeparam>
+        /// <typeparam name="TViewResponseDto">The type for the Response DTO for the View Operation.</typeparam>
+        /// <typeparam name="TViewQuery">The type for the CQRS Command for the View Operation.</typeparam>
+        /// <param name="instance">Web Controller instance.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="authorizationService">Authorization service.</param>
+        /// <param name="viewRequestDto">The Request DTO for the View operation.</param>
+        /// <param name="logAction">
+        /// Log Message Action for the event to log against.
+        ///
+        /// You can create and cache a LoggerMessage action to pass in by calling <see cref="LoggerMessage.Define(LogLevel, EventId, string)"/>.
+        /// You can either have a single LoggerMessage definition for all controllers, or have one for each controller. The flexibility is there
+        /// for you to choose.
+        /// </param>
+        /// <param name="viewPolicyName">The policy name to use for Authorization verification.</param>
+        /// <param name="getViewActionResultAsync">Task to format the result of CQRS operation into an IActionResult. Allows for controllers to make decisions on what views or data manipulation to carry out.</param>
+        /// <param name="viewCommandFactoryAsync">The Command Factory for the View operation.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        public static async Task<ActionResult<TViewResponseDto>> GetApiViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery>(
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TViewRequestDto viewRequestDto,
+            Action<ILogger, string, Exception?> logAction,
+            string viewPolicyName,
+            Func<TViewResponseDto, Task<ActionResult<TViewResponseDto>>> getViewActionResultAsync,
+            Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
+            CancellationToken cancellationToken)
+            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewResponseDto : class
+        {
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logAction);
+            ArgumentNullException.ThrowIfNull(mediator);
+            ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(getViewActionResultAsync);
+            ArgumentNullException.ThrowIfNull(viewCommandFactoryAsync);
+
+            logAction(logger, "Started", null);
+
+            var user = instance.HttpContext.User;
+
+            var methodAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                viewRequestDto,
+                viewPolicyName).ConfigureAwait(false);
+            if (!methodAuthorization.Succeeded)
+            {
+                return instance.Forbid();
+            }
+
+            var query = await viewCommandFactoryAsync(
+                viewRequestDto,
+                user,
+                cancellationToken).ConfigureAwait(false);
+
+            var result = await mediator.Send(
+                query,
+                cancellationToken).ConfigureAwait(false);
+
+            if (result == null)
+            {
+                return instance.NotFound();
+            }
+
+            var resourceAuthorization = await authorizationService.AuthorizeAsync(
+                user,
+                result,
+                viewPolicyName).ConfigureAwait(false);
+            if (!resourceAuthorization.Succeeded)
+            {
+                // not found rather than forbidden
+                return instance.NotFound();
+            }
+
+            var viewResult = await getViewActionResultAsync(result).ConfigureAwait(false);
+            logAction(logger, "View Finished", null);
+
+            return viewResult;
         }
 
         /// <summary>

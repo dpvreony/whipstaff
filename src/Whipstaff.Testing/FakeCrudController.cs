@@ -88,13 +88,13 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetListActionResultAsync(IList<int> listResponse)
+        protected override async Task<ActionResult<IList<int>>> GetListActionResultAsync(IList<int> listResponse)
         {
             return await Task.FromResult(Ok(listResponse)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetViewActionResultAsync(FakeCrudViewResponse? viewResponse)
+        protected override async Task<ActionResult<FakeCrudViewResponse>> GetViewActionResultAsync(FakeCrudViewResponse? viewResponse)
         {
             return await Task.FromResult(Ok(viewResponse)).ConfigureAwait(false);
         }
