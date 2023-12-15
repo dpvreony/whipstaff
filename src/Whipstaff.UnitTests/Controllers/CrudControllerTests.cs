@@ -475,7 +475,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var result = await instance.ListAsync(CancellationToken.None);
                 Assert.NotNull(result);
-                _ = Assert.IsType<OkObjectResult>(result);
+                _ = Assert.IsType<OkObjectResult>(result.Result);
             }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
@@ -652,7 +652,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var result = await instance.ViewAsync(listRequest, CancellationToken.None);
                 Assert.NotNull(result);
-                Assert.IsType(expectedResultType, result);
+                Assert.IsType(expectedResultType, result.Result);
             }
 
             private static Task<FakeCrudViewResponse?> MockViewMediatorHandlerAsync(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
