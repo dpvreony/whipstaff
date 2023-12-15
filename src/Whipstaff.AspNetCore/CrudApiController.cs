@@ -123,8 +123,9 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">Unique ID of the entity to be deleted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        [HttpDelete("{id:long}")]
         public async Task<IActionResult> DeleteAsync(
-            int id,
+            long id,
             CancellationToken cancellationToken)
         {
             var deletePolicyName = await GetDeletePolicyAsync().ConfigureAwait(false);
@@ -147,6 +148,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="addRequestDto">The Request DTO for the Add Operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        [HttpPost]
         public async Task<IActionResult> PostAsync(
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
@@ -172,6 +174,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="updateRequestDto">The Request DTO of the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        [HttpPut("{id:long}")]
         public async Task<IActionResult> PutAsync(
             long id,
             TUpdateRequestDto updateRequestDto,
