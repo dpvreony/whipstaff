@@ -24,6 +24,8 @@ namespace Whipstaff.Testing
     /// </summary>
     [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
+    [ApiController]
+    [Route("api/fakecrud")]
     public sealed class FakeCrudController : CrudApiController<
         FakeCrudListQuery,
         FakeCrudListRequest,
@@ -106,7 +108,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetAddActionResultAsync(int? result)
+        protected override async Task<ActionResult<int?>> GetAddActionResultAsync(int? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
@@ -133,7 +135,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetDeleteActionResultAsync(long? result)
+        protected override async Task<ActionResult<long?>> GetDeleteActionResultAsync(long? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
@@ -160,7 +162,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetUpdateActionResultAsync(FakeCrudUpdateResponse? result)
+        protected override async Task<ActionResult<FakeCrudUpdateResponse?>> GetUpdateActionResultAsync(FakeCrudUpdateResponse? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }

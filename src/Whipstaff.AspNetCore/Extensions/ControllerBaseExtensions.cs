@@ -41,7 +41,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="addCommandFactoryAsync">The Command Factory for the Add operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
+        public static async Task<ActionResult<TAddResponseDto>> GetAddActionAsync<TAddRequestDto, TAddResponseDto, TAddCommand>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
@@ -49,7 +49,7 @@ namespace Whipstaff.AspNetCore.Extensions
             TAddRequestDto addRequestDto,
             Action<ILogger, string, Exception?> logAction,
             string addPolicyName,
-            Func<TAddResponseDto, Task<IActionResult>> getAddActionResultAsync,
+            Func<TAddResponseDto, Task<ActionResult<TAddResponseDto>>> getAddActionResultAsync,
             Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
@@ -123,7 +123,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="deleteCommandFactoryAsync">The Command Factory for the Delete operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
+        public static async Task<ActionResult<TDeleteResponseDto>> GetDeleteActionAsync<TDeleteResponseDto, TDeleteCommand>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
@@ -131,7 +131,7 @@ namespace Whipstaff.AspNetCore.Extensions
             long id,
             Action<ILogger, string, Exception?> logAction,
             string deletePolicyName,
-            Func<TDeleteResponseDto, Task<IActionResult>> getDeleteActionResultAsync,
+            Func<TDeleteResponseDto, Task<ActionResult<TDeleteResponseDto>>> getDeleteActionResultAsync,
             Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
@@ -558,7 +558,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="updateCommandFactoryAsync">The Command Factory for the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public static async Task<IActionResult> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
+        public static async Task<ActionResult<TUpdateResponseDto>> GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
@@ -567,7 +567,7 @@ namespace Whipstaff.AspNetCore.Extensions
             TUpdateRequestDto updateRequestDto,
             Action<ILogger, string, Exception?> logAction,
             string updatePolicyName,
-            Func<TUpdateResponseDto, Task<IActionResult>> getUpdateActionResultAsync,
+            Func<TUpdateResponseDto, Task<ActionResult<TUpdateResponseDto>>> getUpdateActionResultAsync,
             Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
             CancellationToken cancellationToken)
             where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
