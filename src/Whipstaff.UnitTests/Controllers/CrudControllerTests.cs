@@ -255,7 +255,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var result = await instance.PostAsync(addRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
-                _ = Assert.IsType<OkObjectResult>(result);
+                _ = Assert.IsType<OkObjectResult>(result.Result);
             }
 
             private static async Task<int?> MockAddMediatorHandlerAsync(IAuditableRequest<int, int?> auditableRequest, CancellationToken cancellationToken)
@@ -343,7 +343,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var result = await instance.DeleteAsync(id, CancellationToken.None);
                 Assert.NotNull(result);
-                _ = Assert.IsType<OkObjectResult>(result);
+                _ = Assert.IsType<OkObjectResult>(result.Result);
             }
 
             /// <summary>
@@ -388,7 +388,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var result = await instance.DeleteAsync(id, CancellationToken.None);
                 Assert.NotNull(result);
-                _ = Assert.IsType<NotFoundResult>(result);
+                _ = Assert.IsType<NotFoundResult>(result.Result);
             }
 
             private static async Task<long?> MockDeleteMediatorHandlerAsync(IAuditableRequest<long, long?> arg1, CancellationToken arg2)
@@ -556,7 +556,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var result = await instance.PutAsync(1, updateRequestDto, CancellationToken.None);
                 Assert.NotNull(result);
-                _ = Assert.IsType<OkObjectResult>(result);
+                _ = Assert.IsType<OkObjectResult>(result.Result);
             }
 
             private static Task<FakeCrudUpdateResponse?> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
