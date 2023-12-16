@@ -15,9 +15,15 @@ namespace Whipstaff.Syncfusion.Pdf
     /// <summary>
     /// Sync Fusion PDF Helpers.
     /// </summary>
+    /// <remarks>
+    /// You need to have a valid SyncFusion license in order to use this code. See https://www.syncfusion.com/ for more details.
+    /// </remarks>
     public sealed class SyncFusionPdfDocumentHelper : IPdfDocumentHelper<PdfLoadedDocument>
     {
         /// <inheritdoc/>
+        /// <remarks>
+        /// You need to have a valid SyncFusion license in order to use this code. See https://www.syncfusion.com/ for more details.
+        /// </remarks>
         public void ApplyOwnerPassword(
             PdfLoadedDocument pdfDocument,
             string password)
@@ -34,6 +40,9 @@ namespace Whipstaff.Syncfusion.Pdf
         }
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// You need to have a valid SyncFusion license in order to use this code. See https://www.syncfusion.com/ for more details.
+        /// </remarks>
         public void ApplyDigitalSignature(
             PdfLoadedDocument pdfDocument,
             X509Certificate2 x509Certificate2,
@@ -64,6 +73,9 @@ namespace Whipstaff.Syncfusion.Pdf
         }
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// You need to have a valid SyncFusion license in order to use this code. See https://www.syncfusion.com/ for more details.
+        /// </remarks>
         public void MakeReadOnlyWithRandomPassword(
             PdfLoadedDocument pdfDocument,
             IPasswordGenerator passwordGenerator)
