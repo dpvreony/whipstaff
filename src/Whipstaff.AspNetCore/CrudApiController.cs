@@ -123,8 +123,9 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">Unique ID of the entity to be deleted.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> DeleteAsync(
-            int id,
+        [HttpDelete("{id:long}")]
+        public async Task<ActionResult<TDeleteResponseDto>> DeleteAsync(
+            long id,
             CancellationToken cancellationToken)
         {
             var deletePolicyName = await GetDeletePolicyAsync().ConfigureAwait(false);
@@ -147,7 +148,8 @@ namespace Whipstaff.AspNetCore
         /// <param name="addRequestDto">The Request DTO for the Add Operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> PostAsync(
+        [HttpPost]
+        public async Task<ActionResult<TAddResponseDto>> PostAsync(
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
         {
@@ -172,7 +174,8 @@ namespace Whipstaff.AspNetCore
         /// <param name="updateRequestDto">The Request DTO of the Update operation.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> PutAsync(
+        [HttpPut("{id:long}")]
+        public async Task<ActionResult<TUpdateResponseDto?>> PutAsync(
             long id,
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
@@ -197,7 +200,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetAddActionResultAsync(TAddResponseDto result);
+        protected abstract Task<ActionResult<TAddResponseDto>> GetAddActionResultAsync(TAddResponseDto result);
 
         /// <summary>
         /// Gets the CQRS Command for the Add operation.
@@ -222,7 +225,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetDeleteActionResultAsync(TDeleteResponseDto result);
+        protected abstract Task<ActionResult<TDeleteResponseDto>> GetDeleteActionResultAsync(TDeleteResponseDto result);
 
         /// <summary>
         /// Gets the CQRS Delete Command.
@@ -247,7 +250,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetUpdateActionResultAsync(TUpdateResponseDto? result);
+        protected abstract Task<ActionResult<TUpdateResponseDto?>> GetUpdateActionResultAsync(TUpdateResponseDto? result);
 
         /// <summary>
         /// Gets the CQRS update command for the request.

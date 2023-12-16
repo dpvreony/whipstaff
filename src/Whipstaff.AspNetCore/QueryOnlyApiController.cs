@@ -93,24 +93,57 @@ namespace Whipstaff.AspNetCore
             TViewQueryResponse> QueryFactory { get; }
 
         /// <summary>
-        /// Entry point for HTTP GET operations.
+        /// Entry point for HTTP GET operations to list items.
         /// </summary>
         /// <remarks>
         /// Directs requests to List or View operations depending on whether an id is passed.
         /// </remarks>
-        /// <param name="id">unique id of the entity to view. or null if being used to list.</param>
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        public async Task<IActionResult> GetAsync(
-            long? id,
+        [HttpGet]
+        public async Task<ActionResult<TListQueryResponse>> ListAsync(CancellationToken cancellationToken)
+        {
+            var listPolicyName = await GetListPolicyAsync().ConfigureAwait(false);
+            var requestDto = new TListRequestDto();
+
+            return await this.GetApiListActionAsync<TListRequestDto, TListQueryResponse, TListQuery>(
+                Logger,
+                Mediator,
+                AuthorizationService,
+                requestDto,
+                LogMessageActionMappings.ListEventLogMessageAction,
+                listPolicyName,
+                GetListActionResultAsync,
+                GetListQueryAsync,
+                cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Entry point for HTTP GET operation to view items.
+        /// </summary>
+        /// <remarks>
+        /// Directs requests to List or View operations depending on whether an id is passed.
+        /// </remarks>
+        /// <param name="id">unique id of the entity to view.</param>
+        /// <param name="cancellationToken">Cancellation token for the operations.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        [HttpGet("{id:long}")]
+        public async Task<ActionResult<TViewQueryResponse>> ViewAsync(
+            long id,
             CancellationToken cancellationToken)
         {
-            if (!id.HasValue)
-            {
-                return await ListAsync(cancellationToken).ConfigureAwait(false);
-            }
+            var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
 
-            return await ViewAsync(id.Value, cancellationToken).ConfigureAwait(false);
+            return await this.GetApiViewActionAsync<long, TViewQueryResponse, TViewQuery>(
+                Logger,
+                Mediator,
+                AuthorizationService,
+                id,
+                LogMessageActionMappings.ViewEventLogMessageAction,
+                viewPolicyName,
+                GetViewActionResultAsync,
+                GetViewQueryAsync,
+                cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -118,7 +151,14 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="listResponse">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetListActionResultAsync(TListQueryResponse listResponse);
+        protected abstract Task<ActionResult<TListQueryResponse>> GetListActionResultAsync(TListQueryResponse listResponse);
+
+        /// <summary>
+        /// Gets the Action Result for the View operation.
+        /// </summary>
+        /// <param name="viewResponse">The Response DTO from the CQRS operation.</param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+        protected abstract Task<ActionResult<TViewQueryResponse>> GetViewActionResultAsync(TViewQueryResponse viewResponse);
 
         /// <summary>
         /// Gets the CQRS List Query.
@@ -145,13 +185,6 @@ namespace Whipstaff.AspNetCore
         protected abstract Task<string> GetViewPolicyAsync();
 
         /// <summary>
-        /// Gets the Action Result for the View operation.
-        /// </summary>
-        /// <param name="viewResponse">The Response DTO from the CQRS operation.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<IActionResult> GetViewActionResultAsync(TViewQueryResponse viewResponse);
-
-        /// <summary>
         /// Gets CQRS the View Query for the request.
         /// </summary>
         /// <param name="id">Unique id of the item to view.</param>
@@ -162,40 +195,5 @@ namespace Whipstaff.AspNetCore
             long id,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken);
-
-        private async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
-        {
-            var listPolicyName = await GetListPolicyAsync().ConfigureAwait(false);
-            var requestDto = new TListRequestDto();
-
-            return await this.GetListActionAsync<TListRequestDto, TListQueryResponse, TListQuery>(
-                Logger,
-                Mediator,
-                AuthorizationService,
-                requestDto,
-                LogMessageActionMappings.ListEventLogMessageAction,
-                listPolicyName,
-                GetListActionResultAsync,
-                GetListQueryAsync,
-                cancellationToken).ConfigureAwait(false);
-        }
-
-        private async Task<IActionResult> ViewAsync(
-            long id,
-            CancellationToken cancellationToken)
-        {
-            var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
-
-            return await this.GetViewActionAsync<long, TViewQueryResponse, TViewQuery>(
-                Logger,
-                Mediator,
-                AuthorizationService,
-                id,
-                LogMessageActionMappings.ViewEventLogMessageAction,
-                viewPolicyName,
-                GetViewActionResultAsync,
-                GetViewQueryAsync,
-                cancellationToken).ConfigureAwait(false);
-        }
     }
 }

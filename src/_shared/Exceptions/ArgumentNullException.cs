@@ -12,13 +12,13 @@ namespace Whipstaff.Runtime.Exceptions
     /// </summary>
     internal static class ArgumentNullException
     {
-        /// <summary>Throws an <see cref="T:System.ArgumentNullException" /> if <paramref name="argument" /> is <see langword="null" />.</summary>
+        /// <summary>Throws a <see cref="T:System.ArgumentNullException" /> if <paramref name="argument" /> is <see langword="null" />.</summary>
         /// <param name="argument">The reference type argument to validate as non-null.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="argument" /> corresponds.</param>
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="argument" /> is <see langword="null" />.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void ThrowIfNull(object? argument, [CallerArgumentExpression("argument")] string? paramName = null)
+        internal static void ThrowIfNull(object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         {
             if (argument != null)
             {
