@@ -278,7 +278,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public static Task<IActionResult> GetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery>(
-            this ControllerBase instance,
+            this Controller instance,
             ILogger logger,
             IMediator mediator,
             IAuthorizationService authorizationService,
@@ -388,7 +388,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public static Task<IActionResult> GetListActionAsync<TListRequestDto, TListResponseDto, TListQuery>(
-            this ControllerBase instance,
+            this Controller instance,
             ILogger logger,
             IMediator mediator,
             IAuthorizationService authorizationService,
@@ -624,7 +624,7 @@ namespace Whipstaff.AspNetCore.Extensions
             return viewResult;
         }
 
-        private static async Task<TResult> InternalGetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery, TResult>(
+        private static Task<TResult> InternalGetListActionFlexibleAsync<TListRequestDto, TListResponseDto, TListQuery, TResult>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
@@ -640,58 +640,22 @@ namespace Whipstaff.AspNetCore.Extensions
             where TListQuery : IRequest<TListResponseDto?>
             where TListResponseDto : class
         {
-            ArgumentNullException.ThrowIfNull(instance);
-            ArgumentNullException.ThrowIfNull(logger);
-            ArgumentNullException.ThrowIfNull(logAction);
-            ArgumentNullException.ThrowIfNull(mediator);
-            ArgumentNullException.ThrowIfNull(authorizationService);
-            ArgumentNullException.ThrowIfNull(getListActionResultAsync);
-            ArgumentNullException.ThrowIfNull(listCommandFactoryAsync);
-
-            logAction(logger, "Started", null);
-
-            var user = instance.HttpContext.User;
-
-            var methodAuthorization = await authorizationService.AuthorizeAsync(
-                user,
+            return InternalGetActionAsync(
+                instance,
+                logger,
+                mediator,
+                authorizationService,
                 listRequestDto,
-                listPolicyName).ConfigureAwait(false);
-            if (!methodAuthorization.Succeeded)
-            {
-                return forbidResultFunc(instance);
-            }
-
-            var query = await listCommandFactoryAsync(
-                listRequestDto,
-                user,
-                cancellationToken).ConfigureAwait(false);
-
-            var result = await mediator.Send(
-                query,
-                cancellationToken).ConfigureAwait(false);
-
-            if (result == null)
-            {
-                return notFoundResultFunc(instance);
-            }
-
-            var resourceAuthorization = await authorizationService.AuthorizeAsync(
-                user,
-                result,
-                listPolicyName).ConfigureAwait(false);
-            if (!resourceAuthorization.Succeeded)
-            {
-                // not found rather than forbidden
-                return notFoundResultFunc(instance);
-            }
-
-            var viewResult = await getListActionResultAsync(result).ConfigureAwait(false);
-            logAction(logger, "Finished", null);
-
-            return viewResult;
+                logAction,
+                listPolicyName,
+                getListActionResultAsync,
+                listCommandFactoryAsync,
+                i => forbidResultFunc(i),
+                i => notFoundResultFunc(i),
+                cancellationToken);
         }
 
-        private static async Task<TResult> InternalGetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery, TResult>(
+        private static Task<TResult> InternalGetViewActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery, TResult>(
             this ControllerBase instance,
             ILogger logger,
             IMediator mediator,
@@ -705,6 +669,37 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<ControllerBase, TResult> notFoundResultFunc,
             CancellationToken cancellationToken)
             where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewResponseDto : class
+        {
+            return InternalGetActionAsync(
+                instance,
+                logger,
+                mediator,
+                authorizationService,
+                viewRequestDto,
+                logAction,
+                viewPolicyName,
+                getViewActionResultAsync,
+                viewCommandFactoryAsync,
+                i => forbidResultFunc(i),
+                i => notFoundResultFunc(i),
+                cancellationToken);
+        }
+
+        private static async Task<TResult> InternalGetActionAsync<TViewRequestDto, TViewResponseDto, TViewQuery, TResult>(
+            this ControllerBase instance,
+            ILogger logger,
+            IMediator mediator,
+            IAuthorizationService authorizationService,
+            TViewRequestDto viewRequestDto,
+            Action<ILogger, string, Exception?> logAction,
+            string viewPolicyName,
+            Func<TViewResponseDto, Task<TResult>> getViewActionResultAsync,
+            Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
+            Func<ControllerBase, TResult> forbidResultFunc,
+            Func<ControllerBase, TResult> notFoundResultFunc,
+            CancellationToken cancellationToken)
+            where TViewQuery : IRequest<TViewResponseDto?>
             where TViewResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
