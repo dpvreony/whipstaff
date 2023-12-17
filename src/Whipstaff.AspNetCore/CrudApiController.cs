@@ -175,14 +175,14 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<TUpdateResponseDto?>> PutAsync(
+        public async Task<ActionResult<TUpdateResponseDto>> PutAsync(
             long id,
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
         {
             var updatePolicyName = await GetUpdatePolicyAsync().ConfigureAwait(false);
 
-            return await this.GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto?, TUpdateCommand>(
+            return await this.GetUpdateActionAsync<TUpdateRequestDto, TUpdateResponseDto, TUpdateCommand>(
                 Logger,
                 Mediator,
                 AuthorizationService,
@@ -250,7 +250,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="result">The Response DTO from the CQRS operation.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected abstract Task<ActionResult<TUpdateResponseDto?>> GetUpdateActionResultAsync(TUpdateResponseDto? result);
+        protected abstract Task<ActionResult<TUpdateResponseDto>> GetUpdateActionResultAsync(TUpdateResponseDto? result);
 
         /// <summary>
         /// Gets the CQRS update command for the request.
