@@ -7,6 +7,11 @@ using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.IO;
 using System.Linq;
+using Whipstaff.Runtime.Extensions;
+
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
 
 namespace Whipstaff.CommandLine
 {
@@ -23,6 +28,7 @@ namespace Whipstaff.CommandLine
         /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
         public static Argument<FileInfo> SpecificFileExtensionOnly(this Argument<FileInfo> argument, string extension)
         {
+            extension.ThrowIfNullOrWhitespace();
             argument.AddValidator(result => FileHasSupportedExtension(result, extension));
             return argument;
         }
@@ -33,8 +39,9 @@ namespace Whipstaff.CommandLine
         /// <param name="argument">Argument to validate.</param>
         /// <param name="extensions">Array of valid file extension.</param>
         /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
-        public static Argument<FileInfo> SpecificFileExtensionOnly(this Argument<FileInfo> argument, string[] extensions)
+        public static Argument<FileInfo> SpecificFileExtensionsOnly(this Argument<FileInfo> argument, string[] extensions)
         {
+            ArgumentNullException.ThrowIfNull(extensions);
             argument.AddValidator(result => FileHasSupportedExtension(result, extensions));
             return argument;
         }
