@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Whipstaff.Runtime.Extensions
@@ -105,12 +106,14 @@ namespace Whipstaff.Runtime.Extensions
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/> if a string is null or whitespace.
         /// </summary>
-        /// <param name="instance">string to check.</param>
-        public static void ThrowIfNullOrWhitespace(this string? instance)
+        /// <param name="argument">string to check.</param>
+        /// <param name="paramName">The name of the parameter with which <paramref name="argument" /> corresponds.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ThrowIfNullOrWhitespace(this string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         {
-            if (string.IsNullOrWhiteSpace(instance))
+            if (string.IsNullOrWhiteSpace(argument))
             {
-                throw new ArgumentNullException(nameof(instance));
+                throw new ArgumentNullException(paramName);
             }
         }
     }

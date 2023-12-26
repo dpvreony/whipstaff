@@ -34,6 +34,8 @@ namespace Whipstaff.UnitTests.Core.Configuration
             }
 
             /// <inheritdoc/>
+            [ClassData(typeof(Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT1Method.ThrowsArgumentNullExceptionTestSource))]
+            [Theory]
             public void ThrowsArgumentNullException(
                 string arg1,
                 Func<FakeOptions, bool> arg2,
@@ -64,6 +66,8 @@ namespace Whipstaff.UnitTests.Core.Configuration
             }
 
             /// <inheritdoc/>
+            [ClassData(typeof(Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT2Method.ThrowsArgumentNullExceptionTestSource))]
+            [Theory]
             public void ThrowsArgumentNullException(IConfiguration arg1, string arg2, string expectedParameterNameForException)
             {
                 var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();

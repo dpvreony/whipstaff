@@ -59,6 +59,7 @@ namespace Whipstaff.Core.Configuration
             where TOptions : class
             where TOptionsValidator : class, IValidateOptions<TOptions>
         {
+            ArgumentNullException.ThrowIfNull(configuration);
             sectionName.ThrowIfNullOrWhitespace();
 
             _ = services.AddOptions<TOptions>()
