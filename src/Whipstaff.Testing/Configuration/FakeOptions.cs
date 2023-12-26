@@ -15,7 +15,7 @@ namespace Whipstaff.Testing.Configuration
         /// Gets or sets the fake string.
         /// </summary>
         [Required]
-        [MinLength(1)]
+        [MinLength(5)]
         [MaxLength(10)]
         public string? FakeString { get; set; }
     }
