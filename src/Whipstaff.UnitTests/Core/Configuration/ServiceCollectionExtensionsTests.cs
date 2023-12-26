@@ -50,11 +50,11 @@ namespace Whipstaff.UnitTests.Core.Configuration
         }
 
         /// <summary>
-        /// Unit Tests for the <see cref="ServiceCollectionExtensions.AddStrictConfigurationBinding{TOptions,TOptionsValidator}(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,string)"/> method.
+        /// Unit Tests for the <see cref="ServiceCollectionExtensions.AddStrictConfigurationBinding{TOptions,TOptionsValidator}(Microsoft.Extensions.DependencyInjection.IServiceCollection,string)"/> method.
         /// </summary>
         public sealed class AddStrictConfigurationBindingT2Method
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestMethodWithNullableParameters<IConfiguration, string>
+                ITestMethodWithNullableParameters<string>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="AddStrictConfigurationBindingT2Method"/> class.
@@ -68,13 +68,13 @@ namespace Whipstaff.UnitTests.Core.Configuration
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT2Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(IConfiguration arg1, string arg2, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(string arg, string expectedParameterNameForException)
             {
                 var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => services.AddStrictConfigurationBinding<FakeOptions, FakeOptionsValidator>(arg1, arg2));
+                    () => services.AddStrictConfigurationBinding<FakeOptions, FakeOptionsValidator>(arg));
             }
         }
     }

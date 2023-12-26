@@ -12,18 +12,14 @@ namespace Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionEx
     /// <summary>
     /// Test Source for <see cref="Whipstaff.UnitTests.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT2Method.ThrowsArgumentNullException"/>.
     /// </summary>
-    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<IConfiguration?, string?, string>
+    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<string?, string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
         /// </summary>
         public ThrowsArgumentNullExceptionTestSource()
         {
-            var arg1 = new ConfigurationBuilder().Build();
-            const string arg2 = "fakeblock";
-
-            Add(null, arg2, "configuration");
-            Add(arg1, null, "sectionName");
+            Add(null, "sectionName");
         }
     }
 }

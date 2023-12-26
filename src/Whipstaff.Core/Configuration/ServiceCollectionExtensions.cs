@@ -50,21 +50,18 @@ namespace Whipstaff.Core.Configuration
         /// <typeparam name="TOptions">The options type to be configured.</typeparam>
         /// <typeparam name="TOptionsValidator">The type for the <see cref="IValidateOptions{TOptions}"/> used to validate the configuration.</typeparam>
         /// <param name="services">ServiceCollection to update.</param>
-        /// <param name="configuration">Configuration for the application.</param>
         /// <param name="sectionName">The name of the section in the configuration.</param>
         public static void AddStrictConfigurationBinding<TOptions, TOptionsValidator>(
             this IServiceCollection services,
-            IConfiguration configuration,
             string sectionName)
             where TOptions : class
             where TOptionsValidator : class, IValidateOptions<TOptions>
         {
-            ArgumentNullException.ThrowIfNull(configuration);
             sectionName.ThrowIfNullOrWhitespace();
 
             _ = services.AddOptions<TOptions>()
-                .Bind(
-                    configuration.GetSection(sectionName),
+                .BindConfiguration(
+                    sectionName,
                     binderOptions => binderOptions.ErrorOnUnknownConfiguration = true);
 
             services.TryAddSingleton<IValidateOptions<TOptions>, TOptionsValidator>();
