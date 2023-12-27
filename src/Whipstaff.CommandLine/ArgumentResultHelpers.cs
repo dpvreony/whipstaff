@@ -33,12 +33,13 @@ namespace Whipstaff.CommandLine
 
             foreach (var token in result.Tokens)
             {
-                var tokenExtension = Path.GetExtension(token.Value);
+                var rawValue = token.Value;
+                var tokenExtension = Path.GetExtension(rawValue);
 
                 if (string.IsNullOrWhiteSpace(tokenExtension)
                     || !tokenExtension.Equals(extension, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.ErrorMessage = $"Filename does not have a supported extension of \"{extension}\".";
+                    result.ErrorMessage = $"Filename \"{rawValue}\" does not have a supported extension of \"{extension}\".";
                     return;
                 }
             }
@@ -58,12 +59,13 @@ namespace Whipstaff.CommandLine
 
             foreach (var token in result.Tokens)
             {
-                var tokenExtension = Path.GetExtension(token.Value);
+                var rawValue = token.Value;
+                var tokenExtension = Path.GetExtension(rawValue);
 
                 if (string.IsNullOrWhiteSpace(tokenExtension)
                     || !extensions.Any(extension => tokenExtension.Equals(extension, StringComparison.OrdinalIgnoreCase)))
                 {
-                    result.ErrorMessage = $"Filename does not have a supported extension of \"{string.Join(",", extensions)}\".";
+                    result.ErrorMessage = $"Filename \"{rawValue}\" does not have a supported extension of \"{string.Join(",", extensions)}\".";
                     return;
                 }
             }
