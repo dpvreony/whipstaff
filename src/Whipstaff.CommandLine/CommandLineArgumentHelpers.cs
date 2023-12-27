@@ -7,6 +7,10 @@ using System.CommandLine;
 using System.CommandLine.Binding;
 using System.Threading.Tasks;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.CommandLine
 {
     /// <summary>
@@ -29,6 +33,10 @@ namespace Whipstaff.CommandLine
             Func<TCommandLineArg, Task<int>> rootCommandHandlerFunc)
             where TCommandLineArgModelBinder : BinderBase<TCommandLineArg>
         {
+            ArgumentNullException.ThrowIfNull(args);
+            ArgumentNullException.ThrowIfNull(rootCommandAndBinderModelFunc);
+            ArgumentNullException.ThrowIfNull(rootCommandHandlerFunc);
+
             var rootCommandAndBinderModel = rootCommandAndBinderModelFunc();
 
             var rootCommand = rootCommandAndBinderModel.RootCommand;

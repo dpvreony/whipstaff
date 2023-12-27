@@ -46,6 +46,18 @@ namespace Whipstaff.UnitTests.CommandLine
                     expectedParameterNameForException,
                     () => instance.SpecificFileExtensionOnly(arg));
             }
+
+            /// <summary>
+            /// Test to ensure that the method returns an instance on a successful run.
+            /// </summary>
+            [Fact]
+            public void ReturnsInstance()
+            {
+                var instance = new Argument<FileInfo>();
+                var result = instance.SpecificFileExtensionOnly(".txt");
+
+                Assert.NotNull(result);
+            }
         }
 
         /// <summary>
@@ -55,6 +67,8 @@ namespace Whipstaff.UnitTests.CommandLine
             : Foundatio.Xunit.TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string[]>
         {
+            private static readonly string[] _extensions = [".txt", ".docx"];
+
             /// <summary>
             /// Initializes a new instance of the <see cref="SpecificFileExtensionsOnlyMethod"/> class.
             /// </summary>
@@ -76,6 +90,18 @@ namespace Whipstaff.UnitTests.CommandLine
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
                     () => instance.SpecificFileExtensionsOnly(arg));
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns an instance on a successful run.
+            /// </summary>
+            [Fact]
+            public void ReturnsInstance()
+            {
+                var instance = new Argument<FileInfo>();
+                var result = instance.SpecificFileExtensionsOnly(_extensions);
+
+                Assert.NotNull(result);
             }
         }
     }

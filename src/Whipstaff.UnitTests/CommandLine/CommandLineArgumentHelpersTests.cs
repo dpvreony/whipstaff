@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.CommandLine;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine
@@ -21,7 +22,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// </summary>
         public sealed class GetResultFromRootCommandMethod
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestMethodWithNullableParameters<string[], Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, Task<int>>>
+                ITestAsyncMethodWithNullableParameters<string[], Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, Task<int>>>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetResultFromRootCommandMethod"/> class.
@@ -33,12 +34,20 @@ namespace Whipstaff.UnitTests.CommandLine
             }
 
             /// <inheritdoc/>
-            public void ThrowsArgumentNullException(
+            [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod.ThrowsArgumentNullExceptionTestSource))]
+            [Theory]
+            public async Task ThrowsArgumentNullExceptionAsync(
                 string[] arg1,
                 Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>> arg2,
                 Func<FakeCommandLineArgModel, Task<int>> arg3,
                 string expectedParameterNameForException)
             {
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(
+                    expectedParameterNameForException,
+                    () => CommandLineArgumentHelpers.GetResultFromRootCommand(
+                        arg1,
+                        arg2,
+                        arg3));
             }
         }
     }

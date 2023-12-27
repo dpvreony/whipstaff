@@ -2,11 +2,8 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
 using System.CommandLine;
-using System.CommandLine.Parsing;
 using System.IO;
-using System.Linq;
 using Whipstaff.Runtime.Extensions;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
@@ -29,7 +26,7 @@ namespace Whipstaff.CommandLine
         public static Argument<FileInfo> SpecificFileExtensionOnly(this Argument<FileInfo> argument, string extension)
         {
             extension.ThrowIfNullOrWhitespace();
-            argument.AddValidator(result => FileHasSupportedExtension(result, extension));
+            argument.AddValidator(result => ArgumentResultHelpers.FileHasSupportedExtension(result, extension));
             return argument;
         }
 
@@ -42,38 +39,8 @@ namespace Whipstaff.CommandLine
         public static Argument<FileInfo> SpecificFileExtensionsOnly(this Argument<FileInfo> argument, string[] extensions)
         {
             ArgumentNullException.ThrowIfNull(extensions);
-            argument.AddValidator(result => FileHasSupportedExtension(result, extensions));
+            argument.AddValidator(result => ArgumentResultHelpers.FileHasSupportedExtension(result, extensions));
             return argument;
-        }
-
-        private static void FileHasSupportedExtension(ArgumentResult result, string extension)
-        {
-            foreach (var token in result.Tokens)
-            {
-                var tokenExtension = Path.GetExtension(token.Value);
-
-                if (string.IsNullOrWhiteSpace(tokenExtension)
-                    || !tokenExtension.Equals(extension, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.ErrorMessage = $"Filename does not have a supported extension of \"{extension}\".";
-                    return;
-                }
-            }
-        }
-
-        private static void FileHasSupportedExtension(ArgumentResult result, string[] extensions)
-        {
-            foreach (var token in result.Tokens)
-            {
-                var tokenExtension = Path.GetExtension(token.Value);
-
-                if (string.IsNullOrWhiteSpace(tokenExtension)
-                    || !extensions.Any(extension => tokenExtension.Equals(extension, StringComparison.OrdinalIgnoreCase)))
-                {
-                    result.ErrorMessage = $"Filename does not have a supported extension of \"{string.Join(",", extensions)}\".";
-                    return;
-                }
-            }
         }
     }
 }
