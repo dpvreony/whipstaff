@@ -13,34 +13,35 @@ using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException
 namespace Whipstaff.CommandLine
 {
     /// <summary>
-    /// Extensions for Argument manipulation.
+    /// Extensions for Option manipulation.
     /// </summary>
-    public static class ArgumentExtensions
+    public static class OptionExtensions
     {
         /// <summary>
         /// Adds a validator to check that a file has a specific extension.
         /// </summary>
-        /// <param name="argument">Argument to validate.</param>
+        /// <param name="option">Option to validate.</param>
         /// <param name="extension">Valid file extension.</param>
-        /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
-        public static Argument<FileInfo> SpecificFileExtensionOnly(this Argument<FileInfo> argument, string extension)
+        /// <returns><see cref="Option"/> object for use in Fluent API calls.</returns>
+        public static Option<FileInfo> SpecificFileExtensionOnly(this Option<FileInfo> option, string extension)
         {
             extension.ThrowIfNullOrWhitespace();
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(result, extension));
-            return argument;
+            option.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(result, extension));
+
+            return option;
         }
 
         /// <summary>
         /// Adds a validator to check that a file has from a collection of extensions.
         /// </summary>
-        /// <param name="argument">Argument to validate.</param>
+        /// <param name="option">Option to validate.</param>
         /// <param name="extensions">Array of valid file extension.</param>
         /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
-        public static Argument<FileInfo> SpecificFileExtensionsOnly(this Argument<FileInfo> argument, string[] extensions)
+        public static Option<FileInfo> SpecificFileExtensionsOnly(this Option<FileInfo> option, string[] extensions)
         {
             ArgumentNullException.ThrowIfNull(extensions);
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(result, extensions));
-            return argument;
+            option.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(result, extensions));
+            return option;
         }
     }
 }

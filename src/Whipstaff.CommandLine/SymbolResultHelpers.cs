@@ -15,9 +15,9 @@ using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException
 namespace Whipstaff.CommandLine
 {
     /// <summary>
-    /// Helpers for <see cref="ArgumentResult"/>.
+    /// Helpers for <see cref="SymbolResult"/>.
     /// </summary>
-    public static class ArgumentResultHelpers
+    public static class SymbolResultHelpers
     {
         /// <summary>
         /// Checks that a file has a specific extension.
@@ -25,7 +25,7 @@ namespace Whipstaff.CommandLine
         /// <param name="result">Argument result to check.</param>
         /// <param name="extension">Expected file extension.</param>
         public static void FileHasSupportedExtension(
-            ArgumentResult result,
+            SymbolResult result,
             string extension)
         {
             ArgumentNullException.ThrowIfNull(result);
@@ -51,7 +51,7 @@ namespace Whipstaff.CommandLine
         /// <param name="result">Argument result to check.</param>
         /// <param name="extensions">Supported file extensions.</param>
         public static void FileHasSupportedExtension(
-            ArgumentResult result,
+            SymbolResult result,
             string[] extensions)
         {
             ArgumentNullException.ThrowIfNull(result);

@@ -6,12 +6,12 @@ using System.CommandLine;
 using System.CommandLine.Parsing;
 using Xunit;
 
-namespace Whipstaff.UnitTests.TestSources.CommandLine.ArgumentResultHelpersTests.FileHasSupportedExtensionMethod
+namespace Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtensionMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.ArgumentResultHelpersTests.FileHasSupportedExtensionMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtensionMethod.ThrowsArgumentNullException"/>.
     /// </summary>
-    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<ArgumentResult?, string?, string>
+    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<SymbolResult?, string?, string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.

@@ -61,7 +61,7 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public async Task ReturnsInstance()
             {
-                var args = new[] { "testfile.txt testname" };
+                var args = new[] { "testfile.txt", "testname" };
 
                 var rootCommandAndBinderModelFunc = new Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>(
                     () =>
