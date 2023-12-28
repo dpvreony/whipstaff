@@ -63,7 +63,7 @@ namespace Whipstaff.CommandLine
                 var tokenExtension = Path.GetExtension(rawValue);
 
                 if (string.IsNullOrWhiteSpace(tokenExtension)
-                    || !extensions.Any(extension => tokenExtension.Equals(extension, StringComparison.OrdinalIgnoreCase)))
+                    || !Array.Exists(extensions, value => value.Equals(tokenExtension, StringComparison.OrdinalIgnoreCase)))
                 {
                     result.ErrorMessage = $"Filename \"{rawValue}\" does not have a supported extension of \"{string.Join(",", extensions)}\".";
                     return;

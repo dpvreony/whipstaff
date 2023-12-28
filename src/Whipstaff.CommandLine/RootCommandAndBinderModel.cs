@@ -15,7 +15,7 @@ namespace Whipstaff.CommandLine
     /// </remarks>
     /// <param name="RootCommand">The root command.</param>
     /// <param name="CommandLineBinder">The command line binding logic.</param>
-    public sealed record RootCommandAndBinderModel<TCommandLineBinder>(RootCommand RootCommand, TCommandLineBinder CommandLineBinder)
-    {
-    }
+    public sealed record RootCommandAndBinderModel<TCommandLineBinder>(
+        RootCommand RootCommand,
+        TCommandLineBinder CommandLineBinder);
 }
