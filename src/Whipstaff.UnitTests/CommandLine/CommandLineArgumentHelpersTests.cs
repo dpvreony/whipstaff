@@ -3,7 +3,11 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.CommandLine;
+using System.CommandLine.IO;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.CommandLine;
@@ -48,6 +52,46 @@ namespace Whipstaff.UnitTests.CommandLine
                         arg1,
                         arg2,
                         arg3));
+            }
+
+            /// <summary>
+            /// Test to ensure that the method returns an instance on a successful run.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            [Fact]
+            public async Task ReturnsInstance()
+            {
+                var args = new[] { "testfile.txt testname" };
+
+                var rootCommandAndBinderModelFunc = new Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>(
+                    () =>
+                    {
+                        var fileArgument = new Argument<FileInfo>("filename");
+                        var nameArgument = new Argument<string?>("name");
+
+                        var rootCommand = new RootCommand();
+                        rootCommand.AddArgument(fileArgument);
+                        rootCommand.AddArgument(nameArgument);
+
+                        var binder = new FakeCommandLineArgModelBinder(fileArgument, nameArgument);
+
+                        return new RootCommandAndBinderModel<FakeCommandLineArgModelBinder>(
+                            rootCommand,
+                            binder);
+                    });
+
+                var console = new TestConsole();
+
+                var result = await CommandLineArgumentHelpers.GetResultFromRootCommand<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
+                    args,
+                    rootCommandAndBinderModelFunc,
+                    arg => Task.FromResult(0),
+                    console);
+
+                _logger.LogInformation("Console output: {ConsoleOutput}", console.Out.ToString());
+                _logger.LogInformation("Console error: {ConsoleError}", console.Error.ToString());
+
+                Assert.Equal(0, result);
             }
         }
     }

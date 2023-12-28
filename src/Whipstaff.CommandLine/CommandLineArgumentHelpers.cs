@@ -26,11 +26,13 @@ namespace Whipstaff.CommandLine
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="rootCommandAndBinderModelFunc">Function to execute for handling the binding of the command line model.</param>
         /// <param name="rootCommandHandlerFunc">Function to execute for handling the invocation of the root command.</param>
+        /// <param name="console">The console to which output is written during invocation.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static async Task<int> GetResultFromRootCommand<TCommandLineArg, TCommandLineArgModelBinder>(
             string[] args,
             Func<RootCommandAndBinderModel<TCommandLineArgModelBinder>> rootCommandAndBinderModelFunc,
-            Func<TCommandLineArg, Task<int>> rootCommandHandlerFunc)
+            Func<TCommandLineArg, Task<int>> rootCommandHandlerFunc,
+            IConsole? console = null)
             where TCommandLineArgModelBinder : BinderBase<TCommandLineArg>
         {
             ArgumentNullException.ThrowIfNull(args);
@@ -48,7 +50,7 @@ namespace Whipstaff.CommandLine
                 binder);
 #pragma warning restore RCS1207 // Convert anonymous function to method group (or vice versa).
 
-            return await rootCommand.InvokeAsync(args)
+            return await rootCommand.InvokeAsync(args, console)
                 .ConfigureAwait(false);
         }
     }
