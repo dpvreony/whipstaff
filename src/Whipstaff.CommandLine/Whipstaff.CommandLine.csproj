@@ -7,7 +7,7 @@
 
   <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
     <PropertyGroup>
-      <AssemblyInformationalVersion>$(NuGetPackageVersion)-beta</AssemblyInformationalVersion>
+      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
     </PropertyGroup>
   </Target>
 

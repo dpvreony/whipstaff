@@ -123,7 +123,7 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
+        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:..\\artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
       working-directory: src
 
     - name: Run Unit Tests
