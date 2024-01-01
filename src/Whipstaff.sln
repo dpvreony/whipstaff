@@ -59,7 +59,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Healthchecks.Enti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Syncfusion.Pdf", "Whipstaff.Syncfusion.Pdf\Whipstaff.Syncfusion.Pdf.csproj", "{948C5B9D-B809-4A58-82E4-5B7498C8BB2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.CommandLine", "Whipstaff.CommandLine\Whipstaff.CommandLine.csproj", "{FCE82B26-6234-443F-83B0-6F83D0A6816C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.CommandLine", "Whipstaff.CommandLine\Whipstaff.CommandLine.csproj", "{FCE82B26-6234-443F-83B0-6F83D0A6816C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.EntityFramework.Diagram.DotNetTool", "Whipstaff.EntityFramework.Diagram.DotNetTool\Whipstaff.EntityFramework.Diagram.DotNetTool.csproj", "{09CC5D41-8C1E-4F9F-834D-47A5FFCA59AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -179,6 +181,10 @@ Global
 		{FCE82B26-6234-443F-83B0-6F83D0A6816C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCE82B26-6234-443F-83B0-6F83D0A6816C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCE82B26-6234-443F-83B0-6F83D0A6816C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09CC5D41-8C1E-4F9F-834D-47A5FFCA59AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09CC5D41-8C1E-4F9F-834D-47A5FFCA59AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09CC5D41-8C1E-4F9F-834D-47A5FFCA59AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09CC5D41-8C1E-4F9F-834D-47A5FFCA59AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
