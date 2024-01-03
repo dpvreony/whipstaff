@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.CommandLine;
+using Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine;
 
 namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 {
@@ -29,13 +30,13 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                         .AddConsole())
                     .BuildServiceProvider();
 
-                var logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger<Job>();
+                var logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger<CommandLineJob>();
 
-                var job = new Job(new JobLogMessageActionsWrapper(logger, new JobLogMessageActions()));
+                var job = new CommandLineJob(new JobLogMessageActionsWrapper(logger, new JobLogMessageActions()));
 
                 return await CommandLineArgumentHelpers.GetResultFromRootCommand<CommandLineArgModel, CommandLineArgModelBinder>(
                         args,
-                        GetRootCommandAndBinder,
+                        CommandLineHandlerFactory.GetRootCommandAndBinder,
                         job.HandleCommand)
                     .ConfigureAwait(false);
             }
