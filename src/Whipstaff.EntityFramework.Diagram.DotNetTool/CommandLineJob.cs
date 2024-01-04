@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,7 +20,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// </summary>
     public sealed class CommandLineJob : ICommandLineHandler<CommandLineArgModel>
     {
-        private JobLogMessageActionsWrapper _jobLogMessageActionsWrapper;
+        private readonly JobLogMessageActionsWrapper _jobLogMessageActionsWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJob"/> class.
@@ -39,53 +38,33 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         {
             return Task.Run(() =>
             {
-                try
-                {
-                    var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
-                    var outputFilePath = commandLineArgModel.OutputFilePath;
+                _jobLogMessageActionsWrapper.StartingHandleCommand();
+                var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
+                var outputFilePath = commandLineArgModel.OutputFilePath;
+                var dbContextName = commandLineArgModel.DbContextName;
 
-                    GenerateFromAssembly(
-                        assembly,
-                        commandLineArgModel.DbContextName,
-                        outputFilePath);
+                var dbContext = GetDesignTimeDbContextFactoryFromAssembly(
+                                    assembly,
+                                    dbContextName)
+                                    ?? GetDbContextFromAssembly(
+                                        assembly,
+                                        dbContextName);
 
-                    return 0;
-                }
-                catch (Exception e)
+                if (dbContext == null)
                 {
-                    _jobLogMessageActionsWrapper.LogError(e.ToString());
-                    return int.MaxValue;
+                    _jobLogMessageActionsWrapper.FailedToFindDbContext(dbContext);
+                    return 1;
                 }
+
+                GenerateFromDbContext(
+                    dbContext,
+                    outputFilePath);
+
+                return 0;
             });
         }
 
-        /// <summary>
-        /// Generates DGML output for each <see cref="DbContext"/> found in an assembly.
-        /// </summary>
-        /// <param name="assembly">Assembly to check.</param>
-        /// <param name="outputFilePath"></param>
-        public void GenerateFromAssembly(
-            Assembly assembly,
-            string dbContextName,
-            string outputFilePath)
-        {
-            ArgumentNullException.ThrowIfNull(assembly);
-
-            var dbContextType = GetDesignTimeDbContextFactoryFromAssembly(assembly, dbContextName)
-                ?? GetDbContextFromAssembly(assembly);
-
-            if (dbContextType != null)
-            {
-                GenerateFromDbContext(dbContextType, outputFilePath);
-            }
-        }
-
-        private DbContext? GetDesignTimeDbContextFactoryFromAssembly(Assembly assembly, string dbContextName)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static bool IsDbContextType(Type type)
+        private static bool IsDbContextType(Type type, string dbContextName)
         {
             if (!type.IsClass)
             {
@@ -112,35 +91,20 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 return false;
             }
 
-            return true;
+            return type.FullName != null
+                   && type.FullName.Equals(dbContextName, StringComparison.Ordinal);
         }
 
-        private void GenerateFromType(Type dbContextType, string outputFilePath)
-        {
-            try
-            {
-                var instance = Activator.CreateInstance(dbContextType);
-                var dbContext = instance as DbContext;
-
-                GenerateFromDbContext(dbContext, outputFilePath);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        private static void GenerateFromDbContext(DbContext dbContext, string outputFilePath)
+        private static void GenerateFromDbContext(DbContext dbContext, FileInfo outputFilePath)
         {
             var dgml = dbContext.AsDgml();
             File.WriteAllText(
-                outputFilePath,
+                outputFilePath.FullName,
                 dgml,
                 Encoding.UTF8);
         }
 
-        private DbContext? GetDesignTimeDbContextFactoryFromAssembly(Assembly assembly, string dbContextName)
+        private static DbContext? GetDesignTimeDbContextFactoryFromAssembly(Assembly assembly, string dbContextName)
         {
             var allTypes = assembly.GetTypes();
 
@@ -152,8 +116,14 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 return null;
             }
 
+            var dbContextType = Type.GetType(dbContextName);
+            if (dbContextType == null)
+            {
+                return null;
+            }
+
             var instance = Activator.CreateInstance(matchingType);
-            var method = typeof(IDesignTimeDbContextFactory<>).GetMethod("CreateDbContext");
+            var method = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(dbContextType).GetMethod("CreateDbContext");
             var res = method!.Invoke(
                 instance,
                 new object[] { Array.Empty<string>() });
@@ -161,7 +131,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
             return res as DbContext;
         }
 
-        private bool IsDesignTimeDbContextFactory(Type type, string dbContextName)
+        private static bool IsDesignTimeDbContextFactory(Type type, string dbContextName)
         {
             if (!type.IsClass)
             {
@@ -194,11 +164,20 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 && arg.FullName.Equals(dbContextName, StringComparison.Ordinal));
         }
 
-        private DbContext? GetDbContextFromAssembly(Assembly assembly, string dbContextName)
+        private static DbContext? GetDbContextFromAssembly(Assembly assembly, string dbContextName)
         {
             var allTypes = assembly.GetTypes();
 
-            return allTypes.AsParallel().FirstOrDefault(type => IsDbContextType(type, dbContextName));
+            var matchingType = allTypes.AsParallel().FirstOrDefault(type => IsDbContextType(type, dbContextName));
+            if (matchingType == null)
+            {
+                return null;
+            }
+
+            var instance = Activator.CreateInstance(matchingType);
+
+            // ReSharper disable once MergeConditionalExpression
+            return instance != null ? (DbContext)instance : null;
         }
     }
 }
