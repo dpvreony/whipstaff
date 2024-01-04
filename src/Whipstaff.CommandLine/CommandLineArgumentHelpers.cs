@@ -42,6 +42,7 @@ namespace Whipstaff.CommandLine
             var rootCommandAndBinderModel = rootCommandAndBinderModelFunc();
 
             var rootCommand = rootCommandAndBinderModel.RootCommand;
+
             var binder = rootCommandAndBinderModel.CommandLineBinder;
 
 #pragma warning disable RCS1207 // Convert anonymous function to method group (or vice versa).

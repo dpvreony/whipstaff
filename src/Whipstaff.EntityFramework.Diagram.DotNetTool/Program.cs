@@ -25,14 +25,14 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
             try
             {
                 var serviceProvider = new ServiceCollection()
-                    .AddLogging((loggingBuilder) => loggingBuilder
+                    .AddLogging(loggingBuilder => loggingBuilder
                         .SetMinimumLevel(LogLevel.Information)
                         .AddConsole())
                     .BuildServiceProvider();
 
                 var logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger<CommandLineJob>();
 
-                var job = new CommandLineJob(new JobLogMessageActionsWrapper(logger, new JobLogMessageActions()));
+                var job = new CommandLineJob(new CommandLineJobLogMessageActionsWrapper(logger, new CommandLineJobLogMessageActions()));
 
                 return await CommandLineArgumentHelpers.GetResultFromRootCommand<CommandLineArgModel, CommandLineArgModelBinder>(
                         args,

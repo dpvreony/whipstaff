@@ -20,17 +20,17 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// </summary>
     public sealed class CommandLineJob : ICommandLineHandler<CommandLineArgModel>
     {
-        private readonly JobLogMessageActionsWrapper _jobLogMessageActionsWrapper;
+        private readonly CommandLineJobLogMessageActionsWrapper _commandLineJobLogMessageActionsWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJob"/> class.
         /// </summary>
-        /// <param name="jobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
-        public CommandLineJob(JobLogMessageActionsWrapper jobLogMessageActionsWrapper)
+        /// <param name="commandLineJobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
+        public CommandLineJob(CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper)
         {
-            ArgumentNullException.ThrowIfNull(jobLogMessageActionsWrapper);
+            ArgumentNullException.ThrowIfNull(commandLineJobLogMessageActionsWrapper);
 
-            _jobLogMessageActionsWrapper = jobLogMessageActionsWrapper;
+            _commandLineJobLogMessageActionsWrapper = commandLineJobLogMessageActionsWrapper;
         }
 
         /// <inheritdoc/>
@@ -38,7 +38,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         {
             return Task.Run(() =>
             {
-                _jobLogMessageActionsWrapper.StartingHandleCommand();
+                _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();
                 var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
                 var outputFilePath = commandLineArgModel.OutputFilePath;
                 var dbContextName = commandLineArgModel.DbContextName;
@@ -52,7 +52,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 
                 if (dbContext == null)
                 {
-                    _jobLogMessageActionsWrapper.FailedToFindDbContext(dbContext);
+                    _commandLineJobLogMessageActionsWrapper.FailedToFindDbContext(dbContext);
                     return 1;
                 }
 
