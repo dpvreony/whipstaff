@@ -13,6 +13,10 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
     /// </summary>
     public static class CommandLineHandlerFactory
     {
+        /// <summary>
+        /// Gets the root command and binder for running the CLI tool.
+        /// </summary>
+        /// <returns>Root command and binder.</returns>
         public static RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder()
         {
 #pragma warning disable CA1861 // Avoid constant arrays as arguments

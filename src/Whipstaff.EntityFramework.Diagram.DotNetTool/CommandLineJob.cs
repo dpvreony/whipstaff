@@ -52,7 +52,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 
                 if (dbContext == null)
                 {
-                    _commandLineJobLogMessageActionsWrapper.FailedToFindDbContext(dbContext);
+                    _commandLineJobLogMessageActionsWrapper.FailedToFindDbContext(dbContextName);
                     return 1;
                 }
 
