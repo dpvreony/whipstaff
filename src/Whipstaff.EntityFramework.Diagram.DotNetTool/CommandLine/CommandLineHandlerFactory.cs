@@ -11,7 +11,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
     /// <summary>
     /// Factory for creating the root command and binder.
     /// </summary>
-    public sealed class CommandLineHandlerFactory
+    public sealed class CommandLineHandlerFactory : IRootCommandAndBinderFactory<CommandLineArgModelBinder>
     {
         /// <summary>
         /// Gets the root command and binder for running the CLI tool.
