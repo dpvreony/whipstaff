@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Whipstaff.CommandLine;
 using Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine;
+using Whipstaff.EntityFramework.Reflection;
 
 namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 {
@@ -43,12 +44,12 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 var outputFilePath = commandLineArgModel.OutputFilePath;
                 var dbContextName = commandLineArgModel.DbContextName;
 
-                var dbContext = GetDesignTimeDbContextFactoryFromAssembly(
+                var dbContext = ReflectedDbContextFactory.GetDesignTimeDbContextFactoryFromAssembly(
                                     assembly,
                                     dbContextName)
-                                    ?? GetDbContextFromAssembly(
-                                        assembly,
-                                        dbContextName);
+                                ?? ReflectedDbContextFactory.GetDbContextFromAssembly(
+                                    assembly,
+                                    dbContextName);
 
                 if (dbContext == null)
                 {
@@ -64,37 +65,6 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
             });
         }
 
-        private static bool IsDbContextType(Type type, string dbContextName)
-        {
-            if (!type.IsClass)
-            {
-                return false;
-            }
-
-            if (!type.IsPublic)
-            {
-                return false;
-            }
-
-            if (type.IsAbstract)
-            {
-                return false;
-            }
-
-            if (type.ContainsGenericParameters)
-            {
-                return false;
-            }
-
-            if (!type.IsSubclassOf(typeof(DbContext)))
-            {
-                return false;
-            }
-
-            return type.FullName != null
-                   && type.FullName.Equals(dbContextName, StringComparison.Ordinal);
-        }
-
         private static void GenerateFromDbContext(DbContext dbContext, FileInfo outputFilePath)
         {
             var dgml = dbContext.AsDgml();
@@ -102,82 +72,6 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 outputFilePath.FullName,
                 dgml,
                 Encoding.UTF8);
-        }
-
-        private static DbContext? GetDesignTimeDbContextFactoryFromAssembly(Assembly assembly, string dbContextName)
-        {
-            var allTypes = assembly.GetTypes();
-
-            var matchingType = allTypes.AsParallel()
-                .FirstOrDefault(type => IsDesignTimeDbContextFactory(type, dbContextName));
-
-            if (matchingType == null)
-            {
-                return null;
-            }
-
-            var dbContextType = Type.GetType(dbContextName);
-            if (dbContextType == null)
-            {
-                return null;
-            }
-
-            var instance = Activator.CreateInstance(matchingType);
-            var method = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(dbContextType).GetMethod("CreateDbContext");
-            var res = method!.Invoke(
-                instance,
-                new object[] { Array.Empty<string>() });
-
-            return res as DbContext;
-        }
-
-        private static bool IsDesignTimeDbContextFactory(Type type, string dbContextName)
-        {
-            if (!type.IsClass)
-            {
-                return false;
-            }
-
-            if (!type.IsPublic)
-            {
-                return false;
-            }
-
-            if (type.IsAbstract)
-            {
-                return false;
-            }
-
-            if (type.ContainsGenericParameters)
-            {
-                return false;
-            }
-
-            var matchingInterface = type.GetInterface("IDesignTimeDbContextFactory`1");
-            if (matchingInterface == null)
-            {
-                return false;
-            }
-
-            return matchingInterface.GetGenericArguments().Any(
-                arg => arg.FullName != null
-                && arg.FullName.Equals(dbContextName, StringComparison.Ordinal));
-        }
-
-        private static DbContext? GetDbContextFromAssembly(Assembly assembly, string dbContextName)
-        {
-            var allTypes = assembly.GetTypes();
-
-            var matchingType = allTypes.AsParallel().FirstOrDefault(type => IsDbContextType(type, dbContextName));
-            if (matchingType == null)
-            {
-                return null;
-            }
-
-            var instance = Activator.CreateInstance(matchingType);
-
-            // ReSharper disable once MergeConditionalExpression
-            return instance != null ? (DbContext)instance : null;
         }
     }
 }
