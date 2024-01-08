@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
 {
@@ -46,22 +47,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
 
         private static bool IsRootCommandAndBinderType(Type type)
         {
-            if (!type.IsClass)
-            {
-                return false;
-            }
-
-            if (!type.IsPublic)
-            {
-                return false;
-            }
-
-            if (type.IsAbstract)
-            {
-                return false;
-            }
-
-            if (type.ContainsGenericParameters)
+            if (!type.IsPublicClosedClass())
             {
                 return false;
             }

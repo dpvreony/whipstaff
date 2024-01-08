@@ -86,48 +86,14 @@ namespace Whipstaff.EntityFramework.Reflection
 
         private static bool IsDbContextType(Type type, string dbContextName)
         {
-            if (!type.IsClass)
-            {
-                return false;
-            }
-
-            if (!type.IsPublic)
-            {
-                return false;
-            }
-
-            if (type.IsAbstract)
-            {
-                return false;
-            }
-
-            if (type.ContainsGenericParameters)
-            {
-                return false;
-            }
-
-            if (!type.IsSubclassOf(typeof(DbContext)))
-            {
-                return false;
-            }
-
-            return type.FullName != null
+            return type.IsPublicClosedSubclass<DbContext>()
+                   && type.FullName != null
                    && type.FullName.Equals(dbContextName, StringComparison.Ordinal);
         }
 
         private static bool IsDesignTimeDbContextFactory(Type type, string dbContextName)
         {
-            if (!type.IsClass)
-            {
-                return false;
-            }
-
-            if (!type.IsPublic)
-            {
-                return false;
-            }
-
-            if (type.IsAbstract)
+            if (!type.IsPublicClosedClass())
             {
                 return false;
             }

@@ -36,5 +36,48 @@ namespace Whipstaff.Runtime.Extensions
 
             return constructors.FirstOrDefault(x => x.GetParameters().Length == 0);
         }
+
+        /// <summary>
+        /// Checks if a type is a public closed type.
+        /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>Whether the type is a public closed type.</returns>
+        public static bool IsPublicClosedClass(this Type type)
+        {
+            if (!type.IsClass)
+            {
+                return false;
+            }
+
+            if (!type.IsPublic)
+            {
+                return false;
+            }
+
+            if (type.IsAbstract)
+            {
+                return false;
+            }
+
+            if (type.ContainsGenericParameters)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if a type is a public closed type.
+        /// </summary>
+        /// <typeparam name="T">The type of class that the type should inherit from.</typeparam>
+        /// <param name="type">The type to check.</param>
+        /// <returns>Whether the type is a public closed type.</returns>
+        public static bool IsPublicClosedSubclass<T>(this Type type)
+            where T : class
+        {
+            return type.IsPublicClosedClass()
+                   && type.IsSubclassOf(typeof(T));
+        }
     }
 }
