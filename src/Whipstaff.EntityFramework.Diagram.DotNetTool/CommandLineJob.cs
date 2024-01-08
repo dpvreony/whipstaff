@@ -4,12 +4,10 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Whipstaff.CommandLine;
 using Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine;
 using Whipstaff.EntityFramework.Reflection;

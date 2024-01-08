@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.CommandLine;
+using Whipstaff.CommandLine.Hosting;
 using Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine;
 
 namespace Whipstaff.EntityFramework.Diagram.DotNetTool
@@ -20,32 +21,18 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         /// </summary>
         /// <param name="args">Command line arguments.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static async Task<int> Main(string[] args)
+        public static Task<int> Main(string[] args)
         {
-            try
-            {
-                var serviceProvider = new ServiceCollection()
-                    .AddLogging(loggingBuilder => loggingBuilder
-                        .SetMinimumLevel(LogLevel.Information)
-                        .AddConsole())
-                    .BuildServiceProvider();
-
-                var logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger<CommandLineJob>();
-
-                var job = new CommandLineJob(new CommandLineJobLogMessageActionsWrapper(logger, new CommandLineJobLogMessageActions()));
-
-                return await CommandLineArgumentHelpers.GetResultFromRootCommand<CommandLineArgModel, CommandLineArgModelBinder>(
-                        args,
-                        CommandLineHandlerFactory.GetRootCommandAndBinder,
-                        job.HandleCommand)
-                    .ConfigureAwait(false);
-            }
-#pragma warning disable CA1031
-            catch
-#pragma warning restore CA1031
-            {
-                return int.MaxValue;
-            }
+            return HostRunner.RunSimpleCliJob<
+                CommandLineJob,
+                CommandLineArgModel,
+                CommandLineArgModelBinder,
+                CommandLineHandlerFactory>(
+                args,
+                logger => new CommandLineJob(
+                    new CommandLineJobLogMessageActionsWrapper(
+                        logger,
+                        new CommandLineJobLogMessageActions())));
         }
     }
 }
