@@ -9,5 +9,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
     internal static class JobEventIdFactory
     {
         internal static EventId StartingHandleCommand() => new(1, nameof(StartingHandleCommand));
+
+        internal static EventId FailedToFindRootCommand() => new(2, nameof(StartingHandleCommand));
     }
 }

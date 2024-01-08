@@ -14,6 +14,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
     public class CommandLineJobLogMessageActions : ILogMessageActions<CommandLineJob>
     {
         private readonly Action<ILogger, Exception?> _startingHandleCommand;
+        private readonly Action<ILogger, Exception?> _failedToFindRootCommand;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJobLogMessageActions"/> class.
@@ -24,11 +25,21 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                 LogLevel.Information,
                 JobEventIdFactory.StartingHandleCommand(),
                 "Starting execution of CLI job handler");
+
+            _failedToFindRootCommand = LoggerMessage.Define(
+                LogLevel.Error,
+                JobEventIdFactory.FailedToFindRootCommand(),
+                "Failed to find root command.");
         }
 
         internal void StartingHandleCommand(ILogger<CommandLineJob> logger)
         {
             _startingHandleCommand(logger, null);
+        }
+
+        internal void FailedToFindRootCommand(ILogger<CommandLineJob> logger)
+        {
+            _failedToFindRootCommand(logger, null);
         }
     }
 }

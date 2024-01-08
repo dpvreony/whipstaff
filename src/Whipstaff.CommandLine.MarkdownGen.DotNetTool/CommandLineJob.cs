@@ -4,9 +4,12 @@
 
 using System;
 using System.CommandLine;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
+using Whipstaff.CommandLine.DocumentationGenerator;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
 using Whipstaff.Runtime.Extensions;
 
@@ -40,6 +43,18 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                 var outputFilePath = commandLineArgModel.OutputFilePath;
 
                 var rootCommand = GetRootCommand(assembly);
+
+                if (rootCommand == null)
+                {
+                    _commandLineJobLogMessageActionsWrapper.FailedToFindRootCommand();
+                    return 1;
+                }
+
+                var markdown = MarkdownDocumentationGenerator.GenerateDocumentation(rootCommand);
+                File.WriteAllText(
+                    outputFilePath.FullName,
+                    markdown,
+                    Encoding.UTF8);
 
                 return 0;
             });

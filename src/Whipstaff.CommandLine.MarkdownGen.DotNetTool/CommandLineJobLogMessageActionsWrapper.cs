@@ -44,5 +44,13 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         {
             _commandLineJobLogMessageActions.StartingHandleCommand(Logger);
         }
+
+        /// <summary>
+        /// Log message action for when the command line job fails to find the root command.
+        /// </summary>
+        public void FailedToFindRootCommand()
+        {
+            _commandLineJobLogMessageActions.FailedToFindRootCommand(Logger);
+        }
     }
 }

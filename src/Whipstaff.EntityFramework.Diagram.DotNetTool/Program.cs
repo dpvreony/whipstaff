@@ -3,9 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Whipstaff.CommandLine;
 using Whipstaff.CommandLine.Hosting;
 using Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine;
 
