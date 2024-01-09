@@ -4,6 +4,7 @@
 
 using System;
 using System.IO;
+using System.IO.Abstractions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,16 +21,22 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     public sealed class CommandLineJob : ICommandLineHandler<CommandLineArgModel>
     {
         private readonly CommandLineJobLogMessageActionsWrapper _commandLineJobLogMessageActionsWrapper;
+        private readonly IFileSystem _fileSystem;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJob"/> class.
         /// </summary>
         /// <param name="commandLineJobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
-        public CommandLineJob(CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper)
+        /// <param name="fileSystem">File System abstraction.</param>
+        public CommandLineJob(
+            CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper,
+            IFileSystem fileSystem)
         {
             ArgumentNullException.ThrowIfNull(commandLineJobLogMessageActionsWrapper);
+            ArgumentNullException.ThrowIfNull(fileSystem);
 
             _commandLineJobLogMessageActionsWrapper = commandLineJobLogMessageActionsWrapper;
+            _fileSystem = fileSystem;
         }
 
         /// <inheritdoc/>
@@ -57,16 +64,17 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 
                 GenerateFromDbContext(
                     dbContext,
+                    _fileSystem,
                     outputFilePath);
 
                 return 0;
             });
         }
 
-        private static void GenerateFromDbContext(DbContext dbContext, FileInfo outputFilePath)
+        private static void GenerateFromDbContext(DbContext dbContext, IFileSystem fileSystem, FileInfo outputFilePath)
         {
             var dgml = dbContext.AsDgml();
-            File.WriteAllText(
+            fileSystem.File.WriteAllText(
                 outputFilePath.FullName,
                 dgml,
                 Encoding.UTF8);

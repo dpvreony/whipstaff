@@ -4,7 +4,7 @@
 
 using System;
 using System.CommandLine;
-using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,16 +21,22 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
     public sealed class CommandLineJob : ICommandLineHandler<CommandLineArgModel>
     {
         private readonly CommandLineJobLogMessageActionsWrapper _commandLineJobLogMessageActionsWrapper;
+        private readonly IFileSystem _fileSystem;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJob"/> class.
         /// </summary>
         /// <param name="commandLineJobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
-        public CommandLineJob(CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper)
+        /// <param name="fileSystem">File System abstraction.</param>
+        public CommandLineJob(
+            CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper,
+            IFileSystem fileSystem)
         {
             ArgumentNullException.ThrowIfNull(commandLineJobLogMessageActionsWrapper);
+            ArgumentNullException.ThrowIfNull(fileSystem);
 
             _commandLineJobLogMessageActionsWrapper = commandLineJobLogMessageActionsWrapper;
+            _fileSystem = fileSystem;
         }
 
         /// <inheritdoc/>
@@ -51,7 +57,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                 }
 
                 var markdown = MarkdownDocumentationGenerator.GenerateDocumentation(rootCommand);
-                File.WriteAllText(
+                _fileSystem.File.WriteAllText(
                     outputFilePath.FullName,
                     markdown,
                     Encoding.UTF8);

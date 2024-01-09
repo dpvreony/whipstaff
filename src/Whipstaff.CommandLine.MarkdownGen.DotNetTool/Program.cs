@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -28,10 +29,11 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                     CommandLineArgModelBinder,
                     CommandLineHandlerFactory>(
                     args,
-                    logger => new CommandLineJob(
+                    (fileSystem, logger) => new CommandLineJob(
                         new CommandLineJobLogMessageActionsWrapper(
                             logger,
-                            new CommandLineJobLogMessageActions())));
+                            new CommandLineJobLogMessageActions()),
+                        fileSystem));
         }
     }
 }

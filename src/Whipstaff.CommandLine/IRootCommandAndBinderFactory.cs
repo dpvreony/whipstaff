@@ -2,6 +2,8 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System.IO.Abstractions;
+
 namespace Whipstaff.CommandLine
 {
     /// <summary>
@@ -13,7 +15,8 @@ namespace Whipstaff.CommandLine
         /// <summary>
         /// Gets the root command and binder.
         /// </summary>
+        /// <param name="fileSystem">File System abstraction.</param>
         /// <returns>The root command and binder.</returns>
-        RootCommandAndBinderModel<TCommandLineArgModelBinder> GetRootCommandAndBinder();
+        RootCommandAndBinderModel<TCommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem);
     }
 }

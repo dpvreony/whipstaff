@@ -6,6 +6,8 @@ using System;
 using System.CommandLine;
 using System.CommandLine.IO;
 using System.IO;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
@@ -26,7 +28,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// </summary>
         public sealed class GetResultFromRootCommandMethod
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestAsyncMethodWithNullableParameters<string[], Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, Task<int>>>
+                ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, Task<int>>, IFileSystem>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetResultFromRootCommandMethod"/> class.
@@ -42,8 +44,9 @@ namespace Whipstaff.UnitTests.CommandLine
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
                 string[] arg1,
-                Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>> arg2,
+                Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>> arg2,
                 Func<FakeCommandLineArgModel, Task<int>> arg3,
+                IFileSystem arg4,
                 string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
@@ -51,7 +54,8 @@ namespace Whipstaff.UnitTests.CommandLine
                     () => CommandLineArgumentHelpers.GetResultFromRootCommand(
                         arg1,
                         arg2,
-                        arg3));
+                        arg3,
+                        arg4));
             }
 
             /// <summary>
@@ -63,8 +67,8 @@ namespace Whipstaff.UnitTests.CommandLine
             {
                 var args = new[] { "testfile.txt", "testname" };
 
-                var rootCommandAndBinderModelFunc = new Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>(
-                    () =>
+                var rootCommandAndBinderModelFunc = new Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>(
+                    fileSystem =>
                     {
                         var fileArgument = new Argument<FileInfo>("filename");
                         var nameArgument = new Argument<string?>("name");
@@ -81,11 +85,13 @@ namespace Whipstaff.UnitTests.CommandLine
                     });
 
                 var console = new TestConsole();
+                var fileSystem = new MockFileSystem();
 
                 var result = await CommandLineArgumentHelpers.GetResultFromRootCommand<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
                     args,
                     rootCommandAndBinderModelFunc,
                     arg => Task.FromResult(0),
+                    fileSystem,
                     console);
 
                 _logger.LogInformation("Console output: {ConsoleOutput}", console.Out.ToString());

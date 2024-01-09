@@ -4,6 +4,7 @@
 
 using System.CommandLine;
 using System.IO;
+using System.IO.Abstractions;
 using Whipstaff.Runtime.Extensions;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
@@ -21,12 +22,20 @@ namespace Whipstaff.CommandLine
         /// Adds a validator to check that a file has a specific extension.
         /// </summary>
         /// <param name="argument">Argument to validate.</param>
+        /// <param name="fileSystem">File system abstraction.</param>
         /// <param name="extension">Valid file extension.</param>
         /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
-        public static Argument<FileInfo> SpecificFileExtensionOnly(this Argument<FileInfo> argument, string extension)
+        public static Argument<FileInfo> SpecificFileExtensionOnly(
+            this Argument<FileInfo> argument,
+            IFileSystem fileSystem,
+            string extension)
         {
+            ArgumentNullException.ThrowIfNull(fileSystem);
             extension.ThrowIfNullOrWhitespace();
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(result, extension));
+            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+                result,
+                fileSystem,
+                extension));
             return argument;
         }
 
@@ -34,12 +43,20 @@ namespace Whipstaff.CommandLine
         /// Adds a validator to check that a file has from a collection of extensions.
         /// </summary>
         /// <param name="argument">Argument to validate.</param>
+        /// <param name="fileSystem">File system abstraction.</param>
         /// <param name="extensions">Array of valid file extension.</param>
         /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
-        public static Argument<FileInfo> SpecificFileExtensionsOnly(this Argument<FileInfo> argument, string[] extensions)
+        public static Argument<FileInfo> SpecificFileExtensionsOnly(
+            this Argument<FileInfo> argument,
+            IFileSystem fileSystem,
+            string[] extensions)
         {
+            ArgumentNullException.ThrowIfNull(fileSystem);
             ArgumentNullException.ThrowIfNull(extensions);
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(result, extensions));
+            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+                result,
+                fileSystem,
+                extensions));
             return argument;
         }
     }

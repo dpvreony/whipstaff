@@ -6,6 +6,8 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.IO;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
 using Xunit;
@@ -19,11 +21,11 @@ namespace Whipstaff.UnitTests.CommandLine
     public static class SymbolResultHelpersTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="Whipstaff.CommandLine.SymbolResultHelpers.FileHasSupportedExtension(SymbolResult, string)"/>.
+        /// Unit Tests for <see cref="Whipstaff.CommandLine.SymbolResultHelpers.FileHasSupportedExtension(SymbolResult, IFileSystem, string)"/>.
         /// </summary>
         public sealed class FileHasSupportedExtensionMethod
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestMethodWithNullableParameters<SymbolResult, string>
+                ITestMethodWithNullableParameters<SymbolResult, IFileSystem, string>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="FileHasSupportedExtensionMethod"/> class.
@@ -39,12 +41,13 @@ namespace Whipstaff.UnitTests.CommandLine
             [Theory]
             public void ThrowsArgumentNullException(
                 SymbolResult arg1,
-                string arg2,
+                IFileSystem arg2,
+                string arg3,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2));
+                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2, arg3));
             }
 
             /// <summary>
@@ -60,7 +63,9 @@ namespace Whipstaff.UnitTests.CommandLine
                 Assert.NotNull(argumentResult);
                 var extension = ".txt";
 
-                SymbolResultHelpers.FileHasSupportedExtension(argumentResult, extension);
+                var fileSystem = new MockFileSystem();
+
+                SymbolResultHelpers.FileHasSupportedExtension(argumentResult, fileSystem, extension);
 
                 Assert.Equal(
                     argumentResult.ErrorMessage,
@@ -80,8 +85,11 @@ namespace Whipstaff.UnitTests.CommandLine
                 Assert.NotNull(argumentResult);
                 var extension = ".txt";
 
+                var fileSystem = new MockFileSystem();
+
                 SymbolResultHelpers.FileHasSupportedExtension(
                     argumentResult,
+                    fileSystem,
                     extension);
 
                 Assert.Null(argumentResult.ErrorMessage);
@@ -89,11 +97,11 @@ namespace Whipstaff.UnitTests.CommandLine
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="Whipstaff.CommandLine.SymbolResultHelpers.FileHasSupportedExtension(SymbolResult, string)"/>.
+        /// Unit Tests for <see cref="Whipstaff.CommandLine.SymbolResultHelpers.FileHasSupportedExtension(SymbolResult, IFileSystem, string)"/>.
         /// </summary>
         public sealed class FileHasSupportedExtension2Method
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestMethodWithNullableParameters<SymbolResult, string[]>
+                ITestMethodWithNullableParameters<SymbolResult, IFileSystem, string[]>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="FileHasSupportedExtension2Method"/> class.
@@ -109,12 +117,13 @@ namespace Whipstaff.UnitTests.CommandLine
             [Theory]
             public void ThrowsArgumentNullException(
                 SymbolResult arg1,
-                string[] arg2,
+                IFileSystem arg2,
+                string[] arg3,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2));
+                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2, arg3));
             }
 
             /// <summary>
@@ -130,7 +139,12 @@ namespace Whipstaff.UnitTests.CommandLine
                 Assert.NotNull(argumentResult);
                 var extensions = new[] { ".txt", ".docx" };
 
-                SymbolResultHelpers.FileHasSupportedExtension(argumentResult, extensions);
+                var fileSystem = new MockFileSystem();
+
+                SymbolResultHelpers.FileHasSupportedExtension(
+                    argumentResult,
+                    fileSystem,
+                    extensions);
 
                 Assert.Equal(
                     argumentResult.ErrorMessage,
@@ -150,8 +164,11 @@ namespace Whipstaff.UnitTests.CommandLine
                 Assert.NotNull(argumentResult);
                 var extension = new[] { ".txt", ".docx" };
 
+                var fileSystem = new MockFileSystem();
+
                 SymbolResultHelpers.FileHasSupportedExtension(
                     argumentResult,
+                    fileSystem,
                     extension);
 
                 Assert.Null(argumentResult.ErrorMessage);

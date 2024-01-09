@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Whipstaff.CommandLine.Hosting;
 using Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine;
@@ -26,10 +27,11 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 CommandLineArgModelBinder,
                 CommandLineHandlerFactory>(
                 args,
-                logger => new CommandLineJob(
+                (fileSystem, logger) => new CommandLineJob(
                     new CommandLineJobLogMessageActionsWrapper(
                         logger,
-                        new CommandLineJobLogMessageActions())));
+                        new CommandLineJobLogMessageActions()),
+                    fileSystem));
         }
     }
 }

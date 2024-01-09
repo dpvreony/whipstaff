@@ -4,6 +4,7 @@
 
 using System.CommandLine;
 using System.IO;
+using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
 namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
@@ -13,11 +14,8 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
     /// </summary>
     public sealed class CommandLineHandlerFactory : IRootCommandAndBinderFactory<CommandLineArgModelBinder>
     {
-        /// <summary>
-        /// Gets the root command and binder for running the CLI tool.
-        /// </summary>
-        /// <returns>Root command and binder.</returns>
-        public RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder()
+        /// <inheritdoc/>
+        public RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem)
         {
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
             var assemblyOption = new Option<FileInfo>(
@@ -29,6 +27,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
             {
                 IsRequired = true
             }.SpecificFileExtensionsOnly(
+                fileSystem,
                 [
                     ".exe",
                     ".dll"

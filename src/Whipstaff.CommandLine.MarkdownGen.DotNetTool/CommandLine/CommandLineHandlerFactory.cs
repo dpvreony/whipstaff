@@ -4,6 +4,7 @@
 
 using System.CommandLine;
 using System.IO;
+using System.IO.Abstractions;
 
 namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
 {
@@ -12,11 +13,8 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
     /// </summary>
     public sealed class CommandLineHandlerFactory : IRootCommandAndBinderFactory<CommandLineArgModelBinder>
     {
-        /// <summary>
-        /// Gets the root command and binder for running the CLI tool.
-        /// </summary>
-        /// <returns>Root command and binder.</returns>
-        public RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder()
+        /// <inheritdoc/>
+        public RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem)
         {
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
             var assemblyOption = new Option<FileInfo>(
@@ -28,11 +26,12 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
             {
                 IsRequired = true
             }.SpecificFileExtensionsOnly(
+                fileSystem,
                 [
                     ".exe",
                     ".dll"
                 ])
-                .ExistingOnly();
+                .ExistingOnly(fileSystem);
 
             var outputFilePathOption = new Option<FileInfo>(
                 [
