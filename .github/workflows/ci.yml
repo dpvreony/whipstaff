@@ -63,6 +63,22 @@ jobs:
         dotnet workload install android ios tvos macos maui
         dotnet workload list
 
+    - name: Install Android SDK
+      run: |
+        $androidHome = $Env:ANDROID_HOME
+        if ($androidHome -eq $null) {
+            $androidHome = 'C:\Program Files (x86)\Android\android-sdk\cmdline-tools\'
+        }
+
+        $sdkmanagerpath = Get-ChildItem "$androidHome\**\bin\sdkmanager.bat" | Select-Object -First 1
+        if ($sdkmanagerpath -eq $null) {
+            throw "Unable to find android sdk manager"
+        }
+
+        echo $sdkmanagerpath
+        . $sdkmanagerpath --install "platforms;android-30"
+        . $sdkmanagerpath --list_installed
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@3404ff3d40458f8d1fdf55c2bcc442b970404ad7
 
