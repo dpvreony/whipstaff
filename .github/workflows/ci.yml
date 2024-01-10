@@ -45,18 +45,12 @@ jobs:
 
     - name: Install Android SDK
       run: |
-        $androidHome = $Env:ANDROID_HOME
-        if ($androidHome -eq $null) {
-            $androidHome = 'C:\Program Files (x86)\Android\android-sdk\cmdline-tools\'
-        }
-
-        $sdkmanagerpath = Get-ChildItem "$androidHome\**\bin\sdkmanager.bat" | Select-Object -First 1
+        $sdkmanagerpath = Get-ChildItem "C:\Android\android-sdk\cmdline-tools\**\bin\sdkmanager.bat" | Select-Object -First 1
         if ($sdkmanagerpath -eq $null) {
             throw "Unable to find android sdk manager"
         }
 
         echo $sdkmanagerpath
-        . $sdkmanagerpath --install "cmdline-tools;latest"
         . $sdkmanagerpath --install "platforms;android-30"
 
     - name: Install Windows SDK 10.0.16299
