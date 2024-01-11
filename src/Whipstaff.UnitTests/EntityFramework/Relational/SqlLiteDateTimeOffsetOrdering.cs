@@ -121,6 +121,9 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
                             .ToArrayAsync();
+
+                        Assert.NotNull(result);
+                        Assert.NotEmpty(result);
                     }
                 }
             }
@@ -154,6 +157,9 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
                             .ToArrayAsync();
+
+                        Assert.NotNull(result);
+                        Assert.NotEmpty(result);
                     }
                 }
             }

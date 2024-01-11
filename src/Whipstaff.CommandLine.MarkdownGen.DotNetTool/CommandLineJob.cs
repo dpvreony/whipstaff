@@ -45,7 +45,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
             return Task.Run(() =>
             {
                 _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();
-                var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
+                var assembly = Assembly.Load(commandLineArgModel.AssemblyPath.FullName);
                 var outputFilePath = commandLineArgModel.OutputFilePath;
 
                 var rootCommand = GetRootCommand(assembly);

@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using ReactiveMarbles.ObservableEvents;
@@ -15,9 +18,11 @@ namespace Whipstaff.Wpf
     /// </summary>
     public abstract class WpfApplication : Application
     {
-        // ReSharper disable once NotAccessedField.Local
 #pragma warning disable IDE0052 // Remove unread private members
-        private readonly IDisposable _dispatchedUnhandledExceptionSubscription;
+#pragma warning disable S4487 // Unread "private" fields should be removed
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CompositeDisposable _compositeDisposable;
+#pragma warning restore S4487 // Unread "private" fields should be removed
 #pragma warning restore IDE0052 // Remove unread private members
 
         /// <summary>
@@ -25,10 +30,15 @@ namespace Whipstaff.Wpf
         /// </summary>
         protected WpfApplication()
         {
-            // AppDomain.CurrentDomain.Events().AssemblyResolve.Subscribe(x => OnAssemblyResolutionFailure(x));
+            _compositeDisposable =
+            [
+                Observable.FromEvent<ResolveEventHandler, ResolveEventArgs?>(
+                    conversion => (sender, args) => OnAssemblyResolutionFailure(sender, args),
+                    action => AppDomain.CurrentDomain.AssemblyResolve += action,
+                    action => AppDomain.CurrentDomain.AssemblyResolve -= action).Subscribe(),
 
-            // ReSharper disable once ConvertClosureToMethodGroup
-            _dispatchedUnhandledExceptionSubscription = this.Events().DispatcherUnhandledException.Subscribe(x => OnDispatcherUnhandledException(x));
+                this.Events().DispatcherUnhandledException.Subscribe(x => OnDispatcherUnhandledException(x))
+            ];
         }
 
         /// <inheritdoc />
@@ -39,6 +49,13 @@ namespace Whipstaff.Wpf
             DoApplicationPerformanceMonitoringInitialization();
             DoReactiveUIInitialization();
             OnApplicationStartup(e);
+        }
+
+        /// <inheritdoc />
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            _compositeDisposable.Dispose();
         }
 
         /// <summary>
@@ -69,6 +86,11 @@ namespace Whipstaff.Wpf
         {
             // the app should be written in a way this never happens.
             // but that is stating the obvious.
+        }
+
+        private static Assembly? OnAssemblyResolutionFailure(object? sender, ResolveEventArgs args)
+        {
+            return null;
         }
     }
 }

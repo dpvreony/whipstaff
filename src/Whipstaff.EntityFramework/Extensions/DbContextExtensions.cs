@@ -204,7 +204,7 @@ namespace Whipstaff.EntityFramework.Extensions
             _ = await d.AddAsync(item)
                 .ConfigureAwait(false);
 
-            var saveResult = await instance
+            _ = await instance
                 .SaveChangesAsync()
                 .ConfigureAwait(false);
 

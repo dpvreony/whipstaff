@@ -10,7 +10,9 @@ namespace Whipstaff.Runtime.Exceptions
     /// <summary>
     /// Shims for ArgumentNullException to provide compatibility with NET48.
     /// </summary>
+#pragma warning disable S2166 // Classes named like "Exception" should extend "Exception" or a subclass
     internal static class ArgumentNullException
+#pragma warning restore S2166 // Classes named like "Exception" should extend "Exception" or a subclass
     {
         /// <summary>Throws a <see cref="T:System.ArgumentNullException" /> if <paramref name="argument" /> is <see langword="null" />.</summary>
         /// <param name="argument">The reference type argument to validate as non-null.</param>

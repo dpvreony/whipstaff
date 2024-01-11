@@ -46,7 +46,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
             try
             {
                 _logMessageActionsWrapper.StartingTestOfDbSet(typeof(TEntity));
-                var result = await dbSet.FirstOrDefaultAsync().ConfigureAwait(false);
+                _ = await dbSet.FirstOrDefaultAsync().ConfigureAwait(false);
             }
 #pragma warning disable CA1031
             catch (Exception ex)

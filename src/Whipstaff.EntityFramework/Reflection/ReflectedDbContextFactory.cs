@@ -109,7 +109,8 @@ namespace Whipstaff.EntityFramework.Reflection
                 return false;
             }
 
-            return matchingInterface.GetGenericArguments().Any(
+            return Array.Exists(
+                matchingInterface.GetGenericArguments(),
                 arg => arg.FullName != null
                        && arg.FullName.Equals(dbContextName, StringComparison.Ordinal));
         }

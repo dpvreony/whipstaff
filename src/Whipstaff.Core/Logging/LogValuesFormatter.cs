@@ -34,44 +34,44 @@ namespace Whipstaff.Core.Logging
 
             OriginalFormat = format;
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-            var vsb = new ValueStringBuilder(stackalloc char[256]);
-#pragma warning restore CA2000 // Dispose objects before losing scope
-            int scanIndex = 0;
-            int endIndex = format.Length;
-
-            while (scanIndex < endIndex)
+            using (var vsb = new ValueStringBuilder(stackalloc char[256]))
             {
-                int openBraceIndex = FindBraceIndex(format, '{', scanIndex, endIndex);
-                if (scanIndex == 0 && openBraceIndex == endIndex)
+                int scanIndex = 0;
+                int endIndex = format.Length;
+
+                while (scanIndex < endIndex)
                 {
-                    // No holes found.
-                    _format = format;
-                    return;
+                    int openBraceIndex = FindBraceIndex(format, '{', scanIndex, endIndex);
+                    if (scanIndex == 0 && openBraceIndex == endIndex)
+                    {
+                        // No holes found.
+                        _format = format;
+                        return;
+                    }
+
+                    int closeBraceIndex = FindBraceIndex(format, '}', openBraceIndex, endIndex);
+
+                    if (closeBraceIndex == endIndex)
+                    {
+                        vsb.Append(format.AsSpan(scanIndex, endIndex - scanIndex));
+                        scanIndex = endIndex;
+                    }
+                    else
+                    {
+                        // Format item syntax : { index[,alignment][ :formatString] }.
+                        int formatDelimiterIndex = FindIndexOfAny(format, FormatDelimiters, openBraceIndex, closeBraceIndex);
+
+                        vsb.Append(format.AsSpan(scanIndex, openBraceIndex - scanIndex + 1));
+                        vsb.Append(_valueNames.Count.ToString(NumberFormatInfo.InvariantInfo));
+                        _valueNames.Add(format.Substring(openBraceIndex + 1, formatDelimiterIndex - openBraceIndex - 1));
+                        vsb.Append(format.AsSpan(formatDelimiterIndex, closeBraceIndex - formatDelimiterIndex + 1));
+
+                        scanIndex = closeBraceIndex + 1;
+                    }
                 }
 
-                int closeBraceIndex = FindBraceIndex(format, '}', openBraceIndex, endIndex);
-
-                if (closeBraceIndex == endIndex)
-                {
-                    vsb.Append(format.AsSpan(scanIndex, endIndex - scanIndex));
-                    scanIndex = endIndex;
-                }
-                else
-                {
-                    // Format item syntax : { index[,alignment][ :formatString] }.
-                    int formatDelimiterIndex = FindIndexOfAny(format, FormatDelimiters, openBraceIndex, closeBraceIndex);
-
-                    vsb.Append(format.AsSpan(scanIndex, openBraceIndex - scanIndex + 1));
-                    vsb.Append(_valueNames.Count.ToString(NumberFormatInfo.InvariantInfo));
-                    _valueNames.Add(format.Substring(openBraceIndex + 1, formatDelimiterIndex - openBraceIndex - 1));
-                    vsb.Append(format.AsSpan(formatDelimiterIndex, closeBraceIndex - formatDelimiterIndex + 1));
-
-                    scanIndex = closeBraceIndex + 1;
-                }
+                _format = vsb.ToString();
             }
-
-            _format = vsb.ToString();
         }
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
@@ -90,6 +90,7 @@ namespace Whipstaff.Core.Logging
             {
                 if (braceOccurrenceCount > 0 && format[scanIndex] != brace)
                 {
+#pragma warning disable S2583 // Conditionally executed code should be reachable
                     if (braceOccurrenceCount % 2 == 0)
                     {
                         // Even number of '{' or '}' found. Proceed search with next occurrence of '{' or '}'.
@@ -101,6 +102,7 @@ namespace Whipstaff.Core.Logging
                         // An unescaped '{' or '}' found.
                         break;
                     }
+#pragma warning restore S2583 // Conditionally executed code should be reachable
                 }
                 else if (format[scanIndex] == brace)
                 {
@@ -249,22 +251,22 @@ namespace Whipstaff.Core.Logging
             // if the value implements IEnumerable, build a comma separated string.
             if (value is IEnumerable enumerable)
             {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                var vsb = new ValueStringBuilder(stackalloc char[256]);
-#pragma warning restore CA2000 // Dispose objects before losing scope
-                bool first = true;
-                foreach (object? e in enumerable)
+                using (var vsb = new ValueStringBuilder(stackalloc char[256]))
                 {
-                    if (!first)
+                    bool first = true;
+                    foreach (object? e in enumerable)
                     {
-                        vsb.Append(", ");
+                        if (!first)
+                        {
+                            vsb.Append(", ");
+                        }
+
+                        vsb.Append(e != null ? e.ToString() : NullValue);
+                        first = false;
                     }
 
-                    vsb.Append(e != null ? e.ToString() : NullValue);
-                    first = false;
+                    return vsb.ToString();
                 }
-
-                return vsb.ToString();
             }
 
             return value;

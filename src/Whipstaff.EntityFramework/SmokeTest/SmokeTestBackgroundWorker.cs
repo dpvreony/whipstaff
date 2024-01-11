@@ -51,7 +51,8 @@ namespace Whipstaff.EntityFramework.SmokeTest
                 try
                 {
                     _logMessageActionsWrappper.StartingDbSetChecker();
-                    var dbSets = _dbSetChecker.CheckDbSets(dbContext);
+                    await _dbSetChecker.CheckDbSets(dbContext)
+                        .ConfigureAwait(false);
                     _logMessageActionsWrappper.CompletedDbSetChecker();
                 }
 #pragma warning disable CA1031

@@ -45,7 +45,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
             return Task.Run(() =>
             {
                 _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();
-                var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
+                var assembly = Assembly.Load(commandLineArgModel.AssemblyPath.FullName);
                 var outputFilePath = commandLineArgModel.OutputFilePath;
                 var dbContextName = commandLineArgModel.DbContextName;
 

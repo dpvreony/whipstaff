@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Linq;
 using System.Reflection;
 
 namespace Whipstaff.Runtime.Extensions
@@ -22,7 +21,9 @@ namespace Whipstaff.Runtime.Extensions
         {
             var constructors = type.GetConstructors();
 
-            return constructors.Any(x => x.GetParameters().Length == 0);
+            return Array.Exists(
+                constructors,
+                x => x.GetParameters().Length == 0);
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace Whipstaff.Runtime.Extensions
         {
             var constructors = type.GetConstructors();
 
-            return constructors.FirstOrDefault(x => x.GetParameters().Length == 0);
+            return Array.Find(constructors, x => x.GetParameters().Length == 0);
         }
 
         /// <summary>
