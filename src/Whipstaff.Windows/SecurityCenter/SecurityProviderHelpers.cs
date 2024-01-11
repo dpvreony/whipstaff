@@ -37,7 +37,7 @@ namespace Whipstaff.Windows.SecurityCenter
         /// <returns>Health Status.</returns>
         public static SecurityProviderHealth GetHealthStatus(SecurityProvider provider)
         {
-            return GetHealthStatus(provider);
+            return GetHealthStatus((uint)provider);
         }
 
         /// <summary>
