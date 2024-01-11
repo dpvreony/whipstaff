@@ -9,6 +9,12 @@
     <AssemblyName>whipstaff-efdiagram</AssemblyName>
   </PropertyGroup>
 
+  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
+    <PropertyGroup>
+      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
+    </PropertyGroup>
+  </Target>
+
   <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
