@@ -2,12 +2,16 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
+using System.Runtime.Serialization;
+
 namespace Whipstaff.Runtime.Exceptions
 {
     /// <summary>
     /// The number passed in was higher than the allowed maximum.
     /// </summary>
 #pragma warning disable RCS1194 // Implement exception constructors.
+    [Serializable]
     public class NumberTooLowClrDateTimeException
 #pragma warning restore RCS1194 // Implement exception constructors.
         : System.ArgumentOutOfRangeException
@@ -50,9 +54,11 @@ namespace Whipstaff.Runtime.Exceptions
             string parameterName,
             System.DateTime minimumValid,
             System.DateTime actual)
-            : base(parameterName, "The number specified is too low. Minimum: " + minimumValid + ", Actual: " + actual)
+            : base(
+                parameterName,
+                actual,
+                "The number specified is too low. Minimum: " + minimumValid + ", Actual: " + actual)
         {
-            Actual = actual;
             MinimumValid = minimumValid;
         }
 
@@ -66,16 +72,19 @@ namespace Whipstaff.Runtime.Exceptions
             System.Runtime.Serialization.StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {
+            MinimumValid = (DateTime)serializationInfo.GetValue("MimimumValid", typeof(object));
         }
-
-        /// <summary>
-        /// Gets the actual value that cause the exception.
-        /// </summary>
-        public System.DateTime Actual { get; private set; }
 
         /// <summary>
         /// Gets the minimum valid value.
         /// </summary>
         public System.DateTime MinimumValid { get; private set; }
+
+        /// <inheritdoc/>
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("MimimumValid", MinimumValid, typeof(object));
+        }
     }
 }
