@@ -22,7 +22,6 @@ namespace Whipstaff.Testing
     /// <summary>
     /// Fake CRUD Web Controller, for use in examples and unit tests.
     /// </summary>
-    [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
     [ApiController]
     [Route("api/fakecrud")]

@@ -17,7 +17,7 @@ namespace Whipstaff.Testing.MediatR
         /// <inheritdoc />
         public Task<FakeCrudViewResponse?> Handle(FakeCrudViewQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult(new FakeCrudViewResponse())!;
+            return Task.FromResult(new FakeCrudViewResponse(request.RequestDto))!;
         }
     }
 }
