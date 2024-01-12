@@ -53,7 +53,6 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
             var outputFilePath = bindingContext.ParseResult.GetValueForOption(_outputFilePathOption);
             var diagramType = bindingContext.ParseResult.GetValueForOption(_diagramTypeOption);
 
-            // TODO: review how options behave when not specified
             return new CommandLineArgModel(
                 assembly!,
                 dbContextName!,

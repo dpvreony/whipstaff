@@ -70,7 +70,6 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             public TestWithContextOptionsDbContext(DbContextOptions options)
                 : base(options)
             {
-                // TODO: check the extension the model is defined in.
             }
         }
 

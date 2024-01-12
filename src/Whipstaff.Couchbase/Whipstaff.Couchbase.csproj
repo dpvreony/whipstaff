@@ -9,4 +9,8 @@
     <PackageReference Include="Couchbase.Extensions.Locks" Version="2.0.0" />
     <PackageReference Include="Foundatio" Version="10.7.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+  </ItemGroup>
 </Project>

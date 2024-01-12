@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Whipstaff.AspNetCore.Features.Swagger
 {
@@ -11,6 +12,7 @@ namespace Whipstaff.AspNetCore.Features.Swagger
     /// This is currently experimental and may change over time.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
+    [Experimental("WH0001")]
     public sealed class SwaggerClassMetaDataAttribute : Attribute
     {
         /// <summary>
@@ -19,7 +21,6 @@ namespace Whipstaff.AspNetCore.Features.Swagger
         /// <param name="metadataClass">The type for the metadata class.</param>
         public SwaggerClassMetaDataAttribute(Type metadataClass)
         {
-            // todo: use a roslyn analyzer to ensure the type passed in is correct.
             ArgumentNullException.ThrowIfNull(metadataClass);
             MetadataClass = metadataClass;
         }

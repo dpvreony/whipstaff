@@ -18,12 +18,7 @@ namespace Whipstaff.Wpf
     /// </summary>
     public abstract class WpfApplication : Application
     {
-#pragma warning disable IDE0052 // Remove unread private members
-#pragma warning disable S4487 // Unread "private" fields should be removed
-        // ReSharper disable once NotAccessedField.Local
         private readonly CompositeDisposable _compositeDisposable;
-#pragma warning restore S4487 // Unread "private" fields should be removed
-#pragma warning restore IDE0052 // Remove unread private members
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WpfApplication"/> class.

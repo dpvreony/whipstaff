@@ -41,7 +41,6 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
             var assembly = bindingContext.ParseResult.GetValueForOption(_assemblyOption);
             var outputFilePath = bindingContext.ParseResult.GetValueForOption(_outputFilePathOption);
 
-            // TODO: review how options behave when not specified
             return new CommandLineArgModel(
                 assembly!,
                 outputFilePath!);

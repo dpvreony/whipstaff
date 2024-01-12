@@ -11,68 +11,69 @@ using Couchbase.Extensions.DependencyInjection;
 using Couchbase.Extensions.Locks;
 using Couchbase.KeyValue;
 using Foundatio.Lock;
-using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Couchbase
 {
     /// <summary>
     /// A Couchbase Lock Distributed Log Provider.
     /// </summary>
-    public sealed class CouchbaseLockProvider : global::Foundatio.Lock.ILockProvider
+    public sealed class CouchbaseLockProvider : ILockProvider
     {
-        private readonly ConcurrentDictionary<string, ICouchbaseMutex> _mutexDictionary = new ConcurrentDictionary<string, ICouchbaseMutex>();
+        private readonly ConcurrentDictionary<string, ICouchbaseMutex> _mutexDictionary = new();
         private readonly ICouchbaseCollection _couchbaseCollection;
-        private readonly ILogger<CouchbaseLockProvider> _logger;
+        private readonly CouchbaseLockProviderLogMessageActionsWrapper _logMessageActionsWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CouchbaseLockProvider"/> class.
         /// </summary>
         /// <param name="couchbaseCollection">The couchbase collection.</param>
-        /// <param name="logger">The logging framework instance.</param>
+        /// <param name="logMessageActionsWrapper">The logging framework wrapper instance.</param>
         public CouchbaseLockProvider(
             ICouchbaseCollection couchbaseCollection,
-            ILogger<CouchbaseLockProvider> logger)
+            CouchbaseLockProviderLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(couchbaseCollection);
-            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
             _couchbaseCollection = couchbaseCollection;
-            _logger = logger;
+            _logMessageActionsWrapper = logMessageActionsWrapper;
         }
 
         /// <summary>
         /// Gets a Couchbase Lock Provider using a bucket provider.
         /// </summary>
         /// <param name="bucketProvider">Bucket Provider Instance to use.</param>
-        /// <param name="logger">The logging framework instance.</param>
+        /// <param name="logMessageActionsWrapper">The logging framework wrapper instance.</param>
         /// <returns>Instance of <see cref="CouchbaseLockProvider"/>.</returns>
         public static async Task<CouchbaseLockProvider> GetInstanceAsync(
             IBucketProvider bucketProvider,
-            ILogger<CouchbaseLockProvider> logger)
+            CouchbaseLockProviderLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(bucketProvider);
-            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
 
             var bucket = await bucketProvider.GetBucketAsync("default")
                 .ConfigureAwait(false);
 
-            return GetInstance(bucket, logger);
+            return GetInstance(bucket, logMessageActionsWrapper);
         }
 
         /// <summary>
         /// Gets a Couchbase Lock Provider using a bucket provider.
         /// </summary>
         /// <param name="bucket">Couchbase Bucket to use.</param>
-        /// <param name="logger">The logging framework instance.</param>
+        /// <param name="logMessageActionsWrapper">The logging framework wrapper instance.</param>
         /// <returns>Instance of <see cref="CouchbaseLockProvider"/>.</returns>
         public static CouchbaseLockProvider GetInstance(
             IBucket bucket,
-            ILogger<CouchbaseLockProvider> logger)
+            CouchbaseLockProviderLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(bucket);
 
             var collection = bucket.DefaultCollection();
 
-            return new CouchbaseLockProvider(collection, logger);
+            return new CouchbaseLockProvider(
+                collection,
+                logMessageActionsWrapper);
         }
 
         /// <inheritdoc/>
@@ -82,6 +83,7 @@ namespace Whipstaff.Couchbase
             bool releaseOnDispose = true,
             CancellationToken cancellationToken = default)
         {
+            _logMessageActionsWrapper.StartingAcquire(resource);
             var attemptStarted = DateTime.UtcNow;
 
             var mutex = await _couchbaseCollection.RequestMutexAsync(
@@ -90,12 +92,18 @@ namespace Whipstaff.Couchbase
                 cancellationToken)
                 .ConfigureAwait(false);
 
-            var dateTimeAquired = DateTime.UtcNow;
-            var timeWaited = dateTimeAquired - attemptStarted;
+            var dateTimeAcquired = DateTime.UtcNow;
+            var timeWaited = dateTimeAcquired - attemptStarted;
 
             _ = _mutexDictionary.TryAdd(resource, mutex);
 
-            return new CouchbaseLock(mutex, resource, dateTimeAquired, timeWaited);
+            _logMessageActionsWrapper.FinishedAcquire(resource);
+
+            return new CouchbaseLock(
+                mutex,
+                resource,
+                dateTimeAcquired,
+                timeWaited);
         }
 
         /// <inheritdoc/>
@@ -110,10 +118,14 @@ namespace Whipstaff.Couchbase
         /// <inheritdoc/>
         public Task ReleaseAsync(string resource, string lockId)
         {
+            _logMessageActionsWrapper.StartingRelease(resource);
+
             if (_mutexDictionary.TryGetValue(resource, out var mutex))
             {
                 mutex.Dispose();
             }
+
+            _logMessageActionsWrapper.FinishedRelease(resource);
 
             return Task.CompletedTask;
         }
@@ -121,13 +133,18 @@ namespace Whipstaff.Couchbase
         /// <inheritdoc/>
         public async Task RenewAsync(string resource, string lockId, TimeSpan? timeUntilExpires = null)
         {
+            _logMessageActionsWrapper.StartingRenew(resource);
+
             if (!_mutexDictionary.TryGetValue(resource, out var mutex))
             {
+                _logMessageActionsWrapper.NoLockToRenew(resource);
                 return;
             }
 
             await mutex.Renew(timeUntilExpires ?? TimeSpan.FromMinutes(1))
                 .ConfigureAwait(false);
+
+            _logMessageActionsWrapper.FinishedRenew(resource);
         }
     }
 }
