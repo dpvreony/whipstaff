@@ -50,7 +50,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                 var assembly = Assembly.Load(commandLineArgModel.AssemblyPath.FullName);
                 var outputFilePath = commandLineArgModel.OutputFilePath;
 
-                var rootCommand = GetRootCommand(assembly);
+                var rootCommand = ReflectionHelpers.GetRootCommand(assembly);
 
                 if (rootCommand == null)
                 {
@@ -66,47 +66,6 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
 
                 return 0;
             });
-        }
-
-        private static bool IsRootCommandAndBinderType(Type type)
-        {
-            if (!type.IsPublicClosedClass())
-            {
-                return false;
-            }
-
-            var matchingInterface = type.GetInterface("IRootCommandAndBinderFactory`1");
-            if (matchingInterface == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private static RootCommand? GetRootCommand(Assembly assembly)
-        {
-            var allTypes = assembly.GetTypes();
-
-            // ReSharper disable once ConvertClosureToMethodGroup
-            var matchingType = allTypes.AsParallel().FirstOrDefault(type => IsRootCommandAndBinderType(type));
-            if (matchingType == null)
-            {
-                return null;
-            }
-
-            var instance = Activator.CreateInstance(matchingType);
-            if (instance == null)
-            {
-                return null;
-            }
-
-            var rootCommandProperty = instance.GetType().GetProperty("RootCommand");
-            var accessor = rootCommandProperty!.GetGetMethod();
-            var rootCommand = accessor!.Invoke(instance, null);
-
-            // ReSharper disable once MergeConditionalExpression
-            return rootCommand != null ? (RootCommand)rootCommand : null;
         }
     }
 }
