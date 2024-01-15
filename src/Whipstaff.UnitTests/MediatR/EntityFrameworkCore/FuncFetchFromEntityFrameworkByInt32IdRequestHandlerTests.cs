@@ -40,7 +40,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
                 var dbContextFactory = new FakeDbContextFactory(Log);
 
                 var instance =
-                    new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
+                    new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int?>(
                         dbContextFactory,
                         context => context.FakeAddAudit,
                         set => set.Id);
@@ -72,8 +72,14 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             {
                 var dbContextFactory = new FakeDbContextFactory(Log);
 
+                using (var dbContext = dbContextFactory.CreateDbContext())
+                {
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1 });
+                    _ = await dbContext.SaveChangesAsync();
+                }
+
                 var instance =
-                    new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int>(
+                    new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int?>(
                         dbContextFactory,
                         context => context.FakeAddAudit,
                         set => set.Id);
@@ -88,6 +94,33 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
                     CancellationToken.None);
 
                 Assert.Equal(1, response);
+            }
+
+            /// <summary>
+            /// Unit Tests for ensuring a result is returned.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            [Fact]
+            public async Task ReturnsNullAsync()
+            {
+                var dbContextFactory = new FakeDbContextFactory(Log);
+
+                var instance =
+                    new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int?>(
+                        dbContextFactory,
+                        context => context.FakeAddAudit,
+                        set => set.Id);
+
+                var request = new RequestById
+                {
+                    Id = 1
+                };
+
+                var response = await instance.Handle(
+                    request,
+                    CancellationToken.None);
+
+                Assert.Null(response);
             }
         }
     }

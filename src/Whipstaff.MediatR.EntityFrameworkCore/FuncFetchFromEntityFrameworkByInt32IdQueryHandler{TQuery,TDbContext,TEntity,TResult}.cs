@@ -20,10 +20,10 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
     /// <typeparam name="TResult">The type for the Result.</typeparam>
     public sealed class FuncFetchFromEntityFrameworkByInt32IdQueryHandler<TQuery, TDbContext, TEntity, TResult> : FetchFromEntityFrameworkByInt32IdQueryHandler<TQuery, TDbContext, TEntity, TResult>
         where TDbContext : DbContext
-        where TQuery : IQuery<TResult>, IIntId
+        where TQuery : IQuery<TResult?>, IIntId
         where TEntity : class, IIntId
     {
-        private readonly Expression<Func<TEntity, TResult>> _selector;
+        private readonly Expression<Func<TEntity, TResult?>> _selector;
         private readonly Func<TDbContext, DbSet<TEntity>> _dbSetFunc;
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         public FuncFetchFromEntityFrameworkByInt32IdQueryHandler(
             IDbContextFactory<TDbContext> dbContextFactory,
             Func<TDbContext, DbSet<TEntity>> dbSetFunc,
-            Expression<Func<TEntity, TResult>> selector)
+            Expression<Func<TEntity, TResult?>> selector)
             : base(dbContextFactory)
         {
             _dbSetFunc = dbSetFunc;
@@ -46,6 +46,6 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         protected override DbSet<TEntity> GetDbSet(TDbContext dbContext) => _dbSetFunc(dbContext);
 
         /// <inheritdoc />
-        protected override Expression<Func<TEntity, TResult>> GetSelector() => _selector;
+        protected override Expression<Func<TEntity, TResult?>> GetSelector() => _selector;
     }
 }

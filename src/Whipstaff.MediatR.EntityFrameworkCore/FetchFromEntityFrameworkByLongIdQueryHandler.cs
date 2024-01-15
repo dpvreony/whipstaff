@@ -42,7 +42,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         }
 
         /// <inheritdoc/>
-        protected override Task<TResult?> GetResultAsync(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+        protected override Task<TResult?> GetResultAsync(IQueryable<TResult?> queryable, CancellationToken cancellationToken)
         {
             return queryable.FirstOrDefaultAsync(cancellationToken);
         }

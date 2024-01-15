@@ -117,6 +117,10 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
                     {
                         _ = await dbContext.Database.EnsureCreatedAsync();
 
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now });
+
+                        _ = await dbContext.SaveChangesAsync();
+
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
                             .ToArrayAsync();
@@ -152,6 +156,10 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
                     using (var dbContext = new TestWithContextOptionsDbContext(dbContextOptionsBuilder.Options))
                     {
                         _ = await dbContext.Database.EnsureCreatedAsync();
+
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now });
+
+                        _ = await dbContext.SaveChangesAsync();
 
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())

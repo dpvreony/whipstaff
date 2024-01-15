@@ -35,9 +35,8 @@ namespace Whipstaff.CommandLine
             ArgumentNullException.ThrowIfNull(fileSystem);
             extension.ThrowIfNullOrWhitespace();
 
-            foreach (var token in result.Tokens)
+            foreach (var rawValue in result.Tokens.Select(t => t.Value))
             {
-                var rawValue = token.Value;
                 var tokenExtension = fileSystem.Path.GetExtension(rawValue);
 
                 if (string.IsNullOrWhiteSpace(tokenExtension)
@@ -64,9 +63,8 @@ namespace Whipstaff.CommandLine
             ArgumentNullException.ThrowIfNull(fileSystem);
             ArgumentNullException.ThrowIfNull(extensions);
 
-            foreach (var token in result.Tokens)
+            foreach (var rawValue in result.Tokens.Select(t => t.Value))
             {
-                var rawValue = token.Value;
                 var tokenExtension = fileSystem.Path.GetExtension(rawValue);
 
                 if (string.IsNullOrWhiteSpace(tokenExtension)
@@ -90,11 +88,9 @@ namespace Whipstaff.CommandLine
             ArgumentNullException.ThrowIfNull(result);
             ArgumentNullException.ThrowIfNull(fileSystem);
 
-            foreach (var token in result.Tokens)
+            foreach (var rawValue in result.Tokens.Select(t => t.Value))
             {
-                var rawValue = token.Value;
-
-                if (fileSystem.File.Exists(rawValue))
+                if (!fileSystem.File.Exists(rawValue))
                 {
                     result.ErrorMessage = $"Filename \"{rawValue}\" was not found.";
                     return;

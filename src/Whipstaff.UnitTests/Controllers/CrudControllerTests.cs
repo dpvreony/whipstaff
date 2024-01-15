@@ -546,7 +546,7 @@ namespace Whipstaff.UnitTests.Controllers
 
             private static Task<FakeCrudUpdateResponse?> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
             {
-                return Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse());
+                return Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse(arg1.RequestDto));
             }
         }
 

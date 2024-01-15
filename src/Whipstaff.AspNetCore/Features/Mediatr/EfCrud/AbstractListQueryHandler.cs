@@ -28,7 +28,7 @@ namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
         where TQuery : IQuery<TResponse[]>, IPageRequest
     {
         /// <inheritdoc />
-        public async Task<TResponse[]> Handle(TQuery request, CancellationToken cancellationToken)
+        public async Task<TResponse[]?> Handle(TQuery request, CancellationToken cancellationToken)
         {
             using (var dbContext = GetDbContext())
             {
