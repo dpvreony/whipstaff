@@ -4,8 +4,6 @@
 
 using System.IO.Abstractions;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Whipstaff.CommandLine.Hosting;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
 
@@ -33,7 +31,8 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                         new CommandLineJobLogMessageActionsWrapper(
                             logger,
                             new CommandLineJobLogMessageActions()),
-                        fileSystem));
+                        fileSystem),
+                    new FileSystem());
         }
     }
 }

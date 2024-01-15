@@ -31,7 +31,8 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                     new CommandLineJobLogMessageActionsWrapper(
                         logger,
                         new CommandLineJobLogMessageActions()),
-                    fileSystem));
+                    fileSystem),
+                new FileSystem());
         }
     }
 }

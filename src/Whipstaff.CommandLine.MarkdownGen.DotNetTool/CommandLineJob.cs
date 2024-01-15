@@ -42,6 +42,8 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         /// <inheritdoc/>
         public Task<int> HandleCommand(CommandLineArgModel commandLineArgModel)
         {
+            ArgumentNullException.ThrowIfNull(commandLineArgModel);
+
             return Task.Run(() =>
             {
                 _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();

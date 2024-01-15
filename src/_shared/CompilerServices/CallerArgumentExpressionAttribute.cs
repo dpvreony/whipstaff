@@ -4,6 +4,7 @@
 
 #if CALLER_ARGUMENT_EXPRESSION_SHIM
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices
 {
@@ -13,6 +14,7 @@ namespace System.Runtime.CompilerServices
     /// Taken from: https://weblogs.asp.net/dixin/csharp-10-new-feature-callerargumentexpression-argument-check-and-more on 20230904.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
+    [ExcludeFromCodeCoverage]
     internal sealed class CallerArgumentExpressionAttribute : Attribute
     {
         /// <summary>

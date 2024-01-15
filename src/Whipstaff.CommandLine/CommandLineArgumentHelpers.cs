@@ -24,6 +24,37 @@ namespace Whipstaff.CommandLine
         /// </summary>
         /// <typeparam name="TCommandLineArg">The type for the command line argument model.</typeparam>
         /// <typeparam name="TCommandLineArgModelBinder">The type for the command line argument model binder.</typeparam>
+        /// <typeparam name="TRootCommandAndBinderFactory">The type of the RootCommand and Argument Binder factory.</typeparam>
+        /// <param name="args">Command line arguments to parse.</param>
+        /// <param name="rootCommandHandlerFunc">Function to execute for handling the invocation of the root command.</param>
+        /// <param name="fileSystem">File System abstraction.</param>
+        /// <param name="console">The console to which output is written during invocation.</param>
+        /// <returns>0 for success, non 0 for failure.</returns>
+        public static Task<int> GetResultFromRootCommand<TCommandLineArg, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+            string[] args,
+            Func<TCommandLineArg, Task<int>> rootCommandHandlerFunc,
+            IFileSystem fileSystem,
+            IConsole? console = null)
+            where TCommandLineArgModelBinder : BinderBase<TCommandLineArg>
+            where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
+        {
+            ArgumentNullException.ThrowIfNull(args);
+            ArgumentNullException.ThrowIfNull(rootCommandHandlerFunc);
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
+            return GetResultFromRootCommand(
+                args,
+                new TRootCommandAndBinderFactory().GetRootCommandAndBinder,
+                rootCommandHandlerFunc,
+                fileSystem,
+                console);
+        }
+
+        /// <summary>
+        /// Gets the result from the invoking root command.
+        /// </summary>
+        /// <typeparam name="TCommandLineArg">The type for the command line argument model.</typeparam>
+        /// <typeparam name="TCommandLineArgModelBinder">The type for the command line argument model binder.</typeparam>
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="rootCommandAndBinderModelFunc">Function to execute for handling the binding of the command line model.</param>
         /// <param name="rootCommandHandlerFunc">Function to execute for handling the invocation of the root command.</param>
