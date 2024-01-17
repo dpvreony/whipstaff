@@ -97,7 +97,7 @@
     <PackageReference Include="stylecop.analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
     <PackageReference Include="Roslynator.Analyzers" Version="4.8.0" PrivateAssets="All" />
     <PackageReference Include="InclusivenessAnalyzer" Version="1.3.0" PrivateAssets="all" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.17.0.82934" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Net Analyzers config taken from : https://docs.microsoft.com/en-gb/visualstudio/code-quality/migrate-from-fxcop-analyzers-to-net-analyzers?view=vs-2019 -->
