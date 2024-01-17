@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.CommandLine;
 using System.IO;
 using System.IO.Abstractions;
@@ -16,6 +17,8 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
         /// <inheritdoc/>
         public RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem)
         {
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
             var assemblyOption = new Option<FileInfo>(
                 [
