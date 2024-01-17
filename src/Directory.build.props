@@ -56,9 +56,9 @@
     <PackageReference Include="NetTestRegimentation.Xunit" Version="1.7.48" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="20.0.4" />
-    <PackageReference Include="xunit" Version="2.6.5" />
-    <PackageReference Include="xunit.analyzers" Version="1.9.0" />
-    <PackageReference Include="xunit.runner.reporters" Version="2.6.5" />
+    <PackageReference Include="xunit" Version="2.6.6" />
+    <PackageReference Include="xunit.analyzers" Version="1.10.0" />
+    <PackageReference Include="xunit.runner.reporters" Version="2.6.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
