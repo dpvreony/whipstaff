@@ -5,35 +5,45 @@
 using System;
 using System.CommandLine;
 using System.IO;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
+using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.CommandLine;
-using Xunit;
 
 namespace Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod
 {
     /// <summary>
     /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod.ThrowsArgumentNullExceptionAsync"/>.
     /// </summary>
-    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<string[]?, Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>?, Func<FakeCommandLineArgModel, Task<int>>?, string>
+    public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<
+        string[],
+        Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>,
+        Func<FakeCommandLineArgModel, Task<int>>,
+        IFileSystem>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
         /// </summary>
         public ThrowsArgumentNullExceptionTestSource()
+            : base(
+                new NamedParameterInput<string[]>(
+                    "args",
+                    () => [".txt", ".docx"]),
+                new NamedParameterInput<Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>>(
+                    "rootCommandAndBinderModelFunc",
+                    () => _ => new RootCommandAndBinderModel<FakeCommandLineArgModelBinder>(
+                    new RootCommand(),
+                    new FakeCommandLineArgModelBinder(
+                        new Argument<FileInfo>(), new Argument<string?>()))),
+                new NamedParameterInput<Func<FakeCommandLineArgModel, Task<int>>>(
+                    "rootCommandHandlerFunc",
+                    () => _ => Task.FromResult(0)),
+                new NamedParameterInput<IFileSystem>(
+                    "fileSystem",
+                    () => new MockFileSystem()))
         {
-            var arg1 = new[] { ".txt", ".docx" };
-            var arg2 = new Func<RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>(() => new RootCommandAndBinderModel<FakeCommandLineArgModelBinder>(
-                new RootCommand(),
-                new FakeCommandLineArgModelBinder(
-                    new Argument<FileInfo>(), new Argument<string?>())));
-            var arg3 = new Func<FakeCommandLineArgModel, Task<int>>(_ => Task.FromResult(0));
-
-            Add(null, arg2, arg3, "args");
-
-            Add(arg1, null, arg3, "rootCommandAndBinderModelFunc");
-
-            Add(arg1, arg2, null, "rootCommandHandlerFunc");
         }
     }
 }

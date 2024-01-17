@@ -70,7 +70,6 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             public TestWithContextOptionsDbContext(DbContextOptions options)
                 : base(options)
             {
-                // TODO: check the extension the model is defined in.
             }
         }
 
@@ -118,9 +117,16 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
                     {
                         _ = await dbContext.Database.EnsureCreatedAsync();
 
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now });
+
+                        _ = await dbContext.SaveChangesAsync();
+
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
                             .ToArrayAsync();
+
+                        Assert.NotNull(result);
+                        Assert.NotEmpty(result);
                     }
                 }
             }
@@ -151,9 +157,16 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
                     {
                         _ = await dbContext.Database.EnsureCreatedAsync();
 
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now });
+
+                        _ = await dbContext.SaveChangesAsync();
+
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
                             .ToArrayAsync();
+
+                        Assert.NotNull(result);
+                        Assert.NotEmpty(result);
                     }
                 }
             }

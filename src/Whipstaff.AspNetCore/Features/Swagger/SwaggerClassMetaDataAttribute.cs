@@ -2,7 +2,9 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+#if TBC
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Whipstaff.AspNetCore.Features.Swagger
 {
@@ -19,7 +21,6 @@ namespace Whipstaff.AspNetCore.Features.Swagger
         /// <param name="metadataClass">The type for the metadata class.</param>
         public SwaggerClassMetaDataAttribute(Type metadataClass)
         {
-            // todo: use a roslyn analyzer to ensure the type passed in is correct.
             ArgumentNullException.ThrowIfNull(metadataClass);
             MetadataClass = metadataClass;
         }
@@ -30,3 +31,4 @@ namespace Whipstaff.AspNetCore.Features.Swagger
         public Type MetadataClass { get; }
     }
 }
+#endif

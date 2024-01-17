@@ -10,7 +10,9 @@ namespace Whipstaff.Windows.SecurityCenter
     /// Enumeration representing the available security providers.
     /// </summary>
     [Flags]
-    public enum SecurityProvider
+#pragma warning disable CA1028 // Enum Storage should be Int32
+    public enum SecurityProvider : uint
+#pragma warning restore CA1028 // Enum Storage should be Int32
     {
         /// <summary>
         /// None Selected.

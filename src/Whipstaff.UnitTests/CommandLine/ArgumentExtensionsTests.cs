@@ -5,6 +5,8 @@
 using System;
 using System.CommandLine;
 using System.IO;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
 using Xunit;
@@ -22,7 +24,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// </summary>
         public sealed class SpecificFileExtensionOnlyMethod
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestMethodWithNullableParameters<string>
+                ITestMethodWithNullableParameters<IFileSystem, string>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="SpecificFileExtensionOnlyMethod"/> class.
@@ -37,14 +39,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ArgumentExtensionsTests.SpecificFileExtensionOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                string arg,
+                IFileSystem arg1,
+                string arg2,
                 string expectedParameterNameForException)
             {
                 var instance = new Argument<FileInfo>();
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.SpecificFileExtensionOnly(arg));
+                    () => instance.SpecificFileExtensionOnly(arg1, arg2));
             }
 
             /// <summary>
@@ -54,7 +57,8 @@ namespace Whipstaff.UnitTests.CommandLine
             public void ReturnsInstance()
             {
                 var instance = new Argument<FileInfo>();
-                var result = instance.SpecificFileExtensionOnly(".txt");
+                var fileSystem = new MockFileSystem();
+                var result = instance.SpecificFileExtensionOnly(fileSystem, ".txt");
 
                 Assert.NotNull(result);
             }
@@ -65,7 +69,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// </summary>
         public sealed class SpecificFileExtensionsOnlyMethod
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestMethodWithNullableParameters<string[]>
+                ITestMethodWithNullableParameters<IFileSystem, string[]>
         {
             private static readonly string[] _extensions = [".txt", ".docx"];
 
@@ -82,14 +86,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ArgumentExtensionsTests.SpecificFileExtensionsOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                string[] arg,
+                IFileSystem arg1,
+                string[] arg2,
                 string expectedParameterNameForException)
             {
                 var instance = new Argument<FileInfo>();
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.SpecificFileExtensionsOnly(arg));
+                    () => instance.SpecificFileExtensionsOnly(arg1, arg2));
             }
 
             /// <summary>
@@ -99,7 +104,8 @@ namespace Whipstaff.UnitTests.CommandLine
             public void ReturnsInstance()
             {
                 var instance = new Argument<FileInfo>();
-                var result = instance.SpecificFileExtensionsOnly(_extensions);
+                var fileSystem = new MockFileSystem();
+                var result = instance.SpecificFileExtensionsOnly(fileSystem, _extensions);
 
                 Assert.NotNull(result);
             }

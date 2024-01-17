@@ -53,6 +53,13 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         protected abstract Task OnMessageReceivedAsync(IQueueEntry<TMessage> queueEntry);
 
+        /// <summary>
+        /// Logic for dealing with a message that has failed to process.
+        /// </summary>
+        /// <param name="queueEntry">The queue entry to dead letter.</param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        protected abstract Task DoDeadLetterMessageAsync(IQueueEntry<TMessage> queueEntry);
+
         private static async Task HandleRenewalAsync(
             IQueueEntry<TMessage> queueEntry,
             CancellationToken cancellationToken)
@@ -83,12 +90,6 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
         {
             await queueEntry.CompleteAsync()
                 .ConfigureAwait(false);
-        }
-
-        private static Task DoDeadLetterMessageAsync(IQueueEntry<TMessage> queueEntry)
-        {
-            // we need to make the queue processor aware of ms servicebus rather than the generic interface.
-            throw new NotSupportedException("Dead letter not yet supported.");
         }
 
         private async Task RunInternalAsync(CancellationToken cancellationToken)

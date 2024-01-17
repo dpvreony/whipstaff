@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+#if TBC
 using System;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Builder;
@@ -58,3 +59,4 @@ namespace Whipstaff.AspNetCore.Features.StartUp
         }
     }
 }
+#endif

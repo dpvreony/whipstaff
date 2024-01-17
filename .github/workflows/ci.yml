@@ -34,11 +34,24 @@ jobs:
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
 
     # java is used by sonar scanner
-    - name: Setup Java 11
+    - name: Setup Java 17
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install Android SDK
+      run: |
+        $sdkmanagerpath = Get-ChildItem "C:\Android\android-sdk\cmdline-tools\**\bin\sdkmanager.bat" | Select-Object -First 1
+        if ($sdkmanagerpath -eq $null) {
+            throw "Unable to find android sdk manager"
+        }
+
+        echo $sdkmanagerpath
+        . $sdkmanagerpath --install "platforms;android-30"
 
     - name: Install Windows SDK 10.0.16299
       shell: pwsh

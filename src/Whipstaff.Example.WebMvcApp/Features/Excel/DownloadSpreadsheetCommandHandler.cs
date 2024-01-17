@@ -53,9 +53,9 @@ namespace Whipstaff.OpenXml.Excel
         private static void CreateSheetOne(Sheet sheet, WorksheetPart worksheetPart)
         {
             uint currentRow = 1;
-            var titleCell = worksheetPart.InsertCellInWorksheet("A", currentRow, "Title");
+            _ = worksheetPart.InsertCellInWorksheet("A", currentRow, "Title");
 
-            var test = sheet.GetFirstChild<SheetData>();
+            _ = sheet.GetFirstChild<SheetData>();
         }
 
         private static void CreateSheetTwo(Sheet sheet, WorksheetPart worksheetPart)

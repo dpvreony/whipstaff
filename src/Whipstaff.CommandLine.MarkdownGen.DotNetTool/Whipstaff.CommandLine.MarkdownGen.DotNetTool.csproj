@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>whipstaff-cmdhelp2markdown</ToolCommandName>
+    <AssemblyName>whipstaff-cmdhelp2markdown</AssemblyName>
+  </PropertyGroup>
+
+  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
+    <PropertyGroup>
+      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.CommandLine\Whipstaff.CommandLine.csproj" />
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+  </ItemGroup>
+</Project>

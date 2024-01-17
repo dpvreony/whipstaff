@@ -4,8 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reactive;
-using System.Reactive.Linq;
+using System.Reactive.Disposables;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Shell;
@@ -20,9 +19,8 @@ namespace Whipstaff.Wpf.JumpLists
     public sealed class JumpListHelper : IDisposable
     {
         private readonly JumpList _jumpList;
-        private readonly ILogger<JumpListHelper> _logger;
-        private readonly IDisposable? _jumpItemsRemovedByUserSubscription;
-        private readonly IDisposable? _jumpItemsRejectedSubscription;
+        private readonly JumpListLogMessageActionsWrapper _logMessageActionsWrapper;
+        private readonly CompositeDisposable _compositeDisposable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JumpListHelper"/> class.
@@ -30,26 +28,29 @@ namespace Whipstaff.Wpf.JumpLists
         /// <param name="jumpList">Jump list associated with the application.</param>
         /// <param name="jumpItemsRemovedByUserSubscription">Subscription action for handling the notification for when an item is removed from a jump list by a user.</param>
         /// <param name="jumpItemsRejectedSubscription">Subscription action for handling the notification for when a jump item is rejected.</param>
-        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="logMessageActionsWrapper">Logging framework message actions wrapper instance.</param>
         public JumpListHelper(
             JumpList jumpList,
             Action<JumpItemsRemovedEventArgs>? jumpItemsRemovedByUserSubscription,
             Action<JumpItemsRejectedEventArgs>? jumpItemsRejectedSubscription,
-            ILogger<JumpListHelper> logger)
+            JumpListLogMessageActionsWrapper logMessageActionsWrapper)
         {
-            _jumpList = jumpList ?? throw new ArgumentNullException(nameof(jumpList));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            ArgumentNullException.ThrowIfNull(jumpList);
+            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
+            _jumpList = jumpList;
+            _logMessageActionsWrapper = logMessageActionsWrapper;
 
+            _compositeDisposable = new CompositeDisposable();
             var jumpListEvents = _jumpList.Events();
 
             if (jumpItemsRemovedByUserSubscription != null)
             {
-                _jumpItemsRemovedByUserSubscription = jumpListEvents.JumpItemsRemovedByUser.Subscribe(jumpItemsRemovedByUserSubscription);
+                _compositeDisposable.Add(jumpListEvents.JumpItemsRemovedByUser.Subscribe(jumpItemsRemovedByUserSubscription));
             }
 
             if (jumpItemsRejectedSubscription != null)
             {
-                _jumpItemsRejectedSubscription = jumpListEvents.JumpItemsRejected.Subscribe(jumpItemsRejectedSubscription);
+                _compositeDisposable.Add(jumpListEvents.JumpItemsRejected.Subscribe(jumpItemsRejectedSubscription));
             }
         }
 
@@ -58,24 +59,24 @@ namespace Whipstaff.Wpf.JumpLists
         /// </summary>
         /// <typeparam name="TApplication">The type for the application.</typeparam>
         /// <param name="applicationContext">Instance of the application context.</param>
-        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="logMessageActionsWrapper">Logging framework message actions wrapper instance.</param>
         /// <param name="jumpItemsFunc">Function to produce a set of Jump List items.</param>
         /// <param name="jumpItemsRemovedByUserSubscription">Handler for the event fired off when a jump item is removed by a user.</param>
         /// <param name="jumpItemsRejectedSubscription">Handler for the event fired off when when the jump items are rejected.</param>
         /// <returns>Instance of <see cref="JumpListHelper"/>.</returns>
         public static JumpListHelper GetInstance<TApplication>(
             TApplication applicationContext,
-            ILogger<JumpListHelper> logger,
+            JumpListLogMessageActionsWrapper logMessageActionsWrapper,
             Func<string, IEnumerable<JumpItem>> jumpItemsFunc,
-            Action<JumpItemsRemovedEventArgs> jumpItemsRemovedByUserSubscription,
-            Action<JumpItemsRejectedEventArgs> jumpItemsRejectedSubscription)
+            Action<JumpItemsRemovedEventArgs>? jumpItemsRemovedByUserSubscription,
+            Action<JumpItemsRejectedEventArgs>? jumpItemsRejectedSubscription)
             where TApplication : Application
         {
             var assembly = typeof(TApplication).Assembly;
 
             return GetInstance(
                 applicationContext,
-                logger,
+                logMessageActionsWrapper,
                 assembly,
                 jumpItemsFunc,
                 jumpItemsRemovedByUserSubscription,
@@ -86,7 +87,7 @@ namespace Whipstaff.Wpf.JumpLists
         /// Helper to set up an instance of the Jump List Helper.
         /// </summary>
         /// <param name="applicationContext">Instance of the application context.</param>
-        /// <param name="logger">Logging framework instance.</param>
+        /// <param name="logMessageActionsWrapper">Logging framework message actions wrapper instance.</param>
         /// <param name="assembly">Assembly to associate the jump list to.</param>
         /// <param name="jumpItemsFunc">Function to produce a set of Jump List items.</param>
         /// <param name="jumpItemsRemovedByUserSubscription">Handler for the event fired off when a jump item is removed by a user.</param>
@@ -94,14 +95,14 @@ namespace Whipstaff.Wpf.JumpLists
         /// <returns>Instance of <see cref="JumpListHelper"/>.</returns>
         public static JumpListHelper GetInstance(
             Application applicationContext,
-            ILogger<JumpListHelper> logger,
+            JumpListLogMessageActionsWrapper logMessageActionsWrapper,
             Assembly assembly,
             Func<string, IEnumerable<JumpItem>> jumpItemsFunc,
-            Action<JumpItemsRemovedEventArgs> jumpItemsRemovedByUserSubscription,
-            Action<JumpItemsRejectedEventArgs> jumpItemsRejectedSubscription)
+            Action<JumpItemsRemovedEventArgs>? jumpItemsRemovedByUserSubscription,
+            Action<JumpItemsRejectedEventArgs>? jumpItemsRejectedSubscription)
         {
             ArgumentNullException.ThrowIfNull(applicationContext);
-            ArgumentNullException.ThrowIfNull(logger);
+            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
             ArgumentNullException.ThrowIfNull(assembly);
             ArgumentNullException.ThrowIfNull(jumpItemsFunc);
 
@@ -112,21 +113,58 @@ namespace Whipstaff.Wpf.JumpLists
             if (jumpList == null)
             {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-                logger.LogInformation("No jump list registered. Creating a new one");
+                logMessageActionsWrapper.NoJumpListRegisteredCreatingNew();
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
                 jumpList = new JumpList(jumpItems, true, true);
 
                 JumpList.SetJumpList(applicationContext, jumpList);
             }
 
-            return new JumpListHelper(jumpList, jumpItemsRemovedByUserSubscription, jumpItemsRejectedSubscription, logger);
+            return new JumpListHelper(
+                jumpList,
+                jumpItemsRemovedByUserSubscription,
+                jumpItemsRejectedSubscription,
+                logMessageActionsWrapper);
+        }
+
+        /// <summary>
+        /// Adds a Jump Path to the recent category.
+        /// </summary>
+        /// <param name="jumpPath">Jump path to add.</param>
+        public void AddToRecentCategory(JumpPath jumpPath)
+        {
+            ArgumentNullException.ThrowIfNull(jumpPath);
+
+            _logMessageActionsWrapper.AddingJumpPathToRecentCategory();
+            JumpList.AddToRecentCategory(jumpPath);
+        }
+
+        /// <summary>
+        /// Adds a Jump Task to the recent category.
+        /// </summary>
+        /// <param name="jumpTask">Jump Task to add.</param>
+        public void AddToRecentCategory(JumpTask jumpTask)
+        {
+            ArgumentNullException.ThrowIfNull(jumpTask);
+
+            _logMessageActionsWrapper.AddingJumpTaskToRecentCategory();
+            JumpList.AddToRecentCategory(jumpTask);
+        }
+
+        /// <summary>
+        /// Clears the jump list.
+        /// </summary>
+        public void Clear()
+        {
+            _logMessageActionsWrapper.ClearingJumpList();
+            _jumpList.JumpItems.Clear();
+            _jumpList.Apply();
         }
 
         /// <inheritdoc />
         public void Dispose()
         {
-            _jumpItemsRemovedByUserSubscription?.Dispose();
-            _jumpItemsRejectedSubscription?.Dispose();
+            _compositeDisposable.Dispose();
         }
     }
 }

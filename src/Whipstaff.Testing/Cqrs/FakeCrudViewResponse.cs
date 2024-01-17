@@ -7,7 +7,7 @@ namespace Whipstaff.Testing.Cqrs
     /// <summary>
     /// Represents a fake CRUD view response.
     /// </summary>
-    public sealed class FakeCrudViewResponse
+    public sealed record FakeCrudViewResponse(long RequestDto)
     {
     }
 }

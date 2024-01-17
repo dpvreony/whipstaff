@@ -4,6 +4,7 @@
 
 #if IS_EXTERNAL_INIT_SHIM
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Runtime.CompilerServices
 {
@@ -11,6 +12,7 @@ namespace System.Runtime.CompilerServices
     /// Enables support for C# 9/10 records on older frameworks.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [ExcludeFromCodeCoverage]
     internal static class IsExternalInit
     {
     }

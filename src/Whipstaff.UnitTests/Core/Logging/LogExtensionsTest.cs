@@ -35,7 +35,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
+                Log.MinimumLevel = LogLevel.Trace;
                 _logger.TraceMethodEntry();
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -59,7 +61,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
+                Log.MinimumLevel = LogLevel.Trace;
                 _logger.TraceMethodExit();
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -83,7 +87,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
+                Log.MinimumLevel = LogLevel.Trace;
                 _logger.TraceIfEnabled(() => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -107,8 +113,10 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
+                Log.MinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.TraceIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -132,8 +140,10 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
+                Log.MinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.TraceMethodException(exception);
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -158,6 +168,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 _logger.WarningIfEnabled(() => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -183,6 +194,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.WarningIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -207,6 +219,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 _logger.ErrorIfEnabled(() => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -232,6 +245,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.ErrorIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -256,6 +270,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 _logger.InformationIfEnabled(() => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -281,6 +296,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.InformationIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -304,7 +320,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
+                Log.MinimumLevel = LogLevel.Debug;
                 _logger.DebugIfEnabled(() => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -328,8 +346,10 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
+                Log.MinimumLevel = LogLevel.Debug;
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.DebugIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -354,6 +374,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 _logger.CriticalIfEnabled(() => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
 
@@ -379,6 +400,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.CriticalIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(Log.LogEntries);
             }
         }
     }

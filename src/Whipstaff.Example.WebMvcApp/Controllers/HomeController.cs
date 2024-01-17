@@ -14,15 +14,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
-        /// <param name="logger">Instance of logging framework.</param>
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
         }
 
         /// <summary>

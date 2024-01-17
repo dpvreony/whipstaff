@@ -262,11 +262,6 @@ namespace Whipstaff.UnitTests.Controllers
             {
                 return await Task.FromResult(auditableRequest.RequestDto);
             }
-
-            private static async Task<FakeCrudAddCommand> MockAddCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
-            {
-                return await Task.FromResult(new FakeCrudAddCommand(requestDto, claimsPrincipal));
-            }
         }
 
         /// <summary>
@@ -395,11 +390,6 @@ namespace Whipstaff.UnitTests.Controllers
             {
                 return await Task.FromResult(arg1.RequestDto).ConfigureAwait(false);
             }
-
-            private static async Task<FakeCrudDeleteCommand> MockDeleteCommandAsync(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
-            {
-                return await Task.FromResult(new FakeCrudDeleteCommand(requestDto, claimsPrincipal)).ConfigureAwait(false);
-            }
         }
 
         /// <summary>
@@ -484,11 +474,6 @@ namespace Whipstaff.UnitTests.Controllers
             {
                 return new List<int> { 1, 2, 3 };
             }
-
-            private static Task<FakeCrudListQuery> MockListQueryAsync(FakeCrudListRequest requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
-            {
-                return Task.FromResult(new FakeCrudListQuery(requestDto, claimsPrincipal));
-            }
         }
 
         /// <summary>
@@ -561,12 +546,7 @@ namespace Whipstaff.UnitTests.Controllers
 
             private static Task<FakeCrudUpdateResponse?> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
             {
-                return Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse());
-            }
-
-            private static Task<FakeCrudUpdateCommand> MockUpdateCommandAsync(int requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
-            {
-                return Task.FromResult(new FakeCrudUpdateCommand(requestDto, claimsPrincipal));
+                return Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse(arg1.RequestDto));
             }
         }
 
@@ -657,12 +637,7 @@ namespace Whipstaff.UnitTests.Controllers
 
             private static Task<FakeCrudViewResponse?> MockViewMediatorHandlerAsync(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
             {
-                return Task.FromResult(auditableRequest.RequestDto == 1 ? new FakeCrudViewResponse() : null);
-            }
-
-            private static Task<FakeCrudViewQuery> MockViewQueryAsync(long requestDto, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
-            {
-                return Task.FromResult(new FakeCrudViewQuery(requestDto, claimsPrincipal));
+                return Task.FromResult(auditableRequest.RequestDto == 1 ? new FakeCrudViewResponse(auditableRequest.RequestDto) : null);
             }
         }
     }

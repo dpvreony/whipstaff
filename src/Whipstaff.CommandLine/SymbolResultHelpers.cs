@@ -5,6 +5,7 @@
 using System;
 using System.CommandLine.Parsing;
 using System.IO;
+using System.IO.Abstractions;
 using System.Linq;
 using Whipstaff.Runtime.Extensions;
 
@@ -23,18 +24,20 @@ namespace Whipstaff.CommandLine
         /// Checks that a file has a specific extension.
         /// </summary>
         /// <param name="result">Argument result to check.</param>
+        /// <param name="fileSystem">File system abstraction.</param>
         /// <param name="extension">Expected file extension.</param>
         public static void FileHasSupportedExtension(
             SymbolResult result,
+            IFileSystem fileSystem,
             string extension)
         {
             ArgumentNullException.ThrowIfNull(result);
+            ArgumentNullException.ThrowIfNull(fileSystem);
             extension.ThrowIfNullOrWhitespace();
 
-            foreach (var token in result.Tokens)
+            foreach (var rawValue in result.Tokens.Select(t => t.Value))
             {
-                var rawValue = token.Value;
-                var tokenExtension = Path.GetExtension(rawValue);
+                var tokenExtension = fileSystem.Path.GetExtension(rawValue);
 
                 if (string.IsNullOrWhiteSpace(tokenExtension)
                     || !tokenExtension.Equals(extension, StringComparison.OrdinalIgnoreCase))
@@ -49,23 +52,47 @@ namespace Whipstaff.CommandLine
         /// Checks that a file one of any supported extension.
         /// </summary>
         /// <param name="result">Argument result to check.</param>
+        /// <param name="fileSystem">File system abstraction.</param>
         /// <param name="extensions">Supported file extensions.</param>
         public static void FileHasSupportedExtension(
             SymbolResult result,
+            IFileSystem fileSystem,
             string[] extensions)
         {
             ArgumentNullException.ThrowIfNull(result);
+            ArgumentNullException.ThrowIfNull(fileSystem);
             ArgumentNullException.ThrowIfNull(extensions);
 
-            foreach (var token in result.Tokens)
+            foreach (var rawValue in result.Tokens.Select(t => t.Value))
             {
-                var rawValue = token.Value;
-                var tokenExtension = Path.GetExtension(rawValue);
+                var tokenExtension = fileSystem.Path.GetExtension(rawValue);
 
                 if (string.IsNullOrWhiteSpace(tokenExtension)
                     || !Array.Exists(extensions, value => value.Equals(tokenExtension, StringComparison.OrdinalIgnoreCase)))
                 {
                     result.ErrorMessage = $"Filename \"{rawValue}\" does not have a supported extension of \"{string.Join(",", extensions)}\".";
+                    return;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks that a file exists.
+        /// </summary>
+        /// <param name="result">Argument result to check.</param>
+        /// <param name="fileSystem">File system abstraction.</param>
+        public static void FileExists(
+            SymbolResult result,
+            IFileSystem fileSystem)
+        {
+            ArgumentNullException.ThrowIfNull(result);
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
+            foreach (var rawValue in result.Tokens.Select(t => t.Value))
+            {
+                if (!fileSystem.File.Exists(rawValue))
+                {
+                    result.ErrorMessage = $"Filename \"{rawValue}\" was not found.";
                     return;
                 }
             }

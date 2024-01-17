@@ -22,16 +22,57 @@ namespace Whipstaff.Wpf.InteractionFlows.PrintDialogInteraction
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            PrintDialog dialog = new();
+            var dialog = GetPrintDialog(request);
 
             var dialogResult = dialog.ShowDialog() ?? false;
 
-            if (!dialogResult)
+            return Task.FromResult(dialogResult ? PrintDialogResult.Proceed() : PrintDialogResult.Cancelled());
+        }
+
+        private static PrintDialog GetPrintDialog(PrintDialogRequest request)
+        {
+            PrintDialog dialog = new();
+            if (request.CurrentPageEnabled.HasValue)
             {
-                return Task.FromResult(PrintDialogResult.Cancelled());
+                dialog.CurrentPageEnabled = request.CurrentPageEnabled.Value;
             }
 
-            return Task.FromResult(PrintDialogResult.Proceed());
+            if (request.MaxPage.HasValue)
+            {
+                dialog.MaxPage = request.MaxPage.Value;
+            }
+
+            if (request.MinPage.HasValue)
+            {
+                dialog.MinPage = request.MinPage.Value;
+            }
+
+            if (request.PageRange.HasValue)
+            {
+                dialog.PageRange = request.PageRange.Value;
+            }
+
+            if (request.PageRangeSelection.HasValue)
+            {
+                dialog.PageRangeSelection = request.PageRangeSelection.Value;
+            }
+
+            if (request.PrintQueue != null)
+            {
+                dialog.PrintQueue = request.PrintQueue;
+            }
+
+            if (request.SelectedPagesEnabled.HasValue)
+            {
+                dialog.SelectedPagesEnabled = request.SelectedPagesEnabled.Value;
+            }
+
+            if (request.UserPageRangeEnabled.HasValue)
+            {
+                dialog.UserPageRangeEnabled = request.UserPageRangeEnabled.Value;
+            }
+
+            return dialog;
         }
     }
 }

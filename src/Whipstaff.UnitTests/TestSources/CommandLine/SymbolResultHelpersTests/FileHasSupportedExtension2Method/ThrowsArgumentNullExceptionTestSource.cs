@@ -4,6 +4,9 @@
 
 using System.CommandLine;
 using System.CommandLine.Parsing;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
+using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Xunit;
 
 namespace Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtension2Method
@@ -11,19 +14,25 @@ namespace Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.F
     /// <summary>
     /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtension2Method.ThrowsArgumentNullException"/>.
     /// </summary>
-    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<SymbolResult?, string[]?, string>
+    public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<SymbolResult, IFileSystem, string[]>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
         /// </summary>
         public ThrowsArgumentNullExceptionTestSource()
+            : base(
+                new NamedParameterInput<SymbolResult>("result", () =>
+                    {
+                        var argument1Builder = new Argument<string>();
+                        return argument1Builder.Parse("somefilename.txt").FindResultFor(argument1Builder)!;
+                    }),
+                new NamedParameterInput<IFileSystem>(
+                    "fileSystem",
+                    () => new MockFileSystem()),
+                new NamedParameterInput<string[]>(
+                    "extensions",
+                    () => [".txt"]))
         {
-            var argument1Builder = new Argument<string>();
-            var arg1 = argument1Builder.Parse("somefilename.txt").FindResultFor(argument1Builder);
-
-            var arg2 = new[] { ".txt", ".docx" };
-            Add(null, arg2, "result");
-            Add(arg1, null, "extensions");
         }
     }
 }
