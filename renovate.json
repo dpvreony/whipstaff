@@ -65,7 +65,7 @@
             "labels": ["dependencies"]
         },
         {
-            "matchPackagePatterns": ["^testableio.system.io.abstractions*"],
+            "matchPackagePatterns": ["^TestableIO.System.IO.Abstractions*"],
             "groupName": "all testable systemio dependencies",
             "groupSlug": "all-testable-systemio",
             "labels": ["dependencies"]
