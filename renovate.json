@@ -65,6 +65,12 @@
             "labels": ["dependencies"]
         },
         {
+            "matchPackagePatterns": ["^testableio.system.io.abstractions*"],
+            "groupName": "all testable systemio dependencies",
+            "groupSlug": "all-testable-systemio",
+            "labels": ["dependencies"]
+        }],
+        {
             "matchPackagePatterns": ["^Xamarin.*"],
             "groupName": "all xamarin dependencies",
             "groupSlug": "all-xamarin",
