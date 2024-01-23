@@ -69,7 +69,7 @@
             "groupName": "all testable systemio dependencies",
             "groupSlug": "all-testable-systemio",
             "labels": ["dependencies"]
-        }],
+        },
         {
             "matchPackagePatterns": ["^Xamarin.*"],
             "groupName": "all xamarin dependencies",
