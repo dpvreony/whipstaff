@@ -47,7 +47,9 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
             return Task.Run(() =>
             {
                 _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();
-                var assembly = Assembly.Load(commandLineArgModel.AssemblyPath.FullName);
+#pragma warning disable S3885
+                var assembly = Assembly.LoadFile(commandLineArgModel.AssemblyPath.FullName);
+#pragma warning restore S3885
                 var outputFilePath = commandLineArgModel.OutputFilePath;
 
                 var rootCommand = ReflectionHelpers.GetRootCommand(assembly);

@@ -3,8 +3,10 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,8 +46,37 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         {
             return Task.Run(() =>
             {
+                var appDomain = AppDomain.CurrentDomain;
+                var loadedAssemblies = new List<string>();
+                appDomain.AssemblyResolve += (_, args) =>
+                {
+                    var assemblyName = new AssemblyName(args.Name);
+
+                    if (args.RequestingAssembly?.Location.Equals(commandLineArgModel.AssemblyPath.FullName, StringComparison.Ordinal) != true
+                        && loadedAssemblies.Exists(la => la.Equals(args.RequestingAssembly?.Location, StringComparison.Ordinal)))
+                    {
+                        return null;
+                    }
+
+                    var assemblyPath = _fileSystem.Path.Combine(commandLineArgModel.AssemblyPath.DirectoryName!, $"{assemblyName.Name}.dll");
+
+                    if (_fileSystem.File.Exists(assemblyPath))
+                    {
+                        loadedAssemblies.Add(assemblyPath);
+#pragma warning disable S3885
+                        return Assembly.LoadFrom(assemblyPath);
+#pragma warning restore S3885
+                    }
+
+                    return null;
+                };
+
                 _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();
-                var assembly = Assembly.Load(commandLineArgModel.AssemblyPath.FullName);
+
+#pragma warning disable S3885
+                var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
+#pragma warning restore S3885
+
                 var outputFilePath = commandLineArgModel.OutputFilePath;
                 var dbContextName = commandLineArgModel.DbContextName;
 
@@ -74,6 +105,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         private static void GenerateFromDbContext(DbContext dbContext, IFileSystem fileSystem, FileInfo outputFilePath)
         {
             var dgml = dbContext.AsDgml();
+            _ = fileSystem.Directory.CreateDirectory(outputFilePath.DirectoryName!);
             fileSystem.File.WriteAllText(
                 outputFilePath.FullName,
                 dgml,
