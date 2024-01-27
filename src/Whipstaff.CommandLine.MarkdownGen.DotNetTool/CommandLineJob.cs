@@ -61,6 +61,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                 }
 
                 var markdown = MarkdownDocumentationGenerator.GenerateDocumentation(rootCommand);
+                _ = _fileSystem.Directory.CreateDirectory(outputFilePath.DirectoryName!);
                 _fileSystem.File.WriteAllText(
                     outputFilePath.FullName,
                     markdown,

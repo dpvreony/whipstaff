@@ -4,6 +4,7 @@
 
 using System;
 using System.CommandLine;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
 using Whipstaff.Runtime.Extensions;
@@ -58,9 +59,11 @@ namespace Whipstaff.CommandLine
                 return null;
             }
 
-            var rootCommandProperty = instance.GetType().GetProperty("RootCommand");
+            var getRootCommandAndBinderMethodInfo = instance.GetType().GetMethod("GetRootCommandAndBinder");
+            var rootCommandAndBinderObject = getRootCommandAndBinderMethodInfo!.Invoke(instance, new object[] { new FileSystem() });
+            var rootCommandProperty = rootCommandAndBinderObject.GetType().GetProperty("RootCommand");
             var accessor = rootCommandProperty!.GetGetMethod();
-            var rootCommand = accessor!.Invoke(instance, null);
+            var rootCommand = accessor!.Invoke(rootCommandAndBinderObject, null);
 
             // ReSharper disable once MergeConditionalExpression
             return rootCommand != null ? (RootCommand)rootCommand : null;
