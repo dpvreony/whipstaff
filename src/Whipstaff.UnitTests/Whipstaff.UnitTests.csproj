@@ -22,10 +22,14 @@
     <ProjectReference Include="..\Whipstaff.CommandLine\Whipstaff.CommandLine.csproj" />
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
     <ProjectReference Include="..\Whipstaff.Couchbase\Whipstaff.Couchbase.csproj" />
+    <ProjectReference Include="..\Whipstaff.EntityFramework.Diagram.DotNetTool\Whipstaff.EntityFramework.Diagram.DotNetTool.csproj" />
     <ProjectReference Include="..\Whipstaff.Entityframework.Relational\Whipstaff.Entityframework.Relational.csproj" />
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" />
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
+    <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
+    <ProjectReference Include="..\Whipstaff.Syncfusion.Pdf\Whipstaff.Syncfusion.Pdf.csproj" />
     <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.Healthchecks.EntityFramework\Whipstaff.Healthchecks.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />

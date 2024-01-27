@@ -9,6 +9,10 @@ using System.Linq;
 using System.Reflection;
 using Whipstaff.Runtime.Extensions;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.CommandLine
 {
     /// <summary>
@@ -23,6 +27,8 @@ namespace Whipstaff.CommandLine
         /// <returns>Whether the type is a root command and binder type.</returns>
         public static bool IsRootCommandAndBinderType(Type type)
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             if (!type.IsPublicClosedClass())
             {
                 return false;
@@ -44,6 +50,8 @@ namespace Whipstaff.CommandLine
         /// <returns>The discovered root command, if any.</returns>
         public static RootCommand? GetRootCommand(Assembly assembly)
         {
+            ArgumentNullException.ThrowIfNull(assembly);
+
             var allTypes = assembly.GetTypes();
 
             // ReSharper disable once ConvertClosureToMethodGroup
