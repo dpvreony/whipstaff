@@ -32,8 +32,9 @@ namespace Whipstaff.EntityFramework.Reflection
 
             var allTypes = assembly.GetTypes();
 
-            var matchingType = allTypes.AsParallel()
-                .FirstOrDefault(type => IsDesignTimeDbContextFactory(type, dbContextName));
+#pragma warning disable S6602 // "Find" method should be used instead of the "FirstOrDefault" extension
+            var matchingType = allTypes.FirstOrDefault(type => IsDesignTimeDbContextFactory(type, dbContextName));
+#pragma warning restore S6602 // "Find" method should be used instead of the "FirstOrDefault" extension
 
             if (matchingType == null)
             {

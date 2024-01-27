@@ -4,9 +4,14 @@
 
 using System;
 using System.CommandLine;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
 using Whipstaff.Runtime.Extensions;
+
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
 
 namespace Whipstaff.CommandLine
 {
@@ -22,6 +27,8 @@ namespace Whipstaff.CommandLine
         /// <returns>Whether the type is a root command and binder type.</returns>
         public static bool IsRootCommandAndBinderType(Type type)
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             if (!type.IsPublicClosedClass())
             {
                 return false;
@@ -43,6 +50,8 @@ namespace Whipstaff.CommandLine
         /// <returns>The discovered root command, if any.</returns>
         public static RootCommand? GetRootCommand(Assembly assembly)
         {
+            ArgumentNullException.ThrowIfNull(assembly);
+
             var allTypes = assembly.GetTypes();
 
             // ReSharper disable once ConvertClosureToMethodGroup
@@ -58,9 +67,11 @@ namespace Whipstaff.CommandLine
                 return null;
             }
 
-            var rootCommandProperty = instance.GetType().GetProperty("RootCommand");
+            var getRootCommandAndBinderMethodInfo = instance.GetType().GetMethod("GetRootCommandAndBinder");
+            var rootCommandAndBinderObject = getRootCommandAndBinderMethodInfo!.Invoke(instance, new object[] { new FileSystem() });
+            var rootCommandProperty = rootCommandAndBinderObject.GetType().GetProperty("RootCommand");
             var accessor = rootCommandProperty!.GetGetMethod();
-            var rootCommand = accessor!.Invoke(instance, null);
+            var rootCommand = accessor!.Invoke(rootCommandAndBinderObject, null);
 
             // ReSharper disable once MergeConditionalExpression
             return rootCommand != null ? (RootCommand)rootCommand : null;
