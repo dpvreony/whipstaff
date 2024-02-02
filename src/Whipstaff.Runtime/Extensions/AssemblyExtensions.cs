@@ -38,10 +38,7 @@ namespace Whipstaff.Runtime.Extensions
 
             return assembly.GetTypes()
                 .AsParallel()
-                .Where(
-                    type =>
-                        type.Namespace != null
-                        && type.Namespace.Equals(fullyQualifiedNamespace, StringComparison.Ordinal))
+                .Where(type => type.Namespace?.Equals(fullyQualifiedNamespace, StringComparison.Ordinal) == true)
                 .ToArray();
         }
 

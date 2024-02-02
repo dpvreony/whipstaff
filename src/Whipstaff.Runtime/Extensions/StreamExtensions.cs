@@ -62,10 +62,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <returns>The deserialized object.</returns>
         public static TResult DeserializeFromJsonViaDataContract<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
         {
-            if (dataContractJsonSerializer == null)
-            {
-                throw new ArgumentNullException(nameof(dataContractJsonSerializer));
-            }
+            ArgumentNullException.ThrowIfNull(dataContractJsonSerializer);
 
 #pragma warning disable GR0007
             var serializerType = dataContractJsonSerializer.GetType();
