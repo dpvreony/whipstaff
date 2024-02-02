@@ -7,6 +7,10 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.Extensions
 {
     /// <summary>
@@ -72,6 +76,23 @@ namespace Whipstaff.Runtime.Extensions
             }
 
             return (TResult)dataContractJsonSerializer.ReadObject(stream);
+        }
+
+        /// <summary>
+        /// Converts a stream to a byte array.
+        /// </summary>
+        /// <param name="stream">Stream to convert.</param>
+        /// <returns>Byte array representation of the stream content.</returns>
+        public static byte[] ToByteArray(this Stream stream)
+        {
+            ArgumentNullException.ThrowIfNull(stream);
+            if (stream is not MemoryStream memoryStream)
+            {
+                memoryStream = new MemoryStream();
+                stream.CopyTo(memoryStream);
+            }
+
+            return memoryStream.ToArray();
         }
     }
 }
