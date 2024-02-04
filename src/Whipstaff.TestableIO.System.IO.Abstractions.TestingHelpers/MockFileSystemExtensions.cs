@@ -9,10 +9,10 @@ using System.Linq;
 using System.Reflection;
 using Whipstaff.Runtime.Extensions;
 
-namespace Whipstaff.Testing.FileSystem
+namespace Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers
 {
     /// <summary>
-    /// Extensions for the <see cref="System.IO.Abstractions.TestingHelpers.MockFileSystem"/> class.
+    /// Extensions for the <see cref="MockFileSystem"/> class.
     /// </summary>
     public static class MockFileSystemExtensions
     {
