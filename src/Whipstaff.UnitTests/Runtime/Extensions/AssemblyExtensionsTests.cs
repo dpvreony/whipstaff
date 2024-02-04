@@ -66,7 +66,7 @@ namespace Whipstaff.UnitTests.Runtime.Extensions
                 var byteArray = Assembly.GetExecutingAssembly()
                     .GetManifestResourceStreamAsByteArray(
                         "Whipstaff.UnitTests.Resources",
-                        ".1x1.jpg");
+                        "1x1.jpg");
 
                 Assert.NotNull(byteArray);
             }
