@@ -38,10 +38,7 @@ namespace Whipstaff.Runtime.Extensions
 
             return assembly.GetTypes()
                 .AsParallel()
-                .Where(
-                    type =>
-                        type.Namespace != null
-                        && type.Namespace.Equals(fullyQualifiedNamespace, StringComparison.Ordinal))
+                .Where(type => type.Namespace?.Equals(fullyQualifiedNamespace, StringComparison.Ordinal) == true)
                 .ToArray();
         }
 
@@ -90,6 +87,56 @@ namespace Whipstaff.Runtime.Extensions
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Loads a byte from an embedded resource file.
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly containing the resource.
+        /// </param>
+        /// <param name="resourceNamespace">
+        /// Namespace where the resource file resides. Usually the application name.
+        /// </param>
+        /// <param name="resourceFileName">
+        /// The filename of the embedded resource.
+        /// </param>
+        /// <returns>
+        /// string from embedded resource file.
+        /// </returns>
+        public static byte[] GetManifestResourceStreamAsByteArray(
+            this Assembly assembly,
+            string resourceNamespace,
+            string resourceFileName)
+        {
+            return assembly.GetManifestResourceStreamAsByteArray($"{resourceNamespace}.{resourceFileName}");
+        }
+
+        /// <summary>
+        /// Loads a byte from an embedded resource file.
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly containing the resource.
+        /// </param>
+        /// <param name="fullyQualifiedResourceFileName">
+        /// Fully qualified namespace where the resource file resides.
+        /// </param>
+        /// <returns>
+        /// string from embedded resource file.
+        /// </returns>
+        public static byte[] GetManifestResourceStreamAsByteArray(
+            this Assembly assembly,
+            string fullyQualifiedResourceFileName)
+        {
+            using (var stream = assembly.GetManifestResourceStream(fullyQualifiedResourceFileName))
+            {
+                if (stream == null)
+                {
+                    throw new FailedToGetResourceStreamException(fullyQualifiedResourceFileName);
+                }
+
+                return stream.ToByteArray();
+            }
         }
     }
 }

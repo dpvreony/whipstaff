@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\1x1.jpg" />
+    <None Remove="Resources\test.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\1x1.jpg" />
+    <EmbeddedResource Include="Resources\test.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.1" />
@@ -30,6 +40,7 @@
     <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
     <ProjectReference Include="..\Whipstaff.Syncfusion.Pdf\Whipstaff.Syncfusion.Pdf.csproj" />
+    <ProjectReference Include="..\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers.csproj" />
     <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.Healthchecks.EntityFramework\Whipstaff.Healthchecks.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
