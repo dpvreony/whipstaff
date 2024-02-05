@@ -40,6 +40,7 @@
     <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
     <ProjectReference Include="..\Whipstaff.Syncfusion.Pdf\Whipstaff.Syncfusion.Pdf.csproj" />
+    <ProjectReference Include="..\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers.csproj" />
     <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.Healthchecks.EntityFramework\Whipstaff.Healthchecks.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
