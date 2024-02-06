@@ -3,10 +3,15 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
 
 namespace Whipstaff.Runtime.Extensions
 {
@@ -23,10 +28,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <exception cref="ArgumentNullException">No action is provided.</exception>
         public static void ActIfNotNullOrWhiteSpace(this string? input, Action<string> action)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            ArgumentNullException.ThrowIfNull(action);
 
             if (string.IsNullOrWhiteSpace(input))
             {
@@ -51,6 +53,35 @@ namespace Whipstaff.Runtime.Extensions
         {
             return instance.All(character => character.IsHexadecimal());
         }
+
+        /// <summary>
+        /// Replaces characters in a string using a dictionary.
+        /// </summary>
+        /// <param name="instance">String to check.</param>
+        /// <param name="replacements">Dictionary of replacements to carry out.</param>
+        /// <returns>Altered string.</returns>
+        public static string Replace(
+            this string instance,
+            Dictionary<char, char> replacements)
+        {
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(replacements);
+
+            var charArray = instance.ToCharArray();
+
+            for (var i = 0; i < charArray.Length; i++)
+            {
+                var currentChar = charArray[i];
+
+                if (replacements.TryGetValue(currentChar, out var value))
+                {
+                    charArray[i] = value;
+                }
+            }
+
+            return new string(charArray);
+        }
+
 
 #if NETSTANDARD2_1_OR_GREATER
         /// <summary>
