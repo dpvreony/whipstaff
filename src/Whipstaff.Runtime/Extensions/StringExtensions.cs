@@ -137,7 +137,7 @@ namespace Whipstaff.Runtime.Extensions
             }
 
             var stringBuilder = new StringBuilder();
-            var linkedListEnumerable = linkedList.Select(c => c);
+            var linkedListEnumerable = linkedList.Select(c => c).ToArray();
             _ = stringBuilder.Append(linkedListEnumerable);
 
             return stringBuilder.ToString();
