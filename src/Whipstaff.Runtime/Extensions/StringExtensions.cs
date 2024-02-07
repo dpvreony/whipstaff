@@ -82,7 +82,6 @@ namespace Whipstaff.Runtime.Extensions
             return new string(charArray);
         }
 
-
 #if NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Removes all instances of a string.
@@ -96,10 +95,7 @@ namespace Whipstaff.Runtime.Extensions
             string value,
             bool ignoreCase = false)
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
 
             return instance.Replace(
                 value,
@@ -115,10 +111,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <returns>Memory stream.</returns>
         public static MemoryStream ToMemoryStream(this string instance)
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
 
             var byteArray = Encoding.Unicode.GetBytes(instance);
             return new MemoryStream(byteArray);
@@ -135,17 +128,29 @@ namespace Whipstaff.Runtime.Extensions
         }
 
         /// <summary>
-        /// Throws an <see cref="ArgumentNullException"/> if a string is null or whitespace.
+        /// Throws a <see cref="ArgumentNullException"/> if a string is null or whitespace.
         /// </summary>
         /// <param name="argument">string to check.</param>
         /// <param name="paramName">The name of the parameter with which <paramref name="argument" /> corresponds.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowIfNullOrWhitespace(this string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         {
-            if (string.IsNullOrWhiteSpace(argument))
+            if (argument == null)
             {
-                throw new ArgumentNullException(paramName);
+                throw new System.ArgumentNullException(paramName);
             }
+
+            foreach (var c in argument)
+            {
+                if (!char.IsWhiteSpace(c))
+                {
+                    return;
+                }
+            }
+
+            throw new ArgumentException(
+                "input is all whitespace",
+                paramName);
         }
     }
 }
