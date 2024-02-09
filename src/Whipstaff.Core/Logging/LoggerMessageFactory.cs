@@ -520,7 +520,9 @@ namespace Whipstaff.Core.Logging
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
 #pragma warning disable CA2201 // Do not raise reserved exception types
+#pragma warning disable S112 // General or reserved exceptions should never be thrown
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore S112 // General or reserved exceptions should never be thrown
 #pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
@@ -575,7 +577,9 @@ namespace Whipstaff.Core.Logging
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
 #pragma warning disable CA2201 // Do not raise reserved exception types
+#pragma warning disable S112
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore S112
 #pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
@@ -628,7 +632,9 @@ namespace Whipstaff.Core.Logging
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
 #pragma warning disable CA2201 // Do not raise reserved exception types
+#pragma warning disable S112 // General or reserved exceptions should never be thrown
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore S112 // General or reserved exceptions should never be thrown
 #pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
@@ -690,7 +696,9 @@ namespace Whipstaff.Core.Logging
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
 #pragma warning disable CA2201 // Do not raise reserved exception types
+#pragma warning disable S112 // General or reserved exceptions should never be thrown
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore S112 // General or reserved exceptions should never be thrown
 #pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
@@ -760,7 +768,9 @@ namespace Whipstaff.Core.Logging
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
 #pragma warning disable CA2201 // Do not raise reserved exception types
+#pragma warning disable S112
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore S112
 #pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }
@@ -834,7 +844,9 @@ namespace Whipstaff.Core.Logging
                             return new KeyValuePair<string, object?>("{OriginalFormat}", _formatter.OriginalFormat);
                         default:
 #pragma warning disable CA2201 // Do not raise reserved exception types
+#pragma warning disable S112 // General or reserved exceptions should never be thrown
                             throw new IndexOutOfRangeException(nameof(index));
+#pragma warning restore S112 // General or reserved exceptions should never be thrown
 #pragma warning restore CA2201 // Do not raise reserved exception types
                     }
                 }

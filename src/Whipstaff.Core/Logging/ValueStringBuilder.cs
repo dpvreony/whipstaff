@@ -193,6 +193,40 @@ namespace System.Text
             _pos += count;
         }
 
+        private void AppendSlow(string s)
+        {
+            int pos = _pos;
+            if (pos > _chars.Length - s.Length)
+            {
+                Grow(s.Length);
+            }
+
+            s
+#if !NETCOREAPP
+                .AsSpan()
+#endif
+                .CopyTo(_chars.Slice(pos));
+            _pos += s.Length;
+        }
+
+#pragma warning disable SA1202 // Elements should be ordered by access
+        public void Append(char c, int count)
+#pragma warning restore SA1202 // Elements should be ordered by access
+        {
+            if (_pos > _chars.Length - count)
+            {
+                Grow(count);
+            }
+
+            Span<char> dst = _chars.Slice(_pos, count);
+            for (int i = 0; i < dst.Length; i++)
+            {
+                dst[i] = c;
+            }
+
+            _pos += count;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Append(char c)
         {
@@ -228,40 +262,6 @@ namespace System.Text
                 AppendSlow(s);
             }
 #pragma warning restore SA1108 // Block statements should not contain embedded comments
-        }
-
-        private void AppendSlow(string s)
-        {
-            int pos = _pos;
-            if (pos > _chars.Length - s.Length)
-            {
-                Grow(s.Length);
-            }
-
-            s
-#if !NETCOREAPP
-                .AsSpan()
-#endif
-                .CopyTo(_chars.Slice(pos));
-            _pos += s.Length;
-        }
-
-#pragma warning disable SA1202 // Elements should be ordered by access
-        public void Append(char c, int count)
-#pragma warning restore SA1202 // Elements should be ordered by access
-        {
-            if (_pos > _chars.Length - count)
-            {
-                Grow(count);
-            }
-
-            Span<char> dst = _chars.Slice(_pos, count);
-            for (int i = 0; i < dst.Length; i++)
-            {
-                dst[i] = c;
-            }
-
-            _pos += count;
         }
 
         public void Append(ReadOnlySpan<char> value)

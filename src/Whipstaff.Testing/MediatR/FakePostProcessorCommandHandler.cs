@@ -52,7 +52,7 @@ namespace Whipstaff.Testing.MediatR
 
                 _ = dbContext.FakeAddPostProcessAudit.Add(entity);
 
-                var saveResult = await dbContext.SaveChangesAsync(cancellationToken)
+                _ = await dbContext.SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
             }
         }

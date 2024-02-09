@@ -34,14 +34,18 @@ namespace Whipstaff.UnitTests.Runtime.TypeConversion
         /// <summary>
         /// Fake type for the converter test.
         /// </summary>
+#pragma warning disable S2094
         public sealed class SomeType
+#pragma warning restore S2094
         {
         }
 
         /// <summary>
         /// Fake TypeConverter for the type.
         /// </summary>
+#pragma warning disable S2094
         public sealed class SomeTypeConverter : TypeConverter
+#pragma warning restore S2094
         {
         }
     }

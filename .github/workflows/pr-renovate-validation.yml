@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dpvreony/github-action-renovate-config-validator@3d15c90132f149655cb43889c2dcca7792f82fbc
+      - uses: dpvreony/github-action-renovate-config-validator@63c5f53df823879a6cd46a10d27fbe1d4ede7839

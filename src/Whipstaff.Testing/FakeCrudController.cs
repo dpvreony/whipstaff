@@ -22,8 +22,9 @@ namespace Whipstaff.Testing
     /// <summary>
     /// Fake CRUD Web Controller, for use in examples and unit tests.
     /// </summary>
-    [SwaggerClassMetaData(typeof(FakeCrudControllerSwaggerMetaData))]
     [ExcludeFromCodeCoverage]
+    [ApiController]
+    [Route("api/fakecrud")]
     public sealed class FakeCrudController : CrudApiController<
         FakeCrudListQuery,
         FakeCrudListRequest,
@@ -88,13 +89,13 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetListActionResultAsync(IList<int> listResponse)
+        protected override async Task<ActionResult<IList<int>>> GetListActionResultAsync(IList<int> listResponse)
         {
             return await Task.FromResult(Ok(listResponse)).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetViewActionResultAsync(FakeCrudViewResponse? viewResponse)
+        protected override async Task<ActionResult<FakeCrudViewResponse>> GetViewActionResultAsync(FakeCrudViewResponse? viewResponse)
         {
             return await Task.FromResult(Ok(viewResponse)).ConfigureAwait(false);
         }
@@ -106,7 +107,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetAddActionResultAsync(int? result)
+        protected override async Task<ActionResult<int?>> GetAddActionResultAsync(int? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
@@ -133,7 +134,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetDeleteActionResultAsync(long? result)
+        protected override async Task<ActionResult<long?>> GetDeleteActionResultAsync(long? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }
@@ -160,7 +161,7 @@ namespace Whipstaff.Testing
         }
 
         /// <inheritdoc />
-        protected override async Task<IActionResult> GetUpdateActionResultAsync(FakeCrudUpdateResponse? result)
+        protected override async Task<ActionResult<FakeCrudUpdateResponse?>> GetUpdateActionResultAsync(FakeCrudUpdateResponse? result)
         {
             return await Task.FromResult(Ok(result)).ConfigureAwait(false);
         }

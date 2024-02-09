@@ -24,7 +24,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         where TQuery : IQuery<TResult>, ILongId
         where TEntity : class, ILongId
     {
-        private readonly Expression<Func<TEntity, TResult>> _selector;
+        private readonly Expression<Func<TEntity, TResult?>> _selector;
         private readonly Func<TDbContext, DbSet<TEntity>> _dbSetFunc;
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         public FuncFetchFromEntityFrameworkByLongIdQueryHandler(
             IDbContextFactory<TDbContext> dbContextFactory,
             Func<TDbContext, DbSet<TEntity>> dbSetFunc,
-            Expression<Func<TEntity, TResult>> selector)
+            Expression<Func<TEntity, TResult?>> selector)
             : base(dbContextFactory)
         {
             _dbSetFunc = dbSetFunc;
@@ -47,6 +47,6 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         protected override DbSet<TEntity> GetDbSet(TDbContext dbContext) => _dbSetFunc(dbContext);
 
         /// <inheritdoc />
-        protected override Expression<Func<TEntity, TResult>> GetSelector() => _selector;
+        protected override Expression<Func<TEntity, TResult?>> GetSelector() => _selector;
     }
 }

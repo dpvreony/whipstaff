@@ -143,7 +143,8 @@ namespace Whipstaff.OpenXml.Excel
             else
             {
                 row = new Row { RowIndex = rowIndex };
-                sheetData.Append(row);
+
+                _ = sheetData.AddChild(row);
             }
 
             Cell? refCell = null;

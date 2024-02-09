@@ -7,6 +7,7 @@ using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using ReactiveUI;
 using Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction;
+using Whipstaff.Wpf.InteractionFlows.OpenFolderDialogInteraction;
 
 namespace Whipstaff.Wpf.InteractionFlows
 {
@@ -27,6 +28,21 @@ namespace Whipstaff.Wpf.InteractionFlows
 
             // ReSharper disable once ConvertClosureToMethodGroup
             _ = interactions.FileOpenDialog.RegisterHandlerToOutputFunc(request => OpenFileDialogHandler.OnOpenFileDialogAsync(request))
+                .DisposeWith(compositeDisposable);
+        }
+
+        /// <summary>
+        /// Registers the WPF Folder Open Dialog interaction flow.
+        /// </summary>
+        /// <param name="compositeDisposable">The composite disposable to use to track the lifetime of the registration.</param>
+        /// <param name="interactions">WPF Interaction Helper.</param>
+        public static void RegisterFolderOpenDialog(CompositeDisposable compositeDisposable, Interactions interactions)
+        {
+            ArgumentNullException.ThrowIfNull(compositeDisposable);
+            ArgumentNullException.ThrowIfNull(interactions);
+
+            // ReSharper disable once ConvertClosureToMethodGroup
+            _ = interactions.FolderOpenDialog.RegisterHandlerToOutputFunc(request => OpenFolderDialogHandler.OnOpenFolderDialogAsync(request))
                 .DisposeWith(compositeDisposable);
         }
 

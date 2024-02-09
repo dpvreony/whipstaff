@@ -62,7 +62,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// Gets the Selector for the result output from the query.
         /// </summary>
         /// <returns>Selector for the result output from the query.</returns>
-        protected abstract Expression<Func<TEntity, TResult>> GetSelector();
+        protected abstract Expression<Func<TEntity, TResult?>> GetSelector();
 
         /// <summary>
         /// Gets the DBSet from the DBContext that contains the relevant entity.
@@ -77,6 +77,6 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// <param name="queryable">Query to process.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Result from query.</returns>
-        protected abstract Task<TResult?> GetResultAsync(IQueryable<TResult> queryable, CancellationToken cancellationToken);
+        protected abstract Task<TResult?> GetResultAsync(IQueryable<TResult?> queryable, CancellationToken cancellationToken);
     }
 }

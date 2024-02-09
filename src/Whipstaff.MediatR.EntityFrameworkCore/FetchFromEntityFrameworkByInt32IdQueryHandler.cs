@@ -23,7 +23,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
     public abstract class FetchFromEntityFrameworkByInt32IdQueryHandler<TQuery, TDbContext, TEntity, TResult>
         : FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult>
         where TDbContext : DbContext
-        where TQuery : IQuery<TResult>, IIntId
+        where TQuery : IQuery<TResult?>, IIntId
         where TEntity : class, IIntId
     {
         /// <summary>
@@ -42,7 +42,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         }
 
         /// <inheritdoc/>
-        protected override Task<TResult?> GetResultAsync(IQueryable<TResult> queryable, CancellationToken cancellationToken)
+        protected override Task<TResult?> GetResultAsync(IQueryable<TResult?> queryable, CancellationToken cancellationToken)
         {
             return queryable.FirstOrDefaultAsync(cancellationToken);
         }

@@ -11,8 +11,8 @@ namespace Whipstaff.Core.Mediatr
     /// </summary>
     /// <typeparam name="TQuery">Type for the query.</typeparam>
     /// <typeparam name="TResponse">Type for the response of the query.</typeparam>
-    public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
-        where TQuery : IQuery<TResponse>
+    public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse?>
+        where TQuery : IQuery<TResponse?>
     {
     }
 }

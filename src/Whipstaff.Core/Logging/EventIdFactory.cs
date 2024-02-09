@@ -57,12 +57,30 @@ namespace Whipstaff.Core.Logging
         /// Gets the Event Id for the Middleware Exception event.
         /// </summary>
         /// <returns>Event Id.</returns>
-        public static EventId MiddlewareException() => new(7, "Middleware Exception");
+        public static EventId MiddlewareException() => new(8, "Middleware Exception");
 
         /// <summary>
         /// Gets the Event Id for the Middleware Finished event.
         /// </summary>
         /// <returns>Event Id.</returns>
-        public static EventId MiddlewareFinished() => new(7, "Middleware Finished");
+        public static EventId MiddlewareFinished() => new(9, "Middleware Finished");
+
+        /// <summary>
+        /// Gets the Event Id for the "Starting Test Of DbSet" event which is used in the EF Core smoke test process.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId TestOfDbSetStarting() => new(10, "Starting Test Of DbSet");
+
+        /// <summary>
+        /// Gets the Event Id for the "Test Of DbSet Failed" event which is used in the EF Core smoke test process.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId TestOfDbSetFailed() => new(11, "Test Of DbSet Failed");
+
+        /// <summary>
+        /// Gets the Event Id for the "Completed Test Of DbSet" event which is used in the EF Core smoke test process.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId TestOfDbSetCompleted() => new(11, "Test Of DbSet Completed");
     }
 }

@@ -80,8 +80,9 @@ namespace Whipstaff.AspNetCore
             _ = services.AddProblemDetails();
 
             _ = services.AddAuthorization(ConfigureAuthorization);
-
+#if TBC
             // new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
+#endif
             var useSwagger = configuration.GetValue("useSwagger", false);
 
             if (useSwagger)
@@ -94,7 +95,9 @@ namespace Whipstaff.AspNetCore
                 _ = services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+#if TBC
                     c.OperationFilter<SwaggerClassMetaDataOperationFilter>();
+#endif
                     c.OperationFilter<ProblemDetailOperationFilter>();
                     c.UseAllOfToExtendReferenceSchemas();
                     c.CustomSchemaIds(x => x.FullName);
@@ -206,11 +209,13 @@ namespace Whipstaff.AspNetCore
 
             _ = app.UseBlockingDetection();
 
+#if TBC
             var version = new Version(0, 1, 1, 9999);
 
             /*
             ApmApplicationStartHelper.Configure(Configuration, app, version);
             */
+#endif
 
 #if TBC
             // taken this out whilst reviewing nonce logic for swashbuckle.

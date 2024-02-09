@@ -34,11 +34,24 @@ jobs:
       run: echo 'Head Ref Context is ${{ github.head_ref }}'
 
     # java is used by sonar scanner
-    - name: Setup Java 11
+    - name: Setup Java 17
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install Android SDK
+      run: |
+        $sdkmanagerpath = Get-ChildItem "C:\Android\android-sdk\cmdline-tools\**\bin\sdkmanager.bat" | Select-Object -First 1
+        if ($sdkmanagerpath -eq $null) {
+            throw "Unable to find android sdk manager"
+        }
+
+        echo $sdkmanagerpath
+        . $sdkmanagerpath --install "platforms;android-30"
 
     - name: Install Windows SDK 10.0.16299
       shell: pwsh
@@ -64,7 +77,7 @@ jobs:
         dotnet workload list
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@3404ff3d40458f8d1fdf55c2bcc442b970404ad7
+      uses: microsoft/setup-msbuild@31e0ba28c780f4bd10cfc8075d1fff655386e214
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
@@ -123,7 +136,7 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
+        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:..\\artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
       working-directory: src
 
     - name: Run Unit Tests
@@ -200,61 +213,61 @@ jobs:
     # only store binlog on failure
     - name: store binlogs
       if: ${{ failure() }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: binlogs
         path: artifacts/binlog
 
     - name: store unit test coverage
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: unittestcoverage
         path: artifacts/unittestcoverage
 
     - name: store docfx
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: docfx
         path: artifacts/docfx
         
     - name: store nuget packages
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nuget
         path: artifacts/nuget
         
     - name: store omd
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: omd
         path: artifacts/omd
         
     - name: store licenses
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: licenses
         path: artifacts/licenses
 
     - name: store sbom
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: sbom
         path: artifacts/sbom
 
     - name: store outdated
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: outdated
         path: artifacts/outdated
         
     - name: store snitch
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: snitch
         path: artifacts/snitch
 
     - name: store appinspector
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: appinspector
         path: artifacts/appinspector
@@ -269,7 +282,7 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
     steps:
     - name: Download NuGet Packages
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: nuget
 

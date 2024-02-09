@@ -29,7 +29,7 @@ namespace Whipstaff.Windows.GroupPolicyMonitoring
         /// </summary>
         /// <param name="logger">Logging framework instance.</param>
         /// <param name="onUserPreferenceChangingGroupPolicy">action to carry out when user preferences are changing via group policy.</param>
-        private GroupPolicyMonitoringProcessManager(
+        public GroupPolicyMonitoringProcessManager(
             ILogger<GroupPolicyMonitoringProcessManager> logger,
             Action onUserPreferenceChangingGroupPolicy)
         {
