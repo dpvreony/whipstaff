@@ -32,7 +32,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 IServiceCollection serviceCollection = new ServiceCollection();
                 var optionsAction = OptionsAction;
 
-                serviceCollection = serviceCollection.AddSingleton(CreateInMemoryDatabase);
+                serviceCollection = serviceCollection.AddSingleton<SqliteConnection>(_ => CreateInMemoryDatabase());
 
                 // Act
                 var result = serviceCollection.AddDbContextWithModelCreator<FakeDbContext, SqliteFakeDbContextModelCreator>(optionsAction);
