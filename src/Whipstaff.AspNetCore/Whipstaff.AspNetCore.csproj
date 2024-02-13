@@ -16,8 +16,8 @@
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
     -->
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
-    <PackageReference Include="Audit.NET" Version="23.0.0" />
-    <PackageReference Include="Audit.WebApi.Core" Version="23.0.0" />
+    <PackageReference Include="Audit.NET" Version="24.0.1" />
+    <PackageReference Include="Audit.WebApi.Core" Version="24.0.1" />
     <PackageReference Include="Ben.BlockingDetector" Version="0.0.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.1" />
     <PackageReference Include="DynamicData" Version="8.3.27" />
