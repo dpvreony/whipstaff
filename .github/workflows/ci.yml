@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    types: [opened, synchronize, reopened, closed]
+    types: [opened, synchronize, reopened]
     branches: [ main ]
 
 jobs:
@@ -272,9 +272,15 @@ jobs:
         name: appinspector
         path: artifacts/appinspector
   release:
+    if: ${{ always() && format('refs/heads/{0}', github.event.repository.default_branch) == github.ref }}
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
+    environment:
+      name: nuget
     needs: build
-    if: contains(github.event.pull_request.labels.*.name, 'release') && github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
