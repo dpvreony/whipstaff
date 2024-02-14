@@ -16,9 +16,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
@@ -321,6 +323,20 @@ namespace Whipstaff.AspNetCore
             foreach (var controllerAssembly in controllerAssemblies)
             {
                 mvcBuilder = mvcBuilder.AddApplicationPart(controllerAssembly);
+            }
+
+            if (mvcServiceMode == MvcServiceMode.ControllersWithViews)
+            {
+                // this is a fix for a breaking change in NET 8.0.2 where compiled views no longer register.
+                // we explicitly add the file providers for the assemblies.
+                mvcBuilder = mvcBuilder.AddRazorRuntimeCompilation(
+                    options =>
+                    {
+                        foreach (var controllerAssembly in controllerAssemblies)
+                        {
+                            options.FileProviders.Add(new EmbeddedFileProvider(controllerAssembly));
+                        }
+                    });
             }
 
             _ = mvcBuilder.AddControllersAsServices();
