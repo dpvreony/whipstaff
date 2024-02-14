@@ -325,14 +325,19 @@ namespace Whipstaff.AspNetCore
                 mvcBuilder = mvcBuilder.AddApplicationPart(controllerAssembly);
             }
 
-            mvcBuilder = mvcBuilder.AddRazorRuntimeCompilation(
-                options =>
-                {
-                    foreach (var controllerAssembly in controllerAssemblies)
+            if (mvcServiceMode == MvcServiceMode.ControllersWithViews)
+            {
+                // this is a fix for a breaking change in NET 8.0.2 where compiled views no longer register.
+                // we explicitly add the file providers for the assemblies.
+                mvcBuilder = mvcBuilder.AddRazorRuntimeCompilation(
+                    options =>
                     {
-                        options.FileProviders.Add(new EmbeddedFileProvider(controllerAssembly));
-                    }
-                });
+                        foreach (var controllerAssembly in controllerAssemblies)
+                        {
+                            options.FileProviders.Add(new EmbeddedFileProvider(controllerAssembly));
+                        }
+                    });
+            }
 
             _ = mvcBuilder.AddControllersAsServices();
         }
