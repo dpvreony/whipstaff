@@ -4,6 +4,7 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <PackageDescription>Re-usable logic for working with Windows OS specific functionality in .NET.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>

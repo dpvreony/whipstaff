@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
+    <PackageDescription>Re-usable logic for working with MS SQL via ADO.NET</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,6 +5,7 @@
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
     <EnableWindowsTargeting>True</EnableWindowsTargeting>
+    <PackageDescription>Re-usable logic for working with WPF.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
