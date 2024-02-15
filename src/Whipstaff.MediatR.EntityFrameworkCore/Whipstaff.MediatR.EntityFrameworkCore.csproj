@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
+    <PackageDescription>Re-usable logic for working with MediatR and Entity Framework Core.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
