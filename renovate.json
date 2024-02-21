@@ -1,6 +1,3 @@
 {
-    "extends": [
-        "config:recommended",
-        "extends": ["local>dpvreony/.github:renovate"]
-    ]
+    "extends": ["local>dpvreony/.github:renovate"]
 }
