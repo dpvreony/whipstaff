@@ -12,6 +12,7 @@ jobs:
     runs-on: windows-2022
     outputs:
       nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
+      change_commit_log: ${{ steps.changelog.outputs.commitLog }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -124,6 +125,10 @@ jobs:
         npm install
         popd
 
+    - name: Changelog
+      uses: glennawatson/ChangeLog@v1
+      id: changelog
+
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
@@ -138,6 +143,8 @@ jobs:
       run: |
         msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:..\\artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
       working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     - name: Run Unit Tests
       run: |
@@ -291,11 +298,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: nuget
-
-    - name: Changelog
-      uses: glennawatson/ChangeLog@v1
-      id: changelog
-
     - name: Create Release
       uses: actions/create-release@v1
       env:
@@ -304,7 +306,7 @@ jobs:
           tag_name: ${{ needs.build.outputs.nbgv }}
           release_name: ${{ needs.build.outputs.nbgv }}
           body: |
-            ${{ steps.changelog.outputs.commitLog }}
+            ${{ needs.build.outputs.change_commit_log }}
 
     - name: NuGet Push
       env:
