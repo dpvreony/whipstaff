@@ -131,10 +131,10 @@ jobs:
 
     - name: Report Changelog Summary
       run: |
-        echo "::notice::$env.commitlog"
-        echo $env.commitlog >> $GITHUB_STEP_SUMMARY
+        echo "::notice::$CHANGE_COMMIT_LOG"
+        echo $CHANGE_COMMIT_LOG >> $GITHUB_STEP_SUMMARY
       env:
-        commitlog : ${{ steps.changelog.outputs.commitLog }}
+        CHANGE_COMMIT_LOG : ${{ steps.changelog.outputs.commitLog }}
 
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
