@@ -132,7 +132,7 @@ jobs:
     - name: Report Changelog Summary
       run: |
         echo "::notice::${{ env.CHANGE_COMMIT_LOG }}"
-        echo ${{ env.CHANGE_COMMIT_LOG }} >> $GITHUB_STEP_SUMMARY
+        echo "${{ env.CHANGE_COMMIT_LOG }}" >> $GITHUB_STEP_SUMMARY
       env:
         CHANGE_COMMIT_LOG : ${{ steps.changelog.outputs.commitLog }}
 
