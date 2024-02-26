@@ -129,6 +129,13 @@ jobs:
       uses: glennawatson/ChangeLog@v1
       id: changelog
 
+    - name: Report Changelog Summary
+      run: |
+        echo "::notice::$env.commitlog"
+        echo $env.commitlog >> $GITHUB_STEP_SUMMARY
+      env:
+        commitlog : ${{ steps.changelog.outputs.commitLog }}
+
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
