@@ -8,7 +8,7 @@
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
     <PackageTags>NET core reusable web helpers</PackageTags>
-    <PackageReleaseNotes>https://github.com/dpvreony/Dhgms.AspNetCoreContrib/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>$(CHANGE_COMMIT_LOG)</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/dpvreony/Dhgms.AspNetCoreContrib</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
