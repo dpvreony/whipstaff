@@ -132,7 +132,7 @@ jobs:
     - name: Report Changelog Summary
       run: |
         $changecommitlog = $env.CHANGE_COMMIT_LOG
-        $changecommitlog = $changecommitlog.Replace("\"", "'")
+        $changecommitlog = $changecommitlog.Replace("\"", "\'")
 
         $lines = $changecommitlog -split [Environment]::NewLine
 
