@@ -129,6 +129,22 @@ jobs:
       uses: glennawatson/ChangeLog@v1
       id: changelog
 
+    - name: Report Changelog Summary
+      run: |
+        $changecommitlog = $Env:CHANGE_COMMIT_LOG
+        $changecommitlog = $changecommitlog.Replace('"', '''')
+
+        $lines = $changecommitlog -split [Environment]::NewLine
+
+        foreach ($line in $lines)
+        {
+          echo "::notice::$line"
+          Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $line
+        }
+
+      env:
+        CHANGE_COMMIT_LOG : ${{ steps.changelog.outputs.commitLog }}
+
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
@@ -174,7 +190,7 @@ jobs:
         $unitTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
@@ -187,7 +203,7 @@ jobs:
         $intTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Integration Test Coverage: $intTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
     - name: List licenses
       run: |
