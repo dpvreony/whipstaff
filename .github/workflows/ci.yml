@@ -139,7 +139,7 @@ jobs:
         foreach ($line in $lines)
         {
           echo "::notice::$line"
-          echo "$line" >> $GITHUB_STEP_SUMMARY
+          Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $line
         }
 
       env:
@@ -190,7 +190,7 @@ jobs:
         $unitTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
@@ -203,7 +203,7 @@ jobs:
         $intTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Integration Test Coverage: $intTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
     - name: List licenses
       run: |
