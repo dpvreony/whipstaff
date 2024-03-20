@@ -21,7 +21,7 @@
     <PackageReference Include="Audit.WebApi.Core" Version="25.0.3" />
     <PackageReference Include="Ben.BlockingDetector" Version="0.0.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.2" />
-    <PackageReference Include="DynamicData" Version="8.3.93" />
+    <PackageReference Include="DynamicData" Version="8.4.1" />
     <PackageReference Include="Exceptionless.AspNetCore" Version="6.0.3" />
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="6.0.3" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
