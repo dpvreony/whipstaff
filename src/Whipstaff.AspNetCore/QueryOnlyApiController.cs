@@ -25,7 +25,9 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
+#pragma warning disable S6934
     public abstract class QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
+#pragma warning restore S6934
         : ControllerBase
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListRequestDto : class, new()
