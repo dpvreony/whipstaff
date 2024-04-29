@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Extensions.Logging;
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
 
 namespace Whipstaff.Core.Logging
 {
@@ -20,7 +21,7 @@ namespace Whipstaff.Core.Logging
     /// <typeparam name="TLogMessageActions">The type for the log message actions.</typeparam>
     public abstract class AbstractLogMessageActionsWrapper<TCategoryName, TLogMessageActions> : ILogMessageActionsWrapper<TCategoryName>
         where TCategoryName : class
-        where TLogMessageActions : ILogMessageActions<TCategoryName>
+        where TLogMessageActions : class, ILogMessageActions<TCategoryName>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractLogMessageActionsWrapper{TCategoryName, TLogMessageActions}"/> class.
@@ -29,17 +30,12 @@ namespace Whipstaff.Core.Logging
         /// <param name="logger">Logging framework instance.</param>
         protected AbstractLogMessageActionsWrapper(
             TLogMessageActions logMessageActions,
+#pragma warning disable S6672
             ILogger<TCategoryName> logger)
+#pragma warning restore S6672
         {
-            if (logMessageActions == null)
-            {
-                throw new ArgumentNullException(nameof(logMessageActions));
-            }
-
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
+            ArgumentNullException.ThrowIfNull(logMessageActions);
+            ArgumentNullException.ThrowIfNull(logger);
 
             LogMessageActions = logMessageActions;
             Logger = logger;

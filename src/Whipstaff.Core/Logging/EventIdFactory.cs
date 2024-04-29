@@ -82,5 +82,59 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <returns>Event Id.</returns>
         public static EventId TestOfDbSetCompleted() => new(11, "Test Of DbSet Completed");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase Starting Aquire event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseStartingAquire() => new(12, "Starting to acquire lock for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase Finished Aquire event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseFinishedAquire() => new(13, "Finished acquiring of lock for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase Starting Release event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseStartingRelease() => new(14, "Starting release of lock for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase Finished Release event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseFinishedRelease() => new(15, "Finished release of lock for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase Starting Renew event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseStartingRenew() => new(16, "Finished renewal of lock for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase Finished Renew event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseFinishedRenew() => new(17, "Finished renewal of lock for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase No Lock To Renew event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseNoLockToRenew() => new(18, "No lock to renew for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase No Mutex To Release event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseNoMutexToRelease() => new(19, "No mutex to release for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the Couchbase Acquired Key Already Exists event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId CouchbaseAcquiredKeyAlreadyExists() => new(20, "Acquired key already exists for resource.");
     }
 }

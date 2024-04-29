@@ -40,11 +40,11 @@ namespace Whipstaff.Runtime.HostOverride
 
             if (value == null)
             {
-                _logger.LogDebug("No override found for host \"{host}\"", host);
+                _logger.LogDebug("No override found for host \"{Host}\"", host);
             }
             else
             {
-                _logger.LogDebug("Found override for host \"{host}\" to \"{value}\"", host, value);
+                _logger.LogDebug("Found override for host \"{Host}\" to \"{Value}\"", host, value);
             }
 
             return value;

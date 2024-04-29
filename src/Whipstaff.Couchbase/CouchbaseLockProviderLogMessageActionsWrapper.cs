@@ -19,7 +19,9 @@ namespace Whipstaff.Couchbase
         /// <param name="logger">Logging framework instance.</param>
         public CouchbaseLockProviderLogMessageActionsWrapper(
             CouchbaseLockProviderLogMessageActions logMessageActions,
+#pragma warning disable S6672
             ILogger<CouchbaseLockProvider> logger)
+#pragma warning restore S6672
             : base(
                 logMessageActions,
                 logger)
@@ -87,6 +89,24 @@ namespace Whipstaff.Couchbase
         public void FinishedRenew(string resource)
         {
             LogMessageActions.FinishedRenew(Logger, resource);
+        }
+
+        /// <summary>
+        /// Log event when there is no mutex to release.
+        /// </summary>
+        /// <param name="resource">Resource identifier.</param>
+        public void NoMutexToRelease(string resource)
+        {
+            LogMessageActions.NoMutexToRelease(Logger, resource);
+        }
+
+        /// <summary>
+        /// Log event when acquired key already exists.
+        /// </summary>
+        /// <param name="resource">Resource identifier.</param>
+        public void AcquiredKeyAlreadyExists(string resource)
+        {
+            LogMessageActions.AcquiredKeyAlreadyExists(Logger, resource);
         }
     }
 }
