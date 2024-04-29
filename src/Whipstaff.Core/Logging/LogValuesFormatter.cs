@@ -153,11 +153,13 @@ namespace Whipstaff.Core.Logging
                     {
                         formattedValues = new object[values.Length];
                         Array.Copy(values, formattedValues, i);
+#pragma warning disable S127
                         formattedValues[i++] = formattedValue;
                         for (; i < values.Length; i++)
                         {
                             formattedValues[i] = FormatArgument(values[i]);
                         }
+#pragma warning restore S127
 
                         break;
                     }
