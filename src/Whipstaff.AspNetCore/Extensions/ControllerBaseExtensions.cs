@@ -90,10 +90,12 @@ namespace Whipstaff.AspNetCore.Extensions
                 query,
                 cancellationToken).ConfigureAwait(false);
 
+#pragma warning disable S2955 // Generic parameters not constrained to reference types should not be compared to "null"
             if (result == null)
             {
                 return instance.NotFound();
             }
+#pragma warning restore S2955 // Generic parameters not constrained to reference types should not be compared to "null"
 
             var viewResult = await getAddActionResultAsync(result).ConfigureAwait(false);
             logAction(logger, "Finished", null);
@@ -181,10 +183,12 @@ namespace Whipstaff.AspNetCore.Extensions
                 query,
                 cancellationToken).ConfigureAwait(false);
 
+#pragma warning disable S2955 // Generic parameters not constrained to reference types should not be compared to "null"
             if (result == null)
             {
                 return instance.NotFound();
             }
+#pragma warning restore S2955 // Generic parameters not constrained to reference types should not be compared to "null"
 
             var viewResult = await getDeleteActionResultAsync(result).ConfigureAwait(false);
             logAction(logger, "Finished", null);
