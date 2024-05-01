@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.MinimumLevel = LogLevel.Trace;
+                Log.DefaultMinimumLevel = LogLevel.Trace;
                 _logger.TraceMethodEntry();
                 _ = Assert.Single(Log.LogEntries);
             }
@@ -61,7 +61,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.MinimumLevel = LogLevel.Trace;
+                Log.DefaultMinimumLevel = LogLevel.Trace;
                 _logger.TraceMethodExit();
                 _ = Assert.Single(Log.LogEntries);
             }
@@ -87,7 +87,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.MinimumLevel = LogLevel.Trace;
+                Log.DefaultMinimumLevel = LogLevel.Trace;
                 _logger.TraceIfEnabled(() => "TEST");
                 _ = Assert.Single(Log.LogEntries);
             }
@@ -113,7 +113,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.MinimumLevel = LogLevel.Trace;
+                Log.DefaultMinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.TraceIfEnabled(exception, () => "TEST");
                 _ = Assert.Single(Log.LogEntries);
@@ -140,7 +140,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.MinimumLevel = LogLevel.Trace;
+                Log.DefaultMinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.TraceMethodException(exception);
                 _ = Assert.Single(Log.LogEntries);
@@ -320,7 +320,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.MinimumLevel = LogLevel.Debug;
+                Log.DefaultMinimumLevel = LogLevel.Debug;
                 _logger.DebugIfEnabled(() => "TEST");
                 _ = Assert.Single(Log.LogEntries);
             }
@@ -346,7 +346,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.MinimumLevel = LogLevel.Debug;
+                Log.DefaultMinimumLevel = LogLevel.Debug;
                 var exception = new InvalidOperationException("Some test exception");
                 _logger.DebugIfEnabled(exception, () => "TEST");
                 _ = Assert.Single(Log.LogEntries);

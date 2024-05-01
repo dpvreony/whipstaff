@@ -34,7 +34,7 @@ namespace Whipstaff.IntegrationTests
             ITestOutputHelper output)
             : base(output)
         {
-            Log.MinimumLevel = LogLevel.Debug;
+            Log.DefaultMinimumLevel = LogLevel.Debug;
         }
 
         /// <summary>

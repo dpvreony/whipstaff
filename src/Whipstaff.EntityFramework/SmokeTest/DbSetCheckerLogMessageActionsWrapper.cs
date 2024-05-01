@@ -23,7 +23,9 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// <param name="logger">Logging framework instance.</param>
         public DbSetCheckerLogMessageActionsWrapper(
             DbSetCheckerLogMessageActions<TDbContext> logMessageActions,
+#pragma warning disable S6672
             ILogger<AbstractDbSetChecker<TDbContext>> logger)
+#pragma warning restore S6672
             : base(logMessageActions, logger)
         {
         }

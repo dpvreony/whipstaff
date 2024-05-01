@@ -60,8 +60,8 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
                 var logger = Log.CreateLogger<CommandLineJob>();
                 var instance = new CommandLineJob(
                     new CommandLineJobLogMessageActionsWrapper(
-                        logger,
-                        new CommandLineJobLogMessageActions()),
+                        new CommandLineJobLogMessageActions(),
+                        logger),
                     new MockFileSystem());
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
