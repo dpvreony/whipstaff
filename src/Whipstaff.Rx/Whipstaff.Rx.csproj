@@ -1,7 +1,7 @@
 <Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10;MonoAndroid11.0;tizen40;net8.0;net8.0-android;net8.0-ios;net8.0-tvos;net8.0-macos</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;MonoAndroid11.0;tizen40;net8.0;net8.0-android;net8.0-ios;net8.0-tvos;net8.0-macos</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net462;net472;uap10.0.16299</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with Reactive Extensions.</PackageDescription>
@@ -17,11 +17,6 @@
     <PackageReference Include="System.Diagnostics.Contracts" Version="4.3.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="netstandard" />
   </ItemGroup>
 
   <ItemGroup>
