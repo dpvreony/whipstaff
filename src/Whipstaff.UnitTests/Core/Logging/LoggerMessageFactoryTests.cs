@@ -454,7 +454,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var instance = GetLoggerMessageAction();
 
-                Log.MinimumLevel = LogLevel.Error;
+                Log.DefaultMinimumLevel = LogLevel.Error;
 
                 var count = Log.LogEntries.Count;
                 var callCount = 0;

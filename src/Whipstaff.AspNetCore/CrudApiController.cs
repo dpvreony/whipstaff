@@ -33,7 +33,9 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
     /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
+#pragma warning disable S6934
     public abstract class CrudApiController<
+#pragma warning restore S6934
             TListQuery,
             TListRequestDto,
             TListQueryResponse,
