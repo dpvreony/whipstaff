@@ -157,8 +157,7 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:..\\artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
-      working-directory: src
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true 
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
@@ -216,6 +215,10 @@ jobs:
     - name: List outdated packages
       run: |
         dotnet outdated -o artifacts\outdated\outdated.json src
+
+    - name: Produce Nuget Packages
+      run: |
+        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
 
     - name: VirusTotal Monitor Scan
       if: ${{ env.VIRUSTOTAL_API_KEY != 0 }}
