@@ -208,6 +208,11 @@ jobs:
         echo "::notice::$coverageMessage"
         Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
+    - name: Produce Nuget Packages
+      run: |
+        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:..\\artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
+      working-directory: src
+
     - name: List licenses
       run: |
         dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
@@ -219,11 +224,6 @@ jobs:
     - name: List outdated packages
       run: |
         dotnet outdated -o ..\artifacts\outdated\outdated.json src
-      working-directory: src
-
-    - name: Produce Nuget Packages
-      run: |
-        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:..\\artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
       working-directory: src
 
     - name: VirusTotal Monitor Scan
