@@ -223,7 +223,7 @@ jobs:
 
     - name: List outdated packages
       run: |
-        dotnet outdated -o ..\artifacts\outdated\outdated.json src
+        dotnet outdated -o ..\artifacts\outdated\outdated.json
       working-directory: src
 
     - name: VirusTotal Monitor Scan
