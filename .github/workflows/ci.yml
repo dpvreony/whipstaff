@@ -158,7 +158,7 @@ jobs:
 
     - name: Run Build
       run: |
-        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true 
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:../artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true 
       working-directory: src
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
@@ -166,7 +166,7 @@ jobs:
     - name: Run Unit Tests
       working-directory: src
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\unittestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:..\\artifacts/binlog/unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory ../artifacts/unittestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
     - name: Run Sonar Scanner end
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -197,7 +197,7 @@ jobs:
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
       run: |
-        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\inttest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\inttestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build /bl:artifacts/binlog/inttest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory ../artifacts/inttestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
       working-directory: src
 
     - name: Report Integration Test Coverage
