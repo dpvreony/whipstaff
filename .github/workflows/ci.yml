@@ -18,10 +18,10 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      solutionpath: src/Whipstaff.sln
-      unittestprojectpath: src/Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
-      inttestprojectpath: src/Whipstaff.IntegrationTests/Whipstaff.IntegrationTests.csproj
-      benchmarkprojectpath: src/Whipstaff.IntegrationTests/Whipstaff.Benchmarks.csproj
+      solutionpath: Whipstaff.sln
+      unittestprojectpath: Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
+      inttestprojectpath: Whipstaff.IntegrationTests/Whipstaff.IntegrationTests.csproj
+      benchmarkprojectpath: Whipstaff.IntegrationTests/Whipstaff.Benchmarks.csproj
     steps:
     - name: Checkout code
       uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
