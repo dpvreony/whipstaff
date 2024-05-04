@@ -95,7 +95,10 @@ namespace Whipstaff.Couchbase
             var dateTimeAcquired = DateTime.UtcNow;
             var timeWaited = dateTimeAcquired - attemptStarted;
 
-            _ = _mutexDictionary.TryAdd(resource, mutex);
+            if (!_mutexDictionary.TryAdd(resource, mutex))
+            {
+                _logMessageActionsWrapper.AcquiredKeyAlreadyExists(resource);
+            }
 
             _logMessageActionsWrapper.FinishedAcquire(resource);
 
@@ -120,11 +123,13 @@ namespace Whipstaff.Couchbase
         {
             _logMessageActionsWrapper.StartingRelease(resource);
 
-            if (_mutexDictionary.TryGetValue(resource, out var mutex))
+            if (!_mutexDictionary.TryGetValue(resource, out var mutex))
             {
-                mutex.Dispose();
+                _logMessageActionsWrapper.NoMutexToRelease(resource);
+                return Task.CompletedTask;
             }
 
+            mutex.Dispose();
             _logMessageActionsWrapper.FinishedRelease(resource);
 
             return Task.CompletedTask;

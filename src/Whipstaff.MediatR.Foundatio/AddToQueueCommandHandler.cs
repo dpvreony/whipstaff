@@ -35,11 +35,11 @@ namespace Whipstaff.MediatR.Foundatio
         /// <inheritdoc/>
         public async Task<string> Handle(TCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogDebug("Enqueuing request of type {requestType}", typeof(TCommand));
+            _logger.LogDebug("Enqueuing request of type {RequestType}", typeof(TCommand));
 
             var result = await _queue.EnqueueAsync(request).ConfigureAwait(false);
 
-            _logger.LogDebug("Enqueued request of type {requestType} with id {requestId}", typeof(TCommand), result);
+            _logger.LogDebug("Enqueued request of type {RequestType} with id {RequestId}", typeof(TCommand), result);
 
             return result;
         }

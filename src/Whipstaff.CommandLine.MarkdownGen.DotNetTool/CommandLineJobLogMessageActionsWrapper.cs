@@ -18,11 +18,13 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJobLogMessageActionsWrapper"/> class.
         /// </summary>
-        /// <param name="logger">Logging framework instance.</param>
         /// <param name="commandLineJobLogMessageActions">Log Message actions for <see cref="CommandLineJob" />.</param>
+        /// <param name="logger">Logging framework instance.</param>
         public CommandLineJobLogMessageActionsWrapper(
-            ILogger<CommandLineJob> logger,
-            CommandLineJobLogMessageActions commandLineJobLogMessageActions)
+            CommandLineJobLogMessageActions commandLineJobLogMessageActions,
+#pragma warning disable S6672
+            ILogger<CommandLineJob> logger)
+#pragma warning restore S6672
         {
             ArgumentNullException.ThrowIfNull(logger);
             ArgumentNullException.ThrowIfNull(commandLineJobLogMessageActions);

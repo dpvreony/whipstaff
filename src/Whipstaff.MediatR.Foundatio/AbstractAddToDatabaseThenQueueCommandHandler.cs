@@ -52,41 +52,41 @@ namespace Whipstaff.MediatR.Foundatio
         {
             using (var dbContext = await _dbContextFactory().ConfigureAwait(false))
             {
-                _logger.LogDebug($"Getting DbSet");
+                _logger.LogDebug("Getting DbSet");
                 var dbSet = GetDbSet(dbContext);
 
-                _logger.LogDebug($"Getting entity to add to database");
+                _logger.LogDebug("Getting entity to add to database");
                 var entityToAdd = GetEntityToAddToDatabase(request);
 
-                _logger.LogDebug($"Adding entity to database change tracking graph");
+                _logger.LogDebug("Adding entity to database change tracking graph");
                 _ = await dbSet.AddAsync(
                     entityToAdd,
                     CancellationToken.None)
                     .ConfigureAwait(false);
 
-                _logger.LogDebug($"Saving entity to database");
+                _logger.LogDebug("Saving entity to database");
                 var saveChangesResult = dbContext.SaveChangesAsync(CancellationToken.None)
                     .ConfigureAwait(false);
 
-                _logger.LogDebug($"DbContext Save Changes Result: {saveChangesResult}");
+                _logger.LogDebug("DbContext Save Changes Result: {SaveChangesResult}", saveChangesResult);
 
-                _logger.LogDebug($"Getting queue message");
+                _logger.LogDebug("Getting queue message");
                 var queueMessage = GetQueueMessage(
                     request,
                     entityToAdd);
 
-                _logger.LogDebug($"Getting queue entry options");
+                _logger.LogDebug("Getting queue entry options");
                 var queueEntryOptions = GetQueueEntryOptions(
                     request,
                     entityToAdd);
 
-                _logger.LogDebug($"Queueing message");
+                _logger.LogDebug("Queueing message");
                 var queueResult = await _queue.EnqueueAsync(
                         queueMessage,
                         queueEntryOptions)
                     .ConfigureAwait(false);
 
-                _logger.LogDebug($"Queue Enqueue Result: {queueResult}");
+                _logger.LogDebug("Queue Enqueue Result: {QueueResult}", queueResult);
 
                 return queueResult;
             }
