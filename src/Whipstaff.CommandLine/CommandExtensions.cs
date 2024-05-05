@@ -16,12 +16,12 @@ namespace Whipstaff.CommandLine
     public static class CommandExtensions
     {
         /// <summary>
-        /// Make two options exclusive.
+        /// Make two options mutually exclusive.
         /// </summary>
         /// <param name="command">Command object to modify.</param>
         /// <param name="option1">First option.</param>
         /// <param name="option2">Second option.</param>
-        public static void MakeOptionsExclusive(
+        public static void MakeOptionsMutuallyExclusive(
             this Command command,
             Option option1,
             Option option2)
