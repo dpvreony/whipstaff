@@ -24,9 +24,9 @@ namespace Whipstaff.Runtime.Extensions
         /// <typeparam name="TResult">The target type for deserialization.</typeparam>
         /// <param name="stream">The stream to read from.</param>
         /// <returns>The deserialized object.</returns>
-        public static async Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream)
+        public static Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream)
         {
-            return await Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream)).ConfigureAwait(false);
+            return Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream));
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace Whipstaff.Runtime.Extensions
         /// <param name="stream">The stream to read from.</param>
         /// <param name="dataContractJsonSerializer">The Json Data Contract Serializer to use.</param>
         /// <returns>The deserialized object.</returns>
-        public static async Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
+        public static Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
         {
-            return await Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream, dataContractJsonSerializer)).ConfigureAwait(false);
+            return Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream, dataContractJsonSerializer));
         }
 
         /// <summary>

@@ -101,9 +101,11 @@ namespace Whipstaff.AspNetCore
         /// <param name="id">unique id of the entity to view. or null if being used to list.</param>
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+#pragma warning disable S6967
         public async Task<IActionResult> GetAsync(
             long? id,
             CancellationToken cancellationToken)
+#pragma warning restore S6967
         {
             if (!Request.IsHttps)
             {
