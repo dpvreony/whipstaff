@@ -130,9 +130,11 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("{id:long}")]
+#pragma warning disable S6967
         public async Task<ActionResult<TViewQueryResponse>> ViewAsync(
             long id,
             CancellationToken cancellationToken)
+#pragma warning restore S6967
         {
             var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
 

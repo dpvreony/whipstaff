@@ -80,13 +80,13 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 {
                     _ = await dbContext.Database.EnsureCreatedAsync();
 
-                    var entityCount = dbContext.FakeAddAudit.Count();
+                    var entityCount = await dbContext.FakeAddAudit.CountAsync();
                     Assert.Equal(0, entityCount);
 
-                    entityCount = dbContext.FakeAddPreProcessAudit.Count();
+                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync();
                     Assert.Equal(0, entityCount);
 
-                    entityCount = dbContext.FakeAddPostProcessAudit.Count();
+                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync();
                     Assert.Equal(0, entityCount);
                 }
 
@@ -98,13 +98,13 @@ namespace Whipstaff.UnitTests.Features.Mediatr
 
                 using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
-                    var entityCount = dbContext.FakeAddAudit.Count();
+                    var entityCount = await dbContext.FakeAddAudit.CountAsync();
                     Assert.Equal(1, entityCount);
 
-                    entityCount = dbContext.FakeAddPreProcessAudit.Count();
+                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync();
                     Assert.Equal(1, entityCount);
 
-                    entityCount = dbContext.FakeAddPostProcessAudit.Count();
+                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync();
                     Assert.Equal(1, entityCount);
                 }
 

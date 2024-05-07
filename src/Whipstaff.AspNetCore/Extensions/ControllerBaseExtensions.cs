@@ -81,6 +81,12 @@ namespace Whipstaff.AspNetCore.Extensions
                 return instance.Forbid();
             }
 
+            if (!instance.ModelState.IsValid)
+            {
+                logAction(logger, "Model State Invalid", null);
+                return instance.BadRequest(instance.ModelState);
+            }
+
             var query = await addCommandFactoryAsync(
                 addRequestDto,
                 user,
@@ -602,6 +608,12 @@ namespace Whipstaff.AspNetCore.Extensions
             {
                 logAction(logger, "Method Authorization Failed", null);
                 return instance.Forbid();
+            }
+
+            if (!instance.ModelState.IsValid)
+            {
+                logAction(logger, "Model State Invalid", null);
+                return instance.BadRequest(instance.ModelState);
             }
 
             var command = await updateCommandFactoryAsync(
