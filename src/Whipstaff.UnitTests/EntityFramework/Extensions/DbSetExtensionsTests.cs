@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -93,7 +94,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1 }, CancellationToken.None);
                     _ = await dbContext.SaveChangesAsync();
 
                     var result = await dbContext.FakeAddAudit.GetMaxIntIdOrDefaultAsync();
@@ -194,7 +195,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
+                    _ = await dbContext.FakeLongIdTable.AddAsync(new FakeLongIdTableDbSet());
                     _ = await dbContext.SaveChangesAsync();
 
                     var result = await dbContext.FakeLongIdTable.GetMaxLongIdOrDefaultAsync();
@@ -296,7 +297,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
                     _ = await dbContext.SaveChangesAsync();
 
                     var result = await dbContext.FakeAddAudit.GetMaxRowVersionOrDefaultAsync();
