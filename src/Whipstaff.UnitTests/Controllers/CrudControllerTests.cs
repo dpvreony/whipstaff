@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Whipstaff.Core;
+using Whipstaff.MediatR;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Xunit;

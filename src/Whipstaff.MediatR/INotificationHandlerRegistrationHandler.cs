@@ -2,12 +2,12 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Whipstaff.Core.Mediatr
+namespace Whipstaff.MediatR
 {
     /// <summary>
-    /// Registers a concrete type for handling Mediatr post processors.
+    /// Registers a concrete type for handling Mediatr notifications.
     /// </summary>
-    public interface IRequestPostProcessorRegistrationHandler : IMediatrRegistrationModel
+    public interface INotificationHandlerRegistrationHandler : IMediatrRegistrationModel
     {
     }
 }

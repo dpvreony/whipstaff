@@ -4,12 +4,11 @@
 
 using System;
 using System.Collections.Generic;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
 
-namespace Whipstaff.Core.Mediatr
+namespace Whipstaff.MediatR
 {
     /// <summary>
     /// Helper methods for registration mediatr without using reflection.
@@ -56,7 +55,7 @@ namespace Whipstaff.Core.Mediatr
                 mediatrRegistration.RequestPostProcessors,
                 serviceConfiguration.AddRequestPreProcessor);
 
-            MediatR.Registration.ServiceRegistrar.AddRequiredServices(services, serviceConfiguration);
+            global::MediatR.Registration.ServiceRegistrar.AddRequiredServices(services, serviceConfiguration);
         }
 
         private static void RegisterPipelineEvents<TRegistrationModel>(

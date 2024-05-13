@@ -4,6 +4,7 @@
 
 using System.Security.Claims;
 using Whipstaff.Core;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore
 {

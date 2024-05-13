@@ -3,10 +3,8 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Security.Claims;
-using MediatR;
-using Whipstaff.Core.Mediatr;
 
-namespace Whipstaff.Core
+namespace Whipstaff.MediatR
 {
     /// <summary>
     /// Represents a request that requires auditing.

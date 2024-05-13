@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Whipstaff.Core.Mediatr
+namespace Whipstaff.MediatR
 {
     /// <summary>
     /// Details the registration information to be used to set up mediatr.

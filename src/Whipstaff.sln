@@ -65,7 +65,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.EntityFramework.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.CommandLine.MarkdownGen.DotNetTool", "Whipstaff.CommandLine.MarkdownGen.DotNetTool\Whipstaff.CommandLine.MarkdownGen.DotNetTool.csproj", "{27EEBABA-2EDA-4E88-BBC0-EB7CDCDF5219}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers", "Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers.csproj", "{590F9098-871E-4268-8478-362554EF16B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers", "Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers.csproj", "{590F9098-871E-4268-8478-362554EF16B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.MediatR", "Whipstaff.MediatR\Whipstaff.MediatR.csproj", "{CA406584-0360-42B2-9F84-B2BF14293A9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,6 +199,10 @@ Global
 		{590F9098-871E-4268-8478-362554EF16B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{590F9098-871E-4268-8478-362554EF16B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{590F9098-871E-4268-8478-362554EF16B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.AspNetCore.Features.Logging;
 using Whipstaff.Core;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore
 {
