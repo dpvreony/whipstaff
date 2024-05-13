@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using Whipstaff.Core.Mediatr;
+using Whipstaff.MediatR;
 using Whipstaff.Testing.Cqrs;
 
 namespace Whipstaff.Testing.MediatR

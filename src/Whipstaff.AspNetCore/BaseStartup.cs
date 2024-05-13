@@ -31,7 +31,7 @@ using Whipstaff.AspNetCore.Features.AuditNet;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
 using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.AspNetCore.Swashbuckle;
-using Whipstaff.Core.Mediatr;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore
 {

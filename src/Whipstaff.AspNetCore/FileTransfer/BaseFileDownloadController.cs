@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.Core;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore.FileTransfer
 {

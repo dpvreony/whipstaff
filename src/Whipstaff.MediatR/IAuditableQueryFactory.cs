@@ -5,7 +5,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Whipstaff.Core
+namespace Whipstaff.MediatR
 {
     /// <summary>
     /// Represents a query factory for Auditable Requests.

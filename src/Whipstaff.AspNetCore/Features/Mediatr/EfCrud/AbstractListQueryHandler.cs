@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using DynamicData;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Whipstaff.Core.Mediatr;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
 {

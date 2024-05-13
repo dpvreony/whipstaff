@@ -5,7 +5,7 @@
 using System;
 using MediatR;
 
-namespace Whipstaff.Core.Mediatr
+namespace Whipstaff.MediatR
 {
     /// <summary>
     /// Registers a concrete type for MediatR notifications.
