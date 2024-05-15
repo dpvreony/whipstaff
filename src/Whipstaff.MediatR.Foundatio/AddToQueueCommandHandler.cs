@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Foundatio.Queues;
 using Microsoft.Extensions.Logging;
-using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.MediatR.Foundatio
 {

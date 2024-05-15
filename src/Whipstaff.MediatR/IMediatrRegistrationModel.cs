@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Whipstaff.Core.Mediatr
+namespace Whipstaff.MediatR
 {
     /// <summary>
     /// Represents a MediatR registration.

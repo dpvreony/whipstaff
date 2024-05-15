@@ -4,10 +4,10 @@
 
 using MediatR;
 
-namespace Whipstaff.Core.Mediatr
+namespace Whipstaff.MediatR
 {
     /// <summary>
-    /// Represents a MediatR Query. These extend the <see cref="MediatR.IRequest"/> to allow code by contract constraints downstream.
+    /// Represents a MediatR Query. These extend the <see cref="IRequest"/> to allow code by contract constraints downstream.
     /// </summary>
     /// <typeparam name="TQueryResponse">Response Type of the query.</typeparam>
 #pragma warning disable CA1040 // Avoid empty interfaces

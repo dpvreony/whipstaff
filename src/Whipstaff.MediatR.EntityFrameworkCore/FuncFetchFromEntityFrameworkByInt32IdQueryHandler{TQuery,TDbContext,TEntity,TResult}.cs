@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.Core.Entities;
-using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.MediatR.EntityFrameworkCore
 {

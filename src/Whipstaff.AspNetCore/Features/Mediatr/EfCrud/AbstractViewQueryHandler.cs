@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Whipstaff.Core.Mediatr;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
 {

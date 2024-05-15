@@ -12,4 +12,8 @@
     <PackageReference Include="ReactiveUI.WPF" Version="20.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
 </Project>

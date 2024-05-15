@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
   </ItemGroup>
 
 </Project>

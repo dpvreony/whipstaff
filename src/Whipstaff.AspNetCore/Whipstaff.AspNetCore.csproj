@@ -26,10 +26,10 @@
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="6.0.4" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Profiler.AspNetCore" Version="2.7.1" />
-    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="8.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="8.0.0" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.3.0" />
@@ -38,12 +38,13 @@
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.21.0" />
     <PackageReference Include="OwaspHeaders.Core" Version="8.0.0" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.62" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.1" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />-->
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
   </ItemGroup>
 
