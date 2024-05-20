@@ -29,6 +29,7 @@ namespace Whipstaff.Runtime.Extensions
             Func<KeyValuePair<TKey, TValue>, bool> predicate)
         {
             ArgumentNullException.ThrowIfNull(dictionary);
+            ArgumentNullException.ThrowIfNull(predicate);
 
 #pragma warning disable S3267
             foreach (var kvp in dictionary)
