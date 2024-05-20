@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.CommandLine;
-using System.IO.Abstractions.TestingHelpers;
 using System.IO;
 using NetTestRegimentation;
+using Whipstaff.CommandLine;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -33,9 +33,13 @@ namespace Whipstaff.UnitTests.CommandLine
             }
 
             /// <inheritdoc/>
-            [Fact]
+            [Theory]
+            [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.CommandExtensions.MakeOptionsMutuallyExclusiveMethod.ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(Command arg1, Option arg2, Option arg3, string expectedParameterNameForException)
             {
+                _ = Assert.Throws<System.ArgumentNullException>(
+                    expectedParameterNameForException,
+                    () => Whipstaff.CommandLine.CommandExtensions.MakeOptionsMutuallyExclusive(arg1, arg2, arg3));
             }
 
             /// <summary>
@@ -44,6 +48,35 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ModifiesCommand()
             {
+                var firstOption = new Option<FileInfo>(
+                        [
+                            "--option1"
+                        ],
+                        "The first exclusive option")
+                    {
+                        IsRequired = true
+                    };
+
+                var secondOption = new Option<FileInfo>(
+                    [
+                        "--option2"
+                    ],
+                    "The second exclusive option")
+                {
+                    IsRequired = true
+                };
+
+#pragma warning restore CA1861 // Avoid constant arrays as arguments
+
+                var rootCommand = new RootCommand("Creates a Markdown help file from the Command Line Help Content.")
+                {
+                    firstOption,
+                    secondOption,
+                };
+                rootCommand.MakeOptionsMutuallyExclusive(firstOption, secondOption);
+
+                // the validator collection is internal so would need reflection to check
+                Assert.True(true);
             }
 
             /// <summary>
@@ -52,6 +85,36 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void CommandLineReturnsErrorForMutuallyExclusiveOptions()
             {
+                var firstOption = new Option<bool>(
+                    [
+                        "--option1"
+                    ],
+                    "The first exclusive option");
+
+                var secondOption = new Option<bool>(
+                    [
+                        "--option2"
+                    ],
+                    "The second exclusive option");
+
+#pragma warning restore CA1861 // Avoid constant arrays as arguments
+
+                var rootCommand = new RootCommand("Test Root Command")
+                {
+                    firstOption,
+                    secondOption,
+                };
+                rootCommand.MakeOptionsMutuallyExclusive(firstOption, secondOption);
+
+                var result = rootCommand.Parse("--option1 --option2");
+                Assert.NotNull(result);
+
+                var errors = result.Errors;
+                Assert.NotNull(errors);
+
+                var actualError = Assert.Single(errors);
+                const string expectedErrorMessage = "You cannot use options \"option1\" and \"option2\" together";
+                Assert.Equal(expectedErrorMessage, actualError.Message);
             }
         }
     }

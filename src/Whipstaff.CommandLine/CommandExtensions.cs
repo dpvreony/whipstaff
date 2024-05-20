@@ -35,7 +35,7 @@ namespace Whipstaff.CommandLine
                 if (result.FindResultFor(option1) is not null &&
                     result.FindResultFor(option2) is not null)
                 {
-                    result.ErrorMessage = $"You cannot use options {option1.Name} and {option2.Name} together";
+                    result.ErrorMessage = $"You cannot use options \"{option1.Name}\" and \"{option2.Name}\" together";
                 }
             });
         }
