@@ -15,6 +15,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
     {
         private readonly Action<ILogger, Exception?> _startingHandleCommand;
         private readonly Action<ILogger, Exception?> _failedToFindRootCommand;
+        private readonly Action<ILogger, Exception?> _unhandledException;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJobLogMessageActions"/> class.
@@ -30,6 +31,11 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
                 LogLevel.Error,
                 JobEventIdFactory.FailedToFindRootCommand(),
                 "Failed to find root command.");
+
+            _unhandledException = LoggerMessage.Define(
+                LogLevel.Error,
+                JobEventIdFactory.UnhandledException(),
+                "Unhandled Exception.");
         }
 
         internal void StartingHandleCommand(ILogger<CommandLineJob> logger)
@@ -40,6 +46,11 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         internal void FailedToFindRootCommand(ILogger<CommandLineJob> logger)
         {
             _failedToFindRootCommand(logger, null);
+        }
+
+        internal void UnhandledException(ILogger<CommandLineJob> logger, Exception exception)
+        {
+            _unhandledException(logger, exception);
         }
     }
 }

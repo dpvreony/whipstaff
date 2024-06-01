@@ -78,7 +78,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
                             "filename",
                             "name"
                         ],
-                        (_, _) => new FakeCommandLineHandler(),
+                        (_, _) => new FakeCommandLineHandler(new FakeCommandLineHandlerLogMessageActionsWrapper(Log.CreateLogger<FakeCommandLineHandler>())),
                         new MockFileSystem(),
                         testConsole);
 

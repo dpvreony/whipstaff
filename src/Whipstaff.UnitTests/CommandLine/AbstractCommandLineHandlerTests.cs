@@ -3,24 +3,23 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
-using Whipstaff.CommandLine.MarkdownGen.DotNetTool;
-using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
+using Whipstaff.CommandLine;
+using Whipstaff.Testing.CommandLine;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
+namespace Whipstaff.UnitTests.CommandLine
 {
     /// <summary>
-    /// Unit tests for the <see cref="CommandLineJob"/> class.
+    /// Unit tests for the <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}"/> class.
     /// </summary>
-    public static class CommandLineJobTests
+    public static class AbstractCommandLineHandlerTests
     {
         /// <summary>
-        /// Unit test for <see cref="CommandLineJob"/> constructor.
+        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}"/> constructor.
         /// </summary>
         public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
         {
@@ -35,11 +34,11 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
         }
 
         /// <summary>
-        /// Unit test for <see cref="CommandLineJob.OnHandleCommand(CommandLineArgModel)"/> method.
+        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommand(TCommandLineArgModel)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : Foundatio.Xunit.TestWithLoggingBase,
-                ITestAsyncMethodWithNullableParameters<CommandLineArgModel>
+                ITestAsyncMethodWithNullableParameters<FakeCommandLineArgModel>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="HandleCommandMethod"/> class.
@@ -51,22 +50,17 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
             }
 
             /// <inheritdoc/>
-            [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.MarkdownGen.DotNetTool.CommandLineJobTests.HandleCommand.ThrowsArgumentNullExceptionAsyncTestSource))]
+            [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.AbstractCommandLineHandlerTests.HandleCommand.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
-                CommandLineArgModel arg,
+                FakeCommandLineArgModel arg,
                 string expectedParameterNameForException)
             {
-                var logger = Log.CreateLogger<CommandLineJob>();
-                var instance = new CommandLineJob(
-                    new CommandLineJobLogMessageActionsWrapper(
-                        new CommandLineJobLogMessageActions(),
-                        logger),
-                    new MockFileSystem());
+                var logger = Log.CreateLogger<FakeCommandLineHandler>();
+                var instance = new FakeCommandLineHandler(
+                    new FakeCommandLineHandlerLogMessageActionsWrapper(logger));
 
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(
-                    expectedParameterNameForException,
-                    () => instance.HandleCommand(arg));
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommand(arg));
             }
         }
     }

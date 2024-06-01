@@ -36,7 +36,7 @@ namespace Whipstaff.Testing.CommandLine
             ArgumentNullException.ThrowIfNull(bindingContext);
             var fileName = bindingContext.ParseResult.GetValueForArgument(_fileArgument);
             var name = bindingContext.ParseResult.GetValueForArgument(_nameArgument);
-            return new FakeCommandLineArgModel(fileName, name);
+            return new FakeCommandLineArgModel(fileName, name, null);
         }
     }
 }

@@ -11,5 +11,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         internal static EventId StartingHandleCommand() => new(1, nameof(StartingHandleCommand));
 
         internal static EventId FailedToFindRootCommand() => new(2, nameof(StartingHandleCommand));
+
+        internal static EventId UnhandledException() => new(3, nameof(UnhandledException));
     }
 }
