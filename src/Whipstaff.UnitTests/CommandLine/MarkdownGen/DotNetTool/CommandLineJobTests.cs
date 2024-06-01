@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
         }
 
         /// <summary>
-        /// Unit test for <see cref="CommandLineJob.HandleCommand(CommandLineArgModel)"/> method.
+        /// Unit test for <see cref="CommandLineJob.OnHandleCommand(CommandLineArgModel)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : Foundatio.Xunit.TestWithLoggingBase,

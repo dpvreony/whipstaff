@@ -3,24 +3,20 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.CommandLine;
 using System.IO.Abstractions;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Whipstaff.CommandLine.DocumentationGenerator;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
-using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
 {
     /// <summary>
     /// Command line job for handling the creation of the Entity Framework Diagram.
     /// </summary>
-    public sealed class CommandLineJob : ICommandLineHandler<CommandLineArgModel>
+    public sealed class CommandLineJob : AbstractCommandLineHandler<CommandLineArgModel, CommandLineJobLogMessageActionsWrapper>
     {
-        private readonly CommandLineJobLogMessageActionsWrapper _commandLineJobLogMessageActionsWrapper;
         private readonly IFileSystem _fileSystem;
 
         /// <summary>
@@ -31,22 +27,21 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         public CommandLineJob(
             CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper,
             IFileSystem fileSystem)
+            : base(commandLineJobLogMessageActionsWrapper)
         {
-            ArgumentNullException.ThrowIfNull(commandLineJobLogMessageActionsWrapper);
             ArgumentNullException.ThrowIfNull(fileSystem);
 
-            _commandLineJobLogMessageActionsWrapper = commandLineJobLogMessageActionsWrapper;
             _fileSystem = fileSystem;
         }
 
         /// <inheritdoc/>
-        public Task<int> HandleCommand(CommandLineArgModel commandLineArgModel)
+        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
 
             return Task.Run(() =>
             {
-                _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();
+                LogMessageActionsWrapper.StartingHandleCommand();
 #pragma warning disable S3885
                 var assembly = Assembly.LoadFile(commandLineArgModel.AssemblyPath.FullName);
 #pragma warning restore S3885
@@ -56,7 +51,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
 
                 if (rootCommand == null)
                 {
-                    _commandLineJobLogMessageActionsWrapper.FailedToFindRootCommand();
+                    LogMessageActionsWrapper.FailedToFindRootCommand();
                     return 1;
                 }
 
