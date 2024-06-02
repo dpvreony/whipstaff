@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
     <ProjectReference Include="..\Whipstaff.CommandLine\Whipstaff.CommandLine.csproj" />
-    <ProjectReference Include="..\Whipstaff.Entityframework.Relational\Whipstaff.Entityframework.Relational.csproj" />
+    <ProjectReference Include="..\Whipstaff.Entityframework.Relational\Whipstaff.EntityFramework.Relational.csproj" />
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
   </ItemGroup>
 

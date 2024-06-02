@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Windows", "Whipst
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.ReactiveUI", "Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj", "{FC16B508-41FF-47CE-A16A-A8AB3B26309A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Entityframework.Relational", "Whipstaff.Entityframework.Relational\Whipstaff.Entityframework.Relational.csproj", "{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.EntityFramework.Relational", "Whipstaff.Entityframework.Relational\Whipstaff.EntityFramework.Relational.csproj", "{783BF3CB-4095-4C5F-8C0C-D5E17979CC56}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Couchbase", "Whipstaff.Couchbase\Whipstaff.Couchbase.csproj", "{8107A239-69D2-40AC-918B-59A77159EC52}"
 EndProject
@@ -69,11 +69,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.TestableIO.System
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.MediatR", "Whipstaff.MediatR\Whipstaff.MediatR.csproj", "{CA406584-0360-42B2-9F84-B2BF14293A9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor", "Whipstaff.Blazor\Whipstaff.Blazor.csproj", "{BF1B67B7-C9DC-42AC-8705-A5EC00586001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Blazor", "Whipstaff.Blazor\Whipstaff.Blazor.csproj", "{BF1B67B7-C9DC-42AC-8705-A5EC00586001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.WinUI", "Whipstaff.WinUI\Whipstaff.WinUI.csproj", "{CDA114BC-FC80-4F8D-89FC-255D889E1E23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.WinUI", "Whipstaff.WinUI\Whipstaff.WinUI.csproj", "{CDA114BC-FC80-4F8D-89FC-255D889E1E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Maui", "Whipstaff.Maui\Whipstaff.Maui.csproj", "{9F1CB727-0915-4A34-9B36-8CF7401B784A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Maui", "Whipstaff.Maui\Whipstaff.Maui.csproj", "{9F1CB727-0915-4A34-9B36-8CF7401B784A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
