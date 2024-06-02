@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Whipstaff.Entityframework.Relational
+namespace Whipstaff.EntityFramework.Relational
 {
     /// <summary>
     /// Entity Framework Model Builder Helpers for SQL Lite.
