@@ -15,10 +15,10 @@ namespace Whipstaff.CsvHelper
         /// <summary>
         /// Adds the ISO 8601 date time converter options to the type converter options cache.
         /// </summary>
-        /// <param name="cache">Type convertor cache to modify.</param>
-        public static void AddTypeIso8601DateTimeConverterOptions(this TypeConverterOptionsCache cache)
+        /// <param name="typeConverterOptionsCache">Type convertor cache to modify.</param>
+        public static void AddTypeIso8601DateTimeConverterOptions(this TypeConverterOptionsCache typeConverterOptionsCache)
         {
-            ArgumentNullException.ThrowIfNull(cache);
+            ArgumentNullException.ThrowIfNull(typeConverterOptionsCache);
 
             var dateOptions = new TypeConverterOptions
             {
@@ -26,8 +26,8 @@ namespace Whipstaff.CsvHelper
                     "yyyy-MM-dd"
                 ]
             };
-            cache.AddOptions<DateOnly>(dateOptions);
-            cache.AddOptions<DateOnly?>(dateOptions);
+            typeConverterOptionsCache.AddOptions<DateOnly>(dateOptions);
+            typeConverterOptionsCache.AddOptions<DateOnly?>(dateOptions);
 
             var dateTimeOptions = new TypeConverterOptions
             {
@@ -35,8 +35,8 @@ namespace Whipstaff.CsvHelper
                     "O"
                 ]
             };
-            cache.AddOptions<DateTime>(dateTimeOptions);
-            cache.AddOptions<DateTime?>(dateTimeOptions);
+            typeConverterOptionsCache.AddOptions<DateTime>(dateTimeOptions);
+            typeConverterOptionsCache.AddOptions<DateTime?>(dateTimeOptions);
         }
     }
 }
