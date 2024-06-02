@@ -25,7 +25,7 @@ namespace Whipstaff.EntityFramework.Extensions
         public static int? GetMaxIntIdOrDefault<TEntity>(this DbSet<TEntity> dbSet)
             where TEntity : class, IIntId
         {
-            return dbSet.Max(x => (int?)x.Id);
+            return dbSet.TagWithCallerMemberAndCallSite().Max(x => (int?)x.Id);
         }
 
         /// <summary>
