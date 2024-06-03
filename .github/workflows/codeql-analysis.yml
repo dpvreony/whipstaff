@@ -109,6 +109,10 @@ jobs:
       run: |
         dotnet restore ${{ env.SOLUTION_PATH }}
 
+    - name: Changelog
+      uses: glennawatson/ChangeLog@v1
+      id: changelog
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
@@ -121,8 +125,10 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build /p:Configuration=Release /maxcpucount /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget /p:UseSharedCompilation=false
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:../artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true 
       working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     # CodeQL runs out of disk space so we remove the src folder once we've finished build
     - name: Remove src dir

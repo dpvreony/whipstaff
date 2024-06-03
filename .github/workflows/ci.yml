@@ -212,6 +212,8 @@ jobs:
       run: |
         dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:..\\artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
       working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     - name: List licenses
       run: |
