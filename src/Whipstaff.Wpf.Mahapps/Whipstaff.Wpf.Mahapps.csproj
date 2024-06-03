@@ -23,6 +23,6 @@
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff.Wpf</Vetuviem_Root_Namespace>
-    <Vetuviem_Assemblies>ControlzEx.dll;Mahapps.Metro.dll;MahApps.Metro.SimpleChildWindow.dll</Vetuviem_Assemblies>
+    <Vetuviem_Assemblies>ControlzEx.dll;MahApps.Metro.dll;MahApps.Metro.SimpleChildWindow.dll</Vetuviem_Assemblies>
   </PropertyGroup>
 </Project>
