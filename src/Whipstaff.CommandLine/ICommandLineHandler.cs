@@ -9,7 +9,7 @@ namespace Whipstaff.CommandLine
     /// <summary>
     /// Represents a command line handler.
     /// </summary>
-    /// <typeparam name="TCommandLineArgModel">Model representing the command line arguments.</typeparam>
+    /// <typeparam name="TCommandLineArgModel">Type representing the command line arguments model.</typeparam>
     public interface ICommandLineHandler<in TCommandLineArgModel>
     {
         /// <summary>

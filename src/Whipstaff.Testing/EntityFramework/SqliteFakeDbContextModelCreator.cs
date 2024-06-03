@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.EntityFramework.ModelCreation;
-using Whipstaff.Entityframework.Relational;
+using Whipstaff.EntityFramework.Relational;
 
 namespace Whipstaff.Testing.EntityFramework
 {

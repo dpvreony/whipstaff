@@ -5,13 +5,14 @@
 using System;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
+using Whipstaff.Core.Logging.MessageActionWrappers;
 
 namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 {
     /// <summary>
     /// Log Message actions wrapper for <see cref="CommandLineJob" />.
     /// </summary>
-    public sealed class CommandLineJobLogMessageActionsWrapper : ILogMessageActionsWrapper<CommandLineJob>
+    public sealed class CommandLineJobLogMessageActionsWrapper : ILogMessageActionsWrapper<CommandLineJob>, IWrapLogMessageActionUnhandledException
     {
         private readonly CommandLineJobLogMessageActions _commandLineJobLogMessageActions;
 
@@ -56,6 +57,12 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
             _commandLineJobLogMessageActions.FailedToFindDbContext(
                 Logger,
                 dbContextName);
+        }
+
+        /// <inheritdoc />
+        public void UnhandledException(Exception exception)
+        {
+            _commandLineJobLogMessageActions.UnhandledException(Logger, exception);
         }
     }
 }

@@ -20,9 +20,8 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// <summary>
     /// Command line job for handling the creation of the Entity Framework Diagram.
     /// </summary>
-    public sealed class CommandLineJob : ICommandLineHandler<CommandLineArgModel>
+    public sealed class CommandLineJob : AbstractCommandLineHandler<CommandLineArgModel, CommandLineJobLogMessageActionsWrapper>
     {
-        private readonly CommandLineJobLogMessageActionsWrapper _commandLineJobLogMessageActionsWrapper;
         private readonly IFileSystem _fileSystem;
 
         /// <summary>
@@ -33,16 +32,15 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         public CommandLineJob(
             CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper,
             IFileSystem fileSystem)
+            : base(commandLineJobLogMessageActionsWrapper)
         {
-            ArgumentNullException.ThrowIfNull(commandLineJobLogMessageActionsWrapper);
             ArgumentNullException.ThrowIfNull(fileSystem);
 
-            _commandLineJobLogMessageActionsWrapper = commandLineJobLogMessageActionsWrapper;
             _fileSystem = fileSystem;
         }
 
         /// <inheritdoc/>
-        public Task<int> HandleCommand(CommandLineArgModel commandLineArgModel)
+        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel)
         {
             return Task.Run(() =>
             {
@@ -71,7 +69,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                     return null;
                 };
 
-                _commandLineJobLogMessageActionsWrapper.StartingHandleCommand();
+                LogMessageActionsWrapper.StartingHandleCommand();
 
 #pragma warning disable S3885
                 var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
@@ -89,7 +87,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 
                 if (dbContext == null)
                 {
-                    _commandLineJobLogMessageActionsWrapper.FailedToFindDbContext(dbContextName);
+                    LogMessageActionsWrapper.FailedToFindDbContext(dbContextName);
                     return 1;
                 }
 

@@ -25,7 +25,7 @@ namespace Whipstaff.EntityFramework.Extensions
         public static int? GetMaxIntIdOrDefault<TEntity>(this DbSet<TEntity> dbSet)
             where TEntity : class, IIntId
         {
-            return dbSet.Max(x => (int?)x.Id);
+            return dbSet.TagWithCallerMemberAndCallSite().Max(x => (int?)x.Id);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Whipstaff.EntityFramework.Extensions
         public static Task<int?> GetMaxIntIdOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet)
             where TEntity : class, IIntId
         {
-            return dbSet.MaxAsync(x => (int?)x.Id);
+            return dbSet.TagWithCallerMemberAndCallSite().MaxAsync(x => (int?)x.Id);
         }
 
         /// <summary>
@@ -49,7 +49,8 @@ namespace Whipstaff.EntityFramework.Extensions
         public static long? GetMaxLongIdOrDefault<TEntity>(this DbSet<TEntity> dbSet)
             where TEntity : class, ILongId
         {
-            return dbSet.Max(x => (long?)x.Id);
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Max(x => (long?)x.Id);
         }
 
         /// <summary>
@@ -61,7 +62,8 @@ namespace Whipstaff.EntityFramework.Extensions
         public static Task<long?> GetMaxLongIdOrDefaultAsync<TEntity>(this DbSet<TEntity> dbSet)
             where TEntity : class, ILongId
         {
-            return dbSet.MaxAsync(x => (long?)x.Id);
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .MaxAsync(x => (long?)x.Id);
         }
 
         /// <summary>
@@ -75,7 +77,8 @@ namespace Whipstaff.EntityFramework.Extensions
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             // NRT contract doesn't cater that there can be no rows returned.
-            return dbSet.Max(x => x != null ? x.RowVersion : default(ulong?));
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Max(x => x != null ? x.RowVersion : default(ulong?));
         }
 
         /// <summary>
@@ -89,7 +92,8 @@ namespace Whipstaff.EntityFramework.Extensions
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
             // NRT contract doesn't cater that there can be no rows returned.
-            return dbSet.MaxAsync(x => x != null ? x.RowVersion : default(ulong?));
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .MaxAsync(x => x != null ? x.RowVersion : default(ulong?));
         }
 
         /// <summary>
@@ -109,7 +113,8 @@ namespace Whipstaff.EntityFramework.Extensions
             int takeRecords)
             where TEntity : class, ILongRowVersion
         {
-            return dbSet.Where(x => x.RowVersion > greaterThanRowVersion && x.RowVersion <= maxRowVersion)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.RowVersion > greaterThanRowVersion && x.RowVersion <= maxRowVersion)
                 .Take(takeRecords);
         }
 
@@ -125,7 +130,8 @@ namespace Whipstaff.EntityFramework.Extensions
             int id)
             where TEntity : class, IIntId
         {
-            return dbSet.Where(x => x.Id > id);
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id);
         }
 
         /// <summary>
@@ -142,7 +148,8 @@ namespace Whipstaff.EntityFramework.Extensions
             int takeRecords)
             where TEntity : class, IIntId
         {
-            return dbSet.Where(x => x.Id > id)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id)
                 .Take(takeRecords);
         }
 
@@ -161,7 +168,8 @@ namespace Whipstaff.EntityFramework.Extensions
             Expression<Func<TEntity, TResult>> selector)
             where TEntity : class, IIntId
         {
-            return dbSet.Where(x => x.Id > id)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id)
                 .Select(selector);
         }
 
@@ -182,7 +190,8 @@ namespace Whipstaff.EntityFramework.Extensions
             Expression<Func<TEntity, TResult>> selector)
             where TEntity : class, IIntId
         {
-            return dbSet.Where(x => x.Id > id)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id)
                 .Take(takeRecords)
                 .Select(selector);
         }
@@ -199,7 +208,8 @@ namespace Whipstaff.EntityFramework.Extensions
             long id)
             where TEntity : class, ILongId
         {
-            return dbSet.Where(x => x.Id > id);
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id);
         }
 
         /// <summary>
@@ -216,7 +226,8 @@ namespace Whipstaff.EntityFramework.Extensions
             int takeRecords)
             where TEntity : class, ILongId
         {
-            return dbSet.Where(x => x.Id > id)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id)
                 .Take(takeRecords);
         }
 
@@ -235,7 +246,8 @@ namespace Whipstaff.EntityFramework.Extensions
             Expression<Func<TEntity, TResult>> selector)
             where TEntity : class, ILongId
         {
-            return dbSet.Where(x => x.Id > id)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id)
                 .Select(selector);
         }
 
@@ -256,7 +268,8 @@ namespace Whipstaff.EntityFramework.Extensions
             Expression<Func<TEntity, TResult>> selector)
             where TEntity : class, ILongId
         {
-            return dbSet.Where(x => x.Id > id)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.Id > id)
                 .Take(takeRecords)
                 .Select(selector);
         }
@@ -273,7 +286,8 @@ namespace Whipstaff.EntityFramework.Extensions
             ulong id)
             where TEntity : class, ILongRowVersion
         {
-            return dbSet.Where(x => x.RowVersion > id);
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.RowVersion > id);
         }
 
         /// <summary>
@@ -290,7 +304,8 @@ namespace Whipstaff.EntityFramework.Extensions
             int takeRecords)
             where TEntity : class, ILongRowVersion
         {
-            return dbSet.Where(x => x.RowVersion > rowVersion)
+            return dbSet.TagWithCallerMemberAndCallSite()
+                .Where(x => x.RowVersion > rowVersion)
                 .Take(takeRecords);
         }
     }
