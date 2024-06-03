@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
@@ -10,7 +10,7 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.10" />
     <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
-    <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.10.3">
+    <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.10.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -22,8 +22,7 @@
 
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
-    <Vetuviem_Root_Namespace>Whipstaff.Wpf.Mahapps</Vetuviem_Root_Namespace>
+    <Vetuviem_Root_Namespace>Whipstaff.Wpf</Vetuviem_Root_Namespace>
     <Vetuviem_Assemblies>ControlzEx.dll;Mahapps.Metro.dll;MahApps.Metro.SimpleChildWindow.dll</Vetuviem_Assemblies>
-    <Vetuviem_Base_Namespace>Whipstaff.Wpf</Vetuviem_Base_Namespace>
   </PropertyGroup>
 </Project>
