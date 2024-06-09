@@ -6,7 +6,7 @@ using System.Windows;
 using MahApps.Metro.Controls;
 using ReactiveUI;
 
-namespace Whipstaff.Wpf.Mahapps
+namespace Whipstaff.Wpf.Mahapps.MetroWindow
 {
     /// <summary>
     /// A <see cref="MetroWindow"/> that is reactive.
@@ -40,7 +40,7 @@ namespace Whipstaff.Wpf.Mahapps
     /// <typeparam name="TViewModel">
     /// The type of the view model backing the view.
     /// </typeparam>
-    public class ReactiveMetroWindow<TViewModel> : MetroWindow, IViewFor<TViewModel>
+    public class ReactiveMetroWindow<TViewModel> : MahApps.Metro.Controls.MetroWindow, IViewFor<TViewModel>
         where TViewModel : class
     {
         /// <summary>
@@ -50,7 +50,7 @@ namespace Whipstaff.Wpf.Mahapps
         public static readonly DependencyProperty ViewModelProperty =
 #pragma warning restore RCS1158 // Static member in generic type should use a type parameter.
             DependencyProperty.Register(
-                "ViewModel",
+                nameof(ViewModel),
                 typeof(TViewModel),
                 typeof(ReactiveMetroWindow<TViewModel>),
                 new PropertyMetadata(null));
