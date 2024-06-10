@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
-    <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
   </ItemGroup>
 
