@@ -74,7 +74,7 @@ namespace Whipstaff.Wpf
        /// </summary>
         private static void DoReactiveUIInitialization()
         {
-            ReactiveUI.PlatformRegistrationManager.SetRegistrationNamespaces(RegistrationNamespace.Wpf);
+            global::ReactiveUI.PlatformRegistrationManager.SetRegistrationNamespaces(RegistrationNamespace.Wpf);
         }
 
         private static void OnDispatcherUnhandledException(DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs)
