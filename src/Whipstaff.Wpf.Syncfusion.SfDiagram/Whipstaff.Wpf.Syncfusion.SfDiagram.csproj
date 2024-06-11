@@ -3,19 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <PackageDescription>Re-usable logic for working with WPF and Mahapps Metro.</PackageDescription>
+    <PackageDescription>Re-usable logic for working with SyncFusion WPF Diagram Control.</PackageDescription>
+    <NoWarn>CS0618</NoWarn>
   </PropertyGroup>
 
-  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
-    <PropertyGroup>
-      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
-    </PropertyGroup>
-  </Target>
-
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
-    <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
+    <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="25.2.7" />
     <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.10.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,6 +23,6 @@
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
-    <Vetuviem_Assemblies>ControlzEx.dll,MahApps.Metro.dll,MahApps.Metro.SimpleChildWindow.dll</Vetuviem_Assemblies>
+    <Vetuviem_Assemblies>Syncfusion.SfDiagram.WPF.dll,Syncfusion.Shared.WPF.dll</Vetuviem_Assemblies>
   </PropertyGroup>
 </Project>
