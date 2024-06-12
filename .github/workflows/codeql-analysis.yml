@@ -99,7 +99,7 @@ jobs:
         dotnet workload install android ios tvos macos maui
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@70b70342ae97ca98d5eaad06cafd26d30f9592a9
+      uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
