@@ -35,7 +35,7 @@
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.3.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.3.8" />
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.21.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.22.0" />
     <PackageReference Include="OwaspHeaders.Core" Version="8.1.0" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.62" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
