@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
-    <PackageDescription>Core re-usable logic for working on .NET</PackageDescription>
+    <PackageDescription>re-usable logic for working with MediatR.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
