@@ -30,11 +30,16 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvReaderExtensions
         [Fact]
         public void Succeeds()
         {
-            using (var csvReader = new CsvReader(TextReader.Null, CultureInfo.InvariantCulture))
+            var stringReader = new StringReader("2024-06-22,2024-06-22T10:29:14.0466273+01:00");
+            using (var csvReader = new CsvReader(stringReader, CultureInfo.InvariantCulture))
             {
                 csvReader.AddTypeIso8601DateTimeConverterOptions();
                 Assert.NotNull(csvReader.Context.TypeConverterOptionsCache.GetOptions<DateOnly>());
                 Assert.NotNull(csvReader.Context.TypeConverterOptionsCache.GetOptions<DateTime>());
+
+                Assert.True(csvReader.Read());
+                Assert.Equal(new DateOnly(2024, 6, 22), csvReader.GetField<DateOnly>(0));
+                Assert.Equal(DateTime.Parse("2024-06-22T10:29:14.0466273+01:00", CultureInfo.InvariantCulture), csvReader.GetField<DateTime>(1));
             }
         }
     }

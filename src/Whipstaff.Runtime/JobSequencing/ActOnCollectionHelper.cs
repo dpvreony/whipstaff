@@ -11,7 +11,9 @@ namespace Whipstaff.Runtime.JobSequencing
     /// </summary>
     /// <typeparam name="TCollection">The type for the collection.</typeparam>
     /// <typeparam name="TItem">The type for the item in the collection.</typeparam>
+#pragma warning disable S1694 // An abstract class should have both abstract and concrete methods
     public abstract class ActOnCollectionHelper<TCollection, TItem>
+#pragma warning restore S1694 // An abstract class should have both abstract and concrete methods
     {
         /// <summary>
         /// Action to carry out on the collection.
