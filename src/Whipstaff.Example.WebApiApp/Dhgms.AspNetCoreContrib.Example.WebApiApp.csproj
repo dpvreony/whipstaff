@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
-    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.21.0" />
+    <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.22.0" />
   </ItemGroup>
 
   <ItemGroup>
