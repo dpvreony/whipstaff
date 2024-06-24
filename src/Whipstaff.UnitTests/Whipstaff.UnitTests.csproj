@@ -41,6 +41,7 @@
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
     <ProjectReference Include="..\Whipstaff.Maui\Whipstaff.Maui.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
+    <ProjectReference Include="..\Whipstaff.Mermaid\Whipstaff.Mermaid.csproj" />
     <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
     <ProjectReference Include="..\Whipstaff.Syncfusion.Pdf\Whipstaff.Syncfusion.Pdf.csproj" />
@@ -59,6 +60,10 @@
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mermaid\" />
   </ItemGroup>
 
 </Project>

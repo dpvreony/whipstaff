@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
+using Whipstaff.Core.Logging;
 using Whipstaff.Mermaid.HttpServer;
+using Whipstaff.Playwright;
 
 namespace Whipstaff.Mermaid.Playwright
 {
@@ -19,18 +19,22 @@ namespace Whipstaff.Mermaid.Playwright
     /// </summary>
     public sealed class PlaywrightRenderer
     {
-        private readonly TestServer _mermaidHttpServerFactory;
-        private readonly ILogger<PlaywrightRenderer> _logger;
+        private readonly MermaidHttpServer _mermaidHttpServerFactory;
+        private readonly PlaywrightRendererLogMessageActionsWrapper _logMessageActionsWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaywrightRenderer"/> class.
         /// </summary>
-        /// <param name="loggerFactory">Logging framework instance.</param>
-        public PlaywrightRenderer(ILoggerFactory loggerFactory)
+        /// <param name="mermaidHttpServer">In memory http server instance for Mermaid.</param>
+        /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
+        public PlaywrightRenderer(
+            MermaidHttpServer mermaidHttpServer,
+            PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
         {
-            ArgumentNullException.ThrowIfNull(loggerFactory);
-            _logger = loggerFactory.CreateLogger<PlaywrightRenderer>();
-            _mermaidHttpServerFactory = MermaidHttpServerFactory.GetTestServer(loggerFactory);
+            ArgumentNullException.ThrowIfNull(mermaidHttpServer);
+            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
+            _mermaidHttpServerFactory = mermaidHttpServer;
+            _logMessageActionsWrapper = logMessageActionsWrapper;
         }
 
         /// <summary>
@@ -73,11 +77,13 @@ namespace Whipstaff.Mermaid.Playwright
 
                 if (pageResponse == null)
                 {
+                    _logMessageActionsWrapper.FailedToGetPageResponse();
                     return null;
                 }
 
                 if (!pageResponse.Ok)
                 {
+                    _logMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
                     return null;
                 }
 
@@ -89,6 +95,7 @@ namespace Whipstaff.Mermaid.Playwright
 
                 if (mermaidElement == null)
                 {
+                    _logMessageActionsWrapper.FailedToFindMermaidElement();
                     return null;
                 }
 
@@ -218,16 +225,8 @@ namespace Whipstaff.Mermaid.Playwright
                 var response = await client.SendAsync(request)
                     .ConfigureAwait(false);
 
-                var routeFulfillOptions = new RouteFulfillOptions
-                {
-                    Status = (int)response.StatusCode,
-                    Body = await response.Content.ReadAsStringAsync().ConfigureAwait(false),
-                };
-
-                if (response.Content.Headers.ContentType != null)
-                {
-                    routeFulfillOptions.ContentType = response.Content.Headers.ContentType.ToString();
-                }
+                var routeFulfillOptions = await RouteFulfillOptionsFactory.FromHttpResponseMessageAsync(response)
+                    .ConfigureAwait(false);
 
                 await route.FulfillAsync(routeFulfillOptions)
                     .ConfigureAwait(false);

@@ -25,10 +25,10 @@ namespace Whipstaff.Mermaid.HttpServer
         /// </summary>
         /// <param name="loggerFactory">Logging Factory.</param>
         /// <returns>In memory HTTP server instance.</returns>
-        public static TestServer GetTestServer(ILoggerFactory loggerFactory)
+        public static MermaidHttpServer GetTestServer(ILoggerFactory loggerFactory)
         {
             var builder = GetWebHostBuilder(loggerFactory);
-            var testServer = new TestServer(builder);
+            var testServer = new MermaidHttpServer(builder);
             return testServer;
         }
 
