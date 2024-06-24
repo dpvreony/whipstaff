@@ -22,14 +22,6 @@ jobs:
       unittestprojectpath: Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
       inttestprojectpath: Whipstaff.IntegrationTests/Whipstaff.IntegrationTests.csproj
       benchmarkprojectpath: Whipstaff.IntegrationTests/Whipstaff.Benchmarks.csproj
-    strategy:
-      fail-fast: false
-      matrix:
-        npm_restore:
-          [
-             'src\Whipstaff.Example.WebMvcApp\',
-             'src\Whipstaff.Mermaid\',
-          ]
     steps:
     - name: Checkout code
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
