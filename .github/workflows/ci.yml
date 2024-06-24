@@ -130,11 +130,15 @@ jobs:
 
     - name: NPM package restore
       run: |
-        pushd ${{ npm_path }}
+        pushd src\Whipstaff.Example.WebMvcApp\
         npm install
         popd
-        with:
-          npm_path : ${{ matrix.npm_restore }}
+
+    - name: NPM package restore
+      run: |
+        pushd src\Whipstaff.Mermaid\
+        npm install
+        popd
 
     - name: Changelog
       uses: glennawatson/ChangeLog@v1
