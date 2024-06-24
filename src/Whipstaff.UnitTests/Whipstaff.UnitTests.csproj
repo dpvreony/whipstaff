@@ -66,4 +66,7 @@
     <Folder Include="Mermaid\" />
   </ItemGroup>
 
+  <Target Name="InstallPlaywrightBrowsers" AfterTargets="Build">
+    <Exec Command="pwsh $(OutDir)playwright.ps1 install" ConsoleToMSBuild="true" LogStandardErrorAsError="true" />
+  </Target>
 </Project>
