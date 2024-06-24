@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);NU5128;NU5100</NoWarn>
+    <PackageDescription>re-usable logic for working with Mermaid within an InMemory HTTP service.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.44.0" />
+    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
+  </ItemGroup>
+
+  <!-- these tasks remove the need for gulp, grunt, npm, etc. to be used for file copying -->
+  <ItemGroup>
+    <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.js" />
+    <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.mjs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="HttpServer\.gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HttpServer\wwwroot\" />
+  </ItemGroup>
+  <Target Name="CopyNpmTasks" BeforeTargets="BeforeBuild">
+    <Message Text="Starting NPM Package Copy Task" />
+    <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmMermaidFilesToCopy)" DestinationFiles="@(NpmMermaidFilesToCopy->'$(ProjectDir)HttpServer\wwwroot\lib\mermaid\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <ItemGroup>
+      <EmbeddedResource Include="HttpServer\wwwroot\**\*.*" />
+    </ItemGroup>
+  </Target>
+
+</Project>
