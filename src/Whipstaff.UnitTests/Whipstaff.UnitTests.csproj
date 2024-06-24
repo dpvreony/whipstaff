@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp8.0-windows10.0.19041</TargetFrameworks>
@@ -66,7 +66,9 @@
     <Folder Include="Mermaid\" />
   </ItemGroup>
 
+  <!--
   <Target Name="InstallPlaywrightBrowsers" AfterTargets="Build">
     <Exec Command="pwsh $(OutDir)playwright.ps1 install" ConsoleToMSBuild="true" LogStandardErrorAsError="true" />
   </Target>
+  -->
 </Project>
