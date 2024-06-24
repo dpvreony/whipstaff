@@ -114,7 +114,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => instance.GetDiagram(arg));
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => instance.GetDiagram(arg, PlaywrightBrowserType.Chromium, null));
 
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -137,7 +137,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
-                var diagramResponseModel = await instance.GetDiagram(diagram);
+                var diagramResponseModel = await instance.GetDiagram(diagram, PlaywrightBrowserType.Chromium, null);
 
                 Assert.NotNull(diagramResponseModel);
 

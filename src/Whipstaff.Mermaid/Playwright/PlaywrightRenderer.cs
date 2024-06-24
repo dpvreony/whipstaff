@@ -41,8 +41,13 @@ namespace Whipstaff.Mermaid.Playwright
         /// Gets the SVG for the Mermaid Diagram.
         /// </summary>
         /// <param name="markdown">Diagram markdown to convert.</param>
+        /// <param name="playwrightBrowserType">Browser type to use.</param>
+        /// <param name="browserChannel">The channel to use for the specified browser.</param>
         /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagram(string markdown)
+        public async Task<GetDiagramResponseModel?> GetDiagram(
+            string markdown,
+            PlaywrightBrowserType playwrightBrowserType,
+            string? browserChannel)
         {
             if (string.IsNullOrWhiteSpace(markdown))
             {
@@ -51,9 +56,10 @@ namespace Whipstaff.Mermaid.Playwright
 
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                 .ConfigureAwait(false))
-            await using (var browser = await playwright.Chromium.LaunchAsync(new()
+            await using (var browser = await GetBrowserType(playwright, playwrightBrowserType).LaunchAsync(new()
                          {
-                             Headless = true
+                             Headless = true,
+                             Channel = browserChannel
                          }))
             {
                 var page = await browser.NewPageAsync()
@@ -105,6 +111,17 @@ namespace Whipstaff.Mermaid.Playwright
 
                 return new(innerText, png);
             }
+        }
+
+        private static IBrowserType GetBrowserType(IPlaywright playwright, PlaywrightBrowserType playwrightBrowserType)
+        {
+            return playwrightBrowserType switch
+            {
+                PlaywrightBrowserType.Chromium => playwright.Chromium,
+                PlaywrightBrowserType.Firefox => playwright.Firefox,
+                PlaywrightBrowserType.WebKit => playwright.Webkit,
+                _ => throw new ArgumentException("Failed to map PlaywrightBrowserType", nameof(playwrightBrowserType)),
+            };
         }
 
         private static HttpRequestMessage GetRequestFromRoute(IRoute route, string markdown)
