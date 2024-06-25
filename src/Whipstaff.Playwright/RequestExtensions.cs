@@ -24,9 +24,10 @@ namespace Whipstaff.Playwright
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            var httpRequestMessage = new HttpRequestMessage();
-
-            httpRequestMessage.RequestUri = new Uri(request.Url);
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                RequestUri = new Uri(request.Url)
+            };
             httpRequestMessage.AddHeaders(request.Headers);
 
             switch (request.Method)

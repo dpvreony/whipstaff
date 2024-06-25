@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Playwright;
-using Whipstaff.Mermaid.Playwright;
 
 namespace Whipstaff.Playwright
 {
