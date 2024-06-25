@@ -137,7 +137,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
-                var diagramResponseModel = await instance.GetDiagram(diagram, PlaywrightBrowserType.Chromium, null);
+                var diagramResponseModel = await instance.GetDiagram(diagram, PlaywrightBrowserType.Chromium, "chrome");
 
                 Assert.NotNull(diagramResponseModel);
 
