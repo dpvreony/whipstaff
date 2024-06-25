@@ -3,12 +3,9 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
-using Whipstaff.Core.Logging;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
 
@@ -56,7 +53,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                 .ConfigureAwait(false))
-            await using (var browser = await GetBrowserType(playwright, playwrightBrowserType).LaunchAsync(new()
+            await using (var browser = await playwright.GetBrowserType(playwrightBrowserType).LaunchAsync(new()
                          {
                              Headless = true,
                              Channel = browserChannel
@@ -113,17 +110,6 @@ namespace Whipstaff.Mermaid.Playwright
             }
         }
 
-        private static IBrowserType GetBrowserType(IPlaywright playwright, PlaywrightBrowserType playwrightBrowserType)
-        {
-            return playwrightBrowserType switch
-            {
-                PlaywrightBrowserType.Chromium => playwright.Chromium,
-                PlaywrightBrowserType.Firefox => playwright.Firefox,
-                PlaywrightBrowserType.WebKit => playwright.Webkit,
-                _ => throw new ArgumentException("Failed to map PlaywrightBrowserType", nameof(playwrightBrowserType)),
-            };
-        }
-
         private static HttpRequestMessage GetRequestFromRoute(IRoute route, string markdown)
         {
             var httpRequestMessage = new HttpRequestMessage();
@@ -138,64 +124,6 @@ namespace Whipstaff.Mermaid.Playwright
             ]);
 
             return httpRequestMessage;
-        }
-
-        private static HttpRequestMessage GetRequestFromRoute(IRoute route)
-        {
-            var httpRequestMessage = new HttpRequestMessage();
-
-            var request = route.Request;
-
-            httpRequestMessage.RequestUri = new Uri(request.Url);
-            PopulateHeaders(httpRequestMessage, request.Headers);
-
-            switch (request.Method)
-            {
-                case "DELETE":
-                    httpRequestMessage.Method = HttpMethod.Delete;
-                    break;
-                case "GET":
-                    httpRequestMessage.Method = HttpMethod.Get;
-                    break;
-                case "HEAD":
-                    httpRequestMessage.Method = HttpMethod.Head;
-                    break;
-                case "OPTIONS":
-                    httpRequestMessage.Method = HttpMethod.Options;
-                    break;
-                case "PATCH":
-                    httpRequestMessage.Method = HttpMethod.Patch;
-                    break;
-                case "POST":
-                    httpRequestMessage.Method = HttpMethod.Post;
-
-                    if (request.PostDataBuffer != null)
-                    {
-                        httpRequestMessage.Content = new StreamContent(new MemoryStream(request.PostDataBuffer));
-                    }
-
-                    break;
-                case "PUT":
-                    httpRequestMessage.Method = HttpMethod.Put;
-                    break;
-                case "TRACE":
-                    httpRequestMessage.Method = HttpMethod.Trace;
-                    break;
-                default:
-                    throw new ArgumentException("Failed to map request HTTP method", nameof(route));
-            }
-
-            return httpRequestMessage;
-        }
-
-        private static void PopulateHeaders(HttpRequestMessage httpRequestMessage, Dictionary<string, string> requestHeaders)
-        {
-            var targetHeaders = httpRequestMessage.Headers;
-
-            foreach (var requestHeader in requestHeaders)
-            {
-                targetHeaders.Add(requestHeader.Key, requestHeader.Value);
-            }
         }
 
         private async Task MermaidPostHandler(IRoute route, string diagram)
@@ -237,7 +165,7 @@ namespace Whipstaff.Mermaid.Playwright
             }
 
             using (var client = _mermaidHttpServerFactory.CreateClient())
-            using (var request = GetRequestFromRoute(route))
+            using (var request = route.ToHttpRequestMessage())
             {
                 var response = await client.SendAsync(request)
                     .ConfigureAwait(false);

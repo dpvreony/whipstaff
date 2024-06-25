@@ -10,6 +10,7 @@ using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
+using Whipstaff.Playwright;
 using Xunit;
 using Xunit.Abstractions;
 

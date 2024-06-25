@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Whipstaff.Mermaid.Playwright
+namespace Whipstaff.Playwright
 {
     /// <summary>
     /// Gets the selected browser type for Playwright.
