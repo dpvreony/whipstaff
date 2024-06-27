@@ -32,6 +32,9 @@ namespace Whipstaff.Playwright
 
             switch (request.Method)
             {
+                case "CONNECT":
+                    httpRequestMessage.Method = HttpMethod.Connect;
+                    break;
                 case "DELETE":
                     httpRequestMessage.Method = HttpMethod.Delete;
                     break;
@@ -63,7 +66,7 @@ namespace Whipstaff.Playwright
                     httpRequestMessage.Method = HttpMethod.Trace;
                     break;
                 default:
-                    throw new ArgumentException("Failed to map request HTTP method", nameof(request));
+                    throw new ArgumentException($"Failed to map request HTTP method: {request.Method}", nameof(request));
             }
 
             return httpRequestMessage;
