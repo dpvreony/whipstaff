@@ -14,6 +14,10 @@
 
   <!-- these tasks remove the need for gulp, grunt, npm, etc. to be used for file copying -->
   <ItemGroup>
+    <!--
+    TODO: reduce the number of files being pulled by looking to see which files are minified...
+    This will reduce the size of the nuget pkg by about 50%
+    -->
     <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.js" />
     <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.mjs" />
   </ItemGroup>
@@ -34,5 +38,7 @@
       <EmbeddedResource Include="HttpServer\wwwroot\**\*.*" />
     </ItemGroup>
   </Target>
-
+  <Target Name="RestoreNpm" BeforeTargets="CopyNpmTasks">
+    <Exec Command="npm install" ConsoleToMSBuild="true" />
+  </Target>
 </Project>
