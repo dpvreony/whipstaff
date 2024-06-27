@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -40,5 +39,86 @@
   </Target>
   <Target Name="RestoreNpm" BeforeTargets="CopyNpmTasks">
     <Exec Command="npm install" ConsoleToMSBuild="true" />
+  </Target>
+  <!--
+  Based upon:
+  https://nietras.com/2020/10/04/gzip-embeddedresource/
+  https://github.com/nietras/GZipEmbeddedResource
+  -->
+  <UsingTask TaskName="GZip"
+             TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]"
+             Required="true" />
+      <Result ParameterType="Microsoft.Build.Framework.ITaskItem[]"
+              Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.IO.Compression" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+    if (Files.Length > 0)
+    {
+        Result = new TaskItem[Files.Length];
+        for (int i = 0; i < Files.Length; i++)
+        {
+            ITaskItem item = Files[i];
+            string sourcePath = item.GetMetadata("FullPath");
+            if (!sourcePath.EndsWith(".js") && !sourcePath.EndsWith(".mjs"))
+            {
+              continue;
+            }
+
+            string sourceItemSpec = item.ItemSpec;
+
+            string destinationSuffix = ".gz";
+            string destinationPath = sourcePath + destinationSuffix;
+            string destinationItemSpec = sourceItemSpec + destinationSuffix;
+
+            Log.LogMessage(MessageImportance.Normal, 
+                "EmbeddedResource Src : " + sourceItemSpec);
+                  
+            using (var sourceStream = File.OpenRead(sourcePath))
+            using (var destinationStream = File.OpenWrite(destinationPath))
+            using (var destinationGZip = new GZipStream(destinationStream, 
+              CompressionLevel.Optimal))
+            {
+                sourceStream.CopyTo(destinationGZip);
+            }
+                  
+            var destinationItem = new TaskItem(destinationItemSpec);
+            
+            Log.LogMessage(MessageImportance.Normal, 
+                "EmbeddedResource GZip: " + destinationItem.ItemSpec);
+                  
+            Result[i] = destinationItem;
+        }
+    }
+  ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+  <Target Name="GZipResources" AfterTargets="CopyNpmTasks" BeforeTargets="BeforeBuild">
+    <GZip Files="@(EmbeddedResource)">
+      <Output ItemName="GZipEmbeddedResource" TaskParameter="Result" />
+    </GZip>
+    <Message Text="Source EmbeddedResources: @(EmbeddedResource)" Importance="High" />
+    <Message Text="GZipped EmbeddedResources: @(GZipEmbeddedResource)" Importance="High" />
+    <ItemGroup>
+      <EmbeddedResource Remove="@(EmbeddedResource)" />
+      <EmbeddedResource Include="@(GZipEmbeddedResource)" />
+    </ItemGroup>
+  </Target>
+  <Target Name="DeleteMermaidFiles" BeforeTargets="CopyNpmTasks" AfterTargets="RestoreNpm">
+    <Message Text="Deleting files" Importance="High" />
+    <ItemGroup>
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\*.js"/>
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\*.mjs"/>
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\*.gz"/>
+    </ItemGroup>
+    <Message Text="Files to delete: @(FilesToDelete)" Importance="High" />
+    <Delete Files="@(FilesToDelete)" />
   </Target>
 </Project>
