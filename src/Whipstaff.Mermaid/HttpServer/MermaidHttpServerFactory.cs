@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
@@ -54,12 +55,42 @@ namespace Whipstaff.Mermaid.HttpServer
 
         private static void ConfigureApp(IApplicationBuilder applicationBuilder, EmbeddedFileProvider embeddedFileProvider)
         {
+            _ = applicationBuilder.Use(async (context, next) =>
+            {
+                var url = context.Request.Path.Value;
+
+                if (url != null
+                    && url.Contains("/lib/mermaid", StringComparison.OrdinalIgnoreCase)
+                    && !url.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
+                {
+                    // rewrite and continue processing
+                    context.Request.Path += ".gz";
+                }
+
+                await next();
+            });
+
             _ = applicationBuilder.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = embeddedFileProvider
+                FileProvider = embeddedFileProvider,
+                OnPrepareResponseAsync = OnPrepareResponseAsync,
+                HttpsCompression = HttpsCompressionMode.DoNotCompress
             });
 
             _ = applicationBuilder.MapWhen(IsMermaidPost, AppConfiguration);
+        }
+
+        private static Task OnPrepareResponseAsync(StaticFileResponseContext arg)
+        {
+            if (!arg.File.Name.EndsWith(".gz", StringComparison.OrdinalIgnoreCase))
+            {
+                return Task.CompletedTask;
+            }
+
+            var headers = arg.Context.Response.Headers;
+            headers["Content-Encoding"] = "gzip";
+            headers["Content-Type"] = new FileExtensionContentTypeProvider().Mappings[".js"];
+            return Task.CompletedTask;
         }
 
         private static void AppConfiguration(IApplicationBuilder applicationBuilder)

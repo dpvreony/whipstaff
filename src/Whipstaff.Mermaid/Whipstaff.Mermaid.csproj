@@ -15,6 +15,9 @@
     <Folder Include="HttpServer\wwwroot\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="HttpServer\wwwroot\**\*.*" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
   </ItemGroup>
@@ -30,9 +33,6 @@
     </ItemGroup>
     <Message Text="Starting NPM Package Copy Task" Importance="High" />
     <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmMermaidFilesToCopy)" DestinationFiles="@(NpmMermaidFilesToCopy->'$(ProjectDir)HttpServer\wwwroot\lib\mermaid\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <ItemGroup>
-      <EmbeddedResource Include="HttpServer\wwwroot\**\*.*" />
-    </ItemGroup>
   </Target>
   <Target Name="RestoreNpm" BeforeTargets="CopyNpmTasks">
     <Exec Command="npm install" ConsoleToMSBuild="true" />
