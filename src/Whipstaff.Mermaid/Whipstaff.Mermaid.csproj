@@ -11,18 +11,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.6" />
   </ItemGroup>
 
-  <!-- these tasks remove the need for gulp, grunt, npm, etc. to be used for file copying -->
-  <ItemGroup>
-    <!--
-    TODO: reduce the number of files being pulled by looking to see which files are minified...
-    This will reduce the size of the nuget pkg by about 50%
-    -->
-    <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.js" />
-    <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.mjs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="HttpServer\.gitignore" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="HttpServer\wwwroot\" />
   </ItemGroup>
@@ -31,7 +19,16 @@
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
   </ItemGroup>
   <Target Name="CopyNpmTasks" BeforeTargets="BeforeBuild">
-    <Message Text="Starting NPM Package Copy Task" />
+    <!-- these tasks remove the need for gulp, grunt, npm, etc. to be used for file copying -->
+    <ItemGroup>
+      <!--
+    TODO: reduce the number of files being pulled by looking to see which files are minified...
+    This will reduce the size of the nuget pkg by about 50%
+    -->
+      <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.js" />
+      <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.mjs" />
+    </ItemGroup>
+    <Message Text="Starting NPM Package Copy Task" Importance="High" />
     <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmMermaidFilesToCopy)" DestinationFiles="@(NpmMermaidFilesToCopy->'$(ProjectDir)HttpServer\wwwroot\lib\mermaid\%(RecursiveDir)%(Filename)%(Extension)')" />
     <ItemGroup>
       <EmbeddedResource Include="HttpServer\wwwroot\**\*.*" />
