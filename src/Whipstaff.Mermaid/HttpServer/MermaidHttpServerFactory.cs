@@ -87,9 +87,15 @@ namespace Whipstaff.Mermaid.HttpServer
                 return Task.CompletedTask;
             }
 
+            var filename = arg.File.Name[..^3];
+
             var headers = arg.Context.Response.Headers;
             headers["Content-Encoding"] = "gzip";
-            headers["Content-Type"] = new FileExtensionContentTypeProvider().Mappings[".js"];
+            if (new FileExtensionContentTypeProvider().TryGetContentType(filename, out var contentType))
+            {
+                headers["Content-Type"] = contentType;
+            }
+
             return Task.CompletedTask;
         }
 
