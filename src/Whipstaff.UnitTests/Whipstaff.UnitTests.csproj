@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp8.0-windows10.0.19041</TargetFrameworks>
@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+    <PackageReference Include="Rocks" Version="8.1.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,6 +42,7 @@
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
     <ProjectReference Include="..\Whipstaff.Maui\Whipstaff.Maui.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
+    <ProjectReference Include="..\Whipstaff.Mermaid\Whipstaff.Mermaid.csproj" />
     <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
     <ProjectReference Include="..\Whipstaff.Syncfusion.Pdf\Whipstaff.Syncfusion.Pdf.csproj" />
@@ -61,4 +63,9 @@
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
   </ItemGroup>
 
+  <!--
+  <Target Name="InstallPlaywrightBrowsers" AfterTargets="Build">
+    <Exec Command="pwsh $(OutDir)playwright.ps1 install" ConsoleToMSBuild="true" LogStandardErrorAsError="true" />
+  </Target>
+  -->
 </Project>

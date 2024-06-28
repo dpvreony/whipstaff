@@ -126,6 +126,12 @@ jobs:
         npm install
         popd
 
+    - name: NPM package restore
+      run: |
+        pushd src\Whipstaff.Mermaid\
+        npm install
+        popd
+
     - name: Changelog
       uses: glennawatson/ChangeLog@v1
       id: changelog
