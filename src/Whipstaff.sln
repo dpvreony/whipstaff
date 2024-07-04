@@ -81,7 +81,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.Syncfusion.Sf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.CefSharp", "Whipstaff.Wpf.CefSharp\Whipstaff.Wpf.CefSharp.csproj", "{3299A81D-1451-4269-87B8-9F24B4110BB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Mermaid", "Whipstaff.Mermaid\Whipstaff.Mermaid.csproj", "{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Mermaid", "Whipstaff.Mermaid\Whipstaff.Mermaid.csproj", "{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.MaterialDesign", "Whipstaff.Wpf.MaterialDesign\Whipstaff.Wpf.MaterialDesign.csproj", "{F23F9BFF-DF01-43A3-85E8-DF87CDA02A58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -245,6 +247,10 @@ Global
 		{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F23F9BFF-DF01-43A3-85E8-DF87CDA02A58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F23F9BFF-DF01-43A3-85E8-DF87CDA02A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F23F9BFF-DF01-43A3-85E8-DF87CDA02A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F23F9BFF-DF01-43A3-85E8-DF87CDA02A58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
