@@ -30,7 +30,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandFunc2">Function to execute in the second command.</param>
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
-            BehaviorSubject<int> ExclusiveLockSubject,
+            BehaviorSubject<bool> ExclusiveLockSubject,
             IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2) GetExclusiveCommands<
@@ -44,8 +44,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             ArgumentNullException.ThrowIfNull(commandFunc1);
             ArgumentNullException.ThrowIfNull(commandFunc2);
 
-            var numberExecuting = new BehaviorSubject<int>(0);
-            var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
+            var nobodyIsExecuting = new BehaviorSubject<bool>(false);
 
             var (
                 command1,
@@ -54,14 +53,12 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc1,
                 commandFunc2);
 
-            var exclusiveLockSubscription = Observable.Merge(
-                    command1.IsExecuting,
-                    command2.IsExecuting)
-                .CountThatAreTrue()
-                .Subscribe(numberExecuting);
+            var exclusiveLockSubscription = command1.IsExecuting.CombineLatest(command2.IsExecuting)
+                .Select(tuple => tuple is { First: false, Second: false })
+                .Subscribe(nobodyIsExecuting);
 
             return (
-                numberExecuting,
+                nobodyIsExecuting,
                 exclusiveLockSubscription,
                 command1,
                 command2);
@@ -80,7 +77,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandCanExecute2">Observable indicating whether the second command can execute.</param>
         /// <returns>A tuple representing the exclusive lock subject and the created commands.</returns>
         public static (
-            BehaviorSubject<int> ExclusiveLockSubject,
+            BehaviorSubject<bool> ExclusiveLockSubject,
             IDisposable ExclusiveLockSubscription,
             ReactiveCommand<TParam1, TResult1> Command1,
             ReactiveCommand<TParam2, TResult2> Command2) GetExclusiveCommands<
@@ -98,28 +95,26 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             ArgumentNullException.ThrowIfNull(commandFunc2);
             ArgumentNullException.ThrowIfNull(commandCanExecute2);
 
-            var numberExecuting = new BehaviorSubject<int>(0);
-            var nobodyIsExecuting = numberExecuting.Select(x => x < 1);
+            var nobodyIsExecuting = new BehaviorSubject<bool>(false);
 
-            var cmd1 = ReactiveCommand.Create(
+            var (
+                command1,
+                command2) = CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
+                nobodyIsExecuting,
                 commandFunc1,
-                commandCanExecute1.Merge(nobodyIsExecuting));
-
-            var cmd2 = ReactiveCommand.Create(
+                commandCanExecute1,
                 commandFunc2,
-                commandCanExecute2.Merge(nobodyIsExecuting));
+                commandCanExecute2);
 
-            var exclusiveLockSubscription = Observable.Merge(
-                    cmd1.IsExecuting,
-                    cmd2.IsExecuting)
-                .CountThatAreTrue()
-                .Subscribe(numberExecuting);
+            var exclusiveLockSubscription = command1.IsExecuting.CombineLatest(command2.IsExecuting)
+                .Select(tuple => tuple is { First: false, Second: false })
+                .Subscribe(nobodyIsExecuting);
 
             return (
-                numberExecuting,
+                nobodyIsExecuting,
                 exclusiveLockSubscription,
-                cmd1,
-                cmd2);
+                command1,
+                command2);
         }
 
         /// <summary>
