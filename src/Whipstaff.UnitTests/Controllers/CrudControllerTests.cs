@@ -14,13 +14,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Moq;
+using Rocks;
 using Whipstaff.Core;
 using Whipstaff.MediatR;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Xunit;
 using Xunit.Abstractions;
+
+#error rocks makes things internal that doesn't work with theories
+#error rocks has logic and source gen in single dll that brings rosylyn into the bin folder
+[assembly: RockCreate<IAuthorizationService>]
+[assembly: RockCreate<IMediator>]
 
 namespace Whipstaff.UnitTests.Controllers
 {
@@ -31,16 +36,9 @@ namespace Whipstaff.UnitTests.Controllers
     [ExcludeFromCodeCoverage]
     public static class CrudControllerTests
     {
-        private static Mock<IAuthorizationService> MockAuthorizationServiceFactory() => new(MockBehavior.Strict);
+        private static IAuthorizationServiceCreateExpectations MockAuthorizationServiceFactory() => new();
 
-        private static Mock<ILogger<FakeCrudController>> MockLoggerFactory()
-        {
-            var logger = new Mock<ILogger<FakeCrudController>>();
-
-            return logger;
-        }
-
-        private static Mock<IMediator> MockMediatorFactory() => new(MockBehavior.Strict);
+        private static IAuthorizationServiceCreateExpectations MockMediatorFactory() => new();
 
         private static FakeAuditableCommandFactory MockCommandFactory() => new();
 
@@ -55,9 +53,9 @@ namespace Whipstaff.UnitTests.Controllers
             /// Test Data for checking an Argument Null Exception is thrown.
             /// </summary>
             public static readonly TheoryData<
-                    Mock<IAuthorizationService>?,
-                    Mock<ILogger<FakeCrudController>>?,
-                    Mock<IMediator>?,
+                    IAuthorizationServiceCreateExpectations,
+                    ILogger<FakeCrudController>,
+                    IMediatorCreateExpectations?,
                     FakeAuditableCommandFactory?,
                     FakeAuditableQueryFactory?,
                     FakeCrudControllerLogMessageActions?,
@@ -177,17 +175,17 @@ namespace Whipstaff.UnitTests.Controllers
                 var queryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
-                    mockAuthorizationService.Object,
-                    mockLogger.Object,
-                    mockMediator.Object,
+                    mockAuthorizationService,
+                    mockLogger,
+                    mockMediator,
                     commandFactory,
                     queryFactory,
                     new FakeCrudControllerLogMessageActions());
                 Assert.NotNull(instance);
 
-                mockAuthorizationService.VerifyNoOtherCalls();
-                mockLogger.VerifyNoOtherCalls();
-                mockMediator.VerifyNoOtherCalls();
+                mockAuthorizationService.Verify();
+                mockLogger.Verify();
+                mockMediator.Verify();
             }
         }
 
