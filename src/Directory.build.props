@@ -57,10 +57,10 @@
     <PackageReference Include="NetTestRegimentation.Xunit" Version="1.7.48" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="21.0.22" />
-    <PackageReference Include="xunit" Version="2.8.1" />
-    <PackageReference Include="xunit.analyzers" Version="1.14.0" />
-    <PackageReference Include="xunit.runner.reporters" Version="2.8.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.1" />
+    <PackageReference Include="xunit" Version="2.9.0" />
+    <PackageReference Include="xunit.analyzers" Version="1.15.0" />
+    <PackageReference Include="xunit.runner.reporters" Version="2.9.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
