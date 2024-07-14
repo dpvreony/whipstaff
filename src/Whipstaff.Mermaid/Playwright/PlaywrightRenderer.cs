@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -71,7 +72,31 @@ namespace Whipstaff.Mermaid.Playwright
                 throw new ArgumentException("File does not exist", nameof(fileInfo));
             }
 
-            var markdown = await fileInfo.OpenText()
+            using (var streamReader = fileInfo.OpenText())
+            {
+                return await GetDiagram(
+                        streamReader,
+                        playwrightBrowserType,
+                        browserChannel)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Gets the SVG for the Mermaid Diagram from a <see cref="TextReader"/>.
+        /// </summary>
+        /// <param name="textReader">File containing the diagram markdown to convert.</param>
+        /// <param name="playwrightBrowserType">Browser type to use.</param>
+        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <returns>SVG diagram.</returns>
+        public async Task<GetDiagramResponseModel?> GetDiagram(
+            TextReader textReader,
+            PlaywrightBrowserType playwrightBrowserType,
+            string? browserChannel)
+        {
+            ArgumentNullException.ThrowIfNull(textReader);
+
+            var markdown = await textReader
                 .ReadToEndAsync()
                 .ConfigureAwait(false);
 
