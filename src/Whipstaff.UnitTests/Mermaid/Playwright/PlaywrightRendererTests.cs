@@ -89,7 +89,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram"/>.
+        /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram(string, PlaywrightBrowserType, string?)"/>.
         /// </summary>
         public sealed class GetDiagramMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
         {
@@ -149,7 +149,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source <see cref="PlaywrightRenderer.GetDiagram"/>.
+            /// Test source <see cref="PlaywrightRenderer.GetDiagram(string, PlaywrightBrowserType, string?)"/>.
             /// </summary>
             public sealed class ReturnsResultTestSource : TheoryData<string, string>
             {

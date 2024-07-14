@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -39,7 +40,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// Create a default instance of the PlaywrightRenderer using the InMemory Test Http Server.
         /// </summary>
         /// <param name="loggerFactory">Logger factory instance to hook up to. Typically, the one being used by the host application.</param>
-        /// <returns>Instance of the <see cref="PlaywrightRenderer"/> class</returns>
+        /// <returns>Instance of the <see cref="PlaywrightRenderer"/> class.</returns>
         public static PlaywrightRenderer Default(ILoggerFactory loggerFactory)
         {
             ArgumentNullException.ThrowIfNull(loggerFactory);
@@ -49,6 +50,36 @@ namespace Whipstaff.Mermaid.Playwright
                 new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
                     loggerFactory.CreateLogger<PlaywrightRenderer>()));
+        }
+
+        /// <summary>
+        /// Gets the SVG for the Mermaid Diagram from a File.
+        /// </summary>
+        /// <param name="fileInfo">File containing the diagram markdown to convert.</param>
+        /// <param name="playwrightBrowserType">Browser type to use.</param>
+        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <returns>SVG diagram.</returns>
+        public async Task<GetDiagramResponseModel?> GetDiagram(
+            IFileInfo fileInfo,
+            PlaywrightBrowserType playwrightBrowserType,
+            string? browserChannel)
+        {
+            ArgumentNullException.ThrowIfNull(fileInfo);
+
+            if (!fileInfo.Exists)
+            {
+                throw new ArgumentException("File does not exist", nameof(fileInfo));
+            }
+
+            var markdown = await fileInfo.OpenText()
+                .ReadToEndAsync()
+                .ConfigureAwait(false);
+
+            return await GetDiagram(
+                    markdown,
+                    playwrightBrowserType,
+                    browserChannel)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
