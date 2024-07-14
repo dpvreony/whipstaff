@@ -5,6 +5,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
@@ -32,6 +33,22 @@ namespace Whipstaff.Mermaid.Playwright
             ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
             _mermaidHttpServerFactory = mermaidHttpServer;
             _logMessageActionsWrapper = logMessageActionsWrapper;
+        }
+
+        /// <summary>
+        /// Create a default instance of the PlaywrightRenderer using the InMemory Test Http Server.
+        /// </summary>
+        /// <param name="loggerFactory">Logger factory instance to hook up to. Typically, the one being used by the host application.</param>
+        /// <returns>Instance of the <see cref="PlaywrightRenderer"/> class</returns>
+        public static PlaywrightRenderer Default(ILoggerFactory loggerFactory)
+        {
+            ArgumentNullException.ThrowIfNull(loggerFactory);
+
+            return new(
+                MermaidHttpServerFactory.GetTestServer(loggerFactory),
+                new PlaywrightRendererLogMessageActionsWrapper(
+                    new PlaywrightRendererLogMessageActions(),
+                    loggerFactory.CreateLogger<PlaywrightRenderer>()));
         }
 
         /// <summary>
