@@ -54,6 +54,53 @@ namespace Whipstaff.Mermaid.Playwright
         }
 
         /// <summary>
+        /// Gets the SVG for the Mermaid Diagram from a File and writes to another file.
+        /// </summary>
+        /// <param name="sourceFile">File containing the diagram markdown to convert.</param>
+        /// <param name="targetFile">Destination file to write the diagram content to.</param>
+        /// <param name="playwrightBrowserType">Browser type to use.</param>
+        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <returns>SVG diagram.</returns>
+        public async Task CreateDiagramAndWriteToFileAsync(
+            IFileInfo sourceFile,
+            IFileInfo targetFile,
+            PlaywrightBrowserType playwrightBrowserType,
+            string? browserChannel)
+        {
+            ArgumentNullException.ThrowIfNull(sourceFile);
+            ArgumentNullException.ThrowIfNull(targetFile);
+
+            if (!sourceFile.Exists)
+            {
+                throw new ArgumentException("Source file does not exist", nameof(sourceFile));
+            }
+
+            if (sourceFile.FullName == targetFile.FullName)
+            {
+                throw new ArgumentException("Source and target files cannot be the same", nameof(targetFile));
+            }
+
+            if (targetFile.Exists)
+            {
+                throw new ArgumentException("Target file already exists", nameof(targetFile));
+            }
+
+            var diagram = await GetDiagram(
+                    sourceFile,
+                    playwrightBrowserType,
+                    browserChannel)
+                .ConfigureAwait(false);
+
+            if (diagram == null)
+            {
+                throw new InvalidOperationException("Failed to get diagram");
+            }
+
+            await diagram.InternalToFileAsync(targetFile)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Gets the SVG for the Mermaid Diagram from a File.
         /// </summary>
         /// <param name="fileInfo">File containing the diagram markdown to convert.</param>
