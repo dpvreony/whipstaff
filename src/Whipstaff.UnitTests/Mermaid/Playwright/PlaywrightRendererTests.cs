@@ -131,6 +131,48 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
+            /// Test to ensure the SVG generator creates a file.
+            /// </summary>
+            /// <returns>
+            /// A <see cref="Task" /> representing the asynchronous operation.
+            /// </returns>
+            [Fact]
+            public async Task ReturnsResult()
+            {
+                var fileSystem = new MockFileSystem();
+                var graph = "graph TD;" + Environment.NewLine +
+                            "    A-->B;" + Environment.NewLine +
+                            "    A-->C;" + Environment.NewLine +
+                            "    B-->D;" + Environment.NewLine +
+                            "    C-->D;";
+
+                fileSystem.AddFile(
+                    "test.mmd",
+                    graph);
+
+                var sourceFile = fileSystem.FileInfo.New(fileSystem.AllFiles.First());
+                var targetFile = fileSystem.FileInfo.New(fileSystem.Path.Combine(fileSystem.Directory.GetCurrentDirectory(), "output.mmd"));
+
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
+                    new PlaywrightRendererLogMessageActions(),
+                    Log.CreateLogger<PlaywrightRenderer>());
+
+                var instance = new PlaywrightRenderer(
+                    mermaidHttpServer,
+                    logMessageActionsWrapper);
+                await instance.CreateDiagramAndWriteToFileAsync(
+                    sourceFile,
+                    targetFile,
+                    PlaywrightBrowserType.Chromium,
+                    null);
+
+                Assert.True(targetFile.Exists);
+                var content = await targetFile.OpenText().ReadToEndAsync();
+                Assert.StartsWith("<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"", content, StringComparison.Ordinal);
+            }
+
+            /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<IFileInfo, IFileInfo>
@@ -141,7 +183,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 public ThrowsArgumentNullExceptionAsyncTestSource()
                     : base(
                         new NamedParameterInput<IFileInfo>("sourceFile", () => new MockFileInfo(new MockFileSystem(), "input.mmd")),
-                        new NamedParameterInput<IFileInfo>("targetFile", () => new MockFileInfo(new MockFileSystem(), "input.mmd")))
+                        new NamedParameterInput<IFileInfo>("targetFile", () => new MockFileInfo(new MockFileSystem(), "output.mmd")))
                 {
                 }
             }
