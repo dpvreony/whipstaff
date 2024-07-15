@@ -103,23 +103,23 @@ namespace Whipstaff.Mermaid.Playwright
         /// <summary>
         /// Gets the SVG for the Mermaid Diagram from a File.
         /// </summary>
-        /// <param name="fileInfo">File containing the diagram markdown to convert.</param>
+        /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
         /// <param name="playwrightBrowserType">Browser type to use.</param>
         /// <param name="browserChannel">The channel to use for the specified browser.</param>
         /// <returns>SVG diagram.</returns>
         public async Task<GetDiagramResponseModel?> GetDiagram(
-            IFileInfo fileInfo,
+            IFileInfo sourceFileInfo,
             PlaywrightBrowserType playwrightBrowserType,
             string? browserChannel)
         {
-            ArgumentNullException.ThrowIfNull(fileInfo);
+            ArgumentNullException.ThrowIfNull(sourceFileInfo);
 
-            if (!fileInfo.Exists)
+            if (!sourceFileInfo.Exists)
             {
-                throw new ArgumentException("File does not exist", nameof(fileInfo));
+                throw new ArgumentException("File does not exist", nameof(sourceFileInfo));
             }
 
-            using (var streamReader = fileInfo.OpenText())
+            using (var streamReader = sourceFileInfo.OpenText())
             {
                 return await GetDiagram(
                         streamReader,
