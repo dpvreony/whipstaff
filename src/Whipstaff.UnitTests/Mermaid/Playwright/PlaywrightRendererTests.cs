@@ -127,7 +127,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                         arg1,
                         arg2,
                         PlaywrightBrowserType.Chromium,
-                        null));
+                        "chrome"));
             }
 
             /// <summary>
@@ -165,7 +165,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     sourceFile,
                     targetFile,
                     PlaywrightBrowserType.Chromium,
-                    null);
+                    "chrome");
 
                 Assert.True(targetFile.Exists);
                 var content = await targetFile.OpenText().ReadToEndAsync();
