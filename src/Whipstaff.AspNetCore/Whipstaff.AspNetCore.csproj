@@ -20,7 +20,7 @@
     <PackageReference Include="Audit.NET" Version="26.0.0" />
     <PackageReference Include="Audit.WebApi.Core" Version="26.0.0" />
     <PackageReference Include="Ben.BlockingDetector" Version="0.0.4" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.2" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.1.0" />
     <PackageReference Include="DynamicData" Version="9.0.1" />
     <PackageReference Include="Exceptionless.AspNetCore" Version="6.0.4" />
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="6.0.4" />
@@ -38,7 +38,7 @@
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.22.0" />
     <PackageReference Include="OwaspHeaders.Core" Version="8.1.0" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.62" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />-->
   </ItemGroup>
 
