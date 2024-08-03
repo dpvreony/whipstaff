@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Mermaid.Playwright
 {
@@ -58,14 +59,12 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         /// <param name="sourceFile">File containing the diagram markdown to convert.</param>
         /// <param name="targetFile">Destination file to write the diagram content to.</param>
-        /// <param name="playwrightBrowserType">Browser type to use.</param>
-        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
         public async Task CreateDiagramAndWriteToFileAsync(
             IFileInfo sourceFile,
             IFileInfo targetFile,
-            PlaywrightBrowserType playwrightBrowserType,
-            string? browserChannel)
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
             ArgumentNullException.ThrowIfNull(sourceFile);
             ArgumentNullException.ThrowIfNull(targetFile);
@@ -87,8 +86,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             var diagram = await GetDiagram(
                     sourceFile,
-                    playwrightBrowserType,
-                    browserChannel)
+                    playwrightBrowserTypeAndChannel)
                 .ConfigureAwait(false);
 
             if (diagram == null)
@@ -104,13 +102,11 @@ namespace Whipstaff.Mermaid.Playwright
         /// Gets the SVG for the Mermaid Diagram from a File.
         /// </summary>
         /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
-        /// <param name="playwrightBrowserType">Browser type to use.</param>
-        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
         public async Task<GetDiagramResponseModel?> GetDiagram(
             IFileInfo sourceFileInfo,
-            PlaywrightBrowserType playwrightBrowserType,
-            string? browserChannel)
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
             ArgumentNullException.ThrowIfNull(sourceFileInfo);
 
@@ -123,8 +119,7 @@ namespace Whipstaff.Mermaid.Playwright
             {
                 return await GetDiagram(
                         streamReader,
-                        playwrightBrowserType,
-                        browserChannel)
+                        playwrightBrowserTypeAndChannel)
                     .ConfigureAwait(false);
             }
         }
@@ -133,13 +128,11 @@ namespace Whipstaff.Mermaid.Playwright
         /// Gets the SVG for the Mermaid Diagram from a <see cref="TextReader"/>.
         /// </summary>
         /// <param name="textReader">File containing the diagram markdown to convert.</param>
-        /// <param name="playwrightBrowserType">Browser type to use.</param>
-        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
         public async Task<GetDiagramResponseModel?> GetDiagram(
             TextReader textReader,
-            PlaywrightBrowserType playwrightBrowserType,
-            string? browserChannel)
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
             ArgumentNullException.ThrowIfNull(textReader);
 
@@ -149,8 +142,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             return await GetDiagram(
                     markdown,
-                    playwrightBrowserType,
-                    browserChannel)
+                    playwrightBrowserTypeAndChannel)
                 .ConfigureAwait(false);
         }
 
@@ -158,25 +150,21 @@ namespace Whipstaff.Mermaid.Playwright
         /// Gets the SVG for the Mermaid Diagram.
         /// </summary>
         /// <param name="markdown">Diagram markdown to convert.</param>
-        /// <param name="playwrightBrowserType">Browser type to use.</param>
-        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
         public async Task<GetDiagramResponseModel?> GetDiagram(
             string markdown,
-            PlaywrightBrowserType playwrightBrowserType,
-            string? browserChannel)
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
-            if (string.IsNullOrWhiteSpace(markdown))
-            {
-                throw new ArgumentNullException(nameof(markdown));
-            }
+            markdown.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);
 
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                 .ConfigureAwait(false))
-            await using (var browser = await playwright.GetBrowserType(playwrightBrowserType).LaunchAsync(new()
+            await using (var browser = await playwright.GetBrowserType(playwrightBrowserTypeAndChannel.PlaywrightBrowserType).LaunchAsync(new()
                          {
                              Headless = true,
-                             Channel = browserChannel
+                             Channel = playwrightBrowserTypeAndChannel.Channel
                          }))
             {
                 var page = await browser.NewPageAsync()

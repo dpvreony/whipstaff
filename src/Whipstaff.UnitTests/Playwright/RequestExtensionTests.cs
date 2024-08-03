@@ -9,7 +9,7 @@ using Rocks;
 using Whipstaff.Playwright;
 using Xunit;
 
-[assembly: RockCreate<IRequest>]
+[assembly: Rock(typeof(IRequest), BuildType.Create)]
 
 namespace Whipstaff.UnitTests.Playwright
 {
