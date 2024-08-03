@@ -5,7 +5,7 @@
 namespace Whipstaff.Mermaid.Playwright
 {
     /// <summary>
-    /// Response Model for <see cref="PlaywrightRenderer.GetDiagram"/>.
+    /// Response Model for PlaywrightRenderer GetDiagram calls.
     /// </summary>
     /// <param name="Svg">The diagram in SVG format.</param>
     /// <param name="Png">PNG image of the diagram as a byte array.</param>
