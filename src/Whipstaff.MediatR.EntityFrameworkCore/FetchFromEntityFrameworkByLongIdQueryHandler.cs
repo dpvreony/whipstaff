@@ -43,7 +43,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         /// <inheritdoc/>
         protected override Task<TResult?> GetResultAsync(IQueryable<TResult?> queryable, CancellationToken cancellationToken)
         {
-            return queryable.FirstOrDefaultAsync(cancellationToken);
+            return queryable.TagWith(typeof(FetchFromEntityFrameworkByLongIdQueryHandler<TQuery, TDbContext, TEntity, TResult>).ToString()).FirstOrDefaultAsync(cancellationToken);
         }
     }
 }
