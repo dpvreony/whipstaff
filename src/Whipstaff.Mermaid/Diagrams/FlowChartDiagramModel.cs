@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Whipstaff.Mermaid.Diagrams
 {
-    internal class FlowChartDiagramModel
+    public sealed class FlowChartDiagramModel
     {
+        public IList<int> Nodes { get; }
+
+        public IList<LinkModel> Links { get; }
     }
 }
