@@ -33,7 +33,7 @@ namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
             using (var dbContext = GetDbContext())
             {
                 var dbSet = GetDbSet(dbContext);
-                var query = dbSet.Where(GetWherePredicateExpression());
+                var query = dbSet.TagWith(nameof(AbstractListQueryHandler<TQuery, TResponse, TDbContext, TEntity, TKey>)).Where(GetWherePredicateExpression());
 
                 var orderingExpression = GetOrderingExpression();
                 if (orderingExpression != null)
