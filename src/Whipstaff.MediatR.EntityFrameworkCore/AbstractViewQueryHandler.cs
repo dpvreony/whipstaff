@@ -8,9 +8,8 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Whipstaff.MediatR;
 
-namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
+namespace Whipstaff.MediatR.EntityFrameworkCore
 {
     /// <summary>
     /// Base class for fetching a single record from mediatr.
