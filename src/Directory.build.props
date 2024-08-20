@@ -51,7 +51,7 @@
     </PackageReference>
     <PackageReference Include="Foundatio.Xunit" Version="10.7.1" />
     <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="NetTestRegimentation" Version="1.7.48" />
     <PackageReference Include="NetTestRegimentation.Xunit" Version="1.7.48" />
