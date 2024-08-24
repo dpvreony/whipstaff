@@ -38,7 +38,7 @@
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="0.22.0" />
     <PackageReference Include="OwaspHeaders.Core" Version="8.1.0" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.62" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.2" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />-->
   </ItemGroup>
 
