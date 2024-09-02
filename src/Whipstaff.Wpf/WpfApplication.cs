@@ -10,36 +10,61 @@ using System.Windows;
 using System.Windows.Threading;
 using ReactiveMarbles.ObservableEvents;
 using ReactiveUI;
+using Whipstaff.Runtime.AppDomains;
 
 namespace Whipstaff.Wpf
 {
     /// <summary>
     /// WPF Application with reusable initialization logic. This makes ReactiveUI initialization more platform specific than the default.
     /// </summary>
-    public abstract class WpfApplication : Application
+    public abstract class WpfApplication : Application, IDisposable
     {
         private readonly CompositeDisposable _compositeDisposable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WpfApplication"/> class.
         /// </summary>
-        protected WpfApplication()
+        /// <param name="assemblyResolveHelper">Helper to use for App domain assembly resolution failures.</param>
+        protected WpfApplication(IAssemblyResolveHelper? assemblyResolveHelper)
         {
-            _compositeDisposable =
-            [
-                Observable.FromEvent<ResolveEventHandler, ResolveEventArgs?>(
-                    conversion => (sender, args) => OnAssemblyResolutionFailure(sender, args),
-                    action => AppDomain.CurrentDomain.AssemblyResolve += action,
-                    action => AppDomain.CurrentDomain.AssemblyResolve -= action).Subscribe(),
+            ArgumentNullException.ThrowIfNull(assemblyResolveHelper);
 
+            _compositeDisposable = new CompositeDisposable
+            {
+                CreateObservable(assemblyResolveHelper).Subscribe(),
                 this.Events().DispatcherUnhandledException.Subscribe(x => OnDispatcherUnhandledException(x))
-            ];
+            };
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes of the resources used by the application.
+        /// </summary>
+        /// <param name="disposing">Flag indicating whether disposing is taking place.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            if (!_compositeDisposable.IsDisposed)
+            {
+                _compositeDisposable.Dispose();
+            }
         }
 
         /// <inheritdoc />
         protected sealed override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            DoSplatDependencyInjectionInitialization();
             DoLoggingInitialization();
             DoApplicationPerformanceMonitoringInitialization();
             DoReactiveUIInitialization();
@@ -52,6 +77,11 @@ namespace Whipstaff.Wpf
             base.OnExit(e);
             _compositeDisposable.Dispose();
         }
+
+        /// <summary>
+        /// Placeholder for Splat Dependency Injection Initialization. This allows overriding the default Splat Dependency Injection initialization.
+        /// </summary>
+        protected abstract void DoSplatDependencyInjectionInitialization();
 
         /// <summary>
         /// Placeholder for Application Performance Monitoring Initialization.
@@ -83,9 +113,27 @@ namespace Whipstaff.Wpf
             // but that is stating the obvious.
         }
 
-        private static Assembly? OnAssemblyResolutionFailure(object? sender, ResolveEventArgs args)
+        private static IObservable<(ResolveEventArgs Args, Assembly? Assembly)> CreateObservable(IAssemblyResolveHelper? assemblyResolveHelper)
         {
-            return null;
+            ArgumentNullException.ThrowIfNull(assemblyResolveHelper);
+
+            return Observable.Create<(ResolveEventArgs Args, Assembly? Assembly)>(observer =>
+            {
+                // The handler will capture the message and produce a return value
+                ResolveEventHandler handler = (sender, args) =>
+                {
+                    // Notify the observer with the message and the return value
+                    var result = assemblyResolveHelper.OnAssemblyResolve(sender, args);
+                    observer.OnNext((args, result));
+
+                    return null; // return this value to the event invoker
+                };
+
+                AppDomain.CurrentDomain.AssemblyResolve += handler;
+
+                // Return a disposable that unsubscribes from the event when disposed
+                return () => AppDomain.CurrentDomain.AssemblyResolve -= handler;
+            });
         }
     }
 }
