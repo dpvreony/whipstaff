@@ -24,7 +24,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <typeparam name="TResult">The target type for deserialization.</typeparam>
         /// <param name="stream">The stream to read from.</param>
         /// <returns>The deserialized object.</returns>
-        public static Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream)
+        public static Task<TResult?> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream)
         {
             return Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream));
         }
@@ -36,7 +36,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <param name="stream">The stream to read from.</param>
         /// <param name="dataContractJsonSerializer">The Json Data Contract Serializer to use.</param>
         /// <returns>The deserialized object.</returns>
-        public static Task<TResult> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
+        public static Task<TResult?> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
         {
             return Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream, dataContractJsonSerializer));
         }
@@ -47,10 +47,10 @@ namespace Whipstaff.Runtime.Extensions
         /// <typeparam name="TResult">The target type for deserialization.</typeparam>
         /// <param name="stream">The stream to read from.</param>
         /// <returns>The deserialized object.</returns>
-        public static TResult DeserializeFromJsonViaDataContract<TResult>(this Stream stream)
+        public static TResult? DeserializeFromJsonViaDataContract<TResult>(this Stream stream)
         {
             var serializer = new DataContractJsonSerializer(typeof(TResult));
-            return (TResult)serializer.ReadObject(stream);
+            return (TResult?)serializer.ReadObject(stream);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <param name="stream">The stream to read from.</param>
         /// <param name="dataContractJsonSerializer">The Json Data Contract Serializer to use.</param>
         /// <returns>The deserialized object.</returns>
-        public static TResult DeserializeFromJsonViaDataContract<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
+        public static TResult? DeserializeFromJsonViaDataContract<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
         {
             ArgumentNullException.ThrowIfNull(dataContractJsonSerializer);
 
@@ -72,7 +72,7 @@ namespace Whipstaff.Runtime.Extensions
                 throw new ArgumentException($"Type on serializer is incorrect. Expected: {typeof(TResult)}, Got: {serializerType}", nameof(dataContractJsonSerializer));
             }
 
-            return (TResult)dataContractJsonSerializer.ReadObject(stream);
+            return (TResult?)dataContractJsonSerializer.ReadObject(stream);
         }
 
         /// <summary>

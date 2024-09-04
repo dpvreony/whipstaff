@@ -10,7 +10,6 @@ namespace Whipstaff.Runtime.Exceptions
     /// <summary>
     /// The string passed in was longer than the allowed maximum.
     /// </summary>
-    [Serializable]
     public class StringTooLongException : Exception
     {
         /// <summary>
@@ -60,21 +59,6 @@ namespace Whipstaff.Runtime.Exceptions
         /// </param>
         public StringTooLongException(int expected, int actual)
             : base("The string specified is too long. Maximum Length: " + expected + ", Actual: " + actual)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StringTooLongException"/> class.
-        /// Constructor.
-        /// </summary>
-        /// <param name="info">
-        /// Serialization Info.
-        /// </param>
-        /// <param name="context">
-        /// Context.
-        /// </param>
-        protected StringTooLongException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         {
         }
     }

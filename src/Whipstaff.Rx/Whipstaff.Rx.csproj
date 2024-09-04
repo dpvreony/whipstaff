@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;tizen40;net8.0;net8.0-android;net8.0-ios;net8.0-tvos;net8.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net462;net472</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with Reactive Extensions.</PackageDescription>
   </PropertyGroup>
@@ -21,5 +21,9 @@
 
   <ItemGroup>
     <Compile Include="..\_shared\**\*.cs" LinkBase="SharedInternals" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
   </ItemGroup>
 </Project>
