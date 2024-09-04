@@ -23,7 +23,7 @@ namespace Whipstaff.Rx.Runtime.AppDomains
         /// </summary>
         /// <param name="assemblyResolveHelper">Assembly resolver helper to bind.</param>
         /// <returns>Observable for <see cref="AppDomain.AssemblyResolve"/>.</returns>
-        public static IObservable<(ResolveEventArgs Args, Assembly? Assembly)> ToObservable(IAssemblyResolveHelper assemblyResolveHelper)
+        public static IObservable<(ResolveEventArgs Args, Assembly? Assembly)> ToObservable(this IAssemblyResolveHelper assemblyResolveHelper)
         {
             ArgumentNullException.ThrowIfNull(assemblyResolveHelper);
 
