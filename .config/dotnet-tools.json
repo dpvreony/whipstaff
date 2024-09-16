@@ -21,13 +21,13 @@
       ]
     },
     "dotnet-sonarscanner": {
-      "version": "8.0.1",
+      "version": "8.0.3",
       "commands": [
         "dotnet-sonarscanner"
       ]
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.2.1",
+      "version": "2024.2.4",
       "commands": [
         "jb"
       ]
@@ -51,7 +51,7 @@
       ]
     },
     "microsoft.sbom.dotnettool": {
-      "version": "2.2.7",
+      "version": "2.2.8",
       "commands": [
         "sbom-tool"
       ]

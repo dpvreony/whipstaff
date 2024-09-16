@@ -47,10 +47,12 @@ namespace Whipstaff.Runtime.JobSequencing
         /// <returns>Job Sequence.</returns>
         public static JobSequenceByRange<byte> GetJobSequenceByRange(byte start, byte end)
         {
+#pragma warning disable CA1512
             if (end < start)
             {
                 throw new ArgumentOutOfRangeException(nameof(end));
             }
+#pragma warning restore CA1512
 
             return new JobSequenceByRange<byte>(start, end);
         }
@@ -63,10 +65,17 @@ namespace Whipstaff.Runtime.JobSequencing
         /// <returns>Job Sequence.</returns>
         public static JobSequenceByRange<short> GetJobSequenceByRange(short start, short end)
         {
+#pragma warning disable CA1512
+            if (start < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(start));
+            }
+
             if (end < start)
             {
                 throw new ArgumentOutOfRangeException(nameof(end));
             }
+#pragma warning restore CA1512
 
             return new JobSequenceByRange<short>(start, end);
         }
@@ -79,6 +88,7 @@ namespace Whipstaff.Runtime.JobSequencing
         /// <returns>Job Sequence.</returns>
         public static JobSequenceByRange<int> GetJobSequenceByRange(int start, int end)
         {
+#pragma warning disable CA1512
             if (start < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(start));
@@ -88,6 +98,7 @@ namespace Whipstaff.Runtime.JobSequencing
             {
                 throw new ArgumentOutOfRangeException(nameof(end));
             }
+#pragma warning restore CA1512
 
             return new JobSequenceByRange<int>(start, end);
         }
@@ -100,6 +111,7 @@ namespace Whipstaff.Runtime.JobSequencing
         /// <returns>Job Sequence.</returns>
         public static JobSequenceByRange<long> GetJobSequenceByRange(long start, long end)
         {
+#pragma warning disable CA1512
             if (start < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(start));
@@ -109,6 +121,7 @@ namespace Whipstaff.Runtime.JobSequencing
             {
                 throw new ArgumentOutOfRangeException(nameof(end));
             }
+#pragma warning restore CA1512
 
             return new JobSequenceByRange<long>(start, end);
         }

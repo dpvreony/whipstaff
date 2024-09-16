@@ -6,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.Cryptography.X509
 {
     /// <summary>
@@ -46,15 +50,8 @@ namespace Whipstaff.Runtime.Cryptography.X509
         /// <returns>Collection of certificates.</returns>
         public static IEnumerable<X509Certificate2> GetCertificateCollectionViaSelector(this X509Store store, Func<X509Certificate2, bool> selectorFunc)
         {
-            if (store == null)
-            {
-                throw new ArgumentNullException(nameof(store));
-            }
-
-            if (selectorFunc == null)
-            {
-                throw new ArgumentNullException(nameof(selectorFunc));
-            }
+            ArgumentNullException.ThrowIfNull(store);
+            ArgumentNullException.ThrowIfNull(selectorFunc);
 
             return InternalGetCertificateCollectionViaSelector(store, selectorFunc);
         }

@@ -5,6 +5,10 @@
 using System;
 using System.Reflection;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.Extensions
 {
     /// <summary>
@@ -19,6 +23,8 @@ namespace Whipstaff.Runtime.Extensions
         /// <returns>Whether the type contains a parameterless constructor.</returns>
         public static bool ContainsParameterlessConstructor(this Type type)
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             var constructors = type.GetConstructors();
 
             return Array.Exists(
@@ -33,6 +39,8 @@ namespace Whipstaff.Runtime.Extensions
         /// <returns>Whether the type contains a parameterless constructor.</returns>
         public static ConstructorInfo? GetParameterlessConstructor(this Type type)
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             var constructors = type.GetConstructors();
 
             return Array.Find(constructors, x => x.GetParameters().Length == 0);
@@ -45,6 +53,8 @@ namespace Whipstaff.Runtime.Extensions
         /// <returns>Whether the type is a public closed type.</returns>
         public static bool IsPublicClosedClass(this Type type)
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             if (!type.IsClass)
             {
                 return false;
@@ -77,6 +87,8 @@ namespace Whipstaff.Runtime.Extensions
         public static bool IsPublicClosedSubclass<T>(this Type type)
             where T : class
         {
+            ArgumentNullException.ThrowIfNull(type);
+
             return type.IsPublicClosedClass()
                    && type.IsSubclassOf(typeof(T));
         }

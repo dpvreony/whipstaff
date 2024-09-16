@@ -6,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.FileProcessing
 {
     /// <summary>
@@ -26,21 +30,9 @@ namespace Whipstaff.Runtime.FileProcessing
             Action<string> fileAction,
             bool skipDeleteException)
         {
-            if (fileAsBytes == null)
-            {
-                throw new ArgumentNullException(nameof(fileAsBytes));
-            }
-
-            if (string.IsNullOrWhiteSpace(fileExtension)
-                || !Path.GetExtension(fileExtension).Equals(fileExtension, StringComparison.Ordinal))
-            {
-                throw new ArgumentNullException(nameof(fileExtension));
-            }
-
-            if (fileAction == null)
-            {
-                throw new ArgumentNullException(nameof(fileAction));
-            }
+            ArgumentNullException.ThrowIfNull(fileAsBytes);
+            ArgumentNullException.ThrowIfNull(fileExtension);
+            ArgumentNullException.ThrowIfNull(fileAction);
 
             var tempFileName = GetTempFile(fileAsBytes, fileExtension);
 
@@ -82,21 +74,9 @@ namespace Whipstaff.Runtime.FileProcessing
             Func<string, TResult> fileAction,
             bool skipDeleteException)
         {
-            if (fileAsBytes == null)
-            {
-                throw new ArgumentNullException(nameof(fileAsBytes));
-            }
-
-            if (string.IsNullOrWhiteSpace(fileExtension)
-                || !Path.GetExtension(fileExtension).Equals(fileExtension, StringComparison.Ordinal))
-            {
-                throw new ArgumentNullException(nameof(fileExtension));
-            }
-
-            if (fileAction == null)
-            {
-                throw new ArgumentNullException(nameof(fileAction));
-            }
+            ArgumentNullException.ThrowIfNull(fileAsBytes);
+            ArgumentNullException.ThrowIfNull(fileExtension);
+            ArgumentNullException.ThrowIfNull(fileAction);
 
             var tempFileName = GetTempFile(fileAsBytes, fileExtension);
 
