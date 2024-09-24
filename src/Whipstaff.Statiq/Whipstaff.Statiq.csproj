@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <PackageDescription>Re-usable logic for working with WPF.</PackageDescription>
+  </PropertyGroup>
+
+  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
+    <PropertyGroup>
+      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
+    </PropertyGroup>
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Mermaid\Whipstaff.Mermaid.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Statiq.Web" Version="1.0.0-beta.60" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="21.0.29" />
+  </ItemGroup>
+
+</Project>
