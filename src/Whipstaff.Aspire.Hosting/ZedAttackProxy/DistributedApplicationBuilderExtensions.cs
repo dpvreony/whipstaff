@@ -6,7 +6,7 @@ using System.Globalization;
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 
-namespace Whipstaff.Aspire.Hosting.AppHost.ZedAttackProxy
+namespace Whipstaff.Aspire.Hosting.ZedAttackProxy
 {
     /// <summary>
     /// Zed Attack Proxy extensions for <see cref="IDistributedApplicationBuilder"/>.
