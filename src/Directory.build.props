@@ -74,7 +74,7 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(IsWasmProject) == ''">
+  <ItemGroup Condition="$(IsWasmProject) == 'False'">
     <PackageReference Include="Dhgms.QualityAssurancePack" Version="2.3.228" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>

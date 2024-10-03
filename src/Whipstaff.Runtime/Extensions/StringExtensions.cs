@@ -70,10 +70,12 @@ namespace Whipstaff.Runtime.Extensions
             {
                 var currentChar = charArray[i];
 
-                if (replacements.TryGetValue(currentChar, out var value))
+                if (!replacements.TryGetValue(currentChar, out var value))
                 {
-                    charArray[i] = value;
+                    continue;
                 }
+
+                charArray[i] = value;
             }
 
             return new string(charArray);
