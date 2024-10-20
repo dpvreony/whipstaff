@@ -27,7 +27,7 @@
       ]
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.2.5",
+      "version": "2024.2.6",
       "commands": [
         "jb"
       ]
@@ -51,7 +51,7 @@
       ]
     },
     "microsoft.sbom.dotnettool": {
-      "version": "2.2.9",
+      "version": "3.0.0",
       "commands": [
         "sbom-tool"
       ]
