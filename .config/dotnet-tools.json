@@ -21,13 +21,13 @@
       ]
     },
     "dotnet-sonarscanner": {
-      "version": "9.0.0",
+      "version": "9.0.1",
       "commands": [
         "dotnet-sonarscanner"
       ]
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.2.6",
+      "version": "2024.2.7",
       "commands": [
         "jb"
       ]
