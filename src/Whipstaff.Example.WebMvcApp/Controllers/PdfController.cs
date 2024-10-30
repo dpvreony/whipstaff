@@ -17,7 +17,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// <summary>
     /// Example controller for serving pdf files.
     /// </summary>
-    public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfRequestDto>
+    public sealed class PdfController : AbstractFileDownloadController<int, DownloadPdfRequestDto>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfController"/> class.

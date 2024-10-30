@@ -30,7 +30,7 @@ namespace Whipstaff.CommandLine
         /// <param name="fileSystem">File System abstraction.</param>
         /// <param name="console">The console to which output is written during invocation.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static Task<int> GetResultFromRootCommand<TCommandLineArg, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+        public static Task<int> GetResultFromRootCommandAsync<TCommandLineArg, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<TCommandLineArg, Task<int>> rootCommandHandlerFunc,
             IFileSystem fileSystem,
@@ -42,7 +42,7 @@ namespace Whipstaff.CommandLine
             ArgumentNullException.ThrowIfNull(rootCommandHandlerFunc);
             ArgumentNullException.ThrowIfNull(fileSystem);
 
-            return GetResultFromRootCommand(
+            return GetResultFromRootCommandAsync(
                 args,
                 new TRootCommandAndBinderFactory().GetRootCommandAndBinder,
                 rootCommandHandlerFunc,
@@ -61,7 +61,7 @@ namespace Whipstaff.CommandLine
         /// <param name="fileSystem">File System abstraction.</param>
         /// <param name="console">The console to which output is written during invocation.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static async Task<int> GetResultFromRootCommand<TCommandLineArg, TCommandLineArgModelBinder>(
+        public static async Task<int> GetResultFromRootCommandAsync<TCommandLineArg, TCommandLineArgModelBinder>(
             string[] args,
             Func<IFileSystem, RootCommandAndBinderModel<TCommandLineArgModelBinder>> rootCommandAndBinderModelFunc,
             Func<TCommandLineArg, Task<int>> rootCommandHandlerFunc,

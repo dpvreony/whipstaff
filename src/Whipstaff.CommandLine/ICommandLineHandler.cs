@@ -17,6 +17,6 @@ namespace Whipstaff.CommandLine
         /// </summary>
         /// <param name="commandLineArgModel">Command Line Arguments model.</param>
         /// <returns>0 for success, non-zero for error.</returns>
-        Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel);
+        Task<int> HandleCommandAsync(TCommandLineArgModel commandLineArgModel);
     }
 }

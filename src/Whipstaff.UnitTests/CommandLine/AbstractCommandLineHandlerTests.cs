@@ -34,7 +34,7 @@ namespace Whipstaff.UnitTests.CommandLine
         }
 
         /// <summary>
-        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommand(TCommandLineArgModel)"/> method.
+        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommandAsync(TCommandLineArgModel)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : Foundatio.Xunit.TestWithLoggingBase,
@@ -60,7 +60,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 var instance = new FakeCommandLineHandler(
                     new FakeCommandLineHandlerLogMessageActionsWrapper(logger));
 
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommand(arg));
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommandAsync(arg));
             }
         }
     }

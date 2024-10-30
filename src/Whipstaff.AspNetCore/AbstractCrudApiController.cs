@@ -35,7 +35,7 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
     /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
 #pragma warning disable S6934
-    public abstract class CrudApiController<
+    public abstract class AbstractCrudApiController<
 #pragma warning restore S6934
             TListQuery,
             TListRequestDto,
@@ -51,7 +51,7 @@ namespace Whipstaff.AspNetCore
             TUpdateRequestDto,
             TUpdateResponseDto,
             TCrudControllerLogMessageActions>
-        : QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
+        : AbstractQueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
@@ -64,7 +64,7 @@ namespace Whipstaff.AspNetCore
         where TCrudControllerLogMessageActions : ICrudControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CrudApiController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractCrudApiController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto, TCrudControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
@@ -72,9 +72,9 @@ namespace Whipstaff.AspNetCore
         /// <param name="commandFactory">The factory for generating Command messages.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
         /// <param name="logMessageActions">Log Message Actions for the logging events in the controller.</param>
-        protected CrudApiController(
+        protected AbstractCrudApiController(
             IAuthorizationService authorizationService,
-            ILogger<CrudApiController<
+            ILogger<AbstractCrudApiController<
                 TListQuery,
                 TListRequestDto,
                 TListQueryResponse,

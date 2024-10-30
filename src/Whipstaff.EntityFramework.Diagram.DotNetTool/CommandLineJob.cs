@@ -40,7 +40,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel)
+        protected override Task<int> OnHandleCommandAsync(CommandLineArgModel commandLineArgModel)
         {
             return Task.Run(() =>
             {

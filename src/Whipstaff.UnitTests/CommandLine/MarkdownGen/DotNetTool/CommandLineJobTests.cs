@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
         }
 
         /// <summary>
-        /// Unit test for <see cref="CommandLineJob.OnHandleCommand(CommandLineArgModel)"/> method.
+        /// Unit test for <see cref="CommandLineJob.OnHandleCommandAsync(CommandLineArgModel)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : Foundatio.Xunit.TestWithLoggingBase,
@@ -66,7 +66,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.HandleCommand(arg));
+                    () => instance.HandleCommandAsync(arg));
             }
         }
     }

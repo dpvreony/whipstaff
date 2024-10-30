@@ -88,7 +88,7 @@ namespace Whipstaff.Statiq.Mermaid
 
             var markdown = await _fileSystem.File.ReadAllTextAsync(inputFilename);
 
-            var diagramResponse = await playwrightRenderer.GetDiagram(
+            var diagramResponse = await playwrightRenderer.GetDiagramAsync(
                 markdown,
                 PlaywrightBrowserTypeAndChannel.ChromiumDefault())
                 .ConfigureAwait(false);

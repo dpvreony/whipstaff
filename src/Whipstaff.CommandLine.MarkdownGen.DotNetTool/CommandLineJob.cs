@@ -35,7 +35,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel)
+        protected override Task<int> OnHandleCommandAsync(CommandLineArgModel commandLineArgModel)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
 

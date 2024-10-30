@@ -81,7 +81,7 @@ namespace Whipstaff.Wpf.Mahapps.MetroWindow
         /// <param name="metroWindow">Metro window instance that will host the interaction notification.</param>
         /// <param name="interactionContext">Contains contextual information for the "Ok only" interaction.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public static async Task ShowMessageForOkOnlyNotification(
+        public static async Task ShowMessageForOkOnlyNotificationAsync(
             this MahApps.Metro.Controls.MetroWindow metroWindow,
             InteractionContext<OkOnlyInteractionRequest, Unit> interactionContext)
         {

@@ -38,7 +38,7 @@ namespace Whipstaff.AspNetCore
     /// <summary>
     /// Core Initialization logic.
     /// </summary>
-    public abstract class BaseStartup : IWhipstaffWebAppStartup
+    public abstract class AbstractWebAppStartup : IWhipstaffWebAppStartup
     {
         /// <inheritdoc/>
         public abstract void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder);
@@ -192,7 +192,7 @@ namespace Whipstaff.AspNetCore
             var logDiagnosticListenerLogger = loggerFactory.CreateLogger<LogDiagnosticListener>();
             _ = diagnosticListener.SubscribeWithAdapter(new LogDiagnosticListener(logDiagnosticListenerLogger));
 
-            var logger = loggerFactory.CreateLogger<BaseStartup>();
+            var logger = loggerFactory.CreateLogger<AbstractWebAppStartup>();
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
             logger.LogInformation("Starting configuration");
 #pragma warning restore CA1848 // Use the LoggerMessage delegates

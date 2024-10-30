@@ -27,7 +27,7 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
 #pragma warning disable S6934
-    public abstract class QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
+    public abstract class AbstractQueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
 #pragma warning restore S6934
         : ControllerBase
         where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
@@ -38,16 +38,16 @@ namespace Whipstaff.AspNetCore
         where TQueryOnlyControllerLogMessageActions : IQueryOnlyControllerLogMessageActions
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueryOnlyApiController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractQueryOnlyApiController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
         /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
-        protected QueryOnlyApiController(
+        protected AbstractQueryOnlyApiController(
             IAuthorizationService authorizationService,
-            ILogger<QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
+            ILogger<AbstractQueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
             TQueryOnlyControllerLogMessageActions logMessageActionMappings)

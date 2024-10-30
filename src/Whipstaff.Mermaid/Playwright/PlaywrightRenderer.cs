@@ -84,7 +84,7 @@ namespace Whipstaff.Mermaid.Playwright
                 throw new ArgumentException("Target file already exists", nameof(targetFile));
             }
 
-            var diagram = await GetDiagram(
+            var diagram = await GetDiagramAsync(
                     sourceFile,
                     playwrightBrowserTypeAndChannel)
                 .ConfigureAwait(false);
@@ -104,7 +104,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
         /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagram(
+        public async Task<GetDiagramResponseModel?> GetDiagramAsync(
             IFileInfo sourceFileInfo,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
@@ -117,7 +117,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             using (var streamReader = sourceFileInfo.OpenText())
             {
-                return await GetDiagram(
+                return await GetDiagramAsync(
                         streamReader,
                         playwrightBrowserTypeAndChannel)
                     .ConfigureAwait(false);
@@ -130,7 +130,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="textReader">File containing the diagram markdown to convert.</param>
         /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagram(
+        public async Task<GetDiagramResponseModel?> GetDiagramAsync(
             TextReader textReader,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
@@ -140,7 +140,7 @@ namespace Whipstaff.Mermaid.Playwright
                 .ReadToEndAsync()
                 .ConfigureAwait(false);
 
-            return await GetDiagram(
+            return await GetDiagramAsync(
                     markdown,
                     playwrightBrowserTypeAndChannel)
                 .ConfigureAwait(false);
@@ -152,7 +152,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="markdown">Diagram markdown to convert.</param>
         /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagram(
+        public async Task<GetDiagramResponseModel?> GetDiagramAsync(
             string markdown,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
@@ -175,12 +175,12 @@ namespace Whipstaff.Mermaid.Playwright
 #pragma warning restore S1075
                 await page.RouteAsync(
                         pageUrl,
-                        route => MermaidPostHandler(route, markdown))
+                        route => MermaidPostHandlerAsync(route, markdown))
                     .ConfigureAwait(false);
 
                 await page.RouteAsync(
                         "**/*.{mjs,js}",
-                        route => DefaultHandler(route))
+                        route => DefaultHandlerAsync(route))
                     .ConfigureAwait(false);
 
                 var pageResponse = await page.GotoAsync(pageUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle })
@@ -234,7 +234,7 @@ namespace Whipstaff.Mermaid.Playwright
             return httpRequestMessage;
         }
 
-        private async Task MermaidPostHandler(IRoute route, string diagram)
+        private async Task MermaidPostHandlerAsync(IRoute route, string diagram)
         {
             using (var client = _mermaidHttpServerFactory.CreateClient())
             using (var request = GetRequestFromRoute(route, diagram))
@@ -257,7 +257,7 @@ namespace Whipstaff.Mermaid.Playwright
             }
         }
 
-        private async Task DefaultHandler(IRoute route)
+        private async Task DefaultHandlerAsync(IRoute route)
         {
             if (!route.Request.Url.StartsWith("https://localhost/", StringComparison.OrdinalIgnoreCase))
             {

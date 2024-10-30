@@ -33,7 +33,7 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="fileSystem">File system wrapper.</param>
         /// <param name="console">The console to which output is written during invocation.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static async Task<int> RunSimpleCliJob<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+        public static async Task<int> RunSimpleCliJobAsync<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<IFileSystem, ILogger<TCommandLineHandler>, TCommandLineHandler> commandLineHandlerFactoryFunc,
             IFileSystem fileSystem,
@@ -59,9 +59,9 @@ namespace Whipstaff.CommandLine.Hosting
 
                 var commandLineHandler = commandLineHandlerFactoryFunc(fileSystem, logger);
 
-                return await CommandLineArgumentHelpers.GetResultFromRootCommand<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+                return await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
                         args,
-                        commandLineHandler.HandleCommand,
+                        commandLineHandler.HandleCommandAsync,
                         fileSystem,
                         console)
                     .ConfigureAwait(false);

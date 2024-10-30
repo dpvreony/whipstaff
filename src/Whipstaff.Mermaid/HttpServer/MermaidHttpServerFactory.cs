@@ -77,7 +77,9 @@ namespace Whipstaff.Mermaid.HttpServer
                 HttpsCompression = HttpsCompressionMode.DoNotCompress
             });
 
-            _ = applicationBuilder.MapWhen(IsMermaidPost, AppConfiguration);
+            _ = applicationBuilder.MapWhen(
+                static httpContext => IsMermaidPost(httpContext),
+                static applicationBuilder => AppConfiguration(applicationBuilder));
         }
 
         private static Task OnPrepareResponseAsync(StaticFileResponseContext arg)
@@ -101,10 +103,10 @@ namespace Whipstaff.Mermaid.HttpServer
 
         private static void AppConfiguration(IApplicationBuilder applicationBuilder)
         {
-            applicationBuilder.Run(Handler);
+            applicationBuilder.Run(static applicationBuilder => HandlerAsync(applicationBuilder));
         }
 
-        private static async Task Handler(HttpContext context)
+        private static async Task HandlerAsync(HttpContext context)
         {
             var request = context.Request;
             var response = context.Response;
@@ -112,14 +114,14 @@ namespace Whipstaff.Mermaid.HttpServer
             var diagramFormStringValues = request.Form["diagram"];
             if (diagramFormStringValues.Count < 1)
             {
-                await WriteNoDiagramResponse(response).ConfigureAwait(false);
+                await WriteNoDiagramResponseAsync(response).ConfigureAwait(false);
                 return;
             }
 
             var diagram = diagramFormStringValues[0];
             if (string.IsNullOrWhiteSpace(diagram))
             {
-                await WriteNoDiagramResponse(response).ConfigureAwait(false);
+                await WriteNoDiagramResponseAsync(response).ConfigureAwait(false);
                 return;
             }
 
@@ -149,7 +151,7 @@ namespace Whipstaff.Mermaid.HttpServer
                 .ConfigureAwait(false);
         }
 
-        private static async Task WriteNoDiagramResponse(HttpResponse response)
+        private static async Task WriteNoDiagramResponseAsync(HttpResponse response)
         {
             response.StatusCode = 400;
             response.ContentType = "text/plain";

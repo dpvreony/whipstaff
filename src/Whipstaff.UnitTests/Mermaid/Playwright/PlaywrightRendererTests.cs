@@ -237,7 +237,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram(IFileInfo, PlaywrightBrowserTypeAndChannel)"/>.
+        /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagramAsync(IFileInfo, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
         public sealed class GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo>
         {
@@ -265,7 +265,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     logMessageActionsWrapper);
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.GetDiagram(arg, PlaywrightBrowserTypeAndChannel.Chrome()));
+                    () => instance.GetDiagramAsync(arg, PlaywrightBrowserTypeAndChannel.Chrome()));
             }
 
             /// <summary>
@@ -286,7 +286,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
-                var diagramResponseModel = await instance.GetDiagram(sourceFileInfo, PlaywrightBrowserTypeAndChannel.Chrome());
+                var diagramResponseModel = await instance.GetDiagramAsync(sourceFileInfo, PlaywrightBrowserTypeAndChannel.Chrome());
 
                 Assert.NotNull(diagramResponseModel);
 
@@ -297,7 +297,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source <see cref="PlaywrightRenderer.GetDiagram(string, PlaywrightBrowserTypeAndChannel)"/>.
+            /// Test source <see cref="PlaywrightRenderer.GetDiagramAsync(string, PlaywrightBrowserTypeAndChannel)"/>.
             /// </summary>
             public sealed class ReturnsResultTestSource : TheoryData<IFileInfo, string>
             {
@@ -339,7 +339,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram(string, PlaywrightBrowserTypeAndChannel)"/>.
+        /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagramAsync(string, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
         public sealed class GetDiagramMethodWithStringPlaywrightBrowserTypeString : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
         {
@@ -367,7 +367,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     logMessageActionsWrapper);
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.GetDiagram(arg, PlaywrightBrowserTypeAndChannel.Chrome()));
+                    () => instance.GetDiagramAsync(arg, PlaywrightBrowserTypeAndChannel.Chrome()));
             }
 
             /// <summary>
@@ -388,7 +388,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
-                var diagramResponseModel = await instance.GetDiagram(diagram, PlaywrightBrowserTypeAndChannel.Chrome());
+                var diagramResponseModel = await instance.GetDiagramAsync(diagram, PlaywrightBrowserTypeAndChannel.Chrome());
 
                 Assert.NotNull(diagramResponseModel);
 
@@ -399,7 +399,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source <see cref="PlaywrightRenderer.GetDiagram(string, PlaywrightBrowserTypeAndChannel)"/>.
+            /// Test source <see cref="PlaywrightRenderer.GetDiagramAsync(string, PlaywrightBrowserTypeAndChannel)"/>.
             /// </summary>
             public sealed class ReturnsResultTestSource : TheoryData<string, string>
             {
