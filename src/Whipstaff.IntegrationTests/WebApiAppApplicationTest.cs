@@ -74,7 +74,7 @@ namespace Whipstaff.IntegrationTests
                     "application/json; charset=utf-8"
                 },
                 {
-                    "https://localhost/swagger",
+                    "https://localhost/swagger/index.html",
                     "text/html; charset=utf-8"
                 },
                 {

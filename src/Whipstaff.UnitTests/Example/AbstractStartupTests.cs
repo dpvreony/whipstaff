@@ -40,18 +40,18 @@ namespace Whipstaff.UnitTests.Example
                 "Development"
             };
 
-            var builder = AspNetCore.Features.ApplicationStartup.WebHostBuilderFactory.GetHostBuilder<TStartUp>(args).UseTestServer().UseDefaultServiceProvider(
+            var app = AspNetCore.Features.ApplicationStartup.WebApplicationFactory.GetHostApplicationBuilder<TStartUp>(args, applicationBuilder => applicationBuilder.WebHost.UseTestServer().UseDefaultServiceProvider(
                 (_, options) =>
                 {
                     options.ValidateScopes = true;
                     options.ValidateOnBuild = true;
-                });
-
-            var app = builder.Build();
-            Assert.NotNull(app);
+                }));
 
             await app.StartAsync();
             await app.StopAsync();
+
+            // this assert won't be reached if the app fails to start
+            Assert.Equal(1, 1);
         }
     }
 }
