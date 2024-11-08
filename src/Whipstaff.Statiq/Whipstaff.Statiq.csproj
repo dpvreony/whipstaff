@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <PackageReference Include="Statiq.Web" Version="1.0.0-beta.60" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="21.1.2" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="21.1.3" />
   </ItemGroup>
 
 </Project>
