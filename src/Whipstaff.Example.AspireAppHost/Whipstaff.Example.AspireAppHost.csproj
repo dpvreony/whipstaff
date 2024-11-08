@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <IsAspireHost>true</IsAspireHost>
     <NoWarn>CS1591</NoWarn>
+    <IsPackable>False</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
