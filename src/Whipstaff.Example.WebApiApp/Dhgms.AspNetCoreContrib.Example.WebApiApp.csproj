@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.AspireServiceDefaults\Whipstaff.Example.AspireServiceDefaults.csproj" />
     <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
   </ItemGroup>
 
