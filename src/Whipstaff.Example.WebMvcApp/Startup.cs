@@ -19,12 +19,14 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RimDev.Stuntman.Core;
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
+using Whipstaff.Example.AspireServiceDefaults;
 using Whipstaff.MediatR;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
@@ -48,6 +50,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         {
             _stuntmanOptions = new StuntmanOptions();
             _dbConnection = CreateInMemoryDatabase();
+        }
+
+        /// <inheritdoc />
+        public override void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder)
+        {
+            _ = builder.AddServiceDefaults();
         }
 
         /// <inheritdoc />

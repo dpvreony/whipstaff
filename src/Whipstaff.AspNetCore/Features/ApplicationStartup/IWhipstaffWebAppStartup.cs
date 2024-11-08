@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.AspNetCore.Features.ApplicationStartup
@@ -15,6 +16,12 @@ namespace Whipstaff.AspNetCore.Features.ApplicationStartup
     /// </summary>
     public interface IWhipstaffWebAppStartup
     {
+        /// <summary>
+        /// Allows the application to configure the Aspire service defaults.
+        /// </summary>
+        /// <param name="builder">Host Application builder to modify.</param>
+        void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder);
+
         /// <summary>
         /// Configures logging for the application.
         /// </summary>

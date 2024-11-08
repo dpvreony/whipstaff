@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
@@ -40,6 +41,9 @@ namespace Whipstaff.AspNetCore
     /// </summary>
     public abstract class BaseStartup : IWhipstaffWebAppStartup
     {
+        /// <inheritdoc/>
+        public abstract void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder);
+
         /// <inheritdoc/>
         public abstract void ConfigureLogging(
             ILoggingBuilder loggingBuilder,
