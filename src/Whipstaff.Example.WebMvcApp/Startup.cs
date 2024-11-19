@@ -19,7 +19,9 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+#if stuntman
 using RimDev.Stuntman.Core;
+#endif
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
@@ -37,7 +39,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     /// </summary>
     public sealed class Startup : BaseStartup
     {
+#if stuntman
         private readonly StuntmanOptions _stuntmanOptions;
+#endif
         private readonly DbConnection _dbConnection;
 
         /// <summary>
@@ -45,7 +49,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// </summary>
         public Startup()
         {
+#if stuntman
             _stuntmanOptions = new StuntmanOptions();
+#endif
             _dbConnection = CreateInMemoryDatabase();
         }
 
@@ -61,7 +67,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
 
+#if stuntman
             serviceCollection.AddStuntman(_stuntmanOptions);
+#endif
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseSqlite(_dbConnection)
                 .AddInterceptors(new RowVersionSaveChangesInterceptor())
@@ -76,7 +84,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+#if stuntman
             app.UseStuntman(_stuntmanOptions);
+#endif
 
             _ = app.UseStaticFiles();
         }
