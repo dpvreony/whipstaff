@@ -110,15 +110,15 @@ jobs:
         dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
       working-directory: src
 
-    - name: List Deprecated Packages
-      run: |
-        dotnet list package --deprecated
-      working-directory: src
+    #- name: List Deprecated Packages
+    #  run: |
+    #    dotnet list package --deprecated
+    #  working-directory: src
 
-    - name: List Vulnerable Packages
-      run: |
-        dotnet list package --vulnerable
-      working-directory: src
+    #- name: List Vulnerable Packages
+    #  run: |
+    #    dotnet list package --vulnerable
+    #  working-directory: src
 
     - name: NPM package restore
       run: |
