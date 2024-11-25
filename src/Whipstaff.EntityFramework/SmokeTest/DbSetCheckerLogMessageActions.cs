@@ -26,12 +26,12 @@ namespace Whipstaff.EntityFramework.SmokeTest
         {
             _startingTestOfDbSet = LoggerMessage.Define<Type>(
                 Microsoft.Extensions.Logging.LogLevel.Information,
-                EventIdFactory.TestOfDbSetStarting(),
+                EventIdFactory.TestOfDbSetStarting,
                 "Starting Test of DBSet for {EntityType}");
 
             _testOfDbSetFailed = LoggerMessage.Define<Type>(
                 Microsoft.Extensions.Logging.LogLevel.Error,
-                EventIdFactory.TestOfDbSetFailed(),
+                EventIdFactory.TestOfDbSetFailed,
                 "Failed during test of DBSet for {EntityType}");
         }
 
