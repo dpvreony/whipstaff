@@ -96,7 +96,7 @@ jobs:
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet workload install android aspire ios tvos macos maui
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
