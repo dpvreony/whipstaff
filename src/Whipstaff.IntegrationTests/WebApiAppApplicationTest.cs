@@ -43,10 +43,9 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            var args = new string[]
+            var args = new[]
             {
-                "UseSwagger",
-                "true"
+                "UseSwagger=true"
             };
 
             await WithWebApplicationFactoryAsync(
