@@ -43,13 +43,14 @@ namespace Whipstaff.IntegrationTests
         /// Gets the Web Application Factory.
         /// </summary>
         /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
+        /// <param name="args">Command line arguments.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected static async Task WithWebApplicationFactoryAsync(Func<TestServer, Task> webApplicationFunc)
+        protected static async Task WithWebApplicationFactoryAsync(Func<TestServer, Task> webApplicationFunc, string[] args)
         {
             ArgumentNullException.ThrowIfNull(webApplicationFunc);
 
             var webApplication = WebApplicationFactory.GetHostApplicationBuilder<TStartup>(
-                Array.Empty<string>(),
+                args,
                 applicationBuilder => applicationBuilder.WebHost.UseTestServer());
             var server = webApplication.Services.GetRequiredService<IServer>();
             if (server is not TestServer testServer)
