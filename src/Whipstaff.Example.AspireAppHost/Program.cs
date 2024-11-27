@@ -11,7 +11,7 @@ namespace Whipstaff.Example.AspireAppHost
     /// <summary>
     /// Program entry point for the application.
     /// </summary>
-    internal static class Program
+    public static class Program
     {
         /// <summary>
         /// Main entry point for the application.
@@ -24,6 +24,11 @@ namespace Whipstaff.Example.AspireAppHost
             await app.RunAsync();
         }
 
+        /// <summary>
+        /// Gets the builder for the distributed application.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
+        /// <returns>Instance of application builder.</returns>
         public static IDistributedApplicationBuilder GetBuilder(string[] args)
         {
             var builder = DistributedApplication.CreateBuilder(args);
@@ -48,6 +53,11 @@ namespace Whipstaff.Example.AspireAppHost
             return builder;
         }
 
+        /// <summary>
+        /// Gets the distributed application.
+        /// </summary>
+        /// <param name="args">Command line arguments.</param>
+        /// <returns>Instance of the application.</returns>
         public static DistributedApplication GetApplication(string[] args)
         {
             var builder = GetBuilder(args);
