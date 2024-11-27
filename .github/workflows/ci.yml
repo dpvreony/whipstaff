@@ -52,7 +52,7 @@ jobs:
         }
 
         echo $sdkmanagerpath
-        . $sdkmanagerpath --install "platforms;android-30;android-34"
+        . $sdkmanagerpath --install "platforms;android-30"
 
     - name: Install Windows SDK 10.0.16299
       shell: pwsh
