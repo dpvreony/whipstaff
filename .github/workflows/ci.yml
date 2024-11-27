@@ -76,6 +76,7 @@ jobs:
       run: |
         dotnet workload install android aspire ios tvos macos maui
         dotnet workload list
+      working-directory: src
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
@@ -85,6 +86,7 @@ jobs:
       run: |
         dotnet nuget locals all --clear
         dotnet nuget remove source "Microsoft Visual Studio Offline Packages"
+      working-directory: src
 
     - name: NBGV
       id: nbgv
@@ -94,6 +96,7 @@ jobs:
 
     - name: Install dotnet tools
       run: dotnet tool restore
+      working-directory: src
 
     - name: Prepare Artifact Directory
       run: |
