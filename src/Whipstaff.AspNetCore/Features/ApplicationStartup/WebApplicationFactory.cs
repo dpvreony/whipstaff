@@ -30,6 +30,9 @@ namespace Whipstaff.AspNetCore.Features.ApplicationStartup
             var startup = new TStartup();
 
             var builder = WebApplication.CreateBuilder(args);
+
+            startup.ConfigureAspireServiceDefaults(builder);
+
             startup.ConfigureLogging(
                 builder.Logging,
                 builder.Configuration,
