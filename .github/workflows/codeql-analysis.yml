@@ -30,7 +30,7 @@ jobs:
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      SOLUTION_PATH: src\\Whipstaff.sln
+      SOLUTION_PATH: Whipstaff.sln
 
     strategy:
       fail-fast: false
@@ -96,7 +96,8 @@ jobs:
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet workload install android aspire ios tvos macos maui
+      working-directory: src
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
@@ -104,10 +105,12 @@ jobs:
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
       run: dotnet nuget locals all --clear
+      working-directory: src
 
     - name: Restore Packages
       run: |
         dotnet restore ${{ env.SOLUTION_PATH }}
+      working-directory: src
 
     - name: Changelog
       uses: glennawatson/ChangeLog@v1
