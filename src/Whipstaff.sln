@@ -95,6 +95,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Example.AspireApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Example.AspireServiceDefaults", "Whipstaff.Example.AspireServiceDefaults\Whipstaff.Example.AspireServiceDefaults.csproj", "{24F775CB-3952-4E93-81C5-CC95F50D6F1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.GivEnergy", "Whipstaff.GivEnergy\Whipstaff.GivEnergy.csproj", "{258D58C8-2867-4BFE-9308-271320573609}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -281,6 +283,10 @@ Global
 		{24F775CB-3952-4E93-81C5-CC95F50D6F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24F775CB-3952-4E93-81C5-CC95F50D6F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24F775CB-3952-4E93-81C5-CC95F50D6F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{258D58C8-2867-4BFE-9308-271320573609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{258D58C8-2867-4BFE-9308-271320573609}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{258D58C8-2867-4BFE-9308-271320573609}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{258D58C8-2867-4BFE-9308-271320573609}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
