@@ -308,10 +308,6 @@ jobs:
     - name: Install dotnet tools
       run: dotnet tool restore --tool-manifest .config/snitch.json
 
-    - name: List licenses
-      run: |
-        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
-
     - name: run snitch
       run: |
         dotnet snitch ${{ env.solutionpath }}
