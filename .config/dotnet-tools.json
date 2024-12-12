@@ -2,12 +2,6 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "snitch": {
-      "version": "2.0.0",
-      "commands": [
-        "snitch"
-      ]
-    },
     "dotmorten.omdgenerator": {
       "version": "1.4.0",
       "commands": [
