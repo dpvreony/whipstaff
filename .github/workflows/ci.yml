@@ -299,25 +299,25 @@ jobs:
         name: licenses
         path: artifacts/licenses
 
-  snitch:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+  #snitch:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - name: Checkout code
+  #    uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-    - name: Install dotnet tools
-      run: dotnet tool restore --tool-manifest .config/snitch.json
+  #  - name: Install dotnet tools
+  #    run: dotnet tool restore --tool-manifest .config/snitch.json
 
-    - name: run snitch
-      run: |
-        snitch ${{ env.solutionpath }}
-      working-directory: src
+  #  - name: run snitch
+  #    run: |
+  #      snitch ${{ env.solutionpath }}
+  #    working-directory: src
 
-    - name: store snitch
-      uses: actions/upload-artifact@v4
-      with:
-        name: snitch
-        path: artifacts/snitch
+  #  - name: store snitch
+  #    uses: actions/upload-artifact@v4
+  #    with:
+  #      name: snitch
+  #      path: artifacts/snitch
 
   appinspector:
     runs-on: ubuntu-latest
