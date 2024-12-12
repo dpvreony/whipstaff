@@ -1,4 +1,4 @@
-name: .NET Core
+name: ci
 
 on:
   push:
@@ -54,26 +54,10 @@ jobs:
         echo $sdkmanagerpath
         . $sdkmanagerpath --install "platforms;android-30"
 
-    #- name: Download Windows SDK 10.0.16299
-    #  shell: pwsh
-    #  run: |
-    #    Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
-
-    #- name: Install Windows SDK 10.0.16299
-    #  shell: pwsh
-    #  run: |
-    #    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-    #    $startInfo.FileName = "winsdk.exe"
-    #    $startInfo.Arguments = "/norestart /quiet"
-    #    $process = New-Object System.Diagnostics.Process
-    #    $process.StartInfo = $startInfo
-    #    $process.Start()
-    #    $process.WaitForExit()
-
-    - name: Install .NET 8
+    - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.307
+        global-json-file: "./global.json"
 
     - name: Install DotNet workloads
       shell: bash
@@ -294,6 +278,9 @@ jobs:
   licenses:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
     - name: Prepare Artifact Directory
       run: |
         mkdir artifacts
@@ -315,10 +302,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-    - name: Prepare Artifact Directory
+    - name: Install dotnet tools
+      run: dotnet tool restore --config-file .config/snitch.json
+
+    - name: List licenses
       run: |
-        mkdir artifacts
-        mkdir artifacts\snitch
+        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
+
+    - name: run snitch
+      run: |
+        dotnet snitch ${{ env.solutionpath }}
+      working-directory: src
 
     - name: store snitch
       uses: actions/upload-artifact@v4
@@ -331,6 +325,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+    - name: Install dotnet tools
+      run: dotnet tool restore --config-file .config/appinspector.json
 
     - name: Prepare Artifact Directory
       run: |
