@@ -15,13 +15,13 @@
       ]
     },
     "dotnet-sonarscanner": {
-      "version": "9.0.0",
+      "version": "9.0.2",
       "commands": [
         "dotnet-sonarscanner"
       ]
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.2.7",
+      "version": "2024.3.2",
       "commands": [
         "jb"
       ]
@@ -33,7 +33,7 @@
       ]
     },
     "microsoft.cst.applicationinspector.cli": {
-      "version": "1.9.22",
+      "version": "1.9.30",
       "commands": [
         "appinspector"
       ]

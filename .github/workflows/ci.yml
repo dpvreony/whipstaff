@@ -42,7 +42,7 @@ jobs:
         java-version: '17'
 
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      uses: android-actions/setup-android@v3.2.2
 
     - name: Install Android SDK
       run: |
@@ -54,28 +54,33 @@ jobs:
         echo $sdkmanagerpath
         . $sdkmanagerpath --install "platforms;android-30"
 
-    - name: Install Windows SDK 10.0.16299
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
-        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-        $startInfo.FileName = "winsdk.exe"
-        $startInfo.Arguments = "/norestart /quiet"
-        $process = New-Object System.Diagnostics.Process
-        $process.StartInfo = $startInfo
-        $process.Start()
-        $process.WaitForExit()
+    #- name: Download Windows SDK 10.0.16299
+    #  shell: pwsh
+    #  run: |
+    #    Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
+
+    #- name: Install Windows SDK 10.0.16299
+    #  shell: pwsh
+    #  run: |
+    #    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    #    $startInfo.FileName = "winsdk.exe"
+    #    $startInfo.Arguments = "/norestart /quiet"
+    #    $process = New-Object System.Diagnostics.Process
+    #    $process.StartInfo = $startInfo
+    #    $process.Start()
+    #    $process.WaitForExit()
 
     - name: Install .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 8.0.307
 
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet workload install android aspire ios tvos macos maui
         dotnet workload list
+      working-directory: src
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
@@ -85,6 +90,7 @@ jobs:
       run: |
         dotnet nuget locals all --clear
         dotnet nuget remove source "Microsoft Visual Studio Offline Packages"
+      working-directory: src
 
     - name: NBGV
       id: nbgv
@@ -94,6 +100,7 @@ jobs:
 
     - name: Install dotnet tools
       run: dotnet tool restore
+      working-directory: src
 
     - name: Prepare Artifact Directory
       run: |
@@ -107,18 +114,18 @@ jobs:
 
     - name: Restore Packages
       run: |
-        dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
+        dotnet restore ${{ env.solutionpath }} -- /bl:artifacts\\binlog\\restore.binlog
       working-directory: src
 
-    - name: List Deprecated Packages
-      run: |
-        dotnet list package --deprecated
-      working-directory: src
+    #- name: List Deprecated Packages
+    #  run: |
+    #    dotnet list package --deprecated
+    #  working-directory: src
 
-    - name: List Vulnerable Packages
-      run: |
-        dotnet list package --vulnerable
-      working-directory: src
+    #- name: List Vulnerable Packages
+    #  run: |
+    #    dotnet list package --vulnerable
+    #  working-directory: src
 
     - name: NPM package restore
       run: |
