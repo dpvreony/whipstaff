@@ -310,7 +310,7 @@ jobs:
 
     - name: run snitch
       run: |
-        dotnet snitch ${{ env.solutionpath }}
+        snitch ${{ env.solutionpath }}
       working-directory: src
 
     - name: store snitch
