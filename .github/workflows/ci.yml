@@ -303,7 +303,7 @@ jobs:
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
     - name: Install dotnet tools
-      run: dotnet tool restore --config-file .config/snitch.json
+      run: dotnet tool restore --configfile .config/snitch.json
 
     - name: List licenses
       run: |
@@ -327,7 +327,7 @@ jobs:
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
     - name: Install dotnet tools
-      run: dotnet tool restore --config-file .config/appinspector.json
+      run: dotnet tool restore --configfile .config/appinspector.json
 
     - name: Prepare Artifact Directory
       run: |
