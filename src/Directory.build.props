@@ -58,7 +58,7 @@
     <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="21.1.7" />
     <PackageReference Include="xunit" Version="2.9.2" />
-    <PackageReference Include="xunit.analyzers" Version="1.17.0" />
+    <PackageReference Include="xunit.analyzers" Version="1.18.0" />
     <PackageReference Include="xunit.runner.reporters" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
     <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
