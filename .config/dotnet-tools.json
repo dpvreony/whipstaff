@@ -2,13 +2,6 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "snitch": {
-      "version": "2.0.0",
-      "commands": [
-        "snitch"
-      ],
-      "rollForward": false
-    },
     "dotmorten.omdgenerator": {
       "version": "1.4.0",
       "commands": [
@@ -31,7 +24,7 @@
       "rollForward": false
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.3.1",
+      "version": "2024.3.2",
       "commands": [
         "jb"
       ],
@@ -45,7 +38,7 @@
       "rollForward": false
     },
     "microsoft.cst.applicationinspector.cli": {
-      "version": "1.9.28",
+      "version": "1.9.30",
       "commands": [
         "appinspector"
       ],
