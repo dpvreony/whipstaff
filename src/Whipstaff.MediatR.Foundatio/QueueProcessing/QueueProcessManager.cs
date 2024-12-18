@@ -92,6 +92,11 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
                 .ConfigureAwait(false);
         }
 
+        private static Task<QueueMessageRecoveryStrategy> GetRecoveryStrategyAsync(Exception exception)
+        {
+            return Task.FromResult(QueueMessageRecoveryStrategy.Abandon);
+        }
+
         private async Task RunInternalAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
@@ -211,11 +216,6 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
             // complete after enqueue, if enqueue fails, this should drop back to abandon or deadletter.
             await queueEntry.CompleteAsync()
                 .ConfigureAwait(false);
-        }
-
-        private Task<QueueMessageRecoveryStrategy> GetRecoveryStrategyAsync(Exception exception)
-        {
-            return Task.FromResult(QueueMessageRecoveryStrategy.Abandon);
         }
     }
 }

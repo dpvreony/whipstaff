@@ -43,25 +43,27 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            await WithWebApplicationFactoryAsync(async factory =>
-            {
-                var client = factory.CreateClient();
-                var requestUri = new Uri(requestPath, UriKind.Absolute);
-                var response = await client.GetAsync(requestUri);
+            await WithWebApplicationFactoryAsync(
+                async factory =>
+                {
+                    var client = factory.CreateClient();
+                    var requestUri = new Uri(requestPath, UriKind.Absolute);
+                    var response = await client.GetAsync(requestUri);
 
-                _ = response.EnsureSuccessStatusCode();
+                    _ = response.EnsureSuccessStatusCode();
 
-                var contentType = response.Content.Headers.ContentType;
-                Assert.NotNull(contentType);
+                    var contentType = response.Content.Headers.ContentType;
+                    Assert.NotNull(contentType);
 
-                Assert.Equal(
-                    expectedContentType,
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    contentType.ToString());
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                    Assert.Equal(
+                        expectedContentType,
+    #pragma warning disable CS8602 // Dereference of a possibly null reference.
+                        contentType.ToString());
+    #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-                await LogResponseAsync(response);
-            });
+                    await LogResponseAsync(response);
+                },
+                []);
         }
 
         /// <summary>
@@ -71,16 +73,18 @@ namespace Whipstaff.IntegrationTests
         [Fact]
         public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitlyAsync()
         {
-            await WithWebApplicationFactoryAsync(async factory =>
-            {
-                var client = factory.CreateClient();
-                var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
-                var response = await client.GetAsync(requestUri);
+            await WithWebApplicationFactoryAsync(
+                async factory =>
+                {
+                    var client = factory.CreateClient();
+                    var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
+                    var response = await client.GetAsync(requestUri);
 
-                Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
 
-                await LogResponseAsync(response);
-            });
+                    await LogResponseAsync(response);
+                },
+                []);
         }
 
         private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()

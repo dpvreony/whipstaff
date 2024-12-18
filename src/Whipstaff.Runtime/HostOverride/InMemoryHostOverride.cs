@@ -16,6 +16,8 @@ namespace Whipstaff.Runtime.HostOverride
     {
         private readonly IDictionary<string, string> _mappings;
         private readonly ILogger<InMemoryHostOverride> _logger;
+        private readonly Action<ILogger, string, Exception?> _logNoOverrideFoundForHost;
+        private readonly Action<ILogger, string, string, Exception?> _logFoundOverrideFoundForHost;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InMemoryHostOverride"/> class.
@@ -24,6 +26,10 @@ namespace Whipstaff.Runtime.HostOverride
         /// <param name="logger">Logging Framework instance.</param>
         public InMemoryHostOverride(IDictionary<string, string> mappings, ILogger<InMemoryHostOverride> logger)
         {
+            _logNoOverrideFoundForHost =
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "No override found for host \"{Host}\"");
+            _logFoundOverrideFoundForHost =
+                LoggerMessage.Define<string, string>(LogLevel.Debug, new EventId(1), "Found for host \"{Host}\" to \"{Value}\"");
             _mappings = mappings ?? throw new ArgumentNullException(nameof(mappings));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -40,11 +46,11 @@ namespace Whipstaff.Runtime.HostOverride
 
             if (value == null)
             {
-                _logger.LogDebug("No override found for host \"{Host}\"", host);
+                _logNoOverrideFoundForHost(_logger, host, null);
             }
             else
             {
-                _logger.LogDebug("Found override for host \"{Host}\" to \"{Value}\"", host, value);
+                _logFoundOverrideFoundForHost(_logger, host, value, null);
             }
 
             return value;

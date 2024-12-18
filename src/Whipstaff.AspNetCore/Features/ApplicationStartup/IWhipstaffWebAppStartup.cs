@@ -4,7 +4,9 @@
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.AspNetCore.Features.ApplicationStartup
@@ -15,24 +17,37 @@ namespace Whipstaff.AspNetCore.Features.ApplicationStartup
     public interface IWhipstaffWebAppStartup
     {
         /// <summary>
+        /// Allows the application to configure the Aspire service defaults.
+        /// </summary>
+        /// <param name="builder">Host Application builder to modify.</param>
+        void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder);
+
+        /// <summary>
         /// Configures logging for the application.
         /// </summary>
-        /// <param name="hostBuilderContext">The Host Builder Context.</param>
         /// <param name="loggingBuilder">Logging Builder to configure.</param>
-        void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder);
+        /// <param name="configuration">Application configuration.</param>
+        /// <param name="environment">Web Host environment.</param>
+        void ConfigureLogging(
+            ILoggingBuilder loggingBuilder,
+            ConfigurationManager configuration,
+            IWebHostEnvironment environment);
 
         /// <summary>
         /// Configures services for the application.
         /// </summary>
-        /// <param name="hostBuilderContext">The Host Builder Context.</param>
         /// <param name="services">The service collection to configure.</param>
-        void ConfigureServices(WebHostBuilderContext hostBuilderContext, IServiceCollection services);
+        /// <param name="configuration">Application configuration.</param>
+        /// <param name="environment">Web Host environment.</param>
+        void ConfigureServices(
+            IServiceCollection services,
+            ConfigurationManager configuration,
+            IWebHostEnvironment environment);
 
         /// <summary>
         /// Configures the web application.
         /// </summary>
-        /// <param name="webHostBuilderContext">The Web Host Builder Context.</param>
         /// <param name="applicationBuilder">The application builder to configure.</param>
-        void ConfigureWebApplication(WebHostBuilderContext webHostBuilderContext, IApplicationBuilder applicationBuilder);
+        void ConfigureWebApplication(WebApplication applicationBuilder);
     }
 }
