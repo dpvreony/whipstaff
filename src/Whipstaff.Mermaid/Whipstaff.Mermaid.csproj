@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions" Version="21.1.7" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions" Version="21.2.1" />
   </ItemGroup>
 
   <ItemGroup>
