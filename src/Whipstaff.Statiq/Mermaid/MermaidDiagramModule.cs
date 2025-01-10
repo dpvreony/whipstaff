@@ -42,14 +42,13 @@ namespace Whipstaff.Statiq.Mermaid
             var path = _fileSystem.Path;
             var inputFilename = path.GetFullPath(input.Source.FullPath);
 
-            var rootPath = path.GetFullPath(context.FileSystem.RootPath.FullPath);
+            var outputFullPath = path.GetFullPath(context.FileSystem.OutputPath.FullPath);
 
             var destination = input.Destination.FullPath;
 
             // this is taking the input folder, the output folder
             var outputFilename = path.Combine(
-                rootPath,
-                "output",
+                outputFullPath,
                 destination);
 
             // and reversing the path separator on the output
