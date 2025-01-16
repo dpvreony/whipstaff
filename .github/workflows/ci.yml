@@ -212,10 +212,6 @@ jobs:
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
-    - name: List licenses
-      run: |
-        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
-
     - name: Generate SBOM
       run: |
         dotnet sbom-tool generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -m artifacts\sbom
