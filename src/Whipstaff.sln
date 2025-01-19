@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
@@ -80,6 +80,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.Syncfusion.SfDiagram", "Whipstaff.Wpf.Syncfusion.SfDiagram\Whipstaff.Wpf.Syncfusion.SfDiagram.csproj", "{2DA86542-60A1-4E92-AC74-E0DA490DD0DD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.CefSharp", "Whipstaff.Wpf.CefSharp\Whipstaff.Wpf.CefSharp.csproj", "{3299A81D-1451-4269-87B8-9F24B4110BB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Avalonia", "Whipstaff.Avalonia\Whipstaff.Avalonia.csproj", "{59B33E87-A86F-4AA6-B5AD-CA68451DCEEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Mermaid", "Whipstaff.Mermaid\Whipstaff.Mermaid.csproj", "{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}"
 EndProject
@@ -253,6 +255,10 @@ Global
 		{3299A81D-1451-4269-87B8-9F24B4110BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3299A81D-1451-4269-87B8-9F24B4110BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3299A81D-1451-4269-87B8-9F24B4110BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B33E87-A86F-4AA6-B5AD-CA68451DCEEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B33E87-A86F-4AA6-B5AD-CA68451DCEEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B33E87-A86F-4AA6-B5AD-CA68451DCEEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B33E87-A86F-4AA6-B5AD-CA68451DCEEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B824BAC-8A10-4444-BA5C-D1D208FDCE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
