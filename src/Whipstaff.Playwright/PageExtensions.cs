@@ -18,10 +18,15 @@ namespace Whipstaff.Playwright
         /// </summary>
         /// <param name="page">Page instance to scan.</param>
         /// <returns>Enumerator for Img tags.</returns>
-        public static async IAsyncEnumerable<IElementHandle> EnumerateImgTagsWithIncompleteAltAttribute(this IPage page)
+        public static IAsyncEnumerable<IElementHandle> EnumerateImgTagsWithIncompleteAltAttributeAsync(this IPage page)
         {
             ArgumentNullException.ThrowIfNull(page);
 
+            return InternalEnumerateImgTagsWithIncompleteAltAttributeAsync(page);
+        }
+
+        private static async IAsyncEnumerable<IElementHandle> InternalEnumerateImgTagsWithIncompleteAltAttributeAsync(this IPage page)
+        {
             var imgTags = await page.QuerySelectorAllAsync("img").ConfigureAwait(false);
 
             foreach (var imgTag in imgTags)
