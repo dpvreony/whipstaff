@@ -330,6 +330,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
+    - name: Install .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+        
     - name: Install dotnet tools
       run: dotnet tool restore --tool-manifest .config/appinspector.json
 
