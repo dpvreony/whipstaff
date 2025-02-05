@@ -21,13 +21,28 @@ namespace Whipstaff.Playwright.Crawler
         /// <param name="startUrl">The url to start crawling from.</param>
         /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static Task CrawlSiteAsync(
+            Uri startUrl,
+            CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(startUrl);
+
+            return CrawlSiteAsync(startUrl.AbsoluteUri, cancellationToken);
+        }
+
+        /// <summary>
+        /// Crawls a website starting from the specified URL.
+        /// </summary>
+        /// <param name="startUrl">The url to start crawling from.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task CrawlSiteAsync(
             string startUrl,
             CancellationToken cancellationToken)
         {
             var baseUrl = new Uri(startUrl).GetLeftPart(UriPartial.Authority); // Base URL for same-origin policy
             var urlQueue = new Queue<string>([startUrl]);
-            var visitedUrls = new HashSet<string>();
+            var visitedUrls = new Dictionary<string, (int StatusCode, int HitCount)>();
             var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
             var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
 
@@ -36,9 +51,10 @@ namespace Whipstaff.Playwright.Crawler
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var url = urlQueue.Dequeue();
-                if (!visitedUrls.Add(url))
+                if (visitedUrls.TryGetValue(url, out var info))
                 {
-                    // Skip if URL has already been visited
+                    // If already visited, increment hit count
+                    visitedUrls[url] = (info.StatusCode, ++info.HitCount);
                     continue;
                 }
 
@@ -56,17 +72,33 @@ namespace Whipstaff.Playwright.Crawler
             return url.StartsWith(baseUrl, StringComparison.OrdinalIgnoreCase);
         }
 
-        private static async Task CrawlPageAsync(string url, IBrowser browser, HashSet<string> visitedUrls, Queue<string> urlQueue, string baseUrl)
+        private static async Task CrawlPageAsync(
+            string url,
+            IBrowser browser,
+            Dictionary<string, (int StatusCode, int HitCount)> visitedUrls,
+            Queue<string> urlQueue,
+            string baseUrl)
         {
             var page = await browser.NewPageAsync();
-            await page.GotoAsync(url);
+            var response = await page.GotoAsync(url).ConfigureAwait(false);
+
+            if (response == null)
+            {
+                return;
+            }
+
+            visitedUrls[url] = (response.Status, 1);
+            if (!response.Ok)
+            {
+                return;
+            }
 
             // Extract links on the page
             var links = await page.EvaluateAsync<string[]>("Array.from(document.querySelectorAll('a')).map(a => a.href)");
 
             foreach (var link in links)
             {
-                if (IsSameDomain(link, baseUrl) && !visitedUrls.Contains(link))
+                if (IsSameDomain(link, baseUrl) && !visitedUrls.ContainsKey(link))
                 {
                     urlQueue.Enqueue(link);
                 }
