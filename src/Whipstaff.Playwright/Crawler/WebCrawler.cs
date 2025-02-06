@@ -4,9 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
+using ReactiveMarbles.ObservableEvents;
 
 namespace Whipstaff.Playwright.Crawler
 {
@@ -80,35 +83,49 @@ namespace Whipstaff.Playwright.Crawler
             string baseUrl)
         {
             var page = await browser.NewPageAsync();
-            var response = await page.GotoAsync(url).ConfigureAwait(false);
 
-            if (response == null)
+            var events = page.Events();
+            var consoleMessages = new List<IConsoleMessage>();
+            var pageErrors = new List<string>();
+            var requestFailures = new List<IRequest>();
+
+            using (_ = new CompositeDisposable
+                   {
+                       events.Console.Do(message => consoleMessages.Add(message)).Subscribe(),
+                       events.PageError.Do(pageError => pageErrors.Add(pageError)).Subscribe(),
+                       events.RequestFailed.Do(requestFailure => requestFailures.Add(requestFailure)).Subscribe()
+                   })
             {
-                return;
-            }
+                var response = await page.GotoAsync(url).ConfigureAwait(false);
 
-            visitedUrls[url] = (response.Status, 1);
-            if (!response.Ok)
-            {
-                return;
-            }
-
-            // Extract links on the page
-            var anchorTags = await page.QuerySelectorAllAsync("a").ConfigureAwait(false);
-            foreach (var anchorTag in anchorTags)
-            {
-                var link = await page.EvaluateAsync<string>(
-                    "(anchor) => { const url = new URL(anchor.href, document.baseURI); return url.href; }",
-                    anchorTag)
-                    .ConfigureAwait(false);
-
-                if (!string.IsNullOrWhiteSpace(link) && !link.StartsWith('#') && IsSameDomain(link, baseUrl) && !visitedUrls.ContainsKey(link))
+                if (response == null)
                 {
-                    urlQueue.Enqueue(link);
+                    return;
                 }
-            }
 
-            await page.CloseAsync();
+                visitedUrls[url] = (response.Status, 1);
+                if (!response.Ok)
+                {
+                    return;
+                }
+
+                // Extract links on the page
+                var anchorTags = await page.QuerySelectorAllAsync("a").ConfigureAwait(false);
+                foreach (var anchorTag in anchorTags)
+                {
+                    var link = await page.EvaluateAsync<string>(
+                            "(anchor) => { const url = new URL(anchor.href, document.baseURI); return url.href; }",
+                            anchorTag)
+                        .ConfigureAwait(false);
+
+                    if (!string.IsNullOrWhiteSpace(link) && !link.StartsWith('#') && IsSameDomain(link, baseUrl) && !visitedUrls.ContainsKey(link))
+                    {
+                        urlQueue.Enqueue(link);
+                    }
+                }
+
+                await page.CloseAsync();
+            }
         }
     }
 }
