@@ -94,11 +94,15 @@ namespace Whipstaff.Playwright.Crawler
             }
 
             // Extract links on the page
-            var links = await page.EvaluateAsync<string[]>("Array.from(document.querySelectorAll('a')).map(a => a.href)");
-
-            foreach (var link in links)
+            var anchorTags = await page.QuerySelectorAllAsync("a").ConfigureAwait(false);
+            foreach (var anchorTag in anchorTags)
             {
-                if (IsSameDomain(link, baseUrl) && !visitedUrls.ContainsKey(link))
+                var link = await page.EvaluateAsync<string>(
+                    "(anchor) => { const url = new URL(anchor.href, document.baseURI); return url.href; }",
+                    anchorTag)
+                    .ConfigureAwait(false);
+
+                if (!string.IsNullOrWhiteSpace(link) && !link.StartsWith('#') && IsSameDomain(link, baseUrl) && !visitedUrls.ContainsKey(link))
                 {
                     urlQueue.Enqueue(link);
                 }
