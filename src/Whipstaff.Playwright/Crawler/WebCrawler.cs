@@ -45,7 +45,7 @@ namespace Whipstaff.Playwright.Crawler
         {
             var baseUrl = new Uri(startUrl).GetLeftPart(UriPartial.Authority); // Base URL for same-origin policy
             var urlQueue = new Queue<string>([startUrl]);
-            var visitedUrls = new Dictionary<string, (int StatusCode, int HitCount)>();
+            var visitedUrls = new Dictionary<string, UriCrawlResultModel>();
             var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
             var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
 
@@ -57,7 +57,7 @@ namespace Whipstaff.Playwright.Crawler
                 if (visitedUrls.TryGetValue(url, out var info))
                 {
                     // If already visited, increment hit count
-                    visitedUrls[url] = (info.StatusCode, ++info.HitCount);
+                    _ = info.HitCount.Increment();
                     continue;
                 }
 
@@ -78,7 +78,7 @@ namespace Whipstaff.Playwright.Crawler
         private static async Task CrawlPageAsync(
             string url,
             IBrowser browser,
-            Dictionary<string, (int StatusCode, int HitCount)> visitedUrls,
+            Dictionary<string, UriCrawlResultModel> visitedUrls,
             Queue<string> urlQueue,
             string baseUrl)
         {
@@ -103,7 +103,7 @@ namespace Whipstaff.Playwright.Crawler
                     return;
                 }
 
-                visitedUrls[url] = (response.Status, 1);
+                visitedUrls[url] = new UriCrawlResultModel(response.Status, consoleMessages, pageErrors, requestFailures);
                 if (!response.Ok)
                 {
                     return;
