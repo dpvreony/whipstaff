@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
 using ReactiveMarbles.ObservableEvents;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Playwright.Crawler
 {
@@ -22,32 +23,84 @@ namespace Whipstaff.Playwright.Crawler
         /// Crawls a website starting from the specified URL.
         /// </summary>
         /// <param name="startUrl">The url to start crawling from.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Playwright browser type and channel.</param>
         /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static Task CrawlSiteAsync(
+        /// <returns>Dictionary of crawl results.</returns>
+        public static Task<IDictionary<string, UriCrawlResultModel>> CrawlSiteAsync(
             Uri startUrl,
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel,
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(startUrl);
 
-            return CrawlSiteAsync(startUrl.AbsoluteUri, cancellationToken);
+            return CrawlSiteAsync(
+                startUrl.AbsoluteUri,
+                playwrightBrowserTypeAndChannel,
+                cancellationToken);
         }
 
         /// <summary>
         /// Crawls a website starting from the specified URL.
         /// </summary>
         /// <param name="startUrl">The url to start crawling from.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Playwright browser type and channel.</param>
         /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task CrawlSiteAsync(
+        /// <returns>Dictionary of crawl results.</returns>
+        public static async Task<IDictionary<string, UriCrawlResultModel>> CrawlSiteAsync(
             string startUrl,
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel,
             CancellationToken cancellationToken)
         {
+            using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
+            {
+                var browser = await playwright.GetBrowser(playwrightBrowserTypeAndChannel)
+                    .ConfigureAwait(false);
+
+#pragma warning disable CA2234
+                return await CrawlSiteAsync(startUrl, browser, cancellationToken)
+#pragma warning restore CA2234
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Crawls a website starting from the specified URL.
+        /// </summary>
+        /// <param name="startUrl">The url to start crawling from.</param>
+        /// <param name="browser">Playwright browser instance to use.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static Task<IDictionary<string, UriCrawlResultModel>> CrawlSiteAsync(
+            Uri startUrl,
+            IBrowser browser,
+            CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(startUrl);
+
+            return CrawlSiteAsync(
+                startUrl.AbsoluteUri,
+                browser,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Crawls a website starting from the specified URL.
+        /// </summary>
+        /// <param name="startUrl">The url to start crawling from.</param>
+        /// <param name="browser">Playwright browser instance to use.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task<IDictionary<string, UriCrawlResultModel>> CrawlSiteAsync(
+            string startUrl,
+            IBrowser browser,
+            CancellationToken cancellationToken)
+        {
+            startUrl.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(browser);
+
             var baseUrl = new Uri(startUrl).GetLeftPart(UriPartial.Authority); // Base URL for same-origin policy
             var urlQueue = new Queue<string>([startUrl]);
             var visitedUrls = new Dictionary<string, UriCrawlResultModel>();
-            var playwright = await Microsoft.Playwright.Playwright.CreateAsync();
-            var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
 
             while (urlQueue.Count > 0)
             {
@@ -61,12 +114,11 @@ namespace Whipstaff.Playwright.Crawler
                     continue;
                 }
 
-                Console.WriteLine($"Crawling: {url}");
                 await CrawlPageAsync(url, browser, visitedUrls, urlQueue, baseUrl);
             }
 
             await browser.CloseAsync();
-            playwright.Dispose();
+            return visitedUrls;
         }
 
         private static bool IsSameDomain(string url, string baseUrl)
