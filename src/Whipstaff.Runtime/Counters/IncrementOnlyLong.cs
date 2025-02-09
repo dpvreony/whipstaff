@@ -14,6 +14,22 @@ namespace Whipstaff.Runtime.Counters
         private long _value;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementOnlyLong"/> class.
+        /// </summary>
+        public IncrementOnlyLong()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IncrementOnlyLong"/> class.
+        /// </summary>
+        /// <param name="value">Initial value to increment from.</param>
+        public IncrementOnlyLong(int value)
+        {
+            _value = value;
+        }
+
+        /// <summary>
         /// Gets the current value of the counter.
         /// </summary>
         public long Value => _value;
