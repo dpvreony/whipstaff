@@ -17,21 +17,21 @@
       "rollForward": false
     },
     "dotnet-sonarscanner": {
-      "version": "9.0.2",
+      "version": "9.1.0",
       "commands": [
         "dotnet-sonarscanner"
       ],
       "rollForward": false
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.3.4",
+      "version": "2024.3.5",
       "commands": [
         "jb"
       ],
       "rollForward": false
     },
     "dotnet-outdated-tool": {
-      "version": "4.6.4",
+      "version": "4.6.7",
       "commands": [
         "dotnet-outdated"
       ],
@@ -52,7 +52,7 @@
       "rollForward": false
     },
     "microsoft.sbom.dotnettool": {
-      "version": "3.0.1",
+      "version": "3.1.0",
       "commands": [
         "sbom-tool"
       ],
