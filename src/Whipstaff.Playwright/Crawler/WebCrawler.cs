@@ -87,6 +87,63 @@ namespace Whipstaff.Playwright.Crawler
         /// Crawls a website starting from the specified URL.
         /// </summary>
         /// <param name="startUrl">The url to start crawling from.</param>
+        /// <param name="page">Playwright browser page instance to use.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static Task<IDictionary<string, UriCrawlResultModel>> CrawlSiteAsync(
+            Uri startUrl,
+            IPage page,
+            CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(startUrl);
+
+            return CrawlSiteAsync(
+                startUrl.AbsoluteUri,
+                page,
+                cancellationToken);
+        }
+
+        /// <summary>
+        /// Crawls a website starting from the specified URL.
+        /// </summary>
+        /// <param name="startUrl">The url to start crawling from.</param>
+        /// <param name="page">Playwright browser page instance to use.</param>
+        /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task<IDictionary<string, UriCrawlResultModel>> CrawlSiteAsync(
+            string startUrl,
+            IPage page,
+            CancellationToken cancellationToken)
+        {
+            ArgumentNullException.ThrowIfNull(startUrl);
+            ArgumentNullException.ThrowIfNull(page);
+
+            var baseUrl = new Uri(startUrl).GetLeftPart(UriPartial.Authority); // Base URL for same-origin policy
+            var urlQueue = new Queue<string>([startUrl]);
+            var visitedUrls = new Dictionary<string, UriCrawlResultModel>();
+
+            while (urlQueue.Count > 0)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var url = urlQueue.Dequeue();
+                if (visitedUrls.TryGetValue(url, out var info))
+                {
+                    // If already visited, increment hit count
+                    _ = info.HitCount.Increment();
+                    continue;
+                }
+
+                await CrawlPageAsync(url, page, visitedUrls, urlQueue, baseUrl).ConfigureAwait(false);
+            }
+
+            return visitedUrls;
+        }
+
+        /// <summary>
+        /// Crawls a website starting from the specified URL.
+        /// </summary>
+        /// <param name="startUrl">The url to start crawling from.</param>
         /// <param name="browser">Playwright browser instance to use.</param>
         /// <param name="cancellationToken">Token to monitor for cancellation requests.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -129,13 +186,11 @@ namespace Whipstaff.Playwright.Crawler
 
         private static async Task CrawlPageAsync(
             string url,
-            IBrowser browser,
+            IPage page,
             Dictionary<string, UriCrawlResultModel> visitedUrls,
             Queue<string> urlQueue,
             string baseUrl)
         {
-            var page = await browser.NewPageAsync();
-
             var events = page.Events();
             var consoleMessages = new List<IConsoleMessage>();
             var pageErrors = new List<string>();
@@ -178,6 +233,20 @@ namespace Whipstaff.Playwright.Crawler
 
                 await page.CloseAsync();
             }
+        }
+
+        private static async Task CrawlPageAsync(
+            string url,
+            IBrowser browser,
+            Dictionary<string, UriCrawlResultModel> visitedUrls,
+            Queue<string> urlQueue,
+            string baseUrl)
+        {
+            var page = await browser.NewPageAsync()
+                .ConfigureAwait(false);
+
+            await CrawlPageAsync(url, page, visitedUrls, urlQueue, baseUrl)
+                .ConfigureAwait(false);
         }
     }
 }

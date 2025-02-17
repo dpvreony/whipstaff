@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Whipstaff.Example.AspireAppHost\Whipstaff.Example.AspireAppHost.csproj" IsAspireProjectResource="False" />
     <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" IsAspireProjectResource="False" />
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" IsAspireProjectResource="False" />
+    <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
   </ItemGroup>
 
 </Project>
