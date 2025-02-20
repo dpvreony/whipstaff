@@ -25,7 +25,7 @@
     <PackageReference Include="DynamicData" Version="9.1.2" />
     <PackageReference Include="Exceptionless.AspNetCore" Version="6.0.4" />
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="6.0.4" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.22.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Profiler.AspNetCore" Version="2.7.2" />
     <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="8.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.13" />
