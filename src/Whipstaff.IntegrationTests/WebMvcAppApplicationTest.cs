@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using Whipstaff.Playwright;
 using Whipstaff.Playwright.Crawler;
@@ -120,6 +121,11 @@ namespace Whipstaff.IntegrationTests
 
                         var crawlResults = await WebCrawler.CrawlSiteAsync(requestUri, page, CancellationToken.None)
                             .ConfigureAwait(false);
+
+                        foreach (var uriCrawlResultModel in crawlResults)
+                        {
+                            _logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+                        }
 
                         Assert.NotNull(crawlResults);
                         Assert.NotEmpty(crawlResults);

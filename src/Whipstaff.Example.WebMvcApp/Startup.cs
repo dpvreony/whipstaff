@@ -126,9 +126,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
                     return Task.CompletedTask;
                 });
 
+                _ = endpoints.MapControllerRoute(
+                    "DefaultControllerRoute",
+                    "{controller=Home}/{action=Get}");
+
+#if TBC
                 _ = endpoints.DoCrudMapControllerRoute(
                     "{controller=Home}",
                     null);
+#endif
             };
         }
 

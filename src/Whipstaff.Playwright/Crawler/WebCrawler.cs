@@ -203,10 +203,19 @@ namespace Whipstaff.Playwright.Crawler
                        events.RequestFailed.Do(requestFailure => requestFailures.Add(requestFailure)).Subscribe()
                    })
             {
-                var response = await page.GotoAsync(url).ConfigureAwait(false);
+                IResponse? response = null;
+                try
+                {
+                    response = await page.GotoAsync(url).ConfigureAwait(false);
+                }
+                catch (PlaywrightException)
+                {
+                    // no op
+                }
 
                 if (response == null)
                 {
+                    visitedUrls[url] = new UriCrawlResultModel(404, consoleMessages, pageErrors, requestFailures);
                     return;
                 }
 
@@ -230,8 +239,6 @@ namespace Whipstaff.Playwright.Crawler
                         urlQueue.Enqueue(link);
                     }
                 }
-
-                await page.CloseAsync();
             }
         }
 
