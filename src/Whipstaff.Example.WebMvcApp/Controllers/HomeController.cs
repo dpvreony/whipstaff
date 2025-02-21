@@ -5,7 +5,6 @@
 using System.Diagnostics;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
 {
@@ -26,6 +25,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// </summary>
         /// <returns>View.</returns>
         public IActionResult Get()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Serves the privacy page.
+        /// </summary>
+        /// <returns>View.</returns>
+        public IActionResult Privacy()
         {
             return View();
         }
