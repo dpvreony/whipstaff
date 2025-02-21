@@ -96,6 +96,7 @@ namespace Whipstaff.Playwright.Crawler
             CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(startUrl);
+            ArgumentNullException.ThrowIfNull(page);
 
             return CrawlSiteAsync(
                 startUrl.AbsoluteUri,
