@@ -139,7 +139,7 @@ namespace Whipstaff.IntegrationTests
 
         private static void CheckPageResult(KeyValuePair<string, UriCrawlResultModel> pageResult)
         {
-            Assert.True(!string.IsNullOrWhiteSpace(pageResult.Key));
+            Assert.False(string.IsNullOrWhiteSpace(pageResult.Key));
         }
 
         private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
