@@ -1,20 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <Nullable>enable</Nullable>
-    <EnableWindowsTargeting>True</EnableWindowsTargeting>
-    <PackageDescription>Re-usable logic for working with WPF.</PackageDescription>
+    <TargetFramework>net8.0</TargetFramework>
+    <PackageDescription>Re-usable logic for working with Avalonia.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-    <PackageReference Include="PInvoke.User32" Version="0.7.124" />
-    <PackageReference Include="ReactiveUI.WPF" Version="20.1.63" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.4" />
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
     <PackageReference Include="Vetuviem.Core" Version="0.10.67" />
-    <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.10.67">
+    <PackageReference Include="Vetuviem.Avalonia.SourceGenerator" Version="0.10.67">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -24,7 +19,6 @@
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
     <ProjectReference Include="..\Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
-    <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
