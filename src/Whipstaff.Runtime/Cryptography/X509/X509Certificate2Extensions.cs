@@ -5,6 +5,10 @@
 using System;
 using System.Security.Cryptography.X509Certificates;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.Cryptography.X509
 {
     /// <summary>
@@ -18,6 +22,8 @@ namespace Whipstaff.Runtime.Cryptography.X509
         /// <param name="certificate">Certificate to check.</param>
         public static void EnsurePrivateKey(this X509Certificate2 certificate)
         {
+            ArgumentNullException.ThrowIfNull(certificate);
+
             try
             {
                 // we wrap in try block as HasPrivateKey throws an exception on certain runtimes.
@@ -26,7 +32,9 @@ namespace Whipstaff.Runtime.Cryptography.X509
                     return;
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 // no op
             }

@@ -3,11 +3,15 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO;
+using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Mermaid.Playwright
 {
@@ -35,28 +39,132 @@ namespace Whipstaff.Mermaid.Playwright
         }
 
         /// <summary>
+        /// Create a default instance of the PlaywrightRenderer using the InMemory Test Http Server.
+        /// </summary>
+        /// <param name="loggerFactory">Logger factory instance to hook up to. Typically, the one being used by the host application.</param>
+        /// <returns>Instance of the <see cref="PlaywrightRenderer"/> class.</returns>
+        public static PlaywrightRenderer Default(ILoggerFactory loggerFactory)
+        {
+            ArgumentNullException.ThrowIfNull(loggerFactory);
+
+            return new(
+                MermaidHttpServerFactory.GetTestServer(loggerFactory),
+                new PlaywrightRendererLogMessageActionsWrapper(
+                    new PlaywrightRendererLogMessageActions(),
+                    loggerFactory.CreateLogger<PlaywrightRenderer>()));
+        }
+
+        /// <summary>
+        /// Gets the SVG for the Mermaid Diagram from a File and writes to another file.
+        /// </summary>
+        /// <param name="sourceFile">File containing the diagram markdown to convert.</param>
+        /// <param name="targetFile">Destination file to write the diagram content to.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
+        /// <returns>SVG diagram.</returns>
+        public async Task CreateDiagramAndWriteToFileAsync(
+            IFileInfo sourceFile,
+            IFileInfo targetFile,
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
+        {
+            ArgumentNullException.ThrowIfNull(sourceFile);
+            ArgumentNullException.ThrowIfNull(targetFile);
+
+            if (!sourceFile.Exists)
+            {
+                throw new ArgumentException("Source file does not exist", nameof(sourceFile));
+            }
+
+            if (sourceFile.FullName == targetFile.FullName)
+            {
+                throw new ArgumentException("Source and target files cannot be the same", nameof(targetFile));
+            }
+
+            if (targetFile.Exists)
+            {
+                throw new ArgumentException("Target file already exists", nameof(targetFile));
+            }
+
+            var diagram = await GetDiagram(
+                    sourceFile,
+                    playwrightBrowserTypeAndChannel)
+                .ConfigureAwait(false);
+
+            if (diagram == null)
+            {
+                throw new InvalidOperationException("Failed to get diagram");
+            }
+
+            await diagram.InternalToFileAsync(targetFile)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Gets the SVG for the Mermaid Diagram from a File.
+        /// </summary>
+        /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
+        /// <returns>SVG diagram.</returns>
+        public async Task<GetDiagramResponseModel?> GetDiagram(
+            IFileInfo sourceFileInfo,
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
+        {
+            ArgumentNullException.ThrowIfNull(sourceFileInfo);
+
+            if (!sourceFileInfo.Exists)
+            {
+                throw new ArgumentException("File does not exist", nameof(sourceFileInfo));
+            }
+
+            using (var streamReader = sourceFileInfo.OpenText())
+            {
+                return await GetDiagram(
+                        streamReader,
+                        playwrightBrowserTypeAndChannel)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Gets the SVG for the Mermaid Diagram from a <see cref="TextReader"/>.
+        /// </summary>
+        /// <param name="textReader">File containing the diagram markdown to convert.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
+        /// <returns>SVG diagram.</returns>
+        public async Task<GetDiagramResponseModel?> GetDiagram(
+            TextReader textReader,
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
+        {
+            ArgumentNullException.ThrowIfNull(textReader);
+
+            var markdown = await textReader
+                .ReadToEndAsync()
+                .ConfigureAwait(false);
+
+            return await GetDiagram(
+                    markdown,
+                    playwrightBrowserTypeAndChannel)
+                .ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Gets the SVG for the Mermaid Diagram.
         /// </summary>
         /// <param name="markdown">Diagram markdown to convert.</param>
-        /// <param name="playwrightBrowserType">Browser type to use.</param>
-        /// <param name="browserChannel">The channel to use for the specified browser.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>SVG diagram.</returns>
         public async Task<GetDiagramResponseModel?> GetDiagram(
             string markdown,
-            PlaywrightBrowserType playwrightBrowserType,
-            string? browserChannel)
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
-            if (string.IsNullOrWhiteSpace(markdown))
-            {
-                throw new ArgumentNullException(nameof(markdown));
-            }
+            markdown.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);
 
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                 .ConfigureAwait(false))
-            await using (var browser = await playwright.GetBrowserType(playwrightBrowserType).LaunchAsync(new()
+            await using (var browser = await playwright.GetBrowserType(playwrightBrowserTypeAndChannel.PlaywrightBrowserType).LaunchAsync(new()
                          {
                              Headless = true,
-                             Channel = browserChannel
+                             Channel = playwrightBrowserTypeAndChannel.Channel
                          }))
             {
                 var page = await browser.NewPageAsync()

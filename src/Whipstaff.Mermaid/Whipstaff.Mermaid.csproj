@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.13" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions" Version="22.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,8 +26,8 @@
     TODO: reduce the number of files being pulled by looking to see which files are minified...
     This will reduce the size of the nuget pkg by about 50%
     -->
-      <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.js" />
-      <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\*.mjs" />
+      <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\**\*.js" />
+      <NpmMermaidFilesToCopy Include="$(ProjectDir)node_modules\mermaid\dist\**\*.mjs" />
     </ItemGroup>
     <Message Text="Starting NPM Package Copy Task" Importance="High" />
     <Copy SkipUnchangedFiles="True" SourceFiles="@(NpmMermaidFilesToCopy)" DestinationFiles="@(NpmMermaidFilesToCopy->'$(ProjectDir)HttpServer\wwwroot\lib\mermaid\%(RecursiveDir)%(Filename)%(Extension)')" />
@@ -111,9 +112,9 @@
   <Target Name="DeleteMermaidFiles" BeforeTargets="CopyNpmTasks" AfterTargets="RestoreNpm">
     <Message Text="Deleting files" Importance="High" />
     <ItemGroup>
-      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\*.js"/>
-      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\*.mjs"/>
-      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\*.gz"/>
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.js"/>
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.mjs"/>
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.gz"/>
     </ItemGroup>
     <Message Text="Files to delete: @(FilesToDelete)" Importance="High" />
     <Delete Files="@(FilesToDelete)" />

@@ -10,7 +10,6 @@ namespace Whipstaff.Runtime.Exceptions
     /// <summary>
     /// We failed to get the resource stream. Used when loading a resource file.
     /// </summary>
-    [Serializable]
     public class FailedToGetResourceStreamException : Exception
     {
         /// <summary>
@@ -45,21 +44,6 @@ namespace Whipstaff.Runtime.Exceptions
         /// </param>
         public FailedToGetResourceStreamException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FailedToGetResourceStreamException"/> class.
-        /// Constructor.
-        /// </summary>
-        /// <param name="info">
-        /// Serialization Info.
-        /// </param>
-        /// <param name="context">
-        /// Context.
-        /// </param>
-        protected FailedToGetResourceStreamException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         {
         }
     }

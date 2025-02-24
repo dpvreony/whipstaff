@@ -8,11 +8,9 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Whipstaff.MediatR;
 
-namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
+namespace Whipstaff.MediatR.EntityFrameworkCore
 {
     /// <summary>
     /// Base class for an EFCore List Operation.
@@ -33,7 +31,7 @@ namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
             using (var dbContext = GetDbContext())
             {
                 var dbSet = GetDbSet(dbContext);
-                var query = dbSet.Where(GetWherePredicateExpression());
+                var query = dbSet.TagWith(nameof(AbstractListQueryHandler<TQuery, TResponse, TDbContext, TEntity, TKey>)).Where(GetWherePredicateExpression());
 
                 var orderingExpression = GetOrderingExpression();
                 if (orderingExpression != null)
@@ -73,7 +71,7 @@ namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
         /// Gets the ordering expression for use in the EF query.
         /// </summary>
         /// <returns>Expression representing the query ordering.</returns>
-        protected abstract Expression<Func<TEntity, TKey>> GetOrderingExpression();
+        protected abstract Expression<Func<TEntity, TKey>>? GetOrderingExpression();
 
         /// <summary>
         /// Gets the selector expression for use in the EF query. Used for mapping EF Core entities to an output POCO object.

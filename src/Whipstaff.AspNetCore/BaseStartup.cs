@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
@@ -41,36 +42,32 @@ namespace Whipstaff.AspNetCore
     public abstract class BaseStartup : IWhipstaffWebAppStartup
     {
         /// <inheritdoc/>
-        public abstract void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder);
+        public abstract void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder);
 
         /// <inheritdoc/>
-        public void ConfigureWebApplication(WebHostBuilderContext webHostBuilderContext, IApplicationBuilder applicationBuilder)
+        public abstract void ConfigureLogging(
+            ILoggingBuilder loggingBuilder,
+            ConfigurationManager configuration,
+            IWebHostEnvironment environment);
+
+        /// <inheritdoc/>
+        public void ConfigureWebApplication(
+            WebApplication applicationBuilder)
         {
-            ArgumentNullException.ThrowIfNull(webHostBuilderContext);
             ArgumentNullException.ThrowIfNull(applicationBuilder);
 
-            var env = applicationBuilder.ApplicationServices.GetService<IWebHostEnvironment>();
-            if (env == null)
-            {
-                throw new InvalidOperationException("Failed to retrieve Environment Registration");
-            }
-
-            var logger = applicationBuilder.ApplicationServices.GetService<ILoggerFactory>();
-            if (logger == null)
-            {
-                throw new InvalidOperationException("Failed to retrieve Logger Factory");
-            }
-
-            Configure(applicationBuilder, env, logger);
+            Configure(applicationBuilder);
         }
 
         /// <inheritdoc/>
-        public void ConfigureServices(WebHostBuilderContext hostBuilderContext, IServiceCollection services)
+        public void ConfigureServices(
+            IServiceCollection services,
+            ConfigurationManager configuration,
+            IWebHostEnvironment environment)
         {
-            ArgumentNullException.ThrowIfNull(hostBuilderContext);
             ArgumentNullException.ThrowIfNull(services);
-
-            var configuration = hostBuilderContext.Configuration;
+            ArgumentNullException.ThrowIfNull(configuration);
+            ArgumentNullException.ThrowIfNull(environment);
 
             _ = services.AddFeatureManagement();
             _ = services.AddMiddlewareAnalysis();
@@ -184,11 +181,11 @@ namespace Whipstaff.AspNetCore
         }
 
         private void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
-            ILoggerFactory loggerFactory)
+            WebApplication app)
         {
-            var diagnosticListener = app.ApplicationServices.GetService<DiagnosticListener>();
+            var services = app.Services;
+            var diagnosticListener = services.GetService<DiagnosticListener>();
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
             var logDiagnosticListenerLogger = loggerFactory.CreateLogger<LogDiagnosticListener>();
             _ = diagnosticListener.SubscribeWithAdapter(new LogDiagnosticListener(logDiagnosticListenerLogger));
 
@@ -248,7 +245,7 @@ namespace Whipstaff.AspNetCore
 
             DoAuditNetConfiguration(app);
 
-            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
+            var configuration = app.Configuration;
             var useSwagger = configuration.GetValue("useSwagger", false);
             if (useSwagger)
             {
@@ -272,8 +269,12 @@ namespace Whipstaff.AspNetCore
             var useEndpointsAction = GetOnUseEndpointsAction();
             if (useEndpointsAction != null)
             {
+#pragma warning disable ASP0014
                 _ = app.UseEndpoints(endpointRouteBuilder => useEndpointsAction(endpointRouteBuilder));
+#pragma warning restore ASP0014
             }
+
+            var env = app.Environment;
 
             OnConfigure(app, env, loggerFactory);
         }

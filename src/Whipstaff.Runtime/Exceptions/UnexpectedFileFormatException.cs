@@ -10,7 +10,6 @@ namespace Whipstaff.Runtime.Exceptions
     /// <summary>
     /// Exception for when a file is not in the expected format.
     /// </summary>
-    [Serializable]
     public class UnexpectedFileFormatException : Exception
     {
         /// <summary>
@@ -45,21 +44,6 @@ namespace Whipstaff.Runtime.Exceptions
         /// </param>
         public UnexpectedFileFormatException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnexpectedFileFormatException"/> class.
-        /// Constructor.
-        /// </summary>
-        /// <param name="info">
-        /// Serialization Info.
-        /// </param>
-        /// <param name="context">
-        /// Context.
-        /// </param>
-        protected UnexpectedFileFormatException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
         {
         }
     }

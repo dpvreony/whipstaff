@@ -136,5 +136,29 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <returns>Event Id.</returns>
         public static EventId CouchbaseAcquiredKeyAlreadyExists() => new(20, "Acquired key already exists for resource.");
+
+        /// <summary>
+        /// Gets the Event Id for the No Jump List Registered for application, creating a new registration logging event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId NoJumpListRegisteredCreatingNew() => new(21, "No Jump List Registered for application, creating a new registration");
+
+        /// <summary>
+        /// Gets the Event Id for the Adding Jump Path to Recent logging event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId AddingJumpPathToRecentCategory() => new(22, "Adding Jump Path to Recent");
+
+        /// <summary>
+        /// Gets the Event Id for the Adding Jump Task to Recent logging event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId AddingJumpTaskToRecentCategory() => new(23, "Adding Jump Task to Recent");
+
+        /// <summary>
+        /// Gets the Event Id for the Clearing Jump List logging event.
+        /// </summary>
+        /// <returns>Event Id.</returns>
+        public static EventId ClearingJumpList() => new(24, "Clearing Jump List");
     }
 }

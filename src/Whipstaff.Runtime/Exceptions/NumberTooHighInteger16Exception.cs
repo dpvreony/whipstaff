@@ -7,7 +7,6 @@ namespace Whipstaff.Runtime.Exceptions
     /// <summary>
     /// The number passed in was higher than the allowed maximum.
     /// </summary>
-    [System.Serializable]
     public class NumberTooHighInteger16Exception
         : System.Exception
     {
@@ -50,18 +49,6 @@ namespace Whipstaff.Runtime.Exceptions
             short maximumValid,
             short actual)
             : base(parameterName + ": The number specified is too high. Maximum: " + maximumValid + ", Actual: " + actual)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NumberTooHighInteger16Exception" /> class.
-        /// </summary>
-        /// <param name="info">The serialization information.</param>
-        /// <param name="context">The streaming context.</param>
-        protected NumberTooHighInteger16Exception(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
         {
         }
     }

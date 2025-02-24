@@ -2,8 +2,13 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
+
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
 
 namespace Whipstaff.Runtime.Http
 {
@@ -21,6 +26,9 @@ namespace Whipstaff.Runtime.Http
             this HttpRequestMessage httpRequestMessage,
             IDictionary<string, string> requestHeaders)
         {
+            ArgumentNullException.ThrowIfNull(httpRequestMessage);
+            ArgumentNullException.ThrowIfNull(requestHeaders);
+
             var targetHeaders = httpRequestMessage.Headers;
 
             foreach (var requestHeader in requestHeaders)
@@ -38,6 +46,9 @@ namespace Whipstaff.Runtime.Http
             this HttpRequestMessage httpRequestMessage,
             IDictionary<string, IEnumerable<string>> requestHeaders)
         {
+            ArgumentNullException.ThrowIfNull(httpRequestMessage);
+            ArgumentNullException.ThrowIfNull(requestHeaders);
+
             var targetHeaders = httpRequestMessage.Headers;
 
             foreach (var requestHeader in requestHeaders)

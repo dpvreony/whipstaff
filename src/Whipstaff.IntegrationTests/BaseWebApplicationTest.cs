@@ -7,7 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
@@ -41,15 +43,24 @@ namespace Whipstaff.IntegrationTests
         /// Gets the Web Application Factory.
         /// </summary>
         /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
+        /// <param name="args">Command line arguments.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task WithWebApplicationFactoryAsync(Func<WhipstaffWebApplicationFactory<TStartup>, Task> webApplicationFunc)
+        protected static async Task WithWebApplicationFactoryAsync(Func<TestServer, Task> webApplicationFunc, string[] args)
         {
             ArgumentNullException.ThrowIfNull(webApplicationFunc);
 
-            using (var factory = new WhipstaffWebApplicationFactory<TStartup>(Log))
+            var webApplication = WebApplicationFactory.GetHostApplicationBuilder<TStartup>(
+                args,
+                applicationBuilder => applicationBuilder.WebHost.UseTestServer());
+            var server = webApplication.Services.GetRequiredService<IServer>();
+            if (server is not TestServer testServer)
             {
-                await webApplicationFunc(factory).ConfigureAwait(false);
+                throw new InvalidOperationException("Server is not a TestServer.");
             }
+
+            await webApplication.StartAsync();
+
+            await webApplicationFunc(testServer).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -192,7 +192,7 @@ namespace Whipstaff.EntityFramework.Extensions
             where TEntity : class
         {
             var d = dbSetSelectorFunc(instance);
-            var item = await d.FirstOrDefaultAsync(predicate)
+            var item = await d.TagWithCallerMemberAndCallSite().FirstOrDefaultAsync(predicate)
                 .ConfigureAwait(false);
 
             if (item != null)

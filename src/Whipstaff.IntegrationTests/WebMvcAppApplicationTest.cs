@@ -5,8 +5,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Logging;
+using Microsoft.Playwright;
+using Whipstaff.Playwright;
+using Whipstaff.Playwright.Crawler;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -43,25 +50,27 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            await WithWebApplicationFactoryAsync(async factory =>
-            {
-                var client = factory.CreateClient();
-                var requestUri = new Uri(requestPath, UriKind.Absolute);
-                var response = await client.GetAsync(requestUri);
+            await WithWebApplicationFactoryAsync(
+                async factory =>
+                {
+                    var client = factory.CreateClient();
+                    var requestUri = new Uri(requestPath, UriKind.Absolute);
+                    var response = await client.GetAsync(requestUri);
 
-                _ = response.EnsureSuccessStatusCode();
+                    _ = response.EnsureSuccessStatusCode();
 
-                var contentType = response.Content.Headers.ContentType;
-                Assert.NotNull(contentType);
+                    var contentType = response.Content.Headers.ContentType;
+                    Assert.NotNull(contentType);
 
-                Assert.Equal(
-                    expectedContentType,
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                    contentType.ToString());
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                    Assert.Equal(
+                        expectedContentType,
+    #pragma warning disable CS8602 // Dereference of a possibly null reference.
+                        contentType.ToString());
+    #pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-                await LogResponseAsync(response);
-            });
+                    await LogResponseAsync(response);
+                },
+                []);
         }
 
         /// <summary>
@@ -71,16 +80,66 @@ namespace Whipstaff.IntegrationTests
         [Fact]
         public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitlyAsync()
         {
-            await WithWebApplicationFactoryAsync(async factory =>
-            {
-                var client = factory.CreateClient();
-                var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
-                var response = await client.GetAsync(requestUri);
+            await WithWebApplicationFactoryAsync(
+                async factory =>
+                {
+                    var client = factory.CreateClient();
+                    var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
+                    var response = await client.GetAsync(requestUri);
 
-                Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
 
-                await LogResponseAsync(response);
-            });
+                    await LogResponseAsync(response);
+                },
+                []);
+        }
+
+        /// <summary>
+        /// Test to ensure the site can be crawled with no errors.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        [Fact]
+        public async Task CrawlSiteWithNoErrors()
+        {
+            await WithWebApplicationFactoryAsync(
+                async factory =>
+                {
+                    var client = factory.CreateClient();
+                    var requestUri = new Uri("https://localhost/", UriKind.Absolute);
+
+                    using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
+                               .ConfigureAwait(false))
+                    await using (var browser =
+                                 await playwright.GetBrowser(PlaywrightBrowserTypeAndChannel.Chrome()))
+                    {
+                        var page = await browser.NewPageAsync()
+                            .ConfigureAwait(false);
+                        await page.RouteAsync(
+                                "**/*",
+                                route => DefaultHandler(client, route))
+                            .ConfigureAwait(false);
+
+                        var crawlResults = await WebCrawler.CrawlSiteAsync(requestUri, page, CancellationToken.None)
+                            .ConfigureAwait(false);
+
+                        foreach (var uriCrawlResultModel in crawlResults)
+                        {
+                            _logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+                        }
+
+                        Assert.NotNull(crawlResults);
+                        Assert.NotEmpty(crawlResults);
+                        Assert.All(
+                            crawlResults,
+                            pageResult => CheckPageResult(pageResult));
+                    }
+                },
+                []);
+        }
+
+        private static void CheckPageResult(KeyValuePair<string, UriCrawlResultModel> pageResult)
+        {
+            Assert.False(string.IsNullOrWhiteSpace(pageResult.Key));
         }
 
         private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
@@ -92,6 +151,34 @@ namespace Whipstaff.IntegrationTests
                     "text/html; charset=utf-8"
                 }
             };
+        }
+
+        private static async Task DefaultHandler(HttpClient client, IRoute route)
+        {
+            if (!route.Request.Url.StartsWith("https://localhost/", StringComparison.OrdinalIgnoreCase))
+            {
+                var routeFulfillOptions = new RouteFulfillOptions
+                {
+                    Status = 404
+                };
+
+                await route.FulfillAsync(routeFulfillOptions)
+                    .ConfigureAwait(false);
+
+                return;
+            }
+
+            using (var request = route.ToHttpRequestMessage())
+            {
+                var response = await client.SendAsync(request)
+                    .ConfigureAwait(false);
+
+                var routeFulfillOptions = await RouteFulfillOptionsFactory.FromHttpResponseMessageAsync(response)
+                    .ConfigureAwait(false);
+
+                await route.FulfillAsync(routeFulfillOptions)
+                    .ConfigureAwait(false);
+            }
         }
     }
 }
