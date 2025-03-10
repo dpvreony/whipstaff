@@ -54,7 +54,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="Moq" Version="4.20.71" />
     <PackageReference Include="NetTestRegimentation" Version="1.7.48" />
-    <PackageReference Include="NetTestRegimentation.Xunit" Version="1.7.48" />
+    <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.4" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.11" />
     <PackageReference Include="xunit" Version="2.9.3" />
