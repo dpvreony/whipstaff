@@ -49,17 +49,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Foundatio.Xunit" Version="11.0.8" />
+    <!--<PackageReference Include="Foundatio.Xunit" Version="11.0.8" />-->
     <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
+    <PackageReference Include="MartinCostello.Logging.XUnit.v3" Version="0.5.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="Moq" Version="4.20.71" />
-    <PackageReference Include="NetTestRegimentation" Version="1.7.48" />
-    <PackageReference Include="NetTestRegimentation.Xunit" Version="1.7.48" />
+    <PackageReference Include="NetTestRegimentation" Version="2.0.4" />
+    <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.4" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.11" />
-    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.v3" Version="2.0.0" />
     <PackageReference Include="xunit.analyzers" Version="1.20.0" />
-    <PackageReference Include="xunit.runner.reporters" Version="2.9.3" />
+    <!---<PackageReference Include="xunit.runner.reporters" Version="2.9.3" />-->
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
     <PackageReference Include="Xunit.StaFact" Version="2.0.44" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
