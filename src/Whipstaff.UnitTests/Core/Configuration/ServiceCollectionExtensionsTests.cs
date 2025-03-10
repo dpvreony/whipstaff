@@ -5,14 +5,13 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NetTestRegimentation;
 using Whipstaff.Core.Configuration;
 using Whipstaff.Testing.Configuration;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Core.Configuration
 {
@@ -25,7 +24,7 @@ namespace Whipstaff.UnitTests.Core.Configuration
         /// Unit Tests for the <see cref="Whipstaff.Core.Configuration.ServiceCollectionExtensions.AddStrictConfigurationBinding{TOptions}(Microsoft.Extensions.DependencyInjection.IServiceCollection,string,System.Func{TOptions,bool})"/> method.
         /// </summary>
         public sealed class AddStrictConfigurationBindingT1Method
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string, Func<FakeOptions, bool>>
         {
             /// <summary>
@@ -100,7 +99,7 @@ namespace Whipstaff.UnitTests.Core.Configuration
         /// Unit Tests for the <see cref="Whipstaff.Core.Configuration.ServiceCollectionExtensions.AddStrictConfigurationBinding{TOptions,TOptionsValidator}(Microsoft.Extensions.DependencyInjection.IServiceCollection,string)"/> method.
         /// </summary>
         public sealed class AddStrictConfigurationBindingT2Method
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string>
         {
             /// <summary>

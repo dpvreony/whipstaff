@@ -8,9 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Whipstaff.EntityFramework.Extensions;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
-using Whipstaff.UnitTests.EntityFramework.Relational;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.EntityFramework.Extensions
 {
@@ -22,7 +21,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Tests for <see cref="DbContextFactoryExtensions.GetOrAddAsync{TDbContext,TEntity}(IDbContextFactory{TDbContext},Func{TDbContext,DbSet{TEntity}},System.Linq.Expressions.Expression{Func{TEntity,bool}},Func{TEntity})"/>.
         /// </summary>
-        public sealed class GetOrAddAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetOrAddAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetOrAddAsyncMethod"/> class.

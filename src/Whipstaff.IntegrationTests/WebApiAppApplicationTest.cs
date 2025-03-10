@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebApiApp;
 using Whipstaff.Testing;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.IntegrationTests
 {

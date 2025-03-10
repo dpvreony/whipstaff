@@ -12,8 +12,8 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Rocks;
 using Whipstaff.Playwright;
 using Whipstaff.Playwright.Crawler;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 [assembly: Rock(typeof(IBrowser), BuildType.Create)]
 [assembly: Rock(typeof(IPage), BuildType.Create)]
@@ -28,7 +28,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
         /// <summary>
         /// Unit tests for <see cref="WebCrawler.CrawlSiteAsync(Uri, PlaywrightBrowserTypeAndChannel, System.Threading.CancellationToken)"/>.
         /// </summary>
-        public sealed class CrawlSiteAsyncUriPlaywrightBrowserTypeAndChannelCancellationTokenMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<Uri, PlaywrightBrowserTypeAndChannel>
+        public sealed class CrawlSiteAsyncUriPlaywrightBrowserTypeAndChannelCancellationTokenMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<Uri, PlaywrightBrowserTypeAndChannel>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CrawlSiteAsyncUriPlaywrightBrowserTypeAndChannelCancellationTokenMethod"/> class.
@@ -73,7 +73,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
         /// <summary>
         /// Unit tests for <see cref="WebCrawler.CrawlSiteAsync(string, PlaywrightBrowserTypeAndChannel, System.Threading.CancellationToken)"/>.
         /// </summary>
-        public sealed class CrawlSiteAsyncStringPlaywrightBrowserTypeAndChannelCancellationTokenMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string, PlaywrightBrowserTypeAndChannel>
+        public sealed class CrawlSiteAsyncStringPlaywrightBrowserTypeAndChannelCancellationTokenMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string, PlaywrightBrowserTypeAndChannel>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CrawlSiteAsyncStringPlaywrightBrowserTypeAndChannelCancellationTokenMethod"/> class.
@@ -118,7 +118,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
         /// <summary>
         /// Unit tests for <see cref="WebCrawler.CrawlSiteAsync(string, IBrowser, System.Threading.CancellationToken)"/>.
         /// </summary>
-        public sealed class CrawlSiteAsyncStringIBrowserCancellationTokenMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string, IBrowser>
+        public sealed class CrawlSiteAsyncStringIBrowserCancellationTokenMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string, IBrowser>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CrawlSiteAsyncStringIBrowserCancellationTokenMethod"/> class.
@@ -163,7 +163,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
         /// <summary>
         /// Unit tests for <see cref="WebCrawler.CrawlSiteAsync(Uri, IBrowser, System.Threading.CancellationToken)"/>.
         /// </summary>
-        public sealed class CrawlSiteAsyncUriIBrowserCancellationTokenMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<Uri, IBrowser>
+        public sealed class CrawlSiteAsyncUriIBrowserCancellationTokenMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<Uri, IBrowser>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CrawlSiteAsyncUriIBrowserCancellationTokenMethod"/> class.
@@ -288,7 +288,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
         /// <summary>
         /// Unit tests for <see cref="WebCrawler.CrawlSiteAsync(string, IPage, System.Threading.CancellationToken)"/>.
         /// </summary>
-        public sealed class CrawlSiteAsyncStringIPageCancellationTokenMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string, IPage>
+        public sealed class CrawlSiteAsyncStringIPageCancellationTokenMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string, IPage>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CrawlSiteAsyncStringIPageCancellationTokenMethod"/> class.
@@ -413,7 +413,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
         /// <summary>
         /// Unit tests for <see cref="WebCrawler.CrawlSiteAsync(Uri, IPage, System.Threading.CancellationToken)"/>.
         /// </summary>
-        public sealed class CrawlSiteAsyncUriIPageCancellationTokenMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<Uri, IPage>
+        public sealed class CrawlSiteAsyncUriIPageCancellationTokenMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<Uri, IPage>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CrawlSiteAsyncUriIPageCancellationTokenMethod"/> class.

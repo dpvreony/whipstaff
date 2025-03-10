@@ -15,7 +15,6 @@ using Microsoft.Playwright;
 using Whipstaff.Playwright;
 using Whipstaff.Playwright.Crawler;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.IntegrationTests
 {
@@ -124,7 +123,9 @@ namespace Whipstaff.IntegrationTests
 
                         foreach (var uriCrawlResultModel in crawlResults)
                         {
-                            _logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+                            Logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
                         }
 
                         Assert.NotNull(crawlResults);

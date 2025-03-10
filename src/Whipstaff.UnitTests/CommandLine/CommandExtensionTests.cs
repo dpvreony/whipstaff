@@ -6,8 +6,8 @@ using System.CommandLine;
 using System.IO;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine
 {
@@ -20,7 +20,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit tests for the <see cref="Whipstaff.CommandLine.CommandExtensions.MakeOptionsMutuallyExclusive"/> method.
         /// </summary>
         public sealed class MakeOptionsMutuallyExclusiveMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<Command, Option, Option>
         {
             /// <summary>
@@ -35,11 +35,11 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.CommandExtensions.MakeOptionsMutuallyExclusiveMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(Command arg1, Option arg2, Option arg3, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(Command? arg1, Option? arg2, Option? arg3, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<System.ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => Whipstaff.CommandLine.CommandExtensions.MakeOptionsMutuallyExclusive(arg1, arg2, arg3));
+                    () => Whipstaff.CommandLine.CommandExtensions.MakeOptionsMutuallyExclusive(arg1!, arg2!, arg3!));
             }
 
             /// <summary>

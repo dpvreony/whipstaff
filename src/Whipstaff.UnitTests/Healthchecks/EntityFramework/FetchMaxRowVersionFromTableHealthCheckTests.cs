@@ -11,8 +11,8 @@ using NetTestRegimentation;
 using Whipstaff.Healthchecks.EntityFramework;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
 {
@@ -24,7 +24,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
         /// <summary>
         /// Unit tests for the <see cref="FetchMaxRowVersionFromTableHealthCheck{TDbContext, TEntity}" /> constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<IDbContextFactory<FakeDbContext>>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<IDbContextFactory<FakeDbContext>>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -55,7 +55,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
         /// <summary>
         /// Unit tests for the <see cref="FetchMaxRowVersionFromTableHealthCheck{TDbContext, TEntity}.CheckHealthAsync" /> method.
         /// </summary>
-        public sealed class CheckHealthAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class CheckHealthAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CheckHealthAsyncMethod"/> class.

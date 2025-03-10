@@ -14,8 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Testing;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.IntegrationTests
 {
@@ -25,7 +25,7 @@ namespace Whipstaff.IntegrationTests
     /// <typeparam name="TStartup">The type of the startup class.</typeparam>
     [ExcludeFromCodeCoverage]
     public class BaseWebApplicationTest<TStartup>
-        : Foundatio.Xunit.TestWithLoggingBase
+        : TestWithLoggingBase
         where TStartup : class, IWhipstaffWebAppStartup, new()
     {
         /// <summary>
@@ -36,7 +36,6 @@ namespace Whipstaff.IntegrationTests
             ITestOutputHelper output)
             : base(output)
         {
-            Log.DefaultMinimumLevel = LogLevel.Debug;
         }
 
         /// <summary>
@@ -67,13 +66,14 @@ namespace Whipstaff.IntegrationTests
         /// Helper method to log the http response.
         /// </summary>
         /// <param name="response">Http Response.</param>
+        /// <param name="logger">Logging framework instance.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task LogResponseAsync(HttpResponseMessage response)
+        protected static async Task LogResponseAsync(HttpResponseMessage response, ILogger logger)
         {
             if (response == null)
             {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-                _logger.LogInformation("No HTTP Response Message.");
+                logger.LogInformation("No HTTP Response Message.");
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
                 return;
             }
@@ -81,13 +81,13 @@ namespace Whipstaff.IntegrationTests
             foreach (var (key, value) in response.Headers)
             {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-                _logger.LogInformation("Header Item: {Key} -> {Values}", key, string.Join(",", value));
+                logger.LogInformation("Header Item: {Key} -> {Values}", key, string.Join(",", value));
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 
             var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-            _logger.LogInformation("Result: {Result}", result);
+            logger.LogInformation("Result: {Result}", result);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
     }

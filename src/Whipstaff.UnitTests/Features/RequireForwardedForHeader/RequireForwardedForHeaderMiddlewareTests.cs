@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Whipstaff.AspNetCore.Features.RequireForwardedForHeader;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
 {
@@ -25,7 +25,7 @@ namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader
         /// <summary>
         /// Unit tests for the constructor method.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ConstructorMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.

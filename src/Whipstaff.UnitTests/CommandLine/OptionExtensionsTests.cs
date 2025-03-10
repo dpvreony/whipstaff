@@ -9,8 +9,8 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine
 {
@@ -23,7 +23,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit Tests for <see cref="Whipstaff.CommandLine.OptionExtensions.SpecificFileExtensionOnly"/>.
         /// </summary>
         public sealed class SpecificFileExtensionOnlyMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<IFileSystem, string>
         {
             /// <summary>
@@ -68,7 +68,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit Tests for <see cref="Whipstaff.CommandLine.OptionExtensions.SpecificFileExtensionsOnly"/>.
         /// </summary>
         public sealed class SpecificFileExtensionsOnlyMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<IFileSystem, string[]>
         {
             private static readonly string[] _extensions = [".txt", ".docx"];

@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NetTestRegimentation;
 using Whipstaff.Runtime.Extensions;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Runtime.Extensions
 {
@@ -21,7 +21,7 @@ namespace Whipstaff.UnitTests.Runtime.Extensions
         /// Unit Tests for <see cref="Whipstaff.Runtime.Extensions.DictionaryExtensions.KeysWhere{TKey, TValue}(IDictionary{TKey, TValue}, Func{KeyValuePair{TKey, TValue}, bool})"/> method.
         /// </summary>
         public sealed class KeysWhereMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<Dictionary<string, string>, Func<KeyValuePair<string, string>, bool>>
         {
             /// <summary>

@@ -7,8 +7,8 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool.CommandLine
 {
@@ -21,7 +21,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool.CommandLine
         /// Tests for the <see cref="CommandLineHandlerFactory.GetRootCommandAndBinder"/> method.
         /// </summary>
         public sealed class GetRootCommandAndBinderMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<IFileSystem>
         {
             /// <summary>

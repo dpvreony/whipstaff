@@ -19,7 +19,7 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvReaderExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.CsvReaderExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(CsvReader arg, string expectedParameterNameForException)
+        public void ThrowsArgumentNullException(CsvReader? arg, string expectedParameterNameForException)
         {
             _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.CsvReaderExtensions.AddTypeIso8601DateTimeConverterOptions(arg));
         }

@@ -6,18 +6,17 @@ using System;
 using System.Globalization;
 using System.IO;
 using CsvHelper;
-using Foundatio.Xunit;
 using Microsoft.Extensions.Logging;
 using Whipstaff.CsvHelper;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions
 {
     /// <summary>
     /// Unit tests for the <see cref="Whipstaff.CsvHelper.CsvContextExtensions.AddTypeIso8601DateTimeConverterOptions"/> method.
     /// </summary>
-    public sealed class AddTypeIso8601DateTimeConverterOptionsMethodTests : Foundatio.Xunit.TestWithLoggingBase, NetTestRegimentation.ITestMethodWithNullableParameters<CsvContext>
+    public sealed class AddTypeIso8601DateTimeConverterOptionsMethodTests : TestWithLoggingBase, NetTestRegimentation.ITestMethodWithNullableParameters<CsvContext>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AddTypeIso8601DateTimeConverterOptionsMethodTests"/> class.

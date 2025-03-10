@@ -12,8 +12,8 @@ using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
 using Whipstaff.CommandLine.Hosting;
 using Whipstaff.Testing.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine.Hosting
 {
@@ -26,7 +26,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
         /// Unit test for the <see cref="HostRunner.RunSimpleCliJob{TJob, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TJob}, TJob}, IFileSystem, IConsole)"/> method.
         /// </summary>
         public sealed class RunSimpleCliJobMethod
-        : Foundatio.Xunit.TestWithLoggingBase,
+        : TestWithLoggingBase,
                 ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler>, IFileSystem>
         {
             /// <summary>

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
@@ -18,9 +17,9 @@ using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.MediatR;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
+using Whipstaff.Testing.Logging;
 using Whipstaff.Testing.MediatR;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Features.Mediatr
 {
@@ -33,7 +32,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
         /// <summary>
         /// Unit tests for the RegisterMediatrWithExplicitTypes method.
         /// </summary>
-        public sealed class RegisterMediatrWithExplicitTypesMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class RegisterMediatrWithExplicitTypesMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="RegisterMediatrWithExplicitTypesMethod"/> class.

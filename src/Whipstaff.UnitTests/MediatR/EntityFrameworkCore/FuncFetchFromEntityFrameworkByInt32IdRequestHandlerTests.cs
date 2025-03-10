@@ -2,17 +2,15 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic.Logging;
 using Whipstaff.MediatR.EntityFrameworkCore;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
 {
@@ -22,7 +20,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
     public static class FuncFetchFromEntityFrameworkByInt32IdRequestHandlerTests
     {
         /// <inheritdoc />
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase, NetTestRegimentation.ITestConstructorMethod
+        public sealed class ConstructorMethod : TestWithLoggingBase, NetTestRegimentation.ITestConstructorMethod
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -52,7 +50,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
         /// <summary>
         /// Unit Tests for the Handle Method.
         /// </summary>
-        public sealed class HandleMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class HandleMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="HandleMethod"/> class.

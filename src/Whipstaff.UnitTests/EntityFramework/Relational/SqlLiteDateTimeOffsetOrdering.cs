@@ -3,15 +3,12 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Whipstaff.EntityFramework;
 using Whipstaff.EntityFramework.Relational;
 using Xunit;
 

@@ -32,7 +32,7 @@ namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryIniti
     /// We're keeping this test here as a reminder that we need to keep an eye on this behaviour in case
     /// it is fixed.
     /// </summary>
-    public sealed class HttpPostDisposedFaultTests : Foundatio.Xunit.TestWithLoggingBase
+    public sealed class HttpPostDisposedFaultTests : TestWithLoggingBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpPostDisposedFaultTests"/> class.

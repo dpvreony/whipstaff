@@ -14,8 +14,8 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
 using Whipstaff.Playwright;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Mermaid.Playwright
 {
@@ -27,7 +27,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -94,7 +94,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.CreateDiagramAndWriteToFileAsync(IFileInfo, IFileInfo, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
-        public sealed class CreateDiagramAndWriteToFileAsyncMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo, IFileInfo>
+        public sealed class CreateDiagramAndWriteToFileAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo, IFileInfo>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateDiagramAndWriteToFileAsyncMethod"/> class.
@@ -190,7 +190,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.Default(ILoggerFactory)"/>.
         /// </summary>
-        public sealed class DefaultMethod : Foundatio.Xunit.TestWithLoggingBase, ITestMethodWithNullableParameters<ILoggerFactory>
+        public sealed class DefaultMethod : TestWithLoggingBase, ITestMethodWithNullableParameters<ILoggerFactory>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="DefaultMethod"/> class.
@@ -239,7 +239,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram(IFileInfo, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
-        public sealed class GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo>
+        public sealed class GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString"/> class.
@@ -341,7 +341,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram(string, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
-        public sealed class GetDiagramMethodWithStringPlaywrightBrowserTypeString : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
+        public sealed class GetDiagramMethodWithStringPlaywrightBrowserTypeString : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetDiagramMethodWithStringPlaywrightBrowserTypeString"/> class.

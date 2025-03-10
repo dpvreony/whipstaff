@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Example
 {
@@ -15,7 +15,7 @@ namespace Whipstaff.UnitTests.Example
     /// Tests for the Startup class.
     /// </summary>
     /// <typeparam name="TStartUp">Whipstaff based startup class for the application.</typeparam>
-    public abstract class AbstractStartupTests<TStartUp> : Foundatio.Xunit.TestWithLoggingBase
+    public abstract class AbstractStartupTests<TStartUp> : TestWithLoggingBase
         where TStartUp : IWhipstaffWebAppStartup, new()
     {
         /// <summary>
