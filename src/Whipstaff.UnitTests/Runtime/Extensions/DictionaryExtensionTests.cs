@@ -37,13 +37,13 @@ namespace Whipstaff.UnitTests.Runtime.Extensions
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.Extensions.DictionaryExtensionTests.KeysWhereMethod.ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                Dictionary<string, string> arg1,
-                Func<KeyValuePair<string, string>, bool> arg2,
+                Dictionary<string, string>? arg1,
+                Func<KeyValuePair<string, string>, bool>? arg2,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => arg1.KeysWhere(arg2).ToArray());
+                    () => arg1!.KeysWhere(arg2!).ToArray());
             }
 
             /// <summary>

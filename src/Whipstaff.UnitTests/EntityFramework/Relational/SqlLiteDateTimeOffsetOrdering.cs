@@ -112,15 +112,15 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
 
                     using (var dbContext = new TestWithOnModelCreatingDbContext(dbContextOptionsBuilder.Options))
                     {
-                        _ = await dbContext.Database.EnsureCreatedAsync();
+                        _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
-                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now });
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now }, TestContext.Current.CancellationToken);
 
-                        _ = await dbContext.SaveChangesAsync();
+                        _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
-                            .ToArrayAsync();
+                            .ToArrayAsync(cancellationToken: TestContext.Current.CancellationToken);
 
                         Assert.NotNull(result);
                         Assert.NotEmpty(result);
@@ -152,15 +152,15 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
 
                     using (var dbContext = new TestWithContextOptionsDbContext(dbContextOptionsBuilder.Options))
                     {
-                        _ = await dbContext.Database.EnsureCreatedAsync();
+                        _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
-                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now });
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now }, TestContext.Current.CancellationToken);
 
-                        _ = await dbContext.SaveChangesAsync();
+                        _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                         var result = await dbContext.TestEntity
                             .Where(GetSelector())
-                            .ToArrayAsync();
+                            .ToArrayAsync(cancellationToken: TestContext.Current.CancellationToken);
 
                         Assert.NotNull(result);
                         Assert.NotEmpty(result);

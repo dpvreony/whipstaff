@@ -35,12 +35,12 @@ namespace Whipstaff.UnitTests.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IPlaywright arg,
+                IPlaywright? arg,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => arg.GetBrowserType(PlaywrightBrowserType.Chromium));
+                    () => arg!.GetBrowserType(PlaywrightBrowserType.Chromium));
             }
 
             /// <summary>

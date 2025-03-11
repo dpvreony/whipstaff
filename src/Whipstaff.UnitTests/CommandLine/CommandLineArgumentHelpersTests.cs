@@ -43,19 +43,19 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
-                string[] arg1,
-                Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>> arg2,
-                Func<FakeCommandLineArgModel, Task<int>> arg3,
-                IFileSystem arg4,
+                string[]? arg1,
+                Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>? arg2,
+                Func<FakeCommandLineArgModel, Task<int>>? arg3,
+                IFileSystem? arg4,
                 string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
                     () => CommandLineArgumentHelpers.GetResultFromRootCommand(
-                        arg1,
-                        arg2,
-                        arg3,
-                        arg4));
+                        arg1!,
+                        arg2!,
+                        arg3!,
+                        arg4!));
             }
 
             /// <summary>
@@ -94,8 +94,8 @@ namespace Whipstaff.UnitTests.CommandLine
                     fileSystem,
                     console);
 
-                _logger.LogInformation("Console output: {ConsoleOutput}", console.Out.ToString());
-                _logger.LogInformation("Console error: {ConsoleError}", console.Error.ToString());
+                Logger.LogInformation("Console output: {ConsoleOutput}", console.Out.ToString());
+                Logger.LogInformation("Console error: {ConsoleError}", console.Error.ToString());
 
                 Assert.Equal(0, result);
             }

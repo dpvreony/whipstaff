@@ -40,8 +40,8 @@ namespace Whipstaff.UnitTests.Core.Configuration
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT1Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                string arg1,
-                Func<FakeOptions, bool> arg2,
+                string? arg1,
+                Func<FakeOptions, bool>? arg2,
                 string expectedParameterNameForException)
             {
                 var services = new ServiceCollection();
@@ -57,7 +57,7 @@ namespace Whipstaff.UnitTests.Core.Configuration
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => services.AddStrictConfigurationBinding(arg1, arg2));
+                    () => services.AddStrictConfigurationBinding(arg1!, arg2!));
             }
 
             /// <summary>
@@ -114,13 +114,13 @@ namespace Whipstaff.UnitTests.Core.Configuration
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT2Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(string arg, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(string? arg, string expectedParameterNameForException)
             {
                 var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => services.AddStrictConfigurationBinding<FakeOptions, FakeOptionsValidator>(arg));
+                    () => services.AddStrictConfigurationBinding<FakeOptions, FakeOptionsValidator>(arg!));
             }
 
             /// <summary>

@@ -85,17 +85,17 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IObservable<bool> arg1,
-                Func<int, int> arg2,
-                Func<int, int> arg3,
-                Func<int, int> arg4,
+                IObservable<bool>? arg1,
+                Func<int, int>? arg2,
+                Func<int, int>? arg3,
+                Func<int, int>? arg4,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
-                    arg1,
-                    arg2,
-                    arg3,
-                    arg4));
+                    arg1!,
+                    arg2!,
+                    arg3!,
+                    arg4!));
 
                 Assert.Equal(
                     expectedParameterNameForException,
@@ -157,20 +157,20 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IObservable<bool> arg1,
-                Func<int, int> arg2,
-                Func<int, int> arg3,
-                Func<int, int> arg4,
-                Func<int, int> arg5,
+                IObservable<bool>? arg1,
+                Func<int, int>? arg2,
+                Func<int, int>? arg3,
+                Func<int, int>? arg4,
+                Func<int, int>? arg5,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() =>
                     CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
-                        arg1,
-                        arg2,
-                        arg3,
-                        arg4,
-                        arg5));
+                        arg1!,
+                        arg2!,
+                        arg3!,
+                        arg4!,
+                        arg5!));
 
                 Assert.Equal(
                     expectedParameterNameForException,
@@ -243,21 +243,21 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IObservable<bool> arg1,
-                Func<int, int> arg2,
-                Func<int, int> arg3,
-                Func<int, int> arg4,
-                Func<int, int> arg5,
-                Func<int, int> arg6,
+                IObservable<bool>? arg1,
+                Func<int, int>? arg2,
+                Func<int, int>? arg3,
+                Func<int, int>? arg4,
+                Func<int, int>? arg5,
+                Func<int, int>? arg6,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
-                    arg1,
-                    arg2,
-                    arg3,
-                    arg4,
-                    arg5,
-                    arg6));
+                    arg1!,
+                    arg2!,
+                    arg3!,
+                    arg4!,
+                    arg5!,
+                    arg6!));
 
                 Assert.Equal(
                     expectedParameterNameForException,
@@ -343,23 +343,23 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IObservable<bool> arg1,
-                Func<int, int> arg2,
-                Func<int, int> arg3,
-                Func<int, int> arg4,
-                Func<int, int> arg5,
-                Func<int, int> arg6,
-                Func<int, int> arg7,
+                IObservable<bool>? arg1,
+                Func<int, int>? arg2,
+                Func<int, int>? arg3,
+                Func<int, int>? arg4,
+                Func<int, int>? arg5,
+                Func<int, int>? arg6,
+                Func<int, int>? arg7,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => CommonExecutionPredicateReactiveCommandFactory.GetCommandsWithCommonExecutionPredicate(
-                    arg1,
-                    arg2,
-                    arg3,
-                    arg4,
-                    arg5,
-                    arg6,
-                    arg7));
+                    arg1!,
+                    arg2!,
+                    arg3!,
+                    arg4!,
+                    arg5!,
+                    arg6!,
+                    arg7!));
 
                 Assert.Equal(
                     expectedParameterNameForException,

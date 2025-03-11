@@ -30,9 +30,9 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.CsvContextExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(CsvContext arg, string expectedParameterNameForException)
+        public void ThrowsArgumentNullException(CsvContext? arg, string expectedParameterNameForException)
         {
-            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.CsvContextExtensions.AddTypeIso8601DateTimeConverterOptions(arg));
+            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.CsvContextExtensions.AddTypeIso8601DateTimeConverterOptions(arg!));
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions
             }
 
             var actual = stringWriter.ToString();
-            _logger.LogInformation(stringWriter.ToString());
+            Logger.LogInformation(stringWriter.ToString());
 
             var expected = $"{DateOnly.FromDateTime(now):yyyy-MM-dd},{now:O}";
 

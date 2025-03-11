@@ -30,10 +30,10 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvWriterExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.CsvWriterExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(CsvWriter arg, string expectedParameterNameForException)
+        public void ThrowsArgumentNullException(CsvWriter? arg, string expectedParameterNameForException)
         {
             // ReSharper disable once ConvertClosureToMethodGroup
-            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => arg.AddTypeIso8601DateTimeConverterOptions());
+            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => arg!.AddTypeIso8601DateTimeConverterOptions());
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvWriterExtensions
             }
 
             var actual = stringWriter.ToString();
-            _logger.LogInformation(stringWriter.ToString());
+            Logger.LogInformation(stringWriter.ToString());
 
             var expected = $"{DateOnly.FromDateTime(now):yyyy-MM-dd},{now:O}";
 

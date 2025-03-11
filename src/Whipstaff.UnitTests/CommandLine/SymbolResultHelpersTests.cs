@@ -39,14 +39,14 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtensionMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                SymbolResult arg1,
-                IFileSystem arg2,
-                string arg3,
+                SymbolResult? arg1,
+                IFileSystem? arg2,
+                string? arg3,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2, arg3));
+                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1!, arg2!, arg3!));
             }
 
             /// <summary>
@@ -115,14 +115,14 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtension2Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                SymbolResult arg1,
-                IFileSystem arg2,
-                string[] arg3,
+                SymbolResult? arg1,
+                IFileSystem? arg2,
+                string[]? arg3,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2, arg3));
+                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1!, arg2!, arg3!));
             }
 
             /// <summary>

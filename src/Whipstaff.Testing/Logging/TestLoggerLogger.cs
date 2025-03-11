@@ -6,13 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Testing.Logging;
 
-internal class TestLoggerLogger : ILogger
+internal sealed class TestLoggerLogger : ILogger
 {
+    private static readonly AsyncLocal<Wrapper> _currentScopeStack = new();
     private readonly TestLogger _logger;
     private readonly string _categoryName;
 
@@ -20,6 +22,12 @@ internal class TestLoggerLogger : ILogger
     {
         _logger = logger;
         _categoryName = categoryName;
+    }
+
+    private static ImmutableStack<object> CurrentScopeStack
+    {
+        get => _currentScopeStack.Value?.Value ?? ImmutableStack.Create<object>();
+        set => _currentScopeStack.Value = new Wrapper { Value = value };
     }
 
     public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
@@ -79,44 +87,22 @@ internal class TestLoggerLogger : ILogger
     public IDisposable? BeginScope<TState>(TState state)
         where TState : notnull
     {
-        if (state == null)
-        {
-            throw new ArgumentNullException(nameof(state));
-        }
-
         return Push(state);
-    }
-
-    public IDisposable BeginScope<TState, TScope>(Func<TState, TScope> scopeFactory, TState state)
-        where TState : notnull
-    {
-        ArgumentNullException.ThrowIfNull(scopeFactory);
-        ArgumentNullException.ThrowIfNull(state);
-
-        return Push(scopeFactory(state)!);
-    }
-
-    private static readonly AsyncLocal<Wrapper> _currentScopeStack = new();
-
-    private sealed class Wrapper
-    {
-        public required ImmutableStack<object> Value { get; init; }
-    }
-
-    private static ImmutableStack<object> CurrentScopeStack
-    {
-        get => _currentScopeStack.Value?.Value ?? ImmutableStack.Create<object>();
-        set => _currentScopeStack.Value = new Wrapper { Value = value };
     }
 
     private static IDisposable Push(object state)
     {
         CurrentScopeStack = CurrentScopeStack.Push(state);
-        return new DisposableAction(Pop);
+        return Disposable.Create(Pop);
     }
 
     private static void Pop()
     {
         CurrentScopeStack = CurrentScopeStack.Pop();
+    }
+
+    private sealed class Wrapper
+    {
+        public required ImmutableStack<object> Value { get; init; }
     }
 }

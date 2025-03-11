@@ -62,7 +62,7 @@ namespace Whipstaff.IntegrationTests
                         expectedContentType,
                         response.Content.Headers.ContentType!.ToString());
 
-                    await LogResponseAsync(response);
+                    await LogResponseAsync(response, Logger);
                 },
                 args);
         }

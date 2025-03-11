@@ -46,11 +46,11 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1044
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(Uri arg1, PlaywrightBrowserTypeAndChannel arg2, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(Uri? arg1, PlaywrightBrowserTypeAndChannel? arg2, string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => WebCrawler.CrawlSiteAsync(arg1, arg2, CancellationToken.None));
+                    () => WebCrawler.CrawlSiteAsync(arg1!, arg2!, CancellationToken.None));
             }
 
             /// <summary>
@@ -89,12 +89,12 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1044
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1044
-            public async Task ThrowsArgumentNullExceptionAsync(string arg1, PlaywrightBrowserTypeAndChannel arg2, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(string? arg1, PlaywrightBrowserTypeAndChannel? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => WebCrawler.CrawlSiteAsync(arg1, arg2, CancellationToken.None));
+                    () => WebCrawler.CrawlSiteAsync(arg1!, arg2!, CancellationToken.None));
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
             }
 
@@ -134,12 +134,12 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(string arg1, IBrowser arg2, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(string? arg1, IBrowser? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => WebCrawler.CrawlSiteAsync(arg1, arg2, CancellationToken.None));
+                    () => WebCrawler.CrawlSiteAsync(arg1!, arg2!, CancellationToken.None));
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
             }
 
@@ -179,12 +179,12 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(Uri arg1, IBrowser arg2, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(Uri? arg1, IBrowser? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => WebCrawler.CrawlSiteAsync(arg1, arg2, CancellationToken.None));
+                    () => WebCrawler.CrawlSiteAsync(arg1!, arg2!, CancellationToken.None));
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
             }
 
@@ -210,7 +210,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 
                     foreach (var uriCrawlResultModel in crawlResults)
                     {
-                        _logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+                        Logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
                     }
 
                     Assert.NotNull(crawlResults);
@@ -304,12 +304,12 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(string arg1, IPage arg2, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(string? arg1, IPage? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => WebCrawler.CrawlSiteAsync(arg1, arg2, CancellationToken.None));
+                    () => WebCrawler.CrawlSiteAsync(arg1!, arg2!, CancellationToken.None));
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
             }
 
@@ -335,7 +335,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 
                     foreach (var uriCrawlResultModel in crawlResults)
                     {
-                        _logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+                        Logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
                     }
 
                     Assert.NotNull(crawlResults);
@@ -429,12 +429,12 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(Uri arg1, IPage arg2, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(Uri? arg1, IPage? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => WebCrawler.CrawlSiteAsync(arg1, arg2, CancellationToken.None));
+                    () => WebCrawler.CrawlSiteAsync(arg1!, arg2!, CancellationToken.None));
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
             }
 

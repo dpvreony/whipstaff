@@ -37,13 +37,13 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.MarkdownGen.DotNetTool.CommandLine.CommandLineHandlerFactoryTests.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                IFileSystem arg,
+                IFileSystem? arg,
                 string expectedParameterNameForException)
             {
                 var sut = new CommandLineHandlerFactory();
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => sut.GetRootCommandAndBinder(arg));
+                    () => sut.GetRootCommandAndBinder(arg!));
             }
 
             /// <summary>

@@ -135,7 +135,7 @@ namespace Whipstaff.UnitTests.Controllers
             /// <param name="mediator">Instance of the CQRS mediator instance.</param>
             /// <param name="commandFactory">Instance of the Command factory used for creating commands to pass to the mediator.</param>
             /// <param name="queryFactory">Instance of the Query factory used for creating queries to pass to the mediator.</param>
-            /// <param name="logMessageActionMappings">Log Message Action Mapping.</param>
+            /// <param name="logMessageActionMappings">LoggerFactory Message Action Mapping.</param>
             /// <param name="argumentNullExceptionParameterName">Name of the parameter expected to cause the exception.</param>
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]

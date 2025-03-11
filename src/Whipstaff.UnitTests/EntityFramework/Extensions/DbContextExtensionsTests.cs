@@ -39,7 +39,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             [Fact]
             public async Task AddsRecordAsync()
             {
-                var dbContextFactory = new FakeDbContextFactory(Log);
+                var dbContextFactory = new FakeDbContextFactory(LoggerFactory);
                 var dbContext = dbContextFactory.CreateDbContext();
                 var result = await dbContext.GetOrAddAsync(
                     x => x.FakeAddAudit,

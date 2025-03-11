@@ -42,12 +42,12 @@ namespace Whipstaff.UnitTests.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IPage arg,
+                IPage? arg,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => arg.EnumerateImgTagsWithIncompleteAltAttributeAsync());
+                    () => arg!.EnumerateImgTagsWithIncompleteAltAttributeAsync());
             }
 
             /// <summary>
@@ -199,7 +199,7 @@ namespace Whipstaff.UnitTests.Playwright
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullException"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPlaywright>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.

@@ -47,8 +47,8 @@ namespace Whipstaff.UnitTests.Example
                     options.ValidateOnBuild = true;
                 }));
 
-            await app.StartAsync();
-            await app.StopAsync();
+            await app.StartAsync(TestContext.Current.CancellationToken);
+            await app.StopAsync(TestContext.Current.CancellationToken);
 
             // this assert won't be reached if the app fails to start
             Assert.Equal(1, 1);

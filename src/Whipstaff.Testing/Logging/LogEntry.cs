@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
@@ -27,7 +31,9 @@ namespace Whipstaff.Testing.Logging
         /// <summary>
         /// Gets or sets the scopes of the log entry.
         /// </summary>
+#pragma warning disable CA1819 // Properties should not return arrays
         public object[]? Scopes { get; set; }
+#pragma warning restore CA1819 // Properties should not return arrays
 
         /// <summary>
         /// Gets or sets the event id of the log entry.

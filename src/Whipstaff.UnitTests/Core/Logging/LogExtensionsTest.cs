@@ -35,9 +35,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
                 Logger.TraceMethodEntry();
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -61,9 +61,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
                 Logger.TraceMethodExit();
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -87,9 +87,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
                 Logger.TraceIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -113,10 +113,10 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
                 Logger.TraceIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -140,10 +140,10 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
                 Logger.TraceMethodException(exception);
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -168,7 +168,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 Logger.WarningIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -194,7 +194,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 Logger.WarningIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -219,7 +219,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 Logger.ErrorIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -245,7 +245,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 Logger.ErrorIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -270,7 +270,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 Logger.InformationIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -296,7 +296,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 Logger.InformationIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -320,9 +320,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Debug;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Debug;
                 Logger.DebugIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -346,10 +346,10 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Debug;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Debug;
                 var exception = new InvalidOperationException("Some test exception");
                 Logger.DebugIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -374,7 +374,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 Logger.CriticalIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
@@ -400,7 +400,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var exception = new InvalidOperationException("Some test exception");
                 Logger.CriticalIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
     }

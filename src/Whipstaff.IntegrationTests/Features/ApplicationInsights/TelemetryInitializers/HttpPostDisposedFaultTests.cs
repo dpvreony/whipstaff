@@ -84,7 +84,7 @@ namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryIniti
         {
             throw new NotImplementedException("This test is not yet implemented");
             /*
-            var webApplicationBuilder = GetWebApplicationBuilder(Log);
+            var webApplicationBuilder = GetWebApplicationBuilder(LoggerFactory);
             using (var testServer = new TestServer())
             {
                 _ = webApplicationBuilder.WebHost.UseServer(testServer);
@@ -102,7 +102,7 @@ namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryIniti
         [Fact]
         public async Task BranchPipelinesThrow()
         {
-            var builder = GetWebHostBuilder(Log);
+            var builder = GetWebHostBuilder(LoggerFactory);
 
             using (var testServer = new TestServer(builder))
             {

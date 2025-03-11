@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             [Fact]
             public void ReturnsInstance()
             {
-                var dbContextFactory = new FakeDbContextFactory(Log);
+                var dbContextFactory = new FakeDbContextFactory(LoggerFactory);
 
                 var instance =
                     new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int?>(
@@ -68,12 +68,12 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             [Fact]
             public async Task ReturnsResultAsync()
             {
-                var dbContextFactory = new FakeDbContextFactory(Log);
+                var dbContextFactory = new FakeDbContextFactory(LoggerFactory);
 
                 using (var dbContext = dbContextFactory.CreateDbContext())
                 {
-                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1 });
-                    _ = await dbContext.SaveChangesAsync();
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1 }, TestContext.Current.CancellationToken);
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
                 }
 
                 var instance =
@@ -101,7 +101,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
             [Fact]
             public async Task ReturnsNullAsync()
             {
-                var dbContextFactory = new FakeDbContextFactory(Log);
+                var dbContextFactory = new FakeDbContextFactory(LoggerFactory);
 
                 var instance =
                     new FuncFetchFromEntityFrameworkByInt32IdQueryHandler<RequestById, FakeDbContext, FakeAddAuditDbSet, int?>(

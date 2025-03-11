@@ -33,7 +33,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxIntIdOrDefaultMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -81,7 +81,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxIntIdOrDefaultAsyncMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -94,7 +94,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
                     _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1 }, CancellationToken.None);
-                    _ = await dbContext.SaveChangesAsync();
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                     var result = await dbContext.FakeAddAudit.GetMaxIntIdOrDefaultAsync();
 
@@ -133,7 +133,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxLongIdOrDefaultMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -182,7 +182,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxLongIdOrDefaultAsyncMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -194,8 +194,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = await dbContext.FakeLongIdTable.AddAsync(new FakeLongIdTableDbSet());
-                    _ = await dbContext.SaveChangesAsync();
+                    _ = await dbContext.FakeLongIdTable.AddAsync(new FakeLongIdTableDbSet(), TestContext.Current.CancellationToken);
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                     var result = await dbContext.FakeLongIdTable.GetMaxLongIdOrDefaultAsync();
 
@@ -234,7 +234,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxRowVersionOrDefaultMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -284,7 +284,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxRowVersionOrDefaultAsyncMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -296,8 +296,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = await dbContext.SaveChangesAsync();
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 }, TestContext.Current.CancellationToken);
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                     var result = await dbContext.FakeAddAudit.GetMaxRowVersionOrDefaultAsync();
 
@@ -336,7 +336,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanAndLessThanOrEqualToRowVersionsMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -397,7 +397,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -455,7 +455,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethodWithTakeRecords(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -513,7 +513,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethodWithSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -575,7 +575,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethodWithTakeRecordsAndSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -639,7 +639,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -697,7 +697,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethodWithTakeRecords(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -755,7 +755,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethodWithSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -817,7 +817,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethodWithTakeRecordsAndSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -881,7 +881,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanRowVersionMethodWithId(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -947,7 +947,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanRowVersionMethodWithIdAndTakeRecords(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>

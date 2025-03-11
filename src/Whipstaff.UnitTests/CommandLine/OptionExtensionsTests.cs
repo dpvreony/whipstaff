@@ -39,15 +39,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.OptionExtensionsTests.SpecificFileExtensionOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                IFileSystem arg1,
-                string arg2,
+                IFileSystem? arg1,
+                string? arg2,
                 string expectedParameterNameForException)
             {
                 var instance = new Option<FileInfo>("someoption");
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.SpecificFileExtensionOnly(arg1, arg2));
+                    () => instance.SpecificFileExtensionOnly(arg1!, arg2!));
             }
 
             /// <summary>
@@ -86,15 +86,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.OptionExtensionsTests.SpecificFileExtensionsOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                IFileSystem arg1,
-                string[] arg2,
+                IFileSystem? arg1,
+                string[]? arg2,
                 string expectedParameterNameForException)
             {
                 var instance = new Option<FileInfo>("someoption");
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.SpecificFileExtensionsOnly(arg1, arg2));
+                    () => instance.SpecificFileExtensionsOnly(arg1!, arg2!));
             }
 
             /// <summary>

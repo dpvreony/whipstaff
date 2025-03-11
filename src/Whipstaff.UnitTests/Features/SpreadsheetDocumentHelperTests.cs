@@ -56,7 +56,7 @@ namespace Whipstaff.UnitTests.Features
 
                     var buffer = stream.ToArray();
                     var stringOutput = Encoding.UTF8.GetString(buffer);
-                    _logger.LogDebug(stringOutput);
+                    Logger.LogDebug(stringOutput);
                 }
             }
 

@@ -15,12 +15,12 @@ namespace Whipstaff.UnitTests.Core.Logging
     /// </summary>
     public static class LoggerMessageFactoryTests
     {
-        private const string FormatString1 = "Some Log Message. {Arg}";
-        private const string FormatString2 = "Some Log Message. {Arg1} {Arg2}";
-        private const string FormatString3 = "Some Log Message. {Arg1} {Arg2} {Arg3}";
-        private const string FormatString4 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4}";
-        private const string FormatString5 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5}";
-        private const string FormatString6 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5} {Arg6}";
+        private const string FormatString1 = "Some LoggerFactory Message. {Arg}";
+        private const string FormatString2 = "Some LoggerFactory Message. {Arg1} {Arg2}";
+        private const string FormatString3 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3}";
+        private const string FormatString4 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3} {Arg4}";
+        private const string FormatString5 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5}";
+        private const string FormatString6 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5} {Arg6}";
 
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction"/>.
@@ -431,7 +431,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var instance = GetLoggerMessageAction();
 
-                var count = Log.LogEntries.Count;
+                var count = LoggerFactory.LogEntries.Count;
                 var callCount = 0;
 
                 InvokeLogMessageAction(
@@ -442,7 +442,7 @@ namespace Whipstaff.UnitTests.Core.Logging
                         return 1;
                     });
 
-                Assert.True(Log.LogEntries.Count > count);
+                Assert.True(LoggerFactory.LogEntries.Count > count);
                 Assert.Equal(1, callCount);
             }
 
@@ -454,9 +454,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var instance = GetLoggerMessageAction();
 
-                Log.DefaultMinimumLevel = LogLevel.Error;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Error;
 
-                var count = Log.LogEntries.Count;
+                var count = LoggerFactory.LogEntries.Count;
                 var callCount = 0;
 
                 InvokeLogMessageAction(
@@ -467,7 +467,7 @@ namespace Whipstaff.UnitTests.Core.Logging
                         return 1;
                     });
 
-                Assert.Equal(Log.LogEntries.Count, count);
+                Assert.Equal(LoggerFactory.LogEntries.Count, count);
                 Assert.Equal(0, callCount);
             }
 
@@ -512,7 +512,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     null);
             }
@@ -546,7 +546,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     null);
             }
@@ -579,7 +579,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     null);
@@ -614,7 +614,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     null);
@@ -648,7 +648,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -684,7 +684,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -719,7 +719,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -756,7 +756,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -792,7 +792,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -830,7 +830,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -867,7 +867,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -906,7 +906,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,

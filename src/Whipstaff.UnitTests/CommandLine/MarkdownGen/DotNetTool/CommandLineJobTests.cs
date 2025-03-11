@@ -54,10 +54,10 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.MarkdownGen.DotNetTool.CommandLineJobTests.HandleCommand.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
-                CommandLineArgModel arg,
+                CommandLineArgModel? arg,
                 string expectedParameterNameForException)
             {
-                var logger = Log.CreateLogger<CommandLineJob>();
+                var logger = LoggerFactory.CreateLogger<CommandLineJob>();
                 var instance = new CommandLineJob(
                     new CommandLineJobLogMessageActionsWrapper(
                         new CommandLineJobLogMessageActions(),
@@ -66,7 +66,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.HandleCommand(arg));
+                    () => instance.HandleCommand(arg!));
             }
         }
     }
