@@ -27,10 +27,10 @@
     <PackageReference Include="Exceptionless.Extensions.Logging" Version="6.0.4" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Profiler.AspNetCore" Version="2.7.3" />
-    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="8.0.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.13" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="8.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.14" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="8.0.1" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.6.1" />
