@@ -9,8 +9,8 @@ using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
 {
@@ -22,7 +22,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
         /// <summary>
         /// Unit test for <see cref="CommandLineJob"/> constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ConstructorMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -38,7 +38,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
         /// Unit test for <see cref="CommandLineJob.OnHandleCommand(CommandLineArgModel)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestAsyncMethodWithNullableParameters<CommandLineArgModel>
         {
             /// <summary>
@@ -54,10 +54,10 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.MarkdownGen.DotNetTool.CommandLineJobTests.HandleCommand.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
-                CommandLineArgModel arg,
+                CommandLineArgModel? arg,
                 string expectedParameterNameForException)
             {
-                var logger = Log.CreateLogger<CommandLineJob>();
+                var logger = LoggerFactory.CreateLogger<CommandLineJob>();
                 var instance = new CommandLineJob(
                     new CommandLineJobLogMessageActionsWrapper(
                         new CommandLineJobLogMessageActions(),
@@ -66,7 +66,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.HandleCommand(arg));
+                    () => instance.HandleCommand(arg!));
             }
         }
     }

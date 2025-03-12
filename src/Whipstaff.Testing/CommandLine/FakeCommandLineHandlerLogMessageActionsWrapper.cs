@@ -10,7 +10,7 @@ using Whipstaff.Core.Logging.MessageActionWrappers;
 namespace Whipstaff.Testing.CommandLine
 {
     /// <summary>
-    /// Log Message Actions Wrapper for the Fake Command Line Handler.
+    /// LoggerFactory Message Actions Wrapper for the Fake Command Line Handler.
     /// </summary>
     public sealed class FakeCommandLineHandlerLogMessageActionsWrapper : IWrapLogMessageActionUnhandledException, ILogMessageActionsWrapper<FakeCommandLineHandler>
     {

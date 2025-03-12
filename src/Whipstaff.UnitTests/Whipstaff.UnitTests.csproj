@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net9.0-windows10.0.19041</TargetFrameworks>
     <ApplicationIcon />
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <StartupObject />
     <DebugSymbols>True</DebugSymbols>
     <!-- review CA1515 when upgrading to xunit3 -->

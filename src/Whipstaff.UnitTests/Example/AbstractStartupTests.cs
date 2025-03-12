@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Example
 {
@@ -15,7 +15,7 @@ namespace Whipstaff.UnitTests.Example
     /// Tests for the Startup class.
     /// </summary>
     /// <typeparam name="TStartUp">Whipstaff based startup class for the application.</typeparam>
-    public abstract class AbstractStartupTests<TStartUp> : Foundatio.Xunit.TestWithLoggingBase
+    public abstract class AbstractStartupTests<TStartUp> : TestWithLoggingBase
         where TStartUp : IWhipstaffWebAppStartup, new()
     {
         /// <summary>
@@ -47,8 +47,8 @@ namespace Whipstaff.UnitTests.Example
                     options.ValidateOnBuild = true;
                 }));
 
-            await app.StartAsync();
-            await app.StopAsync();
+            await app.StartAsync(TestContext.Current.CancellationToken);
+            await app.StopAsync(TestContext.Current.CancellationToken);
 
             // this assert won't be reached if the app fails to start
             Assert.Equal(1, 1);

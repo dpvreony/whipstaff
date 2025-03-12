@@ -5,14 +5,13 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NetTestRegimentation;
 using Whipstaff.Core.Configuration;
 using Whipstaff.Testing.Configuration;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Core.Configuration
 {
@@ -25,7 +24,7 @@ namespace Whipstaff.UnitTests.Core.Configuration
         /// Unit Tests for the <see cref="Whipstaff.Core.Configuration.ServiceCollectionExtensions.AddStrictConfigurationBinding{TOptions}(Microsoft.Extensions.DependencyInjection.IServiceCollection,string,System.Func{TOptions,bool})"/> method.
         /// </summary>
         public sealed class AddStrictConfigurationBindingT1Method
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string, Func<FakeOptions, bool>>
         {
             /// <summary>
@@ -41,8 +40,8 @@ namespace Whipstaff.UnitTests.Core.Configuration
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT1Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                string arg1,
-                Func<FakeOptions, bool> arg2,
+                string? arg1,
+                Func<FakeOptions, bool>? arg2,
                 string expectedParameterNameForException)
             {
                 var services = new ServiceCollection();
@@ -58,7 +57,7 @@ namespace Whipstaff.UnitTests.Core.Configuration
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => services.AddStrictConfigurationBinding(arg1, arg2));
+                    () => services.AddStrictConfigurationBinding(arg1!, arg2!));
             }
 
             /// <summary>
@@ -100,7 +99,7 @@ namespace Whipstaff.UnitTests.Core.Configuration
         /// Unit Tests for the <see cref="Whipstaff.Core.Configuration.ServiceCollectionExtensions.AddStrictConfigurationBinding{TOptions,TOptionsValidator}(Microsoft.Extensions.DependencyInjection.IServiceCollection,string)"/> method.
         /// </summary>
         public sealed class AddStrictConfigurationBindingT2Method
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string>
         {
             /// <summary>
@@ -115,13 +114,13 @@ namespace Whipstaff.UnitTests.Core.Configuration
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT2Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(string arg, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(string? arg, string expectedParameterNameForException)
             {
                 var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => services.AddStrictConfigurationBinding<FakeOptions, FakeOptionsValidator>(arg));
+                    () => services.AddStrictConfigurationBinding<FakeOptions, FakeOptionsValidator>(arg!));
             }
 
             /// <summary>

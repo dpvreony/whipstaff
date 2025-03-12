@@ -13,10 +13,9 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Playwright;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
-using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Playwright
 {
@@ -28,7 +27,7 @@ namespace Whipstaff.UnitTests.Playwright
         /// <summary>
         /// Unit tests for <see cref="PageExtensions.EnumerateImgTagsWithIncompleteAltAttributeAsync"/>.
         /// </summary>
-        public sealed class EnumerateImgTagsWithIncompleteAltAttributeMethod : Foundatio.Xunit.TestWithLoggingBase, ITestMethodWithNullableParameters<IPage>
+        public sealed class EnumerateImgTagsWithIncompleteAltAttributeMethod : TestWithLoggingBase, ITestMethodWithNullableParameters<IPage>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="EnumerateImgTagsWithIncompleteAltAttributeMethod"/> class.
@@ -43,12 +42,12 @@ namespace Whipstaff.UnitTests.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IPage arg,
+                IPage? arg,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => arg.EnumerateImgTagsWithIncompleteAltAttributeAsync());
+                    () => arg!.EnumerateImgTagsWithIncompleteAltAttributeAsync());
             }
 
             /// <summary>
@@ -200,7 +199,7 @@ namespace Whipstaff.UnitTests.Playwright
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullException"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPlaywright>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.

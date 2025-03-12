@@ -15,12 +15,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Whipstaff.Core;
 using Whipstaff.MediatR;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Controllers
 {
@@ -49,7 +48,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ConstructorMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Test Data for checking an Argument Null Exception is thrown.
@@ -136,7 +135,7 @@ namespace Whipstaff.UnitTests.Controllers
             /// <param name="mediator">Instance of the CQRS mediator instance.</param>
             /// <param name="commandFactory">Instance of the Command factory used for creating commands to pass to the mediator.</param>
             /// <param name="queryFactory">Instance of the Query factory used for creating queries to pass to the mediator.</param>
-            /// <param name="logMessageActionMappings">Log Message Action Mapping.</param>
+            /// <param name="logMessageActionMappings">LoggerFactory Message Action Mapping.</param>
             /// <param name="argumentNullExceptionParameterName">Name of the parameter expected to cause the exception.</param>
             [Theory]
             [MemberData(nameof(ThrowsArgumentNullExceptionTestData))]
@@ -194,7 +193,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the Post call.
         /// </summary>
-        public sealed class PostAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class PostAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for testing POST methods succeed.
@@ -268,7 +267,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the Delete call.
         /// </summary>
-        public sealed class DeleteAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class DeleteAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for testing DELETE methods succeed.
@@ -396,7 +395,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the List call.
         /// </summary>
-        public sealed class ListAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ListAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit Test Source for ensuring the list request succeeds.
@@ -480,7 +479,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the PUT request.
         /// </summary>
-        public sealed class PutAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class PutAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test source for making sure PUT requests succeed.
@@ -554,7 +553,7 @@ namespace Whipstaff.UnitTests.Controllers
         /// <summary>
         /// Unit Tests for the View call.
         /// </summary>
-        public sealed class ViewAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ViewAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Gets the XUnit test data source for making sure View requests succeed.

@@ -11,8 +11,8 @@ using NetTestRegimentation;
 using Whipstaff.Healthchecks.EntityFramework;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
 {
@@ -24,7 +24,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
         /// <summary>
         /// Unit tests for the <see cref="FetchMaxRowVersionFromTableHealthCheck{TDbContext, TEntity}" /> constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<IDbContextFactory<FakeDbContext>>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<IDbContextFactory<FakeDbContext>>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -39,15 +39,15 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             [Fact]
             public void ReturnsInstance()
             {
-                Assert.NotNull(new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(Log)));
+                Assert.NotNull(new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(LoggerFactory)));
             }
 
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(IDbContextFactory<FakeDbContext> arg, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(IDbContextFactory<FakeDbContext>? arg, string expectedParameterNameForException)
             {
-                var exception = Assert.Throws<ArgumentNullException>(() => new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(arg));
+                var exception = Assert.Throws<ArgumentNullException>(() => new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(arg!));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
         }
@@ -55,7 +55,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
         /// <summary>
         /// Unit tests for the <see cref="FetchMaxRowVersionFromTableHealthCheck{TDbContext, TEntity}.CheckHealthAsync" /> method.
         /// </summary>
-        public sealed class CheckHealthAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class CheckHealthAsyncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CheckHealthAsyncMethod"/> class.
@@ -73,22 +73,19 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             [Fact]
             public async Task ReturnsHealthyAsync()
             {
-                var dbContextFactory = new FakeDbContextFactory(Log);
+                var dbContextFactory = new FakeDbContextFactory(LoggerFactory);
                 using (var dbContext = dbContextFactory.CreateDbContext())
                 {
-                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 })
-;
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 }, TestContext.Current.CancellationToken);
 
-                    _ = await dbContext.SaveChangesAsync()
-;
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
                 }
 
                 var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(dbContextFactory);
 
                 var context = new HealthCheckContext();
 
-                var result = await instance.CheckHealthAsync(context)
-;
+                var result = await instance.CheckHealthAsync(context, TestContext.Current.CancellationToken);
 
                 Assert.Equal(HealthStatus.Healthy, result.Status);
             }
@@ -100,12 +97,11 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             [Fact]
             public async Task ReturnsDegradedAsync()
             {
-                var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(Log));
+                var instance = new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(LoggerFactory));
 
                 var context = new HealthCheckContext();
 
-                var result = await instance.CheckHealthAsync(context)
-;
+                var result = await instance.CheckHealthAsync(context, TestContext.Current.CancellationToken);
 
                 Assert.Equal(HealthStatus.Degraded, result.Status);
             }

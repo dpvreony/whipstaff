@@ -5,8 +5,8 @@
 using System;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Core.Logging
 {
@@ -18,7 +18,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.TraceMethodEntry"/>.
         /// </summary>
-        public sealed class TraceMethodEntryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class TraceMethodEntryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="TraceMethodEntryMethod"/> class.
@@ -35,16 +35,16 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
-                _logger.TraceMethodEntry();
-                _ = Assert.Single(Log.LogEntries);
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
+                Logger.TraceMethodEntry();
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.TraceMethodExit"/>.
         /// </summary>
-        public sealed class TraceMethodExitMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class TraceMethodExitMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="TraceMethodExitMethod"/> class.
@@ -61,16 +61,16 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
-                _logger.TraceMethodExit();
-                _ = Assert.Single(Log.LogEntries);
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
+                Logger.TraceMethodExit();
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.TraceIfEnabled(ILogger, Func{string})"/>.
         /// </summary>
-        public sealed class TraceIfEnabledMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class TraceIfEnabledMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="TraceIfEnabledMethod"/> class.
@@ -87,16 +87,16 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
-                _logger.TraceIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
+                Logger.TraceIfEnabled(() => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.TraceIfEnabled(ILogger, Exception, Func{string})"/>.
         /// </summary>
-        public sealed class TraceIfEnabledWithExceptionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class TraceIfEnabledWithExceptionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="TraceIfEnabledWithExceptionMethod"/> class.
@@ -113,17 +113,17 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
-                _logger.TraceIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.TraceIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.TraceIfEnabled(ILogger, Exception, Func{string})"/>.
         /// </summary>
-        public sealed class TraceMethodExceptionEnabledMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class TraceMethodExceptionEnabledMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="TraceMethodExceptionEnabledMethod"/> class.
@@ -140,17 +140,17 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Trace;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Trace;
                 var exception = new InvalidOperationException("Some test exception");
-                _logger.TraceMethodException(exception);
-                _ = Assert.Single(Log.LogEntries);
+                Logger.TraceMethodException(exception);
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.WarningIfEnabled(ILogger, Func{string})"/>.
         /// </summary>
-        public sealed class WarningIfEnabledMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class WarningIfEnabledMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="WarningIfEnabledMethod"/> class.
@@ -167,15 +167,15 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                _logger.WarningIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.WarningIfEnabled(() => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.WarningIfEnabled(ILogger, Exception, Func{string})"/>.
         /// </summary>
-        public sealed class WarningIfEnabledWithExceptionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class WarningIfEnabledWithExceptionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="WarningIfEnabledWithExceptionMethod"/> class.
@@ -193,15 +193,15 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 var exception = new InvalidOperationException("Some test exception");
-                _logger.WarningIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.WarningIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.ErrorIfEnabled(ILogger, Func{string})"/>.
         /// </summary>
-        public sealed class ErrorIfEnabledMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ErrorIfEnabledMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ErrorIfEnabledMethod"/> class.
@@ -218,15 +218,15 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                _logger.ErrorIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.ErrorIfEnabled(() => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.ErrorIfEnabled(ILogger, Exception, Func{string})"/>.
         /// </summary>
-        public sealed class ErrorIfEnabledWithExceptionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ErrorIfEnabledWithExceptionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ErrorIfEnabledWithExceptionMethod"/> class.
@@ -244,15 +244,15 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 var exception = new InvalidOperationException("Some test exception");
-                _logger.ErrorIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.ErrorIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.InformationIfEnabled(ILogger, Func{string})"/>.
         /// </summary>
-        public sealed class InformationIfEnabledMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class InformationIfEnabledMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="InformationIfEnabledMethod"/> class.
@@ -269,15 +269,15 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                _logger.InformationIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.InformationIfEnabled(() => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.ErrorIfEnabled(ILogger, Exception, Func{string})"/>.
         /// </summary>
-        public sealed class InformationIfEnabledWithExceptionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class InformationIfEnabledWithExceptionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="InformationIfEnabledWithExceptionMethod"/> class.
@@ -295,15 +295,15 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 var exception = new InvalidOperationException("Some test exception");
-                _logger.InformationIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.InformationIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.DebugIfEnabled(ILogger, Func{string})"/>.
         /// </summary>
-        public sealed class DebugIfEnabledMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class DebugIfEnabledMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="DebugIfEnabledMethod"/> class.
@@ -320,16 +320,16 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Debug;
-                _logger.DebugIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Debug;
+                Logger.DebugIfEnabled(() => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.ErrorIfEnabled(ILogger, Exception, Func{string})"/>.
         /// </summary>
-        public sealed class DebugIfEnabledWithExceptionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class DebugIfEnabledWithExceptionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="DebugIfEnabledWithExceptionMethod"/> class.
@@ -346,17 +346,17 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                Log.DefaultMinimumLevel = LogLevel.Debug;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Debug;
                 var exception = new InvalidOperationException("Some test exception");
-                _logger.DebugIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.DebugIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.CriticalIfEnabled(ILogger, Func{string})"/>.
         /// </summary>
-        public sealed class CriticalIfEnabledMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class CriticalIfEnabledMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CriticalIfEnabledMethod"/> class.
@@ -373,15 +373,15 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void LogsMessage()
             {
-                _logger.CriticalIfEnabled(() => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.CriticalIfEnabled(() => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
 
         /// <summary>
         /// Unit Tests for <see cref="LogExtensions.CriticalIfEnabled(ILogger, Exception, Func{string})"/>.
         /// </summary>
-        public sealed class CriticalIfEnabledWithExceptionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class CriticalIfEnabledWithExceptionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CriticalIfEnabledWithExceptionMethod"/> class.
@@ -399,8 +399,8 @@ namespace Whipstaff.UnitTests.Core.Logging
             public void LogsMessage()
             {
                 var exception = new InvalidOperationException("Some test exception");
-                _logger.CriticalIfEnabled(exception, () => "TEST");
-                _ = Assert.Single(Log.LogEntries);
+                Logger.CriticalIfEnabled(exception, () => "TEST");
+                _ = Assert.Single(LoggerFactory.LogEntries);
             }
         }
     }
