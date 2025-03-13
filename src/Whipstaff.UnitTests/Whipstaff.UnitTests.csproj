@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net9.0-windows10.0.19041</TargetFrameworks>
     <ApplicationIcon />
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <StartupObject />
     <DebugSymbols>True</DebugSymbols>
     <!-- review CA1515 when upgrading to xunit3 -->
@@ -22,9 +22,9 @@
 
   <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.13" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.14" />
   </ItemGroup>
 
   <ItemGroup>

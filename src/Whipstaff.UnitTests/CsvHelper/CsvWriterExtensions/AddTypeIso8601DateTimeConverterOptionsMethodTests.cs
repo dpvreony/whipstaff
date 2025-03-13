@@ -8,15 +8,15 @@ using System.IO;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
 using Whipstaff.CsvHelper;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CsvHelper.CsvWriterExtensions
 {
     /// <summary>
     /// Unit tests for the <see cref="Whipstaff.CsvHelper.CsvWriterExtensions.AddTypeIso8601DateTimeConverterOptions"/> method.
     /// </summary>
-    public sealed class AddTypeIso8601DateTimeConverterOptionsMethodTests : Foundatio.Xunit.TestWithLoggingBase, NetTestRegimentation.ITestMethodWithNullableParameters<CsvWriter>
+    public sealed class AddTypeIso8601DateTimeConverterOptionsMethodTests : TestWithLoggingBase, NetTestRegimentation.ITestMethodWithNullableParameters<CsvWriter>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AddTypeIso8601DateTimeConverterOptionsMethodTests"/> class.
@@ -30,10 +30,10 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvWriterExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.CsvWriterExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(CsvWriter arg, string expectedParameterNameForException)
+        public void ThrowsArgumentNullException(CsvWriter? arg, string expectedParameterNameForException)
         {
             // ReSharper disable once ConvertClosureToMethodGroup
-            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => arg.AddTypeIso8601DateTimeConverterOptions());
+            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => arg!.AddTypeIso8601DateTimeConverterOptions());
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvWriterExtensions
             }
 
             var actual = stringWriter.ToString();
-            _logger.LogInformation(stringWriter.ToString());
+            Logger.LogInformation(stringWriter.ToString());
 
             var expected = $"{DateOnly.FromDateTime(now):yyyy-MM-dd},{now:O}";
 

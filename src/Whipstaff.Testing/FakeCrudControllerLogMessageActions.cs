@@ -10,7 +10,7 @@ using Whipstaff.Core.Logging;
 namespace Whipstaff.Testing
 {
     /// <summary>
-    /// Log Message Actions for the Fake CRUD controller.
+    /// LoggerFactory Message Actions for the Fake CRUD controller.
     /// </summary>
     public sealed class FakeCrudControllerLogMessageActions : ICrudControllerLogMessageActions
     {

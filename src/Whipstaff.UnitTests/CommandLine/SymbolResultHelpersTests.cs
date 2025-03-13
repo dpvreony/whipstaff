@@ -5,13 +5,12 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Parsing;
-using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine
 {
@@ -24,7 +23,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit Tests for <see cref="Whipstaff.CommandLine.SymbolResultHelpers.FileHasSupportedExtension(SymbolResult, IFileSystem, string)"/>.
         /// </summary>
         public sealed class FileHasSupportedExtensionMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<SymbolResult, IFileSystem, string>
         {
             /// <summary>
@@ -40,14 +39,14 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtensionMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                SymbolResult arg1,
-                IFileSystem arg2,
-                string arg3,
+                SymbolResult? arg1,
+                IFileSystem? arg2,
+                string? arg3,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2, arg3));
+                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1!, arg2!, arg3!));
             }
 
             /// <summary>
@@ -100,7 +99,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit Tests for <see cref="Whipstaff.CommandLine.SymbolResultHelpers.FileHasSupportedExtension(SymbolResult, IFileSystem, string)"/>.
         /// </summary>
         public sealed class FileHasSupportedExtension2Method
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<SymbolResult, IFileSystem, string[]>
         {
             /// <summary>
@@ -116,14 +115,14 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtension2Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                SymbolResult arg1,
-                IFileSystem arg2,
-                string[] arg3,
+                SymbolResult? arg1,
+                IFileSystem? arg2,
+                string[]? arg3,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1, arg2, arg3));
+                    () => SymbolResultHelpers.FileHasSupportedExtension(arg1!, arg2!, arg3!));
             }
 
             /// <summary>

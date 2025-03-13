@@ -9,7 +9,7 @@ using Xunit;
 namespace Whipstaff.UnitTests.Runtime.Extensions
 {
     /// <summary>
-    /// Unit tests for <see cref="AssemblyExtensions"/>.
+    /// Unit tests for <see cref="Whipstaff.Runtime.Extensions.AssemblyExtensions"/>.
     /// </summary>
     public static class AssemblyExtensionsTests
     {

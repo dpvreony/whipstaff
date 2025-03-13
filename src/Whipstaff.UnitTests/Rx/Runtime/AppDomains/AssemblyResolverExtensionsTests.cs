@@ -22,11 +22,11 @@ namespace Whipstaff.UnitTests.Rx.Runtime.AppDomains
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Rx.Runtime.AppDomains.AssemblyResolverExtensionsTests.ToObservableMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(IAssemblyResolveHelper arg, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(IAssemblyResolveHelper? arg, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => _ = arg.ToObservable());
+                    () => _ = arg!.ToObservable());
             }
         }
     }

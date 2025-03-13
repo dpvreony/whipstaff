@@ -10,8 +10,8 @@ using Couchbase.Extensions.DependencyInjection;
 using Couchbase.KeyValue;
 using NetTestRegimentation;
 using Whipstaff.Couchbase;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Couchbase
 {
@@ -24,7 +24,7 @@ namespace Whipstaff.UnitTests.Couchbase
         /// Unit test for the <see cref="CouchbaseLockProvider"/> constructor.
         /// </summary>
         public sealed class ConstructorMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<ICouchbaseCollection, CouchbaseLockProviderLogMessageActionsWrapper>
         {
             /// <summary>
@@ -54,7 +54,7 @@ namespace Whipstaff.UnitTests.Couchbase
         /// Unit test for the <see cref="CouchbaseLockProvider.GetInstanceAsync(IBucketProvider, CouchbaseLockProviderLogMessageActionsWrapper)"/> method.
         /// </summary>
         public sealed class GetInstanceAsyncMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestAsyncMethodWithNullableParameters<IBucketProvider, CouchbaseLockProviderLogMessageActionsWrapper>
         {
             /// <summary>
@@ -84,7 +84,7 @@ namespace Whipstaff.UnitTests.Couchbase
         /// Unit test for the <see cref="CouchbaseLockProvider.GetInstance(IBucket, CouchbaseLockProviderLogMessageActionsWrapper)"/> method.
         /// </summary>
         public sealed class GetInstanceMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<IBucket, CouchbaseLockProviderLogMessageActionsWrapper>
         {
             /// <summary>
@@ -114,7 +114,7 @@ namespace Whipstaff.UnitTests.Couchbase
         /// Unit test for the <see cref="CouchbaseLockProvider.AcquireAsync(string, TimeSpan?, bool, CancellationToken)"/> method.
         /// </summary>
         public sealed class AcquireAsyncMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string>
         {
             /// <summary>
@@ -137,7 +137,7 @@ namespace Whipstaff.UnitTests.Couchbase
         /// Unit test for the <see cref="CouchbaseLockProvider.IsLockedAsync(string)"/> method.
         /// </summary>
         public sealed class IsLockedAsyncMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string>
         {
             /// <summary>
@@ -160,7 +160,7 @@ namespace Whipstaff.UnitTests.Couchbase
         /// Unit test for the <see cref="CouchbaseLockProvider.ReleaseAsync(string, string)"/> method.
         /// </summary>
         public sealed class ReleaseAsyncMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string, string>
         {
             /// <summary>
@@ -183,7 +183,7 @@ namespace Whipstaff.UnitTests.Couchbase
         /// Unit test for the <see cref="CouchbaseLockProvider.RenewAsync(string, string, TimeSpan?)"/> method.
         /// </summary>
         public sealed class RenewAsyncMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<string, string>
         {
             /// <summary>

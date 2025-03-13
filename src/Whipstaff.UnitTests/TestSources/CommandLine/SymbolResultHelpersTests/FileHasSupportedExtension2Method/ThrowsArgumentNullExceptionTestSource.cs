@@ -7,7 +7,6 @@ using System.CommandLine.Parsing;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
-using Xunit;
 
 namespace Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtension2Method
 {

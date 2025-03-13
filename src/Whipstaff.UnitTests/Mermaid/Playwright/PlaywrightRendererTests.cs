@@ -14,8 +14,8 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
 using Whipstaff.Playwright;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Mermaid.Playwright
 {
@@ -27,7 +27,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -42,10 +42,10 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Fact]
             public void ReturnsInstance()
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
-                    Log.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -57,11 +57,11 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                MermaidHttpServer arg1,
-                PlaywrightRendererLogMessageActionsWrapper arg2,
+                MermaidHttpServer? arg1,
+                PlaywrightRendererLogMessageActionsWrapper? arg2,
                 string expectedParameterNameForException)
             {
-                var exception = Assert.Throws<ArgumentNullException>(() => new PlaywrightRenderer(arg1, arg2));
+                var exception = Assert.Throws<ArgumentNullException>(() => new PlaywrightRenderer(arg1!, arg2!));
 
                 Assert.Equal(
                     expectedParameterNameForException,
@@ -94,7 +94,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.CreateDiagramAndWriteToFileAsync(IFileInfo, IFileInfo, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
-        public sealed class CreateDiagramAndWriteToFileAsyncMethod : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo, IFileInfo>
+        public sealed class CreateDiagramAndWriteToFileAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo, IFileInfo>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateDiagramAndWriteToFileAsyncMethod"/> class.
@@ -109,14 +109,14 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                IFileInfo arg1,
-                IFileInfo arg2,
+                IFileInfo? arg1,
+                IFileInfo? arg2,
                 string expectedParameterNameForException)
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
-                    Log.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -124,8 +124,8 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
                     () => instance.CreateDiagramAndWriteToFileAsync(
-                        arg1,
-                        arg2,
+                        arg1!,
+                        arg2!,
                         PlaywrightBrowserTypeAndChannel.Chrome()));
             }
 
@@ -152,10 +152,10 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var sourceFile = fileSystem.FileInfo.New(fileSystem.AllFiles.First());
                 var targetFile = fileSystem.FileInfo.New(fileSystem.Path.Combine(fileSystem.Directory.GetCurrentDirectory(), "output.mmd"));
 
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
-                    Log.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -166,7 +166,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     PlaywrightBrowserTypeAndChannel.Chrome());
 
                 Assert.True(targetFile.Exists);
-                var content = await targetFile.OpenText().ReadToEndAsync();
+                var content = await targetFile.OpenText().ReadToEndAsync(TestContext.Current.CancellationToken);
                 Assert.StartsWith("<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"", content, StringComparison.Ordinal);
             }
 
@@ -190,7 +190,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.Default(ILoggerFactory)"/>.
         /// </summary>
-        public sealed class DefaultMethod : Foundatio.Xunit.TestWithLoggingBase, ITestMethodWithNullableParameters<ILoggerFactory>
+        public sealed class DefaultMethod : TestWithLoggingBase, ITestMethodWithNullableParameters<ILoggerFactory>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="DefaultMethod"/> class.
@@ -204,11 +204,11 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(ILoggerFactory arg, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(ILoggerFactory? arg, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => PlaywrightRenderer.Default(arg));
+                    () => PlaywrightRenderer.Default(arg!));
             }
 
             /// <summary>
@@ -217,14 +217,14 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Fact]
             public void ReturnsInstance()
             {
-                var instance = PlaywrightRenderer.Default(Log);
+                var instance = PlaywrightRenderer.Default(LoggerFactory);
                 Assert.NotNull(instance);
             }
 
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullException"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IFileInfo>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<ILoggerFactory>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
@@ -239,7 +239,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram(IFileInfo, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
-        public sealed class GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo>
+        public sealed class GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString"/> class.
@@ -253,19 +253,19 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(IFileInfo arg, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(IFileInfo? arg, string expectedParameterNameForException)
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
-                    Log.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.GetDiagram(arg, PlaywrightBrowserTypeAndChannel.Chrome()));
+                    () => instance.GetDiagram(arg!, PlaywrightBrowserTypeAndChannel.Chrome()));
             }
 
             /// <summary>
@@ -278,10 +278,10 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [ClassData(typeof(ReturnsResultTestSource))]
             public async Task ReturnsResult(IFileInfo sourceFileInfo, string expectedStart)
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
-                    Log.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -290,7 +290,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                 Assert.NotNull(diagramResponseModel);
 
-                _logger.LogInformation(diagramResponseModel.Svg);
+                Logger.LogInformation(diagramResponseModel.Svg);
 
                 Assert.NotNull(diagramResponseModel.Svg);
                 Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);
@@ -341,7 +341,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit Tests for <see cref="PlaywrightRenderer.GetDiagram(string, PlaywrightBrowserTypeAndChannel)"/>.
         /// </summary>
-        public sealed class GetDiagramMethodWithStringPlaywrightBrowserTypeString : Foundatio.Xunit.TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
+        public sealed class GetDiagramMethodWithStringPlaywrightBrowserTypeString : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetDiagramMethodWithStringPlaywrightBrowserTypeString"/> class.
@@ -355,19 +355,19 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(string arg, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(string? arg, string expectedParameterNameForException)
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
-                    Log.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.GetDiagram(arg, PlaywrightBrowserTypeAndChannel.Chrome()));
+                    () => instance.GetDiagram(arg!, PlaywrightBrowserTypeAndChannel.Chrome()));
             }
 
             /// <summary>
@@ -380,10 +380,10 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [ClassData(typeof(ReturnsResultTestSource))]
             public async Task ReturnsResult(string diagram, string expectedStart)
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(Log);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
-                    Log.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -392,7 +392,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                 Assert.NotNull(diagramResponseModel);
 
-                _logger.LogInformation(diagramResponseModel.Svg);
+                Logger.LogInformation(diagramResponseModel.Svg);
 
                 Assert.NotNull(diagramResponseModel.Svg);
                 Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);

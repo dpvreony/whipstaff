@@ -6,18 +6,17 @@ using System;
 using System.Globalization;
 using System.IO;
 using CsvHelper;
-using Foundatio.Xunit;
 using Microsoft.Extensions.Logging;
 using Whipstaff.CsvHelper;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions
 {
     /// <summary>
     /// Unit tests for the <see cref="Whipstaff.CsvHelper.CsvContextExtensions.AddTypeIso8601DateTimeConverterOptions"/> method.
     /// </summary>
-    public sealed class AddTypeIso8601DateTimeConverterOptionsMethodTests : Foundatio.Xunit.TestWithLoggingBase, NetTestRegimentation.ITestMethodWithNullableParameters<CsvContext>
+    public sealed class AddTypeIso8601DateTimeConverterOptionsMethodTests : TestWithLoggingBase, NetTestRegimentation.ITestMethodWithNullableParameters<CsvContext>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AddTypeIso8601DateTimeConverterOptionsMethodTests"/> class.
@@ -31,9 +30,9 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.CsvContextExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(CsvContext arg, string expectedParameterNameForException)
+        public void ThrowsArgumentNullException(CsvContext? arg, string expectedParameterNameForException)
         {
-            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.CsvContextExtensions.AddTypeIso8601DateTimeConverterOptions(arg));
+            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.CsvContextExtensions.AddTypeIso8601DateTimeConverterOptions(arg!));
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions
             }
 
             var actual = stringWriter.ToString();
-            _logger.LogInformation(stringWriter.ToString());
+            Logger.LogInformation(stringWriter.ToString());
 
             var expected = $"{DateOnly.FromDateTime(now):yyyy-MM-dd},{now:O}";
 

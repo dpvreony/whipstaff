@@ -4,8 +4,8 @@
 
 using NodaTime;
 using Whipstaff.NodaTime;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.NodaTime
 {
@@ -17,7 +17,7 @@ namespace Whipstaff.UnitTests.NodaTime
         /// <summary>
         /// Unit Tests for <see cref="LocalDateExtensions.ToYearMonthDayString"/>.
         /// </summary>
-        public sealed class ToYearMonthDayStringMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ToYearMonthDayStringMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ToYearMonthDayStringMethod"/> class.

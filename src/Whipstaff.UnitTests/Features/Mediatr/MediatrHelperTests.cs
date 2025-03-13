@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
@@ -18,9 +17,9 @@ using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.MediatR;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
+using Whipstaff.Testing.Logging;
 using Whipstaff.Testing.MediatR;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Features.Mediatr
 {
@@ -33,7 +32,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
         /// <summary>
         /// Unit tests for the RegisterMediatrWithExplicitTypes method.
         /// </summary>
-        public sealed class RegisterMediatrWithExplicitTypesMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class RegisterMediatrWithExplicitTypesMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="RegisterMediatrWithExplicitTypesMethod"/> class.
@@ -53,7 +52,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
             {
                 var services = new ServiceCollection();
 
-                _ = services.AddScoped<ILoggerFactory>(_ => Log);
+                _ = services.AddScoped<ILoggerFactory>(_ => LoggerFactory);
                 _ = services.AddLogging();
 
 #pragma warning disable CA2000
@@ -78,39 +77,38 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var dbContextOptions = serviceProvider.GetService<DbContextOptions<FakeDbContext>>();
                 using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
-                    _ = await dbContext.Database.EnsureCreatedAsync();
+                    _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
 
-                    var entityCount = await dbContext.FakeAddAudit.CountAsync();
+                    var entityCount = await dbContext.FakeAddAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(0, entityCount);
 
-                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync();
+                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(0, entityCount);
 
-                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync();
+                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(0, entityCount);
                 }
 
                 var mediator = serviceProvider.GetService<IMediator>();
                 const int expected = 987654321;
                 var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current!);
-                var sendResult = await mediator!.Send(request);
+                var sendResult = await mediator!.Send(request, TestContext.Current.CancellationToken);
                 Assert.Equal(expected, sendResult);
 
                 using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
-                    var entityCount = await dbContext.FakeAddAudit.CountAsync();
+                    var entityCount = await dbContext.FakeAddAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(1, entityCount);
 
-                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync();
+                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(1, entityCount);
 
-                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync();
+                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(1, entityCount);
                 }
 
                 var notification = new FakeNotification();
-                await mediator.Publish(notification)
-;
+                await mediator.Publish(notification, TestContext.Current.CancellationToken);
             }
 
             private static SqliteConnection CreateInMemoryDatabase()

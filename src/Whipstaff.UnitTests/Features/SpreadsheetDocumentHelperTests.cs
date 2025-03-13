@@ -11,8 +11,8 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.Logging;
 using Whipstaff.OpenXml.Excel;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Features
 {
@@ -25,7 +25,7 @@ namespace Whipstaff.UnitTests.Features
         /// <summary>
         /// Unit tests for workbook generation.
         /// </summary>
-        public sealed class GetWorkbookSpreadSheetDocumentMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWorkbookSpreadSheetDocumentMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWorkbookSpreadSheetDocumentMethod"/> class.
@@ -56,7 +56,7 @@ namespace Whipstaff.UnitTests.Features
 
                     var buffer = stream.ToArray();
                     var stringOutput = Encoding.UTF8.GetString(buffer);
-                    _logger.LogDebug(stringOutput);
+                    Logger.LogDebug(stringOutput);
                 }
             }
 
