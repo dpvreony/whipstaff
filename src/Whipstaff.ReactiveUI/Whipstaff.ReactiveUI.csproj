@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="ReactiveUI" Version="20.2.45" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
   <ItemGroup>
