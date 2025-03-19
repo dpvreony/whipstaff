@@ -83,7 +83,9 @@ namespace Whipstaff.IntegrationTests
                 async factory =>
                 {
                     var client = factory.CreateClient();
+#pragma warning disable S1075 // URIs should not be hardcoded
                     var requestUri = new Uri("https://localhost/home", UriKind.Absolute);
+#pragma warning restore S1075 // URIs should not be hardcoded
                     var response = await client.GetAsync(requestUri);
 
                     Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
@@ -104,7 +106,9 @@ namespace Whipstaff.IntegrationTests
                 async factory =>
                 {
                     var client = factory.CreateClient();
+#pragma warning disable S1075 // URIs should not be hardcoded
                     var requestUri = new Uri("https://localhost/", UriKind.Absolute);
+#pragma warning restore S1075 // URIs should not be hardcoded
 
                     using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                                .ConfigureAwait(false))

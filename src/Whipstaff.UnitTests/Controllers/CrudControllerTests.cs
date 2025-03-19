@@ -72,7 +72,7 @@ namespace Whipstaff.UnitTests.Controllers
             /// </summary>
             public static readonly TheoryData<
                     IAuthorizationServiceCreateExpectations?,
-                    ILoggerCreateExpectations<FakeCrudController>,
+                    ILoggerCreateExpectations<FakeCrudController>?,
                     IMediatorCreateExpectations?,
                     FakeAuditableCommandFactory?,
                     FakeAuditableQueryFactory?,
@@ -251,14 +251,21 @@ namespace Whipstaff.UnitTests.Controllers
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Methods.Send<IAuditableRequest<int, int?>, int?>(Arg.Any<IAuditableRequest<int, int?>>(), Arg.Any<CancellationToken>()).ReturnValue(MockAddMediatorHandlerAsync);
+                _ = mediator.Methods.Send<int?>(
+                        Arg.Validate<IRequest<int?>>(query => true),
+                        Arg.Any<CancellationToken>())
+                    .Callback(static (a, b) =>
+                    {
+                        var fakeCrudViewQuery = a as IAuditableRequest<int, int?>;
+                        return MockAddMediatorHandlerAsync(fakeCrudViewQuery!, b);
+                    });
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
                     authorizationService.Instance(),
-                    logger.Object,
+                    logger.Instance(),
                     mediator.Instance(),
                     commandFactory,
                     queryFactory,
@@ -340,9 +347,9 @@ namespace Whipstaff.UnitTests.Controllers
                 var queryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
-                    authorizationService.Object,
-                    logger.Object,
-                    mediator.Object,
+                    authorizationService.Instance(),
+                    logger.Instance(),
+                    mediator.Instance(),
                     commandFactory,
                     queryFactory,
                     new FakeCrudControllerLogMessageActions())
@@ -372,9 +379,12 @@ namespace Whipstaff.UnitTests.Controllers
             public async Task ReturnsHttpNotFoundAsync(int id)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
-                _ = authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "deletePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+
+                _ = authorizationService.Methods.AuthorizeAsync(
+                        Arg.Any<ClaimsPrincipal>(),
+                        Arg.Any<int>(),
+                        Arg.Is("deletePolicyName"))
+                    .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -385,9 +395,9 @@ namespace Whipstaff.UnitTests.Controllers
                 var queryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
-                    authorizationService.Object,
-                    logger.Object,
-                    mediator.Object,
+                    authorizationService.Instance(),
+                    logger.Instance(),
+                    mediator.Instance(),
                     commandFactory,
                     queryFactory,
                     new FakeCrudControllerLogMessageActions())
@@ -450,9 +460,12 @@ namespace Whipstaff.UnitTests.Controllers
                 Assert.NotNull(listRequest);
 
                 var authorizationService = MockAuthorizationServiceFactory();
-                _ = authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "listPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+
+                _ = authorizationService.Methods.AuthorizeAsync(
+                        Arg.Any<ClaimsPrincipal>(),
+                        Arg.Any<object?>(),
+                        Arg.Is("listPolicyName"))
+                    .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -463,9 +476,9 @@ namespace Whipstaff.UnitTests.Controllers
                 var queryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
-                    authorizationService.Object,
-                    logger.Object,
-                    mediator.Object,
+                    authorizationService.Instance(),
+                    logger.Instance(),
+                    mediator.Instance(),
                     commandFactory,
                     queryFactory,
                     new FakeCrudControllerLogMessageActions())
@@ -530,9 +543,12 @@ namespace Whipstaff.UnitTests.Controllers
             public async Task ShouldSucceedAsync(int updateRequestDto)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
-                _ = authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<int>(), "updatePolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+
+                _ = authorizationService.Methods.AuthorizeAsync(
+                        Arg.Any<ClaimsPrincipal>(),
+                        Arg.Any<int>(),
+                        Arg.Is("updatePolicyName"))
+                    .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
@@ -543,9 +559,9 @@ namespace Whipstaff.UnitTests.Controllers
                 var queryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
-                    authorizationService.Object,
-                    logger.Object,
-                    mediator.Object,
+                    authorizationService.Instance(),
+                    logger.Instance(),
+                    mediator.Instance(),
                     commandFactory,
                     queryFactory,
                     new FakeCrudControllerLogMessageActions())
@@ -618,25 +634,38 @@ namespace Whipstaff.UnitTests.Controllers
             public async Task ShouldSucceedAsync(long listRequest, Type expectedResultType)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
-                _ = authorizationService.Setup(s =>
-                    s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), It.IsAny<object>(), "viewPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
-                _ = authorizationService.Setup(s =>
-                        s.AuthorizeAsync(It.IsAny<ClaimsPrincipal>(), null, "viewPolicyName"))
-                    .Returns(async () => await Task.FromResult(AuthorizationResult.Success()));
+
+                _ = authorizationService.Methods.AuthorizeAsync(
+                        Arg.Any<ClaimsPrincipal>(),
+                        Arg.Any<object?>(),
+                        Arg.Is("viewPolicyName"))
+                    .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
+
+                _ = authorizationService.Methods.AuthorizeAsync(
+                        Arg.Any<ClaimsPrincipal>(),
+                        null as object,
+                        Arg.Is("viewPolicyName"))
+                    .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var logger = MockLoggerFactory();
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Setup(s => s.Send(It.IsAny<FakeCrudViewQuery>(), It.IsAny<CancellationToken>())).Returns<FakeCrudViewQuery, CancellationToken>(MockViewMediatorHandlerAsync);
+                _ = mediator.Methods.Send<FakeCrudViewResponse?>(
+                        Arg.Validate<IRequest<FakeCrudViewResponse?>>(query => true),
+                        Arg.Any<CancellationToken>())
+                    .Callback(static (a, b) =>
+                    {
+                        var fakeCrudViewQuery = a as FakeCrudViewQuery;
+                        return MockViewMediatorHandlerAsync(fakeCrudViewQuery!, b);
+                    });
 
                 var commandFactory = MockCommandFactory();
                 var queryFactory = MockQueryFactory();
 
                 var instance = new FakeCrudController(
-                    authorizationService.Object,
-                    logger.Object,
-                    mediator.Object,
+                    authorizationService.Instance(),
+                    logger.Instance(),
+                    mediator.Instance(),
                     commandFactory,
                     queryFactory,
                     new FakeCrudControllerLogMessageActions())
