@@ -25,7 +25,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.14" />
-    <PackageReference Include="Rocks" Version="9.0.2" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

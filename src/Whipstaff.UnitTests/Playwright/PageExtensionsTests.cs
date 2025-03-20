@@ -68,11 +68,15 @@ namespace Whipstaff.UnitTests.Playwright
                     using (var testServer = new TestServer(builder))
                     {
                         // Navigate to a page
+#pragma warning disable S1075 // URIs should not be hardcoded
                         await page.RouteAsync(
                             "https://localhost/index.htm",
                             route => PlaywrightToTestServerRouteHandler(route, testServer));
+#pragma warning restore S1075 // URIs should not be hardcoded
 
+#pragma warning disable S1075 // URIs should not be hardcoded
                         var response = await page.GotoAsync("https://localhost/index.htm");
+#pragma warning restore S1075 // URIs should not be hardcoded
                         Assert.NotNull(response);
                         Assert.True(response.Ok);
 
@@ -102,11 +106,15 @@ namespace Whipstaff.UnitTests.Playwright
                     using (var testServer = new TestServer(builder))
                     {
                         // Navigate to a page
+#pragma warning disable S1075 // URIs should not be hardcoded
                         await page.RouteAsync(
                             "https://localhost/index.htm",
                             route => PlaywrightToTestServerRouteHandler(route, testServer));
+#pragma warning restore S1075 // URIs should not be hardcoded
 
+#pragma warning disable S1075 // URIs should not be hardcoded
                         var response = await page.GotoAsync("https://localhost/index.htm");
+#pragma warning restore S1075 // URIs should not be hardcoded
                         Assert.NotNull(response);
                         Assert.True(response.Ok);
 

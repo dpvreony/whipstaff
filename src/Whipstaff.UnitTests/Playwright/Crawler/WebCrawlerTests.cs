@@ -63,7 +63,9 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                 /// </summary>
                 public ThrowsArgumentNullExceptionAsyncTestSource()
                     : base(
+#pragma warning disable S1075 // URIs should not be hardcoded
                         new NamedParameterInput<Uri>("startUrl", static () => new Uri("https://localhost")),
+#pragma warning restore S1075 // URIs should not be hardcoded
                         new NamedParameterInput<PlaywrightBrowserTypeAndChannel>("playwrightBrowserTypeAndChannel", static () => PlaywrightBrowserTypeAndChannel.Chrome()))
                 {
                 }
@@ -205,12 +207,15 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                         static route => DefaultHandler(route));
 
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
+#pragma warning disable S1075 // URIs should not be hardcoded
                     var crawlResults = await WebCrawler.CrawlSiteAsync("https://localhost", context.Browser!, CancellationToken.None);
+#pragma warning restore S1075 // URIs should not be hardcoded
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
 
                     foreach (var uriCrawlResultModel in crawlResults)
                     {
-                        Logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+                        // Replace the string interpolation with a message template and arguments
+                        Logger.LogInformation("{Url}: {StatusCode} {PageErrorsCount}", uriCrawlResultModel.Key, uriCrawlResultModel.Value.StatusCode, uriCrawlResultModel.Value.PageErrors.Count);
                     }
 
                     Assert.NotNull(crawlResults);
@@ -278,7 +283,9 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                 /// </summary>
                 public ThrowsArgumentNullExceptionAsyncTestSource()
                     : base(
+#pragma warning disable S1075 // URIs should not be hardcoded
                         new NamedParameterInput<Uri>("startUrl", static () => new Uri("https://localhost")),
+#pragma warning restore S1075 // URIs should not be hardcoded
                         new NamedParameterInput<IBrowser>("browser", static () => new IBrowserCreateExpectations().Instance()))
                 {
                 }
@@ -330,12 +337,14 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                             static route => DefaultHandler(route));
 
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
+#pragma warning disable S1075 // URIs should not be hardcoded
                     var crawlResults = await WebCrawler.CrawlSiteAsync("https://localhost", page, CancellationToken.None);
+#pragma warning restore S1075 // URIs should not be hardcoded
 #pragma warning restore CA2234 // Pass system uri objects instead of strings
 
                     foreach (var uriCrawlResultModel in crawlResults)
                     {
-                        Logger.LogInformation($"{uriCrawlResultModel.Key}: {uriCrawlResultModel.Value.StatusCode} {uriCrawlResultModel.Value.PageErrors.Count}");
+                        Logger.LogInformation("{Url}: {StatusCode} {PageErrorsCount}", uriCrawlResultModel.Key, uriCrawlResultModel.Value.StatusCode, uriCrawlResultModel.Value.PageErrors.Count);
                     }
 
                     Assert.NotNull(crawlResults);
@@ -448,7 +457,9 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                 /// </summary>
                 public ThrowsArgumentNullExceptionAsyncTestSource()
                     : base(
+#pragma warning disable S1075 // URIs should not be hardcoded
                         new NamedParameterInput<Uri>("startUrl", static () => new Uri("https://localhost")),
+#pragma warning restore S1075 // URIs should not be hardcoded
                         new NamedParameterInput<IPage>("page", static () => new IPageCreateExpectations().Instance()))
                 {
                 }
