@@ -12,8 +12,8 @@ using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
 using Whipstaff.CommandLine.Hosting;
 using Whipstaff.Testing.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine.Hosting
 {
@@ -26,7 +26,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
         /// Unit test for the <see cref="HostRunner.RunSimpleCliJob{TJob, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TJob}, TJob}, IFileSystem, IConsole)"/> method.
         /// </summary>
         public sealed class RunSimpleCliJobMethod
-        : Foundatio.Xunit.TestWithLoggingBase,
+        : TestWithLoggingBase,
                 ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler>, IFileSystem>
         {
             /// <summary>
@@ -42,9 +42,9 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.Hosting.HostRunnerTests.RunSimpleCliJobMethod.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
-                string[] arg1,
-                Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler> arg2,
-                IFileSystem arg3,
+                string[]? arg1,
+                Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler>? arg2,
+                IFileSystem? arg3,
                 string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
@@ -55,9 +55,9 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
                             FakeCommandLineArgModel,
                             FakeCommandLineArgModelBinder,
                             FakeCommandAndBinderFactory>(
-                            arg1,
-                            arg2,
-                            arg3));
+                            arg1!,
+                            arg2!,
+                            arg3!));
             }
 
             /// <summary>
@@ -78,12 +78,12 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
                             "filename",
                             "name"
                         ],
-                        (_, _) => new FakeCommandLineHandler(new FakeCommandLineHandlerLogMessageActionsWrapper(Log.CreateLogger<FakeCommandLineHandler>())),
+                        (_, _) => new FakeCommandLineHandler(new FakeCommandLineHandlerLogMessageActionsWrapper(LoggerFactory.CreateLogger<FakeCommandLineHandler>())),
                         new MockFileSystem(),
                         testConsole);
 
-                _logger.LogInformation("Console output: {ConsoleOutput}", testConsole.Out.ToString());
-                _logger.LogInformation("Console error: {ConsoleError}", testConsole.Error.ToString());
+                Logger.LogInformation("Console output: {ConsoleOutput}", testConsole.Out.ToString());
+                Logger.LogInformation("Console error: {ConsoleError}", testConsole.Error.ToString());
 
                 Assert.Equal(0, result);
             }

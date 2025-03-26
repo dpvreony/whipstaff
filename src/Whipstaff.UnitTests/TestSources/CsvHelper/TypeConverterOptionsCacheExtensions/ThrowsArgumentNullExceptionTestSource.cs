@@ -10,7 +10,7 @@ namespace Whipstaff.UnitTests.TestSources.CsvHelper.TypeConverterOptionsCacheExt
     /// <summary>
     /// Test Source for <see cref="Whipstaff.UnitTests.CsvHelper.CsvReaderExtensions.AddTypeIso8601DateTimeConverterOptionsMethodTests.ThrowsArgumentNullException"/>.
     /// </summary>
-    public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TypeConverterOptions>
+    public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TypeConverterOptionsCache>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.

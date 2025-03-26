@@ -3,7 +3,8 @@
 // See the LICENSE file in the project root for full license information.
 
 using Whipstaff.EntityFramework;
-using Xunit.Abstractions;
+using Whipstaff.Testing.Logging;
+using Xunit;
 
 namespace Whipstaff.UnitTests.EntityFramework
 {
@@ -15,7 +16,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetMaxRowVersionCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetMaxRowVersionCompiledAsyncQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxRowVersionCompiledAsyncQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetMaxRowVersionCompiledAsyncQueryMethod"/> class.
@@ -30,7 +31,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetMaxRowVersionCompiledQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetMaxRowVersionCompiledQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxRowVersionCompiledQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetMaxRowVersionCompiledQueryMethod"/> class.
@@ -45,7 +46,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereRowVersionBetweenCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetWhereRowVersionBetweenCompiledAsyncQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWhereRowVersionBetweenCompiledAsyncQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWhereRowVersionBetweenCompiledAsyncQueryMethod"/> class.
@@ -60,7 +61,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereRowVersionGreaterThanCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetWhereRowVersionGreaterThanCompiledAsyncQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWhereRowVersionGreaterThanCompiledAsyncQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWhereRowVersionGreaterThanCompiledAsyncQueryMethod"/> class.
@@ -75,7 +76,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueIntIdEqualsCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetWhereUniqueIntIdEqualsCompiledAsyncQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWhereUniqueIntIdEqualsCompiledAsyncQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWhereUniqueIntIdEqualsCompiledAsyncQueryMethod"/> class.
@@ -90,7 +91,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueIntIdEqualsCompiledQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetWhereUniqueIntIdEqualsCompiledQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWhereUniqueIntIdEqualsCompiledQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWhereUniqueIntIdEqualsCompiledQueryMethod"/> class.
@@ -105,7 +106,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueLongIdEqualsCompiledAsyncQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetWhereUniqueLongIdEqualsCompiledAsyncQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWhereUniqueLongIdEqualsCompiledAsyncQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWhereUniqueLongIdEqualsCompiledAsyncQueryMethod"/> class.
@@ -120,7 +121,7 @@ namespace Whipstaff.UnitTests.EntityFramework
         /// <summary>
         /// Unit Tests for <see cref="CompiledQueryFactory.GetWhereUniqueLongIdEqualsCompiledQuery{TDbContext, TDbSet}"/>.
         /// </summary>
-        public sealed class GetWhereUniqueLongIdEqualsCompiledQueryMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWhereUniqueLongIdEqualsCompiledQueryMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWhereUniqueLongIdEqualsCompiledQueryMethod"/> class.

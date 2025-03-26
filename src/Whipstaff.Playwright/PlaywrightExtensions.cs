@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.Playwright;
 
 namespace Whipstaff.Playwright
@@ -29,6 +30,25 @@ namespace Whipstaff.Playwright
                 PlaywrightBrowserType.WebKit => playwright.Webkit,
                 _ => throw new ArgumentException("Failed to map PlaywrightBrowserType", nameof(playwrightBrowserType)),
             };
+        }
+
+        /// <summary>
+        /// Gets the browser for the specified <see cref="PlaywrightBrowserTypeAndChannel"/>.
+        /// </summary>
+        /// <param name="playwright">Playwright instance to get the browser type from.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">The browser type and channel to create.</param>
+        /// <returns>A Playwright <see cref="IBrowserType"/> instance.</returns>
+        public static Task<IBrowser> GetBrowser(this IPlaywright playwright, PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
+        {
+            ArgumentNullException.ThrowIfNull(playwright);
+            ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);
+
+            var browserType = playwright.GetBrowserType(playwrightBrowserTypeAndChannel.PlaywrightBrowserType);
+            return browserType.LaunchAsync(new()
+            {
+                Headless = true,
+                Channel = playwrightBrowserTypeAndChannel.Channel
+            });
         }
     }
 }

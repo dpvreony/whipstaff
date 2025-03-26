@@ -5,6 +5,10 @@
 using System;
 using System.Net.Http;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.HostOverride
 {
     /// <summary>
@@ -21,18 +25,21 @@ namespace Whipstaff.Runtime.HostOverride
             this HttpRequestMessage instance,
             IHostOverride hostOverride)
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
-            if (hostOverride == null)
-            {
-                throw new ArgumentNullException(nameof(hostOverride));
-            }
+            ArgumentNullException.ThrowIfNull(instance);
+            ArgumentNullException.ThrowIfNull(hostOverride);
 
             var requestUri = instance.RequestUri;
+            if (requestUri == null)
+            {
+                return;
+            }
+
             var host = requestUri.Host;
+            if (string.IsNullOrWhiteSpace(host))
+            {
+                return;
+            }
+
             var target = hostOverride.Resolve(host) ?? host;
 
             var builder = new UriBuilder(requestUri)

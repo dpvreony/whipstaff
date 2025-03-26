@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="21.0.22" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.0.12" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
@@ -31,6 +32,14 @@ namespace Whipstaff.Runtime.Extensions
             ArgumentNullException.ThrowIfNull(dictionary);
             ArgumentNullException.ThrowIfNull(predicate);
 
+            return dictionary.KeysWhereInternal(predicate);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static IEnumerable<TKey> KeysWhereInternal<TKey, TValue>(
+            this IDictionary<TKey, TValue> dictionary,
+            Func<KeyValuePair<TKey, TValue>, bool> predicate)
+        {
 #pragma warning disable S3267
             foreach (var kvp in dictionary)
 #pragma warning restore S3267

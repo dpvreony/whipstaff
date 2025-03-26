@@ -8,7 +8,6 @@ namespace Whipstaff.Runtime.Exceptions
     /// The number passed in was higher than the allowed maximum.
     /// </summary>
 #pragma warning disable RCS1194 // Implement exception constructors.
-    [System.Serializable]
     public class NumberTooLowClrCharException
 #pragma warning restore RCS1194 // Implement exception constructors.
         : System.ArgumentOutOfRangeException
@@ -55,18 +54,6 @@ namespace Whipstaff.Runtime.Exceptions
         {
             Actual = actual;
             MinimumValid = minimumValid;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NumberTooLowClrCharException"/> class with serialized data.
-        /// </summary>
-        /// <param name="serializationInfo">The SerializationInfo that holds the serialized object data about the exception being thrown.</param>
-        /// <param name="streamingContext">The StreamingContext that contains contextual information about the source or destination.</param>
-        protected NumberTooLowClrCharException(
-            System.Runtime.Serialization.SerializationInfo serializationInfo,
-            System.Runtime.Serialization.StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
-        {
         }
 
         /// <summary>

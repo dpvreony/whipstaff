@@ -11,6 +11,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
 {
@@ -25,16 +26,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            WebApplicationFactory.GetHostApplicationBuilder<Startup>(args, null).Run();
         }
-
-        /// <summary>
-        /// Gets the web host builder for the application instance.
-        /// </summary>
-        /// <param name="args">Command line arguments.</param>
-        /// <returns>Web host builder.</returns>
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
     }
 }

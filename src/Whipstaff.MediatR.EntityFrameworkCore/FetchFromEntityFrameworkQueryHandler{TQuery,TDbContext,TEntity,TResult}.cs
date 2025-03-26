@@ -42,6 +42,7 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
                 dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
                 var query = GetDbSet(dbContext)
+                    .TagWith(nameof(FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult>))
                     .Where(GetWherePredicate(request))
                     .Select(GetSelector());
 

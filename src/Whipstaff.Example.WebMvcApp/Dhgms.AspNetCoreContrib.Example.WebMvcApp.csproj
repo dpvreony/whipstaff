@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
   
@@ -14,12 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
-    <PackageReference Include="RimDev.Stuntman" Version="3.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.14" />
+    <!--<PackageReference Include="RimDev.Stuntman" Version="3.0.0" />-->
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.AspireServiceDefaults\Whipstaff.Example.AspireServiceDefaults.csproj" />
     <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />
   </ItemGroup>

@@ -10,7 +10,7 @@ namespace Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.With
     /// <summary>
     /// Test Source for <see cref="Whipstaff.UnitTests.Runtime.TemporaryFileHelpersTests.WithTempFileMethod.ThrowsArgumentNullException"/>.
     /// </summary>
-    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<byte[]?, string?, Action<string>?, string?>
+    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<byte[]?, string?, Action<string>?, string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.

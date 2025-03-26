@@ -47,11 +47,11 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ReflectionHelpersTests.GetRootCommandMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(Assembly arg, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(Assembly? arg, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => ReflectionHelpers.GetRootCommand(arg));
+                    () => ReflectionHelpers.GetRootCommand(arg!));
             }
         }
 
@@ -74,11 +74,11 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ReflectionHelpersTests.IsRootCommandAndBinderTypeMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(Type arg, string expectedParameterNameForException)
+            public void ThrowsArgumentNullException(Type? arg, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => ReflectionHelpers.IsRootCommandAndBinderType(arg));
+                    () => ReflectionHelpers.IsRootCommandAndBinderType(arg!));
             }
         }
     }

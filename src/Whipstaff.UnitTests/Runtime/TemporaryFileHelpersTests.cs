@@ -22,15 +22,15 @@ namespace Whipstaff.UnitTests.Runtime
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.WithTempFileMethod.ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                byte[] arg1,
-                string arg2,
-                Action<string> arg3,
+                byte[]? arg1,
+                string? arg2,
+                Action<string>? arg3,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => TemporaryFileHelpers.WithTempFile(
-                    arg1,
-                    arg2,
-                    arg3,
+                    arg1!,
+                    arg2!,
+                    arg3!,
                     false));
 
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
@@ -46,15 +46,15 @@ namespace Whipstaff.UnitTests.Runtime
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.WithTempFileT1Method.ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                byte[] arg1,
-                string arg2,
-                Func<string, int> arg3,
+                byte[]? arg1,
+                string? arg2,
+                Func<string, int>? arg3,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => TemporaryFileHelpers.WithTempFile(
-                    arg1,
-                    arg2,
-                    arg3,
+                    arg1!,
+                    arg2!,
+                    arg3!,
                     false));
 
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);

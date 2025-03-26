@@ -8,9 +8,8 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Whipstaff.MediatR;
 
-namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
+namespace Whipstaff.MediatR.EntityFrameworkCore
 {
     /// <summary>
     /// Base class for fetching a single record from mediatr.
@@ -30,7 +29,7 @@ namespace Whipstaff.AspNetCore.Features.Mediatr.EfCrud
             using (var dbContext = GetDbContext())
             {
                 var dbSet = GetDbSet(dbContext);
-                var result = await dbSet.Where(GetWherePredicateExpression())
+                var result = await dbSet.TagWith(nameof(AbstractViewQueryHandler<TQuery, TResponse, TDbContext, TEntity>)).Where(GetWherePredicateExpression())
                     .Select(GetSelectorExpression())
                     .FirstOrDefaultAsync(cancellationToken)
                     .ConfigureAwait(false);

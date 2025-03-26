@@ -5,6 +5,10 @@
 using System;
 using System.Runtime.CompilerServices;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.Runtime.Maths
 {
     /// <summary>
@@ -25,6 +29,8 @@ namespace Whipstaff.Runtime.Maths
             T arg2,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
 
@@ -50,6 +56,8 @@ namespace Whipstaff.Runtime.Maths
             T arg3,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -80,6 +88,8 @@ namespace Whipstaff.Runtime.Maths
             T arg4,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -115,6 +125,8 @@ namespace Whipstaff.Runtime.Maths
             T arg5,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -155,6 +167,8 @@ namespace Whipstaff.Runtime.Maths
             T arg6,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -200,6 +214,8 @@ namespace Whipstaff.Runtime.Maths
             T arg7,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -250,6 +266,8 @@ namespace Whipstaff.Runtime.Maths
             T arg8,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -304,6 +322,8 @@ namespace Whipstaff.Runtime.Maths
             T arg9,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -364,6 +384,8 @@ namespace Whipstaff.Runtime.Maths
             T arg10,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -429,6 +451,8 @@ namespace Whipstaff.Runtime.Maths
             T arg11,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -498,6 +522,8 @@ namespace Whipstaff.Runtime.Maths
             T arg12,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -573,6 +599,8 @@ namespace Whipstaff.Runtime.Maths
             T arg13,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -653,6 +681,8 @@ namespace Whipstaff.Runtime.Maths
             T arg14,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -738,6 +768,8 @@ namespace Whipstaff.Runtime.Maths
             T arg15,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);
@@ -828,6 +860,8 @@ namespace Whipstaff.Runtime.Maths
             T arg16,
             Func<T, long> selector)
         {
+            ArgumentNullException.ThrowIfNull(selector);
+
             var arg1Number = selector(arg1);
             var arg2Number = selector(arg2);
             var arg3Number = selector(arg3);

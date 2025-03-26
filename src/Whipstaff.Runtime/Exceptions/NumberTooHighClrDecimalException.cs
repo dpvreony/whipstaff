@@ -7,7 +7,6 @@ namespace Whipstaff.Runtime.Exceptions
     /// <summary>
     /// The number passed in was higher than the allowed maximum.
     /// </summary>
-    [System.Serializable]
     public class NumberTooHighClrDecimalException
         : System.Exception
     {
@@ -50,18 +49,6 @@ namespace Whipstaff.Runtime.Exceptions
             decimal maximumValid,
             decimal actual)
             : base(parameterName + ": The number specified is too high. Maximum: " + maximumValid + ", Actual: " + actual)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NumberTooHighClrDecimalException" /> class.
-        /// </summary>
-        /// <param name="info">The serialization information.</param>
-        /// <param name="context">The streaming context.</param>
-        protected NumberTooHighClrDecimalException(
-            System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
         {
         }
     }

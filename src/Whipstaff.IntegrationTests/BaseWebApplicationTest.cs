@@ -7,13 +7,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Testing;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.IntegrationTests
 {
@@ -23,7 +25,7 @@ namespace Whipstaff.IntegrationTests
     /// <typeparam name="TStartup">The type of the startup class.</typeparam>
     [ExcludeFromCodeCoverage]
     public class BaseWebApplicationTest<TStartup>
-        : Foundatio.Xunit.TestWithLoggingBase
+        : TestWithLoggingBase
         where TStartup : class, IWhipstaffWebAppStartup, new()
     {
         /// <summary>
@@ -34,35 +36,44 @@ namespace Whipstaff.IntegrationTests
             ITestOutputHelper output)
             : base(output)
         {
-            Log.DefaultMinimumLevel = LogLevel.Debug;
         }
 
         /// <summary>
         /// Gets the Web Application Factory.
         /// </summary>
         /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
+        /// <param name="args">Command line arguments.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task WithWebApplicationFactoryAsync(Func<WhipstaffWebApplicationFactory<TStartup>, Task> webApplicationFunc)
+        protected static async Task WithWebApplicationFactoryAsync(Func<TestServer, Task> webApplicationFunc, string[] args)
         {
             ArgumentNullException.ThrowIfNull(webApplicationFunc);
 
-            using (var factory = new WhipstaffWebApplicationFactory<TStartup>(Log))
+            var webApplication = WebApplicationFactory.GetHostApplicationBuilder<TStartup>(
+                args,
+                applicationBuilder => applicationBuilder.WebHost.UseTestServer());
+            var server = webApplication.Services.GetRequiredService<IServer>();
+            if (server is not TestServer testServer)
             {
-                await webApplicationFunc(factory).ConfigureAwait(false);
+                throw new InvalidOperationException("Server is not a TestServer.");
             }
+
+            await webApplication.StartAsync();
+
+            await webApplicationFunc(testServer).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Helper method to log the http response.
         /// </summary>
         /// <param name="response">Http Response.</param>
+        /// <param name="logger">Logging framework instance.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task LogResponseAsync(HttpResponseMessage response)
+        protected static async Task LogResponseAsync(HttpResponseMessage response, ILogger logger)
         {
             if (response == null)
             {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-                _logger.LogInformation("No HTTP Response Message.");
+                logger.LogInformation("No HTTP Response Message.");
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
                 return;
             }
@@ -70,13 +81,13 @@ namespace Whipstaff.IntegrationTests
             foreach (var (key, value) in response.Headers)
             {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-                _logger.LogInformation("Header Item: {Key} -> {Values}", key, string.Join(",", value));
+                logger.LogInformation("Header Item: {Key} -> {Values}", key, string.Join(",", value));
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 
             var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-            _logger.LogInformation("Result: {Result}", result);
+            logger.LogInformation("Result: {Result}", result);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
     }
