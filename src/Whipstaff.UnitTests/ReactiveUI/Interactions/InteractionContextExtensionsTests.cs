@@ -58,7 +58,7 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
                     isHandled = true;
                 });
 
-                _ = methods.GetOutput().ReturnValue(output);
+                _ = methods.GetOutput().Callback(() => output);
 
                 var interactionContext = interactionContextExpectation.Instance();
 
