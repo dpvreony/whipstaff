@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
+using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ReactiveUI;
@@ -6,12 +10,12 @@ using ReactiveUI;
 namespace Whipstaff.ReactiveUI.Interactions
 {
     /// <summary>
-    /// Interaction extensions for <see cref="IViewFor"/>
+    /// Interaction extensions for <see cref="IViewFor"/>.
     /// </summary>
     public static class ViewExtensions
     {
         /// <summary>
-        /// Binds the <see cref="T:ReactiveUI.IInteraction`2" /> on a ViewModel to the specified handler.
+        /// Binds the <see cref="IInteraction{TInput,TOutput}" /> on a ViewModel to the specified handler.
         /// </summary>
         /// <param name="view">The view to bind to.</param>
         /// <param name="viewModel">The view model to bind to.</param>
