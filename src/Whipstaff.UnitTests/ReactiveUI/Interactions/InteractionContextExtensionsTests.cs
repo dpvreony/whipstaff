@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
+using Rocks;
 using Whipstaff.ReactiveUI.Interactions;
 using Xunit;
 
@@ -39,8 +40,10 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
             [Fact]
             public async Task HandlesResultAsync()
             {
+                var output = 0;
                 var interactionContextExpectation = new IOutputContextExpectations<int, int>();
                 _ = interactionContextExpectation.Properties.Getters.Input().ReturnValue(1);
+                _ = interactionContextExpectation.Methods.SetOutput(Arg.Any<int>()).Callback(input => output = input);
                 var interactionContext = interactionContextExpectation.Instance();
 
                 await interactionContext.ChainToOutputFuncAsync(input => Task.FromResult(input + 101));
