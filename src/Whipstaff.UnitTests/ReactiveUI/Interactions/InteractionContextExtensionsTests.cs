@@ -41,9 +41,21 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
             public async Task HandlesResultAsync()
             {
                 var output = 0;
+                var isHandled = false;
                 var interactionContextExpectation = new IOutputContextExpectations<int, int>();
+
                 _ = interactionContextExpectation.Properties.Getters.Input().ReturnValue(1);
-                _ = interactionContextExpectation.Methods.SetOutput(Arg.Any<int>()).Callback(input => output = input);
+
+                _ = interactionContextExpectation.Methods.SetOutput(Arg.Any<int>()).Callback(input =>
+                {
+                    output = input;
+                    isHandled = true;
+                });
+
+                _ = interactionContextExpectation.Methods.GetOutput().ReturnValue(output);
+
+                _ = interactionContextExpectation.Properties.Getters.IsHandled().ReturnValue(isHandled);
+
                 var interactionContext = interactionContextExpectation.Instance();
 
                 await interactionContext.ChainToOutputFuncAsync(input => Task.FromResult(input + 101));
