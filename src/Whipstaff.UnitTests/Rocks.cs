@@ -5,6 +5,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using ReactiveUI;
 using Rocks;
 
 namespace Whipstaff.UnitTests
@@ -21,6 +22,18 @@ namespace Whipstaff.UnitTests
     /// </summary>
     [RockPartial(typeof(IMediator), BuildType.Create)]
     public sealed partial class IMediatorCreateExpectations;
+
+    /// <summary>
+    /// Expectations for the ReactiveUI Interaction Context.
+    /// </summary>
+    /// <typeparam name="TInput">
+    /// The type of the interaction's input.
+    /// </typeparam>
+    /// <typeparam name="TOutput">
+    /// The type of the interaction's output.
+    /// </typeparam>
+    [RockPartial(typeof(IOutputContext<,>), BuildType.Create)]
+    public sealed partial class IOutputContextExpectations<TInput, TOutput>;
 
     /// <summary>
     /// Expectations for the Mediator.
