@@ -24,6 +24,8 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
         public sealed class BindInteractionDirectToOutputFuncMethod : ITestMethodWithNullableParameters<FakeView, Expression<Func<FakeViewModel, IInteraction<int, int>>>, Func<int, Task<int>>>
         {
             /// <inheritdoc/>
+            [Theory]
+            [ClassData(typeof(BindInteractionDirectToOutputFuncMethodTestSource))]
             public void ThrowsArgumentNullException(
                 FakeView? arg1,
                 Expression<Func<FakeViewModel, IInteraction<int, int>>>? arg2,
@@ -41,6 +43,24 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
                         arg1?.ViewModel,
                         arg2!,
                         arg3!));
+            }
+
+            /// <summary>
+            /// Test that the method returns a disposable subscription.
+            /// </summary>
+            [Fact]
+            public void ReturnsDisposable()
+            {
+                var viewModel = new FakeViewModel();
+                var view = new FakeView
+                {
+                    ViewModel = viewModel
+                };
+
+                Assert.NotNull(view.BindInteractionDirectToOutputFunc(
+                    viewModel,
+                    model => model.Interaction,
+                    input => Task.FromResult(input + 100)));
             }
         }
 
