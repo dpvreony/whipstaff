@@ -40,8 +40,8 @@ namespace Whipstaff.UnitTests.Wpf.Extensions
             /// </summary>
             public ReturnsValueTestSource()
             {
-                Add(global::Windows.UI.Color.FromArgb(0, 0, 0, 0), true);
-                Add(global::Windows.UI.Color.FromArgb(0, 255, 255, 255), false);
+                Add(global::Windows.UI.Color.FromArgb(0, 0, 0, 0), false);
+                Add(global::Windows.UI.Color.FromArgb(0, 255, 255, 255), true);
             }
         }
     }
