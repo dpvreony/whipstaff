@@ -7,6 +7,10 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ReactiveUI;
 
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
+
 namespace Whipstaff.ReactiveUI.Interactions
 {
     /// <summary>
@@ -34,6 +38,10 @@ namespace Whipstaff.ReactiveUI.Interactions
             where TViewModel : class
             where TView : class, IViewFor
         {
+            ArgumentNullException.ThrowIfNull(view);
+            ArgumentNullException.ThrowIfNull(propertyName);
+            ArgumentNullException.ThrowIfNull(outputFunc);
+
             return view.BindInteraction(
                 viewModel,
                 propertyName,

@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Whipstaff.Windows.UI
+namespace Whipstaff.Wpf.Extensions
 {
     /// <summary>
     /// Extension methods for <see cref="global::Windows.UI.Color"/>.

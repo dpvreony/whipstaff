@@ -70,9 +70,8 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullExceptionAsync" />.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionAsyncTestSource : NetTestRegimentation.XUnit.Theories.
-                ArgumentNullException.ArgumentNullExceptionTheoryData<IInteractionContext<int, int>,
-                    Func<int, Task<int>>>
+            public sealed class ThrowsArgumentNullExceptionAsyncTestSource :
+                ArgumentNullExceptionTheoryData<IInteractionContext<int, int>, Func<int, Task<int>>>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestSource"/> class.
