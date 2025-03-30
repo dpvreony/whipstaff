@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using ReactiveUI;
 using Whipstaff.Rx;
+using Whipstaff.Rx.Observables;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
@@ -19,6 +20,44 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
     /// </summary>
     public static class ExclusiveReactiveCommandsFactory
     {
+        public static (
+            BehaviorSubject<bool> NobodyIsExecuting,
+            IDisposable ExclusiveLock,
+            ReactiveCommand<T1Param, T1CommandResult> FirstCommand,
+            ReactiveCommand<T2Param, T2CommandResult> SecondCommand) GetExclusiveCommands<
+                T1Param,
+                T1CommandResult,
+                T1ExecuteResult,
+                T2Param,
+                T2CommandResult,
+                T2ExecuteResult>(
+            ReactiveCommandFactoryArgument<T1Param, T1CommandResult, T1ExecuteResult> first,
+            ReactiveCommandFactoryArgument<T2Param, T2CommandResult, T2ExecuteResult> second)
+        {
+            ArgumentNullException.ThrowIfNull(first);
+            ArgumentNullException.ThrowIfNull(second);
+
+            var nobodyIsExecuting = new BehaviorSubject<bool>(false);
+
+            var firstCanExecute = first.CanExecute != null
+                ? first.CanExecute.CombineLatest(nobodyIsExecuting).AllTrue()
+                : nobodyIsExecuting;
+
+            var firstCommand = first.FactoryFunc(first.Execute, firstCanExecute, first.Scheduler);
+
+            var secondCanExecute = first.CanExecute != null
+                ? first.CanExecute.CombineLatest(nobodyIsExecuting).AllTrue()
+                : nobodyIsExecuting;
+
+            var secondCommand = second.FactoryFunc(second.Execute, secondCanExecute, second.Scheduler);
+
+            var exclusiveLock = firstCommand.IsExecuting.CombineLatest(secondCommand.IsExecuting)
+                .AllTrue()
+                .Subscribe(nobodyIsExecuting);
+
+            return (nobodyIsExecuting, exclusiveLock, firstCommand, secondCommand);
+        }
+
         /// <summary>
         /// Creates 2 commands that have mutually exclusive execution.
         /// </summary>
