@@ -18,7 +18,7 @@ namespace Whipstaff.Rx.Observables
         /// <remarks>
         /// The main use case for this is checking boolean flags from <see cref="System.Reactive.Linq.ObservableEx.CombineLatest{TFirst, TSecond}"/>.</remarks>
         /// <param name="observable">The observable to check.</param>
-        /// <returns>An observable sequence for whether all boolean flags in the tuple are true.</returns>
+        /// <returns>An observable sequence for whether all boolean flags in the tuple are false.</returns>
         public static IObservable<bool> AllFalse(this IObservable<(bool First, bool Second)> observable)
         {
             return observable.Select(static tuple => tuple is { First: false, Second: false });
@@ -30,7 +30,7 @@ namespace Whipstaff.Rx.Observables
         /// <remarks>
         /// The main use case for this is checking boolean flags from <see cref="System.Reactive.Linq.ObservableEx.CombineLatest{TFirst, TSecond, TThird}"/>.</remarks>
         /// <param name="observable">The observable to check.</param>
-        /// <returns>An observable sequence for whether all boolean flags in the tuple are true.</returns>
+        /// <returns>An observable sequence for whether all boolean flags in the tuple are false.</returns>
         public static IObservable<bool> AllFalse(this IObservable<(bool First, bool Second, bool Third)> observable)
         {
             return observable.Select(static tuple => tuple is { First: false, Second: false, Third: false });
@@ -42,7 +42,7 @@ namespace Whipstaff.Rx.Observables
         /// <remarks>
         /// The main use case for this is checking boolean flags from <see cref="System.Reactive.Linq.ObservableEx.CombineLatest{TFirst, TSecond, TThird, TFourth}"/>.</remarks>
         /// <param name="observable">The observable to check.</param>
-        /// <returns>An observable sequence for whether all boolean flags in the tuple are true.</returns>
+        /// <returns>An observable sequence for whether all boolean flags in the tuple are false.</returns>
         public static IObservable<bool> AllFalse(this IObservable<(bool First, bool Second, bool Third, bool Fourth)> observable)
         {
             return observable.Select(static tuple => tuple is { First: false, Second: false, Third: false, Fourth: false });
@@ -54,7 +54,7 @@ namespace Whipstaff.Rx.Observables
         /// <remarks>
         /// The main use case for this is checking boolean flags from <see cref="System.Reactive.Linq.ObservableEx.CombineLatest{TFirst, TSecond, TThird, TFourth, TFifth}"/>.</remarks>
         /// <param name="observable">The observable to check.</param>
-        /// <returns>An observable sequence for whether all boolean flags in the tuple are true.</returns>
+        /// <returns>An observable sequence for whether all boolean flags in the tuple are false.</returns>
         public static IObservable<bool> AllFalse(this IObservable<(bool First, bool Second, bool Third, bool Fourth, bool Fifth)> observable)
         {
             return observable.Select(static tuple => tuple is { First: false, Second: false, Third: false, Fourth: false, Fifth: false });
@@ -66,7 +66,7 @@ namespace Whipstaff.Rx.Observables
         /// <remarks>
         /// The main use case for this is checking boolean flags from <see cref="System.Reactive.Linq.ObservableEx.CombineLatest{TFirst, TSecond, TThird, TFourth, TFifth, TSixth}"/>.</remarks>
         /// <param name="observable">The observable to check.</param>
-        /// <returns>An observable sequence for whether all boolean flags in the tuple are true.</returns>
+        /// <returns>An observable sequence for whether all boolean flags in the tuple are false.</returns>
         public static IObservable<bool> AllFalse(this IObservable<(bool First, bool Second, bool Third, bool Fourth, bool Fifth, bool Sixth)> observable)
         {
             return observable.Select(static tuple => tuple is { First: false, Second: false, Third: false, Fourth: false, Fifth: false, Sixth: false });
@@ -78,7 +78,7 @@ namespace Whipstaff.Rx.Observables
         /// <remarks>
         /// The main use case for this is checking boolean flags from <see cref="System.Reactive.Linq.ObservableEx.CombineLatest{TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh}"/>.</remarks>
         /// <param name="observable">The observable to check.</param>
-        /// <returns>An observable sequence for whether all boolean flags in the tuple are true.</returns>
+        /// <returns>An observable sequence for whether all boolean flags in the tuple are false.</returns>
         public static IObservable<bool> AllFalse(this IObservable<(bool First, bool Second, bool Third, bool Fourth, bool Fifth, bool Sixth, bool Seventh)> observable)
         {
             return observable.Select(static tuple => tuple is { First: false, Second: false, Third: false, Fourth: false, Fifth: false, Sixth: false, Seventh: false });
@@ -90,7 +90,7 @@ namespace Whipstaff.Rx.Observables
         /// <remarks>
         /// The main use case for this is checking boolean flags from <see cref="System.Reactive.Linq.ObservableEx.CombineLatest{TFirst, TSecond, TThird, TFourth, TFifth, TSixth, TSeventh, TEighth}"/>.</remarks>
         /// <param name="observable">The observable to check.</param>
-        /// <returns>An observable sequence for whether all boolean flags in the tuple are true.</returns>
+        /// <returns>An observable sequence for whether all boolean flags in the tuple are false.</returns>
         public static IObservable<bool> AllFalse(this IObservable<(bool First, bool Second, bool Third, bool Fourth, bool Fifth, bool Sixth, bool Seventh, bool Eighth)> observable)
         {
             return observable.Select(static tuple => tuple is { First: false, Second: false, Third: false, Fourth: false, Fifth: false, Sixth: false, Seventh: false, Eighth: false });
