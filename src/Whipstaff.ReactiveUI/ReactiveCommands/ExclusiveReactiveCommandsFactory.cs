@@ -52,7 +52,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var secondCommand = second.FactoryFunc(second.Execute, secondCanExecute, second.Scheduler);
 
             var exclusiveLock = firstCommand.IsExecuting.CombineLatest(secondCommand.IsExecuting)
-                .AllTrue()
+                .AllFalse()
                 .Subscribe(nobodyIsExecuting);
 
             return (nobodyIsExecuting, exclusiveLock, firstCommand, secondCommand);
