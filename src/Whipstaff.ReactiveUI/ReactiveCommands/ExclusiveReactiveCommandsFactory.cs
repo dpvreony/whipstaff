@@ -481,14 +481,14 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 nobodyIsExecuting,
                 eighth);
 
-            var exclusiveLock = firstCommand.IsExecuting.CombineLatest(secondCommand.IsExecuting)
-                .CombineLatest(thirdCommand.IsExecuting)
-                .CombineLatest(fourthCommand.IsExecuting)
-                .CombineLatest(fifthCommand.IsExecuting)
-                .CombineLatest(sixthCommand.IsExecuting)
-                .CombineLatest(seventhCommand.IsExecuting)
-                .CombineLatest(eighthCommand.IsExecuting)
-                .FlattenCombination()
+            var exclusiveLock = firstCommand.IsExecuting.CombineLatest(
+                    secondCommand.IsExecuting,
+                    thirdCommand.IsExecuting,
+                    fourthCommand.IsExecuting,
+                    fifthCommand.IsExecuting,
+                    sixthCommand.IsExecuting,
+                    seventhCommand.IsExecuting,
+                    eighthCommand.IsExecuting)
                 .AllFalse()
                 .Subscribe(nobodyIsExecuting);
 
