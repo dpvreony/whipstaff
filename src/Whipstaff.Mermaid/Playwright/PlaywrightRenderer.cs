@@ -200,6 +200,7 @@ namespace Whipstaff.Mermaid.Playwright
 
                 _ = await pageResponse.FinishedAsync().ConfigureAwait(false);
 
+                await page.WaitForLoadStateAsync(LoadState.DOMContentLoaded).ConfigureAwait(false);
                 await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
 
                 var mermaidElement = page.Locator("#mermaid-element");
