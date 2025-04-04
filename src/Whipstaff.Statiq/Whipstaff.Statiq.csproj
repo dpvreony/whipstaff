@@ -28,7 +28,7 @@
     <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     <PackageReference Include="System.Formats.Asn1" Version="8.0.2" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.2" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.0.12" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.0.13" />
   </ItemGroup>
 
 </Project>
