@@ -57,8 +57,8 @@
     <PackageReference Include="Rocks" Version="9.0.2" PrivateAssets="all" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.13" />
-    <PackageReference Include="xunit.v3" Version="2.0.0" />
-    <PackageReference Include="xunit.analyzers" Version="1.20.0" />
+    <PackageReference Include="xunit.v3" Version="2.0.1" />
+    <PackageReference Include="xunit.analyzers" Version="1.21.0" />
     <!---<PackageReference Include="xunit.runner.reporters" Version="2.9.3" />-->
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
     <PackageReference Include="Xunit.StaFact" Version="2.1.4-alpha" />
