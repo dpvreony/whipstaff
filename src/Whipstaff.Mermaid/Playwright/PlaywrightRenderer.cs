@@ -204,7 +204,7 @@ namespace Whipstaff.Mermaid.Playwright
                 await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
                 _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
 
-                var svg = await page.EvaluateAsync<string>(@"(diagram) => window.renderMermaid(diagram)", markdown);
+                var svg = await page.EvaluateAsync<string>("(diagram) => window.renderMermaid(diagram)", markdown);
 
                 var mermaidElement = page.Locator("#mermaid-element svg");
 
