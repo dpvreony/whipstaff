@@ -141,6 +141,7 @@ namespace Whipstaff.Mermaid.HttpServer
             _ = sb.AppendLine(@"        import mermaid from '/lib/mermaid/mermaid.esm.min.mjs';");
             _ = sb.AppendLine(@"        mermaid.initialize({ startOnLoad: false });");
             _ = sb.AppendLine(@"        await mermaid.run();");
+            _ = sb.AppendLine(@"        window.mermaid = mermaid;");
             _ = sb.AppendLine(@"    </script>");
             _ = sb.AppendLine(@"</body>");
             _ = sb.AppendLine(@"</html>");
