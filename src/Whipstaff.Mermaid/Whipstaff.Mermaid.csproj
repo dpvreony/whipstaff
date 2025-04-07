@@ -40,14 +40,10 @@
   https://nietras.com/2020/10/04/gzip-embeddedresource/
   https://github.com/nietras/GZipEmbeddedResource
   -->
-  <UsingTask TaskName="GZip"
-             TaskFactory="RoslynCodeTaskFactory"
-             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+  <UsingTask TaskName="GZip" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
     <ParameterGroup>
-      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]"
-             Required="true" />
-      <Result ParameterType="Microsoft.Build.Framework.ITaskItem[]"
-              Output="true" />
+      <Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <Result ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
     </ParameterGroup>
     <Task>
       <Using Namespace="System.IO" />
@@ -112,9 +108,9 @@
   <Target Name="DeleteMermaidFiles" BeforeTargets="CopyNpmTasks" AfterTargets="RestoreNpm">
     <Message Text="Deleting files" Importance="High" />
     <ItemGroup>
-      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.js"/>
-      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.mjs"/>
-      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.gz"/>
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.js" />
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.mjs" />
+      <FilesToDelete Include="$(ProjectDir)HttpServer\wwwroot\lib\mermaid\**\*.gz" />
     </ItemGroup>
     <Message Text="Files to delete: @(FilesToDelete)" Importance="High" />
     <Delete Files="@(FilesToDelete)" />
