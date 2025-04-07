@@ -204,7 +204,9 @@ namespace Whipstaff.Mermaid.Playwright
                 await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
                 _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
 
-                var mermaidElement = page.Locator("#mermaid-element");
+                var svg = await page.EvaluateAsync<string>(@"(diagram) => window.renderMermaid(diagram)", markdown);
+
+                var mermaidElement = page.Locator("#mermaid-element svg");
 
                 if (mermaidElement == null)
                 {
@@ -212,11 +214,12 @@ namespace Whipstaff.Mermaid.Playwright
                     return null;
                 }
 
-                var innerText = await mermaidElement.InnerHTMLAsync();
                 var png = await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
                     .ConfigureAwait(false);
 
-                return new(innerText, png);
+                return new(
+                    svg,
+                    png);
             }
         }
 
@@ -227,7 +230,7 @@ namespace Whipstaff.Mermaid.Playwright
             var request = route.Request;
 
             httpRequestMessage.RequestUri = new Uri(request.Url);
-            httpRequestMessage.Method = HttpMethod.Post;
+            httpRequestMessage.Method = HttpMethod.Get;
             httpRequestMessage.Content = new FormUrlEncodedContent(
             [
                 new("diagram", markdown)

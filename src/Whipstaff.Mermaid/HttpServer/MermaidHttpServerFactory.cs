@@ -77,7 +77,7 @@ namespace Whipstaff.Mermaid.HttpServer
                 HttpsCompression = HttpsCompressionMode.DoNotCompress
             });
 
-            _ = applicationBuilder.MapWhen(IsMermaidPost, AppConfiguration);
+            _ = applicationBuilder.MapWhen(IsMermaidRequest, AppConfiguration);
         }
 
         private static Task OnPrepareResponseAsync(StaticFileResponseContext arg)
@@ -106,62 +106,44 @@ namespace Whipstaff.Mermaid.HttpServer
 
         private static async Task Handler(HttpContext context)
         {
-            var request = context.Request;
             var response = context.Response;
-
-            var diagramFormStringValues = request.Form["diagram"];
-            if (diagramFormStringValues.Count < 1)
-            {
-                await WriteNoDiagramResponse(response).ConfigureAwait(false);
-                return;
-            }
-
-            var diagram = diagramFormStringValues[0];
-            if (string.IsNullOrWhiteSpace(diagram))
-            {
-                await WriteNoDiagramResponse(response).ConfigureAwait(false);
-                return;
-            }
 
             response.StatusCode = 200;
             response.ContentType = "text/html";
 
             var sb = new System.Text.StringBuilder();
-            _ = sb.AppendLine(@"<!DOCTYPE html>");
+            _ = sb.AppendLine("<!DOCTYPE html>");
             _ = sb.AppendLine(@"<html lang=""en"" xmlns=""http://www.w3.org/1999/xhtml"">");
-            _ = sb.AppendLine(@"<head>");
+            _ = sb.AppendLine("<head>");
             _ = sb.AppendLine(@"    <meta charset=""utf-8"" />");
-            _ = sb.AppendLine(@"    <title>MermaidJS factory</title>");
-            _ = sb.AppendLine(@"</head>");
-            _ = sb.AppendLine(@"<body>");
-            _ = sb.AppendLine(@"    <pre class=""mermaid"" name=""mermaid-element"" id=""mermaid-element"">");
-            _ = sb.AppendLine(HtmlEncoder.Default.Encode(diagram));
-            _ = sb.AppendLine(@"    </pre>");
+            _ = sb.AppendLine("    <title>MermaidJS factory</title>");
+            _ = sb.AppendLine("</head>");
+            _ = sb.AppendLine("<body>");
+            _ = sb.AppendLine(@"    <div id=""mermaid-element""></div>");
             _ = sb.AppendLine(@"    <script type=""module"">");
-            _ = sb.AppendLine(@"        import mermaid from '/lib/mermaid/mermaid.esm.min.mjs';");
-            _ = sb.AppendLine(@"        mermaid.initialize({ startOnLoad: false });");
-            _ = sb.AppendLine(@"        await mermaid.run();");
-            _ = sb.AppendLine(@"        window.mermaid = mermaid;");
-            _ = sb.AppendLine(@"    </script>");
-            _ = sb.AppendLine(@"</body>");
-            _ = sb.AppendLine(@"</html>");
+            _ = sb.AppendLine("        import mermaid from '/lib/mermaid/mermaid.esm.min.mjs';");
+            _ = sb.AppendLine("        mermaid.initialize({ startOnLoad: false });");
+            _ = sb.AppendLine("        window.renderMermaid = async function (diagram) {");
+            _ = sb.AppendLine("            const container = document.getElementById('mermaid-element');");
+            _ = sb.AppendLine("            const { svg, bindFunctions } = await mermaid.render('mermaid-graph', diagram);");
+            _ = sb.AppendLine("            container.innerHTML = svg;");
+            _ = sb.AppendLine("            bindFunctions?.(container);");
+            _ = sb.AppendLine("            return svg;");
+            _ = sb.AppendLine("        };");
+            _ = sb.AppendLine("        window.mermaid = mermaid;");
+            _ = sb.AppendLine("    </script>");
+            _ = sb.AppendLine("</body>");
+            _ = sb.AppendLine("</html>");
 
             await response.WriteAsync(sb.ToString())
                 .ConfigureAwait(false);
         }
 
-        private static async Task WriteNoDiagramResponse(HttpResponse response)
-        {
-            response.StatusCode = 400;
-            response.ContentType = "text/plain";
-            await response.WriteAsync("No diagram passed in request").ConfigureAwait(false);
-        }
-
-        private static bool IsMermaidPost(HttpContext arg)
+        private static bool IsMermaidRequest(HttpContext arg)
         {
             var request = arg.Request;
 
-            return request.Method.Equals("POST", StringComparison.Ordinal) &&
+            return request.Method.Equals("GET", StringComparison.Ordinal) &&
                    request.Path.Equals("/index.html", StringComparison.OrdinalIgnoreCase);
         }
 
