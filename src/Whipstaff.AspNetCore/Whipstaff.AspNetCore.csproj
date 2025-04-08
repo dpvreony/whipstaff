@@ -23,8 +23,8 @@
     <PackageReference Include="Ben.BlockingDetector" Version="0.0.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
     <PackageReference Include="DynamicData" Version="9.2.1" />
-    <PackageReference Include="Exceptionless.AspNetCore" Version="6.0.4" />
-    <PackageReference Include="Exceptionless.Extensions.Logging" Version="6.0.4" />
+    <PackageReference Include="Exceptionless.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Exceptionless.Extensions.Logging" Version="6.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.23.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.Profiler.AspNetCore" Version="2.7.3" />
     <PackageReference Include="Microsoft.AspNetCore.MiddlewareAnalysis" Version="8.0.14" />
