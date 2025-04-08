@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.14" ReferenceOutputAssembly="true" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.15" ReferenceOutputAssembly="true" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3179.45" />
     <PackageReference Include="ReactiveUI.WinUI" Version="20.2.45" />
