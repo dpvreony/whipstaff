@@ -38,6 +38,8 @@
 
   <PropertyGroup Condition="$(IsTestProject)">
     <IsPackable>False</IsPackable>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
   </PropertyGroup>
   
   <ItemGroup Condition="$(IsTestProject)">
