@@ -61,7 +61,7 @@
     <PackageReference Include="xunit.analyzers" Version="1.21.0" />
     <!---<PackageReference Include="xunit.runner.reporters" Version="2.9.3" />-->
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
-    <PackageReference Include="Xunit.StaFact" Version="2.1.4-alpha" />
+    <PackageReference Include="Xunit.StaFact" Version="2.1.7" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
   </ItemGroup>
