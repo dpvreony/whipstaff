@@ -29,17 +29,17 @@ namespace Whipstaff.EntityFramework.SmokeTest
         {
             _startingTestOfDbSet = LoggerMessage.Define(
                 LogLevel.Information,
-                EventIdFactory.TestOfDbSetStarting(),
+                WhipstaffEventIdFactory.TestOfDbSetStarting(),
                 "Starting test of DBSet");
 
             _completedTestOfDbSet = LoggerMessage.Define(
                 LogLevel.Information,
-                EventIdFactory.TestOfDbSetCompleted(),
+                WhipstaffEventIdFactory.TestOfDbSetCompleted(),
                 "Completed test of DBSet");
 
             _testOfDbSetFailed = LoggerMessage.Define(
                 LogLevel.Information,
-                EventIdFactory.TestOfDbSetFailed(),
+                WhipstaffEventIdFactory.TestOfDbSetFailed(),
                 "Starting test of DBSet");
         }
 

@@ -25,22 +25,22 @@ namespace Whipstaff.Wpf.JumpLists
         {
             _noJumpListRegisteredCreatingNew = LoggerMessage.Define(
                 LogLevel.Information,
-                EventIdFactory.NoJumpListRegisteredCreatingNew(),
+                WhipstaffEventIdFactory.NoJumpListRegisteredCreatingNew(),
                 "No Jump List Registered for application, creating a new registration");
 
             _addingJumpPathToRecentCategory = LoggerMessage.Define(
                 LogLevel.Information,
-                EventIdFactory.AddingJumpPathToRecentCategory(),
+                WhipstaffEventIdFactory.AddingJumpPathToRecentCategory(),
                 "Adding Jump Path to Recent");
 
             _addingJumpTaskToRecentCategory = LoggerMessage.Define(
                 LogLevel.Information,
-                EventIdFactory.AddingJumpTaskToRecentCategory(),
+                WhipstaffEventIdFactory.AddingJumpTaskToRecentCategory(),
                 "Adding Jump Task to Recent");
 
             _clearingJumpList = LoggerMessage.Define(
                 LogLevel.Information,
-                EventIdFactory.ClearingJumpList(),
+                WhipstaffEventIdFactory.ClearingJumpList(),
                 "Clearing Jump List");
         }
 
