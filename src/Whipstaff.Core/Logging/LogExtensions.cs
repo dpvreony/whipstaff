@@ -14,13 +14,13 @@ namespace Whipstaff.Core.Logging
     public static class LogExtensions
     {
         private static readonly Action<ILogger, string, Exception?> _traceMethodEntryAction =
-            LoggerMessage.Define<string>(LogLevel.Trace, EventIdFactory.MethodEntryEventId(), "Method Entry: {MethodName}");
+            LoggerMessage.Define<string>(LogLevel.Trace, WhipstaffEventIdFactory.MethodEntryEventId(), "Method Entry: {MethodName}");
 
         private static readonly Action<ILogger, string, Exception?> _traceMethodExitAction =
-            LoggerMessage.Define<string>(LogLevel.Trace, EventIdFactory.MethodEntryEventId(), "Method Exit: {MethodName}");
+            LoggerMessage.Define<string>(LogLevel.Trace, WhipstaffEventIdFactory.MethodEntryEventId(), "Method Exit: {MethodName}");
 
         private static readonly Action<ILogger, string, Exception?> _traceMethodExceptionAction =
-            LoggerMessage.Define<string>(LogLevel.Trace, EventIdFactory.MethodEntryEventId(), "Method Exception: {MethodName}");
+            LoggerMessage.Define<string>(LogLevel.Trace, WhipstaffEventIdFactory.MethodEntryEventId(), "Method Exception: {MethodName}");
 
         /// <summary>
         /// Traces the method entry.

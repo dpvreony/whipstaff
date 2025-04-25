@@ -21,7 +21,7 @@ namespace Whipstaff.Core.ExceptionHandling
         private static readonly Action<ILogger, Exception?> _defaultingResultDueToExceptionLogMessageAction =
             LoggerMessage.Define(
                 LogLevel.Warning,
-                EventIdFactory.DefaultIfException(),
+                WhipstaffEventIdFactory.DefaultIfException(),
                 "Defaulting Result due to exception");
 
         /// <summary>

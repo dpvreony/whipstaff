@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebApiApp;
 using Whipstaff.Testing;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.IntegrationTests
 {
@@ -43,22 +42,29 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
-            await WithWebApplicationFactoryAsync(async factory =>
+            var args = new[]
             {
-                var client = factory.CreateClient();
+                "UseSwagger=true"
+            };
 
-#pragma warning disable CA2234 // Pass system uri objects instead of strings
-                var response = await client.GetAsync(requestPath);
-#pragma warning restore CA2234 // Pass system uri objects instead of strings
+            await WithWebApplicationFactoryAsync(
+                async factory =>
+                {
+                    var client = factory.CreateClient();
 
-                _ = response.EnsureSuccessStatusCode();
+    #pragma warning disable CA2234 // Pass system uri objects instead of strings
+                    var response = await client.GetAsync(requestPath);
+    #pragma warning restore CA2234 // Pass system uri objects instead of strings
 
-                Assert.Equal(
-                    expectedContentType,
-                    response.Content.Headers.ContentType!.ToString());
+                    _ = response.EnsureSuccessStatusCode();
 
-                await LogResponseAsync(response);
-            });
+                    Assert.Equal(
+                        expectedContentType,
+                        response.Content.Headers.ContentType!.ToString());
+
+                    await LogResponseAsync(response, Logger);
+                },
+                args);
         }
 
         private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
@@ -74,7 +80,7 @@ namespace Whipstaff.IntegrationTests
                     "application/json; charset=utf-8"
                 },
                 {
-                    "https://localhost/swagger",
+                    "https://localhost/swagger/index.html",
                     "text/html; charset=utf-8"
                 },
                 {

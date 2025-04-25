@@ -17,13 +17,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+#if stuntman
 using RimDev.Stuntman.Core;
+#endif
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
+using Whipstaff.Example.AspireServiceDefaults;
 using Whipstaff.MediatR;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
@@ -37,7 +42,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     /// </summary>
     public sealed class Startup : BaseStartup
     {
+#if stuntman
         private readonly StuntmanOptions _stuntmanOptions;
+#endif
         private readonly DbConnection _dbConnection;
 
         /// <summary>
@@ -45,12 +52,20 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// </summary>
         public Startup()
         {
+#if stuntman
             _stuntmanOptions = new StuntmanOptions();
+#endif
             _dbConnection = CreateInMemoryDatabase();
         }
 
         /// <inheritdoc />
-        public override void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
+        public override void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder)
+        {
+            _ = builder.AddServiceDefaults();
+        }
+
+        /// <inheritdoc />
+        public override void ConfigureLogging(ILoggingBuilder loggingBuilder, ConfigurationManager configuration, IWebHostEnvironment environment)
         {
         }
 
@@ -61,7 +76,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
 
+#if stuntman
             serviceCollection.AddStuntman(_stuntmanOptions);
+#endif
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseSqlite(_dbConnection)
                 .AddInterceptors(new RowVersionSaveChangesInterceptor())
@@ -76,7 +93,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+#if stuntman
             app.UseStuntman(_stuntmanOptions);
+#endif
 
             _ = app.UseStaticFiles();
         }
@@ -107,9 +126,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
                     return Task.CompletedTask;
                 });
 
+                _ = endpoints.MapControllerRoute(
+                    "DefaultControllerRoute",
+                    "{controller=Home}/{action=Get}");
+
+#if TBC
                 _ = endpoints.DoCrudMapControllerRoute(
                     "{controller=Home}",
                     null);
+#endif
             };
         }
 

@@ -2,59 +2,68 @@
   "version": 1,
   "isRoot": true,
   "tools": {
-    "snitch": {
-      "version": "2.0.0",
-      "commands": [
-        "snitch"
-      ]
-    },
     "dotmorten.omdgenerator": {
       "version": "1.4.0",
       "commands": [
         "generateomd"
-      ]
+      ],
+      "rollForward": false
     },
     "configvalidate": {
       "version": "1.0.0",
       "commands": [
         "config-validate"
-      ]
+      ],
+      "rollForward": false
     },
     "dotnet-sonarscanner": {
-      "version": "9.0.1",
+      "version": "10.1.2",
       "commands": [
         "dotnet-sonarscanner"
-      ]
+      ],
+      "rollForward": false
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.2.7",
+      "version": "2025.1.0",
       "commands": [
         "jb"
-      ]
+      ],
+      "rollForward": false
     },
     "dotnet-outdated-tool": {
-      "version": "4.6.4",
+      "version": "4.6.8",
       "commands": [
         "dotnet-outdated"
-      ]
+      ],
+      "rollForward": false
     },
     "microsoft.cst.applicationinspector.cli": {
-      "version": "1.9.22",
+      "version": "1.9.32",
       "commands": [
         "appinspector"
-      ]
+      ],
+      "rollForward": false
     },
     "dotnet-project-licenses": {
       "version": "2.7.1",
       "commands": [
         "dotnet-project-licenses"
-      ]
+      ],
+      "rollForward": false
     },
     "microsoft.sbom.dotnettool": {
-      "version": "3.0.0",
+      "version": "3.1.0",
       "commands": [
         "sbom-tool"
-      ]
+      ],
+      "rollForward": false
+    },
+    "ultra": {
+      "version": "2.0.2",
+      "commands": [
+        "ultra"
+      ],
+      "rollForward": false
     }
   }
 }

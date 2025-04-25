@@ -8,8 +8,8 @@ using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine
 {
@@ -21,7 +21,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// <summary>
         /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}"/> constructor.
         /// </summary>
-        public sealed class ConstructorMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class ConstructorMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -37,7 +37,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommandAsync(TCommandLineArgModel)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestAsyncMethodWithNullableParameters<FakeCommandLineArgModel>
         {
             /// <summary>
@@ -53,14 +53,14 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.AbstractCommandLineHandlerTests.HandleCommand.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
-                FakeCommandLineArgModel arg,
+                FakeCommandLineArgModel? arg,
                 string expectedParameterNameForException)
             {
-                var logger = Log.CreateLogger<FakeCommandLineHandler>();
+                var logger = LoggerFactory.CreateLogger<FakeCommandLineHandler>();
                 var instance = new FakeCommandLineHandler(
                     new FakeCommandLineHandlerLogMessageActionsWrapper(logger));
 
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommandAsync(arg));
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommand(arg!));
             }
         }
     }

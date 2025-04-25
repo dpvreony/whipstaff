@@ -9,8 +9,8 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine
 {
@@ -23,7 +23,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit Tests for <see cref="Whipstaff.CommandLine.ArgumentExtensions.SpecificFileExtensionOnly"/>.
         /// </summary>
         public sealed class SpecificFileExtensionOnlyMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<IFileSystem, string>
         {
             /// <summary>
@@ -39,15 +39,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ArgumentExtensionsTests.SpecificFileExtensionOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                IFileSystem arg1,
-                string arg2,
+                IFileSystem? arg1,
+                string? arg2,
                 string expectedParameterNameForException)
             {
                 var instance = new Argument<FileInfo>();
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.SpecificFileExtensionOnly(arg1, arg2));
+                    () => instance.SpecificFileExtensionOnly(arg1!, arg2!));
             }
 
             /// <summary>
@@ -68,7 +68,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit Tests for <see cref="Whipstaff.CommandLine.ArgumentExtensions.SpecificFileExtensionsOnly"/>.
         /// </summary>
         public sealed class SpecificFileExtensionsOnlyMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<IFileSystem, string[]>
         {
             private static readonly string[] _extensions = [".txt", ".docx"];
@@ -86,15 +86,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ArgumentExtensionsTests.SpecificFileExtensionsOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public void ThrowsArgumentNullException(
-                IFileSystem arg1,
-                string[] arg2,
+                IFileSystem? arg1,
+                string[]? arg2,
                 string expectedParameterNameForException)
             {
                 var instance = new Argument<FileInfo>();
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.SpecificFileExtensionsOnly(arg1, arg2));
+                    () => instance.SpecificFileExtensionsOnly(arg1!, arg2!));
             }
 
             /// <summary>

@@ -1,4 +1,4 @@
-name: .NET Core
+name: ci
 
 on:
   push:
@@ -7,9 +7,13 @@ on:
     types: [opened, synchronize, reopened]
     branches: [ main ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+  
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-2025
     outputs:
       nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
       change_commit_log: ${{ steps.changelog.outputs.commitLog }}
@@ -42,7 +46,7 @@ jobs:
         java-version: '17'
 
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      uses: android-actions/setup-android@v3.2.2
 
     - name: Install Android SDK
       run: |
@@ -54,28 +58,17 @@ jobs:
         echo $sdkmanagerpath
         . $sdkmanagerpath --install "platforms;android-30"
 
-    - name: Install Windows SDK 10.0.16299
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
-        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-        $startInfo.FileName = "winsdk.exe"
-        $startInfo.Arguments = "/norestart /quiet"
-        $process = New-Object System.Diagnostics.Process
-        $process.StartInfo = $startInfo
-        $process.Start()
-        $process.WaitForExit()
-
-    - name: Install .NET 8
+    - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        global-json-file: "./global.json"
 
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet workload install android aspire ios tvos macos maui
         dotnet workload list
+      working-directory: src
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
@@ -85,6 +78,7 @@ jobs:
       run: |
         dotnet nuget locals all --clear
         dotnet nuget remove source "Microsoft Visual Studio Offline Packages"
+      working-directory: src
 
     - name: NBGV
       id: nbgv
@@ -94,6 +88,7 @@ jobs:
 
     - name: Install dotnet tools
       run: dotnet tool restore
+      working-directory: src
 
     - name: Prepare Artifact Directory
       run: |
@@ -107,18 +102,18 @@ jobs:
 
     - name: Restore Packages
       run: |
-        dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
+        dotnet restore ${{ env.solutionpath }} -- /bl:artifacts\\binlog\\restore.binlog
       working-directory: src
 
-    - name: List Deprecated Packages
-      run: |
-        dotnet list package --deprecated
-      working-directory: src
+    #- name: List Deprecated Packages
+    #  run: |
+    #    dotnet list package --deprecated
+    #  working-directory: src
 
-    - name: List Vulnerable Packages
-      run: |
-        dotnet list package --vulnerable
-      working-directory: src
+    #- name: List Vulnerable Packages
+    #  run: |
+    #    dotnet list package --vulnerable
+    #  working-directory: src
 
     - name: NPM package restore
       run: |
@@ -221,10 +216,6 @@ jobs:
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
-    - name: List licenses
-      run: |
-        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
-
     - name: Generate SBOM
       run: |
         dotnet sbom-tool generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -m artifacts\sbom
@@ -246,10 +237,6 @@ jobs:
       env:
         VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
 
-    - name: Generate App Inspector Report
-      run: |
-        dotnet appinspector analyze -s src -f html -o artifacts\appinspector\appinspector.html
-
     # only store binlog on failure
     - name: store binlogs
       if: ${{ failure() }}
@@ -263,12 +250,6 @@ jobs:
       with:
         name: unittestcoverage
         path: artifacts/unittestcoverage
-
-    - name: store docfx
-      uses: actions/upload-artifact@v4
-      with:
-        name: docfx
-        path: artifacts/docfx
         
     - name: store nuget packages
       uses: actions/upload-artifact@v4
@@ -282,12 +263,6 @@ jobs:
         name: omd
         path: artifacts/omd
         
-    - name: store licenses
-      uses: actions/upload-artifact@v4
-      with:
-        name: licenses
-        path: artifacts/licenses
-
     - name: store sbom
       uses: actions/upload-artifact@v4
       with:
@@ -298,19 +273,86 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: outdated
-        path: artifacts/outdated
-        
-    - name: store snitch
+        path: artifacts/outdated        
+
+  licenses:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Install dotnet tools
+      run: dotnet tool restore --tool-manifest .config/dotnet-project-licenses.json
+
+    - name: Prepare Artifact Directory
+      run: |
+        mkdir artifacts
+        mkdir artifacts\licenses
+
+    - name: List licenses
+      run: |
+        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
+
+    - name: store licenses
       uses: actions/upload-artifact@v4
       with:
-        name: snitch
-        path: artifacts/snitch
+        name: licenses
+        path: artifacts/licenses
+
+  #snitch:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - name: Checkout code
+  #    uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+  #  - name: Install dotnet tools
+  #    run: dotnet tool restore --tool-manifest .config/snitch.json
+
+  #  - name: run snitch
+  #    run: |
+  #      snitch ${{ env.solutionpath }}
+  #    working-directory: src
+
+  #  - name: store snitch
+  #    uses: actions/upload-artifact@v4
+  #    with:
+  #      name: snitch
+  #      path: artifacts/snitch
+
+  appinspector:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+        
+    - name: Install dotnet tools
+      run: dotnet tool restore --tool-manifest .config/appinspector.json
+
+    - name: Prepare Artifact Directory
+      run: |
+        mkdir artifacts
+        mkdir artifacts\appinspector
+
+    - name: Generate App Inspector Report
+      run: |
+        dotnet appinspector analyze -s src -f html -o artifacts\appinspector\appinspector.html
 
     - name: store appinspector
       uses: actions/upload-artifact@v4
       with:
         name: appinspector
         path: artifacts/appinspector
+
   check-nuget-environment:
     permissions:
       actions: read
@@ -323,6 +365,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           environment_name: 'nuget'
+
   release:
     if: ${{ always() && format('refs/heads/{0}', github.event.repository.default_branch) == github.ref }}
     permissions:

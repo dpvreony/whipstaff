@@ -21,16 +21,20 @@ on:
   schedule:
     - cron: '18 6 * * 5'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   analyze:
     name: Analyze
-    runs-on: windows-2022
+    runs-on: windows-2025
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      SOLUTION_PATH: src\\Whipstaff.sln
+      SOLUTION_PATH: Whipstaff.sln
 
     strategy:
       fail-fast: false
@@ -66,17 +70,21 @@ jobs:
         echo $sdkmanagerpath
         . $sdkmanagerpath --install "platforms;android-30"
 
-    - name: Install Windows SDK 10.0.16299
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
-        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-        $startInfo.FileName = "winsdk.exe"
-        $startInfo.Arguments = "/norestart /quiet"
-        $process = New-Object System.Diagnostics.Process
-        $process.StartInfo = $startInfo
-        $process.Start()
-        $process.WaitForExit()
+    #- name: Download Windows SDK 10.0.16299
+    #  shell: pwsh
+    #  run: |
+    #    Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
+
+    #- name: Install Windows SDK 10.0.16299
+    #  shell: pwsh
+    #  run: |
+    #    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    #    $startInfo.FileName = "winsdk.exe"
+    #    $startInfo.Arguments = "/norestart /quiet"
+    #    $process = New-Object System.Diagnostics.Process
+    #    $process.StartInfo = $startInfo
+    #    $process.Start()
+    #    $process.WaitForExit()
 
     #- name: Setup .NET Core 3.1
     #  uses: actions/setup-dotnet@v3
@@ -96,7 +104,8 @@ jobs:
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet workload install android aspire ios tvos macos maui
+      working-directory: src
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
@@ -104,10 +113,12 @@ jobs:
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
       run: dotnet nuget locals all --clear
+      working-directory: src
 
     - name: Restore Packages
       run: |
         dotnet restore ${{ env.SOLUTION_PATH }}
+      working-directory: src
 
     - name: Changelog
       uses: glennawatson/ChangeLog@v1

@@ -36,17 +36,17 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
 
             _middlewareFinishedLogAction = LoggerMessage.Define<string, int?>(
                 LogLevel.Information,
-                EventIdFactory.MiddlewareFinished(),
+                WhipstaffEventIdFactory.MiddlewareFinished(),
                 "MiddlewareStarting: {Name}: {StatusCode}");
 
             _middlewareStartingLogAction = LoggerMessage.Define<string, string?>(
                 LogLevel.Information,
-                EventIdFactory.MiddlewareStarting(),
+                WhipstaffEventIdFactory.MiddlewareStarting(),
                 "MiddlewareStarting: {Name}: {Path}");
 
             _middlewareExceptionLogAction = LoggerMessage.Define<string>(
                 LogLevel.Information,
-                EventIdFactory.MiddlewareException(),
+                WhipstaffEventIdFactory.MiddlewareException(),
                 "MiddlewareStarting: {Name}");
         }
 

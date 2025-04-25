@@ -20,9 +20,9 @@ namespace Whipstaff.UnitTests.CsvHelper.TypeConverterOptionsCacheExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.TypeConverterOptionsCacheExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(TypeConverterOptionsCache arg, string expectedParameterNameForException)
+        public void ThrowsArgumentNullException(TypeConverterOptionsCache? arg, string expectedParameterNameForException)
         {
-            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.TypeConverterOptionsCacheExtensions.AddTypeIso8601DateTimeConverterOptions(arg));
+            _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.TypeConverterOptionsCacheExtensions.AddTypeIso8601DateTimeConverterOptions(arg!));
         }
 
         /// <summary>

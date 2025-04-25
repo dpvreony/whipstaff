@@ -7,8 +7,8 @@ using Microsoft.Playwright;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Playwright;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Playwright
 {
@@ -20,7 +20,7 @@ namespace Whipstaff.UnitTests.Playwright
         /// <summary>
         /// Unit tests for the <see cref="PlaywrightExtensions.GetBrowserType"/> method.
         /// </summary>
-        public sealed class GetBrowserTypeMethod : Foundatio.Xunit.TestWithLoggingBase, ITestMethodWithNullableParameters<IPlaywright>
+        public sealed class GetBrowserTypeMethod : TestWithLoggingBase, ITestMethodWithNullableParameters<IPlaywright>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetBrowserTypeMethod"/> class.
@@ -35,12 +35,12 @@ namespace Whipstaff.UnitTests.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                IPlaywright arg,
+                IPlaywright? arg,
                 string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => arg.GetBrowserType(PlaywrightBrowserType.Chromium));
+                    () => arg!.GetBrowserType(PlaywrightBrowserType.Chromium));
             }
 
             /// <summary>

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using NetTestRegimentation;
@@ -27,10 +26,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<Task<int>> arg,
+                Func<Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(-1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(-1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -94,10 +93,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, Task<int>> arg,
+                Func<int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -161,10 +160,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, Task<int>> arg,
+                Func<int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -232,10 +231,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, Task<int>> arg,
+                Func<int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -305,10 +304,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -380,10 +379,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -457,10 +456,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -536,10 +535,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -617,10 +616,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -700,10 +699,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -785,10 +784,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -872,10 +871,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -961,10 +960,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -1052,10 +1051,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -1145,10 +1144,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
@@ -1240,10 +1239,10 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
             public async Task ThrowsArgumentNullExceptionAsync(
-                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>> arg,
+                Func<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, -1))
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => arg!.DefaultIfExceptionAsync(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, -1))
 ;
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }

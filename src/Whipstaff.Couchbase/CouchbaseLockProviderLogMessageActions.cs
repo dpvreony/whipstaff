@@ -30,39 +30,39 @@ namespace Whipstaff.Couchbase
         {
             _startingAcquire = LoggerMessage.Define<string>(
                 LogLevel.Information,
-                EventIdFactory.CouchbaseStartingAquire(),
+                WhipstaffEventIdFactory.CouchbaseStartingAquire(),
                 "Starting to acquire lock for resource: \"{Resource}\".");
             _finishedAcquire = LoggerMessage.Define<string>(
                 LogLevel.Information,
-                EventIdFactory.CouchbaseFinishedAquire(),
+                WhipstaffEventIdFactory.CouchbaseFinishedAquire(),
                 "Finished acquiring of lock for resource: \"{Resource}\".");
             _startingRelease = LoggerMessage.Define<string>(
                 LogLevel.Information,
-                EventIdFactory.CouchbaseStartingRelease(),
+                WhipstaffEventIdFactory.CouchbaseStartingRelease(),
                 "Starting release of lock for resource: \"{Resource}\".");
             _finishedRelease = LoggerMessage.Define<string>(
                 LogLevel.Information,
-                EventIdFactory.CouchbaseFinishedRelease(),
+                WhipstaffEventIdFactory.CouchbaseFinishedRelease(),
                 "Finished release of lock for resource: \"{Resource}\".");
             _startingRenew = LoggerMessage.Define<string>(
                 LogLevel.Information,
-                EventIdFactory.CouchbaseStartingRenew(),
+                WhipstaffEventIdFactory.CouchbaseStartingRenew(),
                 "Finished renewal of lock for resource: \"{Resource}\".");
             _finishedRenew = LoggerMessage.Define<string>(
                 LogLevel.Information,
-                EventIdFactory.CouchbaseFinishedRenew(),
+                WhipstaffEventIdFactory.CouchbaseFinishedRenew(),
                 "Finished renewal of lock for resource: \"{Resource}\".");
             _noLockToRenew = LoggerMessage.Define<string>(
                 LogLevel.Warning,
-                EventIdFactory.CouchbaseNoLockToRenew(),
+                WhipstaffEventIdFactory.CouchbaseNoLockToRenew(),
                 "No lock to renew for resource: \"{Resource}\".");
             _noMutexToRelease = LoggerMessage.Define<string>(
                 LogLevel.Warning,
-                EventIdFactory.CouchbaseNoMutexToRelease(),
+                WhipstaffEventIdFactory.CouchbaseNoMutexToRelease(),
                 "No mutex to release for resource: \"{Resource}\".");
             _acquiredKeyAlreadyExists = LoggerMessage.Define<string>(
                 LogLevel.Warning,
-                EventIdFactory.CouchbaseAcquiredKeyAlreadyExists(),
+                WhipstaffEventIdFactory.CouchbaseAcquiredKeyAlreadyExists(),
                 "Acquired key already exists for resource: \"{Resource}\".");
         }
 

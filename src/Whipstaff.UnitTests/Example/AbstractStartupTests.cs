@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Example
 {
@@ -15,7 +15,7 @@ namespace Whipstaff.UnitTests.Example
     /// Tests for the Startup class.
     /// </summary>
     /// <typeparam name="TStartUp">Whipstaff based startup class for the application.</typeparam>
-    public abstract class AbstractStartupTests<TStartUp> : Foundatio.Xunit.TestWithLoggingBase
+    public abstract class AbstractStartupTests<TStartUp> : TestWithLoggingBase
         where TStartUp : IWhipstaffWebAppStartup, new()
     {
         /// <summary>
@@ -40,18 +40,18 @@ namespace Whipstaff.UnitTests.Example
                 "Development"
             };
 
-            var builder = AspNetCore.Features.ApplicationStartup.WebHostBuilderFactory.GetHostBuilder<TStartUp>(args).UseTestServer().UseDefaultServiceProvider(
+            var app = AspNetCore.Features.ApplicationStartup.WebApplicationFactory.GetHostApplicationBuilder<TStartUp>(args, applicationBuilder => applicationBuilder.WebHost.UseTestServer().UseDefaultServiceProvider(
                 (_, options) =>
                 {
                     options.ValidateScopes = true;
                     options.ValidateOnBuild = true;
-                });
+                }));
 
-            var app = builder.Build();
-            Assert.NotNull(app);
+            await app.StartAsync(TestContext.Current.CancellationToken);
+            await app.StopAsync(TestContext.Current.CancellationToken);
 
-            await app.StartAsync();
-            await app.StopAsync();
+            // this assert won't be reached if the app fails to start
+            Assert.Equal(1, 1);
         }
     }
 }

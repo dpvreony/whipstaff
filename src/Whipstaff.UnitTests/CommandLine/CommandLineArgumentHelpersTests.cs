@@ -13,8 +13,8 @@ using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.CommandLine;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine
 {
@@ -27,7 +27,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// Unit Tests for <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommandAsync{TCommandLineArg, TCommandLineArgModelBinder}"/>.
         /// </summary>
         public sealed class GetResultFromRootCommandMethod
-            : Foundatio.Xunit.TestWithLoggingBase,
+            : TestWithLoggingBase,
                 ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, Task<int>>, IFileSystem>
         {
             /// <summary>
@@ -43,19 +43,19 @@ namespace Whipstaff.UnitTests.CommandLine
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
             public async Task ThrowsArgumentNullExceptionAsync(
-                string[] arg1,
-                Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>> arg2,
-                Func<FakeCommandLineArgModel, Task<int>> arg3,
-                IFileSystem arg4,
+                string[]? arg1,
+                Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>? arg2,
+                Func<FakeCommandLineArgModel, Task<int>>? arg3,
+                IFileSystem? arg4,
                 string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => CommandLineArgumentHelpers.GetResultFromRootCommandAsync(
-                        arg1,
-                        arg2,
-                        arg3,
-                        arg4));
+                    () => CommandLineArgumentHelpers.GetResultFromRootCommand(
+                        arg1!,
+                        arg2!,
+                        arg3!,
+                        arg4!));
             }
 
             /// <summary>
@@ -94,8 +94,8 @@ namespace Whipstaff.UnitTests.CommandLine
                     fileSystem,
                     console);
 
-                _logger.LogInformation("Console output: {ConsoleOutput}", console.Out.ToString());
-                _logger.LogInformation("Console error: {ConsoleError}", console.Error.ToString());
+                Logger.LogInformation("Console output: {ConsoleOutput}", console.Out.ToString());
+                Logger.LogInformation("Console error: {ConsoleError}", console.Error.ToString());
 
                 Assert.Equal(0, result);
             }

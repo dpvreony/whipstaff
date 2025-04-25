@@ -34,7 +34,7 @@ namespace Whipstaff.Core.Logging
         /// <returns>Log Message Action.</returns>
         public static Action<ILogger, int, Exception?> GetDbContextSaveResultLoggerMessageAction() => LoggerMessage.Define<int>(
             LogLevel.Debug,
-            EventIdFactory.DbContextSaveResultEventId,
+            WhipstaffEventIdFactory.DbContextSaveResultEventId(),
             formatString: "DbContext Save Result: {SaveResult}");
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Whipstaff.Core.Logging
         /// <returns>Log Message Action.</returns>
         public static Action<ILogger, Type, Exception?> GetNoMediatRHandlersRegisteredForTypeLoggerMessageAction() => LoggerMessage.Define<Type>(
             LogLevel.Debug,
-            EventIdFactory.NoMediatRHandlersRegisteredForTypeEventId,
+            WhipstaffEventIdFactory.NoMediatRHandlersRegisteredForTypeEventId(),
             formatString: "No MediatR {Type} handlers registered.");
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Whipstaff.Core.Logging
         /// <returns>Log Message Action.</returns>
         public static Action<ILogger, Type, int, Exception?> GetCountOfMediatRHandlersRegisteredLoggerMessageAction() => LoggerMessage.Define<Type, int>(
             LogLevel.Debug,
-            EventIdFactory.CountOfMediatRHandlersRegisteredEventId,
+            WhipstaffEventIdFactory.CountOfMediatRHandlersRegisteredEventId(),
             formatString: "Number of MediatR {Type} handlers registered: {Count}");
 
         /// <summary>
