@@ -13,12 +13,29 @@ using Aspire.Hosting.Lifecycle;
 
 namespace Whipstaff.Aspire.Hosting.HealthChecksUI
 {
-    internal class HealthChecksUILifecycleHook(DistributedApplicationExecutionContext executionContext) : IDistributedApplicationLifecycleHook
+    /// <summary>
+    /// Lifecycle hook for configuring Health Checks UI resources.
+    /// </summary>
+    public sealed class HealthChecksUILifecycleHook : IDistributedApplicationLifecycleHook
     {
         private const string HEALTHCHECKSUIURLS = "HEALTHCHECKSUI_URLS";
+        private readonly DistributedApplicationExecutionContext _executionContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HealthChecksUILifecycleHook"/> class.
+        /// </summary>
+        /// <param name="executionContext">Distributed application execution context.</param>
+        public HealthChecksUILifecycleHook(DistributedApplicationExecutionContext executionContext)
+        {
+            ArgumentNullException.ThrowIfNull(executionContext);
+            _executionContext = executionContext;
+        }
+
+        /// <inheritdoc/>
         public Task BeforeStartAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
         {
+            ArgumentNullException.ThrowIfNull(appModel);
+
             // Configure each project referenced by a Health Checks UI resource
             var healthChecksUIResources = appModel.Resources.OfType<HealthChecksUIResource>();
 
@@ -60,7 +77,7 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
                 }
             }
 
-            if (executionContext.IsPublishMode)
+            if (_executionContext.IsPublishMode)
             {
                 ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: true);
             }
@@ -68,8 +85,11 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
             return Task.CompletedTask;
         }
 
+        /// <inheritdoc/>
         public Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
         {
+            ArgumentNullException.ThrowIfNull(appModel);
+
             ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: false);
 
             return Task.CompletedTask;
