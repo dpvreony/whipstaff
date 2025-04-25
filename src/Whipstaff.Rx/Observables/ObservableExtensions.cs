@@ -10,6 +10,7 @@ namespace Whipstaff.Rx.Observables
     /// <summary>
     /// Extension methods for <see cref="IObservable{T}"/>.
     /// </summary>
+#pragma warning disable GR0049 // Do not use Tuples.
     public static class ObservableExtensions
     {
         /// <summary>
@@ -180,4 +181,5 @@ namespace Whipstaff.Rx.Observables
             return observable.Select(static tuple => tuple is { First: true, Second: true, Third: true, Fourth: true, Fifth: true, Sixth: true, Seventh: true, Eighth: true });
         }
     }
+#pragma warning restore GR0049 // Do not use Tuples.
 }
