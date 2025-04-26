@@ -142,8 +142,8 @@ namespace Whipstaff.AspNetCore
                 id,
                 LogMessageActionMappings.DeleteEventLogMessageAction,
                 deletePolicyName,
-                GetDeleteActionResultAsync,
-                GetDeleteCommandAsync,
+                r => GetDeleteActionResultAsync(r),
+                (a, cp, cx) => GetDeleteCommandAsync(a, cp, cx),
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -169,8 +169,8 @@ namespace Whipstaff.AspNetCore
                 addRequestDto,
                 LogMessageActionMappings.AddEventLogMessageAction,
                 addPolicyName,
-                GetAddActionResultAsync,
-                GetAddCommandAsync,
+                r => GetAddActionResultAsync(r),
+                (r, cp, cx) => GetAddCommandAsync(r, cp, cx),
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -199,8 +199,8 @@ namespace Whipstaff.AspNetCore
                 updateRequestDto,
                 LogMessageActionMappings.UpdateEventLogMessageAction,
                 updatePolicyName,
-                GetUpdateActionResultAsync,
-                GetUpdateCommandAsync,
+                r => GetUpdateActionResultAsync(r),
+                (r, cp, cx) => GetUpdateCommandAsync(r, cp, cx),
                 cancellationToken).ConfigureAwait(false);
         }
 

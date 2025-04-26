@@ -93,10 +93,13 @@ namespace Whipstaff.Mermaid.HttpServer
 
             var headers = arg.Context.Response.Headers;
             headers["Content-Encoding"] = "gzip";
-            if (new FileExtensionContentTypeProvider().TryGetContentType(filename, out var contentType))
+            var fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+            if (!fileExtensionContentTypeProvider.TryGetContentType(filename, out var contentType))
             {
-                headers["Content-Type"] = contentType;
+                throw new InvalidOperationException($"Could not find a content type for file: {filename}.");
             }
+
+            headers["Content-Type"] = contentType;
 
             return Task.CompletedTask;
         }
@@ -109,20 +112,6 @@ namespace Whipstaff.Mermaid.HttpServer
         private static async Task HandlerAsync(HttpContext context)
         {
             var response = context.Response;
-
-            var diagramFormStringValues = request.Form["diagram"];
-            if (diagramFormStringValues.Count < 1)
-            {
-                await WriteNoDiagramResponseAsync(response).ConfigureAwait(false);
-                return;
-            }
-
-            var diagram = diagramFormStringValues[0];
-            if (string.IsNullOrWhiteSpace(diagram))
-            {
-                await WriteNoDiagramResponseAsync(response).ConfigureAwait(false);
-                return;
-            }
 
             response.StatusCode = 200;
             response.ContentType = "text/html";
@@ -153,13 +142,6 @@ namespace Whipstaff.Mermaid.HttpServer
 
             await response.WriteAsync(sb.ToString())
                 .ConfigureAwait(false);
-        }
-
-        private static async Task WriteNoDiagramResponseAsync(HttpResponse response)
-        {
-            response.StatusCode = 400;
-            response.ContentType = "text/plain";
-            await response.WriteAsync("No diagram passed in request").ConfigureAwait(false);
         }
 
         private static bool IsMermaidPost(HttpContext arg)

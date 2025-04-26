@@ -16,20 +16,20 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
     /// A process manager for dealing with a Foundatio based queue mechanism.
     /// </summary>
     /// <typeparam name="TMessage">Type for the message being processed on the queue.</typeparam>
-    public abstract class QueueProcessManager<TMessage> : BackgroundService
+    public abstract class AbstractQueueProcessManager<TMessage> : BackgroundService
         where TMessage : class
     {
         private readonly IQueue<TMessage> _queue;
-        private readonly ILogger<QueueProcessManager<TMessage>> _logger;
+        private readonly ILogger<AbstractQueueProcessManager<TMessage>> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueueProcessManager{TMessage}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractQueueProcessManager{TMessage}"/> class.
         /// </summary>
         /// <param name="queue">The queue to monitor.</param>
         /// <param name="logger">Logging framework instance.</param>
-        protected QueueProcessManager(
+        protected AbstractQueueProcessManager(
             IQueue<TMessage> queue,
-            ILogger<QueueProcessManager<TMessage>> logger)
+            ILogger<AbstractQueueProcessManager<TMessage>> logger)
         {
             _queue = queue ?? throw new ArgumentNullException(nameof(queue));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -92,7 +92,9 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
                 .ConfigureAwait(false);
         }
 
+#pragma warning disable S1172 // Unused method parameters should be removed
         private static Task<QueueMessageRecoveryStrategy> GetRecoveryStrategyAsync(Exception exception)
+#pragma warning restore S1172 // Unused method parameters should be removed
         {
             return Task.FromResult(QueueMessageRecoveryStrategy.Abandon);
         }
@@ -168,7 +170,7 @@ namespace Whipstaff.MediatR.Foundatio.QueueProcessing
 #pragma warning restore CA1031 // Do not catch general exception types
             {
                 return await TaskHelpers.DefaultIfExceptionAsync(
-                    GetRecoveryStrategyAsync,
+                    static e => GetRecoveryStrategyAsync(e),
                     e,
                     QueueMessageRecoveryStrategy.Abandon).ConfigureAwait(false);
             }

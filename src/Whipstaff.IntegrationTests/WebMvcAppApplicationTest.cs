@@ -113,7 +113,7 @@ namespace Whipstaff.IntegrationTests
                     using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                                .ConfigureAwait(false))
                     await using (var browser =
-                                 await playwright.GetBrowser(PlaywrightBrowserTypeAndChannel.Chrome()))
+                                 await playwright.GetBrowserAsync(PlaywrightBrowserTypeAndChannel.Chrome()))
                     {
                         var page = await browser.NewPageAsync()
                             .ConfigureAwait(false);

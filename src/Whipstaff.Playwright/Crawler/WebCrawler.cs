@@ -53,7 +53,7 @@ namespace Whipstaff.Playwright.Crawler
         {
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
             {
-                var browser = await playwright.GetBrowser(playwrightBrowserTypeAndChannel)
+                var browser = await playwright.GetBrowserAsync(playwrightBrowserTypeAndChannel)
                     .ConfigureAwait(false);
 
 #pragma warning disable CA2234
