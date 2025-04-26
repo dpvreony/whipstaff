@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using ReactiveUI;
-using Whipstaff.Rx;
+using Whipstaff.Rx.Observables;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Rx
