@@ -266,6 +266,9 @@ namespace Whipstaff.AspNetCore
 
             _ = app.UseRouting();
 
+            _ = app.UseAuthentication();
+            _ = app.UseAuthorization();
+
             var useEndpointsAction = GetOnUseEndpointsAction();
             if (useEndpointsAction != null)
             {
