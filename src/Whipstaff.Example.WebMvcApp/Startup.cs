@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Audit.Core;
 using Audit.Core.Providers;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -67,6 +69,14 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <inheritdoc />
         public override void ConfigureLogging(ILoggingBuilder loggingBuilder, ConfigurationManager configuration, IWebHostEnvironment environment)
         {
+        }
+
+        /// <inheritdoc />
+        protected override (string DefaultScheme, Action<AuthenticationBuilder> BuilderAction)? GetConfigureAuthenticationDetails()
+        {
+            return (
+                "cookie",
+                static builder => ConfigureAuthenticationScheme(builder));
         }
 
         /// <inheritdoc />
@@ -147,6 +157,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <inheritdoc />
         protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
         {
+            ArgumentNullException.ThrowIfNull(authorizationOptions);
+
+            authorizationOptions.AddPolicy("HomePageView", builder => builder.RequireAssertion(_ => true).Build());
         }
 
         /// <inheritdoc />
@@ -168,6 +181,18 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             connection.Open();
 
             return connection;
+        }
+
+        private static void ConfigureAuthenticationScheme(AuthenticationBuilder authenticationBuilder)
+        {
+            _ = authenticationBuilder.AddCookie("Cookie", options =>
+            {
+                options.LoginPath = "/api/login";
+                options.LogoutPath = "/api/logout";
+                options.AccessDeniedPath = "/api/denied";
+                options.SlidingExpiration = true;
+                options.Cookie.Name = "MyCookieName";
+            });
         }
     }
 }

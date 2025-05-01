@@ -56,6 +56,8 @@ namespace Whipstaff.IntegrationTests
                     var requestUri = new Uri(requestPath, UriKind.Absolute);
                     var response = await client.GetAsync(requestUri);
 
+                    await LogResponseAsync(response, Logger);
+
                     _ = response.EnsureSuccessStatusCode();
 
                     var contentType = response.Content.Headers.ContentType;
@@ -66,8 +68,6 @@ namespace Whipstaff.IntegrationTests
     #pragma warning disable CS8602 // Dereference of a possibly null reference.
                         contentType.ToString());
     #pragma warning restore CS8602 // Dereference of a possibly null reference.
-
-                    await LogResponseAsync(response, Logger);
                 },
                 []);
         }
@@ -149,6 +149,7 @@ namespace Whipstaff.IntegrationTests
         private static void CheckPageResult(KeyValuePair<string, UriCrawlResultModel> pageResult)
         {
             Assert.False(string.IsNullOrWhiteSpace(pageResult.Key));
+            Assert.True(pageResult.Value.StatusCode is >= 200 and < 400);
         }
 
         private static TheoryData<string, string> GetGetReturnsSuccessAndCorrectContentTypeTestSource()
