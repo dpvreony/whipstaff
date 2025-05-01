@@ -64,6 +64,13 @@
         "ultra"
       ],
       "rollForward": false
+    },
+    "gripe-msbuildlogstats": {
+      "version": "1.14.12",
+      "commands": [
+        "gripe-msbuildlogstats"
+      ],
+      "rollForward": false
     }
   }
 }
