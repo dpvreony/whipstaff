@@ -81,20 +81,16 @@ namespace Whipstaff.AspNetCore
 
             _ = services.AddProblemDetails();
 
-            var authenticationAction = GetConfigureAuthenticationAction();
-            if (authenticationAction != null)
+            var authenticationDetails = GetConfigureAuthenticationDetails();
+            if (authenticationDetails != null)
             {
-                services.AddAuthentication("Basic")
-                    .AddCookie("Basic", options =>
-                    {
-                        options.LoginPath = "/Account/Login";
-                        options.AccessDeniedPath = "/Account/AccessDenied";
-                        options.Cookie.Name = "MyAppAuthCookie";
-                    });
+                var actualAuthenticationDetails = authenticationDetails.Value;
+
+                var authBuilder = services.AddAuthentication(actualAuthenticationDetails.DefaultScheme);
+
+                actualAuthenticationDetails.BuilderAction(authBuilder);
+
                 _usingAuthentication = true;
-#if TBC
-                _ = services.AddAuthentication(options => authenticationAction(options));
-#endif
             }
 
             _ = services.AddAuthorization(ConfigureAuthorization);
@@ -131,10 +127,10 @@ namespace Whipstaff.AspNetCore
         }
 
         /// <summary>
-        /// Gets the action to use when configuring authentication. If null, no authentication will be configured.
+        /// Gets the default schema and an action to use when configuring authentication. If null, no authentication will be configured.
         /// </summary>
-        /// <returns>An action to use when running the configuration of authentication, or null.</returns>
-        protected abstract Action<AuthenticationOptions>? GetConfigureAuthenticationAction();
+        /// <returns>The default schema and an  action to use when running the configuration of authentication, or null.</returns>
+        protected abstract (string DefaultScheme, Action<AuthenticationBuilder> BuilderAction)? GetConfigureAuthenticationDetails();
 
         /// <summary>
         /// Configure app specific services.

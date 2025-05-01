@@ -63,9 +63,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override Action<AuthenticationOptions>? GetConfigureAuthenticationAction()
+        protected override (string DefaultScheme, Action<AuthenticationBuilder> BuilderAction)? GetConfigureAuthenticationDetails()
         {
-            return static options => ConfigureAuthenticationScheme(options);
+            return (
+                "bearer",
+                static builder => ConfigureAuthenticationScheme(builder));
         }
 
         /// <inheritdoc />
@@ -153,17 +155,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             return connection;
         }
 
-        private static void ConfigureAuthenticationScheme(AuthenticationOptions options)
+        private static void ConfigureAuthenticationScheme(AuthenticationBuilder authenticationBuilder)
         {
-            options.DefaultScheme = "Cookie";
-            options.DefaultAuthenticateScheme = "Cookie";
-            options.DefaultChallengeScheme = "Cookie";
-
-            options.AddScheme("Cookie", scheme =>
-            {
-                scheme.HandlerType = typeof(CookieAuthenticationHandler);
-                scheme.DisplayName = "My Basic Cookie Auth";
-            });
+            _ = authenticationBuilder.AddBearerToken("bearer");
         }
     }
 }

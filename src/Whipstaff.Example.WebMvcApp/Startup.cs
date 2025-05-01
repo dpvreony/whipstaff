@@ -72,9 +72,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override Action<AuthenticationOptions>? GetConfigureAuthenticationAction()
+        protected override (string DefaultScheme, Action<AuthenticationBuilder> BuilderAction)? GetConfigureAuthenticationDetails()
         {
-            return static options => ConfigureAuthenticationScheme(options);
+            return (
+                "cookie",
+                static builder => ConfigureAuthenticationScheme(builder));
         }
 
         /// <inheritdoc />
@@ -181,16 +183,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             return connection;
         }
 
-        private static void ConfigureAuthenticationScheme(AuthenticationOptions options)
+        private static void ConfigureAuthenticationScheme(AuthenticationBuilder authenticationBuilder)
         {
-            options.DefaultScheme = "Cookie";
-            options.DefaultAuthenticateScheme = "Cookie";
-            options.DefaultChallengeScheme = "Cookie";
-
-            options.AddScheme("Cookie", scheme =>
+            _ = authenticationBuilder.AddCookie("Cookie", options =>
             {
-                scheme.HandlerType = typeof(CookieAuthenticationHandler);
-                scheme.DisplayName = "My Basic Cookie Auth";
+                options.LoginPath = "/api/login";
+                options.LogoutPath = "/api/logout";
+                options.AccessDeniedPath = "/api/denied";
+                options.SlidingExpiration = true;
+                options.Cookie.Name = "MyCookieName";
             });
         }
     }
