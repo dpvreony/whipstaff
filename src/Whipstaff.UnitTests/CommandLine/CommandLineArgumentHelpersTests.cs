@@ -24,7 +24,7 @@ namespace Whipstaff.UnitTests.CommandLine
     public static class CommandLineArgumentHelpersTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommand{TCommandLineArg, TCommandLineArgModelBinder}"/>.
+        /// Unit Tests for <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommandAsync{TCommandLineArg, TCommandLineArgModelBinder}"/>.
         /// </summary>
         public sealed class GetResultFromRootCommandMethod
             : TestWithLoggingBase,
@@ -87,7 +87,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 var console = new TestConsole();
                 var fileSystem = new MockFileSystem();
 
-                var result = await CommandLineArgumentHelpers.GetResultFromRootCommand<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
+                var result = await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
                     args,
                     rootCommandAndBinderModelFunc,
                     arg => Task.FromResult(0),

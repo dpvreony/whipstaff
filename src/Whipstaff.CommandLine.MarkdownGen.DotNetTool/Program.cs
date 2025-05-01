@@ -21,7 +21,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         /// <returns>0 for success, non 0 for failure.</returns>
         public static Task<int> Main(string[] args)
         {
-            return HostRunner.RunSimpleCliJob<
+            return HostRunner.RunSimpleCliJobAsync<
                     CommandLineJob,
                     CommandLineArgModel,
                     CommandLineArgModelBinder,

@@ -40,12 +40,12 @@ namespace Whipstaff.CommandLine
         protected TLogMessageActionsWrapper LogMessageActionsWrapper { get; }
 
         /// <inheritdoc/>
-        public System.Threading.Tasks.Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel)
+        public System.Threading.Tasks.Task<int> HandleCommandAsync(TCommandLineArgModel commandLineArgModel)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
             try
             {
-                return OnHandleCommand(commandLineArgModel);
+                return OnHandleCommandAsync(commandLineArgModel);
             }
             catch (Exception e)
             {
@@ -59,6 +59,6 @@ namespace Whipstaff.CommandLine
         /// </summary>
         /// <param name="commandLineArgModel">Command Line Arguments model.</param>
         /// <returns>0 for success, non-zero for error.</returns>
-        protected abstract Task<int> OnHandleCommand(TCommandLineArgModel commandLineArgModel);
+        protected abstract Task<int> OnHandleCommandAsync(TCommandLineArgModel commandLineArgModel);
     }
 }
