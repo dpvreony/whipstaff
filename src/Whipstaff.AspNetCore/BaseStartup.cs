@@ -11,6 +11,7 @@ using Audit.Core;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,8 @@ namespace Whipstaff.AspNetCore
     /// </summary>
     public abstract class BaseStartup : IWhipstaffWebAppStartup
     {
+        private bool _usingAuthentication;
+
         /// <inheritdoc/>
         public abstract void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder);
 
@@ -78,6 +81,22 @@ namespace Whipstaff.AspNetCore
 
             _ = services.AddProblemDetails();
 
+            var authenticationAction = GetConfigureAuthenticationAction();
+            if (authenticationAction != null)
+            {
+                services.AddAuthentication("Basic")
+                    .AddCookie("Basic", options =>
+                    {
+                        options.LoginPath = "/Account/Login";
+                        options.AccessDeniedPath = "/Account/AccessDenied";
+                        options.Cookie.Name = "MyAppAuthCookie";
+                    });
+                _usingAuthentication = true;
+#if TBC
+                _ = services.AddAuthentication(options => authenticationAction(options));
+#endif
+            }
+
             _ = services.AddAuthorization(ConfigureAuthorization);
 #if TBC
             // new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
@@ -110,6 +129,12 @@ namespace Whipstaff.AspNetCore
 
             OnConfigureServices(services);
         }
+
+        /// <summary>
+        /// Gets the action to use when configuring authentication. If null, no authentication will be configured.
+        /// </summary>
+        /// <returns>An action to use when running the configuration of authentication, or null.</returns>
+        protected abstract Action<AuthenticationOptions>? GetConfigureAuthenticationAction();
 
         /// <summary>
         /// Configure app specific services.
@@ -266,7 +291,11 @@ namespace Whipstaff.AspNetCore
 
             _ = app.UseRouting();
 
-            _ = app.UseAuthentication();
+            if (_usingAuthentication)
+            {
+                _ = app.UseAuthentication();
+            }
+
             _ = app.UseAuthorization();
 
             var useEndpointsAction = GetOnUseEndpointsAction();

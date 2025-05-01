@@ -8,6 +8,8 @@ using System.Data.Common;
 using System.Reflection;
 using Audit.Core;
 using Audit.Core.Providers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +60,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             ConfigurationManager configuration,
             IWebHostEnvironment environment)
         {
+        }
+
+        /// <inheritdoc />
+        protected override Action<AuthenticationOptions>? GetConfigureAuthenticationAction()
+        {
+            return static options => ConfigureAuthenticationScheme(options);
         }
 
         /// <inheritdoc />
@@ -143,6 +151,19 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             connection.Open();
 
             return connection;
+        }
+
+        private static void ConfigureAuthenticationScheme(AuthenticationOptions options)
+        {
+            options.DefaultScheme = "Cookie";
+            options.DefaultAuthenticateScheme = "Cookie";
+            options.DefaultChallengeScheme = "Cookie";
+
+            options.AddScheme("Cookie", scheme =>
+            {
+                scheme.HandlerType = typeof(CookieAuthenticationHandler);
+                scheme.DisplayName = "My Basic Cookie Auth";
+            });
         }
     }
 }
