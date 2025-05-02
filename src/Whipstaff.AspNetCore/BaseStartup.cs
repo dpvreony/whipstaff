@@ -88,7 +88,10 @@ namespace Whipstaff.AspNetCore
 
                 var authBuilder = services.AddAuthentication(actualAuthenticationDetails.DefaultScheme);
 
-                actualAuthenticationDetails.BuilderAction(authBuilder, configuration, environment);
+                actualAuthenticationDetails.BuilderAction(
+                    authBuilder,
+                    configuration,
+                    environment);
 
                 _usingAuthentication = true;
             }
