@@ -19,7 +19,7 @@ namespace Whipstaff.MediatR
     /// <typeparam name="TViewQuery">The type of the View query.</typeparam>
     /// <typeparam name="TViewResponse">The type of the Response DTO for the View Query.</typeparam>
     public interface IAuditableQueryFactory<TListQuery, in TListRequestDto, TListResponse, TViewQuery, TViewResponse>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListResponse?>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListResponse>
         where TViewQuery : IAuditableRequest<long, TViewResponse?>
     {
         /// <summary>
