@@ -63,11 +63,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override (string DefaultScheme, Action<AuthenticationBuilder> BuilderAction)? GetConfigureAuthenticationDetails()
+        protected override (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails()
         {
             return (
                 "bearer",
-                static builder => ConfigureAuthenticationScheme(builder));
+                static (builder, _, _) => ConfigureAuthenticationScheme(builder));
         }
 
         /// <inheritdoc />

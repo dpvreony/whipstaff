@@ -30,7 +30,7 @@ namespace Whipstaff.AspNetCore
     public abstract class QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
 #pragma warning restore S6934
         : ControllerBase
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>

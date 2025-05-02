@@ -88,7 +88,10 @@ namespace Whipstaff.AspNetCore
 
                 var authBuilder = services.AddAuthentication(actualAuthenticationDetails.DefaultScheme);
 
-                actualAuthenticationDetails.BuilderAction(authBuilder);
+                actualAuthenticationDetails.BuilderAction(
+                    authBuilder,
+                    configuration,
+                    environment);
 
                 _usingAuthentication = true;
             }
@@ -130,7 +133,7 @@ namespace Whipstaff.AspNetCore
         /// Gets the default schema and an action to use when configuring authentication. If null, no authentication will be configured.
         /// </summary>
         /// <returns>The default schema and an  action to use when running the configuration of authentication, or null.</returns>
-        protected abstract (string DefaultScheme, Action<AuthenticationBuilder> BuilderAction)? GetConfigureAuthenticationDetails();
+        protected abstract (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails();
 
         /// <summary>
         /// Configure app specific services.
