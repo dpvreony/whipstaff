@@ -8,6 +8,8 @@ using System.Data.Common;
 using System.Reflection;
 using Audit.Core;
 using Audit.Core.Providers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +60,14 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             ConfigurationManager configuration,
             IWebHostEnvironment environment)
         {
+        }
+
+        /// <inheritdoc />
+        protected override (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails()
+        {
+            return (
+                "bearer",
+                static (builder, _, _) => ConfigureAuthenticationScheme(builder));
         }
 
         /// <inheritdoc />
@@ -143,6 +153,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             connection.Open();
 
             return connection;
+        }
+
+        private static void ConfigureAuthenticationScheme(AuthenticationBuilder authenticationBuilder)
+        {
+            _ = authenticationBuilder.AddBearerToken("bearer");
         }
     }
 }

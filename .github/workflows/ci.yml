@@ -7,13 +7,13 @@ on:
     types: [opened, synchronize, reopened]
     branches: [ main ]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
   
 jobs:
   build:
     runs-on: windows-2025
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
     outputs:
       nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
       change_commit_log: ${{ steps.changelog.outputs.commitLog }}

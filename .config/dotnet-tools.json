@@ -17,14 +17,14 @@
       "rollForward": false
     },
     "dotnet-sonarscanner": {
-      "version": "10.1.1",
+      "version": "10.1.2",
       "commands": [
         "dotnet-sonarscanner"
       ],
       "rollForward": false
     },
     "jetbrains.resharper.globaltools": {
-      "version": "2024.3.7",
+      "version": "2025.1.1",
       "commands": [
         "jb"
       ],
