@@ -57,10 +57,10 @@
     <PackageReference Include="Rocks" Version="9.0.2" PrivateAssets="all" />
     <PackageReference Include="OpenCover" Version="4.7.1221" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.14" />
-    <PackageReference Include="xunit.v3" Version="2.0.1" />
+    <PackageReference Include="xunit.v3" Version="2.0.2" />
     <PackageReference Include="xunit.analyzers" Version="1.21.0" />
     <!---<PackageReference Include="xunit.runner.reporters" Version="2.9.3" />-->
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.0" />
     <PackageReference Include="Xunit.StaFact" Version="2.1.7" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
