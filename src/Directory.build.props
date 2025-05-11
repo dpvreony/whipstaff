@@ -50,7 +50,7 @@
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="17.14.2" />
     <PackageReference Include="NetTestRegimentation" Version="2.0.8" />
     <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.8" />
-    <PackageReference Include="Rocks" Version="9.0.2" PrivateAssets="all" />
+    <PackageReference Include="Rocks" Version="9.1.0" PrivateAssets="all" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.14" />
     <PackageReference Include="xunit.v3" Version="2.0.2" />
     <PackageReference Include="xunit.analyzers" Version="1.21.0" />
