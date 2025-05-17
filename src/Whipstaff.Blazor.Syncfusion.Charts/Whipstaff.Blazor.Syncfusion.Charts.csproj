@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Core\Whipstaff.Blazor.Syncfusion.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Data\Whipstaff.Blazor.Syncfusion.Data.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
