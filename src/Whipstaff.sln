@@ -120,6 +120,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Lists", "Whipstaff.Blazor.Syncfusion.Lists\Whipstaff.Blazor.Syncfusion.Lists.csproj", "{BFC32FB7-6D9F-4989-86C0-08D313D77889}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Data", "Whipstaff.Blazor.Syncfusion.Data\Whipstaff.Blazor.Syncfusion.Data.csproj", "{7AE7C932-B6F1-4398-A908-524F156A76E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.DataVizCommon", "Whipstaff.Blazor.Syncfusion.DataVizCommon\Whipstaff.Blazor.Syncfusion.DataVizCommon.csproj", "{B79607FC-7F4D-416A-A57E-7DEDDE3853EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Popups", "Whipstaff.Blazor.Syncfusion.Popups\Whipstaff.Blazor.Syncfusion.Popups.csproj", "{B0E17163-5564-4ABE-8C01-405333EA8936}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Notifications", "Whipstaff.Blazor.Syncfusion.Notifications\Whipstaff.Blazor.Syncfusion.Notifications.csproj", "{5B126F6F-2AD2-4EAC-A382-59C191553A7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Spinner", "Whipstaff.Blazor.Syncfusion.Spinner\Whipstaff.Blazor.Syncfusion.Spinner.csproj", "{1C616763-E0DF-45E2-991C-F4464072DFA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -358,6 +368,26 @@ Global
 		{BFC32FB7-6D9F-4989-86C0-08D313D77889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFC32FB7-6D9F-4989-86C0-08D313D77889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFC32FB7-6D9F-4989-86C0-08D313D77889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE7C932-B6F1-4398-A908-524F156A76E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE7C932-B6F1-4398-A908-524F156A76E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE7C932-B6F1-4398-A908-524F156A76E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE7C932-B6F1-4398-A908-524F156A76E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B79607FC-7F4D-416A-A57E-7DEDDE3853EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B79607FC-7F4D-416A-A57E-7DEDDE3853EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B79607FC-7F4D-416A-A57E-7DEDDE3853EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B79607FC-7F4D-416A-A57E-7DEDDE3853EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0E17163-5564-4ABE-8C01-405333EA8936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0E17163-5564-4ABE-8C01-405333EA8936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0E17163-5564-4ABE-8C01-405333EA8936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0E17163-5564-4ABE-8C01-405333EA8936}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B126F6F-2AD2-4EAC-A382-59C191553A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B126F6F-2AD2-4EAC-A382-59C191553A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B126F6F-2AD2-4EAC-A382-59C191553A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B126F6F-2AD2-4EAC-A382-59C191553A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C616763-E0DF-45E2-991C-F4464072DFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C616763-E0DF-45E2-991C-F4464072DFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C616763-E0DF-45E2-991C-F4464072DFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C616763-E0DF-45E2-991C-F4464072DFA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

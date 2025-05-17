@@ -11,11 +11,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Blazor.Schedule" Version="29.2.4" />
+    <PackageReference Include="Syncfusion.Blazor.Data" Version="29.2.4" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Core\Whipstaff.Blazor.Syncfusion.Core.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
-    <Vetuviem_Assemblies>Syncfusion.Blazor.Schedule.dll</Vetuviem_Assemblies>
+    <Vetuviem_Assemblies>Syncfusion.Blazor.Data.dll</Vetuviem_Assemblies>
   </PropertyGroup>
 </Project>
