@@ -130,6 +130,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Spinner", "Whipstaff.Blazor.Syncfusion.Spinner\Whipstaff.Blazor.Syncfusion.Spinner.csproj", "{1C616763-E0DF-45E2-991C-F4464072DFA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.SplitButtons", "Whipstaff.Blazor.Syncfusion.SplitButtons\Whipstaff.Blazor.Syncfusion.SplitButtons.csproj", "{FA983AB3-6624-4599-82C1-D7F73F92E175}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -388,6 +390,10 @@ Global
 		{1C616763-E0DF-45E2-991C-F4464072DFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C616763-E0DF-45E2-991C-F4464072DFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C616763-E0DF-45E2-991C-F4464072DFA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA983AB3-6624-4599-82C1-D7F73F92E175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA983AB3-6624-4599-82C1-D7F73F92E175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA983AB3-6624-4599-82C1-D7F73F92E175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA983AB3-6624-4599-82C1-D7F73F92E175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

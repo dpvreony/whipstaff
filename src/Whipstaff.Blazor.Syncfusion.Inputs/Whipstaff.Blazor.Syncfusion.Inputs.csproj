@@ -13,6 +13,15 @@
     </PackageReference>
     <PackageReference Include="Syncfusion.Blazor.Inputs" Version="29.2.4" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Buttons\Whipstaff.Blazor.Syncfusion.Buttons.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Core\Whipstaff.Blazor.Syncfusion.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Data\Whipstaff.Blazor.Syncfusion.Data.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Popups\Whipstaff.Blazor.Syncfusion.Popups.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Spinner\Whipstaff.Blazor.Syncfusion.Spinner.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.SplitButtons\Whipstaff.Blazor.Syncfusion.SplitButtons.csproj" />
+  </ItemGroup>
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>

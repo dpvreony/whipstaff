@@ -11,15 +11,18 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Blazor.Spinner" Version="29.2.4" />
+    <PackageReference Include="Syncfusion.Blazor.SplitButtons" Version="29.2.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Buttons\Whipstaff.Blazor.Syncfusion.Buttons.csproj" />
     <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Core\Whipstaff.Blazor.Syncfusion.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Popups\Whipstaff.Blazor.Syncfusion.Popups.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Spinner\Whipstaff.Blazor.Syncfusion.Spinner.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
-    <Vetuviem_Assemblies>Syncfusion.Blazor.Spinner.dll</Vetuviem_Assemblies>
+    <Vetuviem_Assemblies>Syncfusion.Blazor.SplitButtons.dll</Vetuviem_Assemblies>
   </PropertyGroup>
 </Project>
