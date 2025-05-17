@@ -14,6 +14,11 @@
     </PackageReference>
     <PackageReference Include="Syncfusion.Blazor.Calendars" Version="29.2.4" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Core\Whipstaff.Blazor.Syncfusion.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Inputs\Whipstaff.Blazor.Syncfusion.Inputs.csproj" />
+  </ItemGroup>
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>

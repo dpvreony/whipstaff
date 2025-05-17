@@ -116,6 +116,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Core", "Whipstaff.Blazor.Syncfusion.Core\Whipstaff.Blazor.Syncfusion.Core.csproj", "{7C353E34-C9FE-46BC-87E1-5C8D2CD1B394}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Buttons", "Whipstaff.Blazor.Syncfusion.Buttons\Whipstaff.Blazor.Syncfusion.Buttons.csproj", "{D444CD4F-B682-42BB-A3D8-8825C96E9651}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.Syncfusion.Lists", "Whipstaff.Blazor.Syncfusion.Lists\Whipstaff.Blazor.Syncfusion.Lists.csproj", "{BFC32FB7-6D9F-4989-86C0-08D313D77889}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -346,6 +350,14 @@ Global
 		{7C353E34-C9FE-46BC-87E1-5C8D2CD1B394}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C353E34-C9FE-46BC-87E1-5C8D2CD1B394}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C353E34-C9FE-46BC-87E1-5C8D2CD1B394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D444CD4F-B682-42BB-A3D8-8825C96E9651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D444CD4F-B682-42BB-A3D8-8825C96E9651}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D444CD4F-B682-42BB-A3D8-8825C96E9651}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D444CD4F-B682-42BB-A3D8-8825C96E9651}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC32FB7-6D9F-4989-86C0-08D313D77889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC32FB7-6D9F-4989-86C0-08D313D77889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC32FB7-6D9F-4989-86C0-08D313D77889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC32FB7-6D9F-4989-86C0-08D313D77889}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
