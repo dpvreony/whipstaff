@@ -23,6 +23,6 @@
 
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
-    <Vetuviem_Root_Namespace>Whipstaff.Blazor</Vetuviem_Root_Namespace>
+    <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
   </PropertyGroup>
 </Project>
