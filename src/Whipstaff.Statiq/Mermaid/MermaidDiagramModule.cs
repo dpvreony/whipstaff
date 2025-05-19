@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,9 +18,12 @@ namespace Whipstaff.Statiq.Mermaid
     /// <summary>
     /// Statiq module for producing mermaid diagrams.
     /// </summary>
-    public sealed class MermaidDiagramModule : Module
+    public sealed class MermaidDiagramModule : Module, IDisposable
     {
         private readonly System.IO.Abstractions.IFileSystem _fileSystem;
+        private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
+        private PlaywrightRendererBrowserInstance? _browser;
+        private bool _disposedValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MermaidDiagramModule"/> class.
@@ -29,6 +33,13 @@ namespace Whipstaff.Statiq.Mermaid
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             _fileSystem = fileSystem;
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
         }
 
         /// <inheritdoc />
@@ -75,21 +86,12 @@ namespace Whipstaff.Statiq.Mermaid
                 _ = directory.CreateDirectory(targetDir);
             }
 
-            var logMessageActions = new PlaywrightRendererLogMessageActions();
-            var loggerFactory = context.GetRequiredService<ILoggerFactory>();
-            var logger = loggerFactory.CreateLogger<PlaywrightRenderer>();
-            var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(logMessageActions, logger);
-            var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(loggerFactory);
-
-            var playwrightRenderer = new Whipstaff.Mermaid.Playwright.PlaywrightRenderer(
-                mermaidHttpServer,
-                logMessageActionsWrapper);
+            var browser = await GetBrowserInstanceAsync(context)
+                .ConfigureAwait(false);
 
             var markdown = await _fileSystem.File.ReadAllTextAsync(inputFilename);
 
-            var diagramResponse = await playwrightRenderer.GetDiagram(
-                markdown,
-                PlaywrightBrowserTypeAndChannel.ChromiumDefault())
+            var diagramResponse = await browser.GetDiagram(markdown)
                 .ConfigureAwait(false);
 
             if (diagramResponse == null)
@@ -105,6 +107,45 @@ namespace Whipstaff.Statiq.Mermaid
             // keeping the working the same as the previous cli version
             // could return the response object in future.
             return Array.Empty<IDocument>();
+        }
+
+        private async Task<PlaywrightRendererBrowserInstance> GetBrowserInstanceAsync(IExecutionContext context)
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                var logMessageActions = new PlaywrightRendererLogMessageActions();
+                var loggerFactory = context.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger<PlaywrightRenderer>();
+                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(logMessageActions, logger);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(loggerFactory);
+
+                var playwrightRenderer = new Whipstaff.Mermaid.Playwright.PlaywrightRenderer(
+                    mermaidHttpServer,
+                    logMessageActionsWrapper);
+
+                _browser = await playwrightRenderer.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.ChromiumDefault())
+                    .ConfigureAwait(false);
+
+                return _browser;
+            }
+            finally
+            {
+                _ = _semaphoreSlim.Release();
+            }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _semaphoreSlim.Dispose();
+                }
+
+                _disposedValue = true;
+            }
         }
     }
 }
