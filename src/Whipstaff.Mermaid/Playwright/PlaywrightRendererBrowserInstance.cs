@@ -20,14 +20,17 @@ namespace Whipstaff.Mermaid.Playwright
     {
         private readonly IPlaywright _playwright;
         private readonly IPage _page;
+        private readonly PlaywrightRendererLogMessageActionsWrapper _logMessageActionsWrapper;
         private bool _disposedValue;
 
         private PlaywrightRendererBrowserInstance(
             IPlaywright playwright,
-            IPage page)
+            IPage page,
+            PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
         {
             _playwright = playwright;
             _page = page;
+            _logMessageActionsWrapper = logMessageActionsWrapper;
         }
 
         /// <summary>
@@ -74,17 +77,13 @@ namespace Whipstaff.Mermaid.Playwright
 
             if (pageResponse == null)
             {
-#if TBC
-                _logMessageActionsWrapper.FailedToGetPageResponse();
-#endif
+                logMessageActionsWrapper.FailedToGetPageResponse();
                 throw new InvalidOperationException("Failed to get page response.");
             }
 
             if (!pageResponse.Ok)
             {
-#if TBC
-                _logMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
-#endif
+                logMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
                 throw new InvalidOperationException("Unexpected page response: " + pageResponse.Status + " " +
                                                     pageResponse.StatusText);
             }
@@ -95,7 +94,7 @@ namespace Whipstaff.Mermaid.Playwright
             await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
             _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
 
-            return new PlaywrightRendererBrowserInstance(playwright, page);
+            return new PlaywrightRendererBrowserInstance(playwright, page, logMessageActionsWrapper);
         }
 
         /// <inheritdoc/>
@@ -196,9 +195,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             if (mermaidElement == null)
             {
-#if TBC
                 _logMessageActionsWrapper.FailedToFindMermaidElement();
-#endif
                 return null;
             }
 
