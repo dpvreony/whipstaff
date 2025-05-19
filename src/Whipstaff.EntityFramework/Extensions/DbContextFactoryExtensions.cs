@@ -17,6 +17,51 @@ namespace Whipstaff.EntityFramework.Extensions
     public static class DbContextFactoryExtensions
     {
         /// <summary>
+        /// Carries out an action on the database context and saves changes.
+        /// </summary>
+        /// <typeparam name="TDbContext">The type for the Database Context.</typeparam>
+        /// <param name="dbContextFactory">Database Context Factory.</param>
+        /// <param name="func">Action to carry out prior to calling save.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task ActOnDbContextAndSaveChangesAsync<TDbContext>(
+            this IDbContextFactory<TDbContext> dbContextFactory,
+            Func<TDbContext, Task> func)
+            where TDbContext : DbContext
+        {
+            ArgumentNullException.ThrowIfNull(dbContextFactory);
+            ArgumentNullException.ThrowIfNull(func);
+
+            using (var dbContext = await dbContextFactory.CreateDbContextAsync().ConfigureAwait(false))
+            {
+                await dbContext.ActOnDbContextAndSaveChangesAsync(func)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        /// Carries out an action on the database context, saves changes and then returns a result defined by the action.
+        /// </summary>
+        /// <typeparam name="TDbContext">The type for the Database Context.</typeparam>
+        /// <typeparam name="TResult">The type for the function result.</typeparam>
+        /// <param name="dbContextFactory">Database Context Factory.</param>
+        /// <param name="func">Action to carry out prior to calling save.</param>
+        /// <returns>Result defined by the function.</returns>
+        public static async Task<TResult> ActOnDbContextAndSaveChangesAsync<TDbContext, TResult>(
+            this IDbContextFactory<TDbContext> dbContextFactory,
+            Func<TDbContext, Task<TResult>> func)
+            where TDbContext : DbContext
+        {
+            ArgumentNullException.ThrowIfNull(dbContextFactory);
+            ArgumentNullException.ThrowIfNull(func);
+
+            using (var dbContext = await dbContextFactory.CreateDbContextAsync().ConfigureAwait(false))
+            {
+                return await dbContext.ActOnDbContextAndSaveChangesAsync(func)
+                    .ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
         /// Get or adds an entity to a DBSet.
         /// </summary>
         /// <typeparam name="TDbContext">The type for the Database Context.</typeparam>
