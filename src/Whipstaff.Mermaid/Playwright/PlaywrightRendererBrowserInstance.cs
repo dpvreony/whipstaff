@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Playwright;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Mermaid.Playwright
 {
@@ -189,6 +190,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <returns>Diagram model.</returns>
         public async Task<GetDiagramResponseModel?> GetDiagram(string markdown)
         {
+            markdown.ThrowIfNullOrWhitespace();
             var svg = await _page.EvaluateAsync<string>("(diagram) => window.renderMermaid(diagram)", markdown);
 
             var mermaidElement = _page.Locator("#mermaid-element svg");
