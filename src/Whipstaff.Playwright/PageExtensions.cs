@@ -73,7 +73,10 @@ namespace Whipstaff.Playwright
 
                 var result = await cdpSession.SendAsync("Page.captureSnapshot", new Dictionary<string, object>
                 {
-                    ["format"] = "mhtml"
+                    {
+                        "format",
+                        "mhtml"
+                    }
                 });
 
                 if (result == null)
