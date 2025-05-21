@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Playwright
 {
@@ -34,7 +35,7 @@ namespace Whipstaff.Playwright
         /// </summary>
         /// <param name="page">Page to process.</param>
         /// <returns>MHTML content as a string.</returns>
-        public static Task<string> GetMhtmlAsString(this IPage page)
+        public static Task<string> GetMhtmlAsStringAsync(this IPage page)
         {
             ArgumentNullException.ThrowIfNull(page);
 
@@ -49,10 +50,11 @@ namespace Whipstaff.Playwright
         /// <param name="outputPath">Output path for the file to save to.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static async Task SaveAsMhtml(this IPage page, IFileSystem fileSystem, string outputPath, CancellationToken cancellationToken)
+        public static async Task SaveAsMhtmlAsync(this IPage page, IFileSystem fileSystem, string outputPath, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(page);
             ArgumentNullException.ThrowIfNull(fileSystem);
+            outputPath.ThrowIfNullOrWhitespace();
 
             var mhtmlContent = await InternalGetMhtmlAsString(page);
             await fileSystem.File.WriteAllTextAsync(

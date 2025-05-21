@@ -3,8 +3,11 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -214,6 +217,93 @@ namespace Whipstaff.UnitTests.Playwright
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                     : base("page")
+                {
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit tests for <see cref="PageExtensions.GetMhtmlAsStringAsync"/>.
+        /// </summary>
+        public sealed class GetMhtmlAsStringAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IPage>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetMhtmlAsStringAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output instance.</param>
+            public GetMhtmlAsStringAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc />
+            [Theory]
+            [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
+            public async Task ThrowsArgumentNullExceptionAsync(IPage? arg, string expectedParameterNameForException)
+            {
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(
+                    expectedParameterNameForException,
+                    () => arg!.GetMhtmlAsStringAsync());
+            }
+
+            /// <summary>
+            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="GetMhtmlAsStringAsyncMethod.ThrowsArgumentNullExceptionTestSource"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionTestSource()
+                    : base("page")
+                {
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unit tests for <see cref="PageExtensions.SaveAsMhtmlAsync"/>.
+        /// </summary>
+        public sealed class SaveAsMhtmlAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IPage, IFileSystem, string>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SaveAsMhtmlAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output instance.</param>
+            public SaveAsMhtmlAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc />
+            [Theory]
+            [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
+            public async Task ThrowsArgumentNullExceptionAsync(IPage? arg1, IFileSystem? arg2, string? arg3, string expectedParameterNameForException)
+            {
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(
+                    expectedParameterNameForException,
+                    () => arg1!.SaveAsMhtmlAsync(arg2!, arg3!, CancellationToken.None));
+            }
+
+            /// <summary>
+            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage, IFileSystem, string>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionTestSource()
+                    : base(
+                        new NamedParameterInput<IPage>(
+                            "page",
+                            () => new IPageCreateExpectations().Instance()),
+                        new NamedParameterInput<IFileSystem>(
+                            "fileSystem",
+                            () => new MockFileSystem()),
+                        new NamedParameterInput<string>(
+                            "outputPath",
+                            () => "z:\\somefile.mhtm"))
                 {
                 }
             }
