@@ -69,10 +69,8 @@ namespace Whipstaff.Playwright
             await using (var cdpSession = await context.NewCDPSessionAsync(page)
                              .ConfigureAwait(false))
             {
-                // Enable necessary domains
                 _ = await cdpSession.SendAsync("Page.enable");
 
-                // Capture MHTML
                 var result = await cdpSession.SendAsync("Page.captureSnapshot", new Dictionary<string, object>
                 {
                     ["format"] = "mhtml"
