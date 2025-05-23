@@ -31,7 +31,7 @@
     <WarningsAsErrors />
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <IsPackable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.'))">true</IsPackable>
+    <IsPackable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.')) and !$(MSBuildProjectName.Contains('.Example.')) and !$(MSBuildProjectName.EndsWith('.Testing')) and !$(MSBuildProjectName.EndsWith('.Benchmarks'))">true</IsPackable>
     <LangVersion>13.0</LangVersion>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <GenerateSBOM>$(IsPackable)</GenerateSBOM>
