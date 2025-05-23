@@ -192,7 +192,7 @@ jobs:
 
     - name: Report Unit Test Coverage
       run: |
-        $opencoverxmlpath = Get-ChildItem 'artifacts/unittestcoverage/coverage.xml' | Select-Object -First 1
+        $opencoverxmlpath = Get-ChildItem 'd:/artifacts/unittestcoverage/coverage.xml' | Select-Object -First 1
         $unitTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
         echo "::notice::$coverageMessage"
@@ -201,12 +201,12 @@ jobs:
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
       run: |
-        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/inttest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory d:/artifacts/inttestcoverage
+        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build --nologo /bl:d:/artifacts/binlog/inttest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory d:/artifacts/inttestcoverage
       working-directory: src
 
     - name: Report Integration Test Coverage
       run: |
-        $opencoverxmlpath = Get-ChildItem 'artifacts/inttestcoverage/coverage.xml' | Select-Object -First 1
+        $opencoverxmlpath = Get-ChildItem 'd:/artifacts/inttestcoverage/coverage.xml' | Select-Object -First 1
         $intTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Integration Test Coverage: $intTestCoverage"
         echo "::notice::$coverageMessage"
@@ -218,10 +218,6 @@ jobs:
       working-directory: src
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
-
-    - name: Generate SBOM
-      run: |
-        dotnet sbom-tool generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -m artifacts\sbom
 
     - name: List outdated packages
       run: |
