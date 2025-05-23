@@ -18,6 +18,9 @@ jobs:
       nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
       change_commit_log: ${{ steps.changelog.outputs.commitLog }}
     env:
+      DOTNET_INSTALL_DIR: D:\tools\dotnet
+      DOTNET_ROOT: D:\tools\dotnet
+      NUGET_PACKAGES:	D:\.nuget\packages    
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
@@ -92,17 +95,17 @@ jobs:
 
     - name: Prepare Artifact Directory
       run: |
-        mkdir artifacts
-        mkdir artifacts\appinspector
-        mkdir artifacts\nupkg
-        mkdir artifacts\outdated
-        mkdir artifacts\sbom
-        mkdir artifacts\snitch
-        mkdir artifacts\omd
+        mkdir d:\artifacts
+        mkdir d:\artifacts\appinspector
+        mkdir d:\artifacts\nupkg
+        mkdir d:\artifacts\outdated
+        mkdir d:\artifacts\sbom
+        mkdir d:\artifacts\snitch
+        mkdir d:\artifacts\omd
 
     - name: Restore Packages
       run: |
-        dotnet restore ${{ env.solutionpath }} -- /bl:artifacts\\binlog\\restore.binlog
+        dotnet restore ${{ env.solutionpath }} -- /bl:d:\\artifacts\\binlog\\restore.binlog
       working-directory: src
 
     #- name: List Deprecated Packages
@@ -150,7 +153,7 @@ jobs:
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
       run: |
-        dotnet sonarscanner begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="../artifacts/unittestcoverage/**/*.xml"
+        dotnet sonarscanner begin /k:"${{ env.SONAR_PROJECT_KEY }}" /d:sonar.login="${{ env.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /o:"${{ env.SONAR_ORGANISATION_KEY }}" /d:sonar.cs.opencover.reportsPaths="d:/artifacts/unittestcoverage/**/*.xml"
       working-directory: src
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -159,7 +162,7 @@ jobs:
 
     - name: Run Build
       run: |
-        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:../artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true 
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:d:/artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true 
       working-directory: src
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
@@ -167,7 +170,7 @@ jobs:
     - name: Run Unit Tests
       working-directory: src
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/unittest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../../artifacts/unittestcoverage
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/unittest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory d:/artifacts/unittestcoverage
 
     - name: Run Sonar Scanner end
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -183,7 +186,7 @@ jobs:
     - name: Upload Code Coverage
       run: |
         Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-        .\codecov.exe -s 'artifacts/unittestcoverage' -f '*.xml' -v -t '${{ env.CODECOV_TOKEN }}'
+        .\codecov.exe -s 'd:/artifacts/unittestcoverage' -f '*.xml' -v -t '${{ env.CODECOV_TOKEN }}'
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -198,7 +201,7 @@ jobs:
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
       run: |
-        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/inttest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../../artifacts/inttestcoverage
+        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/inttest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory d:/artifacts/inttestcoverage
       working-directory: src
 
     - name: Report Integration Test Coverage
@@ -211,7 +214,7 @@ jobs:
 
     - name: Produce Nuget Packages
       run: |
-        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:..\\artifacts\\binlog\\pack.binlog --nologo /p:PackageOutputPath=..\..\artifacts\nuget /p:ContinuousIntegrationBuild=true
+        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:d:/artifacts/binlog/pack.binlog --nologo /p:PackageOutputPath=d:/artifacts/nuget /p:ContinuousIntegrationBuild=true
       working-directory: src
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
@@ -222,7 +225,7 @@ jobs:
 
     - name: List outdated packages
       run: |
-        dotnet outdated -o ..\artifacts\outdated\outdated.json
+        dotnet outdated -o d:/artifacts/outdated/outdated.json
       working-directory: src
 
     - name: VirusTotal Monitor Scan
@@ -243,37 +246,37 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: binlogs
-        path: artifacts/binlog
+        path: d:/artifacts/binlog
 
     - name: store unit test coverage
       uses: actions/upload-artifact@v4
       with:
         name: unittestcoverage
-        path: artifacts/unittestcoverage
+        path: d:/artifacts/unittestcoverage
         
     - name: store nuget packages
       uses: actions/upload-artifact@v4
       with:
         name: nuget
-        path: artifacts/nuget
+        path: d:/artifacts/nuget
         
     - name: store omd
       uses: actions/upload-artifact@v4
       with:
         name: omd
-        path: artifacts/omd
+        path: d:/artifacts/omd
         
     - name: store sbom
       uses: actions/upload-artifact@v4
       with:
         name: sbom
-        path: artifacts/sbom
+        path: d:/artifacts/sbom
 
     - name: store outdated
       uses: actions/upload-artifact@v4
       with:
         name: outdated
-        path: artifacts/outdated        
+        path: d:/artifacts/outdated        
 
   licenses:
     runs-on: ubuntu-latest
