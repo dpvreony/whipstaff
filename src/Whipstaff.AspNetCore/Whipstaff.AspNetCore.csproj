@@ -40,7 +40,7 @@
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.1.0" />
     <PackageReference Include="OwaspHeaders.Core" Version="9.7.2" />
     <PackageReference Include="RimDev.ApplicationInsights.Filters" Version="1.1.62" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />-->
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.11.0" />
