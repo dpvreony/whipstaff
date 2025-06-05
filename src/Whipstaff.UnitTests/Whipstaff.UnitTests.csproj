@@ -40,6 +40,7 @@
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" />
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Markdig\Whipstaff.Markdig.csproj" />
     <ProjectReference Include="..\Whipstaff.Maui\Whipstaff.Maui.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
     <ProjectReference Include="..\Whipstaff.Mermaid\Whipstaff.Mermaid.csproj" />
