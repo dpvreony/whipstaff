@@ -4,7 +4,7 @@
 
 using Markdig.Syntax;
 
-namespace Dhgms.DocFx.MermaidJs.Plugin.Markdig
+namespace Whipstaff.Markdig.Markdig
 {
     /// <summary>
     /// Represents a mermaid code block.

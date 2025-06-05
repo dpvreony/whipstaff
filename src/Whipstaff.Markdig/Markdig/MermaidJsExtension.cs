@@ -3,16 +3,15 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using Dhgms.DocFx.MermaidJs.Plugin.Settings;
 using Markdig;
 using Markdig.Renderers;
 using Microsoft.Extensions.Logging;
 using Nito.AsyncEx.Synchronous;
+using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
-using Whipstaff.Playwright;
 
-namespace Dhgms.DocFx.MermaidJs.Plugin.Markdig
+namespace Whipstaff.Markdig.Markdig
 {
     /// <summary>
     /// Handles the registration of the MermaidJs plugin into Markdig.
@@ -25,7 +24,6 @@ namespace Dhgms.DocFx.MermaidJs.Plugin.Markdig
         /// <summary>
         /// Initializes a new instance of the <see cref="MermaidJsExtension"/> class.
         /// </summary>
-        /// <param name="context">Markdig context instance.</param>
         /// <param name="settings">Settings for the Markdown JS extension.</param>
         /// <param name="loggerFactory">NET core logging factory.</param>
         public MermaidJsExtension(

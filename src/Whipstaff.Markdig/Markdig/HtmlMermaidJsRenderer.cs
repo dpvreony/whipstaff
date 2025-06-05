@@ -5,14 +5,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dhgms.DocFx.MermaidJs.Plugin.Settings;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
 using Nito.AsyncEx.Synchronous;
+using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.Playwright;
 using Whipstaff.Playwright;
 
-namespace Dhgms.DocFx.MermaidJs.Plugin.Markdig
+namespace Whipstaff.Markdig.Markdig
 {
     /// <summary>
     /// HTML renderer for MermaidJS Code Blocks.
@@ -26,7 +26,6 @@ namespace Dhgms.DocFx.MermaidJs.Plugin.Markdig
         /// <summary>
         /// Initializes a new instance of the <see cref="HtmlMermaidJsRenderer"/> class.
         /// </summary>
-        /// <param name="markdownContext">DocFX Markdown context.</param>
         /// <param name="playwrightRenderer">Playwright Renderer used to generate mermaid.</param>
         /// <param name="browserSession">Browser session to render diagrams. Passed in as a cached object to reduce time on rendering multiple diagrams.</param>
         /// <param name="settings">MermaidJS extension settings.</param>

@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using Dhgms.DocFx.MermaidJs.Plugin.Settings;
 using Markdig;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Whipstaff.Markdig.Settings;
 
-namespace Dhgms.DocFx.MermaidJs.Plugin.Markdig
+namespace Whipstaff.Markdig.Markdig
 {
     /// <summary>
     /// Extension methods for <see cref="MarkdownPipelineBuilder"/>.

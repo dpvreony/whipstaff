@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-namespace Dhgms.DocFx.MermaidJs.Plugin.Settings
+namespace Whipstaff.Markdig.Settings
 {
     /// <summary>
     /// Represents the settings for the MarkdownJs extension.

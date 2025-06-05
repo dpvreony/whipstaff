@@ -8,7 +8,7 @@ using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Syntax;
 
-namespace Dhgms.DocFx.MermaidJs.Plugin.Markdig
+namespace Whipstaff.Markdig.Markdig
 {
     /// <summary>
     /// Extensions for <see cref="BlockProcessor"/>.
