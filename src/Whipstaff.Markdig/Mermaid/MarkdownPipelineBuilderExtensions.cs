@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Whipstaff.Markdig.Settings;
 
-namespace Whipstaff.Markdig.Markdig
+namespace Whipstaff.Markdig.Mermaid
 {
     /// <summary>
     /// Extension methods for <see cref="MarkdownPipelineBuilder"/>.

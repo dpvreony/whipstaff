@@ -8,7 +8,7 @@ using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Syntax;
 
-namespace Whipstaff.Markdig.Markdig
+namespace Whipstaff.Markdig.Mermaid
 {
     /// <summary>
     /// Extensions for <see cref="BlockProcessor"/>.

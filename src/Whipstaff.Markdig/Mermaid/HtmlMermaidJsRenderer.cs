@@ -12,33 +12,28 @@ using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.Playwright;
 using Whipstaff.Playwright;
 
-namespace Whipstaff.Markdig.Markdig
+namespace Whipstaff.Markdig.Mermaid
 {
     /// <summary>
     /// HTML renderer for MermaidJS Code Blocks.
     /// </summary>
     public sealed class HtmlMermaidJsRenderer : HtmlObjectRenderer<MermaidCodeBlock>
     {
-        private readonly PlaywrightRenderer _playwrightRenderer;
         private readonly PlaywrightRendererBrowserInstance _browserSession;
         private readonly MarkdownJsExtensionSettings _settings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HtmlMermaidJsRenderer"/> class.
         /// </summary>
-        /// <param name="playwrightRenderer">Playwright Renderer used to generate mermaid.</param>
         /// <param name="browserSession">Browser session to render diagrams. Passed in as a cached object to reduce time on rendering multiple diagrams.</param>
         /// <param name="settings">MermaidJS extension settings.</param>
         private HtmlMermaidJsRenderer(
-            PlaywrightRenderer playwrightRenderer,
             PlaywrightRendererBrowserInstance browserSession,
             MarkdownJsExtensionSettings settings)
         {
-            ArgumentNullException.ThrowIfNull(playwrightRenderer);
             ArgumentNullException.ThrowIfNull(browserSession);
             ArgumentNullException.ThrowIfNull(settings);
 
-            _playwrightRenderer = playwrightRenderer;
             _browserSession = browserSession;
             _settings = settings;
         }
@@ -57,7 +52,6 @@ namespace Whipstaff.Markdig.Markdig
             ArgumentNullException.ThrowIfNull(settings);
 
             return new HtmlMermaidJsRenderer(
-                playwrightRenderer,
                 await playwrightRenderer.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.ChromiumDefault()),
                 settings);
         }

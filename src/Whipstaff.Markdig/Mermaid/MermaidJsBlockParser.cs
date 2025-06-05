@@ -7,7 +7,7 @@ using Markdig.Helpers;
 using Markdig.Parsers;
 using Markdig.Syntax;
 
-namespace Whipstaff.Markdig.Markdig
+namespace Whipstaff.Markdig.Mermaid
 {
     /// <summary>
     /// Block parser for Mermaid diagrams.

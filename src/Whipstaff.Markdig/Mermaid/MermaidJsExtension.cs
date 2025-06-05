@@ -11,7 +11,7 @@ using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
 
-namespace Whipstaff.Markdig.Markdig
+namespace Whipstaff.Markdig.Mermaid
 {
     /// <summary>
     /// Handles the registration of the MermaidJs plugin into Markdig.

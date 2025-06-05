@@ -4,7 +4,7 @@
 
 using Markdig.Syntax;
 
-namespace Whipstaff.Markdig.Markdig
+namespace Whipstaff.Markdig.Mermaid
 {
     /// <summary>
     /// Represents a mermaid code block.
