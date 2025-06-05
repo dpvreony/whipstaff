@@ -22,6 +22,60 @@ namespace Whipstaff.CommandLine.Hosting
     public static class HostRunner
     {
         /// <summary>
+        /// Runs a command line job that requires additional configuration or injection.
+        /// </summary>
+        /// <typeparam name="TCommandLineHandler">The type of the command line handler.</typeparam>
+        /// <typeparam name="TCommandLineArgModel">The type of the command line argument model.</typeparam>
+        /// <typeparam name="TCommandLineArgModelBinder">The type of the command line argument model binder.</typeparam>
+        /// <typeparam name="TRootCommandAndBinderFactory">The type of the RootCommand and Argument Binder factory.</typeparam>
+        /// <param name="args">Command line arguments to parse.</param>
+        /// <param name="fileSystem">File system wrapper.</param>
+        /// <param name="additionalServiceRegistrationsAction">Action to carry out additional service registrations, if any.</param>
+        /// <param name="console">The console to which output is written during invocation.</param>
+        /// <returns>0 for success, non 0 for failure.</returns>
+        public static async Task<int> RunJobWithFullDependencyInjection<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+            string[] args,
+            IFileSystem fileSystem,
+            Action<IServiceCollection>? additionalServiceRegistrationsAction,
+            IConsole? console = null)
+            where TCommandLineHandler : class, ICommandLineHandler<TCommandLineArgModel>
+            where TCommandLineArgModelBinder : BinderBase<TCommandLineArgModel>
+            where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
+        {
+            ArgumentNullException.ThrowIfNull(args);
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
+            try
+            {
+                var serviceCollection = new ServiceCollection()
+                    .AddLogging(loggingBuilder => loggingBuilder
+                        .SetMinimumLevel(LogLevel.Information)
+                        .AddConsole());
+
+                _ = serviceCollection.AddSingleton(fileSystem);
+                _ = serviceCollection.AddSingleton<TCommandLineHandler>();
+                additionalServiceRegistrationsAction?.Invoke(serviceCollection);
+
+                var serviceProvider = serviceCollection
+                    .BuildServiceProvider();
+
+                var commandLineHandler = serviceProvider.GetRequiredService<TCommandLineHandler>();
+
+                return await CommandLineArgumentHelpers.GetResultFromRootCommand<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+                        args,
+                        commandLineHandler.HandleCommand,
+                        fileSystem,
+                        console)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+                return int.MaxValue;
+            }
+        }
+
+        /// <summary>
         /// Runs a command line job that requires no additional configuration or injection.
         /// </summary>
         /// <typeparam name="TCommandLineHandler">The type of the command line handler.</typeparam>
@@ -66,10 +120,9 @@ namespace Whipstaff.CommandLine.Hosting
                         console)
                     .ConfigureAwait(false);
             }
-#pragma warning disable CA1031
-            catch
-#pragma warning restore CA1031
+            catch (Exception ex)
             {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
                 return int.MaxValue;
             }
         }
