@@ -245,6 +245,7 @@ jobs:
         path: d:/artifacts/binlog
 
     - name: store unit test coverage
+      if: ${{ always() }}
       uses: actions/upload-artifact@v4
       with:
         name: unittestcoverage
