@@ -13,6 +13,7 @@ using Whipstaff.Markdig.Mermaid;
 using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
+using Whipstaff.Playwright;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Markdig.Mermaid
@@ -52,7 +53,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                     mermaidHttpServer,
                     logMessageActionsWrapper);
 
-                var settings = new MarkdownJsExtensionSettings(OutputMode.Png);
+                var settings = new MarkdownJsExtensionSettings(PlaywrightBrowserTypeAndChannel.Chrome(), OutputMode.Png);
 
                 var instance = await HtmlMermaidJsRenderer.CreateAsync(playwrightRenderer, settings);
 
@@ -85,7 +86,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                         logMessageActions,
                         new NullLogger<PlaywrightRenderer>());
 
-                    Add(null, new MarkdownJsExtensionSettings(OutputMode.Png), "playwrightRenderer");
+                    Add(null, new MarkdownJsExtensionSettings(PlaywrightBrowserTypeAndChannel.Chrome(), OutputMode.Png), "playwrightRenderer");
 #pragma warning restore CA2000 // Dispose objects before losing scope
                     Add(new PlaywrightRenderer(mermaidHttpServer, logMessageActionsWrapper), null, "settings");
                 }
@@ -124,7 +125,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                                "   int i = 1;" + Environment.NewLine +
                                "```";
 
-                var pipelineBuilder = new MarkdownPipelineBuilder().UseMermaidJsExtension();
+                var pipelineBuilder = new MarkdownPipelineBuilder().UseMermaidJsExtension(PlaywrightBrowserTypeAndChannel.Chrome());
 
                 var pipeline = pipelineBuilder.Build();
                 var actualHtml = Markdown.ToHtml(markdown, pipeline);

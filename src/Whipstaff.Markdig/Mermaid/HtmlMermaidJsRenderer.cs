@@ -52,7 +52,7 @@ namespace Whipstaff.Markdig.Mermaid
             ArgumentNullException.ThrowIfNull(settings);
 
             return new HtmlMermaidJsRenderer(
-                await playwrightRenderer.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.ChromiumDefault()),
+                await playwrightRenderer.GetBrowserSessionAsync(settings.PlaywrightBrowserTypeAndChannel),
                 settings);
         }
 

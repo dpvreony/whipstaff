@@ -7,6 +7,7 @@ using Markdig;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Whipstaff.Markdig.Settings;
+using Whipstaff.Playwright;
 
 namespace Whipstaff.Markdig.Mermaid
 {
@@ -19,10 +20,13 @@ namespace Whipstaff.Markdig.Mermaid
         /// Adds the MermaidJs plugin to the pipeline.
         /// </summary>
         /// <param name="pipeline">Markdown Pipeline Builder to modify.</param>
+        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <returns>Modified Pipeline Builder.</returns>
-        public static MarkdownPipelineBuilder UseMermaidJsExtension(this MarkdownPipelineBuilder pipeline)
+        public static MarkdownPipelineBuilder UseMermaidJsExtension(
+            this MarkdownPipelineBuilder pipeline,
+            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
-            var defaultSettings = new MarkdownJsExtensionSettings(OutputMode.Png);
+            var defaultSettings = new MarkdownJsExtensionSettings(playwrightBrowserTypeAndChannel, OutputMode.Png);
             return UseMermaidJsExtension(
                 pipeline,
                 defaultSettings,

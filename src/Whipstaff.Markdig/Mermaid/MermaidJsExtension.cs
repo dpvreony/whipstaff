@@ -10,6 +10,7 @@ using Nito.AsyncEx.Synchronous;
 using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
+using Whipstaff.Playwright;
 
 namespace Whipstaff.Markdig.Mermaid
 {
@@ -52,7 +53,9 @@ namespace Whipstaff.Markdig.Mermaid
         }
 
         /// <inheritdoc/>
-        public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
+        public void Setup(
+            MarkdownPipeline pipeline,
+            IMarkdownRenderer renderer)
         {
             ArgumentNullException.ThrowIfNull(pipeline);
             ArgumentNullException.ThrowIfNull(renderer);
