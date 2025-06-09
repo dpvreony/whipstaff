@@ -52,9 +52,9 @@
     <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.8" />
     <PackageReference Include="Rocks" Version="9.1.0" PrivateAssets="all" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.14" />
-    <PackageReference Include="xunit.v3" Version="2.0.2" />
-    <PackageReference Include="xunit.analyzers" Version="1.21.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.0" />
+    <PackageReference Include="xunit.v3" Version="2.0.3" />
+    <PackageReference Include="xunit.analyzers" Version="1.22.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.1" />
     <PackageReference Include="Xunit.StaFact" Version="2.1.7" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
