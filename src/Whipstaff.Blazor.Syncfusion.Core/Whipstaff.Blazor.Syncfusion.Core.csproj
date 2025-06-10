@@ -11,7 +11,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Blazor.Core" Version="29.2.9" />
+    <PackageReference Include="Syncfusion.Blazor.Core" Version="29.2.10" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Blazor\Whipstaff.Blazor.csproj" />
