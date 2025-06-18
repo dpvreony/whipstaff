@@ -19,23 +19,17 @@ namespace Whipstaff.Markdig.Mermaid
     /// </summary>
     public sealed class MermaidJsExtension : IMarkdownExtension
     {
-        private readonly ILoggerFactory _loggerFactory;
         private readonly MarkdownJsExtensionSettings _settings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MermaidJsExtension"/> class.
         /// </summary>
         /// <param name="settings">Settings for the Markdown JS extension.</param>
-        /// <param name="loggerFactory">NET core logging factory.</param>
-        public MermaidJsExtension(
-            MarkdownJsExtensionSettings settings,
-            ILoggerFactory loggerFactory)
+        public MermaidJsExtension(MarkdownJsExtensionSettings settings)
         {
             ArgumentNullException.ThrowIfNull(settings);
-            ArgumentNullException.ThrowIfNull(loggerFactory);
 
             _settings = settings;
-            _loggerFactory = loggerFactory;
         }
 
         /// <inheritdoc/>
@@ -63,18 +57,7 @@ namespace Whipstaff.Markdig.Mermaid
             if (renderer is HtmlRenderer htmlRenderer)
             {
                 // Must be inserted before FencedCodeBlockRenderer
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(_loggerFactory);
-                var logMessageActions = new PlaywrightRendererLogMessageActions();
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    logMessageActions,
-                    _loggerFactory.CreateLogger<PlaywrightRenderer>());
-                var playwrightRenderer = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-
-                var htmlMermaidJsRenderer = HtmlMermaidJsRenderer.CreateAsync(
-                    playwrightRenderer,
-                    _settings).WaitAndUnwrapException();
+                var htmlMermaidJsRenderer = HtmlMermaidJsRenderer.CreateAsync(_settings).WaitAndUnwrapException();
 
                 htmlRenderer.ObjectRenderers.Insert(0, htmlMermaidJsRenderer);
             }

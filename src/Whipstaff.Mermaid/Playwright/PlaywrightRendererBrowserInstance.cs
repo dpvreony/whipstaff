@@ -17,7 +17,7 @@ namespace Whipstaff.Mermaid.Playwright
     /// <summary>
     /// Represents a Playwright browser instance for rendering Mermaid diagrams.
     /// </summary>
-    public sealed class PlaywrightRendererBrowserInstance : IDisposable
+    public sealed class PlaywrightRendererBrowserInstance : IPlaywrightRendererBrowserInstance
     {
         private readonly IPlaywright _playwright;
         private readonly IPage _page;
