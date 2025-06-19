@@ -6,12 +6,6 @@
     <PackageDescription>Re-usable logic for working with System.CommandLine</PackageDescription>
   </PropertyGroup>
 
-  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
-    <PropertyGroup>
-      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
-    </PropertyGroup>
-  </Target>
-
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta5.25306.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />

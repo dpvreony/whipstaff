@@ -6,13 +6,14 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Binding;
 using System.IO;
+using Whipstaff.CommandLine;
 
 namespace Whipstaff.Testing.CommandLine
 {
     /// <summary>
     /// Command Line Argument Model Binder for <see cref="FakeCommandLineArgModel"/>.
     /// </summary>
-    public sealed class FakeCommandLineArgModelBinder : BinderBase<FakeCommandLineArgModel>
+    public sealed class FakeCommandLineArgModelBinder : IBinderBase<FakeCommandLineArgModel>
     {
         private readonly Argument<FileInfo> _fileArgument;
         private readonly Argument<string?> _nameArgument;
@@ -31,11 +32,11 @@ namespace Whipstaff.Testing.CommandLine
         }
 
         /// <inheritdoc/>
-        protected override FakeCommandLineArgModel GetBoundValue(BindingContext bindingContext)
+        public FakeCommandLineArgModel GetBoundValue(ParseResult parseResult)
         {
-            ArgumentNullException.ThrowIfNull(bindingContext);
-            var fileName = bindingContext.ParseResult.GetValueForArgument(_fileArgument);
-            var name = bindingContext.ParseResult.GetValueForArgument(_nameArgument);
+            ArgumentNullException.ThrowIfNull(parseResult);
+            var fileName = parseResult.GetRequiredValue(_fileArgument);
+            var name = parseResult.GetRequiredValue(_nameArgument);
             return new FakeCommandLineArgModel(fileName, name, null);
         }
     }

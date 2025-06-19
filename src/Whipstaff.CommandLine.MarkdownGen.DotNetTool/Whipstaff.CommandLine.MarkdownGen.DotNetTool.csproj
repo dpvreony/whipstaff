@@ -10,12 +10,6 @@
     <PackageDescription>dot net tool to produce markdown from a System.CommandLine help summary.</PackageDescription>
   </PropertyGroup>
 
-  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
-    <PropertyGroup>
-      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
-    </PropertyGroup>
-  </Target>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />

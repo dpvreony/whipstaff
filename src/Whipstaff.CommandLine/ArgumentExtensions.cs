@@ -32,7 +32,7 @@ namespace Whipstaff.CommandLine
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             extension.ThrowIfNullOrWhitespace();
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+            argument.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
                 result,
                 fileSystem,
                 extension));
@@ -53,7 +53,7 @@ namespace Whipstaff.CommandLine
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             ArgumentNullException.ThrowIfNull(extensions);
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+            argument.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
                 result,
                 fileSystem,
                 extensions));

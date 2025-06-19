@@ -27,7 +27,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
                 ],
                 "Path to the assembly containing the Command Line Information")
             {
-                IsRequired = true
+                Required = true
             }.SpecificFileExtensionsOnly(
                 fileSystem,
                 [
@@ -43,7 +43,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
                 ],
                 "Path to the output file")
             {
-                IsRequired = true
+                Required = true
             };
 
 #pragma warning restore CA1861 // Avoid constant arrays as arguments

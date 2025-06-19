@@ -6,13 +6,14 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Binding;
 using System.IO;
+using Whipstaff.CommandLine;
 
 namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
 {
     /// <summary>
     /// Binding logic for the command line arguments.
     /// </summary>
-    public sealed class CommandLineArgModelBinder : BinderBase<CommandLineArgModel>
+    public sealed class CommandLineArgModelBinder : IBinderBase<CommandLineArgModel>
     {
         private readonly Option<FileInfo> _assemblyOption;
         private readonly Option<string> _diagramTypeOption;
@@ -44,14 +45,14 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
         }
 
         /// <inheritdoc/>
-        protected override CommandLineArgModel GetBoundValue(BindingContext bindingContext)
+        public CommandLineArgModel GetBoundValue(ParseResult parseResult)
         {
-            ArgumentNullException.ThrowIfNull(bindingContext);
+            ArgumentNullException.ThrowIfNull(parseResult);
 
-            var assembly = bindingContext.ParseResult.GetValueForOption(_assemblyOption);
-            var dbContextName = bindingContext.ParseResult.GetValueForOption(_dbContextNameOption);
-            var outputFilePath = bindingContext.ParseResult.GetValueForOption(_outputFilePathOption);
-            var diagramType = bindingContext.ParseResult.GetValueForOption(_diagramTypeOption);
+            var assembly = parseResult.GetValue(_assemblyOption);
+            var dbContextName = parseResult.GetValue(_dbContextNameOption);
+            var outputFilePath = parseResult.GetValue(_outputFilePathOption);
+            var diagramType = parseResult.GetValue(_diagramTypeOption);
 
             return new CommandLineArgModel(
                 assembly!,
