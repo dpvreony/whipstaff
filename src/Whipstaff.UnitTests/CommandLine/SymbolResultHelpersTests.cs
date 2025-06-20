@@ -56,7 +56,7 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ReturnsErrorMessageForUnsupportedExtension()
             {
-                const string argName = "--filename";
+                const string argName = "filename";
                 const string argValue = "somefilename.cer";
                 const string extension = ".txt";
 
@@ -65,7 +65,6 @@ namespace Whipstaff.UnitTests.CommandLine
 
                 string[] args =
                 [
-                    argName,
                     argValue
                 ];
 
@@ -90,16 +89,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void SucceedsForSupportedExtension()
             {
-                const string argName = "--filename";
-                const string argValue = "somefilename.cer";
+                const string argName = "filename";
+                const string argValue = "somefilename.txt";
                 const string extension = ".txt";
 
                 var fileSystem = new MockFileSystem();
-                var argument1Builder = new Argument<IFileInfo>("filename");
+                var argument1Builder = new Argument<IFileInfo>(argName);
 
                 string[] args =
                 [
-                    argName,
                     argValue
                 ];
 
@@ -154,16 +152,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ReturnsErrorMessageForUnsupportedExtension()
             {
-                const string argName = "--filename";
+                const string argName = "filename";
                 const string argValue = "somefilename.cer";
                 var extensions = new[] { ".txt", ".docx" };
 
                 var fileSystem = new MockFileSystem();
-                var argument1Builder = new Argument<IFileInfo>("filename");
+                var argument1Builder = new Argument<IFileInfo>(argName);
 
                 string[] args =
                 [
-                    argName,
                     argValue
                 ];
 
@@ -181,7 +178,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 var errorMessage = argumentResult.Errors.First().Message;
 
                 Assert.Equal(
-                    $"Filename \"{argName}\" does not have a supported extension of \"{string.Join(",", extensions)}\".",
+                    $"Filename \"{argValue}\" does not have a supported extension of \"{string.Join(",", extensions)}\".",
                     errorMessage);
             }
 
@@ -191,16 +188,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void SucceedsForSupportedExtension()
             {
-                const string argName = "--filename";
-                const string argValue = "somefilename.cer";
+                const string argName = "filename";
+                const string argValue = "somefilename.txt";
                 var extensions = new[] { ".txt", ".docx" };
 
                 var fileSystem = new MockFileSystem();
-                var argument1Builder = new Argument<IFileInfo>("filename");
+                var argument1Builder = new Argument<IFileInfo>(argName);
 
                 string[] args =
                 [
-                    argName,
                     argValue
                 ];
 

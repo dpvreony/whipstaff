@@ -96,14 +96,14 @@ namespace Whipstaff.UnitTests.CommandLine
                         rootCommandAndBinderModelFunc,
                         (_, _) => Task.FromResult(0),
                         fileSystem,
-                        rootCommand => XUnitTestHelpers.CreateTestConsoleIntegration(rootCommand, outputWriter, errorWriter));
+                        rootCommand => XUnitTestHelpers.CreateTestConsoleIntegration(rootCommand, outputWriter, errorWriter),
+                        TestContext.Current.CancellationToken);
 
                     Logger.LogInformation("Console output: {ConsoleOutput}", outputWriter.ToString());
                     Logger.LogInformation("Console error: {ConsoleError}", errorWriter.ToString());
 
                     Assert.Equal(0, result);
                 }
-
             }
         }
     }
