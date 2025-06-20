@@ -23,19 +23,17 @@ namespace Whipstaff.UnitTests.TestSources.CommandLine.CommandExtensions.MakeOpti
                 new NamedParameterInput<Option>(
                     "option1",
                     () =>
-                    new Option<bool>(
-                        [
-                            "--option1"
-                        ],
-                        "The first exclusive option")),
+                    new Option<bool>("--option1")
+                    {
+                        Description = "The first exclusive option"
+                    }),
                 new NamedParameterInput<Option>(
                     "option2",
                     () =>
-                        new Option<bool>(
-                            [
-                                "--option2"
-                            ],
-                            "The second exclusive option")))
+                    new Option<bool>("--option2")
+                    {
+                        Description = "The second exclusive option"
+                    }))
         {
         }
     }

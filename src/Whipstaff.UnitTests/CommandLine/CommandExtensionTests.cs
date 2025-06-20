@@ -48,22 +48,16 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ModifiesCommand()
             {
-                var firstOption = new Option<FileInfo>(
-                        [
-                            "--option1"
-                        ],
-                        "The first exclusive option")
+                var firstOption = new Option<FileInfo>("--option1")
                     {
-                        IsRequired = true
+                        Description = "The first exclusive option",
+                        Required = true
                     };
 
-                var secondOption = new Option<FileInfo>(
-                    [
-                        "--option2"
-                    ],
-                    "The second exclusive option")
+                var secondOption = new Option<FileInfo>("--option2")
                 {
-                    IsRequired = true
+                    Description = "The second exclusive option",
+                    Required = true
                 };
 
 #pragma warning restore CA1861 // Avoid constant arrays as arguments
@@ -85,17 +79,15 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void CommandLineReturnsErrorForMutuallyExclusiveOptions()
             {
-                var firstOption = new Option<bool>(
-                    [
-                        "--option1"
-                    ],
-                    "The first exclusive option");
+                var firstOption = new Option<bool>("--option1")
+                {
+                    Description = "The first exclusive option"
+                };
 
-                var secondOption = new Option<bool>(
-                    [
-                        "--option2"
-                    ],
-                    "The second exclusive option");
+                var secondOption = new Option<bool>("--option2")
+                {
+                    Description = "The second exclusive option"
+                };
 
 #pragma warning restore CA1861 // Avoid constant arrays as arguments
 

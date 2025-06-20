@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.CommandLine;
-using System.IO;
 using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
@@ -17,7 +16,7 @@ namespace Whipstaff.Testing.CommandLine
         /// <inheritdoc/>
         public RootCommandAndBinderModel<FakeCommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem)
         {
-            var fileArgument = new Argument<FileInfo>("filename");
+            var fileArgument = new Argument<IFileInfo>("filename");
             var nameArgument = new Argument<string?>("name");
 
             return new RootCommandAndBinderModel<FakeCommandLineArgModelBinder>(

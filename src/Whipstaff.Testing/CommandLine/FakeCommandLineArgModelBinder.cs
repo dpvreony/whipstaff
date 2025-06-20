@@ -4,8 +4,7 @@
 
 using System;
 using System.CommandLine;
-using System.CommandLine.Binding;
-using System.IO;
+using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
 namespace Whipstaff.Testing.CommandLine
@@ -15,7 +14,7 @@ namespace Whipstaff.Testing.CommandLine
     /// </summary>
     public sealed class FakeCommandLineArgModelBinder : IBinderBase<FakeCommandLineArgModel>
     {
-        private readonly Argument<FileInfo> _fileArgument;
+        private readonly Argument<IFileInfo> _fileArgument;
         private readonly Argument<string?> _nameArgument;
 
         /// <summary>
@@ -24,7 +23,7 @@ namespace Whipstaff.Testing.CommandLine
         /// <param name="fileArgument">file argument to parse and bind against.</param>
         /// <param name="nameArgument">name argument to parse and bind against.</param>
         public FakeCommandLineArgModelBinder(
-            Argument<FileInfo> fileArgument,
+            Argument<IFileInfo> fileArgument,
             Argument<string?> nameArgument)
         {
             _fileArgument = fileArgument;
