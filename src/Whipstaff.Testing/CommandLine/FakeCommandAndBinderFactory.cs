@@ -16,7 +16,11 @@ namespace Whipstaff.Testing.CommandLine
         /// <inheritdoc/>
         public RootCommandAndBinderModel<FakeCommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem)
         {
-            var fileArgument = new Argument<IFileInfo>("filename");
+            var fileArgument = new Argument<IFileInfo>("filename")
+            {
+                CustomParser = result => fileSystem.FileInfo.New(result.Tokens[0].Value)
+            };
+
             var nameArgument = new Argument<string?>("name");
 
             return new RootCommandAndBinderModel<FakeCommandLineArgModelBinder>(

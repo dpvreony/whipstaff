@@ -105,7 +105,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 Assert.NotNull(errors);
 
                 var actualError = Assert.Single(errors);
-                const string expectedErrorMessage = "You cannot use options \"option1\" and \"option2\" together";
+                const string expectedErrorMessage = "You cannot use options \"--option1\" and \"--option2\" together";
                 Assert.Equal(expectedErrorMessage, actualError.Message);
             }
         }

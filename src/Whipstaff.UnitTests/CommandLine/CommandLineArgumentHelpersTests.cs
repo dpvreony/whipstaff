@@ -72,7 +72,10 @@ namespace Whipstaff.UnitTests.CommandLine
                 var rootCommandAndBinderModelFunc = new Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>(
                     fileSystem =>
                     {
-                        var fileArgument = new Argument<IFileInfo>("filename");
+                        var fileArgument = new Argument<IFileInfo>("filename")
+                        {
+                            CustomParser = result => fileSystem.FileInfo.New(result.Tokens[0].Value)
+                        };
                         var nameArgument = new Argument<string?>("name");
 
                         var rootCommand = new RootCommand();
