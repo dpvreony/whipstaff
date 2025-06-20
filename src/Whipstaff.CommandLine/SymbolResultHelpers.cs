@@ -42,7 +42,7 @@ namespace Whipstaff.CommandLine
                 if (string.IsNullOrWhiteSpace(tokenExtension)
                     || !tokenExtension.Equals(extension, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.ErrorMessage = $"Filename \"{rawValue}\" does not have a supported extension of \"{extension}\".";
+                    result.AddError($"Filename \"{rawValue}\" does not have a supported extension of \"{extension}\".");
                     return;
                 }
             }
@@ -70,7 +70,7 @@ namespace Whipstaff.CommandLine
                 if (string.IsNullOrWhiteSpace(tokenExtension)
                     || !Array.Exists(extensions, value => value.Equals(tokenExtension, StringComparison.OrdinalIgnoreCase)))
                 {
-                    result.ErrorMessage = $"Filename \"{rawValue}\" does not have a supported extension of \"{string.Join(",", extensions)}\".";
+                    result.AddError($"Filename \"{rawValue}\" does not have a supported extension of \"{string.Join(",", extensions)}\".");
                     return;
                 }
             }
@@ -87,14 +87,9 @@ namespace Whipstaff.CommandLine
         {
             ArgumentNullException.ThrowIfNull(result);
             ArgumentNullException.ThrowIfNull(fileSystem);
-
-            foreach (var rawValue in result.Tokens.Select(t => t.Value))
+            foreach (var rawValue in result.Tokens.Select(t => t.Value).Where(rawValue => !fileSystem.File.Exists(rawValue)))
             {
-                if (!fileSystem.File.Exists(rawValue))
-                {
-                    result.ErrorMessage = $"Filename \"{rawValue}\" was not found.";
-                    return;
-                }
+                result.AddError($"Filename \"{rawValue}\" was not found.");
             }
         }
     }

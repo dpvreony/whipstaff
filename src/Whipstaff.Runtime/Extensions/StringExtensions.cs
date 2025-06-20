@@ -211,12 +211,9 @@ namespace Whipstaff.Runtime.Extensions
                 throw new System.ArgumentNullException(paramName);
             }
 
-            foreach (var c in argument)
+            if (argument.Any(c => !char.IsWhiteSpace(c)))
             {
-                if (!char.IsWhiteSpace(c))
-                {
-                    return;
-                }
+                return;
             }
 
             throw new ArgumentException(

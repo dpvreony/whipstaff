@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
+using System.Threading;
 using System.Threading.Tasks;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.CommandLine;
@@ -20,7 +21,7 @@ namespace Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpers
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<
         string[],
         Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>,
-        Func<FakeCommandLineArgModel, Task<int>>,
+        Func<FakeCommandLineArgModel, CancellationToken, Task<int>>,
         IFileSystem>
     {
         /// <summary>
@@ -36,10 +37,10 @@ namespace Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpers
                     () => _ => new RootCommandAndBinderModel<FakeCommandLineArgModelBinder>(
                     new RootCommand(),
                     new FakeCommandLineArgModelBinder(
-                        new Argument<FileInfo>(), new Argument<string?>()))),
-                new NamedParameterInput<Func<FakeCommandLineArgModel, Task<int>>>(
+                        new Argument<IFileInfo>("--file"), new Argument<string?>("--name")))),
+                new NamedParameterInput<Func<FakeCommandLineArgModel, CancellationToken, Task<int>>>(
                     "rootCommandHandlerFunc",
-                    () => _ => Task.FromResult(0)),
+                    () => (_, _) => Task.FromResult(0)),
                 new NamedParameterInput<IFileSystem>(
                     "fileSystem",
                     () => new MockFileSystem()))

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
@@ -34,7 +35,7 @@ namespace Whipstaff.UnitTests.CommandLine
         }
 
         /// <summary>
-        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommand(TCommandLineArgModel)"/> method.
+        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommand(TCommandLineArgModel, CancellationToken)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : TestWithLoggingBase,
@@ -60,7 +61,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 var instance = new FakeCommandLineHandler(
                     new FakeCommandLineHandlerLogMessageActionsWrapper(logger));
 
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommand(arg!));
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommand(arg!, CancellationToken.None));
             }
         }
     }
