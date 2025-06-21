@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
-    <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.10.88">
+    <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.10.102">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
