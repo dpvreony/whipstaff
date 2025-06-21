@@ -4,7 +4,6 @@
 
 using System;
 using System.CommandLine;
-using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
@@ -43,7 +42,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 string? arg2,
                 string expectedParameterNameForException)
             {
-                var instance = new Argument<FileInfo>();
+                var instance = new Argument<IFileInfo>("--arg");
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
@@ -56,7 +55,7 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ReturnsInstance()
             {
-                var instance = new Argument<FileInfo>();
+                var instance = new Argument<IFileInfo>("--arg");
                 var fileSystem = new MockFileSystem();
                 var result = instance.SpecificFileExtensionOnly(fileSystem, ".txt");
 
@@ -90,7 +89,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 string[]? arg2,
                 string expectedParameterNameForException)
             {
-                var instance = new Argument<FileInfo>();
+                var instance = new Argument<IFileInfo>("--arg");
 
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
@@ -103,7 +102,7 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ReturnsInstance()
             {
-                var instance = new Argument<FileInfo>();
+                var instance = new Argument<IFileInfo>("--arg");
                 var fileSystem = new MockFileSystem();
                 var result = instance.SpecificFileExtensionsOnly(fileSystem, _extensions);
 

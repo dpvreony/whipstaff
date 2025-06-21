@@ -9,6 +9,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.CommandLine;
@@ -40,64 +41,66 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel)
+        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
-            return Task.Run(() =>
-            {
-                var appDomain = AppDomain.CurrentDomain;
-                var loadedAssemblies = new List<string>();
-                appDomain.AssemblyResolve += (_, args) =>
+            return Task.Run(
+                () =>
                 {
-                    var assemblyName = new AssemblyName(args.Name);
-
-                    if (args.RequestingAssembly?.Location.Equals(commandLineArgModel.AssemblyPath.FullName, StringComparison.Ordinal) != true
-                        && loadedAssemblies.Exists(la => la.Equals(args.RequestingAssembly?.Location, StringComparison.Ordinal)))
+                    var appDomain = AppDomain.CurrentDomain;
+                    var loadedAssemblies = new List<string>();
+                    appDomain.AssemblyResolve += (_, args) =>
                     {
+                        var assemblyName = new AssemblyName(args.Name);
+
+                        if (args.RequestingAssembly?.Location.Equals(commandLineArgModel.AssemblyPath.FullName, StringComparison.Ordinal) != true
+                            && loadedAssemblies.Exists(la => la.Equals(args.RequestingAssembly?.Location, StringComparison.Ordinal)))
+                        {
+                            return null;
+                        }
+
+                        var assemblyPath = _fileSystem.Path.Combine(commandLineArgModel.AssemblyPath.DirectoryName!, $"{assemblyName.Name}.dll");
+
+                        if (_fileSystem.File.Exists(assemblyPath))
+                        {
+                            loadedAssemblies.Add(assemblyPath);
+    #pragma warning disable S3885
+                            return Assembly.LoadFrom(assemblyPath);
+    #pragma warning restore S3885
+                        }
+
                         return null;
-                    }
+                    };
 
-                    var assemblyPath = _fileSystem.Path.Combine(commandLineArgModel.AssemblyPath.DirectoryName!, $"{assemblyName.Name}.dll");
+                    LogMessageActionsWrapper.StartingHandleCommand();
 
-                    if (_fileSystem.File.Exists(assemblyPath))
+    #pragma warning disable S3885
+                    var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
+    #pragma warning restore S3885
+
+                    var outputFilePath = commandLineArgModel.OutputFilePath;
+                    var dbContextName = commandLineArgModel.DbContextName;
+
+                    var dbContext = ReflectedDbContextFactory.GetDesignTimeDbContextFactoryFromAssembly(
+                                        assembly,
+                                        dbContextName)
+                                    ?? ReflectedDbContextFactory.GetDbContextFromAssembly(
+                                        assembly,
+                                        dbContextName);
+
+                    if (dbContext == null)
                     {
-                        loadedAssemblies.Add(assemblyPath);
-#pragma warning disable S3885
-                        return Assembly.LoadFrom(assemblyPath);
-#pragma warning restore S3885
+                        LogMessageActionsWrapper.FailedToFindDbContext(dbContextName);
+                        return 1;
                     }
 
-                    return null;
-                };
+                    GenerateFromDbContext(
+                        dbContext,
+                        _fileSystem,
+                        outputFilePath);
 
-                LogMessageActionsWrapper.StartingHandleCommand();
-
-#pragma warning disable S3885
-                var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
-#pragma warning restore S3885
-
-                var outputFilePath = commandLineArgModel.OutputFilePath;
-                var dbContextName = commandLineArgModel.DbContextName;
-
-                var dbContext = ReflectedDbContextFactory.GetDesignTimeDbContextFactoryFromAssembly(
-                                    assembly,
-                                    dbContextName)
-                                ?? ReflectedDbContextFactory.GetDbContextFromAssembly(
-                                    assembly,
-                                    dbContextName);
-
-                if (dbContext == null)
-                {
-                    LogMessageActionsWrapper.FailedToFindDbContext(dbContextName);
-                    return 1;
-                }
-
-                GenerateFromDbContext(
-                    dbContext,
-                    _fileSystem,
-                    outputFilePath);
-
-                return 0;
-            });
+                    return 0;
+                },
+                cancellationToken);
         }
 
         private static void GenerateFromDbContext(DbContext dbContext, IFileSystem fileSystem, FileInfo outputFilePath)

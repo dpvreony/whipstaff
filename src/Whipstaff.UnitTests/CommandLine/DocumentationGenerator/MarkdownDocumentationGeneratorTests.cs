@@ -37,8 +37,8 @@ namespace Whipstaff.UnitTests.CommandLine.DocumentationGenerator
             public void GeneratesDocumentation()
             {
                 var rootCommand = new RootCommand();
-                rootCommand.AddArgument(new Argument<FileInfo>("filename"));
-                rootCommand.AddArgument(new Argument<string?>("name"));
+                rootCommand.Arguments.Add(new Argument<FileInfo>("filename"));
+                rootCommand.Arguments.Add(new Argument<string?>("name"));
 
                 var result = MarkdownDocumentationGenerator.GenerateDocumentation(rootCommand);
 

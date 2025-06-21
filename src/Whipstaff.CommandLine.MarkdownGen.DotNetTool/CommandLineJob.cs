@@ -6,6 +6,7 @@ using System;
 using System.IO.Abstractions;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Whipstaff.CommandLine.DocumentationGenerator;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
@@ -35,35 +36,37 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel)
+        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
 
-            return Task.Run(() =>
-            {
-                LogMessageActionsWrapper.StartingHandleCommand();
-#pragma warning disable S3885
-                var assembly = Assembly.LoadFile(commandLineArgModel.AssemblyPath.FullName);
-#pragma warning restore S3885
-                var outputFilePath = commandLineArgModel.OutputFilePath;
-
-                var rootCommand = ReflectionHelpers.GetRootCommand(assembly);
-
-                if (rootCommand == null)
+            return Task.Run(
+                () =>
                 {
-                    LogMessageActionsWrapper.FailedToFindRootCommand();
-                    return 1;
-                }
+                    LogMessageActionsWrapper.StartingHandleCommand();
+    #pragma warning disable S3885
+                    var assembly = Assembly.LoadFile(commandLineArgModel.AssemblyPath.FullName);
+    #pragma warning restore S3885
+                    var outputFilePath = commandLineArgModel.OutputFilePath;
 
-                var markdown = MarkdownDocumentationGenerator.GenerateDocumentation(rootCommand);
-                _ = _fileSystem.Directory.CreateDirectory(outputFilePath.DirectoryName!);
-                _fileSystem.File.WriteAllText(
-                    outputFilePath.FullName,
-                    markdown,
-                    Encoding.UTF8);
+                    var rootCommand = ReflectionHelpers.GetRootCommand(assembly);
 
-                return 0;
-            });
+                    if (rootCommand == null)
+                    {
+                        LogMessageActionsWrapper.FailedToFindRootCommand();
+                        return 1;
+                    }
+
+                    var markdown = MarkdownDocumentationGenerator.GenerateDocumentation(rootCommand);
+                    _ = _fileSystem.Directory.CreateDirectory(outputFilePath.DirectoryName!);
+                    _fileSystem.File.WriteAllText(
+                        outputFilePath.FullName,
+                        markdown,
+                        Encoding.UTF8);
+
+                    return 0;
+                },
+                cancellationToken);
         }
     }
 }

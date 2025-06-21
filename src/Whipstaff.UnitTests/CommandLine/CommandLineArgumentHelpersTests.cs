@@ -4,10 +4,10 @@
 
 using System;
 using System.CommandLine;
-using System.CommandLine.IO;
 using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
@@ -28,7 +28,7 @@ namespace Whipstaff.UnitTests.CommandLine
         /// </summary>
         public sealed class GetResultFromRootCommandMethod
             : TestWithLoggingBase,
-                ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, Task<int>>, IFileSystem>
+                ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, CancellationToken, Task<int>>, IFileSystem>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetResultFromRootCommandMethod"/> class.
@@ -45,7 +45,7 @@ namespace Whipstaff.UnitTests.CommandLine
             public async Task ThrowsArgumentNullExceptionAsync(
                 string[]? arg1,
                 Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>? arg2,
-                Func<FakeCommandLineArgModel, Task<int>>? arg3,
+                Func<FakeCommandLineArgModel, CancellationToken, Task<int>>? arg3,
                 IFileSystem? arg4,
                 string expectedParameterNameForException)
             {
@@ -55,7 +55,9 @@ namespace Whipstaff.UnitTests.CommandLine
                         arg1!,
                         arg2!,
                         arg3!,
-                        arg4!));
+                        arg4!,
+                        null,
+                        CancellationToken.None));
             }
 
             /// <summary>
@@ -70,12 +72,15 @@ namespace Whipstaff.UnitTests.CommandLine
                 var rootCommandAndBinderModelFunc = new Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>(
                     fileSystem =>
                     {
-                        var fileArgument = new Argument<FileInfo>("filename");
+                        var fileArgument = new Argument<IFileInfo>("filename")
+                        {
+                            CustomParser = result => fileSystem.FileInfo.New(result.Tokens[0].Value)
+                        };
                         var nameArgument = new Argument<string?>("name");
 
                         var rootCommand = new RootCommand();
-                        rootCommand.AddArgument(fileArgument);
-                        rootCommand.AddArgument(nameArgument);
+                        rootCommand.Arguments.Add(fileArgument);
+                        rootCommand.Arguments.Add(nameArgument);
 
                         var binder = new FakeCommandLineArgModelBinder(fileArgument, nameArgument);
 
@@ -84,20 +89,24 @@ namespace Whipstaff.UnitTests.CommandLine
                             binder);
                     });
 
-                var console = new TestConsole();
                 var fileSystem = new MockFileSystem();
 
-                var result = await CommandLineArgumentHelpers.GetResultFromRootCommand<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
-                    args,
-                    rootCommandAndBinderModelFunc,
-                    arg => Task.FromResult(0),
-                    fileSystem,
-                    console);
+                await using (var outputWriter = new StringWriter())
+                await using (var errorWriter = new StringWriter())
+                {
+                    var result = await CommandLineArgumentHelpers.GetResultFromRootCommand<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
+                        args,
+                        rootCommandAndBinderModelFunc,
+                        (_, _) => Task.FromResult(0),
+                        fileSystem,
+                        rootCommand => XUnitTestHelpers.CreateTestConsoleIntegration(rootCommand, outputWriter, errorWriter),
+                        TestContext.Current.CancellationToken);
 
-                Logger.LogInformation("Console output: {ConsoleOutput}", console.Out.ToString());
-                Logger.LogInformation("Console error: {ConsoleError}", console.Error.ToString());
+                    Logger.LogInformation("Console output: {ConsoleOutput}", outputWriter.ToString());
+                    Logger.LogInformation("Console error: {ConsoleError}", errorWriter.ToString());
 
-                Assert.Equal(0, result);
+                    Assert.Equal(0, result);
+                }
             }
         }
     }

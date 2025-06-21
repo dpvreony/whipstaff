@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.CommandLine;
-using System.IO;
 using System.IO.Abstractions;
 using Whipstaff.Runtime.Extensions;
 
@@ -25,14 +24,14 @@ namespace Whipstaff.CommandLine
         /// <param name="fileSystem">File system abstraction.</param>
         /// <param name="extension">Valid file extension.</param>
         /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
-        public static Argument<FileInfo> SpecificFileExtensionOnly(
-            this Argument<FileInfo> argument,
+        public static Argument<IFileInfo> SpecificFileExtensionOnly(
+            this Argument<IFileInfo> argument,
             IFileSystem fileSystem,
             string extension)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             extension.ThrowIfNullOrWhitespace();
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+            argument.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
                 result,
                 fileSystem,
                 extension));
@@ -46,14 +45,14 @@ namespace Whipstaff.CommandLine
         /// <param name="fileSystem">File system abstraction.</param>
         /// <param name="extensions">Array of valid file extension.</param>
         /// <returns><see cref="Argument"/> object for use in Fluent API calls.</returns>
-        public static Argument<FileInfo> SpecificFileExtensionsOnly(
-            this Argument<FileInfo> argument,
+        public static Argument<IFileInfo> SpecificFileExtensionsOnly(
+            this Argument<IFileInfo> argument,
             IFileSystem fileSystem,
             string[] extensions)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             ArgumentNullException.ThrowIfNull(extensions);
-            argument.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+            argument.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
                 result,
                 fileSystem,
                 extensions));

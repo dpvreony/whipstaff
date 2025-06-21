@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Whipstaff.CommandLine;
 
@@ -23,7 +24,7 @@ namespace Whipstaff.Testing.CommandLine
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(FakeCommandLineArgModel commandLineArgModel)
+        protected override Task<int> OnHandleCommand(FakeCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
 
