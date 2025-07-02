@@ -4,17 +4,17 @@
 
 using System;
 using System.CommandLine;
-using System.CommandLine.Binding;
-using System.IO;
+using System.IO.Abstractions;
+using Whipstaff.CommandLine;
 
 namespace Whipstaff.Testing.CommandLine
 {
     /// <summary>
     /// Command Line Argument Model Binder for <see cref="FakeCommandLineArgModel"/>.
     /// </summary>
-    public sealed class FakeCommandLineArgModelBinder : BinderBase<FakeCommandLineArgModel>
+    public sealed class FakeCommandLineArgModelBinder : IBinderBase<FakeCommandLineArgModel>
     {
-        private readonly Argument<FileInfo> _fileArgument;
+        private readonly Argument<IFileInfo> _fileArgument;
         private readonly Argument<string?> _nameArgument;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Whipstaff.Testing.CommandLine
         /// <param name="fileArgument">file argument to parse and bind against.</param>
         /// <param name="nameArgument">name argument to parse and bind against.</param>
         public FakeCommandLineArgModelBinder(
-            Argument<FileInfo> fileArgument,
+            Argument<IFileInfo> fileArgument,
             Argument<string?> nameArgument)
         {
             _fileArgument = fileArgument;
@@ -31,11 +31,11 @@ namespace Whipstaff.Testing.CommandLine
         }
 
         /// <inheritdoc/>
-        protected override FakeCommandLineArgModel GetBoundValue(BindingContext bindingContext)
+        public FakeCommandLineArgModel GetBoundValue(ParseResult parseResult)
         {
-            ArgumentNullException.ThrowIfNull(bindingContext);
-            var fileName = bindingContext.ParseResult.GetValueForArgument(_fileArgument);
-            var name = bindingContext.ParseResult.GetValueForArgument(_nameArgument);
+            ArgumentNullException.ThrowIfNull(parseResult);
+            var fileName = parseResult.GetRequiredValue(_fileArgument);
+            var name = parseResult.GetRequiredValue(_nameArgument);
             return new FakeCommandLineArgModel(fileName, name, null);
         }
     }

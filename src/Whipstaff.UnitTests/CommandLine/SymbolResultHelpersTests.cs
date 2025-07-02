@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.CommandLine.Parsing;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
+using System.Linq;
 using NetTestRegimentation;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.Logging;
@@ -55,20 +56,31 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ReturnsErrorMessageForUnsupportedExtension()
             {
-                var argument1Builder = new Argument<string>("filename");
-                var filename = "somefilename.cer";
-                var argumentResult = argument1Builder.Parse(filename).FindResultFor(argument1Builder);
-
-                Assert.NotNull(argumentResult);
-                var extension = ".txt";
+                const string argName = "filename";
+                const string argValue = "somefilename.cer";
+                const string extension = ".txt";
 
                 var fileSystem = new MockFileSystem();
+                var argument1Builder = new Argument<IFileInfo>(argName);
+
+                string[] args =
+                [
+                    argValue
+                ];
+
+                var rootCommand = new RootCommand { argument1Builder };
+                var parseResult = rootCommand.Parse(args);
+
+                var argumentResult = parseResult.GetResult(argument1Builder);
+
+                Assert.NotNull(argumentResult);
 
                 SymbolResultHelpers.FileHasSupportedExtension(argumentResult, fileSystem, extension);
+                var errorMessage = argumentResult.Errors.First().Message;
 
                 Assert.Equal(
-                    argumentResult.ErrorMessage,
-                    $"Filename \"{filename}\" does not have a supported extension of \"{extension}\".");
+                    $"Filename \"{argValue}\" does not have a supported extension of \"{extension}\".",
+                    errorMessage);
             }
 
             /// <summary>
@@ -77,21 +89,30 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void SucceedsForSupportedExtension()
             {
-                var argument1Builder = new Argument<string>("filename");
-                var argumentResult = argument1Builder.Parse("somefilename.txt")
-                    .FindResultFor(argument1Builder);
-
-                Assert.NotNull(argumentResult);
-                var extension = ".txt";
+                const string argName = "filename";
+                const string argValue = "somefilename.txt";
+                const string extension = ".txt";
 
                 var fileSystem = new MockFileSystem();
+                var argument1Builder = new Argument<IFileInfo>(argName);
+
+                string[] args =
+                [
+                    argValue
+                ];
+
+                var rootCommand = new RootCommand { argument1Builder };
+                var parseResult = rootCommand.Parse(args);
+                var argumentResult = parseResult.GetResult(argument1Builder);
+
+                Assert.NotNull(argumentResult);
 
                 SymbolResultHelpers.FileHasSupportedExtension(
                     argumentResult,
                     fileSystem,
                     extension);
 
-                Assert.Null(argumentResult.ErrorMessage);
+                Assert.Empty(argumentResult.Errors);
             }
         }
 
@@ -131,23 +152,34 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void ReturnsErrorMessageForUnsupportedExtension()
             {
-                var argument1Builder = new Argument<string>("filename");
-                var filename = "somefilename.cer";
-                var argumentResult = argument1Builder.Parse(filename).FindResultFor(argument1Builder);
-
-                Assert.NotNull(argumentResult);
+                const string argName = "filename";
+                const string argValue = "somefilename.cer";
                 var extensions = new[] { ".txt", ".docx" };
 
                 var fileSystem = new MockFileSystem();
+                var argument1Builder = new Argument<IFileInfo>(argName);
+
+                string[] args =
+                [
+                    argValue
+                ];
+
+                var rootCommand = new RootCommand { argument1Builder };
+                var parseResult = rootCommand.Parse(args);
+                var argumentResult = parseResult.GetResult(argument1Builder);
+
+                Assert.NotNull(argumentResult);
 
                 SymbolResultHelpers.FileHasSupportedExtension(
                     argumentResult,
                     fileSystem,
                     extensions);
 
+                var errorMessage = argumentResult.Errors.First().Message;
+
                 Assert.Equal(
-                    argumentResult.ErrorMessage,
-                    $"Filename \"{filename}\" does not have a supported extension of \"{string.Join(",", extensions)}\".");
+                    $"Filename \"{argValue}\" does not have a supported extension of \"{string.Join(",", extensions)}\".",
+                    errorMessage);
             }
 
             /// <summary>
@@ -156,21 +188,30 @@ namespace Whipstaff.UnitTests.CommandLine
             [Fact]
             public void SucceedsForSupportedExtension()
             {
-                var argument1Builder = new Argument<string>("filename");
-                var argumentResult = argument1Builder.Parse("somefilename.txt")
-                    .FindResultFor(argument1Builder);
-
-                Assert.NotNull(argumentResult);
-                var extension = new[] { ".txt", ".docx" };
+                const string argName = "filename";
+                const string argValue = "somefilename.txt";
+                var extensions = new[] { ".txt", ".docx" };
 
                 var fileSystem = new MockFileSystem();
+                var argument1Builder = new Argument<IFileInfo>(argName);
+
+                string[] args =
+                [
+                    argValue
+                ];
+
+                var rootCommand = new RootCommand { argument1Builder };
+                var parseResult = rootCommand.Parse(args);
+                var argumentResult = parseResult.GetResult(argument1Builder);
+
+                Assert.NotNull(argumentResult);
 
                 SymbolResultHelpers.FileHasSupportedExtension(
                     argumentResult,
                     fileSystem,
-                    extension);
+                    extensions);
 
-                Assert.Null(argumentResult.ErrorMessage);
+                Assert.Empty(argumentResult.Errors);
             }
         }
     }

@@ -30,12 +30,12 @@ namespace Whipstaff.CommandLine
             ArgumentNullException.ThrowIfNull(option1);
             ArgumentNullException.ThrowIfNull(option2);
 
-            command.AddValidator(result =>
+            command.Validators.Add(result =>
             {
-                if (result.FindResultFor(option1) is not null &&
-                    result.FindResultFor(option2) is not null)
+                if (result.GetResult(option1) is not null &&
+                    result.GetResult(option2) is not null)
                 {
-                    result.ErrorMessage = $"You cannot use options \"{option1.Name}\" and \"{option2.Name}\" together";
+                    result.AddError($"You cannot use options \"{option1.Name}\" and \"{option2.Name}\" together");
                 }
             });
         }

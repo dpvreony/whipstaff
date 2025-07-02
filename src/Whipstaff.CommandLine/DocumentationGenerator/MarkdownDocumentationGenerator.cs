@@ -55,15 +55,13 @@ namespace Whipstaff.CommandLine.DocumentationGenerator
         /// <returns>Modified string builder.</returns>
         public static StringBuilder AppendHelpDisplay(StringBuilder stringBuilder, RootCommand rootCommand)
         {
-            var helpBuilder = new HelpBuilder(LocalizationResources.Instance);
-
             _ = stringBuilder.AppendLine("```");
 
-            var output = new StringWriter(stringBuilder);
-
-            var helpContext = new HelpContext(helpBuilder, rootCommand, output);
-
-            helpBuilder.Write(helpContext);
+            using (var textWriter = new StringWriter(stringBuilder))
+            {
+                var commandConfig = new CommandLineConfiguration(rootCommand) { Output = textWriter };
+                _ = commandConfig.Invoke("-h");
+            }
 
             _ = stringBuilder.AppendLine("```");
 
@@ -78,7 +76,7 @@ namespace Whipstaff.CommandLine.DocumentationGenerator
         /// <returns>Modified string builder.</returns>
         public static StringBuilder AppendArgumentsBlock(StringBuilder stringBuilder, RootCommand rootCommand)
         {
-            var arguments = rootCommand.Arguments.Where(arg => !arg.IsHidden)
+            var arguments = rootCommand.Arguments.Where(arg => !arg.Hidden)
                 .ToList();
 
             return AppendArgumentsBlock(stringBuilder, arguments);
@@ -127,7 +125,7 @@ namespace Whipstaff.CommandLine.DocumentationGenerator
         /// <returns>Modified string builder.</returns>
         public static StringBuilder AppendOptionsBlock(StringBuilder stringBuilder, Command rootCommand)
         {
-            var options = rootCommand.Options.Where(option => !option.IsHidden)
+            var options = rootCommand.Options.Where(option => !option.Hidden)
                 .ToList();
 
             return AppendOptionsBlock(stringBuilder, options);
@@ -158,7 +156,7 @@ namespace Whipstaff.CommandLine.DocumentationGenerator
                         .Append(" | ")
                         .Append(option.Description)
                         .Append(" | ")
-                        .Append(option.IsRequired)
+                        .Append(option.Required)
                         .AppendLine(" |");
                 }
             }

@@ -6,6 +6,7 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Binding;
 using System.IO.Abstractions;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,15 +32,15 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="fileSystem">File system wrapper.</param>
         /// <param name="additionalServiceRegistrationsAction">Action to carry out additional service registrations, if any.</param>
-        /// <param name="console">The console to which output is written during invocation.</param>
+        /// <param name="commandLineConfigurationFunc">Function for passing in a configuration to override the default behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static async Task<int> RunJobWithFullDependencyInjection<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             IFileSystem fileSystem,
             Action<IServiceCollection>? additionalServiceRegistrationsAction,
-            IConsole? console = null)
+            Func<RootCommand, CommandLineConfiguration>? commandLineConfigurationFunc = null)
             where TCommandLineHandler : class, ICommandLineHandler<TCommandLineArgModel>
-            where TCommandLineArgModelBinder : BinderBase<TCommandLineArgModel>
+            where TCommandLineArgModelBinder : IBinderBase<TCommandLineArgModel>
             where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
         {
             ArgumentNullException.ThrowIfNull(args);
@@ -65,7 +66,7 @@ namespace Whipstaff.CommandLine.Hosting
                         args,
                         commandLineHandler.HandleCommand,
                         fileSystem,
-                        console)
+                        commandLineConfigurationFunc)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -85,15 +86,15 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="commandLineHandlerFactoryFunc">Factory method for the command line handler.</param>
         /// <param name="fileSystem">File system wrapper.</param>
-        /// <param name="console">The console to which output is written during invocation.</param>
+        /// <param name="commandLineConfigurationFunc">Function for passing in a configuration to override the default behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static async Task<int> RunSimpleCliJob<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<IFileSystem, ILogger<TCommandLineHandler>, TCommandLineHandler> commandLineHandlerFactoryFunc,
             IFileSystem fileSystem,
-            IConsole? console = null)
+            Func<RootCommand, CommandLineConfiguration>? commandLineConfigurationFunc = null)
             where TCommandLineHandler : ICommandLineHandler<TCommandLineArgModel>
-            where TCommandLineArgModelBinder : BinderBase<TCommandLineArgModel>
+            where TCommandLineArgModelBinder : IBinderBase<TCommandLineArgModel>
             where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
         {
             ArgumentNullException.ThrowIfNull(args);
@@ -117,7 +118,7 @@ namespace Whipstaff.CommandLine.Hosting
                         args,
                         commandLineHandler.HandleCommand,
                         fileSystem,
-                        console)
+                        commandLineConfigurationFunc)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)

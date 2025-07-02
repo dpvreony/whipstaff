@@ -22,8 +22,16 @@ namespace Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.F
             : base(
                 new NamedParameterInput<SymbolResult>("result", () =>
                 {
-                    var argument1Builder = new Argument<string>();
-                    return argument1Builder.Parse("somefilename.txt").FindResultFor(argument1Builder)!;
+                    var argument1Builder = new Argument<string>("--filename");
+
+                    var rootCommand = new RootCommand
+                    {
+                        argument1Builder
+                    };
+
+                    var parseResults = rootCommand.Parse("--filename somefilename.txt");
+
+                    return parseResults.GetResult(argument1Builder)!;
                 }),
                 new NamedParameterInput<IFileSystem>(
                     "fileSystem",
