@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Rocks;
+using Whipstaff.Mermaid.Playwright;
 
 namespace Whipstaff.UnitTests
 {
@@ -48,5 +49,11 @@ namespace Whipstaff.UnitTests
     /// </summary>
     [RockPartial(typeof(Microsoft.Playwright.IPage), BuildType.Create)]
     public sealed partial class PageCreateExpectations;
+
+    /// <summary>
+    /// Expectations for the Playwright Page.
+    /// </summary>
+    [RockPartial(typeof(IPlaywrightRendererBrowserInstance), BuildType.Create)]
+    public sealed partial class PlaywrightRendererBrowserInstanceCreateExpectations;
 #pragma warning restore SA1402 // File may only contain a single type
 }
