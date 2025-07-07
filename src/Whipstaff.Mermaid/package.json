@@ -2,6 +2,6 @@
     "name": "mermaidjs-plugin",
     "version": "1.0.0",
     "dependencies": {
-        "mermaid": "11.8.0"
+        "mermaid": "11.8.1"
     }
 }
