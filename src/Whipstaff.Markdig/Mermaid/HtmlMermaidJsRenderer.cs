@@ -50,6 +50,7 @@ namespace Whipstaff.Markdig.Mermaid
             ILoggerFactory loggerFactory)
         {
             ArgumentNullException.ThrowIfNull(settings);
+            ArgumentNullException.ThrowIfNull(loggerFactory);
 
             return Task.FromResult(new HtmlMermaidJsRenderer(
                 settings.BrowserSession,
