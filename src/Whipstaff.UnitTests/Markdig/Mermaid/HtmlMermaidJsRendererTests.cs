@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
+using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Markdig.Mermaid;
 using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.HttpServer;
@@ -26,7 +27,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
         /// <summary>
         /// Unit tests for the <see cref="HtmlMermaidJsRenderer.CreateAsync"/> method.
         /// </summary>
-        public sealed class CreateAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<MarkdownJsExtensionSettings>
+        public sealed class CreateAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<MarkdownJsExtensionSettings, ILoggerFactory>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateAsyncMethod"/> class.
@@ -57,7 +58,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
 
                 var settings = new MarkdownJsExtensionSettings(browserSession, OutputMode.Png);
 
-                var instance = await HtmlMermaidJsRenderer.CreateAsync(settings);
+                var instance = await HtmlMermaidJsRenderer.CreateAsync(settings, LoggerFactory);
 
                 Assert.NotNull(instance);
             }
@@ -65,23 +66,25 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(MarkdownJsExtensionSettings? arg, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(MarkdownJsExtensionSettings? arg1, ILoggerFactory? arg2, string expectedParameterNameForException)
             {
-                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => HtmlMermaidJsRenderer.CreateAsync(arg!));
+                var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => HtmlMermaidJsRenderer.CreateAsync(arg1!, arg2!));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<MarkdownJsExtensionSettings?, string>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<MarkdownJsExtensionSettings, ILoggerFactory>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
+                    : base(
+                        new NamedParameterInput<MarkdownJsExtensionSettings>("settings", () => new MarkdownJsExtensionSettings(new PlaywrightRendererBrowserInstanceCreateExpectations().Instance(), OutputMode.Png)),
+                        new NamedParameterInput<ILoggerFactory>("loggerFactory", () => new NullLoggerFactory()))
                 {
-                    Add(null, "settings");
                 }
             }
         }
@@ -129,7 +132,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                     logMessageActionsWrapper);
                 var browserSession = await playwrightRenderer.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome());
 
-                var pipelineBuilder = new MarkdownPipelineBuilder().UseMermaidJsExtension(browserSession);
+                var pipelineBuilder = new MarkdownPipelineBuilder().UseMermaidJsExtension(browserSession, LoggerFactory);
 
                 var pipeline = pipelineBuilder.Build();
                 var actualHtml = Markdown.ToHtml(markdown, pipeline);

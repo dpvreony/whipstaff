@@ -61,18 +61,10 @@ namespace Whipstaff.Markdig.Mermaid
             if (renderer is HtmlRenderer htmlRenderer)
             {
                 // Must be inserted before FencedCodeBlockRenderer
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(_loggerFactory);
-                var logMessageActions = new PlaywrightRendererLogMessageActions();
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    logMessageActions,
-                    _loggerFactory.CreateLogger<PlaywrightRenderer>());
-                var playwrightRenderer = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-
                 var htmlMermaidJsRenderer = HtmlMermaidJsRenderer.CreateAsync(
-                    playwrightRenderer,
-                    _settings).WaitAndUnwrapException();
+                    _settings,
+                    _loggerFactory)
+                    .WaitAndUnwrapException();
 
                 htmlRenderer.ObjectRenderers.Insert(0, htmlMermaidJsRenderer);
             }
