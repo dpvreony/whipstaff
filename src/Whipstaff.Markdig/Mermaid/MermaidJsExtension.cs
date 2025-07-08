@@ -19,17 +19,23 @@ namespace Whipstaff.Markdig.Mermaid
     /// </summary>
     public sealed class MermaidJsExtension : IMarkdownExtension
     {
+        private readonly ILoggerFactory _loggerFactory;
         private readonly MarkdownJsExtensionSettings _settings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MermaidJsExtension"/> class.
         /// </summary>
         /// <param name="settings">Settings for the Markdown JS extension.</param>
-        public MermaidJsExtension(MarkdownJsExtensionSettings settings)
+        /// <param name="loggerFactory">NET core logging factory.</param>
+        public MermaidJsExtension(
+            MarkdownJsExtensionSettings settings,
+            ILoggerFactory loggerFactory)
         {
             ArgumentNullException.ThrowIfNull(settings);
+            ArgumentNullException.ThrowIfNull(loggerFactory);
 
             _settings = settings;
+            _loggerFactory = loggerFactory;
         }
 
         /// <inheritdoc/>
@@ -47,9 +53,7 @@ namespace Whipstaff.Markdig.Mermaid
         }
 
         /// <inheritdoc/>
-        public void Setup(
-            MarkdownPipeline pipeline,
-            IMarkdownRenderer renderer)
+        public void Setup(MarkdownPipeline pipeline, IMarkdownRenderer renderer)
         {
             ArgumentNullException.ThrowIfNull(pipeline);
             ArgumentNullException.ThrowIfNull(renderer);
@@ -57,7 +61,10 @@ namespace Whipstaff.Markdig.Mermaid
             if (renderer is HtmlRenderer htmlRenderer)
             {
                 // Must be inserted before FencedCodeBlockRenderer
-                var htmlMermaidJsRenderer = HtmlMermaidJsRenderer.CreateAsync(_settings).WaitAndUnwrapException();
+                var htmlMermaidJsRenderer = HtmlMermaidJsRenderer.CreateAsync(
+                    _settings,
+                    _loggerFactory)
+                    .WaitAndUnwrapException();
 
                 htmlRenderer.ObjectRenderers.Insert(0, htmlMermaidJsRenderer);
             }

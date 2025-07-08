@@ -22,15 +22,18 @@ namespace Whipstaff.Markdig.Mermaid
         /// </summary>
         /// <param name="pipeline">Markdown Pipeline Builder to modify.</param>
         /// <param name="browserSession">Browser session to render diagrams. Passed in as a cached object to reduce time on rendering multiple diagrams.</param>
+        /// <param name="loggerFactory">NET core logging factory.</param>
         /// <returns>Modified Pipeline Builder.</returns>
         public static MarkdownPipelineBuilder UseMermaidJsExtension(
             this MarkdownPipelineBuilder pipeline,
-            PlaywrightRendererBrowserInstance browserSession)
+            PlaywrightRendererBrowserInstance browserSession,
+            ILoggerFactory loggerFactory)
         {
             var defaultSettings = new MarkdownJsExtensionSettings(browserSession, OutputMode.Png);
             return UseMermaidJsExtension(
                 pipeline,
-                defaultSettings);
+                defaultSettings,
+                loggerFactory);
         }
 
         /// <summary>
@@ -38,13 +41,15 @@ namespace Whipstaff.Markdig.Mermaid
         /// </summary>
         /// <param name="pipeline">Markdown Pipeline Builder to modify.</param>
         /// <param name="settings">Settings to use for the extension.</param>
+        /// <param name="loggerFactory">NET core logging factory.</param>
         /// <returns>Modified Pipeline Builder.</returns>
         public static MarkdownPipelineBuilder UseMermaidJsExtension(
             this MarkdownPipelineBuilder pipeline,
-            MarkdownJsExtensionSettings settings)
+            MarkdownJsExtensionSettings settings,
+            ILoggerFactory loggerFactory)
         {
             ArgumentNullException.ThrowIfNull(pipeline);
-            pipeline.Extensions.AddIfNotAlready(new MermaidJsExtension(settings));
+            pipeline.Extensions.AddIfNotAlready(new MermaidJsExtension(settings, loggerFactory));
             return pipeline;
         }
     }

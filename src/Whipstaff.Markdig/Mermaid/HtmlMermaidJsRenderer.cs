@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Markdig.Renderers;
 using Markdig.Renderers.Html;
+using Microsoft.Extensions.Logging;
 using Nito.AsyncEx.Synchronous;
 using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.Playwright;
@@ -19,16 +20,22 @@ namespace Whipstaff.Markdig.Mermaid
     /// </summary>
     public sealed class HtmlMermaidJsRenderer : HtmlObjectRenderer<MermaidCodeBlock>
     {
+        private readonly IPlaywrightRendererBrowserInstance _browserSession;
         private readonly MarkdownJsExtensionSettings _settings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HtmlMermaidJsRenderer"/> class.
         /// </summary>
+        /// <param name="browserSession">Browser session to render diagrams. Passed in as a cached object to reduce time on rendering multiple diagrams.</param>
         /// <param name="settings">MermaidJS extension settings.</param>
-        private HtmlMermaidJsRenderer(MarkdownJsExtensionSettings settings)
+        private HtmlMermaidJsRenderer(
+            IPlaywrightRendererBrowserInstance browserSession,
+            MarkdownJsExtensionSettings settings)
         {
+            ArgumentNullException.ThrowIfNull(browserSession);
             ArgumentNullException.ThrowIfNull(settings);
 
+            _browserSession = browserSession;
             _settings = settings;
         }
 
@@ -36,12 +43,18 @@ namespace Whipstaff.Markdig.Mermaid
         /// Creates a new instance of the <see cref="HtmlMermaidJsRenderer"/> class.
         /// </summary>
         /// <param name="settings">MermaidJS extension settings.</param>
+        /// <param name="loggerFactory">Logger factory instance to hook up to. Typically, the one being used by the host application.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public static Task<HtmlMermaidJsRenderer> CreateAsync(MarkdownJsExtensionSettings settings)
+        public static Task<HtmlMermaidJsRenderer> CreateAsync(
+            MarkdownJsExtensionSettings settings,
+            ILoggerFactory loggerFactory)
         {
             ArgumentNullException.ThrowIfNull(settings);
+            ArgumentNullException.ThrowIfNull(loggerFactory);
 
-            return Task.FromResult(new HtmlMermaidJsRenderer(settings));
+            return Task.FromResult(new HtmlMermaidJsRenderer(
+                settings.BrowserSession,
+                settings));
         }
 
         /// <inheritdoc/>
@@ -52,7 +65,7 @@ namespace Whipstaff.Markdig.Mermaid
             _ = renderer.EnsureLine();
 
             var mermaidMarkup = obj.Lines.ToSlice().Text;
-            var responseModel = _settings.BrowserSession.GetDiagram(mermaidMarkup)
+            var responseModel = _browserSession.GetDiagram(mermaidMarkup)
                 .WaitAndUnwrapException();
 
             if (responseModel == null)
@@ -66,14 +79,10 @@ namespace Whipstaff.Markdig.Mermaid
 
                 var properties = new List<KeyValuePair<string, string?>>
                 {
-                    new("alt", "Mermaid Diagram"),
-                    new("src", $"data:image/png;base64,{imageBase64}")
+                    new("alt", "Mermaid Diagram"), new("src", $"data:image/png;base64,{imageBase64}")
                 };
 
-                var attributes = new HtmlAttributes
-                {
-                    Properties = properties
-                };
+                var attributes = new HtmlAttributes { Properties = properties };
 
                 _ = renderer.Write("<img")
                     .WriteAttributes(attributes)
