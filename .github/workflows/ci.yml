@@ -167,7 +167,7 @@ jobs:
     - name: Run Unit Tests
       working-directory: src
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/unittest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory artifacts/unittestcoverage
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/unittest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../artifacts/unittestcoverage
 
     - name: Run Sonar Scanner end
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
