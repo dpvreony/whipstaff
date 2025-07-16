@@ -183,13 +183,13 @@ jobs:
     - name: Upload Code Coverage
       run: |
         Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-        .\codecov.exe -s '../artifacts/unittestcoverage' -f '*.xml' -v -t '${{ env.CODECOV_TOKEN }}'
+        .\codecov.exe -s 'artifacts/unittestcoverage' -f '*.xml' -v -t '${{ env.CODECOV_TOKEN }}'
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
     - name: Report Unit Test Coverage
       run: |
-        $opencoverxmlpath = Get-ChildItem '../artifacts/unittestcoverage/coverage.xml' | Select-Object -First 1
+        $opencoverxmlpath = Get-ChildItem 'artifacts/unittestcoverage/coverage.xml' | Select-Object -First 1
         $unitTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
         echo "::notice::$coverageMessage"
@@ -203,7 +203,7 @@ jobs:
 
     - name: Report Integration Test Coverage
       run: |
-        $opencoverxmlpath = Get-ChildItem '../artifacts/inttestcoverage/coverage.xml' | Select-Object -First 1
+        $opencoverxmlpath = Get-ChildItem 'artifacts/inttestcoverage/coverage.xml' | Select-Object -First 1
         $intTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Integration Test Coverage: $intTestCoverage"
         echo "::notice::$coverageMessage"
