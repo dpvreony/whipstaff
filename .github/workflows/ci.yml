@@ -211,7 +211,7 @@ jobs:
 
     - name: Produce Nuget Packages
       run: |
-        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:../artifacts/binlog/pack.binlog --nologo /p:PackageOutputPath=../artifacts/nuget /p:ContinuousIntegrationBuild=true
+        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:../artifacts/binlog/pack.binlog --nologo /p:PackageOutputPath=../../artifacts/nuget /p:ContinuousIntegrationBuild=true
       working-directory: src
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
@@ -247,12 +247,14 @@ jobs:
       with:
         name: unittestcoverage
         path: artifacts/unittestcoverage
+        if-no-files-found: error
         
     - name: store nuget packages
       uses: actions/upload-artifact@v4
       with:
         name: nuget
         path: artifacts/nuget
+        if-no-files-found: error
         
     - name: store omd
       uses: actions/upload-artifact@v4
@@ -300,6 +302,7 @@ jobs:
       with:
         name: licenses
         path: artifacts/licenses
+        if-no-files-found: error
 
   #snitch:
   #  runs-on: ubuntu-latest
@@ -349,6 +352,7 @@ jobs:
       with:
         name: appinspector
         path: artifacts/appinspector
+        if-no-files-found: error
 
   check-nuget-environment:
     permissions:
