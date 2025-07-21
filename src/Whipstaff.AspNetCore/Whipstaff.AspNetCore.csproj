@@ -33,7 +33,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.18" />
     <PackageReference Include="Microsoft.Extensions.DiagnosticAdapter" Version="3.1.32" />
     <PackageReference Include="Microsoft.Extensions.Logging.EventLog" Version="8.0.1" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.12.1" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.13.0" />
     <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="4.2.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.4" />
@@ -43,7 +43,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
     <!--<PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />-->
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.0" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
