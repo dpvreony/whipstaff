@@ -137,6 +137,8 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                 var pipeline = pipelineBuilder.Build();
                 var actualHtml = Markdown.ToHtml(markdown, pipeline);
 
+                Assert.False(string.IsNullOrWhiteSpace(actualHtml));
+
                 Logger.LogInformation(actualHtml);
             }
         }
