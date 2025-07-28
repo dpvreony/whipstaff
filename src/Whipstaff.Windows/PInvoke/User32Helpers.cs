@@ -4,7 +4,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using PInvoke;
 
 namespace Whipstaff.Windows.PInvoke
 {
@@ -22,17 +21,19 @@ namespace Whipstaff.Windows.PInvoke
         public static bool FlashWindowEx(IntPtr hWnd)
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix
         {
-            global::PInvoke.User32.FLASHWINFO fInfo = new()
+            var h = new global::Windows.Win32.Foundation.HWND(hWnd);
+
+            global::Windows.Win32.UI.WindowsAndMessaging.FLASHWINFO fInfo = new()
             {
-                hwnd = hWnd,
-                dwFlags = User32.FlashWindowFlags.FLASHW_ALL,
+                hwnd = h,
+                dwFlags = global::Windows.Win32.UI.WindowsAndMessaging.FLASHWINFO_FLAGS.FLASHW_ALL,
                 uCount = int.MaxValue,
                 dwTimeout = 0,
             };
 
-            fInfo.cbSize = Convert.ToInt32(Marshal.SizeOf(fInfo));
+            fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
 
-            return global::PInvoke.User32.FlashWindowEx(ref fInfo);
+            return global::Windows.Win32.PInvoke.FlashWindowEx(in fInfo);
         }
     }
 }
