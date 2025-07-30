@@ -51,13 +51,6 @@
       ],
       "rollForward": false
     },
-    "microsoft.sbom.dotnettool": {
-      "version": "4.1.0",
-      "commands": [
-        "sbom-tool"
-      ],
-      "rollForward": false
-    },
     "ultra": {
       "version": "2.0.2",
       "commands": [
