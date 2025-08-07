@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using ReactiveUI;
-using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Whipstaff.Wpf.UiElements
 {
@@ -13,7 +12,7 @@ namespace Whipstaff.Wpf.UiElements
     public interface IWindowDisplayAffinity
     {
         /// <summary>
-        /// Gets or sets the display affinity for the window.
+        /// Gets the interaction for setting display affinity for the window.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -23,6 +22,6 @@ namespace Whipstaff.Wpf.UiElements
         /// See <see href="https://learn.microsoft.com/windows/win32/api/winuser/nf-winuser-setwindowdisplayaffinity#parameters">SetWindowDisplayAffinity Parameters</see> for more information.
         /// </para>
         /// </remarks>
-        global::Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY WindowDisplayAffinity { get; set; }
+        Interaction<global::Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY, bool> WindowDisplayAffinity { get; }
     }
 }
