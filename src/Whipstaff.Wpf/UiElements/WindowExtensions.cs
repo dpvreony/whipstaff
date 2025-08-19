@@ -4,12 +4,14 @@
 
 using System;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using ReactiveMarbles.ObservableEvents;
 using ReactiveUI;
 using Splat;
 using Whipstaff.Wpf.Extensions;
 using Whipstaff.Wpf.Input;
+using Whipstaff.Wpf.InteractionFlows;
 
 namespace Whipstaff.Wpf.UiElements
 {
@@ -27,22 +29,18 @@ namespace Whipstaff.Wpf.UiElements
         /// <returns><see cref="System.IDisposable" /> object used to unsubscribe from the observable sequence.</returns>
         public static IDisposable BindSetWindowDisplayAffinityInteraction<TWindow, TViewModel>(
             this TWindow window)
-            where TWindow : Window, IViewFor<TViewModel>, IEnableLogger
+            where TWindow : Window, IViewFor<TViewModel>
             where TViewModel : class, IWindowDisplayAffinity
         {
-            return window.WhenAny(
-                vw => vw.ViewModel!.WindowDisplayAffinity,
-                change => change)
-                .Select(change => change.Value)
-                .Subscribe(affinity =>
-                {
-                    var affinityResult = window.SetWindowDisplayAffinity(affinity);
-                    if (!affinityResult)
-                    {
-                        window.Log()
-                            .Error($"Failed to set the display affinity for the window. Ensure that the window is a top-level window and that the display affinity is valid: {affinity}.");
-                    }
-                });
+            ArgumentNullException.ThrowIfNull(window);
+
+            if (window.ViewModel == null)
+            {
+                throw new InvalidOperationException("The ViewModel property must be set before calling BindSetWindowDisplayAffinityInteraction.");
+            }
+
+            return window.ViewModel.WindowDisplayAffinity.RegisterHandlerToOutputFunc(affinity =>
+                Task.FromResult(window.SetWindowDisplayAffinity(affinity)));
         }
 
         /// <summary>

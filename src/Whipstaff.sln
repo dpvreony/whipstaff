@@ -142,6 +142,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Maui.Syncfusion.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Markdig", "Whipstaff.Markdig\Whipstaff.Markdig.csproj", "{6E7DFA8E-47B7-59F1-0364-97571F9027A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Example.WpfApp", "Whipstaff.Example.WpfApp\Whipstaff.Example.WpfApp.csproj", "{777E9688-EDD3-4BE4-99AA-61A3A3404507}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -412,6 +414,10 @@ Global
 		{6E7DFA8E-47B7-59F1-0364-97571F9027A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E7DFA8E-47B7-59F1-0364-97571F9027A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E7DFA8E-47B7-59F1-0364-97571F9027A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777E9688-EDD3-4BE4-99AA-61A3A3404507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777E9688-EDD3-4BE4-99AA-61A3A3404507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777E9688-EDD3-4BE4-99AA-61A3A3404507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777E9688-EDD3-4BE4-99AA-61A3A3404507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -452,6 +458,7 @@ Global
 		{1C616763-E0DF-45E2-991C-F4464072DFA9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{FA983AB3-6624-4599-82C1-D7F73F92E175} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{71A951D6-3A9B-4858-A8EF-6EF2A7104932} = {190D37BD-93ED-43B0-82FB-77C49F3E99D2}
+		{777E9688-EDD3-4BE4-99AA-61A3A3404507} = {B4DE2ED2-337D-4315-879A-6D165E5BE2DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DB2718A-6FAF-4785-856D-2A081D493A02}
