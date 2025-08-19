@@ -57,6 +57,7 @@ namespace Whipstaff.UnitTests.CommandLine
                         arg3!,
                         arg4!,
                         null,
+                        null,
                         CancellationToken.None));
             }
 
@@ -99,7 +100,8 @@ namespace Whipstaff.UnitTests.CommandLine
                         rootCommandAndBinderModelFunc,
                         (_, _) => Task.FromResult(0),
                         fileSystem,
-                        rootCommand => XUnitTestHelpers.CreateTestConsoleIntegration(rootCommand, outputWriter, errorWriter),
+                        null,
+                        () => XUnitTestHelpers.CreateTestConsoleIntegration(outputWriter, errorWriter),
                         TestContext.Current.CancellationToken);
 
                     Logger.LogInformation("Console output: {ConsoleOutput}", outputWriter.ToString());
