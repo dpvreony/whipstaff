@@ -96,10 +96,10 @@ jobs:
     #  with:
     #    dotnet-version: 5.0.x
 
-    - name: Install .NET 8
+    - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x
+        global-json-file: "./global.json"
 
     - name: Install DotNet workloads
       shell: bash
