@@ -119,6 +119,23 @@ namespace Whipstaff.Couchbase
         }
 
         /// <inheritdoc/>
+        public Task ReleaseAsync(string resource)
+        {
+            _logMessageActionsWrapper.StartingRelease(resource);
+
+            if (!_mutexDictionary.TryGetValue(resource, out var mutex))
+            {
+                _logMessageActionsWrapper.NoMutexToRelease(resource);
+                return Task.CompletedTask;
+            }
+
+            mutex.Dispose();
+            _logMessageActionsWrapper.FinishedRelease(resource);
+
+            return Task.CompletedTask;
+        }
+
+        /// <inheritdoc/>
         public Task ReleaseAsync(string resource, string lockId)
         {
             _logMessageActionsWrapper.StartingRelease(resource);
