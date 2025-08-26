@@ -4,7 +4,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using PInvoke;
+using Windows.Win32.Foundation;
 
 namespace Whipstaff.Windows.PInvoke
 {
@@ -22,17 +22,41 @@ namespace Whipstaff.Windows.PInvoke
         public static bool FlashWindowEx(IntPtr hWnd)
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix
         {
-            global::PInvoke.User32.FLASHWINFO fInfo = new()
+            var h = new global::Windows.Win32.Foundation.HWND(hWnd);
+
+            global::Windows.Win32.UI.WindowsAndMessaging.FLASHWINFO fInfo = new()
             {
-                hwnd = hWnd,
-                dwFlags = User32.FlashWindowFlags.FLASHW_ALL,
+                hwnd = h,
+                dwFlags = global::Windows.Win32.UI.WindowsAndMessaging.FLASHWINFO_FLAGS.FLASHW_ALL,
                 uCount = int.MaxValue,
                 dwTimeout = 0,
             };
 
-            fInfo.cbSize = Convert.ToInt32(Marshal.SizeOf(fInfo));
+            fInfo.cbSize = Convert.ToUInt32(Marshal.SizeOf(fInfo));
 
-            return global::PInvoke.User32.FlashWindowEx(ref fInfo);
+            return global::Windows.Win32.PInvoke.FlashWindowEx(in fInfo);
+        }
+
+        /// <summary>
+        /// Sets the display affinity for a window.
+        /// </summary>
+        /// <param name="hWnd">Pointer to the native window handle.</param>
+        /// <param name="dwAffinity">
+        /// <para>Type: <b>DWORD</b> The display affinity setting that specifies where the content of the window can be displayed.</para>
+        /// <para><see href="https://learn.microsoft.com/windows/win32/api/winuser/nf-winuser-setwindowdisplayaffinity#parameters">Read more on docs.microsoft.com</see>.</para>
+        /// </param>
+        /// <returns>
+        /// <para>Type: <b>BOOL</b> If the function succeeds, it returns <b>TRUE</b>; otherwise, it returns <b>FALSE</b> when, for example, the function call is made on a non top-level window. To get extended error information, call <a href="https://docs.microsoft.com/windows/desktop/api/errhandlingapi/nf-errhandlingapi-getlasterror">GetLastError</a>.</para>
+        /// </returns>
+        public static bool SetWindowDisplayAffinity(
+            IntPtr hWnd,
+            global::Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY dwAffinity)
+        {
+            var h = new global::Windows.Win32.Foundation.HWND(hWnd);
+
+            return global::Windows.Win32.PInvoke.SetWindowDisplayAffinity(
+                h,
+                dwAffinity);
         }
     }
 }

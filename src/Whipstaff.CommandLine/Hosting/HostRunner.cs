@@ -32,13 +32,15 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="fileSystem">File system wrapper.</param>
         /// <param name="additionalServiceRegistrationsAction">Action to carry out additional service registrations, if any.</param>
-        /// <param name="commandLineConfigurationFunc">Function for passing in a configuration to override the default behaviour of the command line runner. Useful for testing and redirecting the console.</param>
+        /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
+        /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static async Task<int> RunJobWithFullDependencyInjection<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             IFileSystem fileSystem,
             Action<IServiceCollection>? additionalServiceRegistrationsAction,
-            Func<RootCommand, CommandLineConfiguration>? commandLineConfigurationFunc = null)
+            Func<ParserConfiguration>? parserConfigurationFunc = null,
+            Func<InvocationConfiguration>? invocationConfigurationFunc = null)
             where TCommandLineHandler : class, ICommandLineHandler<TCommandLineArgModel>
             where TCommandLineArgModelBinder : IBinderBase<TCommandLineArgModel>
             where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
@@ -66,7 +68,8 @@ namespace Whipstaff.CommandLine.Hosting
                         args,
                         commandLineHandler.HandleCommand,
                         fileSystem,
-                        commandLineConfigurationFunc)
+                        parserConfigurationFunc,
+                        invocationConfigurationFunc)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -86,13 +89,15 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="commandLineHandlerFactoryFunc">Factory method for the command line handler.</param>
         /// <param name="fileSystem">File system wrapper.</param>
-        /// <param name="commandLineConfigurationFunc">Function for passing in a configuration to override the default behaviour of the command line runner. Useful for testing and redirecting the console.</param>
+        /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
+        /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static async Task<int> RunSimpleCliJob<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<IFileSystem, ILogger<TCommandLineHandler>, TCommandLineHandler> commandLineHandlerFactoryFunc,
             IFileSystem fileSystem,
-            Func<RootCommand, CommandLineConfiguration>? commandLineConfigurationFunc = null)
+            Func<ParserConfiguration>? parserConfigurationFunc = null,
+            Func<InvocationConfiguration>? invocationConfigurationFunc = null)
             where TCommandLineHandler : ICommandLineHandler<TCommandLineArgModel>
             where TCommandLineArgModelBinder : IBinderBase<TCommandLineArgModel>
             where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
@@ -118,7 +123,8 @@ namespace Whipstaff.CommandLine.Hosting
                         args,
                         commandLineHandler.HandleCommand,
                         fileSystem,
-                        commandLineConfigurationFunc)
+                        parserConfigurationFunc,
+                        invocationConfigurationFunc)
                     .ConfigureAwait(false);
             }
             catch (Exception ex)

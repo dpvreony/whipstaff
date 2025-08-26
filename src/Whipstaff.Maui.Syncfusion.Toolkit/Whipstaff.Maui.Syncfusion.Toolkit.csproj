@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <PackageDescription>Re-usable logic for working with MAUI.</PackageDescription>
+    <PackageDescription>Re-usable logic for working with the Syncfusion Maui Toolkit.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,8 +10,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.5" />
-    <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.10.102">
+    <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.6" />
+    <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.11.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

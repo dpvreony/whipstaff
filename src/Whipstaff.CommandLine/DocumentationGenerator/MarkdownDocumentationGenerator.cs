@@ -59,8 +59,13 @@ namespace Whipstaff.CommandLine.DocumentationGenerator
 
             using (var textWriter = new StringWriter(stringBuilder))
             {
-                var commandConfig = new CommandLineConfiguration(rootCommand) { Output = textWriter };
-                _ = commandConfig.Invoke("-h");
+                var parseResult = rootCommand.Parse("-h");
+
+                var invocationConfiguration = new InvocationConfiguration
+                {
+                    Output = textWriter
+                };
+                _ = parseResult.Invoke(invocationConfiguration);
             }
 
             _ = stringBuilder.AppendLine("```");

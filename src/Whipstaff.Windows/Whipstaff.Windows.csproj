@@ -10,8 +10,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
     <PackageReference Include="Microsoft.Win32.SystemEvents" Version="8.0.0" />
-    <PackageReference Include="PInvoke.User32" Version="0.7.124" />
-    <PackageReference Include="PInvoke.Windows.Core" Version="0.7.124" />
     <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.1" />
     <PackageReference Include="System.Reactive" Version="6.0.1" />
     <PackageReference Include="System.Speech" Version="8.0.0" />

@@ -29,14 +29,16 @@ namespace Whipstaff.CommandLine
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="rootCommandHandlerFunc">Function to execute for handling the invocation of the root command.</param>
         /// <param name="fileSystem">File System abstraction.</param>
-        /// <param name="commandLineConfigurationFunc">Function for passing in a configuration to override the default behaviour of the command line runner. Useful for testing and redirecting the console.</param>
+        /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
+        /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static Task<int> GetResultFromRootCommand<TCommandLineArg, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<TCommandLineArg, CancellationToken, Task<int>> rootCommandHandlerFunc,
             IFileSystem fileSystem,
-            Func<RootCommand, CommandLineConfiguration>? commandLineConfigurationFunc = null,
+            Func<ParserConfiguration>? parserConfigurationFunc = null,
+            Func<InvocationConfiguration>? invocationConfigurationFunc = null,
             System.Threading.CancellationToken cancellationToken = default)
             where TCommandLineArgModelBinder : IBinderBase<TCommandLineArg>
             where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
@@ -50,7 +52,8 @@ namespace Whipstaff.CommandLine
                 new TRootCommandAndBinderFactory().GetRootCommandAndBinder,
                 rootCommandHandlerFunc,
                 fileSystem,
-                commandLineConfigurationFunc,
+                parserConfigurationFunc,
+                invocationConfigurationFunc,
                 cancellationToken);
         }
 
@@ -63,7 +66,8 @@ namespace Whipstaff.CommandLine
         /// <param name="rootCommandAndBinderModelFunc">Function to execute for handling the binding of the command line model.</param>
         /// <param name="rootCommandHandlerFunc">Function to execute for handling the invocation of the root command.</param>
         /// <param name="fileSystem">File System abstraction.</param>
-        /// <param name="commandLineConfigurationFunc">Function for passing in a configuration to override the default behaviour of the command line runner. Useful for testing and redirecting the console.</param>
+        /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
+        /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static async Task<int> GetResultFromRootCommand<TCommandLineArg, TCommandLineArgModelBinder>(
@@ -71,7 +75,8 @@ namespace Whipstaff.CommandLine
             Func<IFileSystem, RootCommandAndBinderModel<TCommandLineArgModelBinder>> rootCommandAndBinderModelFunc,
             Func<TCommandLineArg, CancellationToken, Task<int>> rootCommandHandlerFunc,
             IFileSystem fileSystem,
-            Func<RootCommand, CommandLineConfiguration>? commandLineConfigurationFunc = null,
+            Func<ParserConfiguration>? parserConfigurationFunc = null,
+            Func<InvocationConfiguration>? invocationConfigurationFunc = null,
             System.Threading.CancellationToken cancellationToken = default)
             where TCommandLineArgModelBinder : IBinderBase<TCommandLineArg>
         {
@@ -98,17 +103,17 @@ namespace Whipstaff.CommandLine
                 });
 #pragma warning restore RCS1207 // Convert anonymous function to method group (or vice versa).
 
-            if (commandLineConfigurationFunc != null)
-            {
-                var commandLineConfiguration = commandLineConfigurationFunc(rootCommand);
-                return await commandLineConfiguration.InvokeAsync(
-                        args,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-            }
+            var parseConfiguration = parserConfigurationFunc?.Invoke();
+            var parseResult = rootCommand.Parse(
+                args,
+                parseConfiguration);
 
-            return await rootCommand.Parse(args).InvokeAsync(cancellationToken)
-                    .ConfigureAwait(false);
+            var invocationConfiguration = invocationConfigurationFunc?.Invoke();
+
+            return await parseResult.InvokeAsync(
+                    invocationConfiguration,
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
+using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Markdig.Mermaid;
 using Whipstaff.Markdig.Settings;
 using Whipstaff.Mermaid.HttpServer;
@@ -26,7 +27,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
         /// <summary>
         /// Unit tests for the <see cref="HtmlMermaidJsRenderer.CreateAsync"/> method.
         /// </summary>
-        public sealed class CreateAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<PlaywrightRenderer, MarkdownJsExtensionSettings>
+        public sealed class CreateAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<MarkdownJsExtensionSettings, ILoggerFactory>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="CreateAsyncMethod"/> class.
@@ -53,9 +54,11 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                     mermaidHttpServer,
                     logMessageActionsWrapper);
 
-                var settings = new MarkdownJsExtensionSettings(PlaywrightBrowserTypeAndChannel.Chrome(), OutputMode.Png);
+                var browserSession = await playwrightRenderer.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome());
 
-                var instance = await HtmlMermaidJsRenderer.CreateAsync(playwrightRenderer, settings);
+                var settings = new MarkdownJsExtensionSettings(browserSession, OutputMode.Png);
+
+                var instance = await HtmlMermaidJsRenderer.CreateAsync(settings, LoggerFactory);
 
                 Assert.NotNull(instance);
             }
@@ -63,7 +66,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(PlaywrightRenderer? arg1, MarkdownJsExtensionSettings? arg2, string expectedParameterNameForException)
+            public async Task ThrowsArgumentNullExceptionAsync(MarkdownJsExtensionSettings? arg1, ILoggerFactory? arg2, string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => HtmlMermaidJsRenderer.CreateAsync(arg1!, arg2!));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
@@ -72,23 +75,16 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<PlaywrightRenderer?, MarkdownJsExtensionSettings?, string>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<MarkdownJsExtensionSettings, ILoggerFactory>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
+                    : base(
+                        new NamedParameterInput<MarkdownJsExtensionSettings>("settings", () => new MarkdownJsExtensionSettings(new PlaywrightRendererBrowserInstanceCreateExpectations().Instance(), OutputMode.Png)),
+                        new NamedParameterInput<ILoggerFactory>("loggerFactory", () => new NullLoggerFactory()))
                 {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                    var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory());
-                    var logMessageActions = new PlaywrightRendererLogMessageActions();
-                    var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                        logMessageActions,
-                        new NullLogger<PlaywrightRenderer>());
-
-                    Add(null, new MarkdownJsExtensionSettings(PlaywrightBrowserTypeAndChannel.Chrome(), OutputMode.Png), "playwrightRenderer");
-#pragma warning restore CA2000 // Dispose objects before losing scope
-                    Add(new PlaywrightRenderer(mermaidHttpServer, logMessageActionsWrapper), null, "settings");
                 }
             }
         }
@@ -110,8 +106,9 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
             /// <summary>
             /// Test to ensure markdown is formatted to mermaid.
             /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public void WritesMarkdown()
+            public async Task WritesMarkdown()
             {
                 var markdown = "```mermaid" + Environment.NewLine +
                                "graph TD;" + Environment.NewLine +
@@ -125,10 +122,22 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                                "   int i = 1;" + Environment.NewLine +
                                "```";
 
-                var pipelineBuilder = new MarkdownPipelineBuilder().UseMermaidJsExtension(PlaywrightBrowserTypeAndChannel.Chrome());
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
+                var logMessageActions = new PlaywrightRendererLogMessageActions();
+                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
+                    logMessageActions,
+                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                var playwrightRenderer = new PlaywrightRenderer(
+                    mermaidHttpServer,
+                    logMessageActionsWrapper);
+                var browserSession = await playwrightRenderer.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome());
+
+                var pipelineBuilder = new MarkdownPipelineBuilder().UseMermaidJsExtension(browserSession, LoggerFactory);
 
                 var pipeline = pipelineBuilder.Build();
                 var actualHtml = Markdown.ToHtml(markdown, pipeline);
+
+                Assert.False(string.IsNullOrWhiteSpace(actualHtml));
 
                 Logger.LogInformation(actualHtml);
             }

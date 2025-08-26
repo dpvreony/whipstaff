@@ -23,7 +23,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
     public static class HostRunnerTests
     {
         /// <summary>
-        /// Unit test for the <see cref="HostRunner.RunSimpleCliJob{TJob, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TJob}, TJob}, IFileSystem, Func{RootCommand, CommandLineConfiguration}?)"/> method.
+        /// Unit test for the <see cref="HostRunner.RunSimpleCliJob{TJob, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TJob}, TJob}, IFileSystem, Func{ParserConfiguration}?, Func{InvocationConfiguration}?)"/> method.
         /// </summary>
         public sealed class RunSimpleCliJobMethod
         : TestWithLoggingBase,
@@ -82,7 +82,8 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
                             ],
                             (_, _) => new FakeCommandLineHandler(new FakeCommandLineHandlerLogMessageActionsWrapper(LoggerFactory.CreateLogger<FakeCommandLineHandler>())),
                             new MockFileSystem(),
-                            rootCommand => XUnitTestHelpers.CreateTestConsoleIntegration(rootCommand, outputWriter, errorWriter));
+                            null,
+                            () => XUnitTestHelpers.CreateTestConsoleIntegration(outputWriter, errorWriter));
 
                     Logger.LogInformation("Console output: {ConsoleOutput}", outputWriter.ToString());
                     Logger.LogInformation("Console error: {ConsoleError}", errorWriter.ToString());
