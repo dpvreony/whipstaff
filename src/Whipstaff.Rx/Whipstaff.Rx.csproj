@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Splat" Version="15.5.3" />
-    <PackageReference Include="System.Reactive.Linq" Version="6.0.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
