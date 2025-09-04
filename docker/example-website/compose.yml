@@ -4,4 +4,4 @@ services:
     depends_on: 
       - exceptionless
   exceptionless:
-    image: exceptionless/exceptionless:8.2.11
+    image: exceptionless/exceptionless:8.2.13
