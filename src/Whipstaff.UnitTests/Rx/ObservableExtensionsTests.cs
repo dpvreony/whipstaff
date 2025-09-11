@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using Splat.ApplicationPerformanceMonitoring;
 using Whipstaff.Rx;
+using Whipstaff.Testing.Splat.ApplicationPerformanceMonitoring;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Rx
@@ -30,7 +32,7 @@ namespace Whipstaff.UnitTests.Rx
             public void SubjectFiresOffNextSubscription()
             {
                 var nextCount = 0;
-                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
+                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
                 using (var observable = new Subject<int>())
@@ -55,7 +57,7 @@ namespace Whipstaff.UnitTests.Rx
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
-                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
+                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
                 using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
@@ -86,7 +88,7 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
+                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
                 using (var observable = new Subject<int>())
@@ -115,7 +117,7 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
+                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
                 using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
@@ -149,7 +151,7 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var errorCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -180,7 +182,7 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var errorCount = 0;
-                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
+                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
                 using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
@@ -215,7 +217,7 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new DefaultFeatureUsageTrackingSession(featureName));
+                var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
                 using (var observable = new Subject<int>())
@@ -248,7 +250,7 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -348,7 +350,7 @@ namespace Whipstaff.UnitTests.Rx
             public void SubjectFiresOffNextSubscription()
             {
                 var nextCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -375,7 +377,7 @@ namespace Whipstaff.UnitTests.Rx
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
                 var nextCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -408,7 +410,7 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var completedCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -440,7 +442,7 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var completedCount = 0;
 
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -476,7 +478,7 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var errorCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -507,7 +509,7 @@ namespace Whipstaff.UnitTests.Rx
             {
                 var nextCount = 0;
                 var errorCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -544,7 +546,7 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
@@ -579,7 +581,7 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
-                using (var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne"))
+                using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
