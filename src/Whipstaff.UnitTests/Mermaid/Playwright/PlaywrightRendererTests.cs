@@ -42,7 +42,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Fact]
             public void ReturnsInstance()
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
                     LoggerFactory.CreateLogger<PlaywrightRenderer>());
@@ -80,7 +80,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     : base(
                         new NamedParameterInput<MermaidHttpServer>(
                             "mermaidHttpServer",
-                            () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory())),
+                            () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory(), new FileSystem())),
                         new NamedParameterInput<PlaywrightRendererLogMessageActionsWrapper>(
                             "logMessageActionsWrapper",
                             () => new PlaywrightRendererLogMessageActionsWrapper(

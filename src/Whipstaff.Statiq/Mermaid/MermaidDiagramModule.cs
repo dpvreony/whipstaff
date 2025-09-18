@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -118,7 +119,7 @@ namespace Whipstaff.Statiq.Mermaid
                 var loggerFactory = context.GetRequiredService<ILoggerFactory>();
                 var logger = loggerFactory.CreateLogger<PlaywrightRenderer>();
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(logMessageActions, logger);
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(loggerFactory);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(loggerFactory, new FileSystem());
 
                 var playwrightRenderer = new Whipstaff.Mermaid.Playwright.PlaywrightRenderer(
                     mermaidHttpServer,
