@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
+using Whipstaff.Playwright.CssAnalysis;
 using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Playwright
@@ -24,7 +25,7 @@ namespace Whipstaff.Playwright
         /// </summary>
         /// <param name="page">Page instance to scan.</param>
         /// <returns>Analysis of css class usage in the page.</returns>
-        public static async Task<(HashSet<string> Used, HashSet<string> Defined, HashSet<string> Undefined)> GetClassDefinitionAnalysisAsync(this IPage page)
+        public static async Task<ClassDefinitionAnalysis> GetClassDefinitionAnalysisAsync(this IPage page)
         {
             ArgumentNullException.ThrowIfNull(page);
 
@@ -68,9 +69,10 @@ namespace Whipstaff.Playwright
             var doc = System.Text.Json.JsonDocument.Parse(json);
             var used = doc.RootElement.GetProperty("used").EnumerateArray().Select(x => x.GetString()!).ToHashSet();
             var defined = doc.RootElement.GetProperty("defined").EnumerateArray().Select(x => x.GetString()!).ToHashSet();
-            var undefined = used.Except(defined).ToHashSet();
+            var undefined = new HashSet<string>(used);
+            undefined.ExceptWith(defined);
 
-            return (used, defined, undefined);
+            return new ClassDefinitionAnalysis(used, defined, undefined);
         }
 
         /// <summary>
