@@ -35,9 +35,9 @@ namespace Whipstaff.Mermaid.HttpServer
 
         private static IWebHostBuilder GetWebHostBuilder(ILoggerFactory loggerFactory)
         {
-            var embeddedProvider = new EmbeddedFileProvider(
+            var embeddedProvider = new ManifestEmbeddedFileProvider(
                 typeof(MermaidHttpServerFactory).Assembly,
-                typeof(MermaidHttpServerFactory).Namespace + ".wwwroot");
+                "HttpServer\\wwwroot");
 
             var builder = new WebHostBuilder()
                 .ConfigureLogging(loggingBuilder => ConfigureLogging(
@@ -53,7 +53,7 @@ namespace Whipstaff.Mermaid.HttpServer
             return builder;
         }
 
-        private static void ConfigureApp(IApplicationBuilder applicationBuilder, EmbeddedFileProvider embeddedFileProvider)
+        private static void ConfigureApp(IApplicationBuilder applicationBuilder, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = applicationBuilder.Use(async (context, next) =>
             {
@@ -147,7 +147,7 @@ namespace Whipstaff.Mermaid.HttpServer
                    request.Path.Equals("/index.html", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static void ConfigureServices(IServiceCollection serviceCollection, EmbeddedFileProvider embeddedFileProvider)
+        private static void ConfigureServices(IServiceCollection serviceCollection, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = serviceCollection.AddSingleton<IFileProvider>(embeddedFileProvider);
         }
