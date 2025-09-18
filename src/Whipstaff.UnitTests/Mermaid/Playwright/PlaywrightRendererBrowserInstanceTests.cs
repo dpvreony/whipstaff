@@ -106,7 +106,10 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                     Assert.True(targetFile.Exists);
                     var content = await targetFile.OpenText().ReadToEndAsync(TestContext.Current.CancellationToken);
-                    Assert.StartsWith("<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"", content, StringComparison.Ordinal);
+                    Assert.StartsWith(
+                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width: 204.640625px;\" viewBox=\"0 0 204.640625 278\" role=\"graphics-document document\" aria-roledescription=\"flowchart-v2\">",
+                        content,
+                        StringComparison.Ordinal);
                 }
             }
 
@@ -213,7 +216,9 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                     var fileInfo = fileSystem.FileInfo.New(fileSystem.AllFiles.First());
 
-                    Add(fileInfo, "<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"");
+                    Add(
+                        fileInfo,
+                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width: 204.640625px;\" viewBox=\"0 0 204.640625 278\" role=\"graphics-document document\" aria-roledescription=\"flowchart-v2\">");
                 }
             }
 
@@ -310,7 +315,9 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                         "    B-->D;" + Environment.NewLine +
                         "    C-->D;";
 
-                    Add(graph, "<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"");
+                    Add(
+                        graph,
+                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width: 204.640625px;\" viewBox=\"0 0 204.640625 278\" role=\"graphics-document document\" aria-roledescription=\"flowchart-v2\">");
                 }
             }
 
