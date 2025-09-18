@@ -93,6 +93,112 @@ namespace Whipstaff.UnitTests.Playwright
         }
 
         /// <summary>
+        /// Unit tests for <see cref="PageExtensions.GetClassDefinitionAnalysisAsync"/>.
+        /// </summary>
+        public sealed class GetClassDefinitionAnalysisAsyncMethod : TestWithLoggingBase,
+            ITestMethodWithNullableParameters<IPage>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="GetClassDefinitionAnalysisAsyncMethod"/> class.
+            /// </summary>
+            /// <param name="output">XUnit test output instance.</param>
+            public GetClassDefinitionAnalysisAsyncMethod(ITestOutputHelper output)
+                : base(output)
+            {
+            }
+
+            /// <inheritdoc />
+            [Theory]
+            [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
+            public void ThrowsArgumentNullException(
+                IPage? arg,
+                string expectedParameterNameForException)
+            {
+                _ = Assert.Throws<ArgumentNullException>(
+                    expectedParameterNameForException,
+                    () => arg!.EnumerateImgTagsWithIncompleteAltAttributeAsync());
+            }
+
+            /// <summary>
+            /// Test that the method returns a populated collection.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            [Fact]
+            public async Task ReturnsResult()
+            {
+                await WithPlayWrightPage(async page =>
+                {
+                    var builder = new WebHostBuilder();
+                    _ = builder.Configure(app =>
+                    {
+                        _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(CssAnalysisHandler));
+                    });
+
+                    using (var testServer = new TestServer(builder))
+                    {
+                        // Navigate to a page
+#pragma warning disable S1075 // URIs should not be hardcoded
+                        await page.RouteAsync(
+                            "https://localhost/index.htm",
+                            route => PlaywrightToTestServerRouteHandler(route, testServer));
+#pragma warning restore S1075 // URIs should not be hardcoded
+
+#pragma warning disable S1075 // URIs should not be hardcoded
+                        var response = await page.GotoAsync("https://localhost/index.htm");
+#pragma warning restore S1075 // URIs should not be hardcoded
+                        Assert.NotNull(response);
+                        Assert.True(response.Ok);
+
+                        // Get class definition analysis
+                        var classDefinitionAnalysis = await page.GetClassDefinitionAnalysisAsync();
+
+                        Assert.NotEmpty(classDefinitionAnalysis.Used);
+                        Assert.NotEmpty(classDefinitionAnalysis.Defined);
+                        Assert.NotEmpty(classDefinitionAnalysis.Undefined);
+                    }
+                });
+            }
+
+            private static async Task CssAnalysisHandler(HttpContext context)
+            {
+                context.Response.StatusCode = 200;
+                context.Response.ContentType = "text/html";
+                await context.Response.WriteAsync("""
+                                                  <html>
+                                                  <head>
+                                                  <style>
+                                                    .classA {
+                                                      color: green;
+                                                      font-weight: bold;
+                                                    }
+                                                  </style>
+                                                  </head>
+                                                  <body>
+                                                  <h1 class="classA">This is using classA (defined)</h1>
+                                                  <p class="classA">This is also using classA (defined)</h1>
+                                                  <p class="classB">This is using classB (undefined)</p>
+                                                  <p class="classB">This is also using classB (undefined)</p>
+                                                  </body>
+                                                  </html>
+                                                  """);
+            }
+
+            /// <summary>
+            /// Test source for <see cref="ThrowsArgumentNullException"/>.
+            /// </summary>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage>
+            {
+                /// <summary>
+                /// Initializes a new instance of the <see cref="GetClassDefinitionAnalysisAsyncMethod.ThrowsArgumentNullExceptionTestSource"/> class.
+                /// </summary>
+                public ThrowsArgumentNullExceptionTestSource()
+                    : base("page")
+                {
+                }
+            }
+        }
+
+        /// <summary>
         /// Unit tests for <see cref="PageExtensions.EnumerateImgTagsWithIncompleteAltAttributeAsync"/>.
         /// </summary>
         public sealed class EnumerateImgTagsWithIncompleteAltAttributeMethod : TestWithLoggingBase, ITestMethodWithNullableParameters<IPage>
