@@ -48,7 +48,7 @@ namespace Whipstaff.Mermaid.Playwright
             ArgumentNullException.ThrowIfNull(loggerFactory);
 
             return new(
-                MermaidHttpServerFactory.GetTestServer(loggerFactory),
+                MermaidHttpServerFactory.GetTestServer(loggerFactory, new FileSystem()),
                 new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
                     loggerFactory.CreateLogger<PlaywrightRenderer>()));

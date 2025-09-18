@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Markdig;
 using Microsoft.Extensions.Logging;
@@ -45,7 +46,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
             [Fact]
             public async Task ReturnsInstance()
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActions = new PlaywrightRendererLogMessageActions();
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     logMessageActions,
@@ -122,7 +123,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                                "   int i = 1;" + Environment.NewLine +
                                "```";
 
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActions = new PlaywrightRendererLogMessageActions();
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     logMessageActions,
