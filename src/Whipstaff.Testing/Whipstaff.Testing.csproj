@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.20" />
-    <PackageReference Include="Splat" Version="17.0.1" />
+    <PackageReference Include="Splat" Version="17.1.1" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-rc.1.25451.107" />
     <PackageReference Include="xunit.v3.extensibility.core" Version="3.0.1" />
   </ItemGroup>
