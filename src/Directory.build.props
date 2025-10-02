@@ -47,7 +47,7 @@
   
   <ItemGroup Condition="$(IsTestProject)">
     <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.0.4" />
     <PackageReference Include="NetTestRegimentation" Version="2.0.8" />
     <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.8" />
