@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.20" />
+    <PackageReference Include="ReactiveUI.Testing" Version="22.1.1" />
   </ItemGroup>
 
   <ItemGroup>
