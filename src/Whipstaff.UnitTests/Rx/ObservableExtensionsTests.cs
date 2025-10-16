@@ -62,6 +62,9 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var nextCount = 0;
                     var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                     var subFeatureName = "FeatureTwo";
@@ -76,6 +79,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, nextCount);
 
                         _ = await observable.Execute(Unit.Default);
+                        testScheduler.Start();
 
                         Assert.Equal(1, nextCount);
                     }
@@ -126,6 +130,9 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var nextCount = 0;
                     var completedCount = 0;
                     var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName =>
@@ -143,6 +150,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, completedCount);
 
                         _ = await observable.Execute(Unit.Default);
+                        testScheduler.Start();
 
                         Assert.Equal(1, nextCount);
                         Assert.Equal(0, completedCount);
@@ -196,6 +204,9 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var nextCount = 0;
                     var errorCount = 0;
                     var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName =>
@@ -213,6 +224,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, errorCount);
 
                         _ = await observable.Execute(Unit.Default);
+                        testScheduler.Start();
 
                         Assert.Equal(1, nextCount);
                         Assert.Equal(0, errorCount);
@@ -268,6 +280,9 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var nextCount = 0;
                     var errorCount = 0;
                     var completedCount = 0;
@@ -288,6 +303,7 @@ namespace Whipstaff.UnitTests.Rx
                             Assert.Equal(0, completedCount);
 
                             _ = await observable.Execute(Unit.Default);
+                            testScheduler.Start();
 
                             Assert.Equal(1, nextCount);
                             Assert.Equal(0, errorCount);
@@ -402,6 +418,9 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var subFeatureName = "FeatureTwo";
 
                     using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
@@ -415,6 +434,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, nextCount);
 
                         _ = await observable.Execute(Unit.Default);
+                        testScheduler.Start();
 
                         Assert.Equal(1, nextCount);
                     }
@@ -467,6 +487,9 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var nextCount = 0;
                     var completedCount = 0;
 
@@ -485,6 +508,7 @@ namespace Whipstaff.UnitTests.Rx
                             Assert.Equal(0, completedCount);
 
                             _ = await observable.Execute(Unit.Default);
+                            testScheduler.Start();
 
                             Assert.Equal(1, nextCount);
                             Assert.Equal(0, completedCount);
@@ -543,6 +567,9 @@ namespace Whipstaff.UnitTests.Rx
                     var errorCount = 0;
                     using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                     {
+                        RxSchedulers.MainThreadScheduler = testScheduler;
+                        RxSchedulers.TaskpoolScheduler = testScheduler;
+
                         var subFeatureName = "FeatureTwo";
 
                         using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
@@ -556,6 +583,7 @@ namespace Whipstaff.UnitTests.Rx
                             Assert.Equal(0, errorCount);
 
                             _ = await observable.Execute(Unit.Default);
+                            testScheduler.Start();
 
                             Assert.Equal(1, nextCount);
                             Assert.Equal(0, errorCount);
@@ -614,6 +642,9 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var nextCount = 0;
                     var errorCount = 0;
                     var completedCount = 0;
@@ -634,6 +665,7 @@ namespace Whipstaff.UnitTests.Rx
                             Assert.Equal(0, completedCount);
 
                             _ = await observable.Execute(Unit.Default);
+                            testScheduler.Start();
 
                             Assert.Equal(1, nextCount);
                             Assert.Equal(0, errorCount);
