@@ -3,6 +3,10 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with MAUI.</PackageDescription>
+    <!--
+    CS0618 is because MAUI 9 exposes controls where the base class is marked obsolete.
+    -->
+    <NoWarn>CS0618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
