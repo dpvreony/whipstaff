@@ -25,5 +25,6 @@
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff.Maui</Vetuviem_Root_Namespace>
+    <Vetuviem_Include_Obsolete_Items>true</Vetuviem_Include_Obsolete_Items>
   </PropertyGroup>
 </Project>
