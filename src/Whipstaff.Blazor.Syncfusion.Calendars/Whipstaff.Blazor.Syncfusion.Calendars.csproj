@@ -12,7 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="31.1.23" />
+    <PackageReference Include="Syncfusion.Blazor.Calendars" Version="31.2.2" />
   </ItemGroup>
 
   <ItemGroup>
