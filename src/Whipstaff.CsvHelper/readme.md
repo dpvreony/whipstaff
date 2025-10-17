@@ -1,6 +1,6 @@
 # Whipstaff.CsvHelper
 
-re-usable logic with CsvHelper.
+Re-usable logic for working with CsvHelper.
 
 ## Installation
 

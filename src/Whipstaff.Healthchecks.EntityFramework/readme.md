@@ -1,6 +1,6 @@
 # Whipstaff.Healthchecks.EntityFramework
 
-Re-usable logic for working healthchecks and Entity Framework core.
+Re-usable logic for working with healthchecks and Entity Framework core.
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # Whipstaff.Mermaid
 
-re-usable logic for working with Mermaid within an InMemory HTTP service.
+Re-usable logic for working with Mermaid within an InMemory HTTP service.
 
 ## Installation
 

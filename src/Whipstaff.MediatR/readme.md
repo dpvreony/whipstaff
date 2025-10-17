@@ -1,6 +1,6 @@
 # Whipstaff.MediatR
 
-re-usable logic for working with MediatR.
+Re-usable logic for working with MediatR.
 
 ## Installation
 

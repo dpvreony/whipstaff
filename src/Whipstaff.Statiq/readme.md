@@ -1,6 +1,6 @@
 # Whipstaff.Statiq
 
-Re-usable logic for working with WPF.
+Re-usable logic for working with Statiq static site generator.
 
 ## Installation
 
