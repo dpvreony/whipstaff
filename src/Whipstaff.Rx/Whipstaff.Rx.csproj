@@ -1,15 +1,15 @@
-<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10;MonoAndroid11.0;tizen40;net8.0;net8.0-android;net8.0-ios;net8.0-tvos;net8.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net462;net472;uap10.0.16299</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;tizen40;net8.0;net9.0-android;net9.0-ios;net9.0-tvos;net9.0-macos</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with Reactive Extensions.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Splat" Version="14.8.12" />
-    <PackageReference Include="System.Reactive.Linq" Version="6.0.0" />
+    <PackageReference Include="Splat" Version="17.1.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
@@ -19,12 +19,11 @@
     <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.Mac')) ">
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="netstandard" />
+  <ItemGroup>
+    <Compile Include="..\_shared\**\*.cs" LinkBase="SharedInternals" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\_shared\**\*.cs" LinkBase="SharedInternals" />
+    <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
   </ItemGroup>
 </Project>

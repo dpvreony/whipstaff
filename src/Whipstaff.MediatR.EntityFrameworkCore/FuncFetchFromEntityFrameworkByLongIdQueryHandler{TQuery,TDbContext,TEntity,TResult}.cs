@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.Core.Entities;
-using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.MediatR.EntityFrameworkCore
 {
@@ -45,6 +45,12 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
 
         /// <inheritdoc />
         protected override DbSet<TEntity> GetDbSet(TDbContext dbContext) => _dbSetFunc(dbContext);
+
+        /// <inheritdoc />
+        protected override IQueryable<TEntity> ExtendQueryable(IQueryable<TEntity> queryable)
+        {
+            return queryable;
+        }
 
         /// <inheritdoc />
         protected override Expression<Func<TEntity, TResult?>> GetSelector() => _selector;

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
@@ -6,10 +6,29 @@
     <PackageDescription>Re-usable logic for working with WPF and Mahapps Metro.</PackageDescription>
   </PropertyGroup>
 
+  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
+    <PropertyGroup>
+      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
+    </PropertyGroup>
+  </Target>
+
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.10" />
+    <PackageReference Include="MahApps.Metro" Version="3.0.0-rc0529" />
     <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.2.1" />
-    <PackageReference Include="ReactiveUI.WPF" Version="19.5.41" />
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
+    <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.11.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
+    <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
+    <Vetuviem_Assemblies>ControlzEx.dll,MahApps.Metro.dll,MahApps.Metro.SimpleChildWindow.dll</Vetuviem_Assemblies>
+  </PropertyGroup>
 </Project>

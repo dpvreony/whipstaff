@@ -29,8 +29,8 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 args,
                 (fileSystem, logger) => new CommandLineJob(
                     new CommandLineJobLogMessageActionsWrapper(
-                        logger,
-                        new CommandLineJobLogMessageActions()),
+                        new CommandLineJobLogMessageActions(),
+                        logger),
                     fileSystem),
                 new FileSystem());
         }

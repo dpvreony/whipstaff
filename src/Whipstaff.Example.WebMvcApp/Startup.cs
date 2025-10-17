@@ -11,20 +11,27 @@ using System.Threading.Tasks;
 using Audit.Core;
 using Audit.Core.Providers;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+#if stuntman
 using RimDev.Stuntman.Core;
+#endif
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
-using Whipstaff.Core.Mediatr;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
+using Whipstaff.Example.AspireServiceDefaults;
+using Whipstaff.MediatR;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
@@ -37,7 +44,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     /// </summary>
     public sealed class Startup : BaseStartup
     {
+#if stuntman
         private readonly StuntmanOptions _stuntmanOptions;
+#endif
         private readonly DbConnection _dbConnection;
 
         /// <summary>
@@ -45,13 +54,29 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// </summary>
         public Startup()
         {
+#if stuntman
             _stuntmanOptions = new StuntmanOptions();
+#endif
             _dbConnection = CreateInMemoryDatabase();
         }
 
         /// <inheritdoc />
-        public override void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
+        public override void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder)
         {
+            _ = builder.AddServiceDefaults();
+        }
+
+        /// <inheritdoc />
+        public override void ConfigureLogging(ILoggingBuilder loggingBuilder, ConfigurationManager configuration, IWebHostEnvironment environment)
+        {
+        }
+
+        /// <inheritdoc />
+        protected override (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails()
+        {
+            return (
+                "cookie",
+                static (builder, _, _) => ConfigureAuthenticationScheme(builder));
         }
 
         /// <inheritdoc />
@@ -61,7 +86,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
 
+#if stuntman
             serviceCollection.AddStuntman(_stuntmanOptions);
+#endif
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseSqlite(_dbConnection)
                 .AddInterceptors(new RowVersionSaveChangesInterceptor())
@@ -76,7 +103,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             IWebHostEnvironment env,
             ILoggerFactory loggerFactory)
         {
+#if stuntman
             app.UseStuntman(_stuntmanOptions);
+#endif
 
             _ = app.UseStaticFiles();
         }
@@ -107,9 +136,15 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
                     return Task.CompletedTask;
                 });
 
+                _ = endpoints.MapControllerRoute(
+                    "DefaultControllerRoute",
+                    "{controller=Home}/{action=Get}");
+
+#if TBC
                 _ = endpoints.DoCrudMapControllerRoute(
                     "{controller=Home}",
                     null);
+#endif
             };
         }
 
@@ -122,6 +157,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <inheritdoc />
         protected override void ConfigureAuthorization(AuthorizationOptions authorizationOptions)
         {
+            ArgumentNullException.ThrowIfNull(authorizationOptions);
+
+            authorizationOptions.AddPolicy("HomePageView", builder => builder.RequireAssertion(_ => true).Build());
         }
 
         /// <inheritdoc />
@@ -143,6 +181,18 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             connection.Open();
 
             return connection;
+        }
+
+        private static void ConfigureAuthenticationScheme(AuthenticationBuilder authenticationBuilder)
+        {
+            _ = authenticationBuilder.AddCookie("Cookie", options =>
+            {
+                options.LoginPath = "/api/login";
+                options.LogoutPath = "/api/logout";
+                options.AccessDeniedPath = "/api/denied";
+                options.SlidingExpiration = true;
+                options.Cookie.Name = "MyCookieName";
+            });
         }
     }
 }

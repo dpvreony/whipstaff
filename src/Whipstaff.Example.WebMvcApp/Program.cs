@@ -19,7 +19,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <param name="args">Command line arguments.</param>
         public static void Main(string[] args)
         {
-            WebHostFactory.GetWebHost<Startup>(args).Run();
+            WebApplicationFactory.GetHostApplicationBuilder<Startup>(args, null).Run();
         }
     }
 }

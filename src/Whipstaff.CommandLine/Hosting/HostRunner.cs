@@ -6,6 +6,7 @@ using System;
 using System.CommandLine;
 using System.CommandLine.Binding;
 using System.IO.Abstractions;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,63 @@ namespace Whipstaff.CommandLine.Hosting
     public static class HostRunner
     {
         /// <summary>
+        /// Runs a command line job that requires additional configuration or injection.
+        /// </summary>
+        /// <typeparam name="TCommandLineHandler">The type of the command line handler.</typeparam>
+        /// <typeparam name="TCommandLineArgModel">The type of the command line argument model.</typeparam>
+        /// <typeparam name="TCommandLineArgModelBinder">The type of the command line argument model binder.</typeparam>
+        /// <typeparam name="TRootCommandAndBinderFactory">The type of the RootCommand and Argument Binder factory.</typeparam>
+        /// <param name="args">Command line arguments to parse.</param>
+        /// <param name="fileSystem">File system wrapper.</param>
+        /// <param name="additionalServiceRegistrationsAction">Action to carry out additional service registrations, if any.</param>
+        /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
+        /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
+        /// <returns>0 for success, non 0 for failure.</returns>
+        public static async Task<int> RunJobWithFullDependencyInjection<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+            string[] args,
+            IFileSystem fileSystem,
+            Action<IServiceCollection>? additionalServiceRegistrationsAction,
+            Func<ParserConfiguration>? parserConfigurationFunc = null,
+            Func<InvocationConfiguration>? invocationConfigurationFunc = null)
+            where TCommandLineHandler : class, ICommandLineHandler<TCommandLineArgModel>
+            where TCommandLineArgModelBinder : IBinderBase<TCommandLineArgModel>
+            where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
+        {
+            ArgumentNullException.ThrowIfNull(args);
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
+            try
+            {
+                var serviceCollection = new ServiceCollection()
+                    .AddLogging(loggingBuilder => loggingBuilder
+                        .SetMinimumLevel(LogLevel.Information)
+                        .AddConsole());
+
+                _ = serviceCollection.AddSingleton(fileSystem);
+                _ = serviceCollection.AddSingleton<TCommandLineHandler>();
+                additionalServiceRegistrationsAction?.Invoke(serviceCollection);
+
+                var serviceProvider = serviceCollection
+                    .BuildServiceProvider();
+
+                var commandLineHandler = serviceProvider.GetRequiredService<TCommandLineHandler>();
+
+                return await CommandLineArgumentHelpers.GetResultFromRootCommand<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+                        args,
+                        commandLineHandler.HandleCommand,
+                        fileSystem,
+                        parserConfigurationFunc,
+                        invocationConfigurationFunc)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+                return int.MaxValue;
+            }
+        }
+
+        /// <summary>
         /// Runs a command line job that requires no additional configuration or injection.
         /// </summary>
         /// <typeparam name="TCommandLineHandler">The type of the command line handler.</typeparam>
@@ -31,15 +89,17 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="args">Command line arguments to parse.</param>
         /// <param name="commandLineHandlerFactoryFunc">Factory method for the command line handler.</param>
         /// <param name="fileSystem">File system wrapper.</param>
-        /// <param name="console">The console to which output is written during invocation.</param>
+        /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
+        /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
         public static async Task<int> RunSimpleCliJob<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<IFileSystem, ILogger<TCommandLineHandler>, TCommandLineHandler> commandLineHandlerFactoryFunc,
             IFileSystem fileSystem,
-            IConsole? console = null)
+            Func<ParserConfiguration>? parserConfigurationFunc = null,
+            Func<InvocationConfiguration>? invocationConfigurationFunc = null)
             where TCommandLineHandler : ICommandLineHandler<TCommandLineArgModel>
-            where TCommandLineArgModelBinder : BinderBase<TCommandLineArgModel>
+            where TCommandLineArgModelBinder : IBinderBase<TCommandLineArgModel>
             where TRootCommandAndBinderFactory : IRootCommandAndBinderFactory<TCommandLineArgModelBinder>, new()
         {
             ArgumentNullException.ThrowIfNull(args);
@@ -63,13 +123,13 @@ namespace Whipstaff.CommandLine.Hosting
                         args,
                         commandLineHandler.HandleCommand,
                         fileSystem,
-                        console)
+                        parserConfigurationFunc,
+                        invocationConfigurationFunc)
                     .ConfigureAwait(false);
             }
-#pragma warning disable CA1031
-            catch
-#pragma warning restore CA1031
+            catch (Exception ex)
             {
+                await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
                 return int.MaxValue;
             }
         }

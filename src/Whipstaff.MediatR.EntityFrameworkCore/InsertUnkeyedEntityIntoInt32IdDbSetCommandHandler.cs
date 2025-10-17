@@ -4,7 +4,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.Core.Entities;
-using Whipstaff.Core.Mediatr;
 
 namespace Whipstaff.MediatR.EntityFrameworkCore
 {

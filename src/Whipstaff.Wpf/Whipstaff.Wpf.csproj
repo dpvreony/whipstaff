@@ -9,17 +9,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
-    <PackageReference Include="ReactiveUI.WPF" Version="19.5.41" />
+    <PackageReference Include="ReactiveUI.WPF" Version="22.1.1" />
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
+    <PackageReference Include="Vetuviem.Core" Version="0.11.14" />
+    <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.11.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+    <ProjectReference Include="..\Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
-    <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
+    <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
+  </PropertyGroup>
 </Project>

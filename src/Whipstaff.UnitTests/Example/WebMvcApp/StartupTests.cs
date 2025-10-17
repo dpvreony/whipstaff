@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp;
-using Xunit.Abstractions;
+using Xunit;
 
 namespace Whipstaff.UnitTests.Example.WebMvcApp
 {

@@ -11,5 +11,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         internal static EventId StartingHandleCommand() => new(1, nameof(StartingHandleCommand));
 
         internal static EventId FailedToFindDbContext() => new(2, nameof(FailedToFindDbContext));
+
+        internal static EventId UnhandledException() => new(3, nameof(UnhandledException));
     }
 }

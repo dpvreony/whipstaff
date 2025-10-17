@@ -4,7 +4,7 @@
 
 using MediatR;
 using Whipstaff.Core.Entities;
-using Whipstaff.Core.Mediatr;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.Testing.Cqrs
 {

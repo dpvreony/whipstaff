@@ -23,7 +23,7 @@
     <DefineConstants>$(DefineConstants);NETCOREAPP3</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <DefineConstants>$(DefineConstants);NET_461;XAML;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
+    <DefineConstants>$(DefineConstants);NET_461;XAML;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM;IS_EXTERNAL_INIT_SHIM</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('uap'))">
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
@@ -58,7 +58,7 @@
     <DefineConstants>$(DefineConstants);MONO;ANDROID</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('tizen'))">
-    <DefineConstants>$(DefineConstants);TIZEN;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
+    <DefineConstants>$(DefineConstants);TIZEN;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM;IS_EXTERNAL_INIT_SHIM</DefineConstants>
   </PropertyGroup>
   
   <Target Name="CheckVersionSet" BeforeTargets="Compile">

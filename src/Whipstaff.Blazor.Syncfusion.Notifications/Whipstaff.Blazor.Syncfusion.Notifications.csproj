@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <PackageDescription>Re-usable logic for working with Syncfusion Blazor Notification controls.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
+    <PackageReference Include="Vetuviem.Blazor.SourceGenerator" Version="0.11.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Blazor.Notifications" Version="31.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Buttons\Whipstaff.Blazor.Syncfusion.Buttons.csproj" />
+    <ProjectReference Include="..\Whipstaff.Blazor.Syncfusion.Core\Whipstaff.Blazor.Syncfusion.Core.csproj" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
+    <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
+    <Vetuviem_Assemblies>Syncfusion.Blazor.Notifications.dll</Vetuviem_Assemblies>
+  </PropertyGroup>
+</Project>

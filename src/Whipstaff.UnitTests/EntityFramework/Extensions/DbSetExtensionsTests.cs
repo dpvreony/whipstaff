@@ -3,14 +3,14 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Whipstaff.EntityFramework.Extensions;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.EntityFramework.Extensions
 {
@@ -22,7 +22,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetMaxIntIdOrDefault{TEntity}"/>.
         /// </summary>
-        public sealed class GetMaxIntIdOrDefaultMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxIntIdOrDefaultMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -33,7 +33,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxIntIdOrDefaultMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -70,7 +70,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetMaxIntIdOrDefaultAsync{TEntity}"/>.
         /// </summary>
-        public sealed class GetMaxIntIdOrDefaultAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxIntIdOrDefaultAsyncMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -81,7 +81,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxIntIdOrDefaultAsyncMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -93,8 +93,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1 });
-                    _ = await dbContext.SaveChangesAsync();
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1 }, CancellationToken.None);
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                     var result = await dbContext.FakeAddAudit.GetMaxIntIdOrDefaultAsync();
 
@@ -122,7 +122,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetMaxLongIdOrDefault{TEntity}"/>.
         /// </summary>
-        public sealed class GetMaxLongIdOrDefaultMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxLongIdOrDefaultMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -133,7 +133,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxLongIdOrDefaultMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -171,7 +171,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetMaxLongIdOrDefaultAsync{TEntity}"/>.
         /// </summary>
-        public sealed class GetMaxLongIdOrDefaultAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxLongIdOrDefaultAsyncMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -182,7 +182,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxLongIdOrDefaultAsyncMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -194,8 +194,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeLongIdTable.Add(new FakeLongIdTableDbSet());
-                    _ = await dbContext.SaveChangesAsync();
+                    _ = await dbContext.FakeLongIdTable.AddAsync(new FakeLongIdTableDbSet(), TestContext.Current.CancellationToken);
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                     var result = await dbContext.FakeLongIdTable.GetMaxLongIdOrDefaultAsync();
 
@@ -223,7 +223,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetMaxRowVersionOrDefault{TEntity}"/>.
         /// </summary>
-        public sealed class GetMaxRowVersionOrDefaultMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxRowVersionOrDefaultMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -234,7 +234,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxRowVersionOrDefaultMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -273,7 +273,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetMaxRowVersionOrDefaultAsync{TEntity}"/>.
         /// </summary>
-        public sealed class GetMaxRowVersionOrDefaultAsyncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetMaxRowVersionOrDefaultAsyncMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -284,7 +284,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetMaxRowVersionOrDefaultAsyncMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -296,8 +296,8 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             {
                 using (var dbContext = _dbContextFactory.CreateDbContext())
                 {
-                    _ = dbContext.FakeAddAudit.Add(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 });
-                    _ = await dbContext.SaveChangesAsync();
+                    _ = await dbContext.FakeAddAudit.AddAsync(new FakeAddAuditDbSet { Value = 1, RowVersion = 1 }, TestContext.Current.CancellationToken);
+                    _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
 
                     var result = await dbContext.FakeAddAudit.GetMaxRowVersionOrDefaultAsync();
 
@@ -325,7 +325,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanAndLessThanOrEqualToRowVersionsMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanAndLessThanOrEqualToRowVersionsMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -336,7 +336,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanAndLessThanOrEqualToRowVersionsMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -386,7 +386,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanLongId{TEntity}(DbSet{TEntity}, long)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanLongIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanLongIdMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -397,7 +397,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -444,7 +444,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanLongId{TEntity}(DbSet{TEntity}, long)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanLongIdMethodWithTakeRecords : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanLongIdMethodWithTakeRecords : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -455,7 +455,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethodWithTakeRecords(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -502,7 +502,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanLongId{TEntity}(DbSet{TEntity}, long)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanLongIdMethodWithSelector : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanLongIdMethodWithSelector : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -513,7 +513,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethodWithSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -564,7 +564,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanLongIdMethodWithTakeRecordsAndSelector : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanLongIdMethodWithTakeRecordsAndSelector : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -575,7 +575,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanLongIdMethodWithTakeRecordsAndSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -628,7 +628,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanIntIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanIntIdMethod : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -639,7 +639,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethod(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -686,7 +686,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanIntIdMethodWithTakeRecords : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanIntIdMethodWithTakeRecords : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -697,7 +697,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethodWithTakeRecords(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -744,7 +744,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanIntIdMethodWithSelector : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanIntIdMethodWithSelector : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -755,7 +755,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethodWithSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -806,7 +806,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanIntIdMethodWithTakeRecordsAndSelector : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanIntIdMethodWithTakeRecordsAndSelector : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -817,7 +817,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanIntIdMethodWithTakeRecordsAndSelector(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -870,7 +870,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanRowVersionMethodWithId : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanRowVersionMethodWithId : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -881,7 +881,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanRowVersionMethodWithId(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>
@@ -936,7 +936,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
         /// <summary>
         /// Unit Tests for <see cref="DbSetExtensions.GetRowsGreaterThanIntId{TEntity}(DbSet{TEntity}, int)"/>.
         /// </summary>
-        public sealed class GetRowsGreaterThanRowVersionMethodWithIdAndTakeRecords : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetRowsGreaterThanRowVersionMethodWithIdAndTakeRecords : TestWithLoggingBase
         {
             private readonly FakeDbContextFactory _dbContextFactory;
 
@@ -947,7 +947,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
             public GetRowsGreaterThanRowVersionMethodWithIdAndTakeRecords(ITestOutputHelper output)
                 : base(output)
             {
-                _dbContextFactory = new FakeDbContextFactory(Log);
+                _dbContextFactory = new FakeDbContextFactory(LoggerFactory);
             }
 
             /// <summary>

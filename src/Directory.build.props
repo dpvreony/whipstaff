@@ -8,9 +8,9 @@
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
     <PackageTags>NET core reusable web helpers</PackageTags>
-    <PackageReleaseNotes>https://github.com/dpvreony/Dhgms.AspNetCoreContrib/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>$(CHANGE_COMMIT_LOG)</PackageReleaseNotes>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/dpvreony/Dhgms.AspNetCoreContrib</RepositoryUrl>
+    <RepositoryUrl>https://github.com/$(GITHUB_REPOSITORY)</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)analyzers.ruleset</CodeAnalysisRuleSet>
@@ -27,40 +27,36 @@
     <!-- disable sourcelink on mono, to workaround https://github.com/dotnet/sourcelink/issues/155 -->
     <EnableSourceLink Condition=" '$(OS)' != 'Windows_NT' AND '$(MSBuildRuntimeType)' != 'Core' ">false</EnableSourceLink>
     <EnableSourceControlManagerQueries>$(EnableSourceLink)</EnableSourceControlManagerQueries>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<WarningsAsErrors />
-	<Nullable>enable</Nullable>
-	<Packable>false</Packable>
-	<Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.'))">false</Packable>
-    <LangVersion>12.0</LangVersion>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsPackable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.')) and !$(MSBuildProjectName.Contains('.Example.')) and !$(MSBuildProjectName.EndsWith('.Testing')) and !$(MSBuildProjectName.EndsWith('.Benchmarks'))">true</IsPackable>
+    <LangVersion>13.0</LangVersion>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <GenerateSBOM>$(IsPackable)</GenerateSBOM>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsTestProject)">
-    <IsPackable>False</IsPackable>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <EnableStaticNativeInstrumentation>False</EnableStaticNativeInstrumentation>
+    <EnableDynamicNativeInstrumentation>False</EnableDynamicNativeInstrumentation>
   </PropertyGroup>
   
   <ItemGroup Condition="$(IsTestProject)">
-    <PackageReference Include="coverlet.collector" Version="6.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.msbuild" Version="6.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Foundatio.Xunit" Version="10.7.0" />
-    <PackageReference Include="GitHubActionsTestLogger" Version="2.3.3" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageReference Include="Moq" Version="4.20.70" />
-    <PackageReference Include="NetTestRegimentation" Version="1.7.48" />
-    <PackageReference Include="NetTestRegimentation.Xunit" Version="1.7.48" />
-    <PackageReference Include="OpenCover" Version="4.7.1221" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="20.0.15" />
-    <PackageReference Include="xunit" Version="2.7.0" />
-    <PackageReference Include="xunit.analyzers" Version="1.11.0" />
-    <PackageReference Include="xunit.runner.reporters" Version="2.7.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7" />
-    <PackageReference Include="Xunit.StaFact" Version="1.1.11" />
+    <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.0.4" />
+    <PackageReference Include="NetTestRegimentation" Version="2.0.8" />
+    <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.8" />
+    <PackageReference Include="Rocks" Version="9.3.0" PrivateAssets="all" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.16" />
+    <PackageReference Include="xunit.v3" Version="3.1.0" />
+    <PackageReference Include="xunit.analyzers" Version="1.24.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageReference Include="Xunit.StaFact" Version="3.0.13" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
   </ItemGroup>
@@ -74,14 +70,15 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(IsWasmProject) == ''">
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="2.3.167" PrivateAssets="All" />
+    <PackageReference Include="Dhgms.QualityAssurancePack" Version="2.4.53" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>	
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="all" />	
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.8.118" PrivateAssets="all" />	
+    <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.2" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
@@ -95,9 +92,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="stylecop.analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.11.0" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.14.1" PrivateAssets="All" />
     <PackageReference Include="InclusivenessAnalyzer" Version="1.3.0" PrivateAssets="all" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.20.0.85982" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Net Analyzers config taken from : https://docs.microsoft.com/en-gb/visualstudio/code-quality/migrate-from-fxcop-analyzers-to-net-analyzers?view=vs-2019 -->

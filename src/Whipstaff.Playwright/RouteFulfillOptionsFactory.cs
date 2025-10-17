@@ -3,9 +3,13 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Collections.Generic;
+using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
+using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Playwright
 {
@@ -23,18 +27,39 @@ namespace Whipstaff.Playwright
         {
             ArgumentNullException.ThrowIfNull(httpResponseMessage);
 
+            var content = httpResponseMessage.Content;
+            var contentHeaders = httpResponseMessage.Content.Headers;
+            var contentEncoding = contentHeaders.ContentEncoding;
+            var bodyBytes = await GetContent(contentEncoding, content)
+                .ConfigureAwait(false);
+
             var routeFulfillOptions = new RouteFulfillOptions
             {
                 Status = (int)httpResponseMessage.StatusCode,
-                BodyBytes = await httpResponseMessage.Content.ReadAsByteArrayAsync().ConfigureAwait(false)
+                BodyBytes = bodyBytes
             };
 
-            if (httpResponseMessage.Content.Headers.ContentType != null)
+            var contentType = contentHeaders.ContentType;
+            if (contentType != null)
             {
-                routeFulfillOptions.ContentType = httpResponseMessage.Content.Headers.ContentType.ToString();
+                routeFulfillOptions.ContentType = contentType.ToString();
             }
 
             return routeFulfillOptions;
+        }
+
+        private static async Task<byte[]> GetContent(ICollection<string> contentEncoding, HttpContent content)
+        {
+            if (contentEncoding.Count == 1 && contentEncoding.First().Equals("gzip", StringComparison.OrdinalIgnoreCase))
+            {
+                var sourceStream = await content.ReadAsStreamAsync().ConfigureAwait(false);
+                using (var gzipStream = new GZipStream(sourceStream, CompressionMode.Decompress))
+                {
+                    return gzipStream.ToByteArray();
+                }
+            }
+
+            return await content.ReadAsByteArrayAsync().ConfigureAwait(false);
         }
     }
 }

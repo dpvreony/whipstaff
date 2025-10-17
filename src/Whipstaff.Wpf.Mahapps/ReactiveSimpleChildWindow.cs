@@ -50,7 +50,7 @@ namespace Whipstaff.Wpf.Mahapps
         public static readonly DependencyProperty ViewModelProperty =
 #pragma warning restore RCS1158 // Static member in generic type should use a type parameter.
             DependencyProperty.Register(
-                "ViewModel",
+                nameof(ViewModel),
                 typeof(TViewModel),
                 typeof(ReactiveSimpleChildWindow<TViewModel>),
                 new PropertyMetadata(null));

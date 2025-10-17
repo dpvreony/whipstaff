@@ -109,6 +109,8 @@ namespace Whipstaff.Runtime.Extensions
             string resourceNamespace,
             string resourceFileName)
         {
+            ArgumentNullException.ThrowIfNull(assembly);
+
             return assembly.GetManifestResourceStreamAsByteArray($"{resourceNamespace}.{resourceFileName}");
         }
 
@@ -128,6 +130,8 @@ namespace Whipstaff.Runtime.Extensions
             this Assembly assembly,
             string fullyQualifiedResourceFileName)
         {
+            ArgumentNullException.ThrowIfNull(assembly);
+
             using (var stream = assembly.GetManifestResourceStream(fullyQualifiedResourceFileName))
             {
                 if (stream == null)

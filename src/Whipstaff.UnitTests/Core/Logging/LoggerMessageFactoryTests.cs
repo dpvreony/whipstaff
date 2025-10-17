@@ -5,8 +5,8 @@
 using System;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.Core.Logging
 {
@@ -15,17 +15,17 @@ namespace Whipstaff.UnitTests.Core.Logging
     /// </summary>
     public static class LoggerMessageFactoryTests
     {
-        private const string FormatString1 = "Some Log Message. {Arg}";
-        private const string FormatString2 = "Some Log Message. {Arg1} {Arg2}";
-        private const string FormatString3 = "Some Log Message. {Arg1} {Arg2} {Arg3}";
-        private const string FormatString4 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4}";
-        private const string FormatString5 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5}";
-        private const string FormatString6 = "Some Log Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5} {Arg6}";
+        private const string FormatString1 = "Some LoggerFactory Message. {Arg}";
+        private const string FormatString2 = "Some LoggerFactory Message. {Arg1} {Arg2}";
+        private const string FormatString3 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3}";
+        private const string FormatString4 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3} {Arg4}";
+        private const string FormatString5 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5}";
+        private const string FormatString6 = "Some LoggerFactory Message. {Arg1} {Arg2} {Arg3} {Arg4} {Arg5} {Arg6}";
 
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction"/>.
         /// </summary>
-        public sealed class GetDbContextSaveResultLoggerMessageActionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetDbContextSaveResultLoggerMessageActionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetDbContextSaveResultLoggerMessageActionMethod"/> class.
@@ -50,7 +50,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetNoMediatRHandlersRegisteredForTypeLoggerMessageAction"/>.
         /// </summary>
-        public sealed class GetNoMediatRHandlersRegisteredForTypeLoggerMessageActionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetNoMediatRHandlersRegisteredForTypeLoggerMessageActionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetNoMediatRHandlersRegisteredForTypeLoggerMessageActionMethod"/> class.
@@ -75,7 +75,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetCountOfMediatRHandlersRegisteredLoggerMessageAction"/>.
         /// </summary>
-        public sealed class GetCountOfMediatRHandlersRegisteredLoggerMessageActionMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetCountOfMediatRHandlersRegisteredLoggerMessageActionMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCountOfMediatRHandlersRegisteredLoggerMessageActionMethod"/> class.
@@ -100,7 +100,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetCriticalBasicLoggerMessageActionForEventId"/>.
         /// </summary>
-        public sealed class GetCriticalBasicLoggerMessageActionForEventIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetCriticalBasicLoggerMessageActionForEventIdMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCriticalBasicLoggerMessageActionForEventIdMethod"/> class.
@@ -125,7 +125,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetCriticalBasicLoggerMessageActionForEventIdAndFunc"/>.
         /// </summary>
-        public sealed class GetCriticalBasicLoggerMessageActionForEventIdAndFuncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetCriticalBasicLoggerMessageActionForEventIdAndFuncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetCriticalBasicLoggerMessageActionForEventIdAndFuncMethod"/> class.
@@ -150,7 +150,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventId"/>.
         /// </summary>
-        public sealed class GetDebugBasicLoggerMessageActionForEventIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetDebugBasicLoggerMessageActionForEventIdMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetDebugBasicLoggerMessageActionForEventIdMethod"/> class.
@@ -175,7 +175,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventIdAndFunc"/>.
         /// </summary>
-        public sealed class GetDebugBasicLoggerMessageActionForEventIdAndFuncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetDebugBasicLoggerMessageActionForEventIdAndFuncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetDebugBasicLoggerMessageActionForEventIdAndFuncMethod"/> class.
@@ -200,7 +200,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetErrorBasicLoggerMessageActionForEventId"/>.
         /// </summary>
-        public sealed class GetErrorBasicLoggerMessageActionForEventIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetErrorBasicLoggerMessageActionForEventIdMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetErrorBasicLoggerMessageActionForEventIdMethod"/> class.
@@ -225,7 +225,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetErrorBasicLoggerMessageActionForEventIdAndFunc"/>.
         /// </summary>
-        public sealed class GetErrorBasicLoggerMessageActionForEventIdAndFuncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetErrorBasicLoggerMessageActionForEventIdAndFuncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetErrorBasicLoggerMessageActionForEventIdAndFuncMethod"/> class.
@@ -250,7 +250,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetInformationBasicLoggerMessageActionForEventId"/>.
         /// </summary>
-        public sealed class GetInformationBasicLoggerMessageActionForEventIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetInformationBasicLoggerMessageActionForEventIdMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetInformationBasicLoggerMessageActionForEventIdMethod"/> class.
@@ -275,7 +275,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetInformationBasicLoggerMessageActionForEventIdAndFunc"/>.
         /// </summary>
-        public sealed class GetInformationBasicLoggerMessageActionForEventIdAndFuncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetInformationBasicLoggerMessageActionForEventIdAndFuncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetInformationBasicLoggerMessageActionForEventIdAndFuncMethod"/> class.
@@ -300,7 +300,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetWarningBasicLoggerMessageActionForEventId"/>.
         /// </summary>
-        public sealed class GetWarningBasicLoggerMessageActionForEventIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWarningBasicLoggerMessageActionForEventIdMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWarningBasicLoggerMessageActionForEventIdMethod"/> class.
@@ -325,7 +325,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetWarningBasicLoggerMessageActionForEventIdAndFunc"/>.
         /// </summary>
-        public sealed class GetWarningBasicLoggerMessageActionForEventIdAndFuncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetWarningBasicLoggerMessageActionForEventIdAndFuncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetWarningBasicLoggerMessageActionForEventIdAndFuncMethod"/> class.
@@ -350,7 +350,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetBasicLoggerMessageActionForLogLevelAndEventId"/>.
         /// </summary>
-        public sealed class GetBasicLoggerMessageActionForLogLevelAndEventIdMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetBasicLoggerMessageActionForLogLevelAndEventIdMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetBasicLoggerMessageActionForLogLevelAndEventIdMethod"/> class.
@@ -375,7 +375,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// <summary>
         /// Unit Tests for <see cref="LoggerMessageFactory.GetBasicLoggerMessageActionForLogLevelAndEventIdAndFunc"/>.
         /// </summary>
-        public sealed class GetBasicLoggerMessageActionForLogLevelAndEventIdAndFuncMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GetBasicLoggerMessageActionForLogLevelAndEventIdAndFuncMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GetBasicLoggerMessageActionForLogLevelAndEventIdAndFuncMethod"/> class.
@@ -401,7 +401,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         /// Abstraction of unit tests for logger message define calls.
         /// </summary>
         /// <typeparam name="TLogMessageAction">The action signature for the log message action.</typeparam>
-        public abstract class AbstractDefineForFuncMethod<TLogMessageAction> : Foundatio.Xunit.TestWithLoggingBase
+        public abstract class AbstractDefineForFuncMethod<TLogMessageAction> : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="AbstractDefineForFuncMethod{TAction}"/> class.
@@ -431,7 +431,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var instance = GetLoggerMessageAction();
 
-                var count = Log.LogEntries.Count;
+                var count = LoggerFactory.LogEntries.Count;
                 var callCount = 0;
 
                 InvokeLogMessageAction(
@@ -442,7 +442,7 @@ namespace Whipstaff.UnitTests.Core.Logging
                         return 1;
                     });
 
-                Assert.True(Log.LogEntries.Count > count);
+                Assert.True(LoggerFactory.LogEntries.Count > count);
                 Assert.Equal(1, callCount);
             }
 
@@ -454,9 +454,9 @@ namespace Whipstaff.UnitTests.Core.Logging
             {
                 var instance = GetLoggerMessageAction();
 
-                Log.MinimumLevel = LogLevel.Error;
+                LoggerFactory.DefaultMinimumLevel = LogLevel.Error;
 
-                var count = Log.LogEntries.Count;
+                var count = LoggerFactory.LogEntries.Count;
                 var callCount = 0;
 
                 InvokeLogMessageAction(
@@ -467,7 +467,7 @@ namespace Whipstaff.UnitTests.Core.Logging
                         return 1;
                     });
 
-                Assert.Equal(Log.LogEntries.Count, count);
+                Assert.Equal(LoggerFactory.LogEntries.Count, count);
                 Assert.Equal(0, callCount);
             }
 
@@ -512,7 +512,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     null);
             }
@@ -546,7 +546,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     null);
             }
@@ -579,7 +579,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     null);
@@ -614,7 +614,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     null);
@@ -648,7 +648,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -684,7 +684,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -719,7 +719,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -756,7 +756,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -792,7 +792,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -830,7 +830,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -867,7 +867,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,
@@ -906,7 +906,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             protected override void InvokeLogMessageAction(Action<ILogger, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Func<int>, Exception?> instance, Func<int> trackingFunc)
             {
                 instance(
-                    _logger,
+                    Logger,
                     trackingFunc,
                     () => 2,
                     () => 3,

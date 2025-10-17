@@ -36,13 +36,9 @@ namespace Whipstaff.Runtime.Extensions
                 return;
             }
 
-#if NET48
 #pragma warning disable CS8604
-#endif
             action(input);
-#if NET48
 #pragma warning restore CS8604
-#endif
         }
 
         /// <summary>
@@ -155,7 +151,7 @@ namespace Whipstaff.Runtime.Extensions
             return instance.Replace(replacements);
         }
 
-#if NETSTANDARD2_1_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
         /// <summary>
         /// Removes all instances of a string.
         /// </summary>
@@ -215,12 +211,9 @@ namespace Whipstaff.Runtime.Extensions
                 throw new System.ArgumentNullException(paramName);
             }
 
-            foreach (var c in argument)
+            if (argument.Any(c => !char.IsWhiteSpace(c)))
             {
-                if (!char.IsWhiteSpace(c))
-                {
-                    return;
-                }
+                return;
             }
 
             throw new ArgumentException(

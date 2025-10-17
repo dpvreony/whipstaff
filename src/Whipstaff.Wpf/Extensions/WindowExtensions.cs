@@ -20,5 +20,24 @@ namespace Whipstaff.Wpf.Extensions
             var windowInteropHelper = new System.Windows.Interop.WindowInteropHelper(window);
             return Whipstaff.Windows.PInvoke.User32Helpers.FlashWindowEx(windowInteropHelper.Handle);
         }
+
+        /// <summary>Flashes the specified window. It does not change the active state of the window.</summary>
+        /// <param name="window">WPF window to adjust the display affinity for.</param>
+        /// <param name="dwAffinity">
+        /// <para>Type: <b>DWORD</b> The display affinity setting that specifies where the content of the window can be displayed.</para>
+        /// <para><see href="https://learn.microsoft.com/windows/win32/api/winuser/nf-winuser-setwindowdisplayaffinity#parameters">Read more on docs.microsoft.com</see>.</para>
+        /// </param>
+        /// <returns>
+        /// <para>Type: <b>BOOL</b> If the function succeeds, it returns <b>TRUE</b>; otherwise, it returns <b>FALSE</b> when, for example, the function call is made on a non top-level window. To get extended error information, call <a href="https://docs.microsoft.com/windows/desktop/api/errhandlingapi/nf-errhandlingapi-getlasterror">GetLastError</a>.</para>
+        /// </returns>
+        public static bool SetWindowDisplayAffinity(
+            this System.Windows.Window window,
+            global::Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY dwAffinity)
+        {
+            var windowInteropHelper = new System.Windows.Interop.WindowInteropHelper(window);
+            return Whipstaff.Windows.PInvoke.User32Helpers.SetWindowDisplayAffinity(
+                windowInteropHelper.Handle,
+                dwAffinity);
+        }
     }
 }

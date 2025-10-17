@@ -8,19 +8,24 @@ using System.Data.Common;
 using System.Reflection;
 using Audit.Core;
 using Audit.Core.Providers;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
-using Whipstaff.Core.Mediatr;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
+using Whipstaff.Example.AspireServiceDefaults;
+using Whipstaff.MediatR;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
@@ -44,8 +49,25 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        public override void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
+        public override void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder)
         {
+            _ = builder.AddServiceDefaults();
+        }
+
+        /// <inheritdoc />
+        public override void ConfigureLogging(
+            ILoggingBuilder loggingBuilder,
+            ConfigurationManager configuration,
+            IWebHostEnvironment environment)
+        {
+        }
+
+        /// <inheritdoc />
+        protected override (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails()
+        {
+            return (
+                "bearer",
+                static (builder, _, _) => ConfigureAuthenticationScheme(builder));
         }
 
         /// <inheritdoc />
@@ -131,6 +153,11 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             connection.Open();
 
             return connection;
+        }
+
+        private static void ConfigureAuthenticationScheme(AuthenticationBuilder authenticationBuilder)
+        {
+            _ = authenticationBuilder.AddBearerToken("bearer");
         }
     }
 }

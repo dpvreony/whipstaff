@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Whipstaff.CommandLine
@@ -9,14 +10,15 @@ namespace Whipstaff.CommandLine
     /// <summary>
     /// Represents a command line handler.
     /// </summary>
-    /// <typeparam name="TCommandLineArgModel">Model representing the command line arguments.</typeparam>
+    /// <typeparam name="TCommandLineArgModel">Type representing the command line arguments model.</typeparam>
     public interface ICommandLineHandler<in TCommandLineArgModel>
     {
         /// <summary>
         /// Handles the execution of the command line job.
         /// </summary>
         /// <param name="commandLineArgModel">Command Line Arguments model.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>0 for success, non-zero for error.</returns>
-        Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel);
+        Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken);
     }
 }

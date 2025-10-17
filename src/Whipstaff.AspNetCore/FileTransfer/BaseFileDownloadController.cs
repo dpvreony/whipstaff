@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.Core;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore.FileTransfer
 {
@@ -61,9 +62,11 @@ namespace Whipstaff.AspNetCore.FileTransfer
         /// <param name="request">The request dto.</param>
         /// <param name="cancellationToken">Cancellation token for the process.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
+#pragma warning disable S6967
         public async Task<IActionResult> GetAsync(
             TGetRequestDto request,
             CancellationToken cancellationToken)
+#pragma warning restore S6967
         {
             var viewPolicyName = GetViewPolicyName();
 

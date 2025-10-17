@@ -2,7 +2,8 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System.IO;
+using System;
+using System.IO.Abstractions;
 
 namespace Whipstaff.Testing.CommandLine
 {
@@ -11,7 +12,8 @@ namespace Whipstaff.Testing.CommandLine
     /// </summary>
     /// <param name="FileName">The parsed test filename argument.</param>
     /// <param name="Name">The parsed test name argument.</param>
-    public sealed record FakeCommandLineArgModel(FileInfo FileName, string? Name)
+    /// <param name="TestExceptionFunc">Function to generate an exception the test harness is expecting.</param>
+    public sealed record FakeCommandLineArgModel(IFileInfo FileName, string? Name, Func<Exception>? TestExceptionFunc)
     {
     }
 }

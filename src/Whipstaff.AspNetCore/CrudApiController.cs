@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.AspNetCore.Features.Logging;
 using Whipstaff.Core;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore
 {
@@ -33,7 +34,9 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TUpdateRequestDto">The type for the Request DTO for the Update Operation.</typeparam>
     /// <typeparam name="TUpdateResponseDto">The type for the Response DTO for the Update Operation.</typeparam>
     /// <typeparam name="TCrudControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
+#pragma warning disable S6934
     public abstract class CrudApiController<
+#pragma warning restore S6934
             TListQuery,
             TListRequestDto,
             TListQueryResponse,
@@ -49,7 +52,7 @@ namespace Whipstaff.AspNetCore
             TUpdateResponseDto,
             TCrudControllerLogMessageActions>
         : QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
@@ -124,9 +127,11 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpDelete("{id:long}")]
+#pragma warning disable S6967
         public async Task<ActionResult<TDeleteResponseDto>> DeleteAsync(
             long id,
             CancellationToken cancellationToken)
+#pragma warning restore S6967
         {
             var deletePolicyName = await GetDeletePolicyAsync().ConfigureAwait(false);
 
@@ -149,9 +154,11 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPost]
+#pragma warning disable S6967
         public async Task<ActionResult<TAddResponseDto>> PostAsync(
             TAddRequestDto addRequestDto,
             CancellationToken cancellationToken)
+#pragma warning restore S6967
         {
             var addPolicyName = await GetAddPolicyAsync().ConfigureAwait(false);
 
@@ -175,10 +182,12 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPut("{id:long}")]
+#pragma warning disable S6967
         public async Task<ActionResult<TUpdateResponseDto>> PutAsync(
             long id,
             TUpdateRequestDto updateRequestDto,
             CancellationToken cancellationToken)
+#pragma warning restore S6967
         {
             var updatePolicyName = await GetUpdatePolicyAsync().ConfigureAwait(false);
 

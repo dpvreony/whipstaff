@@ -4,18 +4,13 @@
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with System.CommandLine</PackageDescription>
+    <NoWarn>NU5104</NoWarn>
   </PropertyGroup>
 
-  <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
-    <PropertyGroup>
-      <PackageVersion>$(PackageVersion)-beta</PackageVersion>
-    </PropertyGroup>
-  </Target>
-
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="20.0.15" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-rc.2.25502.107" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.0.16" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
   </ItemGroup>
 </Project>

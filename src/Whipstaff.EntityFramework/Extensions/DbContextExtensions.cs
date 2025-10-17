@@ -18,6 +18,46 @@ namespace Whipstaff.EntityFramework.Extensions
     public static class DbContextExtensions
     {
         /// <summary>
+        /// Carries out an action on the database context and saves changes.
+        /// </summary>
+        /// <typeparam name="TDbContext">The type for the Database Context.</typeparam>
+        /// <param name="dbContext">Database Context instance to act upon.</param>
+        /// <param name="func">Action to carry out prior to calling save.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static async Task ActOnDbContextAndSaveChangesAsync<TDbContext>(
+            this TDbContext dbContext,
+            Func<TDbContext, Task> func)
+            where TDbContext : DbContext
+        {
+            ArgumentNullException.ThrowIfNull(dbContext);
+            ArgumentNullException.ThrowIfNull(func);
+
+            await func(dbContext).ConfigureAwait(false);
+            _ = await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Carries out an action on the database context, saves changes and then returns a result defined by the action.
+        /// </summary>
+        /// <typeparam name="TDbContext">The type for the Database Context.</typeparam>
+        /// <typeparam name="TResult">The type for the function result.</typeparam>
+        /// <param name="dbContext">Database Context instance to act upon.</param>
+        /// <param name="func">Action to carry out prior to calling save.</param>
+        /// <returns>Result defined by the function.</returns>
+        public static async Task<TResult> ActOnDbContextAndSaveChangesAsync<TDbContext, TResult>(
+            this TDbContext dbContext,
+            Func<TDbContext, Task<TResult>> func)
+            where TDbContext : DbContext
+        {
+            ArgumentNullException.ThrowIfNull(dbContext);
+            ArgumentNullException.ThrowIfNull(func);
+
+            var result = await func(dbContext).ConfigureAwait(false);
+            _ = await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            return result;
+        }
+
+        /// <summary>
         /// Get or adds an entity to a DBSet.
         /// </summary>
         /// <typeparam name="TDbContext">The type for the Database Context.</typeparam>
@@ -192,7 +232,8 @@ namespace Whipstaff.EntityFramework.Extensions
             where TEntity : class
         {
             var d = dbSetSelectorFunc(instance);
-            var item = d.FirstOrDefault(predicate);
+            var item = await d.TagWithCallerMemberAndCallSite().FirstOrDefaultAsync(predicate)
+                .ConfigureAwait(false);
 
             if (item != null)
             {

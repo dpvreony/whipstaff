@@ -11,6 +11,7 @@ using Audit.Core;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,6 +22,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi.Models;
@@ -31,7 +33,7 @@ using Whipstaff.AspNetCore.Features.AuditNet;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
 using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.AspNetCore.Swashbuckle;
-using Whipstaff.Core.Mediatr;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore
 {
@@ -40,37 +42,35 @@ namespace Whipstaff.AspNetCore
     /// </summary>
     public abstract class BaseStartup : IWhipstaffWebAppStartup
     {
-        /// <inheritdoc/>
-        public abstract void ConfigureLogging(WebHostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder);
+        private bool _usingAuthentication;
 
         /// <inheritdoc/>
-        public void ConfigureWebApplication(WebHostBuilderContext webHostBuilderContext, IApplicationBuilder applicationBuilder)
+        public abstract void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder);
+
+        /// <inheritdoc/>
+        public abstract void ConfigureLogging(
+            ILoggingBuilder loggingBuilder,
+            ConfigurationManager configuration,
+            IWebHostEnvironment environment);
+
+        /// <inheritdoc/>
+        public void ConfigureWebApplication(
+            WebApplication applicationBuilder)
         {
-            ArgumentNullException.ThrowIfNull(webHostBuilderContext);
             ArgumentNullException.ThrowIfNull(applicationBuilder);
 
-            var env = applicationBuilder.ApplicationServices.GetService<IWebHostEnvironment>();
-            if (env == null)
-            {
-                throw new InvalidOperationException("Failed to retrieve Environment Registration");
-            }
-
-            var logger = applicationBuilder.ApplicationServices.GetService<ILoggerFactory>();
-            if (logger == null)
-            {
-                throw new InvalidOperationException("Failed to retrieve Logger Factory");
-            }
-
-            Configure(applicationBuilder, env, logger);
+            Configure(applicationBuilder);
         }
 
         /// <inheritdoc/>
-        public void ConfigureServices(WebHostBuilderContext hostBuilderContext, IServiceCollection services)
+        public void ConfigureServices(
+            IServiceCollection services,
+            ConfigurationManager configuration,
+            IWebHostEnvironment environment)
         {
-            ArgumentNullException.ThrowIfNull(hostBuilderContext);
             ArgumentNullException.ThrowIfNull(services);
-
-            var configuration = hostBuilderContext.Configuration;
+            ArgumentNullException.ThrowIfNull(configuration);
+            ArgumentNullException.ThrowIfNull(environment);
 
             _ = services.AddFeatureManagement();
             _ = services.AddMiddlewareAnalysis();
@@ -80,6 +80,21 @@ namespace Whipstaff.AspNetCore
             ConfigureMediatrService(services);
 
             _ = services.AddProblemDetails();
+
+            var authenticationDetails = GetConfigureAuthenticationDetails();
+            if (authenticationDetails != null)
+            {
+                var actualAuthenticationDetails = authenticationDetails.Value;
+
+                var authBuilder = services.AddAuthentication(actualAuthenticationDetails.DefaultScheme);
+
+                actualAuthenticationDetails.BuilderAction(
+                    authBuilder,
+                    configuration,
+                    environment);
+
+                _usingAuthentication = true;
+            }
 
             _ = services.AddAuthorization(ConfigureAuthorization);
 #if TBC
@@ -113,6 +128,12 @@ namespace Whipstaff.AspNetCore
 
             OnConfigureServices(services);
         }
+
+        /// <summary>
+        /// Gets the default schema and an action to use when configuring authentication. If null, no authentication will be configured.
+        /// </summary>
+        /// <returns>The default schema and an  action to use when running the configuration of authentication, or null.</returns>
+        protected abstract (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails();
 
         /// <summary>
         /// Configure app specific services.
@@ -184,11 +205,11 @@ namespace Whipstaff.AspNetCore
         }
 
         private void Configure(
-            IApplicationBuilder app,
-            IWebHostEnvironment env,
-            ILoggerFactory loggerFactory)
+            WebApplication app)
         {
-            var diagnosticListener = app.ApplicationServices.GetService<DiagnosticListener>();
+            var services = app.Services;
+            var diagnosticListener = services.GetService<DiagnosticListener>();
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
             var logDiagnosticListenerLogger = loggerFactory.CreateLogger<LogDiagnosticListener>();
             _ = diagnosticListener.SubscribeWithAdapter(new LogDiagnosticListener(logDiagnosticListenerLogger));
 
@@ -248,7 +269,7 @@ namespace Whipstaff.AspNetCore
 
             DoAuditNetConfiguration(app);
 
-            var configuration = app.ApplicationServices.GetRequiredService<IConfiguration>();
+            var configuration = app.Configuration;
             var useSwagger = configuration.GetValue("useSwagger", false);
             if (useSwagger)
             {
@@ -269,11 +290,22 @@ namespace Whipstaff.AspNetCore
 
             _ = app.UseRouting();
 
+            if (_usingAuthentication)
+            {
+                _ = app.UseAuthentication();
+            }
+
+            _ = app.UseAuthorization();
+
             var useEndpointsAction = GetOnUseEndpointsAction();
             if (useEndpointsAction != null)
             {
+#pragma warning disable ASP0014
                 _ = app.UseEndpoints(endpointRouteBuilder => useEndpointsAction(endpointRouteBuilder));
+#pragma warning restore ASP0014
             }
+
+            var env = app.Environment;
 
             OnConfigure(app, env, loggerFactory);
         }

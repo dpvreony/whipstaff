@@ -5,24 +5,27 @@
 using System;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
+using Whipstaff.Core.Logging.MessageActionWrappers;
 
 namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
 {
     /// <summary>
     /// Log Message actions wrapper for <see cref="CommandLineJob" />.
     /// </summary>
-    public sealed class CommandLineJobLogMessageActionsWrapper : ILogMessageActionsWrapper<CommandLineJob>
+    public sealed class CommandLineJobLogMessageActionsWrapper : ILogMessageActionsWrapper<CommandLineJob>, IWrapLogMessageActionUnhandledException
     {
         private readonly CommandLineJobLogMessageActions _commandLineJobLogMessageActions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJobLogMessageActionsWrapper"/> class.
         /// </summary>
-        /// <param name="logger">Logging framework instance.</param>
         /// <param name="commandLineJobLogMessageActions">Log Message actions for <see cref="CommandLineJob" />.</param>
+        /// <param name="logger">Logging framework instance.</param>
         public CommandLineJobLogMessageActionsWrapper(
-            ILogger<CommandLineJob> logger,
-            CommandLineJobLogMessageActions commandLineJobLogMessageActions)
+            CommandLineJobLogMessageActions commandLineJobLogMessageActions,
+#pragma warning disable S6672
+            ILogger<CommandLineJob> logger)
+#pragma warning restore S6672
         {
             ArgumentNullException.ThrowIfNull(logger);
             ArgumentNullException.ThrowIfNull(commandLineJobLogMessageActions);
@@ -51,6 +54,12 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         public void FailedToFindRootCommand()
         {
             _commandLineJobLogMessageActions.FailedToFindRootCommand(Logger);
+        }
+
+        /// <inheritdoc />
+        public void UnhandledException(Exception exception)
+        {
+            _commandLineJobLogMessageActions.UnhandledException(Logger, exception);
         }
     }
 }

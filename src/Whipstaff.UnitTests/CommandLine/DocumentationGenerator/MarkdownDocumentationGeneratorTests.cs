@@ -6,8 +6,8 @@ using System.CommandLine;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using Whipstaff.CommandLine.DocumentationGenerator;
+using Whipstaff.Testing.Logging;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Whipstaff.UnitTests.CommandLine.DocumentationGenerator
 {
@@ -19,7 +19,7 @@ namespace Whipstaff.UnitTests.CommandLine.DocumentationGenerator
         /// <summary>
         /// Unit test for the <see cref="MarkdownDocumentationGenerator.GenerateDocumentation"/> method.
         /// </summary>
-        public sealed class GenerateDocumentationMethod : Foundatio.Xunit.TestWithLoggingBase
+        public sealed class GenerateDocumentationMethod : TestWithLoggingBase
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="GenerateDocumentationMethod"/> class.
@@ -37,12 +37,12 @@ namespace Whipstaff.UnitTests.CommandLine.DocumentationGenerator
             public void GeneratesDocumentation()
             {
                 var rootCommand = new RootCommand();
-                rootCommand.AddArgument(new Argument<FileInfo>("filename"));
-                rootCommand.AddArgument(new Argument<string?>("name"));
+                rootCommand.Arguments.Add(new Argument<FileInfo>("filename"));
+                rootCommand.Arguments.Add(new Argument<string?>("name"));
 
                 var result = MarkdownDocumentationGenerator.GenerateDocumentation(rootCommand);
 
-                _logger.LogInformation(result);
+                Logger.LogInformation(result);
 
                 Assert.NotNull(result);
                 Assert.NotEmpty(result);

@@ -15,6 +15,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     {
         private readonly Action<ILogger, Exception?> _startingHandleCommand;
         private readonly Action<ILogger, string, Exception?> _failedToFindDbContext;
+        private readonly Action<ILogger, Exception?> _unhandledException;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJobLogMessageActions"/> class.
@@ -30,6 +31,11 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 LogLevel.Information,
                 JobEventIdFactory.FailedToFindDbContext(),
                 "Failed to find Db Context: {DbContextName}");
+
+            _unhandledException = LoggerMessage.Define(
+                LogLevel.Error,
+                JobEventIdFactory.UnhandledException(),
+                "Unhandled Exception.");
         }
 
         internal void StartingHandleCommand(ILogger<CommandLineJob> logger)
@@ -40,6 +46,11 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         internal void FailedToFindDbContext(ILogger<CommandLineJob> logger, string dbContextName)
         {
             _failedToFindDbContext(logger, dbContextName, null);
+        }
+
+        internal void UnhandledException(ILogger<CommandLineJob> logger, Exception exception)
+        {
+            _unhandledException(logger, exception);
         }
     }
 }

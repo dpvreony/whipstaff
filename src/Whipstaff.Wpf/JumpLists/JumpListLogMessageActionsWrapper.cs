@@ -19,7 +19,9 @@ namespace Whipstaff.Wpf.JumpLists
         /// <param name="logger">Logging framework instance.</param>
         public JumpListLogMessageActionsWrapper(
             JumpListLogMessageActions logMessageActions,
+#pragma warning disable S6672
             ILogger<JumpListHelper> logger)
+#pragma warning restore S6672
             : base(
                 logMessageActions,
                 logger)

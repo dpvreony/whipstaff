@@ -1,4 +1,4 @@
-name: .NET Core
+name: ci
 
 on:
   push:
@@ -7,23 +7,28 @@ on:
     types: [opened, synchronize, reopened]
     branches: [ main ]
 
+  
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-2025
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
     outputs:
       nbgv: ${{ steps.nbgv.outputs.SemVer2 }}
+      change_commit_log: ${{ steps.changelog.outputs.commitLog }}
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
-      solutionpath: src/Whipstaff.sln
-      unittestprojectpath: src/Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
-      inttestprojectpath: src/Whipstaff.IntegrationTests/Whipstaff.IntegrationTests.csproj
-      benchmarkprojectpath: src/Whipstaff.IntegrationTests/Whipstaff.Benchmarks.csproj
+      solutionpath: Whipstaff.sln
+      unittestprojectpath: Whipstaff.UnitTests/Whipstaff.UnitTests.csproj
+      inttestprojectpath: Whipstaff.IntegrationTests/Whipstaff.IntegrationTests.csproj
+      benchmarkprojectpath: Whipstaff.IntegrationTests/Whipstaff.Benchmarks.csproj
     steps:
     - name: Checkout code
-      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
       with:
         fetch-depth: 0
         
@@ -35,13 +40,13 @@ jobs:
 
     # java is used by sonar scanner
     - name: Setup Java 17
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
         java-version: '17'
 
     - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
+      uses: android-actions/setup-android@v3.2.2
 
     - name: Install Android SDK
       run: |
@@ -53,37 +58,27 @@ jobs:
         echo $sdkmanagerpath
         . $sdkmanagerpath --install "platforms;android-30"
 
-    - name: Install Windows SDK 10.0.16299
-      shell: pwsh
-      run: |
-        Invoke-WebRequest -Uri https://go.microsoft.com/fwlink/p/?linkid=864422 -OutFile winsdk.exe
-        $startInfo = New-Object System.Diagnostics.ProcessStartInfo
-        $startInfo.FileName = "winsdk.exe"
-        $startInfo.Arguments = "/norestart /quiet"
-        $process = New-Object System.Diagnostics.Process
-        $process.StartInfo = $startInfo
-        $process.Start()
-        $process.WaitForExit()
-
-    - name: Install .NET 8
-      uses: actions/setup-dotnet@v4
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 8.0.x
+        global-json-file: "./global.json"
 
     - name: Install DotNet workloads
       shell: bash
       run: |
-        dotnet workload install android ios tvos macos maui
+        dotnet workload install android aspire ios tvos macos maui
         dotnet workload list
+      working-directory: src
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@31e0ba28c780f4bd10cfc8075d1fff655386e214
+      uses: microsoft/setup-msbuild@767f00a3f09872d96a0cb9fcd5e6a4ff33311330
 
     # This mitigates an issue with websdk projects loading analyzers from old packages.
     - name: Cleanup nuget local storage
       run: |
         dotnet nuget locals all --clear
         dotnet nuget remove source "Microsoft Visual Studio Offline Packages"
+      working-directory: src
 
     - name: NBGV
       id: nbgv
@@ -93,6 +88,7 @@ jobs:
 
     - name: Install dotnet tools
       run: dotnet tool restore
+      working-directory: src
 
     - name: Prepare Artifact Directory
       run: |
@@ -106,23 +102,50 @@ jobs:
 
     - name: Restore Packages
       run: |
-        dotnet restore ${{ env.solutionpath }} /bl:artifacts\\binlog\\restore.binlog
-
-    - name: List Deprecated Packages
-      run: |
-        dotnet list package --deprecated
+        dotnet restore ${{ env.solutionpath }} -- /bl:..\\artifacts\\binlog\\restore.binlog
       working-directory: src
 
-    - name: List Vulnerable Packages
-      run: |
-        dotnet list package --vulnerable
-      working-directory: src
+    #- name: List Deprecated Packages
+    #  run: |
+    #    dotnet list package --deprecated
+    #  working-directory: src
+
+    #- name: List Vulnerable Packages
+    #  run: |
+    #    dotnet list package --vulnerable
+    #  working-directory: src
 
     - name: NPM package restore
       run: |
         pushd src\Whipstaff.Example.WebMvcApp\
         npm install
         popd
+
+    - name: NPM package restore
+      run: |
+        pushd src\Whipstaff.Mermaid\
+        npm install
+        popd
+
+    - name: Changelog
+      uses: glennawatson/ChangeLog@v1
+      id: changelog
+
+    - name: Report Changelog Summary
+      run: |
+        $changecommitlog = $Env:CHANGE_COMMIT_LOG
+        $changecommitlog = $changecommitlog.Replace('"', '''')
+
+        $lines = $changecommitlog -split [Environment]::NewLine
+
+        foreach ($line in $lines)
+        {
+          echo "::notice::$line"
+          Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $line
+        }
+
+      env:
+        CHANGE_COMMIT_LOG : ${{ steps.changelog.outputs.commitLog }}
 
     - name: Run Sonar Scanner begin
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -136,12 +159,15 @@ jobs:
 
     - name: Run Build
       run: |
-        msbuild /t:build,pack /p:Configuration=Release /maxcpucount /bl:..\\artifacts\\binlog\\build.binlog /p:ContinuousIntegrationBuild=true /p:PackageOutputPath=..\..\artifacts\nuget
+        dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:../artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true 
       working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     - name: Run Unit Tests
+      working-directory: src
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\unittest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\unittestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/unittest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../../artifacts/unittestcoverage
 
     - name: Run Sonar Scanner end
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -163,36 +189,37 @@ jobs:
 
     - name: Report Unit Test Coverage
       run: |
-        $opencoverxmlpath = Get-ChildItem 'artifacts/unittestcoverage/**/*.xml' | Select-Object -First 1
+        $opencoverxmlpath = Get-ChildItem 'artifacts/unittestcoverage/coverage.xml' | Select-Object -First 1
         $unitTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Unit Test Coverage: $unitTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
       run: |
-        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build /bl:artifacts\\binlog\\inttest.binlog --nologo --logger GitHubActions --blame-hang-timeout 60000 --results-directory artifacts\inttestcoverage --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:DeterministicSourcePaths=false -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build --nologo /bl:../artifacts/binlog/inttest.binlog --logger "GitHubActions;verbosity=normal" -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../../artifacts/inttestcoverage
+      working-directory: src
 
     - name: Report Integration Test Coverage
       run: |
-        $opencoverxmlpath = Get-ChildItem 'artifacts/inttestcoverage/**/*.xml' | Select-Object -First 1
+        $opencoverxmlpath = Get-ChildItem 'artifacts/inttestcoverage/coverage.xml' | Select-Object -First 1
         $intTestCoverage = (Select-Xml -Path $opencoverxmlpath -XPath 'CoverageSession/Summary/@branchCoverage').Node.Value
         $coverageMessage = "Integration Test Coverage: $intTestCoverage"
         echo "::notice::$coverageMessage"
-        echo $coverageMessage >> $GITHUB_STEP_SUMMARY
+        Add-Content -Path $env:GITHUB_STEP_SUMMARY -Value $coverageMessage
 
-    - name: List licenses
+    - name: Produce Nuget Packages
       run: |
-        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
-
-    - name: Generate SBOM
-      run: |
-        dotnet sbom-tool generate -b artifacts/nuget -bc src -pn Whipstaff -pv $Env:NBGV_SimpleVersion -ps "DHGMS Solutions" -nsb https://sbom.dhgms.com -m artifacts\sbom
+        dotnet pack ${{ env.solutionpath }} --configuration Release --no-build /bl:../artifacts/binlog/pack.binlog --nologo /p:PackageOutputPath=../../artifacts/nuget /p:ContinuousIntegrationBuild=true
+      working-directory: src
+      env:
+        CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
 
     - name: List outdated packages
       run: |
-        dotnet outdated -o artifacts\outdated\outdated.json src
+        dotnet outdated -o ../artifacts/outdated/outdated.json
+      working-directory: src
 
     - name: VirusTotal Monitor Scan
       if: ${{ env.VIRUSTOTAL_API_KEY != 0 }}
@@ -206,10 +233,6 @@ jobs:
       env:
         VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
 
-    - name: Generate App Inspector Report
-      run: |
-        dotnet appinspector analyze -s src -f html -o artifacts\appinspector\appinspector.html
-
     # only store binlog on failure
     - name: store binlogs
       if: ${{ failure() }}
@@ -219,22 +242,19 @@ jobs:
         path: artifacts/binlog
 
     - name: store unit test coverage
+      if: ${{ always() }}
       uses: actions/upload-artifact@v4
       with:
         name: unittestcoverage
         path: artifacts/unittestcoverage
-
-    - name: store docfx
-      uses: actions/upload-artifact@v4
-      with:
-        name: docfx
-        path: artifacts/docfx
+        if-no-files-found: error
         
     - name: store nuget packages
       uses: actions/upload-artifact@v4
       with:
         name: nuget
         path: artifacts/nuget
+        if-no-files-found: error
         
     - name: store omd
       uses: actions/upload-artifact@v4
@@ -242,12 +262,6 @@ jobs:
         name: omd
         path: artifacts/omd
         
-    - name: store licenses
-      uses: actions/upload-artifact@v4
-      with:
-        name: licenses
-        path: artifacts/licenses
-
     - name: store sbom
       uses: actions/upload-artifact@v4
       with:
@@ -258,19 +272,101 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: outdated
-        path: artifacts/outdated
-        
-    - name: store snitch
+        path: artifacts/outdated        
+
+  licenses:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Install dotnet tools
+      run: dotnet tool restore --tool-manifest .config/dotnet-project-licenses.json
+
+    - name: Prepare Artifact Directory
+      run: |
+        mkdir artifacts
+        mkdir artifacts\licenses
+
+    - name: List licenses
+      run: |
+        dotnet dotnet-project-licenses -i src --export-license-texts --output-directory artifacts/licenses
+
+    - name: store licenses
       uses: actions/upload-artifact@v4
       with:
-        name: snitch
-        path: artifacts/snitch
+        name: licenses
+        path: artifacts/licenses
+        if-no-files-found: error
+
+  #snitch:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #  - name: Checkout code
+  #    uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+  #  - name: Install dotnet tools
+  #    run: dotnet tool restore --tool-manifest .config/snitch.json
+
+  #  - name: run snitch
+  #    run: |
+  #      snitch ${{ env.solutionpath }}
+  #    working-directory: src
+
+  #  - name: store snitch
+  #    uses: actions/upload-artifact@v4
+  #    with:
+  #      name: snitch
+  #      path: artifacts/snitch
+
+  appinspector:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '9.0.x'
+        
+    - name: Install dotnet tools
+      run: dotnet tool restore --tool-manifest .config/appinspector.json
+
+    - name: Prepare Artifact Directory
+      run: |
+        mkdir artifacts
+        mkdir artifacts\appinspector
+
+    - name: Generate App Inspector Report
+      run: |
+        dotnet appinspector analyze -s src -f html -o artifacts\appinspector\appinspector.html
 
     - name: store appinspector
       uses: actions/upload-artifact@v4
       with:
         name: appinspector
         path: artifacts/appinspector
+        if-no-files-found: error
+
+  check-nuget-environment:
+    permissions:
+      actions: read
+      contents: read
+      deployments: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if 'nuget' environment exists and has protection rules
+        uses: dpvreony/ensure-environment-protected@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          environment_name: 'nuget'
+
   release:
     if: ${{ always() && format('refs/heads/{0}', github.event.repository.default_branch) == github.ref }}
     permissions:
@@ -278,9 +374,9 @@ jobs:
       pages: write
       id-token: write
     runs-on: ubuntu-latest
+    needs: [build, check-nuget-environment]
     environment:
       name: nuget
-    needs: build
     env:
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
@@ -288,14 +384,9 @@ jobs:
       DOTNET_GENERATE_ASPNET_CERTIFICATE: false
     steps:
     - name: Download NuGet Packages
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: nuget
-
-    - name: Changelog
-      uses: glennawatson/ChangeLog@v1
-      id: changelog
-
     - name: Create Release
       uses: actions/create-release@v1
       env:
@@ -304,7 +395,7 @@ jobs:
           tag_name: ${{ needs.build.outputs.nbgv }}
           release_name: ${{ needs.build.outputs.nbgv }}
           body: |
-            ${{ steps.changelog.outputs.commitLog }}
+            ${{ needs.build.outputs.change_commit_log }}
 
     - name: NuGet Push
       env:

@@ -53,7 +53,7 @@ namespace Whipstaff.Testing.MediatR
                     Created = DateTimeOffset.UtcNow
                 };
 
-                _ = dbContext.FakeAddAudit.Add(entity);
+                _ = await dbContext.FakeAddAudit.AddAsync(entity, CancellationToken.None).ConfigureAwait(false);
                 var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
 #pragma warning disable CA1848 // Use the LoggerMessage delegates

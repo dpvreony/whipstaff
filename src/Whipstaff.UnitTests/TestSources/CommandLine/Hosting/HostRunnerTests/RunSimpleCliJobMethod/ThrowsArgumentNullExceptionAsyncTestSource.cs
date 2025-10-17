@@ -29,7 +29,7 @@ namespace Whipstaff.UnitTests.TestSources.CommandLine.Hosting.HostRunnerTests.Ru
                     ]),
                 new NamedParameterInput<Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler>>(
                     "commandLineHandlerFactoryFunc",
-                    () => (_, _) => new FakeCommandLineHandler()),
+                    () => (_, logger) => new FakeCommandLineHandler(new FakeCommandLineHandlerLogMessageActionsWrapper(logger))),
                 new NamedParameterInput<IFileSystem>(
                     "fileSystem",
                     () => new MockFileSystem()))

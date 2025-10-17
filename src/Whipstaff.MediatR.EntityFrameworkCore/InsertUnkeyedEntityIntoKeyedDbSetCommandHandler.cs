@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Whipstaff.Core.Mediatr;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Whipstaff.MediatR.EntityFrameworkCore
 {

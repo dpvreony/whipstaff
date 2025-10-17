@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.AspNetCore.Features.Logging;
 using Whipstaff.Core;
+using Whipstaff.MediatR;
 
 namespace Whipstaff.AspNetCore
 {
@@ -25,9 +26,11 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TViewQuery">The type for the View Query.</typeparam>
     /// <typeparam name="TViewQueryResponse">The type for the Response DTO for the View Operation.</typeparam>
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
+#pragma warning disable S6934
     public abstract class QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
+#pragma warning restore S6934
         : ControllerBase
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
@@ -128,9 +131,11 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">Cancellation token for the operations.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("{id:long}")]
+#pragma warning disable S6967
         public async Task<ActionResult<TViewQueryResponse>> ViewAsync(
             long id,
             CancellationToken cancellationToken)
+#pragma warning restore S6967
         {
             var viewPolicyName = await GetViewPolicyAsync().ConfigureAwait(false);
 

@@ -50,7 +50,7 @@ namespace Whipstaff.Testing.MediatR
                     Created = DateTimeOffset.UtcNow
                 };
 
-                _ = dbContext.FakeAddPostProcessAudit.Add(entity);
+                _ = await dbContext.FakeAddPostProcessAudit.AddAsync(entity, CancellationToken.None).ConfigureAwait(false);
 
                 _ = await dbContext.SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
