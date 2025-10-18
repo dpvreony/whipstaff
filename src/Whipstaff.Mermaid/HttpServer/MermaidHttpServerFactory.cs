@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Text.Encodings.Web;
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,19 +25,29 @@ namespace Whipstaff.Mermaid.HttpServer
         /// Gets the In Memory Test Server.
         /// </summary>
         /// <param name="loggerFactory">Logging Factory.</param>
+        /// <param name="fileSystem">File system wrapper.</param>
         /// <returns>In memory HTTP server instance.</returns>
-        public static MermaidHttpServer GetTestServer(ILoggerFactory loggerFactory)
+        public static MermaidHttpServer GetTestServer(
+            ILoggerFactory loggerFactory,
+            IFileSystem fileSystem)
         {
-            var builder = GetWebHostBuilder(loggerFactory);
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
+            var builder = GetWebHostBuilder(
+                loggerFactory,
+                fileSystem);
+
             var testServer = new MermaidHttpServer(builder);
             return testServer;
         }
 
-        private static IWebHostBuilder GetWebHostBuilder(ILoggerFactory loggerFactory)
+        private static IWebHostBuilder GetWebHostBuilder(
+            ILoggerFactory loggerFactory,
+            IFileSystem fileSystem)
         {
-            var embeddedProvider = new EmbeddedFileProvider(
+            var embeddedProvider = new ManifestEmbeddedFileProvider(
                 typeof(MermaidHttpServerFactory).Assembly,
-                typeof(MermaidHttpServerFactory).Namespace + ".wwwroot");
+                fileSystem.Path.Combine("HttpServer", "wwwroot"));
 
             var builder = new WebHostBuilder()
                 .ConfigureLogging(loggingBuilder => ConfigureLogging(
@@ -53,7 +63,7 @@ namespace Whipstaff.Mermaid.HttpServer
             return builder;
         }
 
-        private static void ConfigureApp(IApplicationBuilder applicationBuilder, EmbeddedFileProvider embeddedFileProvider)
+        private static void ConfigureApp(IApplicationBuilder applicationBuilder, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = applicationBuilder.Use(async (context, next) =>
             {
@@ -147,7 +157,7 @@ namespace Whipstaff.Mermaid.HttpServer
                    request.Path.Equals("/index.html", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static void ConfigureServices(IServiceCollection serviceCollection, EmbeddedFileProvider embeddedFileProvider)
+        private static void ConfigureServices(IServiceCollection serviceCollection, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = serviceCollection.AddSingleton<IFileProvider>(embeddedFileProvider);
         }

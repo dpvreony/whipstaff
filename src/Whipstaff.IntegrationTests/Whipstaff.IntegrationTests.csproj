@@ -8,16 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.Testing" Version="9.4.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.20" />
-    <PackageReference Include="System.Text.Json" Version="8.0.6" />
+    <PackageReference Include="Aspire.Hosting.Testing" Version="9.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.21" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Example.AspireAppHost\Whipstaff.Example.AspireAppHost.csproj" IsAspireProjectResource="False" />
     <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" IsAspireProjectResource="False" />
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" IsAspireProjectResource="False" />
-    <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
+    <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" IsAspireProjectResource="False" />
   </ItemGroup>
 
 </Project>

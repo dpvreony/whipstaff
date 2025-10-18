@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with the Syncfusion Maui Toolkit.</PackageDescription>
   </PropertyGroup>
@@ -10,7 +10,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.6" />
+    <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.7" />
     <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.11.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
