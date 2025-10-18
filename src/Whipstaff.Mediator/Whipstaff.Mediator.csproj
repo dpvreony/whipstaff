@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
+    <PackageDescription>re-usable logic for working with Mediator.Abstractions.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediator.Abstractions" Version="2.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\_shared\**\*.cs" LinkBase="SharedInternals" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+  </ItemGroup>
+
+</Project>
