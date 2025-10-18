@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\_shared\**\*.cs" LinkBase="SharedInternals" />
+    <Compile Include="..\_shared\**\*.cs" LinkBase="SharedInternals" />
   </ItemGroup>
 
   <ItemGroup>
