@@ -153,6 +153,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Maui.AspNetCore.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Mediator.EntityFrameworkCore", "Whipstaff.Mediator.EntityFrameworkCore\Whipstaff.Mediator.EntityFrameworkCore.csproj", "{DB455FC9-B730-4BC6-8143-37932B65FD97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.MsBuild", "Whipstaff.MsBuild\Whipstaff.MsBuild.csproj", "{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1015,6 +1017,18 @@ Global
 		{DB455FC9-B730-4BC6-8143-37932B65FD97}.Release|x64.Build.0 = Release|Any CPU
 		{DB455FC9-B730-4BC6-8143-37932B65FD97}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB455FC9-B730-4BC6-8143-37932B65FD97}.Release|x86.Build.0 = Release|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Debug|x64.Build.0 = Debug|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Debug|x86.Build.0 = Debug|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Release|x64.ActiveCfg = Release|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Release|x64.Build.0 = Release|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Release|x86.ActiveCfg = Release|Any CPU
+		{838423FB-1EC4-48D7-B8E0-706DB3EA67EC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
