@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Whipstaff.CommandLine\Whipstaff.CommandLine.csproj" />
     <ProjectReference Include="..\Whipstaff.Entityframework.Relational\Whipstaff.EntityFramework.Relational.csproj" />
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
+    <ProjectReference Include="..\Whipstaff.Mediator\Whipstaff.Mediator.csproj" />
   </ItemGroup>
 
 </Project>
