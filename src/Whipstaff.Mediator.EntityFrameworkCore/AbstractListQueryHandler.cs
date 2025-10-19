@@ -26,7 +26,7 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
         where TQuery : IQuery<TResponse[]>, IPageRequest
     {
         /// <inheritdoc />
-        public async Task<TResponse[]?> Handle(TQuery request, CancellationToken cancellationToken)
+        public async ValueTask<TResponse[]?> Handle(TQuery request, CancellationToken cancellationToken)
         {
             using (var dbContext = GetDbContext())
             {
