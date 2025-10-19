@@ -5,8 +5,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.Logging;
+using Whipstaff.Core.Entities;
 using Whipstaff.Mediator.EntityFrameworkCore;
-using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
 using Whipstaff.Testing.Logging;
@@ -19,6 +19,15 @@ namespace Whipstaff.UnitTests.Mediator.EntityFrameworkCore
     /// </summary>
     public static class FuncFetchFromEntityFrameworkByInt32IdRequestHandlerTests
     {
+        /// <summary>
+        /// Test request by id for Mediator tests.
+        /// </summary>
+        private sealed class RequestById : Whipstaff.Mediator.IQuery<int?>, IIntId
+        {
+            /// <inheritdoc />
+            public int Id { get; init; }
+        }
+
         /// <inheritdoc />
         public sealed class ConstructorMethod : TestWithLoggingBase, NetTestRegimentation.ITestConstructorMethod
         {
