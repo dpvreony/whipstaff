@@ -1,7 +1,7 @@
 {
     "sdk": {
-        "version": "9.0.305",
-        "rollForward": "latestPatch",
+        "version": "9.0.306",
+        "rollForward": "disable",
         "allowPrerelease": false
     },
     "msbuild-sdks": {
