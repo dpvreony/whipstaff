@@ -2,6 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Build.Construction;
@@ -20,6 +21,8 @@ namespace Whipstaff.MsBuild
         /// <returns>Enumerable of MSBuild projects.</returns>
         public static IEnumerable<ProjectInSolution> GetKnownMsBuildProjects(this SolutionFile solutionFile)
         {
+            ArgumentNullException.ThrowIfNull(solutionFile);
+
             return solutionFile.ProjectsInOrder.Where(x => x.ProjectType == SolutionProjectType.KnownToBeMSBuildFormat);
         }
     }
