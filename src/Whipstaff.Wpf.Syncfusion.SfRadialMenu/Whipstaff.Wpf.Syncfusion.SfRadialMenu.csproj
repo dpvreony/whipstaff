@@ -17,8 +17,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <!--
+  <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Shared\Whipstaff.Wpf.Syncfusion.Shared.csproj" />
   </ItemGroup>
+  -->
 
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>

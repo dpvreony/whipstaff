@@ -23,6 +23,6 @@
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
-    <Vetuviem_Assemblies>Syncfusion.Presentation.Wpf.dll</Vetuviem_Assemblies>
+    <Vetuviem_Assemblies>Syncfusion.Presentation.Base.dll</Vetuviem_Assemblies>
   </PropertyGroup>
 </Project>

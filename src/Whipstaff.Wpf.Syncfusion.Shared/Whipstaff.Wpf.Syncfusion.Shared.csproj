@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <PropertyGroup>
+
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
     <Vetuviem_Assemblies>Syncfusion.Shared.WPF.dll</Vetuviem_Assemblies>
