@@ -225,6 +225,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Wpf.Syncfusion.Sf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Wpf.Syncfusion.SfGridCommon", "Whipstaff.Wpf.Syncfusion.SfGridCommon\Whipstaff.Wpf.Syncfusion.SfGridCommon.csproj", "{3D62E6A7-E0B1-4FA8-B119-A4842205B939}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.WebHooksSite.Client", "Whipstaff.WebHooksSite.Client\Whipstaff.WebHooksSite.Client.csproj", "{86B6DB73-BF67-45CE-B3F5-8B8211C00019}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1519,6 +1521,18 @@ Global
 		{3D62E6A7-E0B1-4FA8-B119-A4842205B939}.Release|x64.Build.0 = Release|Any CPU
 		{3D62E6A7-E0B1-4FA8-B119-A4842205B939}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D62E6A7-E0B1-4FA8-B119-A4842205B939}.Release|x86.Build.0 = Release|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Debug|x64.Build.0 = Debug|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Debug|x86.Build.0 = Debug|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Release|x64.ActiveCfg = Release|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Release|x64.Build.0 = Release|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Release|x86.ActiveCfg = Release|Any CPU
+		{86B6DB73-BF67-45CE-B3F5-8B8211C00019}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
