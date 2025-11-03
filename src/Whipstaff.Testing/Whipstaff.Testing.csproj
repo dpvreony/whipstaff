@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.21" />
     <PackageReference Include="Splat" Version="17.1.1" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-rc.2.25502.107" />
-    <PackageReference Include="xunit.v3.extensibility.core" Version="3.1.0" />
+    <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>
