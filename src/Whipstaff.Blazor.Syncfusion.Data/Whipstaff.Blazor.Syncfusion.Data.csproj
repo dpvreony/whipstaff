@@ -12,7 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Blazor.Data" Version="31.2.4" />
+    <PackageReference Include="Syncfusion.Blazor.Data" Version="31.2.5" />
   </ItemGroup>
 
   <ItemGroup>
