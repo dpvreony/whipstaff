@@ -138,8 +138,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .Configure(app =>
                                 {
                                     _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(CssAnalysisHandler));
-                                })
-                                .UseKestrel();
+                                });
                         })
                         .Build();
                     await host.StartAsync();
@@ -250,8 +249,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .Configure(app =>
                                 {
                                     _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(InvalidAltTagHandler));
-                                })
-                                .UseKestrel();
+                                });
                         })
                         .Build();
                     await host.StartAsync();
@@ -296,8 +294,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .Configure(app =>
                                 {
                                     _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandler));
-                                })
-                                .UseKestrel();
+                                });
                         })
                         .Build();
                     await host.StartAsync();
@@ -395,8 +392,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .Configure(app =>
                                 {
                                     _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandler));
-                                })
-                                .UseKestrel();
+                                });
                         })
                         .Build();
                     await host.StartAsync();

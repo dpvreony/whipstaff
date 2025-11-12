@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using Whipstaff.Mermaid.HttpServer;
@@ -20,7 +21,7 @@ namespace Whipstaff.Mermaid.Playwright
     /// </summary>
     public sealed class PlaywrightRenderer
     {
-        private readonly MermaidHttpServer _mermaidHttpServerFactory;
+        private readonly TestServer _mermaidHttpServerFactory;
         private readonly PlaywrightRendererLogMessageActionsWrapper _logMessageActionsWrapper;
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="mermaidHttpServer">In memory http server instance for Mermaid.</param>
         /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
         public PlaywrightRenderer(
-            MermaidHttpServer mermaidHttpServer,
+            TestServer mermaidHttpServer,
             PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(mermaidHttpServer);

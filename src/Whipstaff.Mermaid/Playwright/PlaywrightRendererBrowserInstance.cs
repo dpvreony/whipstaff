@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Playwright;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
@@ -43,7 +44,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
         /// <returns>Browser wrapper instance.</returns>
         public static async Task<PlaywrightRendererBrowserInstance> GetBrowserInstance(
-            MermaidHttpServer mermaidHttpServer,
+            TestServer mermaidHttpServer,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel,
             PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
         {

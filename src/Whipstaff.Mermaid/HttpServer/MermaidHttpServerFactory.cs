@@ -30,7 +30,7 @@ namespace Whipstaff.Mermaid.HttpServer
         /// <param name="loggerFactory">Logging Factory.</param>
         /// <param name="fileSystem">File system wrapper.</param>
         /// <returns>In memory HTTP server instance.</returns>
-        public static MermaidHttpServer GetTestServer(
+        public static TestServer GetTestServer(
             ILoggerFactory loggerFactory,
             IFileSystem fileSystem)
         {
@@ -42,9 +42,7 @@ namespace Whipstaff.Mermaid.HttpServer
 
             var host = builder.Build();
             host.Start();
-            var testServer = host.Services.GetRequiredService<MermaidHttpServer>();
-
-            return testServer;
+            return host.GetTestServer();
         }
 
         private static IHostBuilder GetWebHostBuilder(
@@ -68,8 +66,7 @@ namespace Whipstaff.Mermaid.HttpServer
                             embeddedProvider))
                         .Configure((_, applicationBuilder) => ConfigureApp(
                             applicationBuilder,
-                            embeddedProvider))
-                        .UseKestrel();
+                            embeddedProvider));
                 });
         }
 
@@ -170,11 +167,6 @@ namespace Whipstaff.Mermaid.HttpServer
         private static void ConfigureServices(IServiceCollection serviceCollection, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = serviceCollection.AddSingleton<IFileProvider>(embeddedFileProvider);
-
-            // this is a hack to get the TestServer instance injected as a MermaidHttpServer
-            // this is so downstream consumers can make assumptions that they are getting a MermaidHttpServer
-            // and not a generic TestServer.
-            _ = serviceCollection.AddSingleton<MermaidHttpServer>();
         }
 
         private static void ConfigureLogging(ILoggingBuilder loggingBuilder, ILoggerFactory loggerFactory)
