@@ -272,7 +272,8 @@ namespace Whipstaff.UnitTests.Playwright
                     Assert.True(response.Ok);
 
                     // Get all img elements
-                    var images = await page.EnumerateImgTagsWithIncompleteAltAttributeAsync().ToArrayAsync();
+                    // Replace with ToArrayAsync() once upstream System.Linq.Async package is removed.
+                    var images = page.EnumerateImgTagsWithIncompleteAltAttributeAsync().ToBlockingEnumerable().ToArray();
 
                     Assert.NotEmpty(images);
                 });
@@ -317,7 +318,8 @@ namespace Whipstaff.UnitTests.Playwright
                     Assert.True(response.Ok);
 
                     // Get all img elements
-                    var images = await page.EnumerateImgTagsWithIncompleteAltAttributeAsync().ToArrayAsync();
+                    // Replace with ToArrayAsync() once upstream System.Linq.Async package is removed.
+                    var images = page.EnumerateImgTagsWithIncompleteAltAttributeAsync().ToBlockingEnumerable().ToArray();
 
                     Assert.Empty(images);
                 });
@@ -385,34 +387,41 @@ namespace Whipstaff.UnitTests.Playwright
             {
                 await WithPlayWrightPage(async page =>
                 {
-                    var builder = new WebHostBuilder();
-                    _ = builder.Configure(app =>
-                    {
-                        _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandler));
-                    });
+                    using var host = new HostBuilder()
+                        .ConfigureWebHost(webHostBuilder =>
+                        {
+                            _ = webHostBuilder
+                                .UseTestServer() // If using TestServer
+                                .Configure(app =>
+                                {
+                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandler));
+                                })
+                                .UseKestrel();
+                        })
+                        .Build();
+                    await host.StartAsync();
 
-                    using (var testServer = new TestServer(builder))
-                    {
-                        // Navigate to a page
+                    var testServer = host.GetTestServer();
+
+                    // Navigate to a page
 #pragma warning disable S1075 // URIs should not be hardcoded
-                        await page.RouteAsync(
-                            "https://localhost/index.htm",
-                            route => PlaywrightToTestServerRouteHandler(route, testServer));
+                    await page.RouteAsync(
+                        "https://localhost/index.htm",
+                        route => PlaywrightToTestServerRouteHandler(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
 
 #pragma warning disable S1075 // URIs should not be hardcoded
-                        var response = await page.GotoAsync("https://localhost/index.htm");
+                    var response = await page.GotoAsync("https://localhost/index.htm");
 #pragma warning restore S1075 // URIs should not be hardcoded
-                        Assert.NotNull(response);
-                        Assert.True(response.Ok);
+                    Assert.NotNull(response);
+                    Assert.True(response.Ok);
 
-                        // Get all img elements
-                        var mhtml = await page.GetMhtmlAsStringAsync();
+                    // Get all img elements
+                    var mhtml = await page.GetMhtmlAsStringAsync();
 
-                        Logger.LogInformation(mhtml);
+                    Logger.LogInformation(mhtml);
 
-                        Assert.NotEmpty(mhtml);
-                    }
+                    Assert.NotEmpty(mhtml);
                 });
             }
 
