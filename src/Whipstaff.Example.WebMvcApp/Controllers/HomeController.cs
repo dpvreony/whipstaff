@@ -14,7 +14,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// <summary>
     /// Sample home controller.
     /// </summary>
-    public class HomeController : Controller
+    internal class HomeController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
 

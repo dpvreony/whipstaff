@@ -18,7 +18,7 @@ namespace Whipstaff.OpenXml.Excel
     /// <summary>
     /// Sample handler for generating and\or serving spreadsheets.
     /// </summary>
-    public sealed class DownloadSpreadsheetCommandHandler : IRequestHandler<DownloadSpreadsheetRequestDto, FileNameAndStreamModel?>
+    internal sealed class DownloadSpreadsheetCommandHandler : IRequestHandler<DownloadSpreadsheetRequestDto, FileNameAndStreamModel?>
     {
         /// <inheritdoc/>
         public async Task<FileNameAndStreamModel?> Handle(DownloadSpreadsheetRequestDto request, CancellationToken cancellationToken)

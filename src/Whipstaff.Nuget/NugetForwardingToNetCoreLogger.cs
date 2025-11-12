@@ -3,9 +3,13 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NuGet.Common;
+using NuGet.Protocol.Plugins;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Whipstaff.Nuget
 {
@@ -36,7 +40,12 @@ namespace Whipstaff.Nuget
         /// <inheritdoc/>
         public void Log(NuGet.Common.LogLevel level, string data)
         {
-            _internalLogger.Log(GetLogLevel(level), _defaultClientLogEvent, data, null, (str, ex) => str);
+            var internalLevel = GetLogLevel(level);
+
+            if (_internalLogger.IsEnabled(internalLevel))
+            {
+                _internalLogger.Log(internalLevel, _defaultClientLogEvent, data, null, (str, ex) => str);
+            }
         }
 
         /// <inheritdoc/>
@@ -47,13 +56,24 @@ namespace Whipstaff.Nuget
                 return;
             }
 
-            _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
+            var internalLevel = GetLogLevel(message.Level);
+
+            if (_internalLogger.IsEnabled(internalLevel))
+            {
+                _internalLogger.Log(internalLevel, new EventId((int)message.Code), message.Message, null, (str, ex) => str);
+            }
         }
 
         /// <inheritdoc/>
         public Task LogAsync(NuGet.Common.LogLevel level, string data)
         {
-            _internalLogger.Log(GetLogLevel(level), _defaultClientLogEvent, data, null, (str, ex) => str);
+            var internalLevel = GetLogLevel(level);
+
+            if (_internalLogger.IsEnabled(internalLevel))
+            {
+                _internalLogger.Log(internalLevel, _defaultClientLogEvent, data, null, (str, _) => str);
+            }
+
             return Task.CompletedTask;
         }
 
@@ -65,13 +85,24 @@ namespace Whipstaff.Nuget
                 return Task.CompletedTask;
             }
 
-            _internalLogger.Log(GetLogLevel(message.Level), new EventId((int)message.Code), message.Message, null, (str, ex) => str);
+            var internalLevel = GetLogLevel(message.Level);
+
+            if (_internalLogger.IsEnabled(internalLevel))
+            {
+                _internalLogger.Log(internalLevel, new EventId((int)message.Code), message.Message, null, (str, ex) => str);
+            }
+
             return Task.CompletedTask;
         }
 
         /// <inheritdoc/>
         public void LogDebug(string data)
         {
+            if (!_internalLogger.IsEnabled(LogLevel.Debug))
+            {
+                return;
+            }
+
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
             _internalLogger.LogDebug("{Data}", data);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
@@ -80,14 +111,24 @@ namespace Whipstaff.Nuget
         /// <inheritdoc/>
         public void LogVerbose(string data)
         {
+            if (!_internalLogger.IsEnabled(LogLevel.Trace))
+            {
+                return;
+            }
+
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
-            _internalLogger.LogInformation("{Data}", data);
+            _internalLogger.LogTrace("{Data}", data);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
 
         /// <inheritdoc/>
         public void LogInformation(string data)
         {
+            if (!_internalLogger.IsEnabled(LogLevel.Information))
+            {
+                return;
+            }
+
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
             _internalLogger.LogInformation("{Data}", data);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
@@ -96,14 +137,17 @@ namespace Whipstaff.Nuget
         /// <inheritdoc/>
         public void LogMinimal(string data)
         {
-#pragma warning disable CA1848 // Use the LoggerMessage delegates
-            _internalLogger.LogInformation("{Data}", data);
-#pragma warning restore CA1848 // Use the LoggerMessage delegates
+            LogInformation(data);
         }
 
         /// <inheritdoc/>
         public void LogWarning(string data)
         {
+            if (!_internalLogger.IsEnabled(LogLevel.Warning))
+            {
+                return;
+            }
+
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
             _internalLogger.LogWarning("{Data}", data);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
@@ -112,6 +156,11 @@ namespace Whipstaff.Nuget
         /// <inheritdoc/>
         public void LogError(string data)
         {
+            if (!_internalLogger.IsEnabled(LogLevel.Error))
+            {
+                return;
+            }
+
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
             _internalLogger.LogError("{Data}", data);
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
@@ -120,9 +169,7 @@ namespace Whipstaff.Nuget
         /// <inheritdoc/>
         public void LogInformationSummary(string data)
         {
-#pragma warning disable CA1848 // Use the LoggerMessage delegates
-            _internalLogger.LogInformation("{Data}", data);
-#pragma warning restore CA1848 // Use the LoggerMessage delegates
+            LogInformation(data);
         }
 
         private static Microsoft.Extensions.Logging.LogLevel GetLogLevel(NuGet.Common.LogLevel logLevel)

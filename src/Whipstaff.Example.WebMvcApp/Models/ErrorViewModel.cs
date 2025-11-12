@@ -7,7 +7,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Models
     /// <summary>
     /// View Model for rendering errors.
     /// </summary>
-    public class ErrorViewModel
+    internal class ErrorViewModel
     {
         /// <summary>
         /// Gets or sets the request id.
