@@ -10,7 +10,7 @@ namespace Whipstaff.Example.WpfApp
     /// <summary>
     /// Interaction logic for App.
     /// </summary>
-    public partial class App : Application
+    internal sealed partial class App : Application
     {
         /// <inheritdoc/>
         protected override void OnStartup(StartupEventArgs e)
