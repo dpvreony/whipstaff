@@ -21,7 +21,7 @@
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
   </ItemGroup>
-  <Target Name="CopyNpmTasks" BeforeTargets="BeforeBuild">
+  <Target Name="CopyNpmTasks" BeforeTargets="BeforeBuild;_CalculateEmbeddedFilesManifestInputs">
     <!-- these tasks remove the need for gulp, grunt, npm, etc. to be used for file copying -->
     <ItemGroup>
       <!--
