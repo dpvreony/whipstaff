@@ -29,7 +29,7 @@ namespace Whipstaff.CommandLine
         {
             ArgumentNullException.ThrowIfNull(type);
 
-            if (!type.IsPublicClosedClass())
+            if (!type.IsClosedClass())
             {
                 return false;
             }

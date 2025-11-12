@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <NoWarn>CA1034,CS1591</NoWarn>
     <IsTestProject>True</IsTestProject>
     <!-- review CA1515 when upgrading to xunit3 -->

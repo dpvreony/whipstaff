@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,8 +11,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Mermaid.HttpServer
@@ -37,11 +40,14 @@ namespace Whipstaff.Mermaid.HttpServer
                 loggerFactory,
                 fileSystem);
 
-            var testServer = new MermaidHttpServer(builder);
+            var host = builder.Build();
+            host.Start();
+            var testServer = host.Services.GetRequiredService<MermaidHttpServer>();
+
             return testServer;
         }
 
-        private static IWebHostBuilder GetWebHostBuilder(
+        private static IHostBuilder GetWebHostBuilder(
             ILoggerFactory loggerFactory,
             IFileSystem fileSystem)
         {
@@ -49,18 +55,22 @@ namespace Whipstaff.Mermaid.HttpServer
                 typeof(MermaidHttpServerFactory).Assembly,
                 fileSystem.Path.Combine("HttpServer", "wwwroot"));
 
-            var builder = new WebHostBuilder()
-                .ConfigureLogging(loggingBuilder => ConfigureLogging(
-                    loggingBuilder,
-                    loggerFactory))
-                .ConfigureServices((_, serviceCollection) => ConfigureServices(
-                    serviceCollection,
-                    embeddedProvider))
-                .Configure((_, applicationBuilder) => ConfigureApp(
-                    applicationBuilder,
-                    embeddedProvider));
-
-            return builder;
+            return new HostBuilder()
+                .ConfigureWebHost(webHostBuilder =>
+                {
+                    _ = webHostBuilder
+                        .UseTestServer() // If using TestServer
+                        .ConfigureLogging(loggingBuilder => ConfigureLogging(
+                            loggingBuilder,
+                            loggerFactory))
+                        .ConfigureServices((_, serviceCollection) => ConfigureServices(
+                            serviceCollection,
+                            embeddedProvider))
+                        .Configure((_, applicationBuilder) => ConfigureApp(
+                            applicationBuilder,
+                            embeddedProvider))
+                        .UseKestrel();
+                });
         }
 
         private static void ConfigureApp(IApplicationBuilder applicationBuilder, ManifestEmbeddedFileProvider embeddedFileProvider)
@@ -160,6 +170,11 @@ namespace Whipstaff.Mermaid.HttpServer
         private static void ConfigureServices(IServiceCollection serviceCollection, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = serviceCollection.AddSingleton<IFileProvider>(embeddedFileProvider);
+
+            // this is a hack to get the TestServer instance injected as a MermaidHttpServer
+            // this is so downstream consumers can make assumptions that they are getting a MermaidHttpServer
+            // and not a generic TestServer.
+            _ = serviceCollection.AddSingleton<MermaidHttpServer>();
         }
 
         private static void ConfigureLogging(ILoggingBuilder loggingBuilder, ILoggerFactory loggerFactory)

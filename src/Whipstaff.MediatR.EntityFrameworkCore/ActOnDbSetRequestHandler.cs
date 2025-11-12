@@ -22,6 +22,11 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
         where TDbContext : DbContext
         where TRequest : IRequest<int>
     {
+        private static readonly Action<ILogger, int, Exception?> _saveResultLogMessage = LoggerMessage.Define<int>(
+            LogLevel.Debug,
+            new EventId(1, nameof(ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>)),
+            "Save Result: {SaveResult}");
+
         private readonly IDbContextFactory<TDbContext> _dbContextFactory;
         private readonly ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> _logger;
 
@@ -55,9 +60,9 @@ namespace Whipstaff.MediatR.EntityFrameworkCore
                 if (dbContext.ChangeTracker.HasChanges())
                 {
                     var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-#pragma warning disable CA1848 // Use the LoggerMessage delegates
-                    _logger.LogDebug("Save Result: {SaveResult}", saveResult);
-#pragma warning restore CA1848 // Use the LoggerMessage delegates
+
+                    _saveResultLogMessage(_logger, saveResult, null);
+
                     return saveResult;
                 }
             }
