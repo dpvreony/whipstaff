@@ -61,6 +61,18 @@
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
   </ItemGroup>
 
+  <ItemGroup Condition="$(IsTestProject) != 'true'">
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Whipstaff.Benchmarks</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Whipstaff.IntegrationTests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Whipstaff.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)..\LICENSE" Pack="true" PackagePath="LICENSE" />
   </ItemGroup>

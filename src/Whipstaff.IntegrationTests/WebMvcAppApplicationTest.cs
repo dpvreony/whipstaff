@@ -128,11 +128,13 @@ namespace Whipstaff.IntegrationTests
                         foreach (var uriCrawlResultModel in crawlResults)
                         {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
+#pragma warning disable CA1873
                             Logger.LogInformation(
                                 "Crawl result for {Uri}: Status Code {StatusCode}, Page Errors Count {PageErrorsCount}",
                                 uriCrawlResultModel.Key,
                                 uriCrawlResultModel.Value.StatusCode,
                                 uriCrawlResultModel.Value.PageErrors.Count);
+#pragma warning restore CA1873
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
                         }
 

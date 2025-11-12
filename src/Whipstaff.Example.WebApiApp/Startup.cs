@@ -36,7 +36,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
     /// <summary>
     /// Startup object for the WebAPI example Application.
     /// </summary>
-    internal sealed class Startup : BaseStartup
+    public sealed class Startup : BaseStartup
     {
         private readonly DbConnection _dbConnection;
 

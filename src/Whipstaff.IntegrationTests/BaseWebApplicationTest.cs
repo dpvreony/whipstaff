@@ -81,13 +81,17 @@ namespace Whipstaff.IntegrationTests
             foreach (var (key, value) in response.Headers)
             {
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
+#pragma warning disable CA1873
                 logger.LogInformation("Header Item: {Key} -> {Values}", key, string.Join(",", value));
+#pragma warning restore CA1873
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 
             var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
+#pragma warning disable CA1873
             logger.LogInformation("Result: {Result}", result);
+#pragma warning restore CA1873
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
         }
     }

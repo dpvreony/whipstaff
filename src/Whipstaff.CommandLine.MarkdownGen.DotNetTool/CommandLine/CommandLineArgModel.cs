@@ -9,5 +9,5 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
     /// <summary>
     /// Model that represents the command line arguments.
     /// </summary>
-    internal sealed record CommandLineArgModel(FileInfo AssemblyPath, FileInfo OutputFilePath);
+    public sealed record CommandLineArgModel(FileInfo AssemblyPath, FileInfo OutputFilePath);
 }
