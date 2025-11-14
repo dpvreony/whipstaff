@@ -17,7 +17,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// <summary>
     /// Sample web controller for an XLSX download.
     /// </summary>
-    internal sealed class ExcelController : BaseFileDownloadController<int, DownloadSpreadsheetRequestDto>
+    public sealed class ExcelController : BaseFileDownloadController<int, DownloadSpreadsheetRequestDto>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExcelController"/> class.

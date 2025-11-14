@@ -31,6 +31,7 @@ namespace Whipstaff.IntegrationTests
         public WebMvcAppApplicationTest(ITestOutputHelper output)
             : base(output)
         {
+            LoggerFactory.DefaultMinimumLevel = LogLevel.Debug;
         }
 
         /// <summary>

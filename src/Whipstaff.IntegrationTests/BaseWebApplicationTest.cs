@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Testing;
@@ -36,30 +37,6 @@ namespace Whipstaff.IntegrationTests
             ITestOutputHelper output)
             : base(output)
         {
-        }
-
-        /// <summary>
-        /// Gets the Web Application Factory.
-        /// </summary>
-        /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
-        /// <param name="args">Command line arguments.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected static async Task WithWebApplicationFactoryAsync(Func<TestServer, Task> webApplicationFunc, string[] args)
-        {
-            ArgumentNullException.ThrowIfNull(webApplicationFunc);
-
-            var webApplication = WebApplicationFactory.GetHostApplicationBuilder<TStartup>(
-                args,
-                applicationBuilder => applicationBuilder.WebHost.UseTestServer());
-            var server = webApplication.Services.GetRequiredService<IServer>();
-            if (server is not TestServer testServer)
-            {
-                throw new InvalidOperationException("Server is not a TestServer.");
-            }
-
-            await webApplication.StartAsync();
-
-            await webApplicationFunc(testServer).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -93,6 +70,30 @@ namespace Whipstaff.IntegrationTests
             logger.LogInformation("Result: {Result}", result);
 #pragma warning restore CA1873
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
+        }
+
+        /// <summary>
+        /// Gets the Web Application Factory.
+        /// </summary>
+        /// <param name="webApplicationFunc">Function to pass the web application factory to.</param>
+        /// <param name="args">Command line arguments.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected async Task WithWebApplicationFactoryAsync(Func<TestServer, Task> webApplicationFunc, string[] args)
+        {
+            ArgumentNullException.ThrowIfNull(webApplicationFunc);
+
+            var webApplication = WebApplicationFactory.GetHostApplicationBuilder<TStartup>(
+                args,
+                applicationBuilder =>
+                {
+                    _ = applicationBuilder.Services.Replace(new ServiceDescriptor(typeof(ILoggerFactory), LoggerFactory));
+                    _ = applicationBuilder.WebHost.UseTestServer();
+                });
+
+            await webApplication.StartAsync();
+            var testServer = webApplication.GetTestServer();
+
+            await webApplicationFunc(testServer).ConfigureAwait(false);
         }
     }
 }
