@@ -2,7 +2,7 @@
 
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.19041</TargetFramework>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <PackageDescription>Re-usable logic for working with MaterialDesign WPF Controls.</PackageDescription>
   </PropertyGroup>

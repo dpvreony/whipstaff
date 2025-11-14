@@ -10,7 +10,7 @@ namespace Whipstaff.Example.WpfApp.Features.MainWindow
     /// <summary>
     /// View model for an XML Viewer.
     /// </summary>
-    public sealed class MainViewModel : ReactiveObject, IMainViewModel
+    internal sealed class MainViewModel : ReactiveObject, IMainViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.

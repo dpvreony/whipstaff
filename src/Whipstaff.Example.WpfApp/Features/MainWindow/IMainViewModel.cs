@@ -11,7 +11,7 @@ namespace Whipstaff.Example.WpfApp.Features.MainWindow
     /// <summary>
     /// Represents an XML viewer view model.
     /// </summary>
-    public interface IMainViewModel : IReactiveObject, IWindowDisplayAffinity
+    internal interface IMainViewModel : IReactiveObject, IWindowDisplayAffinity
     {
     }
 }

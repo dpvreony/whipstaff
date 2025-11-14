@@ -13,7 +13,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
     /// <summary>
     /// Binding logic for the command line arguments.
     /// </summary>
-    public sealed class CommandLineArgModelBinder : IBinderBase<CommandLineArgModel>
+    internal sealed class CommandLineArgModelBinder : IBinderBase<CommandLineArgModel>
     {
         private readonly Option<FileInfo> _assemblyOption;
         private readonly Option<string> _diagramTypeOption;

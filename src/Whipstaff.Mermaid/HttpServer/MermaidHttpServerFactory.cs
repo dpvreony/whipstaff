@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.IO;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,8 +11,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Mermaid.HttpServer
@@ -27,7 +30,7 @@ namespace Whipstaff.Mermaid.HttpServer
         /// <param name="loggerFactory">Logging Factory.</param>
         /// <param name="fileSystem">File system wrapper.</param>
         /// <returns>In memory HTTP server instance.</returns>
-        public static MermaidHttpServer GetTestServer(
+        public static TestServer GetTestServer(
             ILoggerFactory loggerFactory,
             IFileSystem fileSystem)
         {
@@ -37,11 +40,12 @@ namespace Whipstaff.Mermaid.HttpServer
                 loggerFactory,
                 fileSystem);
 
-            var testServer = new MermaidHttpServer(builder);
-            return testServer;
+            var host = builder.Build();
+            host.Start();
+            return host.GetTestServer();
         }
 
-        private static IWebHostBuilder GetWebHostBuilder(
+        private static IHostBuilder GetWebHostBuilder(
             ILoggerFactory loggerFactory,
             IFileSystem fileSystem)
         {
@@ -49,18 +53,21 @@ namespace Whipstaff.Mermaid.HttpServer
                 typeof(MermaidHttpServerFactory).Assembly,
                 fileSystem.Path.Combine("HttpServer", "wwwroot"));
 
-            var builder = new WebHostBuilder()
-                .ConfigureLogging(loggingBuilder => ConfigureLogging(
-                    loggingBuilder,
-                    loggerFactory))
-                .ConfigureServices((_, serviceCollection) => ConfigureServices(
-                    serviceCollection,
-                    embeddedProvider))
-                .Configure((_, applicationBuilder) => ConfigureApp(
-                    applicationBuilder,
-                    embeddedProvider));
-
-            return builder;
+            return new HostBuilder()
+                .ConfigureWebHost(webHostBuilder =>
+                {
+                    _ = webHostBuilder
+                        .UseTestServer() // If using TestServer
+                        .ConfigureLogging(loggingBuilder => ConfigureLogging(
+                            loggingBuilder,
+                            loggerFactory))
+                        .ConfigureServices((_, serviceCollection) => ConfigureServices(
+                            serviceCollection,
+                            embeddedProvider))
+                        .Configure((_, applicationBuilder) => ConfigureApp(
+                            applicationBuilder,
+                            embeddedProvider));
+                });
         }
 
         private static void ConfigureApp(IApplicationBuilder applicationBuilder, ManifestEmbeddedFileProvider embeddedFileProvider)

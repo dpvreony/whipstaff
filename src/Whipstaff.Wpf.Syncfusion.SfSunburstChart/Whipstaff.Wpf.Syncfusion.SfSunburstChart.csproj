@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows10.0.19041</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.19041</TargetFramework>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <PackageDescription>Re-usable logic for working with SyncFusion WPF SunburstChart Control.</PackageDescription>
     <NoWarn>CS0618</NoWarn>

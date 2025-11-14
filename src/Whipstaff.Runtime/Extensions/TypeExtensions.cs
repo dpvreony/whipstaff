@@ -79,6 +79,36 @@ namespace Whipstaff.Runtime.Extensions
         }
 
         /// <summary>
+        /// Checks if a type is a closed type.
+        /// </summary>
+        /// <remarks>
+        /// This is used where an executable is now meant to make types internal to prevent CA1515.
+        /// </remarks>
+        /// <param name="type">The type to check.</param>
+        /// <returns>Whether the type is a closed type.</returns>
+        public static bool IsClosedClass(this Type type)
+        {
+            ArgumentNullException.ThrowIfNull(type);
+
+            if (!type.IsClass)
+            {
+                return false;
+            }
+
+            if (type.IsAbstract)
+            {
+                return false;
+            }
+
+            if (type.ContainsGenericParameters)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Checks if a type is a public closed type.
         /// </summary>
         /// <typeparam name="T">The type of class that the type should inherit from.</typeparam>

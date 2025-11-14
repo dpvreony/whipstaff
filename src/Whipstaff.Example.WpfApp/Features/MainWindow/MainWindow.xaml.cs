@@ -11,7 +11,7 @@ namespace Whipstaff.Example.WpfApp.Features.MainWindow
     /// <summary>
     /// Interaction logic for the Main Window.
     /// </summary>
-    public partial class MainWindow
+    internal sealed partial class MainWindow
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.

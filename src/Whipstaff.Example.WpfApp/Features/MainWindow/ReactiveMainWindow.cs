@@ -9,7 +9,7 @@ namespace Whipstaff.Example.WpfApp.Features.MainWindow
     /// <summary>
     /// Represents a Reactive Main Window.
     /// </summary>
-    public class ReactiveMainWindow : ReactiveWindow<IMainViewModel>
+    internal class ReactiveMainWindow : ReactiveWindow<IMainViewModel>
     {
     }
 }

@@ -11,7 +11,7 @@ namespace Whipstaff.Example.AspireAppHost
     /// <summary>
     /// Program entry point for the application.
     /// </summary>
-    public static class Program
+    internal static class Program
     {
         /// <summary>
         /// Main entry point for the application.

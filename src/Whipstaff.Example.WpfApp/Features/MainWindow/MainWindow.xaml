@@ -5,7 +5,8 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     xmlns:mainWindow="clr-namespace:Whipstaff.Example.WpfApp.Features.MainWindow"
                     mc:Ignorable="d"
-                    Title="MainWindow" Height="450" Width="800">
+                    Title="MainWindow" Height="450" Width="800"
+                    x:ClassModifier="internal">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

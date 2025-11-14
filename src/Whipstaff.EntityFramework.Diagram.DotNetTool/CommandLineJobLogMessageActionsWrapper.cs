@@ -12,7 +12,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// <summary>
     /// Log Message actions wrapper for <see cref="CommandLineJob" />.
     /// </summary>
-    public sealed class CommandLineJobLogMessageActionsWrapper : ILogMessageActionsWrapper<CommandLineJob>, IWrapLogMessageActionUnhandledException
+    internal sealed class CommandLineJobLogMessageActionsWrapper : ILogMessageActionsWrapper<CommandLineJob>, IWrapLogMessageActionUnhandledException
     {
         private readonly CommandLineJobLogMessageActions _commandLineJobLogMessageActions;
 

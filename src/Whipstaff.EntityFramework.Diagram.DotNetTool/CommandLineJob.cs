@@ -21,7 +21,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// <summary>
     /// Command line job for handling the creation of the Entity Framework Diagram.
     /// </summary>
-    public sealed class CommandLineJob : AbstractCommandLineHandler<CommandLineArgModel, CommandLineJobLogMessageActionsWrapper>
+    internal sealed class CommandLineJob : AbstractCommandLineHandler<CommandLineArgModel, CommandLineJobLogMessageActionsWrapper>
     {
         private readonly IFileSystem _fileSystem;
 

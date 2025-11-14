@@ -11,7 +11,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     /// <summary>
     /// Represents the core Program start up logic.
     /// </summary>
-    public static class Program
+    internal static class Program
     {
         /// <summary>
         /// Entry point for the program.

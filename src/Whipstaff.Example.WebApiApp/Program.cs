@@ -18,7 +18,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
     /// <summary>
     /// Holds the entry point for the application.
     /// </summary>
-    public static class Program
+    internal static class Program
     {
         /// <summary>
         /// Entry point for the application.

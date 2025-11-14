@@ -12,7 +12,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
     /// <summary>
     /// Factory for creating the root command and binder.
     /// </summary>
-    public sealed class CommandLineHandlerFactory : IRootCommandAndBinderFactory<CommandLineArgModelBinder>
+    internal sealed class CommandLineHandlerFactory : IRootCommandAndBinderFactory<CommandLineArgModelBinder>
     {
         /// <inheritdoc/>
         public RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem)

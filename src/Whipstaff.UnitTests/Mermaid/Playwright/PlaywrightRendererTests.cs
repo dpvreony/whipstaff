@@ -7,6 +7,7 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NetTestRegimentation;
@@ -27,7 +28,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<TestServer, PlaywrightRendererLogMessageActionsWrapper>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -57,7 +58,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                MermaidHttpServer? arg1,
+                TestServer? arg1,
                 PlaywrightRendererLogMessageActionsWrapper? arg2,
                 string expectedParameterNameForException)
             {
@@ -71,14 +72,14 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullException"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TestServer, PlaywrightRendererLogMessageActionsWrapper>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                     : base(
-                        new NamedParameterInput<MermaidHttpServer>(
+                        new NamedParameterInput<TestServer>(
                             "mermaidHttpServer",
                             () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory(), new FileSystem())),
                         new NamedParameterInput<PlaywrightRendererLogMessageActionsWrapper>(
