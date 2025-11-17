@@ -25,7 +25,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
