@@ -18,7 +18,7 @@ namespace Whipstaff.AspNetCore.Swashbuckle
         /// <typeparam name="T">Type to check is registered.</typeparam>
         /// <param name="context">Operation Filter Context.</param>
         /// <returns>Schema representation of the desired type.</returns>
-        public static Microsoft.OpenApi.Models.OpenApiSchema EnsureTypeRegistered<T>(this OperationFilterContext context)
+        public static Microsoft.OpenApi.OpenApiSchema EnsureTypeRegistered<T>(this OperationFilterContext context)
         {
             ArgumentNullException.ThrowIfNull(context);
 
