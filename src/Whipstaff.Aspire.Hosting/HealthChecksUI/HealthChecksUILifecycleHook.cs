@@ -9,88 +9,28 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
+using Aspire.Hosting.Eventing;
 using Aspire.Hosting.Lifecycle;
 
 namespace Whipstaff.Aspire.Hosting.HealthChecksUI
 {
     /// <summary>
-    /// Lifecycle hook for configuring Health Checks UI resources.
+    /// Event subscriber for configuring Health Checks UI resources.
     /// </summary>
-    public sealed class HealthChecksUILifecycleHook : IDistributedApplicationLifecycleHook
+    public sealed class HealthChecksUILifecycleHook : IDistributedApplicationEventingSubscriber
     {
         private const string HEALTHCHECKSUIURLS = "HEALTHCHECKSUI_URLS";
-        private readonly DistributedApplicationExecutionContext _executionContext;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HealthChecksUILifecycleHook"/> class.
-        /// </summary>
-        /// <param name="executionContext">Distributed application execution context.</param>
-        public HealthChecksUILifecycleHook(DistributedApplicationExecutionContext executionContext)
+        /// <inheritdoc/>
+        public Task SubscribeAsync(IDistributedApplicationEventing eventing, DistributedApplicationExecutionContext executionContext, CancellationToken cancellationToken)
         {
+            ArgumentNullException.ThrowIfNull(eventing);
             ArgumentNullException.ThrowIfNull(executionContext);
-            _executionContext = executionContext;
-        }
 
-        /// <inheritdoc/>
-        public Task BeforeStartAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
-        {
-            ArgumentNullException.ThrowIfNull(appModel);
-
-            // Configure each project referenced by a Health Checks UI resource
-            var healthChecksUIResources = appModel.Resources.OfType<HealthChecksUIResource>();
-
-            foreach (var healthChecksUIResource in healthChecksUIResources)
-            {
-                foreach (var monitoredProject in healthChecksUIResource.MonitoredProjects)
-                {
-                    var project = monitoredProject.Project;
-
-                    // Add the health check endpoint if it doesn't exist
-                    var healthChecksEndpoint = project.GetEndpoint(monitoredProject.EndpointName);
-                    if (!healthChecksEndpoint.Exists)
-                    {
-                        _ = project.WithHttpEndpoint(name: monitoredProject.EndpointName);
-                        Debug.Assert(healthChecksEndpoint.Exists, "The health check endpoint should exist after adding it.");
-                    }
-
-                    // Set environment variable to configure the URLs the health check endpoint is accessible from
-                    _ = project.WithEnvironment(context =>
-                    {
-                        var probePath = monitoredProject.ProbePath.TrimStart('/');
-                        var healthChecksEndpointsExpression = ReferenceExpression.Create($"{healthChecksEndpoint}/{probePath}");
-
-                        if (context.ExecutionContext.IsRunMode)
-                        {
-                            // Running during dev inner-loop
-                            var containerHost = healthChecksUIResource.GetEndpoint("http").ContainerHost;
-                            var fromContainerUriBuilder = new UriBuilder(healthChecksEndpoint.Url)
-                            {
-                                Host = containerHost,
-                                Path = monitoredProject.ProbePath
-                            };
-
-                            healthChecksEndpointsExpression = ReferenceExpression.Create($"{healthChecksEndpointsExpression};{fromContainerUriBuilder.ToString()}");
-                        }
-
-                        context.EnvironmentVariables.Add(HEALTHCHECKSUIURLS, healthChecksEndpointsExpression);
-                    });
-                }
-            }
-
-            if (_executionContext.IsPublishMode)
-            {
-                ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: true);
-            }
-
-            return Task.CompletedTask;
-        }
-
-        /// <inheritdoc/>
-        public Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
-        {
-            ArgumentNullException.ThrowIfNull(appModel);
-
-            ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: false);
+            _ = eventing.Subscribe<BeforeStartEvent>((@event, ct) => BeforeStartAsync(@event.Model, executionContext));
+#pragma warning disable CS0618 // Type or member is obsolete - Will be refactored in future to use ResourceEndpointsAllocatedEvent
+            _ = eventing.Subscribe<AfterEndpointsAllocatedEvent>((@event, ct) => AfterEndpointsAllocatedAsync(@event.Model));
+#pragma warning restore CS0618 // Type or member is obsolete
 
             return Task.CompletedTask;
         }
@@ -128,6 +68,68 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
                                 : new HostUrl($"{healthChecksEndpoint.Url}/{probePath}")));
                 }
             }
+        }
+
+        private Task BeforeStartAsync(DistributedApplicationModel appModel, DistributedApplicationExecutionContext executionContext)
+        {
+            ArgumentNullException.ThrowIfNull(appModel);
+
+            // Configure each project referenced by a Health Checks UI resource
+            var healthChecksUIResources = appModel.Resources.OfType<HealthChecksUIResource>();
+
+            foreach (var healthChecksUIResource in healthChecksUIResources)
+            {
+                foreach (var monitoredProject in healthChecksUIResource.MonitoredProjects)
+                {
+                    var project = monitoredProject.Project;
+
+                    // Add the health check endpoint if it doesn't exist
+                    var healthChecksEndpoint = project.GetEndpoint(monitoredProject.EndpointName);
+                    if (!healthChecksEndpoint.Exists)
+                    {
+                        _ = project.WithHttpEndpoint(name: monitoredProject.EndpointName);
+                        Debug.Assert(healthChecksEndpoint.Exists, "The health check endpoint should exist after adding it.");
+                    }
+
+                    // Set environment variable to configure the URLs the health check endpoint is accessible from
+                    _ = project.WithEnvironment(context =>
+                    {
+                        var probePath = monitoredProject.ProbePath.TrimStart('/');
+                        var healthChecksEndpointsExpression = ReferenceExpression.Create($"{healthChecksEndpoint}/{probePath}");
+
+                        if (context.ExecutionContext.IsRunMode)
+                        {
+                            // Running during dev inner-loop
+                            var containerHost = healthChecksUIResource.GetEndpoint("http").Resource.Name;
+                            var fromContainerUriBuilder = new UriBuilder(healthChecksEndpoint.Url)
+                            {
+                                Host = containerHost,
+                                Path = monitoredProject.ProbePath
+                            };
+
+                            healthChecksEndpointsExpression = ReferenceExpression.Create($"{healthChecksEndpointsExpression};{fromContainerUriBuilder.ToString()}");
+                        }
+
+                        context.EnvironmentVariables.Add(HEALTHCHECKSUIURLS, healthChecksEndpointsExpression);
+                    });
+                }
+            }
+
+            if (executionContext.IsPublishMode)
+            {
+                ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: true);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel)
+        {
+            ArgumentNullException.ThrowIfNull(appModel);
+
+            ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: false);
+
+            return Task.CompletedTask;
         }
     }
 }
