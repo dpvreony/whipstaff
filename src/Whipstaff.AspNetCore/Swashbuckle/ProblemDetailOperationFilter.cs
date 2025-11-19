@@ -31,6 +31,8 @@ namespace Whipstaff.AspNetCore.Swashbuckle
 
             var problemDetailsReferenceSchema = context.EnsureTypeRegistered<ProblemDetails>();
 
+            operation.Responses ??= new OpenApiResponses();
+
             operation.Responses.AssignReferenceSchemaToHttpStatusErrorCodes(
                 supportedRequestFormats,
                 problemDetailsReferenceSchema);

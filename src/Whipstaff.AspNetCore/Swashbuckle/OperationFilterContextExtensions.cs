@@ -18,14 +18,18 @@ namespace Whipstaff.AspNetCore.Swashbuckle
         /// <typeparam name="T">Type to check is registered.</typeparam>
         /// <param name="context">Operation Filter Context.</param>
         /// <returns>Schema representation of the desired type.</returns>
-        public static Microsoft.OpenApi.OpenApiSchema EnsureTypeRegistered<T>(this OperationFilterContext context)
+        public static Microsoft.OpenApi.IOpenApiSchema EnsureTypeRegistered<T>(this OperationFilterContext context)
         {
             ArgumentNullException.ThrowIfNull(context);
 
             var type = typeof(T);
             if (!context.SchemaRepository.TryLookupByType(type, out var problemDetailsReferenceSchema))
             {
-                problemDetailsReferenceSchema = context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
+                var generatedSchema = context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
+                var schemaId = type.ToString();
+                problemDetailsReferenceSchema =
+                    context.SchemaRepository.AddDefinition(schemaId, (Microsoft.OpenApi.OpenApiSchema)generatedSchema);
+                context.SchemaRepository.RegisterType(type, schemaId);
             }
 
             return problemDetailsReferenceSchema;

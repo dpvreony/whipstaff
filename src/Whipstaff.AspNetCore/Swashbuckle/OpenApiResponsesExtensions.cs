@@ -25,7 +25,7 @@ namespace Whipstaff.AspNetCore.Swashbuckle
         public static void AssignReferenceSchemaToHttpStatusErrorCodes(
             this OpenApiResponses responses,
             IList<Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseFormat> supportedResponseTypes,
-            OpenApiSchema problemDetailsReferenceSchema)
+            IOpenApiSchema problemDetailsReferenceSchema)
         {
             ArgumentNullException.ThrowIfNull(responses);
 
@@ -41,7 +41,7 @@ namespace Whipstaff.AspNetCore.Swashbuckle
         private static void AssignReferenceSchemaToHttpStatusCodes(
             OpenApiResponses responses,
             IList<Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseFormat> supportedResponseTypes,
-            OpenApiSchema problemDetailsReferenceSchema,
+            IOpenApiSchema problemDetailsReferenceSchema,
             HttpStatusCode[] httpStatusCodes)
         {
             var contentValue = new OpenApiMediaType
