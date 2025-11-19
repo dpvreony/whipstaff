@@ -70,7 +70,7 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
             }
         }
 
-        private Task BeforeStartAsync(DistributedApplicationModel appModel, DistributedApplicationExecutionContext executionContext)
+        private static Task BeforeStartAsync(DistributedApplicationModel appModel, DistributedApplicationExecutionContext executionContext)
         {
             ArgumentNullException.ThrowIfNull(appModel);
 
@@ -123,7 +123,7 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
             return Task.CompletedTask;
         }
 
-        private Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel)
+        private static Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel)
         {
             ArgumentNullException.ThrowIfNull(appModel);
 
