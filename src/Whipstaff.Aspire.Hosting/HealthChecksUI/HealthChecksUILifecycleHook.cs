@@ -9,30 +9,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
+using Aspire.Hosting.Eventing;
 using Aspire.Hosting.Lifecycle;
 
 namespace Whipstaff.Aspire.Hosting.HealthChecksUI
 {
     /// <summary>
-    /// Lifecycle hook for configuring Health Checks UI resources.
+    /// Event subscriber for configuring Health Checks UI resources.
     /// </summary>
-    public sealed class HealthChecksUILifecycleHook : IDistributedApplicationLifecycleHook
+    public sealed class HealthChecksUILifecycleHook : IDistributedApplicationEventingSubscriber
     {
         private const string HEALTHCHECKSUIURLS = "HEALTHCHECKSUI_URLS";
-        private readonly DistributedApplicationExecutionContext _executionContext;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="HealthChecksUILifecycleHook"/> class.
-        /// </summary>
-        /// <param name="executionContext">Distributed application execution context.</param>
-        public HealthChecksUILifecycleHook(DistributedApplicationExecutionContext executionContext)
-        {
-            ArgumentNullException.ThrowIfNull(executionContext);
-            _executionContext = executionContext;
-        }
 
         /// <inheritdoc/>
-        public Task BeforeStartAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
+        public Task SubscribeAsync(IDistributedApplicationEventing eventing, DistributedApplicationExecutionContext executionContext, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(eventing);
+            ArgumentNullException.ThrowIfNull(executionContext);
+
+            eventing.Subscribe<BeforeStartEvent>((@event, ct) => BeforeStartAsync(@event.Model, executionContext, ct));
+#pragma warning disable CS0618 // Type or member is obsolete - Will be refactored in future to use ResourceEndpointsAllocatedEvent
+            eventing.Subscribe<AfterEndpointsAllocatedEvent>((@event, ct) => AfterEndpointsAllocatedAsync(@event.Model, ct));
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            return Task.CompletedTask;
+        }
+
+        private Task BeforeStartAsync(DistributedApplicationModel appModel, DistributedApplicationExecutionContext executionContext, CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(appModel);
 
@@ -62,7 +65,7 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
                         if (context.ExecutionContext.IsRunMode)
                         {
                             // Running during dev inner-loop
-                            var containerHost = healthChecksUIResource.GetEndpoint("http").ContainerHost;
+                            var containerHost = healthChecksUIResource.GetEndpoint("http").Resource.Name;
                             var fromContainerUriBuilder = new UriBuilder(healthChecksEndpoint.Url)
                             {
                                 Host = containerHost,
@@ -77,7 +80,7 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
                 }
             }
 
-            if (_executionContext.IsPublishMode)
+            if (executionContext.IsPublishMode)
             {
                 ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: true);
             }
@@ -85,8 +88,7 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
             return Task.CompletedTask;
         }
 
-        /// <inheritdoc/>
-        public Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
+        private Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(appModel);
 
