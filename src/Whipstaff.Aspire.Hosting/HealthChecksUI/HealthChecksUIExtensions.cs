@@ -28,7 +28,7 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
         {
             ArgumentNullException.ThrowIfNull(builder);
 
-            builder.Services.TryAddLifecycleHook<HealthChecksUILifecycleHook>();
+            builder.Services.TryAddEventingSubscriber<HealthChecksUILifecycleHook>();
 
             var resource = new HealthChecksUIResource(name);
 
