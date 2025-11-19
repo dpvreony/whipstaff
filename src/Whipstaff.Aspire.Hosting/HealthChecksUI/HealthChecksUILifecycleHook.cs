@@ -22,20 +22,55 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
         private const string HEALTHCHECKSUIURLS = "HEALTHCHECKSUI_URLS";
 
         /// <inheritdoc/>
-        public Task SubscribeAsync(IDistributedApplicationEventing eventing, DistributedApplicationExecutionContext executionContext, CancellationToken cancellationToken = default)
+        public Task SubscribeAsync(IDistributedApplicationEventing eventing, DistributedApplicationExecutionContext executionContext, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(eventing);
             ArgumentNullException.ThrowIfNull(executionContext);
 
-            eventing.Subscribe<BeforeStartEvent>((@event, ct) => BeforeStartAsync(@event.Model, executionContext, ct));
+            _ = eventing.Subscribe<BeforeStartEvent>((@event, ct) => BeforeStartAsync(@event.Model, executionContext));
 #pragma warning disable CS0618 // Type or member is obsolete - Will be refactored in future to use ResourceEndpointsAllocatedEvent
-            eventing.Subscribe<AfterEndpointsAllocatedEvent>((@event, ct) => AfterEndpointsAllocatedAsync(@event.Model, ct));
+            _ = eventing.Subscribe<AfterEndpointsAllocatedEvent>((@event, ct) => AfterEndpointsAllocatedAsync(@event.Model));
 #pragma warning restore CS0618 // Type or member is obsolete
 
             return Task.CompletedTask;
         }
 
-        private Task BeforeStartAsync(DistributedApplicationModel appModel, DistributedApplicationExecutionContext executionContext, CancellationToken cancellationToken = default)
+        private static void ConfigureHealthChecksUIContainers(IResourceCollection resources, bool isPublishing)
+        {
+            var healhChecksUIResources = resources.OfType<HealthChecksUIResource>();
+
+            foreach (var healthChecksUIResource in healhChecksUIResources)
+            {
+                var monitoredProjects = healthChecksUIResource.MonitoredProjects;
+
+                // Add environment variables to configure the HealthChecksUI container with the health checks endpoints of each referenced project
+                // See example configuration at https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks?tab=readme-ov-file#sample-2-configuration-using-appsettingsjson
+                for (var i = 0; i < monitoredProjects.Count; i++)
+                {
+                    var monitoredProject = monitoredProjects[i];
+                    var healthChecksEndpoint = monitoredProject.Project.GetEndpoint(monitoredProject.EndpointName);
+
+                    // Set health check name
+                    var nameEnvVarName = HealthChecksUIResource.KnownEnvVars.GetHealthCheckNameKey(i);
+                    healthChecksUIResource.Annotations.Add(
+                        new EnvironmentCallbackAnnotation(
+                            nameEnvVarName,
+                            () => monitoredProject.Name));
+
+                    // Set health check URL
+                    var probePath = monitoredProject.ProbePath.TrimStart('/');
+                    var urlEnvVarName = HealthChecksUIResource.KnownEnvVars.GetHealthCheckUriKey(i);
+
+                    healthChecksUIResource.Annotations.Add(
+                        new EnvironmentCallbackAnnotation(
+                            context => context[urlEnvVarName] = isPublishing
+                                ? ReferenceExpression.Create($"{healthChecksEndpoint}/{probePath}")
+                                : new HostUrl($"{healthChecksEndpoint.Url}/{probePath}")));
+                }
+            }
+        }
+
+        private Task BeforeStartAsync(DistributedApplicationModel appModel, DistributedApplicationExecutionContext executionContext)
         {
             ArgumentNullException.ThrowIfNull(appModel);
 
@@ -88,48 +123,13 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
             return Task.CompletedTask;
         }
 
-        private Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel, CancellationToken cancellationToken = default)
+        private Task AfterEndpointsAllocatedAsync(DistributedApplicationModel appModel)
         {
             ArgumentNullException.ThrowIfNull(appModel);
 
             ConfigureHealthChecksUIContainers(appModel.Resources, isPublishing: false);
 
             return Task.CompletedTask;
-        }
-
-        private static void ConfigureHealthChecksUIContainers(IResourceCollection resources, bool isPublishing)
-        {
-            var healhChecksUIResources = resources.OfType<HealthChecksUIResource>();
-
-            foreach (var healthChecksUIResource in healhChecksUIResources)
-            {
-                var monitoredProjects = healthChecksUIResource.MonitoredProjects;
-
-                // Add environment variables to configure the HealthChecksUI container with the health checks endpoints of each referenced project
-                // See example configuration at https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks?tab=readme-ov-file#sample-2-configuration-using-appsettingsjson
-                for (var i = 0; i < monitoredProjects.Count; i++)
-                {
-                    var monitoredProject = monitoredProjects[i];
-                    var healthChecksEndpoint = monitoredProject.Project.GetEndpoint(monitoredProject.EndpointName);
-
-                    // Set health check name
-                    var nameEnvVarName = HealthChecksUIResource.KnownEnvVars.GetHealthCheckNameKey(i);
-                    healthChecksUIResource.Annotations.Add(
-                        new EnvironmentCallbackAnnotation(
-                            nameEnvVarName,
-                            () => monitoredProject.Name));
-
-                    // Set health check URL
-                    var probePath = monitoredProject.ProbePath.TrimStart('/');
-                    var urlEnvVarName = HealthChecksUIResource.KnownEnvVars.GetHealthCheckUriKey(i);
-
-                    healthChecksUIResource.Annotations.Add(
-                        new EnvironmentCallbackAnnotation(
-                            context => context[urlEnvVarName] = isPublishing
-                                ? ReferenceExpression.Create($"{healthChecksEndpoint}/{probePath}")
-                                : new HostUrl($"{healthChecksEndpoint.Url}/{probePath}")));
-                }
-            }
         }
     }
 }
