@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Build" Version="18.0.2">
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.10.12" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.11.1" />
   </ItemGroup>
 
 </Project>
