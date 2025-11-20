@@ -165,7 +165,7 @@ jobs:
     - name: Run Unit Tests
       working-directory: src
       run: |
-        dotnet test ${{ env.unittestprojectpath }} --configuration Release --no-build --nologo /bl:..\\artifacts/binlog/unittest.binlog --logger GitHubActions -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../../artifacts/unittestcoverage
+        dotnet test --project ${{ env.unittestprojectpath }} --configuration Release --no-build /bl:..\\artifacts/binlog/unittest.binlog -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../artifacts/unittestcoverage
 
     - name: Run Sonar Scanner end
       if: env.SONAR_TOKEN != '' && env.SONAR_PROJECT_KEY != '' && env.SONAR_ORGANISATION_KEY != ''
@@ -181,7 +181,7 @@ jobs:
     - name: Upload Code Coverage
       run: |
         Invoke-WebRequest -Uri https://uploader.codecov.io/latest/windows/codecov.exe -Outfile codecov.exe
-        .\codecov.exe -s 'artifacts/unittestcoverage' -f '*.xml' -v -t '${{ env.CODECOV_TOKEN }}'
+        .\codecov.exe -s 'artifacts/unittestcoverage' -f 'coverage.xml' -v -t '${{ env.CODECOV_TOKEN }}'
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
@@ -196,7 +196,7 @@ jobs:
     # integration tests run after sonarscanner and unit test reporting so if the integration tests fail the report still uploads so we can see defects detected by sonarscanner and any unit test coverage issues.
     - name: Run Integration Tests
       run: |
-        dotnet test ${{ env.inttestprojectpath }} --configuration Release --no-build --nologo /bl:../artifacts/binlog/inttest.binlog --logger "GitHubActions;verbosity=normal" -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../../artifacts/inttestcoverage
+        dotnet test --project ${{ env.inttestprojectpath }} --configuration Release --no-build /bl:../artifacts/binlog/inttest.binlog -- --coverage --coverage-output-format cobertura --coverage-output coverage.xml --long-running 10 --results-directory ../artifacts/inttestcoverage
       working-directory: src
 
     - name: Report Integration Test Coverage
