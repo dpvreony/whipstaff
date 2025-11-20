@@ -4,7 +4,7 @@
 
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Whipstaff.AspNetCore.Swashbuckle
@@ -30,6 +30,8 @@ namespace Whipstaff.AspNetCore.Swashbuckle
             var supportedRequestFormats = context.ApiDescription.SupportedResponseTypes[0].ApiResponseFormats;
 
             var problemDetailsReferenceSchema = context.EnsureTypeRegistered<ProblemDetails>();
+
+            operation.Responses ??= new OpenApiResponses();
 
             operation.Responses.AssignReferenceSchemaToHttpStatusErrorCodes(
                 supportedRequestFormats,

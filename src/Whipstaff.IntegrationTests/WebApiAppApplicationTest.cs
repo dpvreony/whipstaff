@@ -54,15 +54,15 @@ namespace Whipstaff.IntegrationTests
 
     #pragma warning disable CA2234 // Pass system uri objects instead of strings
                     var response = await client.GetAsync(requestPath);
-    #pragma warning restore CA2234 // Pass system uri objects instead of strings
+#pragma warning restore CA2234 // Pass system uri objects instead of strings
+
+                    await LogResponseAsync(response, Logger);
 
                     _ = response.EnsureSuccessStatusCode();
 
                     Assert.Equal(
                         expectedContentType,
                         response.Content.Headers.ContentType!.ToString());
-
-                    await LogResponseAsync(response, Logger);
                 },
                 args);
         }
