@@ -53,7 +53,7 @@
     <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.8" />
     <PackageReference Include="Rocks" Version="9.3.0" PrivateAssets="all" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.16" />
-    <PackageReference Include="xunit.v3" Version="3.2.0" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.0" />
     <PackageReference Include="xunit.analyzers" Version="1.25.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageReference Include="Xunit.StaFact" Version="3.0.13" />
