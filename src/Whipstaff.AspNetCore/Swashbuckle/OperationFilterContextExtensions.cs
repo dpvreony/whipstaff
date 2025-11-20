@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Whipstaff.AspNetCore.Swashbuckle
@@ -25,11 +26,7 @@ namespace Whipstaff.AspNetCore.Swashbuckle
             var type = typeof(T);
             if (!context.SchemaRepository.TryLookupByType(type, out var problemDetailsReferenceSchema))
             {
-                var generatedSchema = context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
-                var schemaId = type.ToString();
-                problemDetailsReferenceSchema =
-                    context.SchemaRepository.AddDefinition(schemaId, (Microsoft.OpenApi.OpenApiSchema)generatedSchema);
-                context.SchemaRepository.RegisterType(type, schemaId);
+                return context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
             }
 
             return problemDetailsReferenceSchema;
