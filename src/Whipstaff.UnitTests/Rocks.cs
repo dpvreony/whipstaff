@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
 using Rocks;
+using Whipstaff.Mermaid.Playwright;
 
 namespace Whipstaff.UnitTests
 {
@@ -36,10 +37,22 @@ namespace Whipstaff.UnitTests
     public sealed partial class IOutputContextExpectations<TInput, TOutput>;
 
     /// <summary>
-    /// Expectations for the Mediator.
+    /// Expectations for ILogger.
     /// </summary>
     /// <typeparam name="TCategoryName">The type whose name is used for the logger category name.</typeparam>
     [RockPartial(typeof(ILogger<>), BuildType.Create)]
     public sealed partial class ILoggerCreateExpectations<TCategoryName>;
+
+    /// <summary>
+    /// Expectations for the Playwright Page.
+    /// </summary>
+    [RockPartial(typeof(Microsoft.Playwright.IPage), BuildType.Create)]
+    public sealed partial class PageCreateExpectations;
+
+    /// <summary>
+    /// Expectations for the Playwright Page.
+    /// </summary>
+    [RockPartial(typeof(IPlaywrightRendererBrowserInstance), BuildType.Create)]
+    public sealed partial class PlaywrightRendererBrowserInstanceCreateExpectations;
 #pragma warning restore SA1402 // File may only contain a single type
 }

@@ -30,40 +30,47 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <Nullable>enable</Nullable>
-    <Packable>false</Packable>
-    <Packable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.'))">false</Packable>
+    <IsPackable>false</IsPackable>
+    <IsPackable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.')) and !$(MSBuildProjectName.Contains('.Example.')) and !$(MSBuildProjectName.EndsWith('.Testing')) and !$(MSBuildProjectName.EndsWith('.Benchmarks'))">true</IsPackable>
     <LangVersion>13.0</LangVersion>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <GenerateSBOM>$(IsPackable)</GenerateSBOM>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsTestProject)">
-    <IsPackable>False</IsPackable>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <EnableStaticNativeInstrumentation>False</EnableStaticNativeInstrumentation>
+    <EnableDynamicNativeInstrumentation>False</EnableDynamicNativeInstrumentation>
   </PropertyGroup>
   
   <ItemGroup Condition="$(IsTestProject)">
-    <PackageReference Include="coverlet.collector" Version="6.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.msbuild" Version="6.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <!--<PackageReference Include="Foundatio.Xunit" Version="11.0.8" />-->
     <PackageReference Include="GitHubActionsTestLogger" Version="2.4.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.1.0" />
     <PackageReference Include="NetTestRegimentation" Version="2.0.8" />
     <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.8" />
-    <PackageReference Include="Rocks" Version="9.0.2" PrivateAssets="all" />
-    <PackageReference Include="OpenCover" Version="4.7.1221" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.14" />
-    <PackageReference Include="xunit.v3" Version="2.0.1" />
-    <PackageReference Include="xunit.analyzers" Version="1.21.0" />
-    <!---<PackageReference Include="xunit.runner.reporters" Version="2.9.3" />-->
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2" />
-    <PackageReference Include="Xunit.StaFact" Version="2.1.7" />
+    <PackageReference Include="Rocks" Version="9.3.0" PrivateAssets="all" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.0.16" />
+    <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.0" />
+    <PackageReference Include="xunit.analyzers" Version="1.25.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageReference Include="Xunit.StaFact" Version="3.0.13" />
     <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
     <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsTestProject) != 'true'">
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Whipstaff.Benchmarks</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Whipstaff.IntegrationTests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Whipstaff.UnitTests</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
   <ItemGroup>
@@ -82,11 +89,12 @@
   </ItemGroup>
 
   <ItemGroup>	
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" PrivateAssets="all" />	
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.9.50" PrivateAssets="all" />	
+    <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.3" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
-    <None Include="..\..\readme.md" Pack="true" PackagePath="\"/>
+    <None Include="readme.md" Pack="true" PackagePath="\"/>
     <Compile Include="..\Common.Assembly.cs" />
   </ItemGroup>
 
@@ -96,9 +104,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="stylecop.analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.13.1" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.14.1" PrivateAssets="All" />
     <PackageReference Include="InclusivenessAnalyzer" Version="1.3.0" PrivateAssets="all" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.8.0.113526" PrivateAssets="all" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848" PrivateAssets="all" />
   </ItemGroup>
 
   <!-- Net Analyzers config taken from : https://docs.microsoft.com/en-gb/visualstudio/code-quality/migrate-from-fxcop-analyzers-to-net-analyzers?view=vs-2019 -->

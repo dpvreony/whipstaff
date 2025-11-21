@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <NoWarn>CA1034,CS1591</NoWarn>
     <IsTestProject>True</IsTestProject>
     <!-- review CA1515 when upgrading to xunit3 -->
@@ -8,16 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.Testing" Version="9.2.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.15" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Aspire.Hosting.Testing" Version="13.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Example.AspireAppHost\Whipstaff.Example.AspireAppHost.csproj" IsAspireProjectResource="False" />
     <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" IsAspireProjectResource="False" />
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" IsAspireProjectResource="False" />
-    <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
+    <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" IsAspireProjectResource="False" />
   </ItemGroup>
 
 </Project>

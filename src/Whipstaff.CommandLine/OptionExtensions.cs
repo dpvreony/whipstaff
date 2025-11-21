@@ -32,7 +32,7 @@ namespace Whipstaff.CommandLine
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             extension.ThrowIfNullOrWhitespace();
-            option.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+            option.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
                 result,
                 fileSystem,
                 extension));
@@ -54,7 +54,7 @@ namespace Whipstaff.CommandLine
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             ArgumentNullException.ThrowIfNull(extensions);
-            option.AddValidator(result => SymbolResultHelpers.FileHasSupportedExtension(
+            option.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
                 result,
                 fileSystem,
                 extensions));
@@ -71,7 +71,7 @@ namespace Whipstaff.CommandLine
         public static Option<FileInfo> ExistingOnly(this Option<FileInfo> option, IFileSystem fileSystem)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
-            option.AddValidator(result => SymbolResultHelpers.FileExists(result, fileSystem));
+            option.Validators.Add(result => SymbolResultHelpers.FileExists(result, fileSystem));
             return option;
         }
     }

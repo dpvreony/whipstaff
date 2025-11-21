@@ -12,7 +12,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
     /// <summary>
     /// Factory for creating the root command and binder.
     /// </summary>
-    public sealed class CommandLineHandlerFactory : IRootCommandAndBinderFactory<CommandLineArgModelBinder>
+    internal sealed class CommandLineHandlerFactory : IRootCommandAndBinderFactory<CommandLineArgModelBinder>
     {
         /// <inheritdoc/>
         public RootCommandAndBinderModel<CommandLineArgModelBinder> GetRootCommandAndBinder(IFileSystem fileSystem)
@@ -21,13 +21,11 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
 
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
             var assemblyOption = new Option<FileInfo>(
-                [
-                    "--assembly-path",
-                    "-a"
-                ],
-                "Path to the assembly containing the Command Line Information")
+                "--assembly-path",
+                "-a")
             {
-                IsRequired = true
+                Description = "Path to the assembly containing the Command Line Information",
+                Required = true
             }.SpecificFileExtensionsOnly(
                 fileSystem,
                 [
@@ -37,13 +35,11 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
                 .ExistingOnly(fileSystem);
 
             var outputFilePathOption = new Option<FileInfo>(
-                [
-                    "--output-file-path",
-                    "-o"
-                ],
-                "Path to the output file")
+                "--output-file-path",
+                "-o")
             {
-                IsRequired = true
+                Description = "Path to the output file",
+                Required = true
             };
 
 #pragma warning restore CA1861 // Avoid constant arrays as arguments

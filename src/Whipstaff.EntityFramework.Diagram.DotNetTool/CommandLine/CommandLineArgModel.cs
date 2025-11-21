@@ -9,5 +9,5 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
     /// <summary>
     /// Model that represents the command line arguments.
     /// </summary>
-    public sealed record CommandLineArgModel(FileInfo AssemblyPath, string DbContextName, FileInfo OutputFilePath, string DiagramType);
+    internal sealed record CommandLineArgModel(FileInfo AssemblyPath, string DbContextName, FileInfo OutputFilePath, string DiagramType);
 }

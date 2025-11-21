@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using Whipstaff.Mermaid.HttpServer;
@@ -20,7 +21,7 @@ namespace Whipstaff.Mermaid.Playwright
     /// </summary>
     public sealed class PlaywrightRenderer
     {
-        private readonly MermaidHttpServer _mermaidHttpServerFactory;
+        private readonly TestServer _mermaidHttpServerFactory;
         private readonly PlaywrightRendererLogMessageActionsWrapper _logMessageActionsWrapper;
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="mermaidHttpServer">In memory http server instance for Mermaid.</param>
         /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
         public PlaywrightRenderer(
-            MermaidHttpServer mermaidHttpServer,
+            TestServer mermaidHttpServer,
             PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(mermaidHttpServer);
@@ -48,247 +49,23 @@ namespace Whipstaff.Mermaid.Playwright
             ArgumentNullException.ThrowIfNull(loggerFactory);
 
             return new(
-                MermaidHttpServerFactory.GetTestServer(loggerFactory),
+                MermaidHttpServerFactory.GetTestServer(loggerFactory, new FileSystem()),
                 new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
                     loggerFactory.CreateLogger<PlaywrightRenderer>()));
         }
 
         /// <summary>
-        /// Gets the SVG for the Mermaid Diagram from a File and writes to another file.
+        /// Gets a new browser session for the specified browser type and channel. Use this method if you want to generate multiple diagrams as it reduces the browser operations.
         /// </summary>
-        /// <param name="sourceFile">File containing the diagram markdown to convert.</param>
-        /// <param name="targetFile">Destination file to write the diagram content to.</param>
         /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
-        /// <returns>SVG diagram.</returns>
-        public async Task CreateDiagramAndWriteToFileAsync(
-            IFileInfo sourceFile,
-            IFileInfo targetFile,
-            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
+        /// <returns>Browser session.</returns>
+        public async Task<PlaywrightRendererBrowserInstance> GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
-            ArgumentNullException.ThrowIfNull(sourceFile);
-            ArgumentNullException.ThrowIfNull(targetFile);
-
-            if (!sourceFile.Exists)
-            {
-                throw new ArgumentException("Source file does not exist", nameof(sourceFile));
-            }
-
-            if (sourceFile.FullName == targetFile.FullName)
-            {
-                throw new ArgumentException("Source and target files cannot be the same", nameof(targetFile));
-            }
-
-            if (targetFile.Exists)
-            {
-                throw new ArgumentException("Target file already exists", nameof(targetFile));
-            }
-
-            var diagram = await GetDiagramAsync(
-                    sourceFile,
-                    playwrightBrowserTypeAndChannel)
-                .ConfigureAwait(false);
-
-            if (diagram == null)
-            {
-                throw new InvalidOperationException("Failed to get diagram");
-            }
-
-            await diagram.InternalToFileAsync(targetFile)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets the SVG for the Mermaid Diagram from a File.
-        /// </summary>
-        /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
-        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
-        /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagramAsync(
-            IFileInfo sourceFileInfo,
-            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
-        {
-            ArgumentNullException.ThrowIfNull(sourceFileInfo);
-
-            if (!sourceFileInfo.Exists)
-            {
-                throw new ArgumentException("File does not exist", nameof(sourceFileInfo));
-            }
-
-            using (var streamReader = sourceFileInfo.OpenText())
-            {
-                return await GetDiagramAsync(
-                        streamReader,
-                        playwrightBrowserTypeAndChannel)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        /// <summary>
-        /// Gets the SVG for the Mermaid Diagram from a <see cref="TextReader"/>.
-        /// </summary>
-        /// <param name="textReader">File containing the diagram markdown to convert.</param>
-        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
-        /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagramAsync(
-            TextReader textReader,
-            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
-        {
-            ArgumentNullException.ThrowIfNull(textReader);
-
-            var markdown = await textReader
-                .ReadToEndAsync()
-                .ConfigureAwait(false);
-
-            return await GetDiagramAsync(
-                    markdown,
-                    playwrightBrowserTypeAndChannel)
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Gets the SVG for the Mermaid Diagram.
-        /// </summary>
-        /// <param name="markdown">Diagram markdown to convert.</param>
-        /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
-        /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagramAsync(
-            string markdown,
-            PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
-        {
-            markdown.ThrowIfNullOrWhitespace();
-            ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);
-
-            using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
-                .ConfigureAwait(false))
-            await using (var browser = await playwright.GetBrowserType(playwrightBrowserTypeAndChannel.PlaywrightBrowserType).LaunchAsync(new()
-                         {
-                             Headless = true,
-                             Channel = playwrightBrowserTypeAndChannel.Channel
-                         }))
-            {
-                var page = await browser.NewPageAsync()
-                    .ConfigureAwait(false);
-
-#pragma warning disable S1075
-                const string pageUrl = "https://localhost/index.html";
-#pragma warning restore S1075
-                await page.RouteAsync(
-                        pageUrl,
-                        route => MermaidPostHandlerAsync(route, markdown))
-                    .ConfigureAwait(false);
-
-                await page.RouteAsync(
-                        "**/*.{mjs,js}",
-                        route => DefaultHandlerAsync(route))
-                    .ConfigureAwait(false);
-
-                var pageResponse = await page.GotoAsync(pageUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle })
-                    .ConfigureAwait(false);
-
-                if (pageResponse == null)
-                {
-                    _logMessageActionsWrapper.FailedToGetPageResponse();
-                    return null;
-                }
-
-                if (!pageResponse.Ok)
-                {
-                    _logMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
-                    return null;
-                }
-
-                _ = await pageResponse.FinishedAsync().ConfigureAwait(false);
-
-                await page.WaitForLoadStateAsync(LoadState.DOMContentLoaded).ConfigureAwait(false);
-                await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
-                _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
-
-                var svg = await page.EvaluateAsync<string>("(diagram) => window.renderMermaid(diagram)", markdown);
-
-                var mermaidElement = page.Locator("#mermaid-element svg");
-
-                if (mermaidElement == null)
-                {
-                    _logMessageActionsWrapper.FailedToFindMermaidElement();
-                    return null;
-                }
-
-                var png = await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
-                    .ConfigureAwait(false);
-
-                return new(
-                    svg,
-                    png);
-            }
-        }
-
-        private static HttpRequestMessage GetRequestFromRoute(IRoute route, string markdown)
-        {
-            var httpRequestMessage = new HttpRequestMessage();
-
-            var request = route.Request;
-
-            httpRequestMessage.RequestUri = new Uri(request.Url);
-            httpRequestMessage.Method = HttpMethod.Get;
-            httpRequestMessage.Content = new FormUrlEncodedContent(
-            [
-                new("diagram", markdown)
-            ]);
-
-            return httpRequestMessage;
-        }
-
-        private async Task MermaidPostHandlerAsync(IRoute route, string diagram)
-        {
-            using (var client = _mermaidHttpServerFactory.CreateClient())
-            using (var request = GetRequestFromRoute(route, diagram))
-            {
-                var response = await client.SendAsync(request)
-                    .ConfigureAwait(false);
-                var routeFulfillOptions = new RouteFulfillOptions
-                {
-                    Status = (int)response.StatusCode,
-                    Body = await response.Content.ReadAsStringAsync().ConfigureAwait(false),
-                };
-
-                if (response.Content.Headers.ContentType != null)
-                {
-                    routeFulfillOptions.ContentType = response.Content.Headers.ContentType.ToString();
-                }
-
-                await route.FulfillAsync(routeFulfillOptions)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        private async Task DefaultHandlerAsync(IRoute route)
-        {
-            if (!route.Request.Url.StartsWith("https://localhost/", StringComparison.OrdinalIgnoreCase))
-            {
-                var routeFulfillOptions = new RouteFulfillOptions
-                {
-                    Status = 404
-                };
-
-                await route.FulfillAsync(routeFulfillOptions)
-                    .ConfigureAwait(false);
-
-                return;
-            }
-
-            using (var client = _mermaidHttpServerFactory.CreateClient())
-            using (var request = route.ToHttpRequestMessage())
-            {
-                var response = await client.SendAsync(request)
-                    .ConfigureAwait(false);
-
-                var routeFulfillOptions = await RouteFulfillOptionsFactory.FromHttpResponseMessageAsync(response)
-                    .ConfigureAwait(false);
-
-                await route.FulfillAsync(routeFulfillOptions)
-                    .ConfigureAwait(false);
-            }
+            return await PlaywrightRendererBrowserInstance.GetBrowserInstance(
+                _mermaidHttpServerFactory,
+                playwrightBrowserTypeAndChannel,
+                _logMessageActionsWrapper);
         }
     }
 }

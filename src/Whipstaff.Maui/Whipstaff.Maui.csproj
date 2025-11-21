@@ -1,16 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with MAUI.</PackageDescription>
+    <!--
+    CS0618 is because MAUI 9 exposes controls where the base class is marked obsolete.
+    -->
+    <NoWarn>CS0618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.3" />
-    <PackageReference Include="ReactiveUI.Maui" Version="20.2.45" />
-    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
-    <PackageReference Include="Vetuviem.Core" Version="0.10.67" />
-    <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.10.67">
+    <PackageReference Include="ReactiveUI.Maui" Version="22.2.1" />
+    <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Vetuviem.Core" Version="0.11.14" />
+    <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.11.14">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -23,5 +29,6 @@
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff.Maui</Vetuviem_Root_Namespace>
+    <Vetuviem_Include_Obsolete_Items>true</Vetuviem_Include_Obsolete_Items>
   </PropertyGroup>
 </Project>

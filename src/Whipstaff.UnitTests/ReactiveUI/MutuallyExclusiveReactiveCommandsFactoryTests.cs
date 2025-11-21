@@ -11,8 +11,10 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Reactive.Testing;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
+using ReactiveUI.Testing;
 using Whipstaff.ReactiveUI.ReactiveCommands;
 using Xunit;
 
@@ -45,18 +47,25 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 current.CancellationTokenSource);
         }
 
-        private static async Task TestEachCommandIsMutuallyExclusive((ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest)
+        private static async Task TestEachCommandIsMutuallyExclusive(
+            (ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
+            TestScheduler testScheduler)
         {
             var sut = commandsToTest.Select(currentCommand => GetTestRow(currentCommand)).ToArray();
 
-            await TestEachCommandIsMutuallyExclusive(sut);
+            await TestEachCommandIsMutuallyExclusive(
+                sut,
+                testScheduler);
         }
 
-        private static async Task TestEachCommandIsMutuallyExclusive((Func<bool> IsExecuting, Func<bool> CanExecute, ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest)
+        private static async Task TestEachCommandIsMutuallyExclusive(
+            (Func<bool> IsExecuting, Func<bool> CanExecute, ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
+            TestScheduler testScheduler)
         {
             for (int i = 0; i < commandsToTest.Length; i++)
             {
                 var currentItem = commandsToTest[i];
+                testScheduler.Start();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.True(b));
                 Assert.All(commandsToTest.Select(x => x.IsExecuting()), b => Assert.False(b));
@@ -65,6 +74,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 var currentCancellationToken = currentItem.CancellationTokenSource;
 
                 var currentExecution = currentCommand.Execute(Unit.Default).ToTask(CancellationToken.None);
+                testScheduler.Start();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.False(b));
                 Assert.True(currentItem.IsExecuting());
@@ -73,8 +83,10 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 Assert.All(allOtherItems.Select(x => x.IsExecuting()), b => Assert.False(b));
 
                 await currentCancellationToken.CancelAsync();
+                testScheduler.Start();
 
                 _ = await currentExecution;
+                testScheduler.Start();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.True(b));
                 Assert.All(commandsToTest.Select(x => x.IsExecuting()), b => Assert.False(b));
@@ -129,9 +141,14 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
+                var testScheduler = new TestScheduler();
+                using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
 
@@ -157,7 +174,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                             (
                                 secondCommand,
                                 secondCancellationToken)
-                        ]);
+                        ],
+                        testScheduler);
                 }
             }
 
@@ -216,10 +234,15 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
+                var testScheduler = new TestScheduler();
+                using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 using (var thirdCancellationToken = new CancellationTokenSource())
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
@@ -252,7 +275,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             thirdCommand,
                             thirdCancellationToken)
-                    ]);
+                    ],
+                    testScheduler);
                 }
             }
 
@@ -318,11 +342,16 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
+                var testScheduler = new TestScheduler();
+                using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 using (var thirdCancellationToken = new CancellationTokenSource())
                 using (var fourthCancellationToken = new CancellationTokenSource())
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
@@ -362,7 +391,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             fourthCommand,
                             fourthCancellationToken)
-                    ]);
+                    ],
+                    testScheduler);
                 }
             }
 
@@ -435,12 +465,17 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
+                var testScheduler = new TestScheduler();
+                using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 using (var thirdCancellationToken = new CancellationTokenSource())
                 using (var fourthCancellationToken = new CancellationTokenSource())
                 using (var fifthCancellationToken = new CancellationTokenSource())
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
@@ -487,7 +522,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             fifthCommand,
                             fifthCancellationToken)
-                    ]);
+                    ],
+                    testScheduler);
                 }
             }
 
@@ -567,6 +603,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
+                var testScheduler = new TestScheduler();
+                using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 using (var thirdCancellationToken = new CancellationTokenSource())
@@ -574,6 +612,9 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var fifthCancellationToken = new CancellationTokenSource())
                 using (var sixthCancellationToken = new CancellationTokenSource())
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
@@ -627,7 +668,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             sixthCommand,
                             sixthCancellationToken)
-                    ]);
+                    ],
+                    testScheduler);
                 }
             }
 
@@ -714,6 +756,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
+                var testScheduler = new TestScheduler();
+                using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 using (var thirdCancellationToken = new CancellationTokenSource())
@@ -722,6 +766,9 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var sixthCancellationToken = new CancellationTokenSource())
                 using (var seventhCancellationToken = new CancellationTokenSource())
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
@@ -782,7 +829,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             seventhCommand,
                             seventhCancellationToken)
-                    ]);
+                    ],
+                    testScheduler);
                 }
             }
 
@@ -876,6 +924,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
+                var testScheduler = new TestScheduler();
+                using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 using (var thirdCancellationToken = new CancellationTokenSource())
@@ -885,6 +935,9 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var seventhCancellationToken = new CancellationTokenSource())
                 using (var eighthCancellationToken = new CancellationTokenSource())
                 {
+                    RxSchedulers.MainThreadScheduler = testScheduler;
+                    RxSchedulers.TaskpoolScheduler = testScheduler;
+
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
@@ -952,7 +1005,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             eighthCommand,
                             eighthCancellationToken)
-                    ]);
+                    ],
+                    testScheduler);
                 }
             }
 

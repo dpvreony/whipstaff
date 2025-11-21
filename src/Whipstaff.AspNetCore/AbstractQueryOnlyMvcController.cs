@@ -28,7 +28,7 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
     public abstract class AbstractQueryOnlyMvcController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
         : Controller
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse?>
+        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
         where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>

@@ -4,7 +4,7 @@
 
 using System;
 using System.CommandLine;
-using System.CommandLine.IO;
+using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
@@ -23,7 +23,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
     public static class HostRunnerTests
     {
         /// <summary>
-        /// Unit test for the <see cref="HostRunner.RunSimpleCliJobAsync{TJob, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TJob}, TJob}, IFileSystem, IConsole)"/> method.
+        /// Unit test for the <see cref="HostRunner.RunSimpleCliJob{TJob, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TJob}, TJob}, IFileSystem, Func{ParserConfiguration}?, Func{InvocationConfiguration}?)"/> method.
         /// </summary>
         public sealed class RunSimpleCliJobMethod
         : TestWithLoggingBase,
@@ -67,25 +67,29 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
             [Fact]
             public async Task ReturnsZero()
             {
-                var testConsole = new TestConsole();
-                var result = await HostRunner
-                    .RunSimpleCliJobAsync<
-                        FakeCommandLineHandler,
-                        FakeCommandLineArgModel,
-                        FakeCommandLineArgModelBinder,
-                        FakeCommandAndBinderFactory>(
-                        [
-                            "filename",
-                            "name"
-                        ],
-                        (_, _) => new FakeCommandLineHandler(new FakeCommandLineHandlerLogMessageActionsWrapper(LoggerFactory.CreateLogger<FakeCommandLineHandler>())),
-                        new MockFileSystem(),
-                        testConsole);
+                await using (var outputWriter = new StringWriter())
+                await using (var errorWriter = new StringWriter())
+                {
+                    var result = await HostRunner
+                        .RunSimpleCliJob<
+                            FakeCommandLineHandler,
+                            FakeCommandLineArgModel,
+                            FakeCommandLineArgModelBinder,
+                            FakeCommandAndBinderFactory>(
+                            [
+                                "filename",
+                                "name"
+                            ],
+                            (_, _) => new FakeCommandLineHandler(new FakeCommandLineHandlerLogMessageActionsWrapper(LoggerFactory.CreateLogger<FakeCommandLineHandler>())),
+                            new MockFileSystem(),
+                            null,
+                            () => XUnitTestHelpers.CreateTestConsoleIntegration(outputWriter, errorWriter));
 
-                Logger.LogInformation("Console output: {ConsoleOutput}", testConsole.Out.ToString());
-                Logger.LogInformation("Console error: {ConsoleError}", testConsole.Error.ToString());
+                    Logger.LogInformation("Console output: {ConsoleOutput}", outputWriter.ToString());
+                    Logger.LogInformation("Console error: {ConsoleError}", errorWriter.ToString());
 
-                Assert.Equal(0, result);
+                    Assert.Equal(0, result);
+                }
             }
         }
     }

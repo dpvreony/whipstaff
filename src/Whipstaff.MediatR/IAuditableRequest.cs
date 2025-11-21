@@ -11,7 +11,7 @@ namespace Whipstaff.MediatR
     /// </summary>
     /// <typeparam name="TRequestDto">The type of the request object.</typeparam>
     /// <typeparam name="TCommandResponse">The type of the response object.</typeparam>
-    public interface IAuditableRequest<out TRequestDto, out TCommandResponse> : ICommand<TCommandResponse?>
+    public interface IAuditableRequest<out TRequestDto, out TCommandResponse> : ICommand<TCommandResponse>
     {
         /// <summary>
         /// Gets the request DTO for.

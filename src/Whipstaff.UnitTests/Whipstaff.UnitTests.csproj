@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net9.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows10.0.19041</TargetFrameworks>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject />
@@ -22,9 +22,10 @@
 
   <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.0" />
+    <PackageReference Include="ReactiveUI.Testing" Version="22.2.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,8 +41,10 @@
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" />
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Markdig\Whipstaff.Markdig.csproj" />
     <ProjectReference Include="..\Whipstaff.Maui\Whipstaff.Maui.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
+    <ProjectReference Include="..\Whipstaff.Mediator\Whipstaff.Mediator.csproj" />
     <ProjectReference Include="..\Whipstaff.Mermaid\Whipstaff.Mermaid.csproj" />
     <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
@@ -50,7 +53,9 @@
     <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.Healthchecks.EntityFramework\Whipstaff.Healthchecks.EntityFramework.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Whipstaff.Mediator.EntityFrameworkCore\Whipstaff.Mediator.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Whipstaff.MediatR.Foundatio\Whipstaff.MediatR.Foundatio.csproj" />
+    <ProjectReference Include="..\Whipstaff.Mediator.Foundatio\Whipstaff.Mediator.Foundatio.csproj" />
     <ProjectReference Include="..\Whipstaff.MsSql\Whipstaff.MsSql.csproj" />
     <ProjectReference Include="..\Whipstaff.NodaTime\Whipstaff.NodaTime.csproj" />
     <ProjectReference Include="..\Whipstaff.OpenXml\Whipstaff.OpenXml.csproj" />

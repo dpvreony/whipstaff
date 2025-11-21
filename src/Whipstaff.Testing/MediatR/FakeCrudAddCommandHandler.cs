@@ -57,7 +57,9 @@ namespace Whipstaff.Testing.MediatR
                 var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
 #pragma warning disable CA1848 // Use the LoggerMessage delegates
+#pragma warning disable CA1873 // Avoid potentially expensive logging
                 _logger.LogDebug("DbContext Save Result: {SaveResult}", saveResult);
+#pragma warning restore CA1873 // Avoid potentially expensive logging
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 

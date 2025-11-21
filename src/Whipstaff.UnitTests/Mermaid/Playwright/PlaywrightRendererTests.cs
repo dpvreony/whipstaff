@@ -7,6 +7,7 @@ using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NetTestRegimentation;
@@ -27,7 +28,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<TestServer, PlaywrightRendererLogMessageActionsWrapper>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -42,7 +43,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Fact]
             public void ReturnsInstance()
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
                     LoggerFactory.CreateLogger<PlaywrightRenderer>());
@@ -57,7 +58,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
-                MermaidHttpServer? arg1,
+                TestServer? arg1,
                 PlaywrightRendererLogMessageActionsWrapper? arg2,
                 string expectedParameterNameForException)
             {
@@ -71,117 +72,21 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullException"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<MermaidHttpServer, PlaywrightRendererLogMessageActionsWrapper>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TestServer, PlaywrightRendererLogMessageActionsWrapper>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
                 /// </summary>
                 public ThrowsArgumentNullExceptionTestSource()
                     : base(
-                        new NamedParameterInput<MermaidHttpServer>(
+                        new NamedParameterInput<TestServer>(
                             "mermaidHttpServer",
-                            () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory())),
+                            () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory(), new FileSystem())),
                         new NamedParameterInput<PlaywrightRendererLogMessageActionsWrapper>(
                             "logMessageActionsWrapper",
                             () => new PlaywrightRendererLogMessageActionsWrapper(
                                 new PlaywrightRendererLogMessageActions(),
                                 new NullLoggerFactory().CreateLogger<PlaywrightRenderer>())))
-                {
-                }
-            }
-        }
-
-        /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRenderer.CreateDiagramAndWriteToFileAsync(IFileInfo, IFileInfo, PlaywrightBrowserTypeAndChannel)"/>.
-        /// </summary>
-        public sealed class CreateDiagramAndWriteToFileAsyncMethod : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo, IFileInfo>
-        {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="CreateDiagramAndWriteToFileAsyncMethod"/> class.
-            /// </summary>
-            /// <param name="output">XUnit test output instance.</param>
-            public CreateDiagramAndWriteToFileAsyncMethod(ITestOutputHelper output)
-                : base(output)
-            {
-            }
-
-            /// <inheritdoc/>
-            [Theory]
-            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(
-                IFileInfo? arg1,
-                IFileInfo? arg2,
-                string expectedParameterNameForException)
-            {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
-
-                var instance = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(
-                    expectedParameterNameForException,
-                    () => instance.CreateDiagramAndWriteToFileAsync(
-                        arg1!,
-                        arg2!,
-                        PlaywrightBrowserTypeAndChannel.Chrome()));
-            }
-
-            /// <summary>
-            /// Test to ensure the SVG generator creates a file.
-            /// </summary>
-            /// <returns>
-            /// A <see cref="Task" /> representing the asynchronous operation.
-            /// </returns>
-            [Fact]
-            public async Task ReturnsResult()
-            {
-                var fileSystem = new MockFileSystem();
-                var graph = "graph TD;" + Environment.NewLine +
-                            "    A-->B;" + Environment.NewLine +
-                            "    A-->C;" + Environment.NewLine +
-                            "    B-->D;" + Environment.NewLine +
-                            "    C-->D;";
-
-                fileSystem.AddFile(
-                    "test.mmd",
-                    graph);
-
-                var sourceFile = fileSystem.FileInfo.New(fileSystem.AllFiles.First());
-                var targetFile = fileSystem.FileInfo.New(fileSystem.Path.Combine(fileSystem.Directory.GetCurrentDirectory(), "output.mmd"));
-
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory);
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
-
-                var instance = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-                await instance.CreateDiagramAndWriteToFileAsync(
-                    sourceFile,
-                    targetFile,
-                    PlaywrightBrowserTypeAndChannel.Chrome());
-
-                Assert.True(targetFile.Exists);
-                var content = await targetFile.OpenText().ReadToEndAsync(TestContext.Current.CancellationToken);
-                Assert.StartsWith("<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"", content, StringComparison.Ordinal);
-            }
-
-            /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
-            /// </summary>
-            public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<IFileInfo, IFileInfo>
-            {
-                /// <summary>
-                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestSource"/> class.
-                /// </summary>
-                public ThrowsArgumentNullExceptionAsyncTestSource()
-                    : base(
-                        new NamedParameterInput<IFileInfo>("sourceFile", () => new MockFileInfo(new MockFileSystem(), "input.mmd")),
-                        new NamedParameterInput<IFileInfo>("targetFile", () => new MockFileInfo(new MockFileSystem(), "output.mmd")))
                 {
                 }
             }

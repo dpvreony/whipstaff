@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Wpf.AvalonEdit\Whipstaff.Wpf.AvalonEdit.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.CefSharp\Whipstaff.Wpf.CefSharp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.MaterialDesign\Whipstaff.Wpf.MaterialDesign.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfDiagram\Whipstaff.Wpf.Syncfusion.SfDiagram.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+</Project>

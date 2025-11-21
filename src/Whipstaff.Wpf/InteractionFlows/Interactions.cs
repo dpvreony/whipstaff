@@ -5,6 +5,7 @@
 using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
+using System.Reactive.Disposables.Fluent;
 using System.Threading.Tasks;
 using ReactiveUI;
 using Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction;

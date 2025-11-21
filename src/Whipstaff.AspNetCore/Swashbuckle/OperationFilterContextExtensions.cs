@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Whipstaff.AspNetCore.Swashbuckle
@@ -18,14 +19,14 @@ namespace Whipstaff.AspNetCore.Swashbuckle
         /// <typeparam name="T">Type to check is registered.</typeparam>
         /// <param name="context">Operation Filter Context.</param>
         /// <returns>Schema representation of the desired type.</returns>
-        public static Microsoft.OpenApi.Models.OpenApiSchema EnsureTypeRegistered<T>(this OperationFilterContext context)
+        public static Microsoft.OpenApi.IOpenApiSchema EnsureTypeRegistered<T>(this OperationFilterContext context)
         {
             ArgumentNullException.ThrowIfNull(context);
 
             var type = typeof(T);
             if (!context.SchemaRepository.TryLookupByType(type, out var problemDetailsReferenceSchema))
             {
-                problemDetailsReferenceSchema = context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
+                return context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
             }
 
             return problemDetailsReferenceSchema;

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Whipstaff.Core.Logging;
 using Whipstaff.Core.Logging.MessageActionWrappers;
@@ -40,12 +41,12 @@ namespace Whipstaff.CommandLine
         protected TLogMessageActionsWrapper LogMessageActionsWrapper { get; }
 
         /// <inheritdoc/>
-        public System.Threading.Tasks.Task<int> HandleCommandAsync(TCommandLineArgModel commandLineArgModel)
+        public System.Threading.Tasks.Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
             try
             {
-                return OnHandleCommandAsync(commandLineArgModel);
+                return OnHandleCommand(commandLineArgModel, cancellationToken);
             }
             catch (Exception e)
             {
@@ -58,7 +59,8 @@ namespace Whipstaff.CommandLine
         /// Handles the execution of the command line job.
         /// </summary>
         /// <param name="commandLineArgModel">Command Line Arguments model.</param>
+        /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>0 for success, non-zero for error.</returns>
-        protected abstract Task<int> OnHandleCommandAsync(TCommandLineArgModel commandLineArgModel);
+        protected abstract Task<int> OnHandleCommand(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken);
     }
 }

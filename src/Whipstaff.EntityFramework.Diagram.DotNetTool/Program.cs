@@ -12,7 +12,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// <summary>
     /// Hosts the program entry point.
     /// </summary>
-    public static class Program
+    internal static class Program
     {
         /// <summary>
         /// Program entry point.

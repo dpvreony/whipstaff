@@ -11,7 +11,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// <summary>
     /// Log message actions for <see cref="CommandLineJob"/>.
     /// </summary>
-    public class CommandLineJobLogMessageActions : ILogMessageActions<CommandLineJob>
+    internal sealed class CommandLineJobLogMessageActions : ILogMessageActions<CommandLineJob>
     {
         private readonly Action<ILogger, Exception?> _startingHandleCommand;
         private readonly Action<ILogger, string, Exception?> _failedToFindDbContext;

@@ -3,15 +3,18 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Text.Encodings.Web;
+using System.IO;
+using System.IO.Abstractions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Mermaid.HttpServer
@@ -25,35 +28,49 @@ namespace Whipstaff.Mermaid.HttpServer
         /// Gets the In Memory Test Server.
         /// </summary>
         /// <param name="loggerFactory">Logging Factory.</param>
+        /// <param name="fileSystem">File system wrapper.</param>
         /// <returns>In memory HTTP server instance.</returns>
-        public static MermaidHttpServer GetTestServer(ILoggerFactory loggerFactory)
+        public static TestServer GetTestServer(
+            ILoggerFactory loggerFactory,
+            IFileSystem fileSystem)
         {
-            var builder = GetWebHostBuilder(loggerFactory);
-            var testServer = new MermaidHttpServer(builder);
-            return testServer;
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
+            var builder = GetWebHostBuilder(
+                loggerFactory,
+                fileSystem);
+
+            var host = builder.Build();
+            host.Start();
+            return host.GetTestServer();
         }
 
-        private static IWebHostBuilder GetWebHostBuilder(ILoggerFactory loggerFactory)
+        private static IHostBuilder GetWebHostBuilder(
+            ILoggerFactory loggerFactory,
+            IFileSystem fileSystem)
         {
-            var embeddedProvider = new EmbeddedFileProvider(
+            var embeddedProvider = new ManifestEmbeddedFileProvider(
                 typeof(MermaidHttpServerFactory).Assembly,
-                typeof(MermaidHttpServerFactory).Namespace + ".wwwroot");
+                fileSystem.Path.Combine("HttpServer", "wwwroot"));
 
-            var builder = new WebHostBuilder()
-                .ConfigureLogging(loggingBuilder => ConfigureLogging(
-                    loggingBuilder,
-                    loggerFactory))
-                .ConfigureServices((_, serviceCollection) => ConfigureServices(
-                    serviceCollection,
-                    embeddedProvider))
-                .Configure((_, applicationBuilder) => ConfigureApp(
-                    applicationBuilder,
-                    embeddedProvider));
-
-            return builder;
+            return new HostBuilder()
+                .ConfigureWebHost(webHostBuilder =>
+                {
+                    _ = webHostBuilder
+                        .UseTestServer() // If using TestServer
+                        .ConfigureLogging(loggingBuilder => ConfigureLogging(
+                            loggingBuilder,
+                            loggerFactory))
+                        .ConfigureServices((_, serviceCollection) => ConfigureServices(
+                            serviceCollection,
+                            embeddedProvider))
+                        .Configure((_, applicationBuilder) => ConfigureApp(
+                            applicationBuilder,
+                            embeddedProvider));
+                });
         }
 
-        private static void ConfigureApp(IApplicationBuilder applicationBuilder, EmbeddedFileProvider embeddedFileProvider)
+        private static void ConfigureApp(IApplicationBuilder applicationBuilder, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = applicationBuilder.Use(async (context, next) =>
             {
@@ -152,7 +169,7 @@ namespace Whipstaff.Mermaid.HttpServer
                    request.Path.Equals("/index.html", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static void ConfigureServices(IServiceCollection serviceCollection, EmbeddedFileProvider embeddedFileProvider)
+        private static void ConfigureServices(IServiceCollection serviceCollection, ManifestEmbeddedFileProvider embeddedFileProvider)
         {
             _ = serviceCollection.AddSingleton<IFileProvider>(embeddedFileProvider);
         }

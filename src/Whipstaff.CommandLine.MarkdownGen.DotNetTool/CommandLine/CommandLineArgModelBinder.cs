@@ -12,7 +12,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
     /// <summary>
     /// Binding logic for the command line arguments.
     /// </summary>
-    public sealed class CommandLineArgModelBinder : BinderBase<CommandLineArgModel>
+    internal sealed class CommandLineArgModelBinder : IBinderBase<CommandLineArgModel>
     {
         private readonly Option<FileInfo> _assemblyOption;
         private readonly Option<FileInfo> _outputFilePathOption;
@@ -34,16 +34,16 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
         }
 
         /// <inheritdoc/>
-        protected override CommandLineArgModel GetBoundValue(BindingContext bindingContext)
+        public CommandLineArgModel GetBoundValue(ParseResult parseResult)
         {
-            ArgumentNullException.ThrowIfNull(bindingContext);
+            ArgumentNullException.ThrowIfNull(parseResult);
 
-            var assembly = bindingContext.ParseResult.GetValueForOption(_assemblyOption);
-            var outputFilePath = bindingContext.ParseResult.GetValueForOption(_outputFilePathOption);
+            var assembly = parseResult.GetRequiredValue(_assemblyOption);
+            var outputFilePath = parseResult.GetRequiredValue(_outputFilePathOption);
 
             return new CommandLineArgModel(
-                assembly!,
-                outputFilePath!);
+                assembly,
+                outputFilePath);
         }
     }
 }

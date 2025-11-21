@@ -12,5 +12,5 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: dpvreony/github-action-renovate-config-validator@63c5f53df823879a6cd46a10d27fbe1d4ede7839

@@ -11,6 +11,7 @@ using Audit.Core;
 using Audit.Core.Providers;
 using Audit.WebApi;
 using Ben.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,7 +25,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
@@ -41,6 +42,8 @@ namespace Whipstaff.AspNetCore
     /// </summary>
     public abstract class AbstractWebAppStartup : IWhipstaffWebAppStartup
     {
+        private bool _usingAuthentication;
+
         /// <inheritdoc/>
         public abstract void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder);
 
@@ -78,6 +81,21 @@ namespace Whipstaff.AspNetCore
 
             _ = services.AddProblemDetails();
 
+            var authenticationDetails = GetConfigureAuthenticationDetails();
+            if (authenticationDetails != null)
+            {
+                var actualAuthenticationDetails = authenticationDetails.Value;
+
+                var authBuilder = services.AddAuthentication(actualAuthenticationDetails.DefaultScheme);
+
+                actualAuthenticationDetails.BuilderAction(
+                    authBuilder,
+                    configuration,
+                    environment);
+
+                _usingAuthentication = true;
+            }
+
             _ = services.AddAuthorization(ConfigureAuthorization);
 #if TBC
             // new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
@@ -110,6 +128,12 @@ namespace Whipstaff.AspNetCore
 
             OnConfigureServices(services);
         }
+
+        /// <summary>
+        /// Gets the default schema and an action to use when configuring authentication. If null, no authentication will be configured.
+        /// </summary>
+        /// <returns>The default schema and an  action to use when running the configuration of authentication, or null.</returns>
+        protected abstract (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails();
 
         /// <summary>
         /// Configure app specific services.
@@ -265,6 +289,13 @@ namespace Whipstaff.AspNetCore
             }
 
             _ = app.UseRouting();
+
+            if (_usingAuthentication)
+            {
+                _ = app.UseAuthentication();
+            }
+
+            _ = app.UseAuthorization();
 
             var useEndpointsAction = GetOnUseEndpointsAction();
             if (useEndpointsAction != null)

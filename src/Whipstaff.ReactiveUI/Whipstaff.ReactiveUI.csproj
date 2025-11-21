@@ -1,14 +1,14 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;tizen40;net8.0;net8.0-android;net8.0-ios;net8.0-tvos;net8.0-macos</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;tizen40;net8.0;net9.0-android;net9.0-ios;net9.0-tvos;net9.0-macos</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with ReactiveUI.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI" Version="20.2.45" />
+    <PackageReference Include="ReactiveUI" Version="22.2.1" />
   </ItemGroup>
 
   <ItemGroup>

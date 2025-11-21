@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
     <PackageDescription>Re-usable logic for working with Aspire Hosting</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting" Version="9.2.1" />
+    <PackageReference Include="Aspire.Hosting" Version="13.0.0" />
   </ItemGroup>
 </Project>
