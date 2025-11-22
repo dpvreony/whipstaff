@@ -16,6 +16,7 @@ namespace Whipstaff.Rx.Runtime.AppDomains
     /// <summary>
     /// Extension methods for <see cref="IAssemblyResolveHelper"/>.
     /// </summary>
+#pragma warning disable GR0049 // Do not use Tuples.
     public static class AssemblyResolverExtensions
     {
         /// <summary>
@@ -46,4 +47,5 @@ namespace Whipstaff.Rx.Runtime.AppDomains
             });
         }
     }
+#pragma warning restore GR0049 // Do not use Tuples.
 }

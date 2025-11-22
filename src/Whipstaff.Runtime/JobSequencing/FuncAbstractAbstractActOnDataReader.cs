@@ -11,17 +11,17 @@ namespace Whipstaff.Runtime.JobSequencing
     /// <summary>
     /// Represents a data reader actor that takes a func.
     /// </summary>
-    public sealed class FuncActOnDataReader : ActOnDataReader
+    public sealed class FuncAbstractAbstractActOnDataReader : AbstractAbstractActOnDataReader
     {
         private readonly Func<IDataReader, Task> _actOnItemAsyncFunc;
         private readonly Func<Task> _onNoItemsHandledAsync;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FuncActOnDataReader"/> class.
+        /// Initializes a new instance of the <see cref="FuncAbstractAbstractActOnDataReader"/> class.
         /// </summary>
         /// <param name="actOnItemAsyncFunc">The action to carry out on each item.</param>
         /// <param name="onNoItemsHandledAsync">The action to carry out if there are no items in the data reader.</param>
-        public FuncActOnDataReader(
+        public FuncAbstractAbstractActOnDataReader(
             Func<IDataReader, Task> actOnItemAsyncFunc,
             Func<Task> onNoItemsHandledAsync)
         {
@@ -41,7 +41,7 @@ namespace Whipstaff.Runtime.JobSequencing
             Func<IDataReader, Task> actOnItemAsyncFunc,
             Func<Task> onNoItemsHandledAsync)
         {
-            var instance = new FuncActOnDataReader(
+            var instance = new FuncAbstractAbstractActOnDataReader(
                 actOnItemAsyncFunc,
                 onNoItemsHandledAsync);
             return instance.ActOnCollectionAsync(dataReader);

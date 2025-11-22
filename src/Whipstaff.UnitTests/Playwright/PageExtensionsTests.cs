@@ -322,6 +322,28 @@ namespace Whipstaff.UnitTests.Playwright
                 });
             }
 
+            private static async Task WithPlayWrightPage(Func<IPage, Task> actionFunc)
+            {
+                await WithPlayWrightBrowser(async browser =>
+                {
+                    var page = await browser.NewPageAsync();
+                    await actionFunc(page);
+                });
+            }
+
+            private static async Task WithPlayWrightBrowser(Func<IBrowser, Task> actionFunc)
+            {
+                var playwrightBrowserTypeAndChannel = PlaywrightBrowserTypeAndChannel.Chrome();
+                using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
+                await using (var browser = await playwright.GetBrowserAsync(playwrightBrowserTypeAndChannel).ConfigureAwait(false))
+                {
+                    await actionFunc(browser);
+
+                    // Close the browser
+                    await browser.CloseAsync();
+                }
+            }
+
             private static async Task InvalidAltTagHandler(HttpContext context)
             {
                 context.Response.StatusCode = 200;

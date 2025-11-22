@@ -65,7 +65,9 @@ namespace Whipstaff.Runtime.Extensions
             ArgumentNullException.ThrowIfNull(dataContractJsonSerializer);
 
 #pragma warning disable GR0007
+#pragma warning disable GR0036
             var serializerType = dataContractJsonSerializer.GetType();
+#pragma warning restore GR0036
 #pragma warning restore GR0007
             if (serializerType is not TResult)
             {
