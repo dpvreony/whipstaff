@@ -221,14 +221,14 @@ namespace Whipstaff.UnitTests.Controllers
             public async Task ShouldSucceedAsync(int addRequestDto)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
-                _ = authorizationService.Methods.AuthorizeAsync(
+                _ = authorizationService.Setups.AuthorizeAsync(
                         Arg.Any<ClaimsPrincipal>(),
                         Arg.Any<object?>(),
                         Arg.Is("addPolicyName"))
                     .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Methods.Send(
+                _ = mediator.Setups.Send(
                         Arg.Validate<IRequest<int?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
@@ -313,14 +313,14 @@ namespace Whipstaff.UnitTests.Controllers
             public async Task ShouldSucceedAsync(int id)
             {
                 var authorizationService = MockAuthorizationServiceFactory();
-                _ = authorizationService.Methods.AuthorizeAsync(
+                _ = authorizationService.Setups.AuthorizeAsync(
                         Arg.Any<ClaimsPrincipal>(),
                         Arg.Any<object?>(),
                         Arg.Is("deletePolicyName"))
                     .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Methods.Send(
+                _ = mediator.Setups.Send(
                         Arg.Validate<IRequest<long?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
@@ -366,7 +366,7 @@ namespace Whipstaff.UnitTests.Controllers
             {
                 var authorizationService = MockAuthorizationServiceFactory();
 
-                _ = authorizationService.Methods.AuthorizeAsync(
+                _ = authorizationService.Setups.AuthorizeAsync(
                         Arg.Any<ClaimsPrincipal>(),
                         Arg.Any<int>(),
                         Arg.Is("deletePolicyName"))
@@ -374,7 +374,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
 
-                _ = mediator.Methods.Send(
+                _ = mediator.Setups.Send(
                         Arg.Validate<IRequest<long?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
@@ -455,14 +455,14 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var authorizationService = MockAuthorizationServiceFactory();
 
-                _ = authorizationService.Methods.AuthorizeAsync(
+                _ = authorizationService.Setups.AuthorizeAsync(
                         Arg.Any<ClaimsPrincipal>(),
                         Arg.Any<object?>(),
                         Arg.Is("listPolicyName"))
                     .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Methods.Send(
+                _ = mediator.Setups.Send(
                         Arg.Validate<IRequest<IList<int>?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
@@ -545,14 +545,14 @@ namespace Whipstaff.UnitTests.Controllers
             {
                 var authorizationService = MockAuthorizationServiceFactory();
 
-                _ = authorizationService.Methods.AuthorizeAsync(
+                _ = authorizationService.Setups.AuthorizeAsync(
                         Arg.Any<ClaimsPrincipal>(),
                         Arg.Any<object?>(),
                         Arg.Is("updatePolicyName"))
                     .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Methods.Send(
+                _ = mediator.Setups.Send(
                         Arg.Validate<IRequest<FakeCrudUpdateResponse?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
@@ -643,20 +643,20 @@ namespace Whipstaff.UnitTests.Controllers
             {
                 var authorizationService = MockAuthorizationServiceFactory();
 
-                _ = authorizationService.Methods.AuthorizeAsync(
+                _ = authorizationService.Setups.AuthorizeAsync(
                         Arg.Any<ClaimsPrincipal>(),
                         Arg.Any<object?>(),
                         Arg.Is("viewPolicyName"))
                     .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
-                _ = authorizationService.Methods.AuthorizeAsync(
+                _ = authorizationService.Setups.AuthorizeAsync(
                         Arg.Any<ClaimsPrincipal>(),
                         null as object,
                         Arg.Is("viewPolicyName"))
                     .ReturnValue(Task.FromResult(AuthorizationResult.Success()));
 
                 var mediator = MockMediatorFactory();
-                _ = mediator.Methods.Send<FakeCrudViewResponse?>(
+                _ = mediator.Setups.Send<FakeCrudViewResponse?>(
                         Arg.Validate<IRequest<FakeCrudViewResponse?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
