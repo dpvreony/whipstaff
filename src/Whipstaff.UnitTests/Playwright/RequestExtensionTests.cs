@@ -62,13 +62,15 @@ namespace Whipstaff.UnitTests.Playwright
             private static IRequest GetRequest(string method)
             {
                 var expectation = new IRequestCreateExpectations();
-                _ = expectation.Properties.Getters.Method().ReturnValue(method);
-                _ = expectation.Properties.Getters.Url().ReturnValue("https://localhost/");
-                _ = expectation.Properties.Getters.Headers().ReturnValue([]);
+
+                var setups = expectation.Setups;
+                _ = setups.Method.Gets().ReturnValue(method);
+                _ = setups.Url.Gets().ReturnValue("https://localhost/");
+                _ = setups.Headers.Gets().ReturnValue([]);
 
                 if (method.Equals("POST", StringComparison.Ordinal))
                 {
-                    _ = expectation.Properties.Getters.PostDataBuffer().ReturnValue([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+                    _ = setups.PostDataBuffer.Gets().ReturnValue([1, 2, 3, 4, 5, 6, 7, 8, 9]);
                 }
 
                 return expectation.Instance();

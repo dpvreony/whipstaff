@@ -44,13 +44,12 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
                 var isHandled = false;
                 var interactionContextExpectation = new IOutputContextExpectations<int, int>();
 
-                var properties = interactionContextExpectation.Properties;
-                var getters = properties.Getters;
+                var setups = interactionContextExpectation.Setups;
 
-                _ = getters.Input().ReturnValue(1);
-                _ = getters.IsHandled().Callback(() => isHandled);
+                _ = setups.Input.Gets().ReturnValue(1);
+                _ = setups.IsHandled.Gets().Callback(() => isHandled);
 
-                var methods = interactionContextExpectation.Methods;
+                var methods = interactionContextExpectation.Setups;
 
                 _ = methods.SetOutput(Arg.Any<int>()).Callback(input =>
                 {
