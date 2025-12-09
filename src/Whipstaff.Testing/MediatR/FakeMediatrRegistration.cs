@@ -4,15 +4,15 @@
 
 using System;
 using System.Collections.Generic;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing.Cqrs;
 
 namespace Whipstaff.Testing.MediatR
 {
     /// <summary>
-    /// Represents a Mediatr code based registration.
+    /// Represents a Mediator code based registration.
     /// </summary>
-    public sealed class FakeMediatrRegistration : IMediatrRegistration
+    public sealed class FakeMediatrRegistration : IMediatorRegistration
     {
         /// <inheritdoc />
         public IList<Func<IRequestHandlerRegistrationHandler>> RequestHandlers => new

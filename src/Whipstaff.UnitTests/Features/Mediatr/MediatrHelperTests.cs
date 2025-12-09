@@ -7,17 +7,18 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.Logging;
+using Whipstaff.Testing.Mediator;
 using Whipstaff.Testing.MediatR;
 using Xunit;
 
@@ -66,7 +67,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 _ = services.AddSingleton<Func<IModelCreator<FakeDbContext>>>(x =>
                     () => new SqliteFakeDbContextModelCreator());
 
-                MediatrHelpers.RegisterMediatrWithExplicitTypes(
+                MediatorHelpers.RegisterMediatrWithExplicitTypes(
                     services,
                     null,
                     new MediatRServiceConfiguration(),

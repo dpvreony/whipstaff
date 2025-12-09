@@ -29,7 +29,7 @@ using Whipstaff.Mediator;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
-using Whipstaff.Testing.MediatR;
+using Whipstaff.Testing.Mediator;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
 {
@@ -103,7 +103,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override IMediatorRegistration GetMediatrRegistration()
+        protected override IMediatorRegistration GetMediatorRegistration()
         {
             return new FakeMediatorRegistration();
         }

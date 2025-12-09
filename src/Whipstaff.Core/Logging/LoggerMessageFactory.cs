@@ -38,22 +38,22 @@ namespace Whipstaff.Core.Logging
             formatString: "DbContext Save Result: {SaveResult}");
 
         /// <summary>
-        /// Gets the Logger Message definition for "No MediatR handlers registered for type" event.
+        /// Gets the Logger Message definition for "No Mediator handlers registered for type" event.
         /// </summary>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Type, Exception?> GetNoMediatRHandlersRegisteredForTypeLoggerMessageAction() => LoggerMessage.Define<Type>(
+        public static Action<ILogger, Type, Exception?> GetNoMediatorHandlersRegisteredForTypeLoggerMessageAction() => LoggerMessage.Define<Type>(
             LogLevel.Debug,
-            WhipstaffEventIdFactory.NoMediatRHandlersRegisteredForTypeEventId(),
-            formatString: "No MediatR {Type} handlers registered.");
+            WhipstaffEventIdFactory.NoMediatorHandlersRegisteredForTypeEventId(),
+            formatString: "No Mediator {Type} handlers registered.");
 
         /// <summary>
-        /// Gets the Logger Message definition for the "Number of MediatR handlers registered for type" event.
+        /// Gets the Logger Message definition for the "Number of Mediator handlers registered for type" event.
         /// </summary>
         /// <returns>Log Message Action.</returns>
-        public static Action<ILogger, Type, int, Exception?> GetCountOfMediatRHandlersRegisteredLoggerMessageAction() => LoggerMessage.Define<Type, int>(
+        public static Action<ILogger, Type, int, Exception?> GetCountOfMediatorHandlersRegisteredLoggerMessageAction() => LoggerMessage.Define<Type, int>(
             LogLevel.Debug,
-            WhipstaffEventIdFactory.CountOfMediatRHandlersRegisteredEventId(),
-            formatString: "Number of MediatR {Type} handlers registered: {Count}");
+            WhipstaffEventIdFactory.CountOfMediatorHandlersRegisteredEventId(),
+            formatString: "Number of Mediator {Type} handlers registered: {Count}");
 
         /// <summary>
         /// Gets a basic debug logger message action for an event id. Useful for basic logging of events where there is only
