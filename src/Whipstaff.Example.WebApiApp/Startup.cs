@@ -25,7 +25,7 @@ using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Example.AspireServiceDefaults;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
@@ -103,9 +103,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override IMediatrRegistration GetMediatrRegistration()
+        protected override IMediatorRegistration GetMediatrRegistration()
         {
-            return new FakeMediatrRegistration();
+            return new FakeMediatorRegistration();
         }
 
         /// <inheritdoc/>

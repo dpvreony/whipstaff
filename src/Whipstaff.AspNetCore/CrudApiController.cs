@@ -6,6 +6,7 @@ using System;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -66,7 +67,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
-        /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
+        /// <param name="mediator">The mediator object to publish CQRS messages to.</param>
         /// <param name="commandFactory">The factory for generating Command messages.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
         /// <param name="logMessageActions">Log Message Actions for the logging events in the controller.</param>
