@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Whipstaff.Testing.Cqrs;
 
 namespace Whipstaff.Testing.MediatR

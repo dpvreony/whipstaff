@@ -5,7 +5,7 @@
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.FileTransfer;

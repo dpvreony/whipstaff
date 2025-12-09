@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using MediatR;
+using Mediator;
 using Whipstaff.AspNetCore.FileTransfer;
 
 namespace Whipstaff.OpenXml.Excel

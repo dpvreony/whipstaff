@@ -5,7 +5,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.Testing.Cqrs;

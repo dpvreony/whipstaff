@@ -33,7 +33,7 @@ using Whipstaff.AspNetCore.Features.AuditNet;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
 using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.AspNetCore.Swashbuckle;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.AspNetCore
 {
@@ -77,7 +77,7 @@ namespace Whipstaff.AspNetCore
 
             ConfigureControllerService(services);
 
-            ConfigureMediatrService(services);
+            ConfigureMediatorService(services);
 
             _ = services.AddProblemDetails();
 
@@ -159,10 +159,10 @@ namespace Whipstaff.AspNetCore
         protected abstract Assembly[] GetControllerAssemblies();
 
         /// <summary>
-        /// Gets a mediatr registration object. This is used to avoid reflection.
+        /// Gets a mediator registration object. This is used to avoid reflection.
         /// </summary>
         /// <returns>Array of assemblies.</returns>
-        protected abstract IMediatrRegistration GetMediatrRegistration();
+        protected abstract IMediatorRegistration GetMediatorRegistration();
 
         /// <summary>
         /// Gets the action to use when configuring the controllers.
@@ -374,14 +374,13 @@ namespace Whipstaff.AspNetCore
             _ = mvcBuilder.AddControllersAsServices();
         }
 
-        private void ConfigureMediatrService(IServiceCollection services)
+        private void ConfigureMediatorService(IServiceCollection services)
         {
-            var mediatrRegistration = GetMediatrRegistration();
-            MediatrHelpers.RegisterMediatrWithExplicitTypes(
+            var mediatorRegistration = GetMediatorRegistration();
+            MediatorHelpers.RegisterMediatorWithExplicitTypes(
                 services,
                 null,
-                new MediatRServiceConfiguration(),
-                mediatrRegistration);
+                mediatorRegistration);
         }
     }
 }

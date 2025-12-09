@@ -7,13 +7,11 @@ using System.IO;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
-using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.AspNetCore.FileTransfer
 {

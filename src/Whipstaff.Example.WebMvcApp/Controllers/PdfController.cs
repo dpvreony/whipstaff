@@ -5,7 +5,7 @@
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Features.Pdf;
@@ -24,7 +24,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// </summary>
         /// <param name="authorizationService">Authorization service for verifying requests.</param>
         /// <param name="logger">Logging framework.</param>
-        /// <param name="mediator">CQRS mediatr.</param>
+        /// <param name="mediator">CQRS mediator.</param>
         public PdfController(
             IAuthorizationService authorizationService,
             ILogger<PdfController> logger,

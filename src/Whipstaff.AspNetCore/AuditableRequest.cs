@@ -3,8 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Security.Claims;
-using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.AspNetCore
 {

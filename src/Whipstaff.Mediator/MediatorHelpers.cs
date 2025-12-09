@@ -66,7 +66,7 @@ namespace Whipstaff.Mediator
             {
                 if (logger != null)
                 {
-                    var loggerMessage = LoggerMessageFactory.GetNoMediatRHandlersRegisteredForTypeLoggerMessageAction();
+                    var loggerMessage = LoggerMessageFactory.GetNoMediatorHandlersRegisteredForTypeLoggerMessageAction();
                     loggerMessage(logger, typeof(T), null);
                 }
 
@@ -86,7 +86,7 @@ namespace Whipstaff.Mediator
 
             if (logger != null)
             {
-                var loggerMessage = LoggerMessageFactory.GetCountOfMediatRHandlersRegisteredLoggerMessageAction();
+                var loggerMessage = LoggerMessageFactory.GetCountOfMediatorHandlersRegisteredLoggerMessageAction();
                 loggerMessage(logger, typeof(T), registrations.Count, null);
             }
         }

@@ -5,8 +5,7 @@
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.Testing.Cqrs
 {

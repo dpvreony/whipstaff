@@ -4,12 +4,13 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
+using Whipstaff.Testing.Mediator;
 
 namespace Whipstaff.Testing.MediatR
 {
     /// <summary>
-    /// Fake Notification Handler for MediatR.
+    /// Fake Notification Handler for Mediator.
     /// </summary>
     public sealed class FakeNotificationHandler : INotificationHandler<FakeNotification>
     {

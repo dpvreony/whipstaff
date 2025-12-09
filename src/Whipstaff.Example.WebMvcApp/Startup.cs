@@ -31,11 +31,11 @@ using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Example.AspireServiceDefaults;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
-using Whipstaff.Testing.MediatR;
+using Whipstaff.Testing.Mediator;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
 {
@@ -120,9 +120,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override IMediatrRegistration GetMediatrRegistration()
+        protected override IMediatorRegistration GetMediatorRegistration()
         {
-            return new FakeMediatrRegistration();
+            return new FakeMediatorRegistration();
         }
 
         /// <inheritdoc/>

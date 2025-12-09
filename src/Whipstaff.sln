@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11205.157 d18.0
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.UnitTests", "Whipstaff.UnitTests\Whipstaff.UnitTests.csproj", "{5CA40CE7-778D-42FC-92F8-E8CA5298C46B}"
 EndProject
@@ -18,10 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Core", "Whipstaff.Core\Whipstaff.Core.csproj", "{46C501E8-9898-4D71-9F85-588614E5925C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.EntityFramework", "Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj", "{0D0C2C40-F3C1-4180-9735-4058641708F9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.MediatR.EntityFrameworkCore", "Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj", "{04C47C99-7169-4159-8288-F7208C0CD987}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.MediatR.Foundatio", "Whipstaff.MediatR.Foundatio\Whipstaff.MediatR.Foundatio.csproj", "{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.MsSql", "Whipstaff.MsSql\Whipstaff.MsSql.csproj", "{8FC735A0-A705-4972-BDBD-2E0A9ECA3968}"
 EndProject
@@ -66,8 +62,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.CommandLine.MarkdownGen.DotNetTool", "Whipstaff.CommandLine.MarkdownGen.DotNetTool\Whipstaff.CommandLine.MarkdownGen.DotNetTool.csproj", "{27EEBABA-2EDA-4E88-BBC0-EB7CDCDF5219}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers", "Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers.csproj", "{590F9098-871E-4268-8478-362554EF16B5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.MediatR", "Whipstaff.MediatR\Whipstaff.MediatR.csproj", "{CA406584-0360-42B2-9F84-B2BF14293A9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Blazor", "Whipstaff.Blazor\Whipstaff.Blazor.csproj", "{BF1B67B7-C9DC-42AC-8705-A5EC00586001}"
 EndProject
@@ -335,30 +329,6 @@ Global
 		{0D0C2C40-F3C1-4180-9735-4058641708F9}.Release|x64.Build.0 = Release|Any CPU
 		{0D0C2C40-F3C1-4180-9735-4058641708F9}.Release|x86.ActiveCfg = Release|Any CPU
 		{0D0C2C40-F3C1-4180-9735-4058641708F9}.Release|x86.Build.0 = Release|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Debug|x64.Build.0 = Debug|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Debug|x86.Build.0 = Debug|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Release|x64.ActiveCfg = Release|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Release|x64.Build.0 = Release|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Release|x86.ActiveCfg = Release|Any CPU
-		{04C47C99-7169-4159-8288-F7208C0CD987}.Release|x86.Build.0 = Release|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Debug|x64.Build.0 = Debug|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Debug|x86.Build.0 = Debug|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Release|x64.ActiveCfg = Release|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Release|x64.Build.0 = Release|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Release|x86.ActiveCfg = Release|Any CPU
-		{2AAC2BF5-1057-4C0D-A22F-43E04DB17BB8}.Release|x86.Build.0 = Release|Any CPU
 		{8FC735A0-A705-4972-BDBD-2E0A9ECA3968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FC735A0-A705-4972-BDBD-2E0A9ECA3968}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FC735A0-A705-4972-BDBD-2E0A9ECA3968}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -611,18 +581,6 @@ Global
 		{590F9098-871E-4268-8478-362554EF16B5}.Release|x64.Build.0 = Release|Any CPU
 		{590F9098-871E-4268-8478-362554EF16B5}.Release|x86.ActiveCfg = Release|Any CPU
 		{590F9098-871E-4268-8478-362554EF16B5}.Release|x86.Build.0 = Release|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|x64.Build.0 = Debug|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Debug|x86.Build.0 = Debug|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|x64.ActiveCfg = Release|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|x64.Build.0 = Release|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|x86.ActiveCfg = Release|Any CPU
-		{CA406584-0360-42B2-9F84-B2BF14293A9D}.Release|x86.Build.0 = Release|Any CPU
 		{BF1B67B7-C9DC-42AC-8705-A5EC00586001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF1B67B7-C9DC-42AC-8705-A5EC00586001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF1B67B7-C9DC-42AC-8705-A5EC00586001}.Debug|x64.ActiveCfg = Debug|Any CPU
