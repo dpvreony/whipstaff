@@ -5,12 +5,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.AspNetCore.Extensions
 {
@@ -27,7 +25,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TAddCommand">The type for the CQRS Command for the Add Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="addRequestDto">The Request DTO for the Add operation.</param>
         /// <param name="logAction">
@@ -117,7 +115,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TDeleteCommand">The type for the CQRS Command for the Delete Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="id">Unique Id for the identity being deleted.</param>
         /// <param name="logAction">
@@ -212,7 +210,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -273,7 +271,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -333,7 +331,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -383,7 +381,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -433,7 +431,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TViewQuery">The type for the CQRS Command for the View Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="viewRequestDto">The Request DTO for the View operation.</param>
         /// <param name="logAction">
@@ -493,7 +491,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TViewQuery">The type for the CQRS Command for the View Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="viewRequestDto">The Request DTO for the View operation.</param>
         /// <param name="logAction">
@@ -553,7 +551,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TUpdateCommand">The type for the CQRS Command for the Update Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="id">The unique id of the entity to be updated.</param>
         /// <param name="updateRequestDto">The Request DTO for the Update operation.</param>

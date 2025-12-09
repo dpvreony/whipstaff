@@ -43,7 +43,6 @@
     <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
     <ProjectReference Include="..\Whipstaff.Markdig\Whipstaff.Markdig.csproj" />
     <ProjectReference Include="..\Whipstaff.Maui\Whipstaff.Maui.csproj" />
-    <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
     <ProjectReference Include="..\Whipstaff.Mediator\Whipstaff.Mediator.csproj" />
     <ProjectReference Include="..\Whipstaff.Mermaid\Whipstaff.Mermaid.csproj" />
     <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
@@ -52,9 +51,7 @@
     <ProjectReference Include="..\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers\Whipstaff.TestableIO.System.IO.Abstractions.TestingHelpers.csproj" />
     <ProjectReference Include="..\Whipstaff.Testing\Whipstaff.Testing.csproj" />
     <ProjectReference Include="..\Whipstaff.Healthchecks.EntityFramework\Whipstaff.Healthchecks.EntityFramework.csproj" />
-    <ProjectReference Include="..\Whipstaff.MediatR.EntityFrameworkCore\Whipstaff.MediatR.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Whipstaff.Mediator.EntityFrameworkCore\Whipstaff.Mediator.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\Whipstaff.MediatR.Foundatio\Whipstaff.MediatR.Foundatio.csproj" />
     <ProjectReference Include="..\Whipstaff.Mediator.Foundatio\Whipstaff.Mediator.Foundatio.csproj" />
     <ProjectReference Include="..\Whipstaff.MsSql\Whipstaff.MsSql.csproj" />
     <ProjectReference Include="..\Whipstaff.NodaTime\Whipstaff.NodaTime.csproj" />
