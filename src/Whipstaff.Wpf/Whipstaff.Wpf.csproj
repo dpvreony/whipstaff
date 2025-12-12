@@ -31,5 +31,6 @@
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
+    <Vetuviem_Allow_Experimental_Properties>true</Vetuviem_Allow_Experimental_Properties>
   </PropertyGroup>
 </Project>
