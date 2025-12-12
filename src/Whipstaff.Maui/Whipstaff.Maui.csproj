@@ -15,8 +15,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Vetuviem.Core" Version="0.11.14" />
-    <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.11.14">
+    <PackageReference Include="Vetuviem.Core" Version="0.12.16" />
+    <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.12.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
