@@ -25,10 +25,10 @@
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="[2.3.24,3.0.0)" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.0" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.0.16" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.1" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.1.0" />
   </ItemGroup>
 
 </Project>
