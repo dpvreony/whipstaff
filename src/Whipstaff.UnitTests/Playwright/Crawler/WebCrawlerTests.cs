@@ -199,7 +199,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             {
                 using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
                 await using (var browser =
-                             await playwright.GetBrowser(PlaywrightBrowserTypeAndChannel.Chrome()))
+                             await playwright.GetBrowserAsync(PlaywrightBrowserTypeAndChannel.Chrome()))
                 {
                     var context = await browser.NewContextAsync();
                     await context.RouteAsync(
@@ -329,7 +329,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             {
                 using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
                 await using (var browser =
-                             await playwright.GetBrowser(PlaywrightBrowserTypeAndChannel.Chrome()))
+                             await playwright.GetBrowserAsync(PlaywrightBrowserTypeAndChannel.Chrome()))
                 {
                     var page = await browser.NewPageAsync();
                     await page.RouteAsync(
