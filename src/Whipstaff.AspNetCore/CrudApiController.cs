@@ -51,14 +51,14 @@ namespace Whipstaff.AspNetCore
             TUpdateResponseDto,
             TCrudControllerLogMessageActions>
         : QueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
+        where TListQuery : IAuditableQuery<TListRequestDto, TListQueryResponse>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
-        where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
+        where TViewQuery : IAuditableQuery<long, TViewQueryResponse?>
         where TViewQueryResponse : class
-        where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
-        where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
-        where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
+        where TAddCommand : IAuditableCommand<TAddRequestDto, TAddResponseDto?>
+        where TDeleteCommand : IAuditableCommand<long, TDeleteResponseDto?>
+        where TUpdateCommand : IAuditableCommand<TUpdateRequestDto, TUpdateResponseDto?>
         where TUpdateResponseDto : class?
         where TCrudControllerLogMessageActions : ICrudControllerLogMessageActions
     {

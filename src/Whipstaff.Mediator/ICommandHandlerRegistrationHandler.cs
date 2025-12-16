@@ -5,9 +5,9 @@
 namespace Whipstaff.Mediator
 {
     /// <summary>
-    /// Registers a concrete type for handling Mediator post processors.
+    /// Registers a concrete type for handling Mediator commands.
     /// </summary>
-    public interface IRequestPostProcessorRegistrationHandler : IMediatorRegistrationModel
+    public interface ICommandHandlerRegistrationHandler : IMediatorRegistrationModel
     {
     }
 }

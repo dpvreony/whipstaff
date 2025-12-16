@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 using Mediator;
 using Whipstaff.Testing.Cqrs;
 
-namespace Whipstaff.Testing.MediatR
+namespace Whipstaff.Testing.Mediator
 {
     /// <summary>
     /// CQRS Query Handler for the CRUD View Query.
     /// </summary>
-    public class FakeCrudViewQueryHandler : IRequestHandler<FakeCrudViewQuery, FakeCrudViewResponse?>
+    public class FakeCrudViewQueryHandler : IQueryHandler<FakeCrudViewQuery, FakeCrudViewResponse?>
     {
         /// <inheritdoc />
-        public Task<FakeCrudViewResponse?> Handle(FakeCrudViewQuery request, CancellationToken cancellationToken)
+        public ValueTask<FakeCrudViewResponse?> Handle(FakeCrudViewQuery request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
-            return Task.FromResult(new FakeCrudViewResponse(request.RequestDto))!;
+            return new ValueTask<FakeCrudViewResponse?>(Task.FromResult(new FakeCrudViewResponse(request.RequestDto))!);
         }
     }
 }

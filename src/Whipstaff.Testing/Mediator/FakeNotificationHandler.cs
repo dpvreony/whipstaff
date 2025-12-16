@@ -5,9 +5,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Mediator;
-using Whipstaff.Testing.Mediator;
 
-namespace Whipstaff.Testing.MediatR
+namespace Whipstaff.Testing.Mediator
 {
     /// <summary>
     /// Fake Notification Handler for Mediator.
@@ -15,9 +14,9 @@ namespace Whipstaff.Testing.MediatR
     public sealed class FakeNotificationHandler : INotificationHandler<FakeNotification>
     {
         /// <inheritdoc />
-        public Task Handle(FakeNotification notification, CancellationToken cancellationToken)
+        public ValueTask Handle(FakeNotification notification, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return new ValueTask(Task.CompletedTask);
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Whipstaff.UnitTests.Core.Logging
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="LoggerMessageFactory.GetCountOfMediatRHandlersRegisteredLoggerMessageAction"/>.
+        /// Unit Tests for <see cref="LoggerMessageFactory.GetCountOfMediatorHandlersRegisteredLoggerMessageAction"/>.
         /// </summary>
         public sealed class GetCountOfMediatRHandlersRegisteredLoggerMessageActionMethod : TestWithLoggingBase
         {
@@ -92,7 +92,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetCountOfMediatorHandlersRegisteredLoggerMessageAction();
                 Assert.NotNull(instance);
             }
         }

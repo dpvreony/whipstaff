@@ -17,7 +17,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// <summary>
     /// Example controller for serving pdf files.
     /// </summary>
-    public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfRequestDto>
+    public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfQueryDto>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfController"/> class.
@@ -41,7 +41,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         protected override string GetViewPolicyName() => "View PDF";
 
         /// <inheritdoc />
-        protected override Task<DownloadPdfRequestDto> ViewCommandFactoryAsync(
+        protected override Task<DownloadPdfQueryDto> ViewCommandFactoryAsync(
             int request,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
             return Task.Run(
                 () =>
                 {
-                    var result = new DownloadPdfRequestDto(request, claimsPrincipal);
+                    var result = new DownloadPdfQueryDto(request, claimsPrincipal);
                     return result;
                 },
                 cancellationToken);

@@ -38,13 +38,19 @@ namespace Whipstaff.Mediator
             Register(
                 services,
                 logger,
-                mediatorRegistration.RequestHandlers);
+                mediatorRegistration.QueryHandlers);
+
+            Register(
+                services,
+                logger,
+                mediatorRegistration.CommandHandlers);
 
             Register(
                 services,
                 logger,
                 mediatorRegistration.NotificationHandlers);
 
+#if TBC
             Register(
                 services,
                 logger,
@@ -54,6 +60,7 @@ namespace Whipstaff.Mediator
                 services,
                 logger,
                 mediatorRegistration.RequestPostProcessors);
+#endif
         }
 
         private static void Register<T>(

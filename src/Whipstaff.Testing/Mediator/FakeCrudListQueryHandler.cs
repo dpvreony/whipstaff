@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 using Mediator;
 using Whipstaff.Testing.Cqrs;
 
-namespace Whipstaff.Testing.MediatR
+namespace Whipstaff.Testing.Mediator
 {
     /// <summary>
     /// CQRS Query Handler for the CRUD List Query.
     /// </summary>
-    public sealed class FakeCrudListQueryHandler : IRequestHandler<FakeCrudListQuery, IList<int>?>
+    public sealed class FakeCrudListQueryHandler : IQueryHandler<FakeCrudListQuery, IList<int>>
     {
         /// <inheritdoc />
-        public async Task<IList<int>?> Handle(FakeCrudListQuery request, CancellationToken cancellationToken)
+        public async ValueTask<IList<int>> Handle(FakeCrudListQuery request, CancellationToken cancellationToken)
         {
             return await Task.FromResult(new List<int>
             {

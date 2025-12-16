@@ -19,7 +19,6 @@ using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.Logging;
 using Whipstaff.Testing.Mediator;
-using Whipstaff.Testing.MediatR;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Features.Mediatr
@@ -67,11 +66,10 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 _ = services.AddSingleton<Func<IModelCreator<FakeDbContext>>>(x =>
                     () => new SqliteFakeDbContextModelCreator());
 
-                MediatorHelpers.RegisterMediatrWithExplicitTypes(
+                MediatorHelpers.RegisterMediatorWithExplicitTypes(
                     services,
                     null,
-                    new MediatRServiceConfiguration(),
-                    new FakeMediatrRegistration());
+                    new FakeMediatorRegistration());
 
                 var serviceProvider = services.BuildServiceProvider();
 

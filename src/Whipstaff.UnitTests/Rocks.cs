@@ -2,7 +2,7 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -22,7 +22,7 @@ namespace Whipstaff.UnitTests
     /// Expectations for the Mediator.
     /// </summary>
     [RockPartial(typeof(IMediator), BuildType.Create)]
-    public sealed partial class IMediatorCreateExpectations;
+    public sealed partial class MediatorCreateExpectations;
 
     /// <summary>
     /// Expectations for the ReactiveUI Interaction Context.

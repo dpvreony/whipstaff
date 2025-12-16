@@ -9,7 +9,6 @@ using System.Reflection;
 using Audit.Core;
 using Audit.Core.Providers;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

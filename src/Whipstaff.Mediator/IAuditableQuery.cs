@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System.Security.Claims;
+using Mediator;
 
 namespace Whipstaff.Mediator
 {
@@ -10,8 +11,8 @@ namespace Whipstaff.Mediator
     /// Represents a request that requires auditing.
     /// </summary>
     /// <typeparam name="TRequestDto">The type of the request object.</typeparam>
-    /// <typeparam name="TCommandResponse">The type of the response object.</typeparam>
-    public interface IAuditableRequest<out TRequestDto, out TCommandResponse> : ICommand<TCommandResponse>
+    /// <typeparam name="TQueryResponse">The type of the response object.</typeparam>
+    public interface IAuditableQuery<out TRequestDto, out TQueryResponse> : IQuery<TQueryResponse>
     {
         /// <summary>
         /// Gets the request DTO for.

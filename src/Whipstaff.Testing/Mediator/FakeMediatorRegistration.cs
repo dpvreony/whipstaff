@@ -7,21 +7,27 @@ using System.Collections.Generic;
 using Whipstaff.Mediator;
 using Whipstaff.Testing.Cqrs;
 
-namespace Whipstaff.Testing.MediatR
+namespace Whipstaff.Testing.Mediator
 {
     /// <summary>
     /// Represents a Mediator code based registration.
     /// </summary>
-    public sealed class FakeMediatrRegistration : IMediatorRegistration
+    public sealed class FakeMediatorRegistration : IMediatorRegistration
     {
         /// <inheritdoc />
-        public IList<Func<IRequestHandlerRegistrationHandler>> RequestHandlers => new
-            List<Func<IRequestHandlerRegistrationHandler>>
+        public IList<Func<ICommandHandlerRegistrationHandler>> CommandHandlers => new
+            List<Func<ICommandHandlerRegistrationHandler>>
         {
-            () => new RequestHandlerRegistrationHandler<FakeCrudAddCommandHandler, FakeCrudAddCommand, int?>(),
-            () => new RequestHandlerRegistrationHandler<FakeCrudListQueryHandler, FakeCrudListQuery, IList<int>?>(),
-            () => new RequestHandlerRegistrationHandler<FakeCrudViewQueryHandler, FakeCrudViewQuery, FakeCrudViewResponse?>(),
+            () => new CommandHandlerRegistrationHandler<FakeCrudAddCommandHandler, FakeCrudAddCommand, int?>()
         };
+
+        /// <inheritdoc />
+        public IList<Func<IQueryHandlerRegistrationHandler>> QueryHandlers => new
+            List<Func<IQueryHandlerRegistrationHandler>>
+            {
+                () => new QueryHandlerRegistrationHandler<FakeCrudListQueryHandler, FakeCrudListQuery, IList<int>>(),
+                () => new QueryHandlerRegistrationHandler<FakeCrudViewQueryHandler, FakeCrudViewQuery, FakeCrudViewResponse?>(),
+            };
 
         /// <inheritdoc />
         public IList<Func<INotificationHandlerRegistrationHandler>> NotificationHandlers => new
@@ -30,6 +36,7 @@ namespace Whipstaff.Testing.MediatR
             () => new NotificationHandlerRegistrationHandler<FakeNotificationHandler, FakeNotification>()
         };
 
+#if TBC
         /// <inheritdoc />
         public IList<Func<IRequestPreProcessorRegistrationHandler>> RequestPreProcessors => new List<Func<IRequestPreProcessorRegistrationHandler>>
         {
@@ -41,5 +48,6 @@ namespace Whipstaff.Testing.MediatR
         {
             () => new RequestPostProcessorRegistrationHandler<FakePostProcessorCommandHandler, FakeCrudAddCommand, int?>()
         };
+#endif
     }
 }

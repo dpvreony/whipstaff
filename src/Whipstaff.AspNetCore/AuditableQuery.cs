@@ -8,14 +8,14 @@ using Whipstaff.Mediator;
 namespace Whipstaff.AspNetCore
 {
     /// <inheritdoc />
-    public class AuditableRequest<TRequestDto, TResponse> : IAuditableRequest<TRequestDto, TResponse>
+    public class AuditableQuery<TRequestDto, TResponse> : IAuditableQuery<TRequestDto, TResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuditableRequest{TRequestDto, TResponse}"/> class.
+        /// Initializes a new instance of the <see cref="AuditableQuery{TRequestDto,TResponse}"/> class.
         /// </summary>
         /// <param name="requestDto">The request dto for the call.</param>
         /// <param name="claimsPrincipal">The claims principal attached to the request.</param>
-        public AuditableRequest(
+        public AuditableQuery(
             TRequestDto requestDto,
             ClaimsPrincipal claimsPrincipal)
         {

@@ -5,55 +5,65 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
 
-namespace Whipstaff.Testing.MediatR
+namespace Whipstaff.Testing.Mediator
 {
     /// <summary>
-    /// Fake Post Processor for MediatR.
+    /// Fake Crud Command Handler.
     /// </summary>
-    public sealed class FakePostProcessorCommandHandler
-        : IRequestPostProcessor<FakeCrudAddCommand, int?>
+    public sealed class FakeCrudAddCommandHandler : ICommandHandler<FakeCrudAddCommand, int?>
     {
         private readonly DbContextOptions<FakeDbContext> _fakeDbContextOptions;
         private readonly Func<IModelCreator<FakeDbContext>> _modelCreatorFunc;
+        private readonly ILogger<FakeCrudAddCommandHandler> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakePostProcessorCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="FakeCrudAddCommandHandler"/> class.
         /// </summary>
         /// <param name="fakeDbContextOptions">Entity Framework DB Context options for initializing instance.</param>
         /// <param name="modelCreatorFunc">Function used to build the database model. Allows for extra control for versions, features, and provider specific customization to be injected.</param>
-        public FakePostProcessorCommandHandler(DbContextOptions<FakeDbContext> fakeDbContextOptions, Func<IModelCreator<FakeDbContext>> modelCreatorFunc)
+        /// <param name="logger">Logging framework instance.</param>
+        public FakeCrudAddCommandHandler(
+            DbContextOptions<FakeDbContext> fakeDbContextOptions,
+            Func<IModelCreator<FakeDbContext>> modelCreatorFunc,
+            ILogger<FakeCrudAddCommandHandler> logger)
         {
             _fakeDbContextOptions = fakeDbContextOptions ?? throw new ArgumentNullException(nameof(fakeDbContextOptions));
             _modelCreatorFunc = modelCreatorFunc ?? throw new ArgumentNullException(nameof(modelCreatorFunc));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <inheritdoc />
-        public async Task Process(
-            FakeCrudAddCommand request,
-            int? response,
-            CancellationToken cancellationToken)
+        public async ValueTask<int?> Handle(FakeCrudAddCommand request, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(request);
 
             using (var dbContext = new FakeDbContext(_fakeDbContextOptions, _modelCreatorFunc))
             {
-                var entity = new FakeAddPostProcessAuditDbSet
+                var entity = new FakeAddAuditDbSet
                 {
                     Value = request.RequestDto,
                     Created = DateTimeOffset.UtcNow
                 };
 
-                _ = await dbContext.FakeAddPostProcessAudit.AddAsync(entity, CancellationToken.None).ConfigureAwait(false);
+                _ = await dbContext.FakeAddAudit.AddAsync(entity, CancellationToken.None).ConfigureAwait(false);
+                var saveResult = await dbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-                _ = await dbContext.SaveChangesAsync(cancellationToken)
-                    .ConfigureAwait(false);
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+#pragma warning disable CA1873 // Avoid potentially expensive logging
+                _logger.LogDebug("DbContext Save Result: {SaveResult}", saveResult);
+#pragma warning restore CA1873 // Avoid potentially expensive logging
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
+
+            return await Task.FromResult(request.RequestDto).ConfigureAwait(false);
         }
     }
 }

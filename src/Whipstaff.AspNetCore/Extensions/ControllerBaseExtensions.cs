@@ -5,6 +5,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -51,7 +52,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TAddResponseDto, Task<ActionResult<TAddResponseDto>>> getAddActionResultAsync,
             Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
+            where TAddCommand : IAuditableCommand<TAddRequestDto, TAddResponseDto?>
         {
             ArgumentNullException.ThrowIfNull(instance);
             ArgumentNullException.ThrowIfNull(logger);
@@ -141,7 +142,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TDeleteResponseDto, Task<ActionResult<TDeleteResponseDto>>> getDeleteActionResultAsync,
             Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
+            where TDeleteCommand : IAuditableCommand<long, TDeleteResponseDto?>
         {
             ArgumentNullException.ThrowIfNull(instance);
             ArgumentNullException.ThrowIfNull(logger);
@@ -236,7 +237,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<ActionResult<TListResponseDto>>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -297,7 +298,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -357,7 +358,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<ActionResult<TListResponseDto>>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             return GetApiListActionFlexibleAsync(
@@ -407,7 +408,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             return GetListActionFlexibleAsync(
@@ -457,7 +458,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TViewResponseDto, Task<ActionResult<TViewResponseDto>>> getViewActionResultAsync,
             Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -517,7 +518,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
             Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -579,7 +580,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TUpdateResponseDto, Task<ActionResult<TUpdateResponseDto>>> getUpdateActionResultAsync,
             Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
+            where TUpdateCommand : IAuditableCommand<TUpdateRequestDto, TUpdateResponseDto?>
             where TUpdateResponseDto : class?
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -652,7 +653,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<ControllerBase, TResult> forbidResultFunc,
             Func<ControllerBase, TResult> notFoundResultFunc,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             return InternalGetActionAsync(
@@ -683,7 +684,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<ControllerBase, TResult> forbidResultFunc,
             Func<ControllerBase, TResult> notFoundResultFunc,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             return InternalGetActionAsync(
@@ -714,7 +715,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<ControllerBase, TResult> forbidResultFunc,
             Func<ControllerBase, TResult> notFoundResultFunc,
             CancellationToken cancellationToken)
-            where TViewQuery : IRequest<TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);

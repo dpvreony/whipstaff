@@ -12,7 +12,7 @@ namespace Whipstaff.Testing.Cqrs
     /// Represents a fake CRUD view query.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudViewQuery : AuditableRequest<long, FakeCrudViewResponse?>
+    public class FakeCrudViewQuery : AuditableQuery<long, FakeCrudViewResponse?>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudViewQuery"/> class.
