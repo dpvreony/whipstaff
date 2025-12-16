@@ -12,7 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Blazor.SplitButtons" Version="31.2.18" />
+    <PackageReference Include="Syncfusion.Blazor.SplitButtons" Version="32.1.19" />
   </ItemGroup>
 
   <ItemGroup>
