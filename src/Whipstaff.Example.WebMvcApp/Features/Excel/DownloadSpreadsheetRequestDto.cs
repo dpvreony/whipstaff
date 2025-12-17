@@ -11,7 +11,7 @@ namespace Whipstaff.OpenXml.Excel
     /// <summary>
     /// Auditable request for a spreadsheet download.
     /// </summary>
-    public sealed class DownloadSpreadsheetRequestDto : AuditableRequest<int, FileNameAndStreamModel?>
+    public sealed class DownloadSpreadsheetRequestDto : AuditableQuery<int, FileNameAndStreamModel?>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DownloadSpreadsheetRequestDto"/> class.

@@ -6,14 +6,13 @@ using System;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
 using Whipstaff.AspNetCore.Features.Logging;
-using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.AspNetCore
 {
@@ -28,10 +27,10 @@ namespace Whipstaff.AspNetCore
     /// <typeparam name="TQueryOnlyControllerLogMessageActions">The type for the log message actions mapping class.</typeparam>
     public abstract class AbstractQueryOnlyMvcController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>
         : Controller
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
+        where TListQuery : IAuditableQuery<TListRequestDto, TListQueryResponse>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
-        where TViewQuery : IAuditableRequest<long, TViewQueryResponse?>
+        where TViewQuery : IAuditableQuery<long, TViewQueryResponse?>
         where TViewQueryResponse : class
         where TQueryOnlyControllerLogMessageActions : IQueryOnlyControllerLogMessageActions
     {
@@ -40,7 +39,7 @@ namespace Whipstaff.AspNetCore
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
         /// <param name="logger">The logger object.</param>
-        /// <param name="mediator">The mediatr object to publish CQRS messages to.</param>
+        /// <param name="mediator">The mediator object to publish CQRS messages to.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
         /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
         protected AbstractQueryOnlyMvcController(

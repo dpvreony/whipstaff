@@ -4,8 +4,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualBasic.Logging;
-using Whipstaff.MediatR.EntityFrameworkCore;
+using Whipstaff.Mediator.EntityFrameworkCore;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;

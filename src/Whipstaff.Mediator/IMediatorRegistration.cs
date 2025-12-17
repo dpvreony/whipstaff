@@ -13,15 +13,21 @@ namespace Whipstaff.Mediator
     public interface IMediatorRegistration
     {
         /// <summary>
-        /// Gets a list of request handlers to configure.
+        /// Gets a list of command handlers to configure.
         /// </summary>
-        IList<Func<IRequestHandlerRegistrationHandler>> RequestHandlers { get; }
+        IList<Func<ICommandHandlerRegistrationHandler>> CommandHandlers { get; }
+
+        /// <summary>
+        /// Gets a list of query handlers to configure.
+        /// </summary>
+        IList<Func<IQueryHandlerRegistrationHandler>> QueryHandlers { get; }
 
         /// <summary>
         /// Gets a list of notification handlers to configure.
         /// </summary>
         IList<Func<INotificationHandlerRegistrationHandler>> NotificationHandlers { get; }
 
+#if TBC
         /// <summary>
         /// Gets a list of request pre processors to configure.
         /// </summary>
@@ -31,5 +37,6 @@ namespace Whipstaff.Mediator
         /// Gets a list of request post processors to configure.
         /// </summary>
         IList<Func<IRequestPostProcessorRegistrationHandler>> RequestPostProcessors { get; }
+#endif
     }
 }

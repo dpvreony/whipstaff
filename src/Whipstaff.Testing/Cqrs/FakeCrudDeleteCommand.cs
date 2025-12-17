@@ -12,7 +12,7 @@ namespace Whipstaff.Testing.Cqrs
     /// Represents a fake CRUD delete command.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudDeleteCommand : AuditableRequest<long, long?>
+    public class FakeCrudDeleteCommand : AuditableCommand<long, long?>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudDeleteCommand"/> class.

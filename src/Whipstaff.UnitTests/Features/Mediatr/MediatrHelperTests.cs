@@ -7,18 +7,18 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.Logging;
-using Whipstaff.Testing.MediatR;
+using Whipstaff.Testing.Mediator;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Features.Mediatr
@@ -66,11 +66,12 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 _ = services.AddSingleton<Func<IModelCreator<FakeDbContext>>>(x =>
                     () => new SqliteFakeDbContextModelCreator());
 
-                MediatrHelpers.RegisterMediatrWithExplicitTypes(
+                MediatorHelpers.RegisterMediatorWithExplicitTypes(
                     services,
                     null,
-                    new MediatRServiceConfiguration(),
-                    new FakeMediatrRegistration());
+                    new FakeMediatorRegistration());
+
+                _ = services.AddSingleton<IMediator, FakeMediator>();
 
                 var serviceProvider = services.BuildServiceProvider();
 
@@ -89,21 +90,15 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                     Assert.Equal(0, entityCount);
                 }
 
-                var mediator = serviceProvider.GetService<IMediator>();
+                var mediator = serviceProvider.GetRequiredService<IMediator>();
                 const int expected = 987654321;
                 var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current!);
-                var sendResult = await mediator!.Send(request, TestContext.Current.CancellationToken);
+                var sendResult = await mediator.Send(request, TestContext.Current.CancellationToken);
                 Assert.Equal(expected, sendResult);
 
                 using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
                     var entityCount = await dbContext.FakeAddAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
-                    Assert.Equal(1, entityCount);
-
-                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
-                    Assert.Equal(1, entityCount);
-
-                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(1, entityCount);
                 }
 

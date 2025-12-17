@@ -5,12 +5,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.AspNetCore.Extensions
 {
@@ -27,7 +26,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TAddCommand">The type for the CQRS Command for the Add Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="addRequestDto">The Request DTO for the Add operation.</param>
         /// <param name="logAction">
@@ -53,7 +52,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TAddResponseDto, Task<ActionResult<TAddResponseDto>>> getAddActionResultAsync,
             Func<TAddRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TAddCommand>> addCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TAddCommand : IAuditableRequest<TAddRequestDto, TAddResponseDto?>
+            where TAddCommand : IAuditableCommand<TAddRequestDto, TAddResponseDto?>
         {
             ArgumentNullException.ThrowIfNull(instance);
             ArgumentNullException.ThrowIfNull(logger);
@@ -117,7 +116,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TDeleteCommand">The type for the CQRS Command for the Delete Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="id">Unique Id for the identity being deleted.</param>
         /// <param name="logAction">
@@ -143,7 +142,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TDeleteResponseDto, Task<ActionResult<TDeleteResponseDto>>> getDeleteActionResultAsync,
             Func<long, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TDeleteCommand>> deleteCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TDeleteCommand : IAuditableRequest<long, TDeleteResponseDto?>
+            where TDeleteCommand : IAuditableCommand<long, TDeleteResponseDto?>
         {
             ArgumentNullException.ThrowIfNull(instance);
             ArgumentNullException.ThrowIfNull(logger);
@@ -212,7 +211,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -238,7 +237,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<ActionResult<TListResponseDto>>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -273,7 +272,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -299,7 +298,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -333,7 +332,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -359,7 +358,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<ActionResult<TListResponseDto>>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             return GetApiListActionFlexibleAsync(
@@ -383,7 +382,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TListQuery">The type for the CQRS Command for the List Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="listRequestDto">The Request DTO for the List operation.</param>
         /// <param name="logAction">
@@ -409,7 +408,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TListResponseDto, Task<IActionResult>> getListActionResultAsync,
             Func<TListRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TListQuery>> listCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TListQuery : IAuditableRequest<TListRequestDto, TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             return GetListActionFlexibleAsync(
@@ -433,7 +432,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TViewQuery">The type for the CQRS Command for the View Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="viewRequestDto">The Request DTO for the View operation.</param>
         /// <param name="logAction">
@@ -459,7 +458,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TViewResponseDto, Task<ActionResult<TViewResponseDto>>> getViewActionResultAsync,
             Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -493,7 +492,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TViewQuery">The type for the CQRS Command for the View Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="viewRequestDto">The Request DTO for the View operation.</param>
         /// <param name="logAction">
@@ -519,7 +518,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TViewResponseDto, Task<IActionResult>> getViewActionResultAsync,
             Func<TViewRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TViewQuery>> viewCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -553,7 +552,7 @@ namespace Whipstaff.AspNetCore.Extensions
         /// <typeparam name="TUpdateCommand">The type for the CQRS Command for the Update Operation.</typeparam>
         /// <param name="instance">Web Controller instance.</param>
         /// <param name="logger">Logger object.</param>
-        /// <param name="mediator">Mediatr object for publishing commands to.</param>
+        /// <param name="mediator">Mediator object for publishing commands to.</param>
         /// <param name="authorizationService">Authorization service.</param>
         /// <param name="id">The unique id of the entity to be updated.</param>
         /// <param name="updateRequestDto">The Request DTO for the Update operation.</param>
@@ -581,7 +580,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<TUpdateResponseDto, Task<ActionResult<TUpdateResponseDto>>> getUpdateActionResultAsync,
             Func<TUpdateRequestDto, System.Security.Claims.ClaimsPrincipal, CancellationToken, Task<TUpdateCommand>> updateCommandFactoryAsync,
             CancellationToken cancellationToken)
-            where TUpdateCommand : IAuditableRequest<TUpdateRequestDto, TUpdateResponseDto?>
+            where TUpdateCommand : IAuditableCommand<TUpdateRequestDto, TUpdateResponseDto?>
             where TUpdateResponseDto : class?
         {
             ArgumentNullException.ThrowIfNull(instance);
@@ -654,7 +653,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<ControllerBase, TResult> forbidResultFunc,
             Func<ControllerBase, TResult> notFoundResultFunc,
             CancellationToken cancellationToken)
-            where TListQuery : IRequest<TListResponseDto?>
+            where TListQuery : IAuditableQuery<TListRequestDto, TListResponseDto?>
             where TListResponseDto : class
         {
             return InternalGetActionAsync(
@@ -685,7 +684,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<ControllerBase, TResult> forbidResultFunc,
             Func<ControllerBase, TResult> notFoundResultFunc,
             CancellationToken cancellationToken)
-            where TViewQuery : IAuditableRequest<TViewRequestDto, TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             return InternalGetActionAsync(
@@ -716,7 +715,7 @@ namespace Whipstaff.AspNetCore.Extensions
             Func<ControllerBase, TResult> forbidResultFunc,
             Func<ControllerBase, TResult> notFoundResultFunc,
             CancellationToken cancellationToken)
-            where TViewQuery : IRequest<TViewResponseDto?>
+            where TViewQuery : IAuditableQuery<TViewRequestDto, TViewResponseDto?>
             where TViewResponseDto : class
         {
             ArgumentNullException.ThrowIfNull(instance);

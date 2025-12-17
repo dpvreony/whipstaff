@@ -6,6 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Foundatio.Queues;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Mediator.Foundatio
@@ -32,11 +33,11 @@ namespace Whipstaff.Mediator.Foundatio
         }
 
         /// <inheritdoc/>
-        public async ValueTask<string> Handle(TCommand request, CancellationToken cancellationToken)
+        public async ValueTask<string> Handle(TCommand command, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Enqueuing request of type {RequestType}", typeof(TCommand));
 
-            var result = await _queue.EnqueueAsync(request).ConfigureAwait(false);
+            var result = await _queue.EnqueueAsync(command).ConfigureAwait(false);
 
             _logger.LogDebug("Enqueued request of type {RequestType} with id {RequestId}", typeof(TCommand), result);
 

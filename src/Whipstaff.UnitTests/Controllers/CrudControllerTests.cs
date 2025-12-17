@@ -9,14 +9,14 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rocks;
 using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.Logging;
@@ -33,7 +33,7 @@ namespace Whipstaff.UnitTests.Controllers
     {
         private static IAuthorizationServiceCreateExpectations MockAuthorizationServiceFactory() => new();
 
-        private static IMediatorCreateExpectations MockMediatorFactory() => new();
+        private static MediatorCreateExpectations MockMediatorFactory() => new();
 
         private static FakeAuditableCommandFactory MockCommandFactory() => new();
 
@@ -50,7 +50,7 @@ namespace Whipstaff.UnitTests.Controllers
             public static readonly TheoryData<
                     IAuthorizationServiceCreateExpectations?,
                     ILoggerCreateExpectations<FakeCrudController>?,
-                    IMediatorCreateExpectations?,
+                    MediatorCreateExpectations?,
                     FakeAuditableCommandFactory?,
                     FakeAuditableQueryFactory?,
                     FakeCrudControllerLogMessageActions?,
@@ -136,7 +136,7 @@ namespace Whipstaff.UnitTests.Controllers
             public void ThrowsArgumentNullException(
                 IAuthorizationServiceCreateExpectations? authorizationService,
                 ILoggerCreateExpectations<FakeCrudController>? logger,
-                IMediatorCreateExpectations? mediator,
+                MediatorCreateExpectations? mediator,
                 FakeAuditableCommandFactory? commandFactory,
                 FakeAuditableQueryFactory? queryFactory,
                 FakeCrudControllerLogMessageActions? logMessageActionMappings,
@@ -229,12 +229,12 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send(
-                        Arg.Validate<IRequest<int?>>(query => true),
+                        Arg.Validate<ICommand<int?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
-                        var fakeCrudViewQuery = a as IAuditableRequest<int, int?>;
-                        return MockAddMediatorHandlerAsync(fakeCrudViewQuery!, b);
+                        var fakeCrudViewQuery = a as IAuditableCommand<int, int?>;
+                        return new ValueTask<int?>(MockAddMediatorHandlerAsync(fakeCrudViewQuery!, b));
                     });
 
                 var commandFactory = MockCommandFactory();
@@ -264,10 +264,10 @@ namespace Whipstaff.UnitTests.Controllers
             }
 
 #pragma warning disable S1172
-            private static async Task<int?> MockAddMediatorHandlerAsync(IAuditableRequest<int, int?> auditableRequest, CancellationToken cancellationToken)
+            private static async Task<int?> MockAddMediatorHandlerAsync(IAuditableCommand<int, int?> auditableCommand, CancellationToken cancellationToken)
 #pragma warning restore S1172
             {
-                return await Task.FromResult(auditableRequest.RequestDto);
+                return await Task.FromResult(auditableCommand.RequestDto);
             }
         }
 
@@ -321,12 +321,12 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send(
-                        Arg.Validate<IRequest<long?>>(query => true),
+                        Arg.Validate<ICommand<long?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
-                        var fakeCrudViewQuery = a as IAuditableRequest<long, long?>;
-                        return MockDeleteMediatorHandlerAsync(fakeCrudViewQuery!, b);
+                        var fakeCrudViewQuery = a as IAuditableCommand<long, long?>;
+                        return new ValueTask<long?>(MockDeleteMediatorHandlerAsync(fakeCrudViewQuery!, b));
                     });
 
                 var commandFactory = MockCommandFactory();
@@ -379,8 +379,8 @@ namespace Whipstaff.UnitTests.Controllers
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
-                        var fakeCrudViewQuery = a as IAuditableRequest<long, long?>;
-                        return MockDeleteMediatorHandlerAsync(fakeCrudViewQuery!, b);
+                        var fakeCrudViewQuery = a as IAuditableCommand<long, long?>;
+                        return new ValueTask<long?>(MockDeleteMediatorHandlerAsync(fakeCrudViewQuery!, b));
                     });
 
                 var commandFactory = MockCommandFactory();
@@ -410,7 +410,7 @@ namespace Whipstaff.UnitTests.Controllers
             }
 
 #pragma warning disable S1172 // Unused method parameters should be removed
-            private static async Task<long?> MockDeleteMediatorHandlerAsync(IAuditableRequest<long, long?> arg1, CancellationToken arg2)
+            private static async Task<long?> MockDeleteMediatorHandlerAsync(IAuditableCommand<long, long?> arg1, CancellationToken arg2)
 #pragma warning restore S1172 // Unused method parameters should be removed
             {
                 return await Task.FromResult(arg1.RequestDto).ConfigureAwait(false);
@@ -463,7 +463,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send(
-                        Arg.Validate<IRequest<IList<int>?>>(query => true),
+                        Arg.Validate<IQuery<IList<int>>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
@@ -503,7 +503,7 @@ namespace Whipstaff.UnitTests.Controllers
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 #pragma warning disable S1172 // Unused method parameters should be removed
-            private static async Task<IList<int>?> MockListMediatorHandlerAsync(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
+            private static async ValueTask<IList<int>> MockListMediatorHandlerAsync(FakeCrudListQuery auditableRequest, CancellationToken cancellationToken)
 #pragma warning restore S1172 // Unused method parameters should be removed
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             {
@@ -553,7 +553,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send(
-                        Arg.Validate<IRequest<FakeCrudUpdateResponse?>>(query => true),
+                        Arg.Validate<ICommand<FakeCrudUpdateResponse?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
@@ -588,10 +588,10 @@ namespace Whipstaff.UnitTests.Controllers
             }
 
 #pragma warning disable S1172 // Unused method parameters should be removed
-            private static Task<FakeCrudUpdateResponse?> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
+            private static ValueTask<FakeCrudUpdateResponse?> MockUpdateMediatorHandlerAsync(FakeCrudUpdateCommand arg1, CancellationToken arg2)
 #pragma warning restore S1172 // Unused method parameters should be removed
             {
-                return Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse(arg1.RequestDto));
+                return new ValueTask<FakeCrudUpdateResponse?>(Task.FromResult<FakeCrudUpdateResponse?>(new FakeCrudUpdateResponse(arg1.RequestDto)));
             }
         }
 
@@ -657,7 +657,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send<FakeCrudViewResponse?>(
-                        Arg.Validate<IRequest<FakeCrudViewResponse?>>(query => true),
+                        Arg.Validate<IQuery<FakeCrudViewResponse?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
@@ -692,10 +692,10 @@ namespace Whipstaff.UnitTests.Controllers
             }
 
 #pragma warning disable S1172 // Unused method parameters should be removed
-            private static Task<FakeCrudViewResponse?> MockViewMediatorHandlerAsync(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
+            private static ValueTask<FakeCrudViewResponse?> MockViewMediatorHandlerAsync(FakeCrudViewQuery auditableRequest, CancellationToken cancellationToken)
 #pragma warning restore S1172 // Unused method parameters should be removed
             {
-                return Task.FromResult(auditableRequest.RequestDto == 1 ? new FakeCrudViewResponse(auditableRequest.RequestDto) : null);
+                return new ValueTask<FakeCrudViewResponse?>(Task.FromResult(auditableRequest.RequestDto == 1 ? new FakeCrudViewResponse(auditableRequest.RequestDto) : null));
             }
         }
     }

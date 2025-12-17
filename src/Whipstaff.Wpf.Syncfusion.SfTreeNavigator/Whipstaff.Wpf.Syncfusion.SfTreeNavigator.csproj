@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="ReactiveMarbles.ObservableEvents.SourceGenerator" Version="1.3.1" PrivateAssets="all" />
-    <PackageReference Include="Syncfusion.SfTreeNavigator.WPF" Version="31.2.18" />
+    <PackageReference Include="Syncfusion.SfTreeNavigator.WPF" Version="32.1.19" />
     <PackageReference Include="Vetuviem.WPF.SourceGenerator" Version="0.12.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

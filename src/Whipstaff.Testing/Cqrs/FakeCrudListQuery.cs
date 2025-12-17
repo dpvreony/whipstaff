@@ -13,7 +13,7 @@ namespace Whipstaff.Testing.Cqrs
     /// Represents a fake CRUD list query.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudListQuery : AuditableRequest<FakeCrudListRequest, IList<int>>
+    public sealed class FakeCrudListQuery : AuditableQuery<FakeCrudListRequest, IList<int>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudListQuery"/> class.

@@ -8,8 +8,8 @@ using System.Data.Common;
 using System.Reflection;
 using Audit.Core;
 using Audit.Core.Providers;
+using Mediator;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,11 +25,11 @@ using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Example.AspireServiceDefaults;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
-using Whipstaff.Testing.MediatR;
+using Whipstaff.Testing.Mediator;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
 {
@@ -76,6 +76,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+            _ = serviceCollection.AddSingleton<IMediator, FakeMediator>();
 
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseSqlite(_dbConnection)
@@ -103,9 +104,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override IMediatrRegistration GetMediatrRegistration()
+        protected override IMediatorRegistration GetMediatorRegistration()
         {
-            return new FakeMediatrRegistration();
+            return new FakeMediatorRegistration();
         }
 
         /// <inheritdoc/>
