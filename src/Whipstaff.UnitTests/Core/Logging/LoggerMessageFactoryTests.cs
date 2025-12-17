@@ -48,15 +48,15 @@ namespace Whipstaff.UnitTests.Core.Logging
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="LoggerMessageFactory.GetNoMediatRHandlersRegisteredForTypeLoggerMessageAction"/>.
+        /// Unit Tests for <see cref="LoggerMessageFactory.GetNoMediatorHandlersRegisteredForTypeLoggerMessageAction"/>.
         /// </summary>
-        public sealed class GetNoMediatRHandlersRegisteredForTypeLoggerMessageActionMethod : TestWithLoggingBase
+        public sealed class GetNoMediatorHandlersRegisteredForTypeLoggerMessageActionMethod : TestWithLoggingBase
         {
             /// <summary>
-            /// Initializes a new instance of the <see cref="GetNoMediatRHandlersRegisteredForTypeLoggerMessageActionMethod"/> class.
+            /// Initializes a new instance of the <see cref="GetNoMediatorHandlersRegisteredForTypeLoggerMessageActionMethod"/> class.
             /// </summary>
             /// <param name="output">XUnit test output helper instance.</param>
-            public GetNoMediatRHandlersRegisteredForTypeLoggerMessageActionMethod(ITestOutputHelper output)
+            public GetNoMediatorHandlersRegisteredForTypeLoggerMessageActionMethod(ITestOutputHelper output)
                 : base(output)
             {
             }
@@ -67,13 +67,13 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetNoMediatorHandlersRegisteredForTypeLoggerMessageAction();
                 Assert.NotNull(instance);
             }
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="LoggerMessageFactory.GetCountOfMediatRHandlersRegisteredLoggerMessageAction"/>.
+        /// Unit Tests for <see cref="LoggerMessageFactory.GetCountOfMediatorHandlersRegisteredLoggerMessageAction"/>.
         /// </summary>
         public sealed class GetCountOfMediatRHandlersRegisteredLoggerMessageActionMethod : TestWithLoggingBase
         {
@@ -92,7 +92,7 @@ namespace Whipstaff.UnitTests.Core.Logging
             [Fact]
             public void ReturnsLogMessageAction()
             {
-                var instance = LoggerMessageFactory.GetDbContextSaveResultLoggerMessageAction();
+                var instance = LoggerMessageFactory.GetCountOfMediatorHandlersRegisteredLoggerMessageAction();
                 Assert.NotNull(instance);
             }
         }

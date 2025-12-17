@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Audit.Core;
 using Audit.Core.Providers;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
+using Mediator;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -31,11 +32,11 @@ using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Example.AspireServiceDefaults;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
-using Whipstaff.Testing.MediatR;
+using Whipstaff.Testing.Mediator;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
 {
@@ -85,6 +86,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+            _ = serviceCollection.AddSingleton<IMediator, FakeMediator>();
 
 #if stuntman
             serviceCollection.AddStuntman(_stuntmanOptions);
@@ -120,9 +122,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override IMediatrRegistration GetMediatrRegistration()
+        protected override IMediatorRegistration GetMediatorRegistration()
         {
-            return new FakeMediatrRegistration();
+            return new FakeMediatorRegistration();
         }
 
         /// <inheritdoc/>

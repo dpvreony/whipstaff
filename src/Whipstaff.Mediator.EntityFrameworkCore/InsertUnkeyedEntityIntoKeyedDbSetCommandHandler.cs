@@ -2,11 +2,10 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Whipstaff.Mediator.EntityFrameworkCore
 {
@@ -23,9 +22,9 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
         where TKeyedEntity : class
     {
         /// <inheritdoc/>
-        public async ValueTask<TResponse> Handle(TCommand request, CancellationToken cancellationToken)
+        public async ValueTask<TResponse> Handle(TCommand command, CancellationToken cancellationToken)
         {
-            var entityToAdd = GetDbSetEntityFromUnkeyedEntity(request);
+            var entityToAdd = GetDbSetEntityFromUnkeyedEntity(command);
 
             using (var dbContext = GetDbContext())
             {

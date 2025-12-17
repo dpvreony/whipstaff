@@ -3,16 +3,13 @@
 // See the LICENSE file in the project root for full license information.
 
 using Mediator;
-using Whipstaff.Core.Entities;
 
-namespace Whipstaff.Testing.Cqrs
+namespace Whipstaff.Testing.Mediator
 {
     /// <summary>
-    /// Represents a Test Request by an int 32.
+    /// Fake notification for MediatR.
     /// </summary>
-    public sealed class RequestById : IQuery<int?>, IIntId
+    public sealed class FakeNotification : INotification
     {
-        /// <inheritdoc />
-        public int Id { get; init; }
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Whipstaff.Core.Entities;
 

@@ -19,8 +19,8 @@ namespace Whipstaff.Mediator
     /// <typeparam name="TViewQuery">The type of the View query.</typeparam>
     /// <typeparam name="TViewResponse">The type of the Response DTO for the View Query.</typeparam>
     public interface IAuditableQueryFactory<TListQuery, in TListRequestDto, TListResponse, TViewQuery, TViewResponse>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListResponse>
-        where TViewQuery : IAuditableRequest<long, TViewResponse?>
+        where TListQuery : IAuditableQuery<TListRequestDto, TListResponse>
+        where TViewQuery : IAuditableQuery<long, TViewResponse?>
     {
         /// <summary>
         /// Gets the auditable Query for use in a List Operation.

@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicData;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 
 namespace Whipstaff.Mediator.EntityFrameworkCore
@@ -26,34 +27,34 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
         where TQuery : IQuery<TResponse[]>, IPageRequest
     {
         /// <inheritdoc />
-        public async ValueTask<TResponse[]?> Handle(TQuery request, CancellationToken cancellationToken)
+        public async ValueTask<TResponse[]> Handle(TQuery query, CancellationToken cancellationToken)
         {
             using (var dbContext = GetDbContext())
             {
                 var dbSet = GetDbSet(dbContext);
-                var query = dbSet.TagWith(nameof(AbstractListQueryHandler<TQuery, TResponse, TDbContext, TEntity, TKey>)).Where(GetWherePredicateExpression());
+                var enitytQueryable = dbSet.TagWith(nameof(AbstractListQueryHandler<TQuery, TResponse, TDbContext, TEntity, TKey>)).Where(GetWherePredicateExpression());
 
                 var orderingExpression = GetOrderingExpression();
                 if (orderingExpression != null)
                 {
-                    query = GetWhetherOrderingIsByDescending()
-                        ? query.OrderByDescending(orderingExpression)
-                        : query.OrderBy(orderingExpression);
+                    enitytQueryable = GetWhetherOrderingIsByDescending()
+                        ? enitytQueryable.OrderByDescending(orderingExpression)
+                        : enitytQueryable.OrderBy(orderingExpression);
                 }
 
-                var pageNumber = request.Page;
-                var pageSize = request.Size;
+                var pageNumber = query.Page;
+                var pageSize = query.Size;
 
                 if (pageNumber > 1 && pageSize > 1)
                 {
                     var skipCount = pageSize * pageNumber;
 
-                    query = query.Skip(skipCount);
+                    enitytQueryable = enitytQueryable.Skip(skipCount);
                 }
 
-                query = query.Take(pageSize);
+                enitytQueryable = enitytQueryable.Take(pageSize);
 
-                var result = await query.Select(GetSelectorExpression())
+                var result = await enitytQueryable.Select(GetSelectorExpression())
                     .ToArrayAsync(cancellationToken)
                     .ConfigureAwait(false);
 

@@ -2,17 +2,12 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using Mediator;
-using Whipstaff.Core.Entities;
-
-namespace Whipstaff.Testing.Cqrs
+namespace Whipstaff.Mediator
 {
     /// <summary>
-    /// Represents a Test Request by an int 32.
+    /// Registers a concrete type for handling Mediator commands.
     /// </summary>
-    public sealed class RequestById : IQuery<int?>, IIntId
+    public interface ICommandHandlerRegistrationHandler : IMediatorRegistrationModel
     {
-        /// <inheritdoc />
-        public int Id { get; init; }
     }
 }

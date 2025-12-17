@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 
 namespace Whipstaff.Mediator.EntityFrameworkCore
@@ -36,19 +37,19 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
         }
 
         /// <inheritdoc/>
-        public async ValueTask<TResult?> Handle(TQuery request, CancellationToken cancellationToken)
+        public async ValueTask<TResult?> Handle(TQuery query, CancellationToken cancellationToken)
         {
             using (var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken).ConfigureAwait(false))
             {
                 dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
-                var query = ExtendQueryable(
+                var queryable = ExtendQueryable(
                         GetDbSet(dbContext)
                             .TagWith(nameof(FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult>)))
-                    .Where(GetWherePredicate(request))
+                    .Where(GetWherePredicate(query))
                     .Select(GetSelector());
 
-                return await GetResultAsync(query, cancellationToken)
+                return await GetResultAsync(queryable, cancellationToken)
                     .ConfigureAwait(false);
             }
         }

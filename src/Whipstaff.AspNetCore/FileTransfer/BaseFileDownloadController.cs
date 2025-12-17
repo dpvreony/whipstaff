@@ -7,13 +7,12 @@ using System.IO;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Extensions;
-using Whipstaff.Core;
-using Whipstaff.MediatR;
+using Whipstaff.Mediator;
 
 namespace Whipstaff.AspNetCore.FileTransfer
 {
@@ -23,7 +22,7 @@ namespace Whipstaff.AspNetCore.FileTransfer
     /// <typeparam name="TGetRequestDto">The type for the api request dto.</typeparam>
     /// <typeparam name="TQueryDto">The type for the CQRS query dto.</typeparam>
     public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
-        where TQueryDto : IAuditableRequest<TGetRequestDto, FileNameAndStreamModel?>
+        where TQueryDto : IAuditableQuery<TGetRequestDto, FileNameAndStreamModel?>
     {
         private readonly IAuthorizationService _authorizationService;
 

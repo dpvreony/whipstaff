@@ -12,7 +12,7 @@ namespace Whipstaff.Testing.Cqrs
     /// Represents a fake CRUD CQRS Command.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class FakeCrudAddCommand : AuditableRequest<int, int?>
+    public class FakeCrudAddCommand : AuditableCommand<int, int?>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeCrudAddCommand"/> class.

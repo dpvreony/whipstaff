@@ -38,13 +38,19 @@ namespace Whipstaff.Mediator
             Register(
                 services,
                 logger,
-                mediatorRegistration.RequestHandlers);
+                mediatorRegistration.QueryHandlers);
+
+            Register(
+                services,
+                logger,
+                mediatorRegistration.CommandHandlers);
 
             Register(
                 services,
                 logger,
                 mediatorRegistration.NotificationHandlers);
 
+#if TBC
             Register(
                 services,
                 logger,
@@ -54,6 +60,7 @@ namespace Whipstaff.Mediator
                 services,
                 logger,
                 mediatorRegistration.RequestPostProcessors);
+#endif
         }
 
         private static void Register<T>(
@@ -66,7 +73,7 @@ namespace Whipstaff.Mediator
             {
                 if (logger != null)
                 {
-                    var loggerMessage = LoggerMessageFactory.GetNoMediatRHandlersRegisteredForTypeLoggerMessageAction();
+                    var loggerMessage = LoggerMessageFactory.GetNoMediatorHandlersRegisteredForTypeLoggerMessageAction();
                     loggerMessage(logger, typeof(T), null);
                 }
 
@@ -86,7 +93,7 @@ namespace Whipstaff.Mediator
 
             if (logger != null)
             {
-                var loggerMessage = LoggerMessageFactory.GetCountOfMediatRHandlersRegisteredLoggerMessageAction();
+                var loggerMessage = LoggerMessageFactory.GetCountOfMediatorHandlersRegisteredLoggerMessageAction();
                 loggerMessage(logger, typeof(T), registrations.Count, null);
             }
         }

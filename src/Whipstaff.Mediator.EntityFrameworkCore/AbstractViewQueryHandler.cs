@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Mediator;
 using Microsoft.EntityFrameworkCore;
 
 namespace Whipstaff.Mediator.EntityFrameworkCore
@@ -24,7 +25,7 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
         where TQuery : IQuery<TResponse?>
     {
         /// <inheritdoc />
-        public async ValueTask<TResponse?> Handle(TQuery request, CancellationToken cancellationToken)
+        public async ValueTask<TResponse?> Handle(TQuery query, CancellationToken cancellationToken)
         {
             using (var dbContext = GetDbContext())
             {

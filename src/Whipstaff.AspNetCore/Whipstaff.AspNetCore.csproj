@@ -47,7 +47,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
-    <ProjectReference Include="..\Whipstaff.MediatR\Whipstaff.MediatR.csproj" />
+    <ProjectReference Include="..\Whipstaff.Mediator\Whipstaff.Mediator.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
   </ItemGroup>
 

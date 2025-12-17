@@ -5,7 +5,7 @@
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Whipstaff.AspNetCore.Features.Pdf;
@@ -17,14 +17,14 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// <summary>
     /// Example controller for serving pdf files.
     /// </summary>
-    public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfRequestDto>
+    public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfQueryDto>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfController"/> class.
         /// </summary>
         /// <param name="authorizationService">Authorization service for verifying requests.</param>
         /// <param name="logger">Logging framework.</param>
-        /// <param name="mediator">CQRS mediatr.</param>
+        /// <param name="mediator">CQRS mediator.</param>
         public PdfController(
             IAuthorizationService authorizationService,
             ILogger<PdfController> logger,
@@ -41,7 +41,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         protected override string GetViewPolicyName() => "View PDF";
 
         /// <inheritdoc />
-        protected override Task<DownloadPdfRequestDto> ViewCommandFactoryAsync(
+        protected override Task<DownloadPdfQueryDto> ViewCommandFactoryAsync(
             int request,
             ClaimsPrincipal claimsPrincipal,
             CancellationToken cancellationToken)
@@ -49,7 +49,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
             return Task.Run(
                 () =>
                 {
-                    var result = new DownloadPdfRequestDto(request, claimsPrincipal);
+                    var result = new DownloadPdfQueryDto(request, claimsPrincipal);
                     return result;
                 },
                 cancellationToken);
