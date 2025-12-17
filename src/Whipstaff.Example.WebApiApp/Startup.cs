@@ -8,6 +8,7 @@ using System.Data.Common;
 using System.Reflection;
 using Audit.Core;
 using Audit.Core.Providers;
+using Mediator;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -75,6 +76,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+            _ = serviceCollection.AddSingleton<IMediator, FakeMediator>();
 
             _ = serviceCollection.AddTransient(_ => new DbContextOptionsBuilder<FakeDbContext>()
                 .UseSqlite(_dbConnection)

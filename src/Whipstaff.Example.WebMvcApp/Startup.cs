@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Audit.Core;
 using Audit.Core.Providers;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers;
+using Mediator;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -85,6 +86,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
             _ = serviceCollection.AddSingleton<FakeAuditableCommandFactory>();
             _ = serviceCollection.AddSingleton<FakeAuditableQueryFactory>();
             _ = serviceCollection.AddSingleton<FakeCrudControllerLogMessageActions>();
+            _ = serviceCollection.AddSingleton<IMediator, FakeMediator>();
 
 #if stuntman
             serviceCollection.AddStuntman(_stuntmanOptions);

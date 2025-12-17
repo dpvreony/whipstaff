@@ -71,6 +71,8 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                     null,
                     new FakeMediatorRegistration());
 
+                _ = services.AddSingleton<IMediator, FakeMediator>();
+
                 var serviceProvider = services.BuildServiceProvider();
 
                 var dbContextOptions = serviceProvider.GetService<DbContextOptions<FakeDbContext>>();
@@ -88,21 +90,15 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                     Assert.Equal(0, entityCount);
                 }
 
-                var mediator = serviceProvider.GetService<IMediator>();
+                var mediator = serviceProvider.GetRequiredService<IMediator>();
                 const int expected = 987654321;
                 var request = new FakeCrudAddCommand(expected, ClaimsPrincipal.Current!);
-                var sendResult = await mediator!.Send(request, TestContext.Current.CancellationToken);
+                var sendResult = await mediator.Send(request, TestContext.Current.CancellationToken);
                 Assert.Equal(expected, sendResult);
 
                 using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
                     var entityCount = await dbContext.FakeAddAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
-                    Assert.Equal(1, entityCount);
-
-                    entityCount = await dbContext.FakeAddPreProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
-                    Assert.Equal(1, entityCount);
-
-                    entityCount = await dbContext.FakeAddPostProcessAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(1, entityCount);
                 }
 

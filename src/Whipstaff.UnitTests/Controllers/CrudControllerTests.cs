@@ -229,7 +229,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send(
-                        Arg.Validate<IRequest<int?>>(query => true),
+                        Arg.Validate<ICommand<int?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
@@ -321,7 +321,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send(
-                        Arg.Validate<IRequest<long?>>(query => true),
+                        Arg.Validate<ICommand<long?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
@@ -553,7 +553,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send(
-                        Arg.Validate<IRequest<FakeCrudUpdateResponse?>>(query => true),
+                        Arg.Validate<ICommand<FakeCrudUpdateResponse?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
@@ -657,7 +657,7 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var mediator = MockMediatorFactory();
                 _ = mediator.Setups.Send<FakeCrudViewResponse?>(
-                        Arg.Validate<IRequest<FakeCrudViewResponse?>>(query => true),
+                        Arg.Validate<IQuery<FakeCrudViewResponse?>>(query => true),
                         Arg.Any<CancellationToken>())
                     .Callback(static (a, b) =>
                     {
