@@ -90,7 +90,7 @@ namespace Whipstaff.Testing.Mediator
                     }
 #pragma warning restore CA1508 // Avoid dead conditional code
 
-                    return default!;
+                    throw new InvalidOperationException("Problem casting result from command handler.");
                 default:
                     throw new ArgumentException("Unregistered command type");
             }
@@ -106,14 +106,14 @@ namespace Whipstaff.Testing.Mediator
                         fakeCrudListQuery,
                         cancellationToken);
                 case FakeCrudViewQuery fakeCrudViewQuery:
-                    if (await _serviceProvider.GetRequiredService<FakeCrudViewQueryHandler>().Handle(
+                    if (await _serviceProvider.GetRequiredService<IQueryHandler<FakeCrudViewQuery, FakeCrudViewResponse?>>().Handle(
                             fakeCrudViewQuery,
                             cancellationToken) is TResponse response)
                     {
                         return response;
                     }
 
-                    return default!;
+                    throw new InvalidOperationException("Problem casting result from query handler.");
                 default:
                     throw new ArgumentException("Unregistered command type");
             }
