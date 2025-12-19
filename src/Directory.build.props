@@ -83,7 +83,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(IsWasmProject) == 'False'">
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="2.4.85" PrivateAssets="All" />
+    <PackageReference Include="Dhgms.QualityAssurancePack" Version="2.4.86" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
