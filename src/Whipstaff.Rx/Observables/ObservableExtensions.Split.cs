@@ -5,11 +5,12 @@
 using System;
 using System.Reactive.Linq;
 
-namespace Whipstaff.Rx
+namespace Whipstaff.Rx.Observables
 {
     /// <summary>
-    /// Extensions for working with Observables.
+    /// Extension methods for <see cref="IObservable{T}"/>.
     /// </summary>
+#pragma warning disable GR0049 // Do not use Tuples.
     public static partial class ObservableExtensions
     {
         /// <summary>
@@ -253,4 +254,5 @@ namespace Whipstaff.Rx
                 observable.Select(selector8));
         }
     }
+#pragma warning restore GR0049 // Do not use Tuples
 }

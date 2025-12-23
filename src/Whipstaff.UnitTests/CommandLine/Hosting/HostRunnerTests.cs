@@ -50,7 +50,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
                     () => HostRunner
-                        .RunSimpleCliJob<
+                        .RunSimpleCliJobAsync<
                             FakeCommandLineHandler,
                             FakeCommandLineArgModel,
                             FakeCommandLineArgModelBinder,

@@ -92,7 +92,7 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
         /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static async Task<int> RunSimpleCliJob<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+        public static async Task<int> RunSimpleCliJobAsync<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<IFileSystem, ILogger<TCommandLineHandler>, TCommandLineHandler> commandLineHandlerFactoryFunc,
             IFileSystem fileSystem,
@@ -119,9 +119,9 @@ namespace Whipstaff.CommandLine.Hosting
 
                 var commandLineHandler = commandLineHandlerFactoryFunc(fileSystem, logger);
 
-                return await CommandLineArgumentHelpers.GetResultFromRootCommand<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+                return await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
                         args,
-                        commandLineHandler.HandleCommand,
+                        commandLineHandler.HandleCommandAsync,
                         fileSystem,
                         parserConfigurationFunc,
                         invocationConfigurationFunc)
