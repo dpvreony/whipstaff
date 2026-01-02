@@ -168,7 +168,7 @@ namespace Whipstaff.Mediator.Foundatio.QueueProcessing
 #pragma warning restore CA1031 // Do not catch general exception types
             {
                 return await TaskHelpers.DefaultIfExceptionAsync(
-                    GetRecoveryStrategyAsync,
+                    static ex => GetRecoveryStrategyAsync(ex),
                     e,
                     QueueMessageRecoveryStrategy.Abandon).ConfigureAwait(false);
             }
