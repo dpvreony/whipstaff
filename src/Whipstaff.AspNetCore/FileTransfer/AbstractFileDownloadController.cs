@@ -21,28 +21,28 @@ namespace Whipstaff.AspNetCore.FileTransfer
     /// </summary>
     /// <typeparam name="TGetRequestDto">The type for the api request dto.</typeparam>
     /// <typeparam name="TQueryDto">The type for the CQRS query dto.</typeparam>
-    public abstract class BaseFileDownloadController<TGetRequestDto, TQueryDto> : Controller
+    public abstract class AbstractFileDownloadController<TGetRequestDto, TQueryDto> : Controller
         where TQueryDto : IAuditableQuery<TGetRequestDto, FileNameAndStreamModel?>
     {
         private readonly IAuthorizationService _authorizationService;
 
-        private readonly ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> _logger;
+        private readonly ILogger<AbstractFileDownloadController<TGetRequestDto, TQueryDto>> _logger;
 
         private readonly IMediator _mediator;
         private readonly Action<ILogger, string, Exception?> _viewLogAction;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseFileDownloadController{TGetRequestDto, TQueryDto}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractFileDownloadController{TGetRequestDto, TQueryDto}"/> class.
         /// </summary>
         /// <param name="authorizationService">Authorization service instance for verifying requests.</param>
-        /// <param name="logger">Logging framework instance.</param>
         /// <param name="mediator">CQRS handler.</param>
         /// <param name="viewLogAction">Log Message Action for the View event.</param>
-        protected BaseFileDownloadController(
+        /// <param name="logger">Logging framework instance.</param>
+        protected AbstractFileDownloadController(
             IAuthorizationService authorizationService,
-            ILogger<BaseFileDownloadController<TGetRequestDto, TQueryDto>> logger,
             IMediator mediator,
-            Action<ILogger, string, Exception?> viewLogAction)
+            Action<ILogger, string, Exception?> viewLogAction,
+            ILogger<AbstractFileDownloadController<TGetRequestDto, TQueryDto>> logger)
         {
             ArgumentNullException.ThrowIfNull(authorizationService);
             ArgumentNullException.ThrowIfNull(logger);

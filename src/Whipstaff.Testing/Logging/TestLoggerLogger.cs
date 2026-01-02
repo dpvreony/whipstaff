@@ -93,7 +93,7 @@ internal sealed class TestLoggerLogger : ILogger
     private static IDisposable Push(object state)
     {
         CurrentScopeStack = CurrentScopeStack.Push(state);
-        return Disposable.Create(Pop);
+        return Disposable.Create(static () => Pop());
     }
 
     private static void Pop()

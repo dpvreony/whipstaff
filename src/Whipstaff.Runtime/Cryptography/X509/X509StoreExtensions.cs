@@ -53,10 +53,10 @@ namespace Whipstaff.Runtime.Cryptography.X509
             ArgumentNullException.ThrowIfNull(store);
             ArgumentNullException.ThrowIfNull(selectorFunc);
 
-            return InternalGetCertificateCollectionViaSelector(store, selectorFunc);
+            return EnumerateGetCertificateCollectionViaSelectorInternal(store, selectorFunc);
         }
 
-        private static IEnumerable<X509Certificate2> InternalGetCertificateCollectionViaSelector(this X509Store store, Func<X509Certificate2, bool> selectorFunc)
+        private static IEnumerable<X509Certificate2> EnumerateGetCertificateCollectionViaSelectorInternal(this X509Store store, Func<X509Certificate2, bool> selectorFunc)
         {
             foreach (var storeCertificate in store.Certificates)
             {

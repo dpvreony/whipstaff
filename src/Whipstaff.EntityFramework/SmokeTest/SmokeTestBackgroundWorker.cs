@@ -51,7 +51,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
                 try
                 {
                     _logMessageActionsWrappper.StartingDbSetChecker();
-                    await _dbSetChecker.CheckDbSets(dbContext)
+                    await _dbSetChecker.CheckDbSetsAsync(dbContext)
                         .ConfigureAwait(false);
                     _logMessageActionsWrappper.CompletedDbSetChecker();
                 }

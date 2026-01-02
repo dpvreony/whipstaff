@@ -11,7 +11,7 @@ namespace Whipstaff.Runtime.JobSequencing
     /// Helper to act on an enumerable.
     /// </summary>
     /// <typeparam name="T">The type for the object being processed.</typeparam>
-    public abstract class ActOnEnumerable<T> : ActOnCollectionHelper<IEnumerable<T>, T>
+    public abstract class AbstractAbstractActOnEnumerable<T> : AbstractActOnCollectionHelper<IEnumerable<T>, T>
     {
         /// <inheritdoc/>
         public sealed override async Task ActOnCollectionAsync(IEnumerable<T> queryable)

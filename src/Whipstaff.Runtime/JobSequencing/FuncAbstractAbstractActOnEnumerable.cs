@@ -12,17 +12,17 @@ namespace Whipstaff.Runtime.JobSequencing
     /// Job Sequence helper for having a func work on an enumerable.
     /// </summary>
     /// <typeparam name="T">The type for the POCO object.</typeparam>
-    public sealed class FuncActOnEnumerable<T> : ActOnEnumerable<T>
+    public sealed class FuncAbstractAbstractActOnEnumerable<T> : AbstractAbstractActOnEnumerable<T>
     {
         private readonly Func<T, Task> _actOnItemAsyncFunc;
         private readonly Func<Task> _onNoItemsHandledAsync;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FuncActOnEnumerable{T}"/> class.
+        /// Initializes a new instance of the <see cref="FuncAbstractAbstractActOnEnumerable{T}"/> class.
         /// </summary>
         /// <param name="actOnItemAsyncFunc">Function to execute on each item in the collection.</param>
         /// <param name="onNoItemsHandledAsync">Function to execute if the collection is empty.</param>
-        public FuncActOnEnumerable(
+        public FuncAbstractAbstractActOnEnumerable(
             Func<T, Task> actOnItemAsyncFunc,
             Func<Task> onNoItemsHandledAsync)
         {
@@ -33,7 +33,7 @@ namespace Whipstaff.Runtime.JobSequencing
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FuncActOnEnumerable{T}"/> class.
+        /// Initializes a new instance of the <see cref="FuncAbstractAbstractActOnEnumerable{T}"/> class.
         /// </summary>
         /// <param name="enumerable">Enumerable object to iterate through.</param>
         /// <param name="actOnItemAsyncFunc">Function to execute on each item in the collection.</param>
@@ -44,7 +44,7 @@ namespace Whipstaff.Runtime.JobSequencing
             Func<T, Task> actOnItemAsyncFunc,
             Func<Task> onNoItemsHandledAsync)
         {
-            var instance = new FuncActOnEnumerable<T>(actOnItemAsyncFunc, onNoItemsHandledAsync);
+            var instance = new FuncAbstractAbstractActOnEnumerable<T>(actOnItemAsyncFunc, onNoItemsHandledAsync);
             return instance.ActOnCollectionAsync(enumerable);
         }
 

@@ -24,7 +24,7 @@ namespace Whipstaff.UnitTests.CommandLine
     public static class CommandLineArgumentHelpersTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommand{TCommandLineArg, TCommandLineArgModelBinder}"/>.
+        /// Unit Tests for <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommandAsync{TCommandLineArg, TCommandLineArgModelBinder}"/>.
         /// </summary>
         public sealed class GetResultFromRootCommandMethod
             : TestWithLoggingBase,
