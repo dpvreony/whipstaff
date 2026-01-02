@@ -74,7 +74,9 @@ namespace Whipstaff.CommandLine.Hosting
             }
             catch (Exception ex)
             {
+#pragma warning disable GR0015 // Do not use System.Console.
                 await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+#pragma warning restore GR0015 // Do not use System.Console.
                 return int.MaxValue;
             }
         }
@@ -129,7 +131,9 @@ namespace Whipstaff.CommandLine.Hosting
             }
             catch (Exception ex)
             {
+#pragma warning disable GR0015 // Do not use System.Console.
                 await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+#pragma warning restore GR0015 // Do not use System.Console.
                 return int.MaxValue;
             }
         }
