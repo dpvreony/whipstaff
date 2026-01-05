@@ -21,17 +21,21 @@ namespace Whipstaff.Mediator.Foundatio.QueueProcessing
     {
         private readonly IQueue<TMessage> _queue;
         private readonly ILogger<QueueProcessManager<TMessage>> _logger;
+        private readonly IRecoveryStrategyHandler _recoveryStrategyHandler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QueueProcessManager{TMessage}"/> class.
         /// </summary>
         /// <param name="queue">The queue to monitor.</param>
+        /// <param name="recoveryStrategyHandler">The exception recovery strategy handler for failed messages.</param>
         /// <param name="logger">Logging framework instance.</param>
         protected QueueProcessManager(
             IQueue<TMessage> queue,
+            IRecoveryStrategyHandler recoveryStrategyHandler,
             ILogger<QueueProcessManager<TMessage>> logger)
         {
             _queue = queue ?? throw new ArgumentNullException(nameof(queue));
+            _recoveryStrategyHandler = recoveryStrategyHandler ?? throw new ArgumentNullException(nameof(recoveryStrategyHandler));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -90,11 +94,6 @@ namespace Whipstaff.Mediator.Foundatio.QueueProcessing
         {
             await queueEntry.CompleteAsync()
                 .ConfigureAwait(false);
-        }
-
-        private static Task<QueueMessageRecoveryStrategy> GetRecoveryStrategyAsync(Exception exception)
-        {
-            return Task.FromResult(QueueMessageRecoveryStrategy.Abandon);
         }
 
         private async Task RunInternalAsync(CancellationToken cancellationToken)
@@ -168,7 +167,7 @@ namespace Whipstaff.Mediator.Foundatio.QueueProcessing
 #pragma warning restore CA1031 // Do not catch general exception types
             {
                 return await TaskHelpers.DefaultIfExceptionAsync(
-                    static ex => GetRecoveryStrategyAsync(ex),
+                    ex => _recoveryStrategyHandler.GetRecoveryStrategyAsync(ex),
                     e,
                     QueueMessageRecoveryStrategy.Abandon).ConfigureAwait(false);
             }
