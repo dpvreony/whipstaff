@@ -27,13 +27,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// <param name="mediator">CQRS mediator.</param>
         public PdfController(
             IAuthorizationService authorizationService,
-            ILogger<PdfController> logger,
-            IMediator mediator)
+            IMediator mediator,
+            ILogger<PdfController> logger)
             : base(
                 authorizationService,
-                logger,
                 mediator,
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"))
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"),
+                logger)
         {
         }
 
