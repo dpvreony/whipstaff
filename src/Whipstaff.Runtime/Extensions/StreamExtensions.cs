@@ -19,65 +19,6 @@ namespace Whipstaff.Runtime.Extensions
     public static class StreamExtensions
     {
         /// <summary>
-        /// Deserializes an object from a stream by using Data Contracts.
-        /// </summary>
-        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
-        /// <param name="stream">The stream to read from.</param>
-        /// <returns>The deserialized object.</returns>
-        public static Task<TResult?> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream)
-        {
-            return Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream));
-        }
-
-        /// <summary>
-        /// Deserializes an object from a stream by using Data Contracts. This version is for use with a cached <see cref="DataContractJsonSerializer"/>.
-        /// </summary>
-        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
-        /// <param name="stream">The stream to read from.</param>
-        /// <param name="dataContractJsonSerializer">The Json Data Contract Serializer to use.</param>
-        /// <returns>The deserialized object.</returns>
-        public static Task<TResult?> DeserializeFromJsonViaDataContractAsync<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
-        {
-            return Task.FromResult(DeserializeFromJsonViaDataContract<TResult>(stream, dataContractJsonSerializer));
-        }
-
-        /// <summary>
-        /// Deserializes an object from a stream by using Data Contracts.
-        /// </summary>
-        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
-        /// <param name="stream">The stream to read from.</param>
-        /// <returns>The deserialized object.</returns>
-        public static TResult? DeserializeFromJsonViaDataContract<TResult>(this Stream stream)
-        {
-            var serializer = new DataContractJsonSerializer(typeof(TResult));
-            return (TResult?)serializer.ReadObject(stream);
-        }
-
-        /// <summary>
-        /// Deserializes an object from a stream by using Data Contracts. This version is for use with a cached <see cref="DataContractJsonSerializer"/>.
-        /// </summary>
-        /// <typeparam name="TResult">The target type for deserialization.</typeparam>
-        /// <param name="stream">The stream to read from.</param>
-        /// <param name="dataContractJsonSerializer">The Json Data Contract Serializer to use.</param>
-        /// <returns>The deserialized object.</returns>
-        public static TResult? DeserializeFromJsonViaDataContract<TResult>(this Stream stream, DataContractJsonSerializer dataContractJsonSerializer)
-        {
-            ArgumentNullException.ThrowIfNull(dataContractJsonSerializer);
-
-#pragma warning disable GR0007
-#pragma warning disable GR0036
-            var serializerType = dataContractJsonSerializer.GetType();
-#pragma warning restore GR0036
-#pragma warning restore GR0007
-            if (serializerType is not TResult)
-            {
-                throw new ArgumentException($"Type on serializer is incorrect. Expected: {typeof(TResult)}, Got: {serializerType}", nameof(dataContractJsonSerializer));
-            }
-
-            return (TResult?)dataContractJsonSerializer.ReadObject(stream);
-        }
-
-        /// <summary>
         /// Converts a stream to a byte array.
         /// </summary>
         /// <param name="stream">Stream to convert.</param>
