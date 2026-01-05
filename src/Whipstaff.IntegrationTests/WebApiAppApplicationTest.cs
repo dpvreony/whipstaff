@@ -2,11 +2,8 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Dhgms.AspNetCoreContrib.Example.WebApiApp;
-using Whipstaff.Testing;
 using Xunit;
 
 namespace Whipstaff.IntegrationTests

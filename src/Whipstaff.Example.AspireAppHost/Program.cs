@@ -33,10 +33,10 @@ namespace Whipstaff.Example.AspireAppHost
         {
             var builder = DistributedApplication.CreateBuilder(args);
 
-            var apiSite = builder.AddProject<Projects.Dhgms_AspNetCoreContrib_Example_WebApiApp>("api-site")
+            var apiSite = builder.AddProject<Projects.Whipstaff_Example_WebApiApp>("api-site")
                 .WithExternalHttpEndpoints();
 
-            var mvcSite = builder.AddProject<Projects.Dhgms_AspNetCoreContrib_Example_WebMvcApp>("mvc-site")
+            var mvcSite = builder.AddProject<Projects.Whipstaff_Example_WebMvcApp>("mvc-site")
                 .WithExternalHttpEndpoints();
 
             if (builder.ExecutionContext.IsRunMode)

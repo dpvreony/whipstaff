@@ -39,8 +39,8 @@
     <ProjectReference Include="..\Whipstaff.EntityFramework.Diagram.DotNetTool\Whipstaff.EntityFramework.Diagram.DotNetTool.csproj" />
     <ProjectReference Include="..\Whipstaff.Entityframework.Relational\Whipstaff.EntityFramework.Relational.csproj" />
     <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
-    <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" />
-    <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Whipstaff.Example.WebApiApp.csproj" />
+    <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Whipstaff.Example.WebMvcApp.csproj" />
     <ProjectReference Include="..\Whipstaff.Markdig\Whipstaff.Markdig.csproj" />
     <ProjectReference Include="..\Whipstaff.Maui\Whipstaff.Maui.csproj" />
     <ProjectReference Include="..\Whipstaff.Mediator\Whipstaff.Mediator.csproj" />
