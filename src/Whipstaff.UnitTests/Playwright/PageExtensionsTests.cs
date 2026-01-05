@@ -43,7 +43,7 @@ namespace Whipstaff.UnitTests.Playwright
         {
             var playwrightBrowserTypeAndChannel = PlaywrightBrowserTypeAndChannel.Chrome();
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
-            await using (var browser = await playwright.GetBrowser(playwrightBrowserTypeAndChannel).ConfigureAwait(false))
+            await using (var browser = await playwright.GetBrowserAsync(playwrightBrowserTypeAndChannel).ConfigureAwait(false))
             {
                 await actionFunc(browser);
 
@@ -320,28 +320,6 @@ namespace Whipstaff.UnitTests.Playwright
 
                     Assert.Empty(images);
                 });
-            }
-
-            private static async Task WithPlayWrightPage(Func<IPage, Task> actionFunc)
-            {
-                await WithPlayWrightBrowser(async browser =>
-                {
-                    var page = await browser.NewPageAsync();
-                    await actionFunc(page);
-                });
-            }
-
-            private static async Task WithPlayWrightBrowser(Func<IBrowser, Task> actionFunc)
-            {
-                var playwrightBrowserTypeAndChannel = PlaywrightBrowserTypeAndChannel.Chrome();
-                using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
-                await using (var browser = await playwright.GetBrowserAsync(playwrightBrowserTypeAndChannel).ConfigureAwait(false))
-                {
-                    await actionFunc(browser);
-
-                    // Close the browser
-                    await browser.CloseAsync();
-                }
             }
 
             private static async Task InvalidAltTagHandler(HttpContext context)
