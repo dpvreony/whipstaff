@@ -71,7 +71,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
                 await using (var errorWriter = new StringWriter())
                 {
                     var result = await HostRunner
-                        .RunSimpleCliJob<
+                        .RunSimpleCliJobAsync<
                             FakeCommandLineHandler,
                             FakeCommandLineArgModel,
                             FakeCommandLineArgModelBinder,

@@ -67,7 +67,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.HandleCommand(arg!, CancellationToken.None));
+                    () => instance.HandleCommandAsync(arg!, CancellationToken.None));
             }
         }
     }

@@ -61,7 +61,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 var instance = new FakeCommandLineHandler(
                     new FakeCommandLineHandlerLogMessageActionsWrapper(logger));
 
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommand(arg!, CancellationToken.None));
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommandAsync(arg!, CancellationToken.None));
             }
         }
     }

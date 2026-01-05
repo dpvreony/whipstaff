@@ -13,6 +13,7 @@ using ReactiveUI;
 using ReactiveUI.Testing;
 using Splat.ApplicationPerformanceMonitoring;
 using Whipstaff.Rx;
+using Whipstaff.Rx.Observables;
 using Whipstaff.Testing.Splat.ApplicationPerformanceMonitoring;
 using Xunit;
 
