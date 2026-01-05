@@ -41,7 +41,7 @@ namespace Whipstaff.CommandLine
         protected TLogMessageActionsWrapper LogMessageActionsWrapper { get; }
 
         /// <inheritdoc/>
-        public System.Threading.Tasks.Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
+        public System.Threading.Tasks.Task<int> HandleCommandAsync(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
             try
