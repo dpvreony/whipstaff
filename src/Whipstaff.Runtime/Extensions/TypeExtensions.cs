@@ -16,6 +16,7 @@ namespace Whipstaff.Runtime.Extensions
     /// </summary>
     public static class TypeExtensions
     {
+#if !IOS && !ANDROID && !TVOS && !MACOS
         /// <summary>
         /// Checks if a type contains a parameterless constructor.
         /// </summary>
@@ -45,6 +46,7 @@ namespace Whipstaff.Runtime.Extensions
 
             return Array.Find(constructors, x => x.GetParameters().Length == 0);
         }
+#endif
 
         /// <summary>
         /// Checks if a type is a public closed type.

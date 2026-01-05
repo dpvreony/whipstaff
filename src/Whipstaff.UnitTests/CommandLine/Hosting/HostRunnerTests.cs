@@ -23,7 +23,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
     public static class HostRunnerTests
     {
         /// <summary>
-        /// Unit test for the <see cref="HostRunner.RunSimpleCliJob{TJob, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TJob}, TJob}, IFileSystem, Func{ParserConfiguration}?, Func{InvocationConfiguration}?)"/> method.
+        /// Unit test for the <see cref="HostRunner.RunSimpleCliJobAsync{TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}(string[], Func{IFileSystem, Microsoft.Extensions.Logging.ILogger{TCommandLineHandler}, TCommandLineHandler}, IFileSystem, Func{ParserConfiguration}?, Func{InvocationConfiguration}?)"/> method.
         /// </summary>
         public sealed class RunSimpleCliJobMethod
         : TestWithLoggingBase,
