@@ -187,7 +187,9 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                 Assert.NotNull(diagramResponseModel);
 
+#pragma warning disable CA2254
                 Logger.LogInformation(diagramResponseModel.Svg);
+#pragma warning restore CA2254
 
                 Assert.NotNull(diagramResponseModel.Svg);
                 Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);
@@ -293,7 +295,9 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                 Assert.NotNull(diagramResponseModel);
 
+#pragma warning disable CA2254
                 Logger.LogInformation(diagramResponseModel.Svg);
+#pragma warning restore CA2254
 
                 Assert.NotNull(diagramResponseModel.Svg);
                 Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);

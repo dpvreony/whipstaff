@@ -43,7 +43,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [Fact]
             public void ReturnsInstance()
             {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new MockFileSystem());
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
                     new PlaywrightRendererLogMessageActions(),
                     LoggerFactory.CreateLogger<PlaywrightRenderer>());
@@ -81,7 +81,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     : base(
                         new NamedParameterInput<TestServer>(
                             "mermaidHttpServer",
-                            () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory(), new MockFileSystem())),
+                            () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory(), new FileSystem())),
                         new NamedParameterInput<PlaywrightRendererLogMessageActionsWrapper>(
                             "logMessageActionsWrapper",
                             () => new PlaywrightRendererLogMessageActionsWrapper(
@@ -137,207 +137,6 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 public ThrowsArgumentNullExceptionTestSource()
                     : base("loggerFactory")
                 {
-                }
-            }
-        }
-
-        /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRendererBrowserInstance.GetDiagram(IFileInfo)"/>.
-        /// </summary>
-        public sealed class GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo>
-        {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString"/> class.
-            /// </summary>
-            /// <param name="output">XUnit test output instance.</param>
-            public GetDiagramMethodWithIFileInfoPlaywrightBrowserTypeString(ITestOutputHelper output)
-                : base(output)
-            {
-            }
-
-            /// <inheritdoc/>
-            [Theory]
-            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(IFileInfo? arg, string expectedParameterNameForException)
-            {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new MockFileSystem());
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
-
-                var instance = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(
-                    expectedParameterNameForException,
-                    async () => await (await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome())).GetDiagram(arg!));
-            }
-
-            /// <summary>
-            /// Test to ensure the SVG generator returns specific results.
-            /// </summary>
-            /// <param name="sourceFileInfo">Source File to parse.</param>
-            /// <param name="expectedStart">The expected result.</param>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-            [Theory]
-            [ClassData(typeof(ReturnsResultTestSource))]
-            public async Task ReturnsResult(IFileInfo sourceFileInfo, string expectedStart)
-            {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new MockFileSystem());
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
-
-                var instance = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-                var diagramResponseModel = await (await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome())).GetDiagram(sourceFileInfo);
-
-                Assert.NotNull(diagramResponseModel);
-
-#pragma warning disable CA2254
-                Logger.LogInformation(diagramResponseModel.Svg);
-#pragma warning restore CA2254
-
-                Assert.NotNull(diagramResponseModel.Svg);
-                Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);
-            }
-
-            /// <summary>
-            /// Test source <see cref="PlaywrightRendererBrowserInstance.GetDiagram(string)"/>.
-            /// </summary>
-            public sealed class ReturnsResultTestSource : TheoryData<IFileInfo, string>
-            {
-                /// <summary>
-                /// Initializes a new instance of the <see cref="ReturnsResultTestSource"/> class.
-                /// </summary>
-                public ReturnsResultTestSource()
-                {
-                    var fileSystem = new MockFileSystem();
-                    var graph = "graph TD;" + Environment.NewLine +
-                                "    A-->B;" + Environment.NewLine +
-                                "    A-->C;" + Environment.NewLine +
-                                "    B-->D;" + Environment.NewLine +
-                                "    C-->D;";
-
-                    fileSystem.AddFile(
-                        "test.mmd",
-                        graph);
-
-                    var fileInfo = fileSystem.FileInfo.New(fileSystem.AllFiles.First());
-
-                    Add(fileInfo, "<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"");
-                }
-            }
-
-            /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
-            /// </summary>
-            public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<IFileInfo>
-            {
-                /// <summary>
-                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestSource"/> class.
-                /// </summary>
-                public ThrowsArgumentNullExceptionAsyncTestSource()
-                    : base("sourceFileInfo")
-                {
-                }
-            }
-        }
-
-        /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRendererBrowserInstance.GetDiagram(string)"/>.
-        /// </summary>
-        public sealed class GetDiagramMethodWithStringPlaywrightBrowserTypeString : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
-        {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="GetDiagramMethodWithStringPlaywrightBrowserTypeString"/> class.
-            /// </summary>
-            /// <param name="output">XUnit test output instance.</param>
-            public GetDiagramMethodWithStringPlaywrightBrowserTypeString(ITestOutputHelper output)
-                : base(output)
-            {
-            }
-
-            /// <inheritdoc/>
-            [Theory]
-            [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(string? arg, string expectedParameterNameForException)
-            {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new MockFileSystem());
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
-
-                var instance = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(
-                    expectedParameterNameForException,
-                    async () => await (await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome())).GetDiagram(arg!));
-            }
-
-            /// <summary>
-            /// Test to ensure the SVG generator returns specific results.
-            /// </summary>
-            /// <param name="diagram">Mermaid diagram to parse.</param>
-            /// <param name="expectedStart">The expected result.</param>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
-            [Theory]
-            [ClassData(typeof(ReturnsResultTestSource))]
-            public async Task ReturnsResult(string diagram, string expectedStart)
-            {
-                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new MockFileSystem());
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
-
-                var instance = new PlaywrightRenderer(
-                    mermaidHttpServer,
-                    logMessageActionsWrapper);
-                var diagramResponseModel = await (await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome())).GetDiagram(diagram);
-
-                Assert.NotNull(diagramResponseModel);
-
-#pragma warning disable CA2254
-                Logger.LogInformation(diagramResponseModel.Svg);
-#pragma warning restore CA2254
-
-                Assert.NotNull(diagramResponseModel.Svg);
-                Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);
-            }
-
-            /// <summary>
-            /// Test source <see cref="PlaywrightRendererBrowserInstance.GetDiagram(string)"/>.
-            /// </summary>
-            public sealed class ReturnsResultTestSource : TheoryData<string, string>
-            {
-                /// <summary>
-                /// Initializes a new instance of the <see cref="ReturnsResultTestSource"/> class.
-                /// </summary>
-                public ReturnsResultTestSource()
-                {
-                    var graph = "graph TD;" + Environment.NewLine +
-                        "    A-->B;" + Environment.NewLine +
-                        "    A-->C;" + Environment.NewLine +
-                        "    B-->D;" + Environment.NewLine +
-                        "    C-->D;";
-
-                    Add(graph, "<svg aria-roledescription=\"flowchart-v2\" role=\"graphics-document document\"");
-                }
-            }
-
-            /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
-            /// </summary>
-            public sealed class ThrowsArgumentNullExceptionAsyncTestSource : TheoryData<string?, string>
-            {
-                /// <summary>
-                /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionAsyncTestSource"/> class.
-                /// </summary>
-                public ThrowsArgumentNullExceptionAsyncTestSource()
-                {
-                    Add(null, "markdown");
                 }
             }
         }
