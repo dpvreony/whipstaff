@@ -51,7 +51,6 @@ namespace Whipstaff.AspNetCore
             TUpdateResponseDto,
             TCrudControllerLogMessageActions>
         : AbstractQueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TCrudControllerLogMessageActions>
-        where TListQuery : IAuditableRequest<TListRequestDto, TListQueryResponse>
         where TListQuery : IAuditableQuery<TListRequestDto, TListQueryResponse>
         where TListRequestDto : class, new()
         where TListQueryResponse : class
