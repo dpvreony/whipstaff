@@ -66,7 +66,7 @@ namespace Whipstaff.CommandLine.Hosting
 
                 return await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
                         args,
-                        commandLineHandler.HandleCommand,
+                        (commandLineArgModel, cancellationToken) => commandLineHandler.HandleCommandAsync(commandLineArgModel, cancellationToken),
                         fileSystem,
                         parserConfigurationFunc,
                         invocationConfigurationFunc)
