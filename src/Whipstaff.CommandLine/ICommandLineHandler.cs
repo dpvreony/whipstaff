@@ -19,6 +19,6 @@ namespace Whipstaff.CommandLine
         /// <param name="commandLineArgModel">Command Line Arguments model.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>0 for success, non-zero for error.</returns>
-        Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken);
+        Task<int> HandleCommandAsync(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken);
     }
 }

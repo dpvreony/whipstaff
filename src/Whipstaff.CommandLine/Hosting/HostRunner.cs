@@ -64,7 +64,7 @@ namespace Whipstaff.CommandLine.Hosting
 
                 var commandLineHandler = serviceProvider.GetRequiredService<TCommandLineHandler>();
 
-                return await CommandLineArgumentHelpers.GetResultFromRootCommand<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+                return await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
                         args,
                         commandLineHandler.HandleCommand,
                         fileSystem,
