@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Testing", "Whipst
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.IntegrationTests", "Whipstaff.IntegrationTests\Whipstaff.IntegrationTests.csproj", "{B1942E99-EF2E-4BBE-BA50-2ABB4C534EE9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebApiApp", "Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj", "{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Example.WebApiApp", "Whipstaff.Example.WebApiApp\Whipstaff.Example.WebApiApp.csproj", "{59DCCBAC-5B17-49C3-B4B3-8F6F2F676316}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dhgms.AspNetCoreContrib.Example.WebMvcApp", "Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj", "{F0B3F347-253A-4A23-BDE6-478A12685808}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Example.WebMvcApp", "Whipstaff.Example.WebMvcApp\Whipstaff.Example.WebMvcApp.csproj", "{F0B3F347-253A-4A23-BDE6-478A12685808}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.AspNetCore", "Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj", "{9FB84667-7F09-447E-8121-D1CD725A915E}"
 EndProject
