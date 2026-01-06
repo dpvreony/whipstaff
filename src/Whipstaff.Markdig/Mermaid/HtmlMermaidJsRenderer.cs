@@ -65,7 +65,7 @@ namespace Whipstaff.Markdig.Mermaid
             _ = renderer.EnsureLine();
 
             var mermaidMarkup = obj.Lines.ToSlice().Text;
-            var responseModel = _browserSession.GetDiagram(mermaidMarkup)
+            var responseModel = _browserSession.GetDiagramAsync(mermaidMarkup)
                 .WaitAndUnwrapException();
 
             if (responseModel == null)

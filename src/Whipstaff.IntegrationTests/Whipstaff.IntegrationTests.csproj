@@ -1,10 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <NoWarn>CA1034,CS1591</NoWarn>
+    <NoWarn>CA1034,CA1515,CS1591,QA0004</NoWarn>
     <IsTestProject>True</IsTestProject>
-    <!-- review CA1515 when upgrading to xunit3 -->
-    <NoWarn>CA1034,CA1515,CS1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,8 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.Example.AspireAppHost\Whipstaff.Example.AspireAppHost.csproj" IsAspireProjectResource="False" />
-    <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Dhgms.AspNetCoreContrib.Example.WebApiApp.csproj" IsAspireProjectResource="False" />
-    <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Dhgms.AspNetCoreContrib.Example.WebMvcApp.csproj" IsAspireProjectResource="False" />
+    <ProjectReference Include="..\Whipstaff.Example.WebApiApp\Whipstaff.Example.WebApiApp.csproj" IsAspireProjectResource="False" />
+    <ProjectReference Include="..\Whipstaff.Example.WebMvcApp\Whipstaff.Example.WebMvcApp.csproj" IsAspireProjectResource="False" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" IsAspireProjectResource="False" />
   </ItemGroup>
 

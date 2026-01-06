@@ -35,7 +35,7 @@ namespace Whipstaff.Windows.GroupPolicyMonitoring
         {
             _logger = logger;
             _onUserPreferenceChangingGroupPolicy = onUserPreferenceChangingGroupPolicy;
-            _userPreferenceChangingSubscription = RxEvents.SystemEventsUserPreferenceChanging.Subscribe(OnSystemEventsOnUserPreferenceChanging);
+            _userPreferenceChangingSubscription = RxEvents.SystemEventsUserPreferenceChanging.Subscribe(userPreferenceChangingEventArgs => OnSystemEventsOnUserPreferenceChanging(userPreferenceChangingEventArgs));
         }
 
         /// <inheritdoc />

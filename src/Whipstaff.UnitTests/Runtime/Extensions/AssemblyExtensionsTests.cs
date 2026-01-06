@@ -14,25 +14,6 @@ namespace Whipstaff.UnitTests.Runtime.Extensions
     public static class AssemblyExtensionsTests
     {
         /// <summary>
-        /// Unit test for <see cref="Whipstaff.Runtime.Extensions.AssemblyExtensions.GetClassesInNamespace(Assembly, string)"/>.
-        /// </summary>
-        public sealed class GetClassesInNamespaceMethod
-        {
-            /// <summary>
-            /// Tests that the method returns a byte array on success.
-            /// </summary>
-            [Fact]
-            public void ReturnsResultOnSuccess()
-            {
-                var types = Assembly.GetExecutingAssembly()
-                    .GetClassesInNamespace(typeof(AssemblyExtensionsTests).Namespace!);
-
-                Assert.NotNull(types);
-                Assert.NotEmpty(types);
-            }
-        }
-
-        /// <summary>
         /// Unit test for <see cref="Whipstaff.Runtime.Extensions.AssemblyExtensions.LoadStringFromResource(Assembly, string, string)"/>.
         /// </summary>
         public sealed class LoadStringFromResource

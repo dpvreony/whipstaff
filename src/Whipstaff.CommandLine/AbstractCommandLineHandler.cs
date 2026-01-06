@@ -41,12 +41,12 @@ namespace Whipstaff.CommandLine
         protected TLogMessageActionsWrapper LogMessageActionsWrapper { get; }
 
         /// <inheritdoc/>
-        public System.Threading.Tasks.Task<int> HandleCommand(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
+        public System.Threading.Tasks.Task<int> HandleCommandAsync(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
             try
             {
-                return OnHandleCommand(commandLineArgModel, cancellationToken);
+                return OnHandleCommandAsync(commandLineArgModel, cancellationToken);
             }
             catch (Exception e)
             {
@@ -61,6 +61,6 @@ namespace Whipstaff.CommandLine
         /// <param name="commandLineArgModel">Command Line Arguments model.</param>
         /// <param name="cancellationToken">The cancellation token for the operation.</param>
         /// <returns>0 for success, non-zero for error.</returns>
-        protected abstract Task<int> OnHandleCommand(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken);
+        protected abstract Task<int> OnHandleCommandAsync(TCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken);
     }
 }

@@ -32,11 +32,11 @@ namespace Whipstaff.Runtime.Extensions
             ArgumentNullException.ThrowIfNull(dictionary);
             ArgumentNullException.ThrowIfNull(predicate);
 
-            return dictionary.KeysWhereInternal(predicate);
+            return dictionary.EnumerateKeysWhereInternal(predicate);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static IEnumerable<TKey> KeysWhereInternal<TKey, TValue>(
+        private static IEnumerable<TKey> EnumerateKeysWhereInternal<TKey, TValue>(
             this IDictionary<TKey, TValue> dictionary,
             Func<KeyValuePair<TKey, TValue>, bool> predicate)
         {

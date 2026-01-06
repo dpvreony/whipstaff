@@ -1,10 +1,12 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;tizen40;net8.0;net9.0-android;net9.0-ios;net9.0-tvos;net9.0-macos</TargetFrameworks>
+    <TargetFrameworks>net10.0;net10.0-android;net10.0-ios;net10.0-tvos;net10.0-macos</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with ReactiveUI.</PackageDescription>
+    <!-- review IL2026 once RXUI updated for AOT. -->
+    <NoWarn>IL2026</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

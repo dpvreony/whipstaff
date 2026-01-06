@@ -32,7 +32,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// </summary>
         /// <param name="dbContext">Instance of the DbContext to test.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public abstract Task CheckDbSets(TDbContext dbContext);
+        public abstract Task CheckDbSetsAsync(TDbContext dbContext);
 
         /// <summary>
         /// Carries out the test of an individual Db Set.
@@ -40,7 +40,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// <typeparam name="TEntity">The type of the entity being tested.</typeparam>
         /// <param name="dbSet">The Db Set to test.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task CheckDbSet<TEntity>(DbSet<TEntity> dbSet)
+        protected async Task CheckDbSetAsync<TEntity>(DbSet<TEntity> dbSet)
             where TEntity : class
         {
             try

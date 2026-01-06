@@ -131,7 +131,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRendererBrowserInstance.GetDiagram(IFileInfo)"/>.
+        /// Unit Tests for <see cref="PlaywrightRendererBrowserInstance.GetDiagramAsync(IFileInfo)"/>.
         /// </summary>
         public sealed class GetDiagramMethodWithIFileInfo : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<IFileInfo>
         {
@@ -161,7 +161,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => browserSession.GetDiagram(arg!));
+                    () => browserSession.GetDiagramAsync(arg!));
             }
 
             /// <summary>
@@ -183,18 +183,20 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     mermaidHttpServer,
                     logMessageActionsWrapper);
                 var browserSession = await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome());
-                var diagramResponseModel = await browserSession.GetDiagram(sourceFileInfo);
+                var diagramResponseModel = await browserSession.GetDiagramAsync(sourceFileInfo);
 
                 Assert.NotNull(diagramResponseModel);
 
+#pragma warning disable CA2254
                 Logger.LogInformation(diagramResponseModel.Svg);
+#pragma warning restore CA2254
 
                 Assert.NotNull(diagramResponseModel.Svg);
                 Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);
             }
 
             /// <summary>
-            /// Test source <see cref="PlaywrightRendererBrowserInstance.GetDiagram(string)"/>.
+            /// Test source <see cref="PlaywrightRendererBrowserInstance.GetDiagramAsync(string)"/>.
             /// </summary>
             public sealed class ReturnsResultTestSource : TheoryData<IFileInfo, string>
             {
@@ -238,7 +240,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="PlaywrightRendererBrowserInstance.GetDiagram(string)"/>.
+        /// Unit Tests for <see cref="PlaywrightRendererBrowserInstance.GetDiagramAsync(string)"/>.
         /// </summary>
         public sealed class GetDiagramMethodWithString : TestWithLoggingBase, ITestAsyncMethodWithNullableParameters<string>
         {
@@ -267,7 +269,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var browserSession = await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome());
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => browserSession.GetDiagram(arg!));
+                    () => browserSession.GetDiagramAsync(arg!));
             }
 
             /// <summary>
@@ -289,18 +291,20 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     mermaidHttpServer,
                     logMessageActionsWrapper);
                 var browserSession = await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome());
-                var diagramResponseModel = await browserSession.GetDiagram(diagram);
+                var diagramResponseModel = await browserSession.GetDiagramAsync(diagram);
 
                 Assert.NotNull(diagramResponseModel);
 
+#pragma warning disable CA2254
                 Logger.LogInformation(diagramResponseModel.Svg);
+#pragma warning restore CA2254
 
                 Assert.NotNull(diagramResponseModel.Svg);
                 Assert.StartsWith(expectedStart, diagramResponseModel.Svg, StringComparison.Ordinal);
             }
 
             /// <summary>
-            /// Test source <see cref="PlaywrightRendererBrowserInstance.GetDiagram(string)"/>.
+            /// Test source <see cref="PlaywrightRendererBrowserInstance.GetDiagramAsync(string)"/>.
             /// </summary>
             public sealed class ReturnsResultTestSource : TheoryData<string, string>
             {

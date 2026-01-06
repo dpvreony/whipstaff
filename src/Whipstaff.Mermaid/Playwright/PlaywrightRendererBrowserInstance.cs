@@ -43,7 +43,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
         /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
         /// <returns>Browser wrapper instance.</returns>
-        public static async Task<PlaywrightRendererBrowserInstance> GetBrowserInstance(
+        public static async Task<PlaywrightRendererBrowserInstance> GetBrowserInstanceAsync(
             TestServer mermaidHttpServer,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel,
             PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
@@ -66,12 +66,12 @@ namespace Whipstaff.Mermaid.Playwright
             var inMemoryHttpClient = mermaidHttpServer.CreateClient();
             await page.RouteAsync(
                     pageUrl,
-                    route => MermaidPostHandler(inMemoryHttpClient, route))
+                    route => MermaidPostHandlerAsync(inMemoryHttpClient, route))
                 .ConfigureAwait(false);
 
             await page.RouteAsync(
                     "**/*.{mjs,js}",
-                    route => DefaultHandler(inMemoryHttpClient, route))
+                    route => DefaultHandlerAsync(inMemoryHttpClient, route))
                 .ConfigureAwait(false);
 
             var pageResponse = await page.GotoAsync(pageUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle })
@@ -134,7 +134,7 @@ namespace Whipstaff.Mermaid.Playwright
                 throw new ArgumentException("Target file already exists", nameof(targetFile));
             }
 
-            var diagram = await GetDiagram(sourceFile)
+            var diagram = await GetDiagramAsync(sourceFile)
                 .ConfigureAwait(false);
 
             if (diagram == null)
@@ -151,7 +151,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
         /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagram(IFileInfo sourceFileInfo)
+        public async Task<GetDiagramResponseModel?> GetDiagramAsync(IFileInfo sourceFileInfo)
         {
             ArgumentNullException.ThrowIfNull(sourceFileInfo);
 
@@ -162,7 +162,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             using (var streamReader = sourceFileInfo.OpenText())
             {
-                return await GetDiagram(streamReader)
+                return await GetDiagramAsync(streamReader)
                     .ConfigureAwait(false);
             }
         }
@@ -172,7 +172,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         /// <param name="textReader">File containing the diagram markdown to convert.</param>
         /// <returns>SVG diagram.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagram(TextReader textReader)
+        public async Task<GetDiagramResponseModel?> GetDiagramAsync(TextReader textReader)
         {
             ArgumentNullException.ThrowIfNull(textReader);
 
@@ -180,7 +180,7 @@ namespace Whipstaff.Mermaid.Playwright
                 .ReadToEndAsync()
                 .ConfigureAwait(false);
 
-            return await GetDiagram(markdown)
+            return await GetDiagramAsync(markdown)
                 .ConfigureAwait(false);
         }
 
@@ -189,7 +189,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         /// <param name="markdown">Markdown to process.</param>
         /// <returns>Diagram model.</returns>
-        public async Task<GetDiagramResponseModel?> GetDiagram(string markdown)
+        public async Task<GetDiagramResponseModel?> GetDiagramAsync(string markdown)
         {
             markdown.ThrowIfNullOrWhitespace();
             var svg = await _page.EvaluateAsync<string>("(diagram) => window.renderMermaid(diagram)", markdown);
@@ -222,7 +222,7 @@ namespace Whipstaff.Mermaid.Playwright
             return httpRequestMessage;
         }
 
-        private static async Task MermaidPostHandler(HttpClient httpClient, IRoute route)
+        private static async Task MermaidPostHandlerAsync(HttpClient httpClient, IRoute route)
         {
             using (var request = GetRequestFromRoute(route))
             {
@@ -244,7 +244,7 @@ namespace Whipstaff.Mermaid.Playwright
             }
         }
 
-        private static async Task DefaultHandler(HttpClient httpClient, IRoute route)
+        private static async Task DefaultHandlerAsync(HttpClient httpClient, IRoute route)
         {
             if (!route.Request.Url.StartsWith("https://localhost/", StringComparison.OrdinalIgnoreCase))
             {

@@ -17,7 +17,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// <summary>
     /// Example controller for serving pdf files.
     /// </summary>
-    public sealed class PdfController : BaseFileDownloadController<int, DownloadPdfQueryDto>
+    public sealed class PdfController : AbstractFileDownloadController<int, DownloadPdfQueryDto>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfController"/> class.
@@ -27,13 +27,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// <param name="mediator">CQRS mediator.</param>
         public PdfController(
             IAuthorizationService authorizationService,
-            ILogger<PdfController> logger,
-            IMediator mediator)
+            IMediator mediator,
+            ILogger<PdfController> logger)
             : base(
                 authorizationService,
-                logger,
                 mediator,
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"))
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"),
+                logger)
         {
         }
 

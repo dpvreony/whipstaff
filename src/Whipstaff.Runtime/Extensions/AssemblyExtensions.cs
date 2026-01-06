@@ -20,29 +20,6 @@ namespace Whipstaff.Runtime.Extensions
     public static class AssemblyExtensions
     {
         /// <summary>
-        /// Gets all classes in an assembly.
-        /// </summary>
-        /// <param name="assembly">
-        /// The assembly to search.
-        /// </param>
-        /// <param name="fullyQualifiedNamespace">
-        /// The fully qualified namespace to look in.
-        /// </param>
-        /// <returns>
-        /// List of classes.
-        /// </returns>
-        public static Type[] GetClassesInNamespace(this Assembly assembly, string fullyQualifiedNamespace)
-        {
-            ArgumentNullException.ThrowIfNull(assembly);
-            ArgumentNullException.ThrowIfNull(fullyQualifiedNamespace);
-
-            return assembly.GetTypes()
-                .AsParallel()
-                .Where(type => type.Namespace?.Equals(fullyQualifiedNamespace, StringComparison.Ordinal) == true)
-                .ToArray();
-        }
-
-        /// <summary>
         /// Loads a string from an embedded resource file.
         /// </summary>
         /// <param name="assembly">

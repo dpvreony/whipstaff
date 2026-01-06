@@ -17,7 +17,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     /// <summary>
     /// Sample web controller for an XLSX download.
     /// </summary>
-    public sealed class ExcelController : BaseFileDownloadController<int, DownloadSpreadsheetRequestDto>
+    public sealed class ExcelController : AbstractFileDownloadController<int, DownloadSpreadsheetRequestDto>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExcelController"/> class.
@@ -27,13 +27,13 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// <param name="mediator">Instance of the CQRS mediator.</param>
         public ExcelController(
             IAuthorizationService authorizationService,
-            ILogger<ExcelController> logger,
-            IMediator mediator)
+            IMediator mediator,
+            ILogger<ExcelController> logger)
             : base(
                 authorizationService,
-                logger,
                 mediator,
-                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"))
+                LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"),
+                logger)
         {
         }
 

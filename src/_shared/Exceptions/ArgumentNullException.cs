@@ -20,7 +20,9 @@ namespace Whipstaff.Runtime.Exceptions
         /// <exception cref="T:System.ArgumentNullException">
         /// <paramref name="argument" /> is <see langword="null" />.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#pragma warning disable GR0033
         internal static void ThrowIfNull(object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+#pragma warning restore GR0033
         {
             if (argument != null)
             {

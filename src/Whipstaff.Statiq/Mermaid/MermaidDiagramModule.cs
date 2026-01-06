@@ -92,7 +92,7 @@ namespace Whipstaff.Statiq.Mermaid
 
             var markdown = await _fileSystem.File.ReadAllTextAsync(inputFilename);
 
-            var diagramResponse = await browser.GetDiagram(markdown)
+            var diagramResponse = await browser.GetDiagramAsync(markdown)
                 .ConfigureAwait(false);
 
             if (diagramResponse == null)

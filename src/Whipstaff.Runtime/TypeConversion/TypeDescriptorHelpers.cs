@@ -11,6 +11,7 @@ namespace Whipstaff.Runtime.TypeConversion
     /// </summary>
     public static class TypeDescriptorHelpers
     {
+#if !IOS && !ANDROID && !TVOS && !MACOS
         /// <summary>
         /// Adds a type converter to the type descriptor. This wrapper allows constraining the type converter to a subclass of <see cref="TypeConverter"/> where the built in
         /// .NET framework doesn't do this.
@@ -25,5 +26,6 @@ namespace Whipstaff.Runtime.TypeConversion
                 typeof(TTarget),
                 new TypeDescriptionProviderAttribute(typeof(TConvertor)));
         }
+#endif
     }
 }

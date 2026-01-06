@@ -156,11 +156,18 @@ jobs:
         SONAR_ORGANISATION_KEY: ${{ secrets.SONAR_ORGANISATION_KEY }}
 
     - name: Run Build
+      id: build
       run: |
         dotnet build ${{ env.solutionpath }} --configuration Release --no-restore /bl:../artifacts/binlog/build.binlog /p:ContinuousIntegrationBuild=true 
       working-directory: src
       env:
         CHANGE_COMMIT_LOG: ${{ steps.changelog.outputs.commitLog }}
+
+    - name: Run BinLogStats for Build
+      if: ${{ always() && !cancelled() && (steps.build.outcome == 'success' || steps.build.outcome == 'failure') }}
+      run: |
+        dotnet gripe-msbuildlogstats -bl ../artifacts/binlog/build.binlog
+      working-directory: src
 
     - name: Run Unit Tests
       working-directory: src

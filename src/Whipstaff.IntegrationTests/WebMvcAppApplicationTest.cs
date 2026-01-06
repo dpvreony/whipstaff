@@ -114,13 +114,13 @@ namespace Whipstaff.IntegrationTests
                     using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                                .ConfigureAwait(false))
                     await using (var browser =
-                                 await playwright.GetBrowser(PlaywrightBrowserTypeAndChannel.Chrome()))
+                                 await playwright.GetBrowserAsync(PlaywrightBrowserTypeAndChannel.Chrome()))
                     {
                         var page = await browser.NewPageAsync()
                             .ConfigureAwait(false);
                         await page.RouteAsync(
                                 "**/*",
-                                route => DefaultHandler(client, route))
+                                route => DefaultHandlerAsync(client, route))
                             .ConfigureAwait(false);
 
                         var crawlResults = await WebCrawler.CrawlSiteAsync(requestUri, page, CancellationToken.None)
@@ -166,7 +166,7 @@ namespace Whipstaff.IntegrationTests
             };
         }
 
-        private static async Task DefaultHandler(HttpClient client, IRoute route)
+        private static async Task DefaultHandlerAsync(HttpClient client, IRoute route)
         {
             if (!route.Request.Url.StartsWith("https://localhost/", StringComparison.OrdinalIgnoreCase))
             {

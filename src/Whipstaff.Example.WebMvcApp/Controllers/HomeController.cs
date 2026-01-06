@@ -32,7 +32,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// Serves the home page.
         /// </summary>
         /// <returns>View.</returns>
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAsync()
         {
             var authResult = await _authorizationService.AuthorizeAsync(User, "HomePageView");
             if (!authResult.Succeeded)

@@ -25,7 +25,7 @@ namespace Whipstaff.Testing
     [ExcludeFromCodeCoverage]
     [ApiController]
     [Route("api/fakecrud")]
-    public sealed class FakeCrudController : CrudApiController<
+    public sealed class FakeCrudController : AbstractCrudApiController<
         FakeCrudListQuery,
         FakeCrudListRequest,
         IList<int>,

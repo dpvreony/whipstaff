@@ -36,7 +36,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
         }
 
         /// <summary>
-        /// Unit test for <see cref="CommandLineJob.OnHandleCommand(CommandLineArgModel, CancellationToken)"/> method.
+        /// Unit test for <see cref="CommandLineJob.OnHandleCommandAsync(CommandLineArgModel, CancellationToken)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : TestWithLoggingBase,
@@ -67,7 +67,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => instance.HandleCommand(arg!, CancellationToken.None));
+                    () => instance.HandleCommandAsync(arg!, CancellationToken.None));
             }
         }
     }

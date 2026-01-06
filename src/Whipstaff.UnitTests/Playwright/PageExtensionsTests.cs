@@ -43,7 +43,7 @@ namespace Whipstaff.UnitTests.Playwright
         {
             var playwrightBrowserTypeAndChannel = PlaywrightBrowserTypeAndChannel.Chrome();
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
-            await using (var browser = await playwright.GetBrowser(playwrightBrowserTypeAndChannel).ConfigureAwait(false))
+            await using (var browser = await playwright.GetBrowserAsync(playwrightBrowserTypeAndChannel).ConfigureAwait(false))
             {
                 await actionFunc(browser);
 

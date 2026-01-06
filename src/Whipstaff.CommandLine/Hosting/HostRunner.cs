@@ -35,7 +35,7 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
         /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static async Task<int> RunJobWithFullDependencyInjection<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+        public static async Task<int> RunJobWithFullDependencyInjectionAsync<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             IFileSystem fileSystem,
             Action<IServiceCollection>? additionalServiceRegistrationsAction,
@@ -64,9 +64,9 @@ namespace Whipstaff.CommandLine.Hosting
 
                 var commandLineHandler = serviceProvider.GetRequiredService<TCommandLineHandler>();
 
-                return await CommandLineArgumentHelpers.GetResultFromRootCommand<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+                return await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
                         args,
-                        commandLineHandler.HandleCommand,
+                        (commandLineArgModel, cancellationToken) => commandLineHandler.HandleCommandAsync(commandLineArgModel, cancellationToken),
                         fileSystem,
                         parserConfigurationFunc,
                         invocationConfigurationFunc)
@@ -74,7 +74,9 @@ namespace Whipstaff.CommandLine.Hosting
             }
             catch (Exception ex)
             {
+#pragma warning disable GR0015 // Do not use System.Console.
                 await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+#pragma warning restore GR0015 // Do not use System.Console.
                 return int.MaxValue;
             }
         }
@@ -92,7 +94,7 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
         /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static async Task<int> RunSimpleCliJob<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+        public static async Task<int> RunSimpleCliJobAsync<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             Func<IFileSystem, ILogger<TCommandLineHandler>, TCommandLineHandler> commandLineHandlerFactoryFunc,
             IFileSystem fileSystem,
@@ -119,9 +121,9 @@ namespace Whipstaff.CommandLine.Hosting
 
                 var commandLineHandler = commandLineHandlerFactoryFunc(fileSystem, logger);
 
-                return await CommandLineArgumentHelpers.GetResultFromRootCommand<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+                return await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
                         args,
-                        commandLineHandler.HandleCommand,
+                        commandLineHandler.HandleCommandAsync,
                         fileSystem,
                         parserConfigurationFunc,
                         invocationConfigurationFunc)
@@ -129,7 +131,9 @@ namespace Whipstaff.CommandLine.Hosting
             }
             catch (Exception ex)
             {
+#pragma warning disable GR0015 // Do not use System.Console.
                 await Console.Error.WriteLineAsync(ex.ToString()).ConfigureAwait(false);
+#pragma warning restore GR0015 // Do not use System.Console.
                 return int.MaxValue;
             }
         }

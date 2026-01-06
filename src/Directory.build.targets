@@ -29,32 +29,20 @@
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
     <DefineConstants>$(DefineConstants);NETFX_CORE;XAML;WINDOWS_UWP;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS'))">
-    <DefineConstants>$(DefineConstants);MONO;UIKIT;COCOA;IOS;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-ios'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-ios'))">
     <DefineConstants>$(DefineConstants);MONO;UIKIT;COCOA;IOS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('Xamarin.Mac'))">
-    <DefineConstants>$(DefineConstants);MONO;COCOA;MAC;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-macos'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-macos'))">
     <DefineConstants>$(DefineConstants);MONO;COCOA;MAC</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('Xamarin.TVOS'))">
-    <DefineConstants>$(DefineConstants);MONO;UIKIT;COCOA;TVOS;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-tvos'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-tvos'))">
     <DefineConstants>$(DefineConstants);MONO;UIKIT;COCOA;TVOS</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('Xamarin.WatchOS'))">
-    <DefineConstants>$(DefineConstants);MONO;UIKIT;COCOA;WATCHOS;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('MonoAndroid'))">
     <DefineConstants>$(DefineConstants);MONO;ANDROID;ARGUMENT_NULL_EXCEPTION_SHIM;CALLER_ARGUMENT_EXPRESSION_SHIM</DefineConstants>
     <DesignTimeBuild>false</DesignTimeBuild>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.StartsWith('net8.0-android'))">
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('net10.0-android'))">
     <DefineConstants>$(DefineConstants);MONO;ANDROID</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.StartsWith('tizen'))">

@@ -43,7 +43,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
     /// <summary>
     /// Start up logic for the sample Web MVC app.
     /// </summary>
-    public sealed class Startup : BaseStartup
+    public sealed class Startup : AbstractWebAppStartup
     {
 #if stuntman
         private readonly StuntmanOptions _stuntmanOptions;

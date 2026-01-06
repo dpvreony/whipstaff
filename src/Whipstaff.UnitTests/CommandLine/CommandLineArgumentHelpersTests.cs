@@ -24,7 +24,7 @@ namespace Whipstaff.UnitTests.CommandLine
     public static class CommandLineArgumentHelpersTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommand{TCommandLineArg, TCommandLineArgModelBinder}"/>.
+        /// Unit Tests for <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommandAsync{TCommandLineArg, TCommandLineArgModelBinder}"/>.
         /// </summary>
         public sealed class GetResultFromRootCommandMethod
             : TestWithLoggingBase,
@@ -51,7 +51,7 @@ namespace Whipstaff.UnitTests.CommandLine
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => CommandLineArgumentHelpers.GetResultFromRootCommand(
+                    () => CommandLineArgumentHelpers.GetResultFromRootCommandAsync(
                         arg1!,
                         arg2!,
                         arg3!,
@@ -95,7 +95,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 await using (var outputWriter = new StringWriter())
                 await using (var errorWriter = new StringWriter())
                 {
-                    var result = await CommandLineArgumentHelpers.GetResultFromRootCommand<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
+                    var result = await CommandLineArgumentHelpers.GetResultFromRootCommandAsync<FakeCommandLineArgModel, FakeCommandLineArgModelBinder>(
                         args,
                         rootCommandAndBinderModelFunc,
                         (_, _) => Task.FromResult(0),

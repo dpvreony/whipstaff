@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.CommandLine
         }
 
         /// <summary>
-        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommand(TCommandLineArgModel, CancellationToken)"/> method.
+        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommandAsync(TCommandLineArgModel, CancellationToken)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : TestWithLoggingBase,
@@ -61,7 +61,7 @@ namespace Whipstaff.UnitTests.CommandLine
                 var instance = new FakeCommandLineHandler(
                     new FakeCommandLineHandlerLogMessageActionsWrapper(logger));
 
-                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommand(arg!, CancellationToken.None));
+                _ = await Assert.ThrowsAsync<ArgumentNullException>(expectedParameterNameForException, () => instance.HandleCommandAsync(arg!, CancellationToken.None));
             }
         }
     }

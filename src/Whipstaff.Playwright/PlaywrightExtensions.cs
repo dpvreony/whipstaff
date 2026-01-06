@@ -38,7 +38,7 @@ namespace Whipstaff.Playwright
         /// <param name="playwright">Playwright instance to get the browser type from.</param>
         /// <param name="playwrightBrowserTypeAndChannel">The browser type and channel to create.</param>
         /// <returns>A Playwright <see cref="IBrowserType"/> instance.</returns>
-        public static Task<IBrowser> GetBrowser(this IPlaywright playwright, PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
+        public static Task<IBrowser> GetBrowserAsync(this IPlaywright playwright, PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
             ArgumentNullException.ThrowIfNull(playwright);
             ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);

@@ -96,7 +96,7 @@ namespace Whipstaff.Playwright
         {
             ArgumentNullException.ThrowIfNull(page);
 
-            return InternalGetMhtmlAsString(page);
+            return InternalGetMhtmlAsStringAsync(page);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Whipstaff.Playwright
             ArgumentNullException.ThrowIfNull(fileSystem);
             outputPath.ThrowIfNullOrWhitespace();
 
-            var mhtmlContent = await InternalGetMhtmlAsString(page);
+            var mhtmlContent = await InternalGetMhtmlAsStringAsync(page);
             await fileSystem.File.WriteAllTextAsync(
                     outputPath,
                     mhtmlContent,
@@ -122,7 +122,7 @@ namespace Whipstaff.Playwright
                 .ConfigureAwait(false);
         }
 
-        private static async Task<string> InternalGetMhtmlAsString(this IPage page)
+        private static async Task<string> InternalGetMhtmlAsStringAsync(this IPage page)
         {
             var context = page.Context;
             await using (var cdpSession = await context.NewCDPSessionAsync(page)

@@ -94,7 +94,9 @@ namespace Whipstaff.Mermaid.HttpServer
                 HttpsCompression = HttpsCompressionMode.DoNotCompress
             });
 
-            _ = applicationBuilder.MapWhen(IsMermaidRequest, AppConfiguration);
+            _ = applicationBuilder.MapWhen(
+                static httpContext => IsMermaidPost(httpContext),
+                static applicationBuilder => AppConfiguration(applicationBuilder));
         }
 
         private static Task OnPrepareResponseAsync(StaticFileResponseContext arg)
@@ -108,20 +110,23 @@ namespace Whipstaff.Mermaid.HttpServer
 
             var headers = arg.Context.Response.Headers;
             headers["Content-Encoding"] = "gzip";
-            if (new FileExtensionContentTypeProvider().TryGetContentType(filename, out var contentType))
+            var fileExtensionContentTypeProvider = new FileExtensionContentTypeProvider();
+            if (!fileExtensionContentTypeProvider.TryGetContentType(filename, out var contentType))
             {
-                headers["Content-Type"] = contentType;
+                throw new InvalidOperationException($"Could not find a content type for file: {filename}.");
             }
+
+            headers["Content-Type"] = contentType;
 
             return Task.CompletedTask;
         }
 
         private static void AppConfiguration(IApplicationBuilder applicationBuilder)
         {
-            applicationBuilder.Run(Handler);
+            applicationBuilder.Run(static applicationBuilder => HandlerAsync(applicationBuilder));
         }
 
-        private static async Task Handler(HttpContext context)
+        private static async Task HandlerAsync(HttpContext context)
         {
             var response = context.Response;
 
@@ -156,7 +161,7 @@ namespace Whipstaff.Mermaid.HttpServer
                 .ConfigureAwait(false);
         }
 
-        private static bool IsMermaidRequest(HttpContext arg)
+        private static bool IsMermaidPost(HttpContext arg)
         {
             var request = arg.Request;
 

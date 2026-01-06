@@ -30,7 +30,7 @@ namespace Whipstaff.Playwright
             var content = httpResponseMessage.Content;
             var contentHeaders = httpResponseMessage.Content.Headers;
             var contentEncoding = contentHeaders.ContentEncoding;
-            var bodyBytes = await GetContent(contentEncoding, content)
+            var bodyBytes = await GetContentAsync(contentEncoding, content)
                 .ConfigureAwait(false);
 
             var routeFulfillOptions = new RouteFulfillOptions
@@ -48,7 +48,7 @@ namespace Whipstaff.Playwright
             return routeFulfillOptions;
         }
 
-        private static async Task<byte[]> GetContent(ICollection<string> contentEncoding, HttpContent content)
+        private static async Task<byte[]> GetContentAsync(ICollection<string> contentEncoding, HttpContent content)
         {
             if (contentEncoding.Count == 1 && contentEncoding.First().Equals("gzip", StringComparison.OrdinalIgnoreCase))
             {
