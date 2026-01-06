@@ -23,11 +23,13 @@ namespace Whipstaff.Runtime.StringCleansing
         /// Initializes a new instance of the <see cref="BatchStringReplacementHelper"/> class.
         /// </summary>
         /// <param name="replacements">Dictionary of replacements.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public BatchStringReplacementHelper(Dictionary<char, string> replacements)
         {
             ArgumentNullException.ThrowIfNull(replacements);
             _replacements = replacements;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Gets a batch string replacement helper for Microsoft Word smart quote replacements.
