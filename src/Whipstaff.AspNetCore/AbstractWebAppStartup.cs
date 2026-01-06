@@ -192,7 +192,7 @@ namespace Whipstaff.AspNetCore
         /// Gets the swagger endpoints to register on the UI.
         /// </summary>
         /// <returns>Collection of Swagger endpoints.</returns>
-        protected abstract IEnumerable<(string Url, string Name)>? GetSwaggerEndpoints();
+        protected abstract IEnumerable<UrlDescriptor> GetSwaggerEndpoints();
 
         private static Func<IServiceCollection, Action<MvcOptions>, IMvcBuilder>? GetControllerFunc(MvcServiceMode mvcServiceMode)
         {
@@ -280,9 +280,9 @@ namespace Whipstaff.AspNetCore
                 {
                     _ = app.UseSwaggerUI(c =>
                     {
-                        foreach (var (url, name) in swaggerEndpoints)
+                        foreach (var descriptor in swaggerEndpoints)
                         {
-                            c.SwaggerEndpoint(url, name);
+                            c.SwaggerEndpoint(descriptor.Url, descriptor.Name);
                         }
                     });
                 }

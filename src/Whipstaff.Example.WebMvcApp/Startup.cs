@@ -24,6 +24,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.SwaggerUI;
+
 #if stuntman
 using RimDev.Stuntman.Core;
 #endif
@@ -171,9 +173,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         }
 
         /// <inheritdoc />
-        protected override IEnumerable<(string Url, string Name)> GetSwaggerEndpoints()
+        protected override IEnumerable<UrlDescriptor> GetSwaggerEndpoints()
         {
-            return Array.Empty<(string Url, string Name)>();
+            return Array.Empty<UrlDescriptor>();
         }
 
         private static SqliteConnection CreateInMemoryDatabase()
