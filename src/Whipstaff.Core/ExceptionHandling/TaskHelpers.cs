@@ -32,6 +32,12 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// Func&lt;Task&lt;int&gt;&gt; riskyOperation = async () => await GetDataAsync();
+        /// var result = await riskyOperation.DefaultIfExceptionAsync(0, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<TResult>(
             this Func<Task<TResult>> func,
             TResult defaultResult,
@@ -66,6 +72,12 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// Func&lt;string, Task&lt;int&gt;&gt; parseOperation = async (s) => await ParseAsync(s);
+        /// var result = await parseOperation.DefaultIfExceptionAsync("input", 0, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T, TResult>(
             this Func<T, Task<TResult>> func,
             T arg,
@@ -103,6 +115,12 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// Func&lt;string, int, Task&lt;bool&gt;&gt; operation = async (s, i) => await ProcessAsync(s, i);
+        /// var result = await operation.DefaultIfExceptionAsync("input", 42, false, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, TResult>(
             this Func<T1, T2, Task<TResult>> func,
             T1 arg1,
@@ -145,6 +163,12 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// Func&lt;string, int, bool, Task&lt;string&gt;&gt; operation = async (s, i, b) => await ProcessAsync(s, i, b);
+        /// var result = await operation.DefaultIfExceptionAsync("input", 42, true, string.Empty, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, TResult>(
             this Func<T1, T2, T3, Task<TResult>> func,
             T1 arg1,
@@ -191,6 +215,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, TResult>(
             this Func<T1, T2, T3, T4, Task<TResult>> func,
             T1 arg1,
@@ -241,6 +270,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, TResult>(
             this Func<T1, T2, T3, T4, T5, Task<TResult>> func,
             T1 arg1,
@@ -295,6 +329,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, arg6, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, T6, TResult>(
             this Func<T1, T2, T3, T4, T5, T6, Task<TResult>> func,
             T1 arg1,
@@ -353,6 +392,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, arg6, arg7, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, T6, T7, TResult>(
             this Func<T1, T2, T3, T4, T5, T6, T7, Task<TResult>> func,
             T1 arg1,
@@ -415,6 +459,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
             this Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<TResult>> func,
             T1 arg1,
@@ -481,6 +530,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(
             this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<TResult>> func,
             T1 arg1,
@@ -551,6 +605,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(
             this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<TResult>> func,
             T1 arg1,
@@ -625,6 +684,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, TResult>(
             this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, Task<TResult>> func,
             T1 arg1,
@@ -703,6 +767,11 @@ namespace Whipstaff.Core.ExceptionHandling
         /// <param name="defaultResult">The default value to return if an exception is thrown.</param>
         /// <param name="logger">Logging framework instance.</param>
         /// <returns>The return value of the method that this delegate encapsulates.</returns>
+        /// <example>
+        /// <code>
+        /// var result = await func.DefaultIfExceptionAsync(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, defaultValue, logger);
+        /// </code>
+        /// </example>
         public static async Task<TResult> DefaultIfExceptionAsync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, TResult>(
             this Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, Task<TResult>> func,
             T1 arg1,
