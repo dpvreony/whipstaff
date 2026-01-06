@@ -27,6 +27,13 @@ namespace Whipstaff.Core.Configuration
         /// <param name="services">ServiceCollection to update.</param>
         /// <param name="sectionName">The name of the section in the configuration.</param>
         /// <param name="validationFunc">Validation function to run.</param>
+        /// <example>
+        /// <code>
+        /// services.AddStrictConfigurationBinding&lt;MyOptions&gt;(
+        ///     "MySection",
+        ///     options => !string.IsNullOrEmpty(options.ConnectionString));
+        /// </code>
+        /// </example>
         public static void AddStrictConfigurationBinding<TOptions>(
             this IServiceCollection services,
             string sectionName,
@@ -51,6 +58,11 @@ namespace Whipstaff.Core.Configuration
         /// <typeparam name="TOptionsValidator">The type for the <see cref="IValidateOptions{TOptions}"/> used to validate the configuration.</typeparam>
         /// <param name="services">ServiceCollection to update.</param>
         /// <param name="sectionName">The name of the section in the configuration.</param>
+        /// <example>
+        /// <code>
+        /// services.AddStrictConfigurationBinding&lt;MyOptions, MyOptionsValidator&gt;("MySection");
+        /// </code>
+        /// </example>
         public static void AddStrictConfigurationBinding<TOptions, TOptionsValidator>(
             this IServiceCollection services,
             string sectionName)

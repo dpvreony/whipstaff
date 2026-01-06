@@ -16,11 +16,23 @@ namespace Whipstaff.Core.MediaTypeHeaders
         /// <summary>
         /// Gets the mime type for a PDF.
         /// </summary>
+        /// <example>
+        /// <code>
+        /// var mimeType = MediaTypeHeaderStringHelpers.ApplicationPdf;
+        /// Console.WriteLine(mimeType); // application/pdf
+        /// </code>
+        /// </example>
         public static string ApplicationPdf => "application/pdf";
 
         /// <summary>
         /// Gets the mime type for an Open XML Office Spreadsheet.
         /// </summary>
+        /// <example>
+        /// <code>
+        /// var mimeType = MediaTypeHeaderStringHelpers.ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet;
+        /// Console.WriteLine(mimeType); // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+        /// </code>
+        /// </example>
         public static string ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet =>
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     }

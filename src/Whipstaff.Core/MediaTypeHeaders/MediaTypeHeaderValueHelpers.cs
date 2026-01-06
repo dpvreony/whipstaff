@@ -15,6 +15,12 @@ namespace Whipstaff.Core.MediaTypeHeaders
         /// Gets the Mime Type for an Open XML Office Spreadsheet.
         /// </summary>
         /// <returns>Mime Type.</returns>
+        /// <example>
+        /// <code>
+        /// var headerValue = MediaTypeHeaderValueHelpers.ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet();
+        /// Console.WriteLine(headerValue.MediaType); // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+        /// </code>
+        /// </example>
         public static MediaTypeHeaderValue ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet()
             => new MediaTypeHeaderValue(MediaTypeHeaderStringHelpers.ApplicationVndOpenXmlFormatsOfficeDocumentSpreadsheetMlSheet);
     }
