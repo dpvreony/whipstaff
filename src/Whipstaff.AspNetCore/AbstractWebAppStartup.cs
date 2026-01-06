@@ -96,7 +96,7 @@ namespace Whipstaff.AspNetCore
                 _usingAuthentication = true;
             }
 
-            _ = services.AddAuthorization(ConfigureAuthorization);
+            _ = services.AddAuthorization(c => ConfigureAuthorization(c));
 #if TBC
             // new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
 #endif

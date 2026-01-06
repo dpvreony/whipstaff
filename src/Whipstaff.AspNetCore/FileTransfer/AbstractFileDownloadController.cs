@@ -76,8 +76,8 @@ namespace Whipstaff.AspNetCore.FileTransfer
                 request,
                 _viewLogAction,
                 viewPolicyName,
-                GetViewActionResultAsync,
-                ViewCommandFactoryAsync,
+                file => GetViewActionResultAsync(file),
+                (r, claimsPrincipal, ct) => ViewCommandFactoryAsync(r, claimsPrincipal, ct),
                 cancellationToken).ConfigureAwait(false);
         }
 

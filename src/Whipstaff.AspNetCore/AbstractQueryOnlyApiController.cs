@@ -115,8 +115,8 @@ namespace Whipstaff.AspNetCore
                 requestDto,
                 LogMessageActionMappings.ListEventLogMessageAction,
                 listPolicyName,
-                GetListActionResultAsync,
-                GetListQueryAsync,
+                lr => GetListActionResultAsync(lr),
+                (a, b, c) => GetListQueryAsync(a, b, c),
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -145,8 +145,8 @@ namespace Whipstaff.AspNetCore
                 id,
                 LogMessageActionMappings.ViewEventLogMessageAction,
                 viewPolicyName,
-                GetViewActionResultAsync,
-                GetViewQueryAsync,
+                a => GetViewActionResultAsync(a),
+                (a, b, c) => GetViewQueryAsync(a, b, c),
                 cancellationToken).ConfigureAwait(false);
         }
 
