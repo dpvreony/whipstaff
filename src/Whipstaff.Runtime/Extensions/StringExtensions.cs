@@ -27,6 +27,12 @@ namespace Whipstaff.Runtime.Extensions
         /// <param name="input">The input string to check.</param>
         /// <param name="action">The action to carry out.</param>
         /// <exception cref="ArgumentNullException">No action is provided.</exception>
+        /// <example>
+        /// <code>
+        /// string? example = "  Hello World  ";
+        /// example.ActIfNotNullOrWhiteSpace(static s => Console.WriteLine(s.Trim()));
+        /// </code>
+        /// </example>
         public static void ActIfNotNullOrWhiteSpace(this string? input, Action<string> action)
         {
             ArgumentNullException.ThrowIfNull(action);
@@ -46,6 +52,12 @@ namespace Whipstaff.Runtime.Extensions
         /// </summary>
         /// <param name="instance">String to check.</param>
         /// <returns>Whether the string is Hexadecimal.</returns>
+        /// <example>
+        /// <code>
+        /// var trueResult = "1A3F".IsHexadecimal(); // true
+        /// var falseResult = "1G3Z".IsHexadecimal(); // false
+        /// </code>
+        /// </example>
         public static bool IsHexadecimal(this string instance)
         {
             return instance.All(character => character.IsHexadecimal());
@@ -57,6 +69,18 @@ namespace Whipstaff.Runtime.Extensions
         /// <param name="instance">String to check.</param>
         /// <param name="replacements">Dictionary of replacements to carry out.</param>
         /// <returns>Altered string.</returns>
+        /// <example>
+        /// <code>
+        /// var replacements = new Dictionary&lt;char, char&gt;
+        /// {
+        ///   { 'e', '3' },
+        ///   { 'o', '0' },
+        /// };
+        /// var test = "hello world";
+        /// test = test.Replace(replacements);
+        /// Console.WriteLine(test);
+        /// </code>
+        /// </example>
         public static string Replace(
             this string instance,
             Dictionary<char, char> replacements)
