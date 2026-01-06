@@ -34,20 +34,20 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
         /// <returns>SVG diagram.</returns>
-        Task<GetDiagramResponseModel?> GetDiagram(IFileInfo sourceFileInfo);
+        Task<GetDiagramResponseModel?> GetDiagramAsync(IFileInfo sourceFileInfo);
 
         /// <summary>
         /// Gets the SVG for the Mermaid Diagram from a <see cref="TextReader"/>.
         /// </summary>
         /// <param name="textReader">File containing the diagram markdown to convert.</param>
         /// <returns>SVG diagram.</returns>
-        Task<GetDiagramResponseModel?> GetDiagram(TextReader textReader);
+        Task<GetDiagramResponseModel?> GetDiagramAsync(TextReader textReader);
 
         /// <summary>
         /// Gets the diagram from the page using the provided markdown.
         /// </summary>
         /// <param name="markdown">Markdown to process.</param>
         /// <returns>Diagram model.</returns>
-        Task<GetDiagramResponseModel?> GetDiagram(string markdown);
+        Task<GetDiagramResponseModel?> GetDiagramAsync(string markdown);
     }
 }

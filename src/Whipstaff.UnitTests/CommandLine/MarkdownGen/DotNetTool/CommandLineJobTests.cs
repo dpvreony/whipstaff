@@ -36,7 +36,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
         }
 
         /// <summary>
-        /// Unit test for <see cref="CommandLineJob.OnHandleCommand(CommandLineArgModel, CancellationToken)"/> method.
+        /// Unit test for <see cref="CommandLineJob.OnHandleCommandAsync(CommandLineArgModel, CancellationToken)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : TestWithLoggingBase,

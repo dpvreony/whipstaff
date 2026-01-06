@@ -35,7 +35,7 @@ namespace Whipstaff.CommandLine.Hosting
         /// <param name="parserConfigurationFunc">Function for passing in a parser configuration to override the default behaviour of the command line parser.</param>
         /// <param name="invocationConfigurationFunc">Function for passing in a configuration to override the default invocation behaviour of the command line runner. Useful for testing and redirecting the console.</param>
         /// <returns>0 for success, non 0 for failure.</returns>
-        public static async Task<int> RunJobWithFullDependencyInjection<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
+        public static async Task<int> RunJobWithFullDependencyInjectionAsync<TCommandLineHandler, TCommandLineArgModel, TCommandLineArgModelBinder, TRootCommandAndBinderFactory>(
             string[] args,
             IFileSystem fileSystem,
             Action<IServiceCollection>? additionalServiceRegistrationsAction,

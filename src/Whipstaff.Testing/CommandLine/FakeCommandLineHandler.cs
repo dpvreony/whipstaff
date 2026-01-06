@@ -24,7 +24,7 @@ namespace Whipstaff.Testing.CommandLine
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(FakeCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
+        protected override Task<int> OnHandleCommandAsync(FakeCommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             ArgumentNullException.ThrowIfNull(commandLineArgModel);
 

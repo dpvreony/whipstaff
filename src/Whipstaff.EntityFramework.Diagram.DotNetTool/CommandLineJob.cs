@@ -41,7 +41,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         }
 
         /// <inheritdoc/>
-        protected override Task<int> OnHandleCommand(CommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
+        protected override Task<int> OnHandleCommandAsync(CommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
             return Task.Run(
                 () =>

@@ -62,7 +62,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <returns>Browser session.</returns>
         public async Task<PlaywrightRendererBrowserInstance> GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel)
         {
-            return await PlaywrightRendererBrowserInstance.GetBrowserInstance(
+            return await PlaywrightRendererBrowserInstance.GetBrowserInstanceAsync(
                 _mermaidHttpServerFactory,
                 playwrightBrowserTypeAndChannel,
                 _logMessageActionsWrapper);

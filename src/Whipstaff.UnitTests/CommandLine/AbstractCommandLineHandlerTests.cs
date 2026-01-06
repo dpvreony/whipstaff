@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.CommandLine
         }
 
         /// <summary>
-        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommand(TCommandLineArgModel, CancellationToken)"/> method.
+        /// Unit test for <see cref="AbstractCommandLineHandler{TCommandLineArgModel,TLogMessageActionsWrapper}.OnHandleCommandAsync(TCommandLineArgModel, CancellationToken)"/> method.
         /// </summary>
         public sealed class HandleCommandMethod
             : TestWithLoggingBase,
