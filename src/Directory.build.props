@@ -35,6 +35,7 @@
     <LangVersion>13.0</LangVersion>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <GenerateSBOM>$(IsPackable)</GenerateSBOM>
+    <NoWarn>$(NoWarn),GR0051</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsTestProject)">

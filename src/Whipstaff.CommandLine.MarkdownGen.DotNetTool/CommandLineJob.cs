@@ -23,11 +23,11 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJob"/> class.
         /// </summary>
-        /// <param name="commandLineJobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
         /// <param name="fileSystem">File System abstraction.</param>
+        /// <param name="commandLineJobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
         public CommandLineJob(
-            CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper,
-            IFileSystem fileSystem)
+            IFileSystem fileSystem,
+            CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper)
             : base(commandLineJobLogMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);

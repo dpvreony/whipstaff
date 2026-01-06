@@ -73,6 +73,10 @@ namespace Whipstaff.AspNetCore
         /// <param name="logMessageActions">Log Message Actions for the logging events in the controller.</param>
         protected AbstractCrudApiController(
             IAuthorizationService authorizationService,
+            IMediator mediator,
+            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
+            TCrudControllerLogMessageActions logMessageActions,
             ILogger<AbstractCrudApiController<
                 TListQuery,
                 TListRequestDto,
@@ -87,17 +91,13 @@ namespace Whipstaff.AspNetCore
                 TUpdateCommand,
                 TUpdateRequestDto,
                 TUpdateResponseDto,
-                TCrudControllerLogMessageActions>> logger,
-            IMediator mediator,
-            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
-            TCrudControllerLogMessageActions logMessageActions)
+                TCrudControllerLogMessageActions>> logger)
             : base(
                   authorizationService,
-                  logger,
                   mediator,
                   queryFactory,
-                  logMessageActions)
+                  logMessageActions,
+                  logger)
         {
             ArgumentNullException.ThrowIfNull(commandFactory);
             CommandFactory = commandFactory;
