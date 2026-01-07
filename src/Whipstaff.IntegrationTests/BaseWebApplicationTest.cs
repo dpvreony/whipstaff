@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Logging;

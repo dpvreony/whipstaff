@@ -18,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Playwright;
 using Whipstaff.Testing.Logging;
@@ -30,16 +31,16 @@ namespace Whipstaff.UnitTests.Playwright
     /// </summary>
     public static class PageExtensionsTests
     {
-        private static async Task WithPlayWrightPage(Func<IPage, Task> actionFunc)
+        private static async Task WithPlayWrightPageAsync(Func<IPage, Task> actionFunc)
         {
-            await WithPlayWrightBrowser(async browser =>
+            await WithPlayWrightBrowserAsync(async browser =>
             {
                 var page = await browser.NewPageAsync();
                 await actionFunc(page);
             });
         }
 
-        private static async Task WithPlayWrightBrowser(Func<IBrowser, Task> actionFunc)
+        private static async Task WithPlayWrightBrowserAsync(Func<IBrowser, Task> actionFunc)
         {
             var playwrightBrowserTypeAndChannel = PlaywrightBrowserTypeAndChannel.Chrome();
             using (var playwright = await Microsoft.Playwright.Playwright.CreateAsync())
@@ -52,7 +53,7 @@ namespace Whipstaff.UnitTests.Playwright
             }
         }
 
-        private static async Task PlaywrightToTestServerRouteHandler(IRoute route, TestServer testServer)
+        private static async Task PlaywrightToTestServerRouteHandlerAsync(IRoute route, TestServer testServer)
         {
             using (var client = testServer.CreateClient())
             using (var request = GetRequestFromRoute(route))
@@ -87,7 +88,7 @@ namespace Whipstaff.UnitTests.Playwright
             return httpRequestMessage;
         }
 
-        private static async Task ValidAltTagHandler(HttpContext context)
+        private static async Task ValidAltTagHandlerAsync(HttpContext context)
         {
             context.Response.StatusCode = 200;
             context.Response.ContentType = "text/html";
@@ -128,7 +129,7 @@ namespace Whipstaff.UnitTests.Playwright
             [Fact]
             public async Task ReturnsResult()
             {
-                await WithPlayWrightPage(async page =>
+                await WithPlayWrightPageAsync(async page =>
                 {
                     using var host = new HostBuilder()
                         .ConfigureWebHost(webHostBuilder =>
@@ -137,7 +138,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .UseTestServer() // If using TestServer
                                 .Configure(app =>
                                 {
-                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(CssAnalysisHandler));
+                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(CssAnalysisHandlerAsync));
                                 });
                         })
                         .Build();
@@ -149,7 +150,7 @@ namespace Whipstaff.UnitTests.Playwright
 #pragma warning disable S1075 // URIs should not be hardcoded
                     await page.RouteAsync(
                         "https://localhost/index.htm",
-                        route => PlaywrightToTestServerRouteHandler(route, testServer));
+                        route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
 
 #pragma warning disable S1075 // URIs should not be hardcoded
@@ -167,7 +168,7 @@ namespace Whipstaff.UnitTests.Playwright
                 });
             }
 
-            private static async Task CssAnalysisHandler(HttpContext context)
+            private static async Task CssAnalysisHandlerAsync(HttpContext context)
             {
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "text/html";
@@ -239,7 +240,7 @@ namespace Whipstaff.UnitTests.Playwright
             [Fact]
             public async Task ReturnsPopulatedCollection()
             {
-                await WithPlayWrightPage(async page =>
+                await WithPlayWrightPageAsync(async page =>
                 {
                     using var host = new HostBuilder()
                         .ConfigureWebHost(webHostBuilder =>
@@ -248,7 +249,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .UseTestServer() // If using TestServer
                                 .Configure(app =>
                                 {
-                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(InvalidAltTagHandler));
+                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(InvalidAltTagHandlerAsync));
                                 });
                         })
                         .Build();
@@ -260,7 +261,7 @@ namespace Whipstaff.UnitTests.Playwright
 #pragma warning disable S1075 // URIs should not be hardcoded
                     await page.RouteAsync(
                         "https://localhost/index.htm",
-                        route => PlaywrightToTestServerRouteHandler(route, testServer));
+                        route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
 
 #pragma warning disable S1075 // URIs should not be hardcoded
@@ -284,7 +285,7 @@ namespace Whipstaff.UnitTests.Playwright
             [Fact]
             public async Task ReturnsEmptyCollection()
             {
-                await WithPlayWrightPage(async page =>
+                await WithPlayWrightPageAsync(async page =>
                 {
                     using var host = new HostBuilder()
                         .ConfigureWebHost(webHostBuilder =>
@@ -293,7 +294,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .UseTestServer() // If using TestServer
                                 .Configure(app =>
                                 {
-                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandler));
+                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandlerAsync));
                                 });
                         })
                         .Build();
@@ -305,7 +306,7 @@ namespace Whipstaff.UnitTests.Playwright
 #pragma warning disable S1075 // URIs should not be hardcoded
                     await page.RouteAsync(
                         "https://localhost/index.htm",
-                        route => PlaywrightToTestServerRouteHandler(route, testServer));
+                        route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
 
 #pragma warning disable S1075 // URIs should not be hardcoded
@@ -322,7 +323,7 @@ namespace Whipstaff.UnitTests.Playwright
                 });
             }
 
-            private static async Task InvalidAltTagHandler(HttpContext context)
+            private static async Task InvalidAltTagHandlerAsync(HttpContext context)
             {
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "text/html";
@@ -382,7 +383,7 @@ namespace Whipstaff.UnitTests.Playwright
             [Fact]
             public async Task ReturnsDataAsync()
             {
-                await WithPlayWrightPage(async page =>
+                await WithPlayWrightPageAsync(async page =>
                 {
                     using var host = new HostBuilder()
                         .ConfigureWebHost(webHostBuilder =>
@@ -391,7 +392,7 @@ namespace Whipstaff.UnitTests.Playwright
                                 .UseTestServer() // If using TestServer
                                 .Configure(app =>
                                 {
-                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandler));
+                                    _ = app.Map("/index.htm", applicationBuilder => applicationBuilder.Run(ValidAltTagHandlerAsync));
                                 });
                         })
                         .Build();
@@ -403,7 +404,7 @@ namespace Whipstaff.UnitTests.Playwright
 #pragma warning disable S1075 // URIs should not be hardcoded
                     await page.RouteAsync(
                         "https://localhost/index.htm",
-                        route => PlaywrightToTestServerRouteHandler(route, testServer));
+                        route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
 
 #pragma warning disable S1075 // URIs should not be hardcoded

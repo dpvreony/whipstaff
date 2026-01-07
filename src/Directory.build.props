@@ -124,7 +124,7 @@
   <Choose>
     <When Condition="'$(UseLocalGripe)'=='true'">
       <ItemGroup>
-        <ProjectReference Include="../../../Gripe/src/Gripe.Analyzer/Gripe.Analyzer.csproj" OutputItemType="Analyzer" PrivateAssets="all" ReferenceOutputAssembly="false" Private="false" />
+        <ProjectReference Include="../../../Gripe/src/Gripe.Analyzer/Gripe.Analyzer.csproj" OutputItemType="Analyzer" PrivateAssets="all" ReferenceOutputAssembly="false" Private="false" IsAspireProjectResource="False" />
       </ItemGroup>
     </When>
     <Otherwise>

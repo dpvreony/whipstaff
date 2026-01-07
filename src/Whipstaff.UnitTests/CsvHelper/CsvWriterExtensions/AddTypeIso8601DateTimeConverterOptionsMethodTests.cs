@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CsvHelper;
 using Whipstaff.Testing.Logging;
 using Xunit;
@@ -42,7 +43,9 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvWriterExtensions
         [Fact]
         public void Succeeds()
         {
+#pragma warning disable GR0014 // Consider usage of DateTime.UtcNow instead of DateTime.Now.
             var now = DateTime.Now;
+#pragma warning restore GR0014 // Consider usage of DateTime.UtcNow instead of DateTime.Now.
             var stringWriter = new StringWriter();
             using (var csvWriter = new CsvWriter(stringWriter, CultureInfo.InvariantCulture))
             {

@@ -85,7 +85,9 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
         /// <summary>
         /// Fake ViewModel for testing.
         /// </summary>
+#pragma warning disable GR0034 // ViewModel classes should inherit from a ViewModel interface.
         public sealed class FakeViewModel : ReactiveObject
+#pragma warning restore GR0034 // ViewModel classes should inherit from a ViewModel interface.
         {
             /// <summary>
             /// Gets the Interaction.

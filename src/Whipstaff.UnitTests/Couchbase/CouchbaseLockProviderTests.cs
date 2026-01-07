@@ -9,6 +9,7 @@ using Couchbase;
 using Couchbase.Extensions.DependencyInjection;
 using Couchbase.KeyValue;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Couchbase;
 using Whipstaff.Testing.Logging;
 using Xunit;

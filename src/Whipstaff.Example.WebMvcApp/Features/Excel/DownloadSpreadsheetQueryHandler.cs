@@ -32,10 +32,10 @@ namespace Whipstaff.OpenXml.Excel
                 }
 
                 var stream = new MemoryStream();
-                var worksheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>
+                var worksheetActors = new List<SheetActorFuncModel>
                 {
-                    ("Sheet1", CreateSheetOne),
-                    ("Sheet2", CreateSheetTwo),
+                    new("Sheet1", static (s, ws) => CreateSheetOne(s, ws)),
+                    new("Sheet2", static (_, ws) => CreateSheetTwo(ws)),
                 };
 
                 using (var spreadsheet =
@@ -58,7 +58,7 @@ namespace Whipstaff.OpenXml.Excel
             _ = sheet.GetFirstChild<SheetData>();
         }
 
-        private static void CreateSheetTwo(Sheet sheet, WorksheetPart worksheetPart)
+        private static void CreateSheetTwo(WorksheetPart worksheetPart)
         {
             var worksheet = worksheetPart.Worksheet;
             var sheetData = worksheet.GetFirstChild<SheetData>();

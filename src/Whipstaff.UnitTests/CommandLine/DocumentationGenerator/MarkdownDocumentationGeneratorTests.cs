@@ -5,8 +5,8 @@
 using System.CommandLine;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine.DocumentationGenerator;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.CommandLine.DocumentationGenerator

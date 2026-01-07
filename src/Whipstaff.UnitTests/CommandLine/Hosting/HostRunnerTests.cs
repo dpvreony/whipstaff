@@ -10,9 +10,9 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine.Hosting;
 using Whipstaff.Testing.CommandLine;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.CommandLine.Hosting

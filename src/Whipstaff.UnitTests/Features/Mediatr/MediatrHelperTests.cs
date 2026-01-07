@@ -12,6 +12,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.EntityFramework.ModelCreation;
 using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Mediator;
@@ -78,7 +79,9 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var dbContextOptions = serviceProvider.GetService<DbContextOptions<FakeDbContext>>();
                 using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
                 {
+#pragma warning disable GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
                     _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+#pragma warning restore GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
 
                     var entityCount = await dbContext.FakeAddAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(0, entityCount);

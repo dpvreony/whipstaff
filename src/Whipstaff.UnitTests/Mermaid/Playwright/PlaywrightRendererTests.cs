@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
@@ -46,7 +47,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -86,7 +87,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                             "logMessageActionsWrapper",
                             () => new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                                 new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                                new NullLoggerFactory().CreateLogger<PlaywrightRenderer>())))
+                                new NullLoggerFactory().CreateLogger<PlaywrightRendererBrowserInstance>())))
                 {
                 }
             }

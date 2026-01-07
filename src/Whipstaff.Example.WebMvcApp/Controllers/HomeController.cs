@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Dhgms.AspNetCoreContrib.Example.WebMvcApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Splat;
 
 namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
 {
@@ -17,15 +19,21 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
     public sealed class HomeController : Controller
     {
         private readonly IAuthorizationService _authorizationService;
+        private readonly ILogger<HomeController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HomeController"/> class.
         /// </summary>
         /// <param name="authorizationService">.NET core authorization service.</param>
-        public HomeController(IAuthorizationService authorizationService)
+        /// <param name="logger">Logging framework instance.</param>
+        public HomeController(
+            IAuthorizationService authorizationService,
+            ILogger<HomeController> logger)
         {
             ArgumentNullException.ThrowIfNull(authorizationService);
+            ArgumentNullException.ThrowIfNull(logger);
             _authorizationService = authorizationService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -34,6 +42,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
         /// <returns>View.</returns>
         public async Task<IActionResult> GetAsync()
         {
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+            _logger.LogInformation("Home page requested.");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
             var authResult = await _authorizationService.AuthorizeAsync(User, "HomePageView");
             if (!authResult.Succeeded)
             {

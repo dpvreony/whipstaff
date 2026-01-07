@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.Logging;
 using Xunit;

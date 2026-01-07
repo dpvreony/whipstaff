@@ -5,7 +5,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsAspireHost>true</IsAspireHost>
-    <NoWarn>CS1591</NoWarn>
+    <NoWarn>$(NoWarn),CS1591</NoWarn>
     <IsPackable>False</IsPackable>
   </PropertyGroup>
 

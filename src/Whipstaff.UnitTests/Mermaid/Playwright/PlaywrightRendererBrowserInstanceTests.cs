@@ -48,7 +48,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -88,7 +88,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -152,7 +152,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -177,7 +177,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -261,7 +261,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -285,7 +285,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     new PlaywrightRendererBrowserInstanceLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,

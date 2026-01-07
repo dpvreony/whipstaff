@@ -50,7 +50,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                 var logMessageActions = new PlaywrightRendererBrowserInstanceLogMessageActions();
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     logMessageActions,
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
                 var playwrightRenderer = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
@@ -127,7 +127,7 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                 var logMessageActions = new PlaywrightRendererBrowserInstanceLogMessageActions();
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     logMessageActions,
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
                 var playwrightRenderer = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);

@@ -4,6 +4,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Mediator.EntityFrameworkCore;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;

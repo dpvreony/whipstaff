@@ -10,6 +10,7 @@ using System.Text;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.OpenXml.Excel;
 using Whipstaff.Testing.Logging;
 using Xunit;
@@ -44,8 +45,10 @@ namespace Whipstaff.UnitTests.Features
             {
                 using (var stream = new MemoryStream())
                 {
-                    var sheetActors = new List<(string Name, Action<Sheet, WorksheetPart> Actor)>();
-                    sheetActors.Add(("Sheet1", CreateSheet1));
+                    var sheetActors = new List<SheetActorFuncModel>
+                    {
+                        new("Sheet1", static (_, a) => CreateSheet1(a))
+                    };
 
                     using (var workbook = SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, sheetActors))
                     {
@@ -60,7 +63,7 @@ namespace Whipstaff.UnitTests.Features
                 }
             }
 
-            private static void CreateSheet1(Sheet sheet, WorksheetPart worksheetPart)
+            private static void CreateSheet1(WorksheetPart worksheetPart)
             {
                 uint currentRow = 1;
                 _ = worksheetPart.InsertCellInWorksheet("A", currentRow, "title");
