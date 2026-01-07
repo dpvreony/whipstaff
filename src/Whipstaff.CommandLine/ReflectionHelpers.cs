@@ -78,7 +78,9 @@ namespace Whipstaff.CommandLine
             var getRootCommandAndBinderMethodInfo = matchingType.GetMethod("GetRootCommandAndBinder");
             var rootCommandAndBinderObject = getRootCommandAndBinderMethodInfo!.Invoke(instance, [new FileSystem()]);
 
-            var rootCommandProperty = typeof(RootCommandAndBinderModel<>).GetProperty("RootCommand");
+#pragma warning disable GR0036 // Consider usage of typeof(x) instead of System.Type.GetType.
+            var rootCommandProperty = rootCommandAndBinderObject.GetType().GetProperty("RootCommand");
+#pragma warning restore GR0036 // Consider usage of typeof(x) instead of System.Type.GetType.
             var accessor = rootCommandProperty!.GetGetMethod();
             var rootCommand = accessor!.Invoke(rootCommandAndBinderObject, null);
 #endif

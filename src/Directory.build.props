@@ -125,7 +125,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="Gripe.Analyzer" Version="2.0.21" PrivateAssets="all" />
+        <PackageReference Include="Gripe.Analyzer" Version="2.0.24" PrivateAssets="all" />
       </ItemGroup>
     </Otherwise>
   </Choose>

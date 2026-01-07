@@ -41,16 +41,16 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         /// <param name="mermaidHttpServer">The in memory mermaid HTTP server.</param>
         /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
-        /// <param name="browserInstanceLogMessageActionsWrapper">Log message actions wrapper.</param>
+        /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
         /// <returns>Browser wrapper instance.</returns>
         public static async Task<PlaywrightRendererBrowserInstance> GetBrowserInstanceAsync(
             TestServer mermaidHttpServer,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel,
-            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
+            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(mermaidHttpServer);
             ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);
-            ArgumentNullException.ThrowIfNull(browserInstanceLogMessageActionsWrapper);
+            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
 
             var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                 .ConfigureAwait(false);
@@ -79,13 +79,13 @@ namespace Whipstaff.Mermaid.Playwright
 
             if (pageResponse == null)
             {
-                browserInstanceLogMessageActionsWrapper.FailedToGetPageResponse();
+                logMessageActionsWrapper.FailedToGetPageResponse();
                 throw new InvalidOperationException("Failed to get page response.");
             }
 
             if (!pageResponse.Ok)
             {
-                browserInstanceLogMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
+                logMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
                 throw new InvalidOperationException("Unexpected page response: " + pageResponse.Status + " " +
                                                     pageResponse.StatusText);
             }
@@ -96,7 +96,7 @@ namespace Whipstaff.Mermaid.Playwright
             await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
             _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
 
-            return new PlaywrightRendererBrowserInstance(playwright, page, browserInstanceLogMessageActionsWrapper);
+            return new PlaywrightRendererBrowserInstance(playwright, page, logMessageActionsWrapper);
         }
 
         /// <inheritdoc/>

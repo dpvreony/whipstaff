@@ -61,6 +61,11 @@ namespace Whipstaff.OpenXml.Excel
         private static void CreateSheetTwo(WorksheetPart worksheetPart)
         {
             var worksheet = worksheetPart.Worksheet;
+            if (worksheet == null)
+            {
+                throw new InvalidOperationException("No worksheet");
+            }
+
             var sheetData = worksheet.GetFirstChild<SheetData>();
             if (sheetData == null)
             {

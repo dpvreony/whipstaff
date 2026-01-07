@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
+using Whipstaff.Core.Logging;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
 using Whipstaff.Runtime.Extensions;
@@ -22,22 +23,22 @@ namespace Whipstaff.Mermaid.Playwright
     public sealed class PlaywrightRenderer
     {
         private readonly TestServer _mermaidHttpServerFactory;
-        private readonly PlaywrightRendererBrowserInstanceLogMessageActionsWrapper _browserInstanceLogMessageActionsWrapper;
+        private readonly PlaywrightRendererBrowserInstanceLogMessageActionsWrapper _logMessageActionsWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaywrightRenderer"/> class.
         /// </summary>
         /// <param name="mermaidHttpServer">In memory http server instance for Mermaid.</param>
-        /// <param name="browserInstanceLogMessageActionsWrapper">Log message actions wrapper.</param>
+        /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public PlaywrightRenderer(
             TestServer mermaidHttpServer,
-            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
+            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(mermaidHttpServer);
-            ArgumentNullException.ThrowIfNull(browserInstanceLogMessageActionsWrapper);
+            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
             _mermaidHttpServerFactory = mermaidHttpServer;
-            _browserInstanceLogMessageActionsWrapper = browserInstanceLogMessageActionsWrapper;
+            _logMessageActionsWrapper = logMessageActionsWrapper;
         }
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
@@ -67,7 +68,7 @@ namespace Whipstaff.Mermaid.Playwright
             return await PlaywrightRendererBrowserInstance.GetBrowserInstanceAsync(
                 _mermaidHttpServerFactory,
                 playwrightBrowserTypeAndChannel,
-                _browserInstanceLogMessageActionsWrapper);
+                _logMessageActionsWrapper);
         }
     }
 }
