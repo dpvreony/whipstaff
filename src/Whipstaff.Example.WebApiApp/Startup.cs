@@ -44,10 +44,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public Startup()
         {
             _dbConnection = CreateInMemoryDatabase();
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc />
         public override void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder)

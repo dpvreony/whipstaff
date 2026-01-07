@@ -35,7 +35,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void StartingAcquire(string resource)
         {
-            LogMessageActions.StartingAcquire(Logger, resource);
+            BrowserInstanceLogMessageActions.StartingAcquire(Logger, resource);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void FinishedAcquire(string resource)
         {
-            LogMessageActions.FinishedAcquire(Logger, resource);
+            BrowserInstanceLogMessageActions.FinishedAcquire(Logger, resource);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void StartingRelease(string resource)
         {
-            LogMessageActions.StartingRelease(Logger, resource);
+            BrowserInstanceLogMessageActions.StartingRelease(Logger, resource);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void FinishedRelease(string resource)
         {
-            LogMessageActions.FinishedRelease(Logger, resource);
+            BrowserInstanceLogMessageActions.FinishedRelease(Logger, resource);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void StartingRenew(string resource)
         {
-            LogMessageActions.StartingRenew(Logger, resource);
+            BrowserInstanceLogMessageActions.StartingRenew(Logger, resource);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void NoLockToRenew(string resource)
         {
-            LogMessageActions.NoLockToRenew(Logger, resource);
+            BrowserInstanceLogMessageActions.NoLockToRenew(Logger, resource);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void FinishedRenew(string resource)
         {
-            LogMessageActions.FinishedRenew(Logger, resource);
+            BrowserInstanceLogMessageActions.FinishedRenew(Logger, resource);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void NoMutexToRelease(string resource)
         {
-            LogMessageActions.NoMutexToRelease(Logger, resource);
+            BrowserInstanceLogMessageActions.NoMutexToRelease(Logger, resource);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Resource identifier.</param>
         public void AcquiredKeyAlreadyExists(string resource)
         {
-            LogMessageActions.AcquiredKeyAlreadyExists(Logger, resource);
+            BrowserInstanceLogMessageActions.AcquiredKeyAlreadyExists(Logger, resource);
         }
     }
 }

@@ -12,16 +12,16 @@ namespace Whipstaff.Mermaid.Playwright
     /// <summary>
     /// Log Message Actions for <see cref="PlaywrightRenderer"/>.
     /// </summary>
-    public sealed class PlaywrightRendererLogMessageActions : ILogMessageActions<PlaywrightRenderer>
+    public sealed class PlaywrightRendererBrowserInstanceLogMessageActions : ILogMessageActions<PlaywrightRendererBrowserInstance>
     {
         private readonly Action<ILogger, Exception?> _failedToGetPageResponse;
         private readonly Action<ILogger, IResponse, Exception?> _unexpectedPageResponse;
         private readonly Action<ILogger, Exception?> _failedToFindMermaidElement;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlaywrightRendererLogMessageActions"/> class.
+        /// Initializes a new instance of the <see cref="PlaywrightRendererBrowserInstanceLogMessageActions"/> class.
         /// </summary>
-        public PlaywrightRendererLogMessageActions()
+        public PlaywrightRendererBrowserInstanceLogMessageActions()
         {
             _failedToGetPageResponse = LoggerMessage.Define(
                 LogLevel.Error,
@@ -43,7 +43,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// Logs a failure to get a page response.
         /// </summary>
         /// <param name="logger">Logging framework instance.</param>
-        public void FailedToGetPageResponse(ILogger<PlaywrightRenderer> logger)
+        public void FailedToGetPageResponse(ILogger<PlaywrightRendererBrowserInstance> logger)
         {
             _failedToGetPageResponse(
                 logger,
@@ -56,7 +56,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="logger">Logging framework instance.</param>
         /// <param name="pageResponse">Page response that was returned.</param>
         public void UnexpectedPageResponse(
-            ILogger<PlaywrightRenderer> logger,
+            ILogger<PlaywrightRendererBrowserInstance> logger,
             IResponse pageResponse)
         {
             _unexpectedPageResponse(
@@ -69,7 +69,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// Logs a failure to find the Mermaid element in the HTML.
         /// </summary>
         /// <param name="logger">Logging framework instance.</param>
-        public void FailedToFindMermaidElement(ILogger<PlaywrightRenderer> logger)
+        public void FailedToFindMermaidElement(ILogger<PlaywrightRendererBrowserInstance> logger)
         {
             _failedToFindMermaidElement(logger, null);
         }

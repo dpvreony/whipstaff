@@ -22,22 +22,24 @@ namespace Whipstaff.Mermaid.Playwright
     public sealed class PlaywrightRenderer
     {
         private readonly TestServer _mermaidHttpServerFactory;
-        private readonly PlaywrightRendererLogMessageActionsWrapper _logMessageActionsWrapper;
+        private readonly PlaywrightRendererBrowserInstanceLogMessageActionsWrapper _browserInstanceLogMessageActionsWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaywrightRenderer"/> class.
         /// </summary>
         /// <param name="mermaidHttpServer">In memory http server instance for Mermaid.</param>
-        /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
+        /// <param name="browserInstanceLogMessageActionsWrapper">Log message actions wrapper.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public PlaywrightRenderer(
             TestServer mermaidHttpServer,
-            PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
+            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(mermaidHttpServer);
-            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
+            ArgumentNullException.ThrowIfNull(browserInstanceLogMessageActionsWrapper);
             _mermaidHttpServerFactory = mermaidHttpServer;
-            _logMessageActionsWrapper = logMessageActionsWrapper;
+            _browserInstanceLogMessageActionsWrapper = browserInstanceLogMessageActionsWrapper;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Create a default instance of the PlaywrightRenderer using the InMemory Test Http Server.
@@ -50,9 +52,9 @@ namespace Whipstaff.Mermaid.Playwright
 
             return new(
                 MermaidHttpServerFactory.GetTestServer(loggerFactory, new FileSystem()),
-                new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    loggerFactory.CreateLogger<PlaywrightRenderer>()));
+                new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
+                    new PlaywrightRendererBrowserInstanceLogMessageActions(),
+                    loggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>()));
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace Whipstaff.Mermaid.Playwright
             return await PlaywrightRendererBrowserInstance.GetBrowserInstanceAsync(
                 _mermaidHttpServerFactory,
                 playwrightBrowserTypeAndChannel,
-                _logMessageActionsWrapper);
+                _browserInstanceLogMessageActionsWrapper);
         }
     }
 }

@@ -117,10 +117,10 @@ namespace Whipstaff.Statiq.Mermaid
             await _semaphoreSlim.WaitAsync();
             try
             {
-                var logMessageActions = new PlaywrightRendererLogMessageActions();
+                var logMessageActions = new PlaywrightRendererBrowserInstanceLogMessageActions();
                 var loggerFactory = context.GetRequiredService<ILoggerFactory>();
-                var logger = loggerFactory.CreateLogger<PlaywrightRenderer>();
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(logMessageActions, logger);
+                var logger = loggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>();
+                var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(logMessageActions, logger);
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(loggerFactory, new FileSystem());
 
                 var playwrightRenderer = new Whipstaff.Mermaid.Playwright.PlaywrightRenderer(

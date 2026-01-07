@@ -22,17 +22,17 @@ namespace Whipstaff.Mermaid.Playwright
     {
         private readonly IPlaywright _playwright;
         private readonly IPage _page;
-        private readonly PlaywrightRendererLogMessageActionsWrapper _logMessageActionsWrapper;
+        private readonly PlaywrightRendererBrowserInstanceLogMessageActionsWrapper _browserInstanceLogMessageActionsWrapper;
         private bool _disposedValue;
 
         private PlaywrightRendererBrowserInstance(
             IPlaywright playwright,
             IPage page,
-            PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
+            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
         {
             _playwright = playwright;
             _page = page;
-            _logMessageActionsWrapper = logMessageActionsWrapper;
+            _browserInstanceLogMessageActionsWrapper = browserInstanceLogMessageActionsWrapper;
         }
 
         /// <summary>
@@ -41,16 +41,16 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         /// <param name="mermaidHttpServer">The in memory mermaid HTTP server.</param>
         /// <param name="playwrightBrowserTypeAndChannel">Browser and channel type to use.</param>
-        /// <param name="logMessageActionsWrapper">Log message actions wrapper.</param>
+        /// <param name="browserInstanceLogMessageActionsWrapper">Log message actions wrapper.</param>
         /// <returns>Browser wrapper instance.</returns>
         public static async Task<PlaywrightRendererBrowserInstance> GetBrowserInstanceAsync(
             TestServer mermaidHttpServer,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel,
-            PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
+            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(mermaidHttpServer);
             ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);
-            ArgumentNullException.ThrowIfNull(logMessageActionsWrapper);
+            ArgumentNullException.ThrowIfNull(browserInstanceLogMessageActionsWrapper);
 
             var playwright = await Microsoft.Playwright.Playwright.CreateAsync()
                 .ConfigureAwait(false);
@@ -79,13 +79,13 @@ namespace Whipstaff.Mermaid.Playwright
 
             if (pageResponse == null)
             {
-                logMessageActionsWrapper.FailedToGetPageResponse();
+                browserInstanceLogMessageActionsWrapper.FailedToGetPageResponse();
                 throw new InvalidOperationException("Failed to get page response.");
             }
 
             if (!pageResponse.Ok)
             {
-                logMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
+                browserInstanceLogMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
                 throw new InvalidOperationException("Unexpected page response: " + pageResponse.Status + " " +
                                                     pageResponse.StatusText);
             }
@@ -96,7 +96,7 @@ namespace Whipstaff.Mermaid.Playwright
             await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
             _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
 
-            return new PlaywrightRendererBrowserInstance(playwright, page, logMessageActionsWrapper);
+            return new PlaywrightRendererBrowserInstance(playwright, page, browserInstanceLogMessageActionsWrapper);
         }
 
         /// <inheritdoc/>
@@ -198,7 +198,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             if (mermaidElement == null)
             {
-                _logMessageActionsWrapper.FailedToFindMermaidElement();
+                _browserInstanceLogMessageActionsWrapper.FailedToFindMermaidElement();
                 return null;
             }
 

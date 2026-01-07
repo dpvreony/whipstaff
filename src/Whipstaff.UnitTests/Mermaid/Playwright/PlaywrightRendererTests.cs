@@ -28,7 +28,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<TestServer, PlaywrightRendererLogMessageActionsWrapper>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<TestServer, PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -44,8 +44,8 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             public void ReturnsInstance()
             {
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
+                var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
+                    new PlaywrightRendererBrowserInstanceLogMessageActions(),
                     LoggerFactory.CreateLogger<PlaywrightRenderer>());
 
                 var instance = new PlaywrightRenderer(
@@ -59,7 +59,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
                 TestServer? arg1,
-                PlaywrightRendererLogMessageActionsWrapper? arg2,
+                PlaywrightRendererBrowserInstanceLogMessageActionsWrapper? arg2,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => new PlaywrightRenderer(arg1!, arg2!));
@@ -72,7 +72,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullException"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TestServer, PlaywrightRendererLogMessageActionsWrapper>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TestServer, PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
@@ -82,10 +82,10 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                         new NamedParameterInput<TestServer>(
                             "mermaidHttpServer",
                             () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory(), new FileSystem())),
-                        new NamedParameterInput<PlaywrightRendererLogMessageActionsWrapper>(
+                        new NamedParameterInput<PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>(
                             "logMessageActionsWrapper",
-                            () => new PlaywrightRendererLogMessageActionsWrapper(
-                                new PlaywrightRendererLogMessageActions(),
+                            () => new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
+                                new PlaywrightRendererBrowserInstanceLogMessageActions(),
                                 new NullLoggerFactory().CreateLogger<PlaywrightRenderer>())))
                 {
                 }

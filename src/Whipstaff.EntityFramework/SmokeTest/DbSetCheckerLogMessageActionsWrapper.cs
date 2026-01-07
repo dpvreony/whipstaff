@@ -36,7 +36,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// <param name="type">The type of the DbSet being tested.</param>
         public void StartingTestOfDbSet(Type type)
         {
-            LogMessageActions.StartingTestOfDbSet(Logger, type);
+            BrowserInstanceLogMessageActions.StartingTestOfDbSet(Logger, type);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// <param name="type">The type of the DbSet being tested.</param>
         public void FailedToTestDbSet(Exception exception, Type type)
         {
-            LogMessageActions.TestOfDbSetFailed(Logger, type, exception);
+            BrowserInstanceLogMessageActions.TestOfDbSetFailed(Logger, type, exception);
         }
     }
 }
