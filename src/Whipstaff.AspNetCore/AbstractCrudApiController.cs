@@ -126,6 +126,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpDelete("{id:long}")]
+        [ValidateAntiForgeryToken]
 #pragma warning disable S6967
         public async Task<ActionResult<TDeleteResponseDto>> DeleteAsync(
             long id,
@@ -153,6 +154,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
 #pragma warning disable S6967
         public async Task<ActionResult<TAddResponseDto>> PostAsync(
             TAddRequestDto addRequestDto,
@@ -181,6 +183,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPut("{id:long}")]
+        [ValidateAntiForgeryToken]
 #pragma warning disable S6967
         public async Task<ActionResult<TUpdateResponseDto>> PutAsync(
             long id,
