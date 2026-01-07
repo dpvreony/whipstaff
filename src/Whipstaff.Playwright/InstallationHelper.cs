@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using Microsoft.Playwright;
 
 namespace Whipstaff.Playwright
 {
@@ -20,6 +19,7 @@ namespace Whipstaff.Playwright
     /// </summary>
     public sealed class InstallationHelper
     {
+        private readonly PlaywrightBrowserType _playwrightBrowserType;
         private readonly Lazy<int> _lazyInstaller;
 
         /// <summary>
@@ -28,13 +28,8 @@ namespace Whipstaff.Playwright
         /// <param name="playwrightBrowserType">The browser to use as part of the process.</param>
         public InstallationHelper(PlaywrightBrowserType playwrightBrowserType)
         {
-            var args = playwrightBrowserType switch
-            {
-                PlaywrightBrowserType.None => new[] { "install" },
-                _ => new[] { "install", playwrightBrowserType.ToString().ToLowerInvariant() },
-            };
-
-            _lazyInstaller = new(() => Program.Main(args));
+            _playwrightBrowserType = playwrightBrowserType;
+            _lazyInstaller = new(() => Microsoft.Playwright.Program.Main(GetArgs()));
         }
 
         /// <summary>
@@ -44,6 +39,18 @@ namespace Whipstaff.Playwright
         public int InstallPlaywright()
         {
             return _lazyInstaller.Value;
+        }
+
+        private string[] GetArgs()
+        {
+            return _playwrightBrowserType switch
+            {
+                PlaywrightBrowserType.None => ["install"],
+                _ => [
+                    "install",
+                    _playwrightBrowserType.ToString().ToLowerInvariant()
+                ]
+            };
         }
     }
 }

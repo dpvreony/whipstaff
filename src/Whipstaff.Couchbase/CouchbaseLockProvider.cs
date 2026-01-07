@@ -11,6 +11,8 @@ using Couchbase.Extensions.DependencyInjection;
 using Couchbase.Extensions.Locks;
 using Couchbase.KeyValue;
 using Foundatio.Lock;
+using Microsoft.Extensions.Logging.Abstractions;
+using Whipstaff.Core.Logging;
 
 namespace Whipstaff.Couchbase
 {

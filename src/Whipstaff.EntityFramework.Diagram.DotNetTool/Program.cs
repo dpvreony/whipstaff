@@ -28,10 +28,10 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 CommandLineHandlerFactory>(
                 args,
                 (fileSystem, logger) => new CommandLineJob(
+                    fileSystem,
                     new CommandLineJobLogMessageActionsWrapper(
                         new CommandLineJobLogMessageActions(),
-                        logger),
-                    fileSystem),
+                        logger)),
                 new FileSystem());
         }
     }

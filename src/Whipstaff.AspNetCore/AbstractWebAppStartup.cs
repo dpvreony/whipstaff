@@ -349,7 +349,10 @@ namespace Whipstaff.AspNetCore
             {
                 // if you have a load balancer in front, you can have an issue if there is no cache-control specified
                 // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
-                _ = options.CacheProfiles.TryAdd("nostore", new CacheProfile { NoStore = true });
+                if (!options.CacheProfiles.TryAdd("nostore", new CacheProfile { NoStore = true }))
+                {
+                    throw new InvalidOperationException("Could not add nostore cache profile");
+                }
             });
 
             foreach (var controllerAssembly in controllerAssemblies)

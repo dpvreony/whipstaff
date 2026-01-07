@@ -40,7 +40,9 @@ namespace Whipstaff.Rx.Runtime.AppDomains
                     return null; // return this value to the event invoker
                 };
 
+#pragma warning disable GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
                 AppDomain.CurrentDomain.AssemblyResolve += handler;
+#pragma warning restore GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
 
                 // Return a disposable that unsubscribes from the event when disposed
                 return () => AppDomain.CurrentDomain.AssemblyResolve -= handler;
