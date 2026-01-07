@@ -117,10 +117,6 @@
     </PackageReference>
   </ItemGroup>
 
-  <PropertyGroup>
-    <UseLocalGripe>true</UseLocalGripe>
-  </PropertyGroup>
-
   <Choose>
     <When Condition="'$(UseLocalGripe)'=='true'">
       <ItemGroup>
