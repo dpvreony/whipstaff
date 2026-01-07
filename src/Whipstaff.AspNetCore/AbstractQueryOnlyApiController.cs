@@ -46,10 +46,10 @@ namespace Whipstaff.AspNetCore
         /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
         protected AbstractQueryOnlyApiController(
             IAuthorizationService authorizationService,
-            ILogger<AbstractQueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
-            TQueryOnlyControllerLogMessageActions logMessageActionMappings)
+            TQueryOnlyControllerLogMessageActions logMessageActionMappings,
+            ILogger<AbstractQueryOnlyApiController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger)
         {
             ArgumentNullException.ThrowIfNull(authorizationService);
             ArgumentNullException.ThrowIfNull(logger);
@@ -115,8 +115,8 @@ namespace Whipstaff.AspNetCore
                 requestDto,
                 LogMessageActionMappings.ListEventLogMessageAction,
                 listPolicyName,
-                GetListActionResultAsync,
-                GetListQueryAsync,
+                lr => GetListActionResultAsync(lr),
+                (a, b, c) => GetListQueryAsync(a, b, c),
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -145,8 +145,8 @@ namespace Whipstaff.AspNetCore
                 id,
                 LogMessageActionMappings.ViewEventLogMessageAction,
                 viewPolicyName,
-                GetViewActionResultAsync,
-                GetViewQueryAsync,
+                a => GetViewActionResultAsync(a),
+                (a, b, c) => GetViewQueryAsync(a, b, c),
                 cancellationToken).ConfigureAwait(false);
         }
 

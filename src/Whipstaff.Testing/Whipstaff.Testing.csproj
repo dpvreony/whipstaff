@@ -6,6 +6,7 @@
     <DebugSymbols>True</DebugSymbols>
     <IsPackable>False</IsPackable>
     <LangVersion>14</LangVersion>
+    <NoWarn>$(NoWarn),GR0027</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

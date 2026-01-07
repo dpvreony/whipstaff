@@ -37,7 +37,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// </summary>
         public void StartingDbSetChecker()
         {
-            LogMessageActions.StartingTestOfDbSet(Logger);
+            BrowserInstanceLogMessageActions.StartingTestOfDbSet(Logger);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// </summary>
         public void CompletedDbSetChecker()
         {
-            LogMessageActions.CompletedTestOfDbSet(Logger);
+            BrowserInstanceLogMessageActions.CompletedTestOfDbSet(Logger);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Whipstaff.EntityFramework.SmokeTest
         /// <param name="exception">The exception that occurred.</param>
         public void FailureOfDbSetChecker(Exception exception)
         {
-            LogMessageActions.TestOfDbSetFailed(Logger, exception);
+            BrowserInstanceLogMessageActions.TestOfDbSetFailed(Logger, exception);
         }
     }
 }

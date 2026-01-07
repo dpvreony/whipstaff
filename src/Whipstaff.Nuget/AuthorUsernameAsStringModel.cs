@@ -19,11 +19,13 @@ namespace Whipstaff.Nuget
         /// <param name="value">Nuget username as a string.</param>
         public AuthorUsernameAsStringModel(string value)
         {
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             value.ThrowIfNullOrWhitespace();
             if (!value.IsAsciiLettersOrNumbers())
             {
                 throw new ArgumentException("Author name must be ASCII letters or numbers", nameof(value));
             }
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
 
             Value = value;
         }

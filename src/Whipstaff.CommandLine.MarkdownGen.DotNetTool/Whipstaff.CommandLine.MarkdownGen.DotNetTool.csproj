@@ -8,7 +8,7 @@
     <ToolCommandName>whipstaff-cmdhelp2markdown</ToolCommandName>
     <AssemblyName>whipstaff-cmdhelp2markdown</AssemblyName>
     <PackageDescription>dot net tool to produce markdown from a System.CommandLine help summary.</PackageDescription>
-    <NoWarn>CA1515,NU5104</NoWarn>
+    <NoWarn>$(NoWarn),CA1515,NU5104</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

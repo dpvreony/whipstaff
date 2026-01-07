@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Rocks;
 using Whipstaff.Playwright;
@@ -204,7 +205,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                     var context = await browser.NewContextAsync();
                     await context.RouteAsync(
                         "**/*",
-                        static route => DefaultHandler(route));
+                        static route => DefaultHandlerAsync(route));
 
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
 #pragma warning disable S1075 // URIs should not be hardcoded
@@ -223,7 +224,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                 }
             }
 
-            private static async Task DefaultHandler(IRoute route)
+            private static async Task DefaultHandlerAsync(IRoute route)
             {
                 if (route.Request.Url.Equals("https://localhost/", StringComparison.Ordinal))
                 {
@@ -334,7 +335,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                     var page = await browser.NewPageAsync();
                     await page.RouteAsync(
                             "**/*",
-                            static route => DefaultHandler(route));
+                            static route => DefaultHandlerAsync(route));
 
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
 #pragma warning disable S1075 // URIs should not be hardcoded
@@ -352,7 +353,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                 }
             }
 
-            private static async Task DefaultHandler(IRoute route)
+            private static async Task DefaultHandlerAsync(IRoute route)
             {
                 if (route.Request.Url.Equals("https://localhost/", StringComparison.Ordinal))
                 {

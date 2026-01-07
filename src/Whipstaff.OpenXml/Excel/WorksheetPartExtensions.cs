@@ -122,6 +122,11 @@ namespace Whipstaff.OpenXml.Excel
             uint rowIndex)
         {
             var worksheet = worksheetPart.Worksheet;
+            if (worksheet == null)
+            {
+                throw new InvalidOperationException("No worksheet");
+            }
+
             var sheetData = worksheet.GetFirstChild<SheetData>();
             if (sheetData == null)
             {

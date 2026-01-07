@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
@@ -28,7 +29,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
         /// <summary>
         /// Unit tests for the constructor.
         /// </summary>
-        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<TestServer, PlaywrightRendererLogMessageActionsWrapper>
+        public sealed class ConstructorMethod : TestWithLoggingBase, ITestConstructorMethodWithNullableParameters<TestServer, PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="ConstructorMethod"/> class.
@@ -44,9 +45,9 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             public void ReturnsInstance()
             {
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
-                    new PlaywrightRendererLogMessageActions(),
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
+                    new PlaywrightRendererBrowserInstanceLogMessageActions(),
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
 
                 var instance = new PlaywrightRenderer(
                     mermaidHttpServer,
@@ -59,7 +60,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
             public void ThrowsArgumentNullException(
                 TestServer? arg1,
-                PlaywrightRendererLogMessageActionsWrapper? arg2,
+                PlaywrightRendererBrowserInstanceLogMessageActionsWrapper? arg2,
                 string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => new PlaywrightRenderer(arg1!, arg2!));
@@ -72,7 +73,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <summary>
             /// Test source for <see cref="ThrowsArgumentNullException"/>.
             /// </summary>
-            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TestServer, PlaywrightRendererLogMessageActionsWrapper>
+            public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TestServer, PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>
             {
                 /// <summary>
                 /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
@@ -82,11 +83,11 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                         new NamedParameterInput<TestServer>(
                             "mermaidHttpServer",
                             () => MermaidHttpServerFactory.GetTestServer(new NullLoggerFactory(), new FileSystem())),
-                        new NamedParameterInput<PlaywrightRendererLogMessageActionsWrapper>(
+                        new NamedParameterInput<PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>(
                             "logMessageActionsWrapper",
-                            () => new PlaywrightRendererLogMessageActionsWrapper(
-                                new PlaywrightRendererLogMessageActions(),
-                                new NullLoggerFactory().CreateLogger<PlaywrightRenderer>())))
+                            () => new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
+                                new PlaywrightRendererBrowserInstanceLogMessageActions(),
+                                new NullLoggerFactory().CreateLogger<PlaywrightRendererBrowserInstance>())))
                 {
                 }
             }

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.CommandLine;
 using Whipstaff.Testing.Logging;

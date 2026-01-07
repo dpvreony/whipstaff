@@ -24,6 +24,7 @@ namespace Whipstaff.Couchbase
         /// <param name="resource">Name of the resource.</param>
         /// <param name="acquiredTimeUtc">The timestamp for when the lock was aquired.</param>
         /// <param name="timeWaitedForLock">The time waited for the lock.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public CouchbaseLock(
             ICouchbaseMutex mutex,
             string resource,
@@ -43,6 +44,7 @@ namespace Whipstaff.Couchbase
             TimeWaitedForLock = timeWaitedForLock;
             RenewalCount = 0;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public string LockId => _mutex.Name;

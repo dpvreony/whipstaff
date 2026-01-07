@@ -73,6 +73,10 @@ namespace Whipstaff.AspNetCore
         /// <param name="logMessageActions">Log Message Actions for the logging events in the controller.</param>
         protected AbstractCrudApiController(
             IAuthorizationService authorizationService,
+            IMediator mediator,
+            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
+            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
+            TCrudControllerLogMessageActions logMessageActions,
             ILogger<AbstractCrudApiController<
                 TListQuery,
                 TListRequestDto,
@@ -87,17 +91,13 @@ namespace Whipstaff.AspNetCore
                 TUpdateCommand,
                 TUpdateRequestDto,
                 TUpdateResponseDto,
-                TCrudControllerLogMessageActions>> logger,
-            IMediator mediator,
-            IAuditableCommandFactory<TAddCommand, TAddRequestDto, TAddResponseDto, TDeleteCommand, TDeleteResponseDto, TUpdateCommand, TUpdateRequestDto, TUpdateResponseDto> commandFactory,
-            IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
-            TCrudControllerLogMessageActions logMessageActions)
+                TCrudControllerLogMessageActions>> logger)
             : base(
                   authorizationService,
-                  logger,
                   mediator,
                   queryFactory,
-                  logMessageActions)
+                  logMessageActions,
+                  logger)
         {
             ArgumentNullException.ThrowIfNull(commandFactory);
             CommandFactory = commandFactory;
@@ -126,6 +126,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpDelete("{id:long}")]
+        [ValidateAntiForgeryToken]
 #pragma warning disable S6967
         public async Task<ActionResult<TDeleteResponseDto>> DeleteAsync(
             long id,
@@ -153,6 +154,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
 #pragma warning disable S6967
         public async Task<ActionResult<TAddResponseDto>> PostAsync(
             TAddRequestDto addRequestDto,
@@ -181,6 +183,7 @@ namespace Whipstaff.AspNetCore
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPut("{id:long}")]
+        [ValidateAntiForgeryToken]
 #pragma warning disable S6967
         public async Task<ActionResult<TUpdateResponseDto>> PutAsync(
             long id,

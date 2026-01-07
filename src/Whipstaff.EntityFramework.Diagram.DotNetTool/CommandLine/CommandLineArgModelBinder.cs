@@ -27,6 +27,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
         /// <param name="dbContextNameOption">Name of the db context to parse and bind against.</param>
         /// <param name="outputFilePathOption">Output file path to parse and bind against.</param>
         /// <param name="diagramTypeOption">Diagram type to parse and bind against.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public CommandLineArgModelBinder(
             Option<FileInfo> assemblyOption,
             Option<string> dbContextNameOption,
@@ -43,6 +44,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine
             _outputFilePathOption = outputFilePathOption;
             _diagramTypeOption = diagramTypeOption;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public CommandLineArgModel GetBoundValue(ParseResult parseResult)

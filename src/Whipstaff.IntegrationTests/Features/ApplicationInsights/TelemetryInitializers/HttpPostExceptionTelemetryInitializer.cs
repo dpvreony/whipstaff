@@ -22,11 +22,13 @@ namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryIniti
         /// </summary>
         /// <param name="telemetryExceptionTracker">Telemetry Exception Tracker.</param>
         /// <param name="httpContextAccessor">Http Context accessor for the request.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public HttpPostExceptionTelemetryInitializer(TelemetryExceptionTracker telemetryExceptionTracker, HttpContextAccessor httpContextAccessor)
         {
             _telemetryExceptionTracker = telemetryExceptionTracker;
             _httpContextAccessor = httpContextAccessor;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public void Initialize(ITelemetry telemetry)

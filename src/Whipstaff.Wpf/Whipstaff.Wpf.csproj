@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <EnableWindowsTargeting>True</EnableWindowsTargeting>
     <PackageDescription>Re-usable logic for working with WPF.</PackageDescription>
-    <NoWarn>WPF0001</NoWarn>
+    <NoWarn>$(NoWarn),GR0049,WPF0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

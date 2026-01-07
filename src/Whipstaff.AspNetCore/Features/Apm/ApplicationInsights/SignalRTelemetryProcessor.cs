@@ -28,10 +28,12 @@ namespace Whipstaff.AspNetCore.Features.Apm.ApplicationInsights
         /// Initializes a new instance of the <see cref="SignalRTelemetryProcessor"/> class.
         /// </summary>
         /// <param name="next">The next telemetry processor in the chain.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public SignalRTelemetryProcessor(ITelemetryProcessor next)
         {
             _nextTelemetryProcessor = next;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc />
         public void Process(ITelemetry item)

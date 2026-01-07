@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using Whipstaff.AspNetCore;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.EntityFramework.ModelCreation;
@@ -43,10 +44,12 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public Startup()
         {
             _dbConnection = CreateInMemoryDatabase();
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc />
         public override void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder)
@@ -63,9 +66,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails()
+        protected override KeyValuePair<string, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment>>? GetConfigureAuthenticationDetails()
         {
-            return (
+            return new(
                 "bearer",
                 static (builder, _, _) => ConfigureAuthenticationScheme(builder));
         }
@@ -142,9 +145,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
         }
 
         /// <inheritdoc />
-        protected override IEnumerable<(string Url, string Name)> GetSwaggerEndpoints()
+        protected override IEnumerable<UrlDescriptor> GetSwaggerEndpoints()
         {
-            return Array.Empty<(string Url, string Name)>();
+            return Array.Empty<UrlDescriptor>();
         }
 
         private static SqliteConnection CreateInMemoryDatabase()

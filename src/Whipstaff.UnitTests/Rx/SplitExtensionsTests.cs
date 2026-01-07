@@ -116,10 +116,12 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Initializes a new instance of the <see cref="SomeMassObjectViewModel"/> class.
             /// </summary>
+#pragma warning disable GR0043 // ViewModel Constructor should have accept Scheduler as a parameter.
             public SomeMassObjectViewModel()
             {
                 One = 1;
             }
+#pragma warning restore GR0043 // ViewModel Constructor should have accept Scheduler as a parameter.
 
             /// <inheritdoc />
             public int One

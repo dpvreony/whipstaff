@@ -27,6 +27,7 @@ namespace Whipstaff.Core.Logging
         private readonly string _format;
         private readonly List<string> _valueNames = new List<string>();
 
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public LogValuesFormatter(string format)
         {
@@ -73,6 +74,7 @@ namespace Whipstaff.Core.Logging
                 _format = vsb.ToString();
             }
         }
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         public string OriginalFormat { get; private set; }
@@ -145,7 +147,7 @@ namespace Whipstaff.Core.Logging
             {
                 for (int i = 0; i < values.Length; i++)
                 {
-                    object formattedValue = FormatArgument(values[i]);
+                    var formattedValue = FormatArgument(values[i]);
 
 #pragma warning disable SA1515 // Single-line comment should be preceded by blank line
                               // If the formatted value is changed, we allocate and copy items to a new array to avoid mutating the array passed in to this method
@@ -189,17 +191,23 @@ namespace Whipstaff.Core.Logging
             return _format;
         }
 
+#pragma warning disable GR0033 // Do not use Object in a parameter declaration.
         internal string Format(object? arg0)
+#pragma warning restore GR0033 // Do not use Object in a parameter declaration.
         {
             return string.Format(CultureInfo.InvariantCulture, _format, FormatArgument(arg0));
         }
 
+#pragma warning disable GR0033 // Do not use Object in a parameter declaration.
         internal string Format(object? arg0, object? arg1)
+#pragma warning restore GR0033 // Do not use Object in a parameter declaration.
         {
             return string.Format(CultureInfo.InvariantCulture, _format, FormatArgument(arg0), FormatArgument(arg1));
         }
 
+#pragma warning disable GR0033 // Do not use Object in a parameter declaration.
         internal string Format(object? arg0, object? arg1, object? arg2)
+#pragma warning restore GR0033 // Do not use Object in a parameter declaration.
         {
             return string.Format(CultureInfo.InvariantCulture, _format, FormatArgument(arg0), FormatArgument(arg1), FormatArgument(arg2));
         }
@@ -237,7 +245,11 @@ namespace Whipstaff.Core.Logging
             return valueArray;
         }
 
+#pragma warning disable GR0033 // Do not use Object in a parameter declaration.
+#pragma warning disable GR0038 // Do not use Object as a return type on a method declaration.
         private static object FormatArgument(object? value)
+#pragma warning restore GR0038 // Do not use Object as a return type on a method declaration.
+#pragma warning restore GR0033 // Do not use Object in a parameter declaration.
         {
             if (value == null)
             {

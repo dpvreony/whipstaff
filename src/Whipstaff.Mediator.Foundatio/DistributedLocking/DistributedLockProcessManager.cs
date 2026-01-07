@@ -68,7 +68,7 @@ namespace Whipstaff.Mediator.Foundatio.DistributedLocking
         /// <param name="hasLockObserver">The observer for watching if the lock is aquired.</param>
         /// <param name="cancellationToken">The cancellation token used to stop the process manager.</param>
         /// <returns>Instance of the distributed lock process manager and the active task.</returns>
-        public static (DistributedLockProcessManager Instance, Task Task, IDisposable HasLockSubscription) SubscribeAndStart(
+        public static SubscribeAndStartResultModel SubscribeAndStart(
             IMessageBus messageBus,
             ILoggerFactory loggerFactory,
             string lockName,
@@ -78,16 +78,18 @@ namespace Whipstaff.Mediator.Foundatio.DistributedLocking
         {
             ArgumentNullException.ThrowIfNull(hasLockObserver);
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
             var instance = new DistributedLockProcessManager(
                 messageBus,
                 lockName,
                 lockLostBehavior,
                 loggerFactory.CreateLogger<DistributedLockProcessManager>());
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
             var hasLockSubscription = instance.HasLock.Subscribe(hasLockObserver);
             var task = instance.StartAsync(cancellationToken);
 
-            return (instance, task, hasLockSubscription);
+            return new(instance, task, hasLockSubscription);
         }
 
         /// <inheritdoc/>

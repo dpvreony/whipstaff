@@ -47,10 +47,10 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
             public async Task ReturnsInstance()
             {
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
-                var logMessageActions = new PlaywrightRendererLogMessageActions();
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
+                var logMessageActions = new PlaywrightRendererBrowserInstanceLogMessageActions();
+                var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     logMessageActions,
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
                 var playwrightRenderer = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);
@@ -124,10 +124,10 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
                                "```";
 
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
-                var logMessageActions = new PlaywrightRendererLogMessageActions();
-                var logMessageActionsWrapper = new PlaywrightRendererLogMessageActionsWrapper(
+                var logMessageActions = new PlaywrightRendererBrowserInstanceLogMessageActions();
+                var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
                     logMessageActions,
-                    LoggerFactory.CreateLogger<PlaywrightRenderer>());
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
                 var playwrightRenderer = new PlaywrightRenderer(
                     mermaidHttpServer,
                     logMessageActionsWrapper);

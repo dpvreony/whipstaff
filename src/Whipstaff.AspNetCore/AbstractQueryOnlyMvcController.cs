@@ -38,16 +38,16 @@ namespace Whipstaff.AspNetCore
         /// Initializes a new instance of the <see cref="AbstractQueryOnlyMvcController{TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions}"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
-        /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediator object to publish CQRS messages to.</param>
         /// <param name="queryFactory">The factory for generating Query messages.</param>
         /// <param name="logMessageActionMappings">Log Message Action mappings.</param>
+        /// <param name="logger">The logger object.</param>
         protected AbstractQueryOnlyMvcController(
             IAuthorizationService authorizationService,
-            ILogger<AbstractQueryOnlyMvcController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger,
             IMediator mediator,
             IAuditableQueryFactory<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse> queryFactory,
-            TQueryOnlyControllerLogMessageActions logMessageActionMappings)
+            TQueryOnlyControllerLogMessageActions logMessageActionMappings,
+            ILogger<AbstractQueryOnlyMvcController<TListQuery, TListRequestDto, TListQueryResponse, TViewQuery, TViewQueryResponse, TQueryOnlyControllerLogMessageActions>> logger)
         {
             ArgumentNullException.ThrowIfNull(authorizationService);
             ArgumentNullException.ThrowIfNull(logger);
@@ -182,8 +182,8 @@ namespace Whipstaff.AspNetCore
                 requestDto,
                 LogMessageActionMappings.ListEventLogMessageAction,
                 listPolicyName,
-                GetListActionResultAsync,
-                GetListQueryAsync,
+                a => GetListActionResultAsync(a),
+                (a, b, c) => GetListQueryAsync(a, b, c),
                 cancellationToken).ConfigureAwait(false);
         }
 
@@ -200,8 +200,8 @@ namespace Whipstaff.AspNetCore
                 id,
                 LogMessageActionMappings.ViewEventLogMessageAction,
                 viewPolicyName,
-                GetViewActionResultAsync,
-                GetViewQueryAsync,
+                a => GetViewActionResultAsync(a),
+                (a, b, c) => GetViewQueryAsync(a, b, c),
                 cancellationToken).ConfigureAwait(false);
         }
     }

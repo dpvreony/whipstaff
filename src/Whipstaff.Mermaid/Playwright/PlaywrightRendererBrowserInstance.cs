@@ -22,17 +22,17 @@ namespace Whipstaff.Mermaid.Playwright
     {
         private readonly IPlaywright _playwright;
         private readonly IPage _page;
-        private readonly PlaywrightRendererLogMessageActionsWrapper _logMessageActionsWrapper;
+        private readonly PlaywrightRendererBrowserInstanceLogMessageActionsWrapper _browserInstanceLogMessageActionsWrapper;
         private bool _disposedValue;
 
         private PlaywrightRendererBrowserInstance(
             IPlaywright playwright,
             IPage page,
-            PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
+            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
         {
             _playwright = playwright;
             _page = page;
-            _logMessageActionsWrapper = logMessageActionsWrapper;
+            _browserInstanceLogMessageActionsWrapper = browserInstanceLogMessageActionsWrapper;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Whipstaff.Mermaid.Playwright
         public static async Task<PlaywrightRendererBrowserInstance> GetBrowserInstanceAsync(
             TestServer mermaidHttpServer,
             PlaywrightBrowserTypeAndChannel playwrightBrowserTypeAndChannel,
-            PlaywrightRendererLogMessageActionsWrapper logMessageActionsWrapper)
+            PlaywrightRendererBrowserInstanceLogMessageActionsWrapper logMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(mermaidHttpServer);
             ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannel);
@@ -198,7 +198,7 @@ namespace Whipstaff.Mermaid.Playwright
 
             if (mermaidElement == null)
             {
-                _logMessageActionsWrapper.FailedToFindMermaidElement();
+                _browserInstanceLogMessageActionsWrapper.FailedToFindMermaidElement();
                 return null;
             }
 

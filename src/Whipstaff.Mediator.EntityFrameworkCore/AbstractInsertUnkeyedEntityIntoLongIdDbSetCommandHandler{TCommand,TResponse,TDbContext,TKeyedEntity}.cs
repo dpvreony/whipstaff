@@ -9,17 +9,17 @@ using Whipstaff.Core.Entities;
 namespace Whipstaff.Mediator.EntityFrameworkCore
 {
     /// <summary>
-    /// Abstract class for inserting an unkeyed entity into a <see cref="DbSet{TEntity}"/> that uses an <see cref="int"/> as the primary key.
+    /// Abstract class for inserting an unkeyed entity into a <see cref="DbSet{TEntity}"/> that uses an <see cref="long"/> as the primary key.
     /// </summary>
     /// <typeparam name="TCommand">The type for the CQRS command.</typeparam>
     /// <typeparam name="TResponse">The type for the CQRS response.</typeparam>
     /// <typeparam name="TDbContext">The type for the <see cref="DbContext"/>.</typeparam>
     /// <typeparam name="TKeyedEntity">The type for the entity in the DbSet we will save to.</typeparam>
-    public abstract class InsertUnkeyedEntityIntoInt32IdDbSetCommandHandler<TCommand, TResponse, TDbContext, TKeyedEntity>
-        : InsertUnkeyedEntityIntoKeyedDbSetCommandHandler<TCommand, TResponse, TDbContext, TKeyedEntity>
+    public abstract class AbstractInsertUnkeyedEntityIntoLongIdDbSetCommandHandler<TCommand, TResponse, TDbContext, TKeyedEntity>
+        : AbstractInsertUnkeyedEntityIntoKeyedDbSetCommandHandler<TCommand, TResponse, TDbContext, TKeyedEntity>
         where TCommand : ICommand<TResponse>
         where TDbContext : DbContext
-        where TKeyedEntity : class, IIntId
+        where TKeyedEntity : class, ILongId
     {
     }
 }

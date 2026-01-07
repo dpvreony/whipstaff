@@ -33,7 +33,7 @@ namespace Whipstaff.Wpf.JumpLists
         /// </summary>
         public void NoJumpListRegisteredCreatingNew()
         {
-            LogMessageActions.NoJumpListRegisteredCreatingNew(Logger);
+            BrowserInstanceLogMessageActions.NoJumpListRegisteredCreatingNew(Logger);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Whipstaff.Wpf.JumpLists
         /// </summary>
         public void AddingJumpPathToRecentCategory()
         {
-            LogMessageActions.AddingJumpPathToRecentCategory(Logger);
+            BrowserInstanceLogMessageActions.AddingJumpPathToRecentCategory(Logger);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Whipstaff.Wpf.JumpLists
         /// </summary>
         public void AddingJumpTaskToRecentCategory()
         {
-            LogMessageActions.AddingJumpTaskToRecentCategory(Logger);
+            BrowserInstanceLogMessageActions.AddingJumpTaskToRecentCategory(Logger);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Whipstaff.Wpf.JumpLists
         /// </summary>
         public void ClearingJumpList()
         {
-            LogMessageActions.ClearingJumpList(Logger);
+            BrowserInstanceLogMessageActions.ClearingJumpList(Logger);
         }
     }
 }

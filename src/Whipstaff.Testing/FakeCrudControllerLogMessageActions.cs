@@ -19,11 +19,13 @@ namespace Whipstaff.Testing
         /// </summary>
         public FakeCrudControllerLogMessageActions()
         {
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             AddEventLogMessageAction = LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventId(new EventId(1));
             DeleteEventLogMessageAction = LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventId(new EventId(2));
             ListEventLogMessageAction = LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventId(new EventId(3));
             UpdateEventLogMessageAction = LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventId(new EventId(4));
             ViewEventLogMessageAction = LoggerMessageFactory.GetDebugBasicLoggerMessageActionForEventId(new EventId(5));
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <inheritdoc />

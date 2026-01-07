@@ -20,11 +20,13 @@ namespace Whipstaff.AspNetCore.Features.RequireForwardedForHeader
         /// Initializes a new instance of the <see cref="RequireForwardedForHeaderMiddleware"/> class.
         /// </summary>
         /// <param name="next">The next Middleware in the pipeline.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public RequireForwardedForHeaderMiddleware(RequestDelegate next)
         {
             ArgumentNullException.ThrowIfNull(next);
             _next = next;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Handles a Middleware request.

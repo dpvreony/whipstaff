@@ -5,6 +5,7 @@
 using System.CommandLine;
 using System.IO;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine;
 using Whipstaff.Testing.Logging;
 using Xunit;

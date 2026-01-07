@@ -24,7 +24,7 @@ namespace Whipstaff.OpenXml.Excel
         /// <returns>A spreadsheet document.</returns>
         public static SpreadsheetDocument GetWorkbookSpreadSheetDocument(
             Stream stream,
-            IList<(string Name, Action<Sheet, WorksheetPart> Actor)> sheetActors)
+            IList<SheetActorFuncModel> sheetActors)
         {
             var spreadsheetDocument = SpreadsheetDocument.Create(stream, SpreadsheetDocumentType.Workbook);
 
@@ -44,7 +44,7 @@ namespace Whipstaff.OpenXml.Excel
         }
 
         private static void AddWorkSheets(
-            IList<(string Name, Action<Sheet, WorksheetPart> Actor)> sheetActors,
+            IList<SheetActorFuncModel> sheetActors,
             WorkbookPart workbookPart,
             Sheets sheets)
         {

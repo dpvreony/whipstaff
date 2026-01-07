@@ -8,9 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
@@ -60,10 +60,10 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
             {
                 var logger = LoggerFactory.CreateLogger<CommandLineJob>();
                 var instance = new CommandLineJob(
+                    new MockFileSystem(),
                     new CommandLineJobLogMessageActionsWrapper(
                         new CommandLineJobLogMessageActions(),
-                        logger),
-                    new MockFileSystem());
+                        logger));
 
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,

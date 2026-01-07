@@ -26,18 +26,18 @@ namespace Whipstaff.Core.Logging
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractLogMessageActionsWrapper{TCategoryName, TLogMessageActions}"/> class.
         /// </summary>
-        /// <param name="logMessageActions">Log Message Actions instance.</param>
+        /// <param name="browserInstanceLogMessageActions">Log Message Actions instance.</param>
         /// <param name="logger">Logging framework instance.</param>
         protected AbstractLogMessageActionsWrapper(
-            TLogMessageActions logMessageActions,
+            TLogMessageActions browserInstanceLogMessageActions,
 #pragma warning disable S6672
             ILogger<TCategoryName> logger)
 #pragma warning restore S6672
         {
-            ArgumentNullException.ThrowIfNull(logMessageActions);
+            ArgumentNullException.ThrowIfNull(browserInstanceLogMessageActions);
             ArgumentNullException.ThrowIfNull(logger);
 
-            LogMessageActions = logMessageActions;
+            BrowserInstanceLogMessageActions = browserInstanceLogMessageActions;
             Logger = logger;
         }
 
@@ -47,6 +47,6 @@ namespace Whipstaff.Core.Logging
         /// <summary>
         /// Gets the log message actions.
         /// </summary>
-        protected TLogMessageActions LogMessageActions { get; }
+        protected TLogMessageActions BrowserInstanceLogMessageActions { get; }
     }
 }

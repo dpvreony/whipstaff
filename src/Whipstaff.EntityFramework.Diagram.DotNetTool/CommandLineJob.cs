@@ -28,11 +28,11 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJob"/> class.
         /// </summary>
-        /// <param name="commandLineJobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
         /// <param name="fileSystem">File System abstraction.</param>
+        /// <param name="commandLineJobLogMessageActionsWrapper">Wrapper for logging framework messages.</param>
         public CommandLineJob(
-            CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper,
-            IFileSystem fileSystem)
+            IFileSystem fileSystem,
+            CommandLineJobLogMessageActionsWrapper commandLineJobLogMessageActionsWrapper)
             : base(commandLineJobLogMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
@@ -48,6 +48,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
                 {
                     var appDomain = AppDomain.CurrentDomain;
                     var loadedAssemblies = new List<string>();
+#pragma warning disable GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
                     appDomain.AssemblyResolve += (_, args) =>
                     {
                         var assemblyName = new AssemblyName(args.Name);
@@ -70,6 +71,7 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 
                         return null;
                     };
+#pragma warning restore GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
 
                     LogMessageActionsWrapper.StartingHandleCommand();
 

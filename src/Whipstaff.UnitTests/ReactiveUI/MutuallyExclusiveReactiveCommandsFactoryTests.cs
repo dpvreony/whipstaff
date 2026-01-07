@@ -47,18 +47,18 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 current.CancellationTokenSource);
         }
 
-        private static async Task TestEachCommandIsMutuallyExclusive(
+        private static async Task TestEachCommandIsMutuallyExclusiveAsync(
             (ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
             TestScheduler testScheduler)
         {
             var sut = commandsToTest.Select(currentCommand => GetTestRow(currentCommand)).ToArray();
 
-            await TestEachCommandIsMutuallyExclusive(
+            await TestEachCommandIsMutuallyExclusiveAsync(
                 sut,
                 testScheduler);
         }
 
-        private static async Task TestEachCommandIsMutuallyExclusive(
+        private static async Task TestEachCommandIsMutuallyExclusiveAsync(
             (Func<bool> IsExecuting, Func<bool> CanExecute, ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
             TestScheduler testScheduler)
         {
@@ -93,7 +93,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
         }
 
-        private static async Task<Unit> RunUntilToldToStop(Unit param, CancellationToken token)
+        private static async Task<Unit> RunUntilToldToStopAsync(Unit param, CancellationToken token)
         {
             while (!token.IsCancellationRequested)
             {
@@ -149,8 +149,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     RxSchedulers.MainThreadScheduler = testScheduler;
                     RxSchedulers.TaskpoolScheduler = testScheduler;
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -166,7 +166,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
                     Assert.True(nobodyIsExecuting.Value);
 
-                    await TestEachCommandIsMutuallyExclusive(
+                    await TestEachCommandIsMutuallyExclusiveAsync(
                         [
                             (
                                 firstCommand,
@@ -243,9 +243,9 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     RxSchedulers.MainThreadScheduler = testScheduler;
                     RxSchedulers.TaskpoolScheduler = testScheduler;
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -264,7 +264,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
                     Assert.True(nobodyIsExecuting.Value);
 
-                    await TestEachCommandIsMutuallyExclusive(
+                    await TestEachCommandIsMutuallyExclusiveAsync(
                     [
                         (
                             firstCommand,
@@ -352,10 +352,10 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     RxSchedulers.MainThreadScheduler = testScheduler;
                     RxSchedulers.TaskpoolScheduler = testScheduler;
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fourthCancellationToken.Token));
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -377,7 +377,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
                     Assert.True(nobodyIsExecuting.Value);
 
-                    await TestEachCommandIsMutuallyExclusive(
+                    await TestEachCommandIsMutuallyExclusiveAsync(
                     [
                         (
                             firstCommand,
@@ -476,11 +476,11 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     RxSchedulers.MainThreadScheduler = testScheduler;
                     RxSchedulers.TaskpoolScheduler = testScheduler;
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fifthCancellationToken.Token));
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -505,7 +505,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
                     Assert.True(nobodyIsExecuting.Value);
 
-                    await TestEachCommandIsMutuallyExclusive(
+                    await TestEachCommandIsMutuallyExclusiveAsync(
                     [
                         (
                             firstCommand,
@@ -615,12 +615,12 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     RxSchedulers.MainThreadScheduler = testScheduler;
                     RxSchedulers.TaskpoolScheduler = testScheduler;
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fifthCancellationToken.Token));
-                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, sixthCancellationToken.Token));
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
+                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token));
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -648,7 +648,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
                     Assert.True(nobodyIsExecuting.Value);
 
-                    await TestEachCommandIsMutuallyExclusive(
+                    await TestEachCommandIsMutuallyExclusiveAsync(
                     [
                         (
                             firstCommand,
@@ -769,13 +769,13 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     RxSchedulers.MainThreadScheduler = testScheduler;
                     RxSchedulers.TaskpoolScheduler = testScheduler;
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fifthCancellationToken.Token));
-                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, sixthCancellationToken.Token));
-                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, seventhCancellationToken.Token));
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
+                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token));
+                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token));
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -806,7 +806,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
                     Assert.True(nobodyIsExecuting.Value);
 
-                    await TestEachCommandIsMutuallyExclusive(
+                    await TestEachCommandIsMutuallyExclusiveAsync(
                     [
                         (
                             firstCommand,
@@ -938,14 +938,14 @@ namespace Whipstaff.UnitTests.ReactiveUI
                     RxSchedulers.MainThreadScheduler = testScheduler;
                     RxSchedulers.TaskpoolScheduler = testScheduler;
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, fifthCancellationToken.Token));
-                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, sixthCancellationToken.Token));
-                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, seventhCancellationToken.Token));
-                    var eighth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStop(param, eighthCancellationToken.Token));
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
+                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token));
+                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token));
+                    var eighth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, eighthCancellationToken.Token));
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -979,7 +979,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
                     Assert.True(nobodyIsExecuting.Value);
 
-                    await TestEachCommandIsMutuallyExclusive(
+                    await TestEachCommandIsMutuallyExclusiveAsync(
                     [
                         (
                             firstCommand,

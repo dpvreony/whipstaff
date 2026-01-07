@@ -5,6 +5,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.Testing.Logging;
 using Xunit;

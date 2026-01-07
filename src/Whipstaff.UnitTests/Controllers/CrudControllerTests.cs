@@ -14,12 +14,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation.XUnit.Logging;
 using Rocks;
-using Whipstaff.Core;
 using Whipstaff.Mediator;
 using Whipstaff.Testing;
 using Whipstaff.Testing.Cqrs;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Controllers
@@ -146,11 +145,11 @@ namespace Whipstaff.UnitTests.Controllers
                     argumentNullExceptionParameterName,
                     () => new FakeCrudController(
                     authorizationService?.Instance()!,
-                    logger?.Instance()!,
                     mediator?.Instance()!,
                     commandFactory!,
                     queryFactory!,
-                    logMessageActionMappings!));
+                    logMessageActionMappings!,
+                    logger?.Instance()!));
 
                 Assert.Equal(argumentNullExceptionParameterName, ex.ParamName);
 
@@ -173,11 +172,11 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var instance = new FakeCrudController(
                     mockAuthorizationService.Instance(),
-                    mockLogger.Instance(),
                     mockMediator.Instance(),
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions());
+                    new FakeCrudControllerLogMessageActions(),
+                    mockLogger.Instance());
                 Assert.NotNull(instance);
 
                 mockAuthorizationService.Verify();
@@ -242,11 +241,11 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var instance = new FakeCrudController(
                     authorizationService.Instance(),
-                    LoggerFactory.CreateLogger<FakeCrudController>(),
                     mediator.Instance(),
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions())
+                    new FakeCrudControllerLogMessageActions(),
+                    LoggerFactory.CreateLogger<FakeCrudController>())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -334,11 +333,11 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var instance = new FakeCrudController(
                     authorizationService.Instance(),
-                    LoggerFactory.CreateLogger<FakeCrudController>(),
                     mediator.Instance(),
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions())
+                    new FakeCrudControllerLogMessageActions(),
+                    LoggerFactory.CreateLogger<FakeCrudController>())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -388,11 +387,11 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var instance = new FakeCrudController(
                     authorizationService.Instance(),
-                    LoggerFactory.CreateLogger<FakeCrudController>(),
                     mediator.Instance(),
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions())
+                    new FakeCrudControllerLogMessageActions(),
+                    LoggerFactory.CreateLogger<FakeCrudController>())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -476,11 +475,11 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var instance = new FakeCrudController(
                     authorizationService.Instance(),
-                    LoggerFactory.CreateLogger<FakeCrudController>(),
                     mediator.Instance(),
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions())
+                    new FakeCrudControllerLogMessageActions(),
+                    LoggerFactory.CreateLogger<FakeCrudController>())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -566,11 +565,11 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var instance = new FakeCrudController(
                     authorizationService.Instance(),
-                    LoggerFactory.CreateLogger<FakeCrudController>(),
                     mediator.Instance(),
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions())
+                    new FakeCrudControllerLogMessageActions(),
+                    LoggerFactory.CreateLogger<FakeCrudController>())
                 {
                     ControllerContext = new ControllerContext
                     {
@@ -670,11 +669,11 @@ namespace Whipstaff.UnitTests.Controllers
 
                 var instance = new FakeCrudController(
                     authorizationService.Instance(),
-                    LoggerFactory.CreateLogger<FakeCrudController>(),
                     mediator.Instance(),
                     commandFactory,
                     queryFactory,
-                    new FakeCrudControllerLogMessageActions())
+                    new FakeCrudControllerLogMessageActions(),
+                    LoggerFactory.CreateLogger<FakeCrudController>())
                 {
                     ControllerContext = new ControllerContext
                     {

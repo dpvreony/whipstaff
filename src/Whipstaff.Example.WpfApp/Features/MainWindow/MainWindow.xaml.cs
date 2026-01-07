@@ -16,13 +16,17 @@ namespace Whipstaff.Example.WpfApp.Features.MainWindow
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public MainWindow()
         {
             InitializeComponent();
 
             // ReSharper disable once ConvertClosureToMethodGroup
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _ = this.WhenActivated(d => OnWhenActivated(d));
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         private void OnWhenActivated(Action<IDisposable> disposer)
         {

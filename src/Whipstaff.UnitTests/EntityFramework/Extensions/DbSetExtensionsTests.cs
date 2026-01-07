@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.EntityFramework.Extensions;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;

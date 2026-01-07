@@ -18,26 +18,26 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
     /// <typeparam name="TRequest">The type for the Mediator Request.</typeparam>
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
-    public abstract class ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity> : IRequestHandler<TRequest, int>
+    public abstract class AbstractActOnDbSetRequestHandler<TRequest, TDbContext, TEntity> : IRequestHandler<TRequest, int>
         where TDbContext : DbContext
         where TRequest : IRequest<int>
     {
         private static readonly Action<ILogger, int, Exception?> _saveResultLogMessage = LoggerMessage.Define<int>(
             LogLevel.Debug,
-            new EventId(1, nameof(ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>)),
+            new EventId(1, nameof(AbstractActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>)),
             "Save Result: {SaveResult}");
 
         private readonly IDbContextFactory<TDbContext> _dbContextFactory;
-        private readonly ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> _logger;
+        private readonly ILogger<AbstractActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ActOnDbSetRequestHandler{TRequest, TDbContext, TEntity}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractActOnDbSetRequestHandler{TRequest, TDbContext, TEntity}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
         /// <param name="logger">Logging framework instance.</param>
-        protected ActOnDbSetRequestHandler(
+        protected AbstractActOnDbSetRequestHandler(
             IDbContextFactory<TDbContext> dbContextFactory,
-            ILogger<ActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> logger)
+            ILogger<AbstractActOnDbSetRequestHandler<TRequest, TDbContext, TEntity>> logger)
         {
             ArgumentNullException.ThrowIfNull(dbContextFactory);
             ArgumentNullException.ThrowIfNull(logger);

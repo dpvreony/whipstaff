@@ -4,11 +4,10 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualBasic.Logging;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Mediator.EntityFrameworkCore;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
-using Whipstaff.Testing.Logging;
 using Whipstaff.Testing.Mediator;
 using Xunit;
 

@@ -67,11 +67,23 @@ namespace Whipstaff.CommandLine
                 return null;
             }
 
-            var getRootCommandAndBinderMethodInfo = instance.GetType().GetMethod("GetRootCommandAndBinder");
+#if TBC
+            var getRootCommandAndBinderMethodInfo = matchingType.GetMethod("GetRootCommandAndBinder");
             var rootCommandAndBinderObject = getRootCommandAndBinderMethodInfo!.Invoke(instance, [new FileSystem()]);
-            var rootCommandProperty = rootCommandAndBinderObject.GetType().GetProperty("RootCommand");
+
+            var rootCommandProperty = typeof(RootCommandAndBinderModel<>).GetProperty("RootCommand");
             var accessor = rootCommandProperty!.GetGetMethod();
             var rootCommand = accessor!.Invoke(rootCommandAndBinderObject, null);
+#else
+            var getRootCommandAndBinderMethodInfo = matchingType.GetMethod("GetRootCommandAndBinder");
+            var rootCommandAndBinderObject = getRootCommandAndBinderMethodInfo!.Invoke(instance, [new FileSystem()]);
+
+#pragma warning disable GR0036 // Consider usage of typeof(x) instead of System.Type.GetType.
+            var rootCommandProperty = rootCommandAndBinderObject.GetType().GetProperty("RootCommand");
+#pragma warning restore GR0036 // Consider usage of typeof(x) instead of System.Type.GetType.
+            var accessor = rootCommandProperty!.GetGetMethod();
+            var rootCommand = accessor!.Invoke(rootCommandAndBinderObject, null);
+#endif
 
             // ReSharper disable once MergeConditionalExpression
             return rootCommand != null ? (RootCommand)rootCommand : null;

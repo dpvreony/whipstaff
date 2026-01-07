@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Runtime.Extensions;
 using Whipstaff.Testing.Logging;
 using Xunit;

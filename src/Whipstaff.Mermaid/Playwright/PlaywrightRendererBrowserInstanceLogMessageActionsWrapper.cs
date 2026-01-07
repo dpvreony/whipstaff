@@ -11,19 +11,19 @@ namespace Whipstaff.Mermaid.Playwright
     /// <summary>
     /// Wrapper for log message actions for <see cref="PlaywrightRenderer"/>.
     /// </summary>
-    public sealed class PlaywrightRendererLogMessageActionsWrapper : AbstractLogMessageActionsWrapper<PlaywrightRenderer, PlaywrightRendererLogMessageActions>
+    public sealed class PlaywrightRendererBrowserInstanceLogMessageActionsWrapper : AbstractLogMessageActionsWrapper<PlaywrightRendererBrowserInstance, PlaywrightRendererBrowserInstanceLogMessageActions>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlaywrightRendererLogMessageActionsWrapper"/> class.
+        /// Initializes a new instance of the <see cref="PlaywrightRendererBrowserInstanceLogMessageActionsWrapper"/> class.
         /// </summary>
-        /// <param name="logMessageActions">Log Message Actions instance.</param>
+        /// <param name="browserInstanceLogMessageActions">Log Message Actions instance.</param>
         /// <param name="logger">Logging framework instance.</param>
 #pragma warning disable S6672 // Generic logger injection should match enclosing type
-        public PlaywrightRendererLogMessageActionsWrapper(
-            PlaywrightRendererLogMessageActions logMessageActions,
-            ILogger<PlaywrightRenderer> logger)
+        public PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
+            PlaywrightRendererBrowserInstanceLogMessageActions browserInstanceLogMessageActions,
+            ILogger<PlaywrightRendererBrowserInstance> logger)
             : base(
-                logMessageActions,
+                browserInstanceLogMessageActions,
                 logger)
 #pragma warning restore S6672 // Generic logger injection should match enclosing type
         {
@@ -34,7 +34,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         public void FailedToGetPageResponse()
         {
-            LogMessageActions.FailedToGetPageResponse(Logger);
+            BrowserInstanceLogMessageActions.FailedToGetPageResponse(Logger);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// <param name="pageResponse">Page response that was returned.</param>
         public void UnexpectedPageResponse(IResponse pageResponse)
         {
-            LogMessageActions.UnexpectedPageResponse(Logger, pageResponse);
+            BrowserInstanceLogMessageActions.UnexpectedPageResponse(Logger, pageResponse);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Whipstaff.Mermaid.Playwright
         /// </summary>
         public void FailedToFindMermaidElement()
         {
-            LogMessageActions.FailedToFindMermaidElement(Logger);
+            BrowserInstanceLogMessageActions.FailedToFindMermaidElement(Logger);
         }
     }
 }

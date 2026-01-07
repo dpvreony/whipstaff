@@ -32,10 +32,12 @@ namespace Whipstaff.Nuget
         /// Initializes a new instance of the <see cref="NugetForwardingToNetCoreLogger"/> class.
         /// </summary>
         /// <param name="logger">Net Core logging framework instance.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public NugetForwardingToNetCoreLogger(Microsoft.Extensions.Logging.ILogger logger)
         {
             _internalLogger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public void Log(NuGet.Common.LogLevel level, string data)

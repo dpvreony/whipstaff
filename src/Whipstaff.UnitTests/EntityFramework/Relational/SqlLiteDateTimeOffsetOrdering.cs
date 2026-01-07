@@ -79,10 +79,12 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// Initializes a new instance of the <see cref="TestWithOnModelCreatingDbContext"/> class.
             /// </summary>
             /// <param name="options">Database context options.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
             public TestWithOnModelCreatingDbContext(DbContextOptions options)
                 : base(options)
             {
             }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
             /// <inheritdoc/>
             protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -112,7 +114,9 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
 
                     using (var dbContext = new TestWithOnModelCreatingDbContext(dbContextOptionsBuilder.Options))
                     {
+#pragma warning disable GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
                         _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+#pragma warning restore GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
 
                         _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now }, TestContext.Current.CancellationToken);
 
@@ -152,7 +156,9 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
 
                     using (var dbContext = new TestWithContextOptionsDbContext(dbContextOptionsBuilder.Options))
                     {
+#pragma warning disable GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
                         _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+#pragma warning restore GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
 
                         _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now }, TestContext.Current.CancellationToken);
 

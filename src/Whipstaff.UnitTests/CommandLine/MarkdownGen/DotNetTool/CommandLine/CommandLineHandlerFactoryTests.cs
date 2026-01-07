@@ -6,8 +6,8 @@ using System;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool.CommandLine

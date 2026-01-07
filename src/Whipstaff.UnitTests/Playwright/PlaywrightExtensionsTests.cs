@@ -5,6 +5,7 @@
 using System;
 using Microsoft.Playwright;
 using NetTestRegimentation;
+using NetTestRegimentation.XUnit.Logging;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Playwright;
 using Whipstaff.Testing.Logging;

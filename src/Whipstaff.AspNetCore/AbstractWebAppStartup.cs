@@ -86,9 +86,9 @@ namespace Whipstaff.AspNetCore
             {
                 var actualAuthenticationDetails = authenticationDetails.Value;
 
-                var authBuilder = services.AddAuthentication(actualAuthenticationDetails.DefaultScheme);
+                var authBuilder = services.AddAuthentication(actualAuthenticationDetails.Key);
 
-                actualAuthenticationDetails.BuilderAction(
+                actualAuthenticationDetails.Value(
                     authBuilder,
                     configuration,
                     environment);
@@ -96,7 +96,7 @@ namespace Whipstaff.AspNetCore
                 _usingAuthentication = true;
             }
 
-            _ = services.AddAuthorization(ConfigureAuthorization);
+            _ = services.AddAuthorization(c => ConfigureAuthorization(c));
 #if TBC
             // new HealthChecksApplicationStartHelper().ConfigureService(services, configuration);
 #endif
@@ -133,7 +133,7 @@ namespace Whipstaff.AspNetCore
         /// Gets the default schema and an action to use when configuring authentication. If null, no authentication will be configured.
         /// </summary>
         /// <returns>The default schema and an  action to use when running the configuration of authentication, or null.</returns>
-        protected abstract (string DefaultScheme, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment> BuilderAction)? GetConfigureAuthenticationDetails();
+        protected abstract KeyValuePair<string, Action<AuthenticationBuilder, IConfiguration, IWebHostEnvironment>>? GetConfigureAuthenticationDetails();
 
         /// <summary>
         /// Configure app specific services.
@@ -192,7 +192,7 @@ namespace Whipstaff.AspNetCore
         /// Gets the swagger endpoints to register on the UI.
         /// </summary>
         /// <returns>Collection of Swagger endpoints.</returns>
-        protected abstract IEnumerable<(string Url, string Name)>? GetSwaggerEndpoints();
+        protected abstract IEnumerable<UrlDescriptor> GetSwaggerEndpoints();
 
         private static Func<IServiceCollection, Action<MvcOptions>, IMvcBuilder>? GetControllerFunc(MvcServiceMode mvcServiceMode)
         {
@@ -280,9 +280,9 @@ namespace Whipstaff.AspNetCore
                 {
                     _ = app.UseSwaggerUI(c =>
                     {
-                        foreach (var (url, name) in swaggerEndpoints)
+                        foreach (var descriptor in swaggerEndpoints)
                         {
-                            c.SwaggerEndpoint(url, name);
+                            c.SwaggerEndpoint(descriptor.Url, descriptor.Name);
                         }
                     });
                 }
@@ -349,7 +349,10 @@ namespace Whipstaff.AspNetCore
             {
                 // if you have a load balancer in front, you can have an issue if there is no cache-control specified
                 // where it assumes it can cache it because it doesn't say "Don't cache it" (BIG-IP, etc.)
-                _ = options.CacheProfiles.TryAdd("nostore", new CacheProfile { NoStore = true });
+                if (!options.CacheProfiles.TryAdd("nostore", new CacheProfile { NoStore = true }))
+                {
+                    throw new InvalidOperationException("Could not add nostore cache profile");
+                }
             });
 
             foreach (var controllerAssembly in controllerAssemblies)

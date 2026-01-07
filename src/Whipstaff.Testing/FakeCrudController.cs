@@ -45,25 +45,25 @@ namespace Whipstaff.Testing
         /// Initializes a new instance of the <see cref="FakeCrudController"/> class.
         /// </summary>
         /// <param name="authorizationService">The authorization service for validating access.</param>
-        /// <param name="logger">The logger object.</param>
         /// <param name="mediator">The mediator object to publish CQRS messages to.</param>
         /// <param name="commandFactory">Factory for Commands.</param>
         /// <param name="queryFactory">Factory for Queries.</param>
         /// <param name="logMessageActions">Logging Framework Message Actions Factory.</param>
+        /// <param name="logger">The logger object.</param>
         public FakeCrudController(
             IAuthorizationService authorizationService,
-            ILogger<FakeCrudController> logger,
             IMediator mediator,
             FakeAuditableCommandFactory commandFactory,
             FakeAuditableQueryFactory queryFactory,
-            FakeCrudControllerLogMessageActions logMessageActions)
+            FakeCrudControllerLogMessageActions logMessageActions,
+            ILogger<FakeCrudController> logger)
             : base(
                 authorizationService,
-                logger,
                 mediator,
                 commandFactory,
                 queryFactory,
-                logMessageActions)
+                logMessageActions,
+                logger)
         {
         }
 

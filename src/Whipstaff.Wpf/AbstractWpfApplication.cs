@@ -17,23 +17,25 @@ namespace Whipstaff.Wpf
     /// <summary>
     /// WPF Application with reusable initialization logic. This makes ReactiveUI initialization more platform specific than the default.
     /// </summary>
-    public abstract class WpfApplication : Application, IDisposable
+    public abstract class AbstractWpfApplication : Application, IDisposable
     {
         private readonly CompositeDisposable _compositeDisposable;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WpfApplication"/> class.
+        /// Initializes a new instance of the <see cref="AbstractWpfApplication"/> class.
         /// </summary>
         /// <param name="assemblyResolveHelper">Helper to use for App domain assembly resolution failures.</param>
-        protected WpfApplication(IAssemblyResolveHelper? assemblyResolveHelper)
+        protected AbstractWpfApplication(IAssemblyResolveHelper? assemblyResolveHelper)
         {
             ArgumentNullException.ThrowIfNull(assemblyResolveHelper);
 
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _compositeDisposable = new CompositeDisposable
             {
                 CreateObservable(assemblyResolveHelper).Subscribe(),
                 this.Events().DispatcherUnhandledException.Subscribe(x => OnDispatcherUnhandledException(x))
             };
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <inheritdoc />
@@ -129,7 +131,9 @@ namespace Whipstaff.Wpf
                     return null; // return this value to the event invoker
                 };
 
+#pragma warning disable GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
                 AppDomain.CurrentDomain.AssemblyResolve += handler;
+#pragma warning restore GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
 
                 // Return a disposable that unsubscribes from the event when disposed
                 return () => AppDomain.CurrentDomain.AssemblyResolve -= handler;

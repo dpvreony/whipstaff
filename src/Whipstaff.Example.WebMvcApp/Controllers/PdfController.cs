@@ -32,7 +32,9 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp.Controllers
             : base(
                 authorizationService,
                 mediator,
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
                 LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "{Message}"),
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
                 logger)
         {
         }

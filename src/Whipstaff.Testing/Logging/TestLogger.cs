@@ -26,7 +26,9 @@ namespace Whipstaff.Testing.Logging
         public TestLogger(Action<TestLoggerOptions>? configure = null)
         {
             Options = new TestLoggerOptions();
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             configure?.Invoke(Options);
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <summary>
@@ -44,7 +46,9 @@ namespace Whipstaff.Testing.Logging
                 }
             };
 
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             configure?.Invoke(Options);
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <summary>

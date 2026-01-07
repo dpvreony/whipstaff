@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using Microsoft.Playwright;
 
 namespace Whipstaff.Playwright
 {
@@ -20,22 +19,20 @@ namespace Whipstaff.Playwright
     /// </summary>
     public sealed class InstallationHelper
     {
+        private readonly PlaywrightBrowserType _playwrightBrowserType;
         private readonly Lazy<int> _lazyInstaller;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InstallationHelper"/> class.
         /// </summary>
         /// <param name="playwrightBrowserType">The browser to use as part of the process.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public InstallationHelper(PlaywrightBrowserType playwrightBrowserType)
         {
-            var args = playwrightBrowserType switch
-            {
-                PlaywrightBrowserType.None => new[] { "install" },
-                _ => new[] { "install", playwrightBrowserType.ToString().ToLowerInvariant() },
-            };
-
-            _lazyInstaller = new(() => Program.Main(args));
+            _playwrightBrowserType = playwrightBrowserType;
+            _lazyInstaller = new(() => Microsoft.Playwright.Program.Main(GetArgs()));
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Wrapper to carry out an installation a single time.
@@ -44,6 +41,18 @@ namespace Whipstaff.Playwright
         public int InstallPlaywright()
         {
             return _lazyInstaller.Value;
+        }
+
+        private string[] GetArgs()
+        {
+            return _playwrightBrowserType switch
+            {
+                PlaywrightBrowserType.None => ["install"],
+                _ => [
+                    "install",
+                    _playwrightBrowserType.ToString().ToLowerInvariant()
+                ]
+            };
         }
     }
 }

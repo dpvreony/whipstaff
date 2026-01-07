@@ -28,7 +28,9 @@ namespace System.Text
 
         public ValueStringBuilder(int initialCapacity)
         {
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _arrayToReturnToPool = ArrayPool<char>.Shared.Rent(initialCapacity);
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
             _chars = _arrayToReturnToPool;
             _pos = 0;
         }

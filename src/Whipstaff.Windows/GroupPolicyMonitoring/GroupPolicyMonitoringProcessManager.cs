@@ -27,15 +27,17 @@ namespace Whipstaff.Windows.GroupPolicyMonitoring
         /// <summary>
         /// Initializes a new instance of the <see cref="GroupPolicyMonitoringProcessManager"/> class.
         /// </summary>
-        /// <param name="logger">Logging framework instance.</param>
         /// <param name="onUserPreferenceChangingGroupPolicy">action to carry out when user preferences are changing via group policy.</param>
+        /// <param name="logger">Logging framework instance.</param>
         public GroupPolicyMonitoringProcessManager(
-            ILogger<GroupPolicyMonitoringProcessManager> logger,
-            Action onUserPreferenceChangingGroupPolicy)
+            Action onUserPreferenceChangingGroupPolicy,
+            ILogger<GroupPolicyMonitoringProcessManager> logger)
         {
             _logger = logger;
             _onUserPreferenceChangingGroupPolicy = onUserPreferenceChangingGroupPolicy;
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _userPreferenceChangingSubscription = RxEvents.SystemEventsUserPreferenceChanging.Subscribe(userPreferenceChangingEventArgs => OnSystemEventsOnUserPreferenceChanging(userPreferenceChangingEventArgs));
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <inheritdoc />
