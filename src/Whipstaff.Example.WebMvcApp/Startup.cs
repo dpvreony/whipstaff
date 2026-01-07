@@ -55,6 +55,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public Startup()
         {
 #if stuntman
@@ -62,6 +63,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebMvcApp
 #endif
             _dbConnection = CreateInMemoryDatabase();
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc />
         public override void ConfigureAspireServiceDefaults(IHostApplicationBuilder builder)

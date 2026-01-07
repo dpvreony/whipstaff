@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1</TargetFrameworks>
     <PackageDescription>re-usable logic for working with Mediator.Abstractions.</PackageDescription>
+    <NoWarn>$(NoWarn),GR0027</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

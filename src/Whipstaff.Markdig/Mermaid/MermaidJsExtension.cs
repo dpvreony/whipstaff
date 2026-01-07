@@ -27,6 +27,7 @@ namespace Whipstaff.Markdig.Mermaid
         /// </summary>
         /// <param name="settings">Settings for the Markdown JS extension.</param>
         /// <param name="loggerFactory">NET core logging factory.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public MermaidJsExtension(
             MarkdownJsExtensionSettings settings,
             ILoggerFactory loggerFactory)
@@ -37,6 +38,7 @@ namespace Whipstaff.Markdig.Mermaid
             _settings = settings;
             _loggerFactory = loggerFactory;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public void Setup(MarkdownPipelineBuilder pipeline)

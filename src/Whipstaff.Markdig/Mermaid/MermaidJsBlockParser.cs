@@ -22,12 +22,14 @@ namespace Whipstaff.Markdig.Mermaid
         /// <summary>
         /// Initializes a new instance of the <see cref="MermaidJsBlockParser"/> class.
         /// </summary>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public MermaidJsBlockParser()
         {
             OpeningCharacters = new[] { '`', '~' };
             InfoPrefix = DefaultInfoPrefix;
             InfoParser = MermaidInfoParser;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public override BlockState TryContinue(BlockProcessor processor, Block block)

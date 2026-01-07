@@ -26,11 +26,13 @@ namespace Whipstaff.Playwright
         /// Initializes a new instance of the <see cref="InstallationHelper"/> class.
         /// </summary>
         /// <param name="playwrightBrowserType">The browser to use as part of the process.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public InstallationHelper(PlaywrightBrowserType playwrightBrowserType)
         {
             _playwrightBrowserType = playwrightBrowserType;
             _lazyInstaller = new(() => Microsoft.Playwright.Program.Main(GetArgs()));
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Wrapper to carry out an installation a single time.

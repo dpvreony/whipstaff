@@ -30,6 +30,7 @@ namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
         /// </remarks>
         /// <param name="next">The next middleware registration in the pipeline.</param>
         /// <param name="appVersion">The application version to place in the response header.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public AddServerDetailsToResponseHeaderMiddleware(
             RequestDelegate next,
             string appVersion)
@@ -39,6 +40,7 @@ namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
                 appVersion)
         {
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddServerDetailsToResponseHeaderMiddleware"/> class.
@@ -50,6 +52,7 @@ namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
         /// <param name="next">The next middleware registration in the pipeline.</param>
         /// <param name="hostname">The hostname or respective token to place in the response header.</param>
         /// <param name="appVersion">The application version to place in the response header.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public AddServerDetailsToResponseHeaderMiddleware(
             RequestDelegate next,
             string hostname,
@@ -60,6 +63,7 @@ namespace Whipstaff.AspNetCore.Features.AddServerDetailsToResponseHeader
             _hostName = hostname;
             _appVersion = appVersion;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Handles a Middleware request.

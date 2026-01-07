@@ -22,6 +22,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
         /// </summary>
         /// <param name="assemblyOption">Assembly to parse and bind against.</param>
         /// <param name="outputFilePathOption">Output file path to parse and bind against.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public CommandLineArgModelBinder(
             Option<FileInfo> assemblyOption,
             Option<FileInfo> outputFilePathOption)
@@ -32,6 +33,7 @@ namespace Whipstaff.CommandLine.MarkdownGen.DotNetTool.CommandLine
             _assemblyOption = assemblyOption;
             _outputFilePathOption = outputFilePathOption;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public CommandLineArgModel GetBoundValue(ParseResult parseResult)

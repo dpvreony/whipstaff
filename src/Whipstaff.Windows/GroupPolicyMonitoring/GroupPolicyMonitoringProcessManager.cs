@@ -35,7 +35,9 @@ namespace Whipstaff.Windows.GroupPolicyMonitoring
         {
             _logger = logger;
             _onUserPreferenceChangingGroupPolicy = onUserPreferenceChangingGroupPolicy;
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _userPreferenceChangingSubscription = RxEvents.SystemEventsUserPreferenceChanging.Subscribe(userPreferenceChangingEventArgs => OnSystemEventsOnUserPreferenceChanging(userPreferenceChangingEventArgs));
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <inheritdoc />

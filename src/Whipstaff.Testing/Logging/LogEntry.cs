@@ -43,7 +43,9 @@ namespace Whipstaff.Testing.Logging
         /// <summary>
         /// Gets or sets the state of the log entry.
         /// </summary>
+#pragma warning disable GR0039 // Do not use Object in a property declaration.
         public required object State { get; set; }
+#pragma warning restore GR0039 // Do not use Object in a property declaration.
 
         /// <summary>
         /// Gets or sets the exception of the log entry.

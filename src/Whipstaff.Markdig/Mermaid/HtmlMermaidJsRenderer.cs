@@ -28,6 +28,7 @@ namespace Whipstaff.Markdig.Mermaid
         /// </summary>
         /// <param name="browserSession">Browser session to render diagrams. Passed in as a cached object to reduce time on rendering multiple diagrams.</param>
         /// <param name="settings">MermaidJS extension settings.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         private HtmlMermaidJsRenderer(
             IPlaywrightRendererBrowserInstance browserSession,
             MarkdownJsExtensionSettings settings)
@@ -38,6 +39,7 @@ namespace Whipstaff.Markdig.Mermaid
             _browserSession = browserSession;
             _settings = settings;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
         /// Creates a new instance of the <see cref="HtmlMermaidJsRenderer"/> class.

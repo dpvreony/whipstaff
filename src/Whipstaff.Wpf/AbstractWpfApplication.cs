@@ -29,11 +29,13 @@ namespace Whipstaff.Wpf
         {
             ArgumentNullException.ThrowIfNull(assemblyResolveHelper);
 
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _compositeDisposable = new CompositeDisposable
             {
                 CreateObservable(assemblyResolveHelper).Subscribe(),
                 this.Events().DispatcherUnhandledException.Subscribe(x => OnDispatcherUnhandledException(x))
             };
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <inheritdoc />
@@ -129,7 +131,9 @@ namespace Whipstaff.Wpf
                     return null; // return this value to the event invoker
                 };
 
+#pragma warning disable GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
                 AppDomain.CurrentDomain.AssemblyResolve += handler;
+#pragma warning restore GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
 
                 // Return a disposable that unsubscribes from the event when disposed
                 return () => AppDomain.CurrentDomain.AssemblyResolve -= handler;

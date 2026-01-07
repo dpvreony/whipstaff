@@ -90,7 +90,9 @@ internal sealed class TestLoggerLogger : ILogger
         return Push(state);
     }
 
+#pragma warning disable GR0033 // Do not use Object in a parameter declaration.
     private static IDisposable Push(object state)
+#pragma warning restore GR0033 // Do not use Object in a parameter declaration.
     {
         CurrentScopeStack = CurrentScopeStack.Push(state);
         return Disposable.Create(static () => Pop());

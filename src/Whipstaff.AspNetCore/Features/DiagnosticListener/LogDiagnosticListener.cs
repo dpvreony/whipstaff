@@ -34,6 +34,7 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
             ArgumentNullException.ThrowIfNull(logger);
             _logger = logger;
 
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _middlewareFinishedLogAction = LoggerMessage.Define<string, int?>(
                 LogLevel.Information,
                 WhipstaffEventIdFactory.MiddlewareFinished(),
@@ -48,6 +49,7 @@ namespace Whipstaff.AspNetCore.Features.DiagnosticListener
                 LogLevel.Information,
                 WhipstaffEventIdFactory.MiddlewareException(),
                 "MiddlewareStarting: {Name}");
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <summary>
