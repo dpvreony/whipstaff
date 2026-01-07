@@ -101,7 +101,7 @@
 
   <ItemGroup>
     <PackageReference Include="Desktop.Analyzers" Version="1.1.0" PrivateAssets="all"/>
-    <PackageReference Include="Gripe.Analyzer" Version="2.0.21" PrivateAssets="all" />
+    <PackageReference Include="Gripe.Analyzer" Version="2.0.24" PrivateAssets="all" />
     <PackageReference Include="InclusivenessAnalyzer" Version="1.3.0" PrivateAssets="all" />
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" PrivateAssets="all" />
     <PackageReference Include="MemoryAnalyzers" Version="0.1.0-beta.5" PrivateAssets="all" />
