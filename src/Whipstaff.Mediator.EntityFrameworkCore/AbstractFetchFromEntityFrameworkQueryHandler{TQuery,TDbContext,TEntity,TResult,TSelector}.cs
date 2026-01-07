@@ -20,7 +20,7 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
     /// <typeparam name="TResult">The type for the Result.</typeparam>
     /// <typeparam name="TSelector">The type for POCO object used in the per row selection.</typeparam>
-    public abstract class FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult, TSelector> : IQueryHandler<TQuery, TResult?>
+    public abstract class AbstractFetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult, TSelector> : IQueryHandler<TQuery, TResult?>
         where TDbContext : DbContext
         where TQuery : IQuery<TResult?>
         where TEntity : class
@@ -28,10 +28,10 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
         private readonly IDbContextFactory<TDbContext> _dbContextFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FetchFromEntityFrameworkQueryHandler{TRequest, TDbContext, TEntity, TResult, TSelector}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractFetchFromEntityFrameworkQueryHandler{TRequest, TDbContext, TEntity, TResult, TSelector}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
-        protected FetchFromEntityFrameworkQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
+        protected AbstractFetchFromEntityFrameworkQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
         {
             _dbContextFactory = dbContextFactory ?? throw new ArgumentNullException(nameof(dbContextFactory));
         }
@@ -45,7 +45,7 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
 
                 var queryable = ExtendQueryable(
                         GetDbSet(dbContext)
-                            .TagWith(nameof(FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult>)))
+                            .TagWith(nameof(AbstractFetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult>)))
                     .Where(GetWherePredicate(query))
                     .Select(GetSelector());
 

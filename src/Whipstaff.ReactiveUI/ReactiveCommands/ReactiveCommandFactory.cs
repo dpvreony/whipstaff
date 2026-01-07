@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
+#pragma warning disable VSTHRD101 // Avoid unsupported async delegates - need new version of System.Reactive to fix
 namespace Whipstaff.ReactiveUI.ReactiveCommands
 {
     /// <summary>

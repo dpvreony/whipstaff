@@ -20,17 +20,17 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
     /// <typeparam name="TResult">The type for the Result.</typeparam>
-    public abstract class FetchFromEntityFrameworkByInt32IdQueryHandler<TQuery, TDbContext, TEntity, TResult>
-        : FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult>
+    public abstract class AbstractFetchFromEntityFrameworkByInt32IdQueryHandler<TQuery, TDbContext, TEntity, TResult>
+        : AbstractFetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult>
         where TDbContext : DbContext
         where TQuery : IQuery<TResult?>, IIntId
         where TEntity : class, IIntId
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FetchFromEntityFrameworkByInt32IdQueryHandler{TQuery, TDbContext, TEntity,TResult}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractFetchFromEntityFrameworkByInt32IdQueryHandler{TQuery, TDbContext, TEntity,TResult}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
-        protected FetchFromEntityFrameworkByInt32IdQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
+        protected AbstractFetchFromEntityFrameworkByInt32IdQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
             : base(dbContextFactory)
         {
         }
@@ -44,7 +44,7 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
         /// <inheritdoc/>
         protected override Task<TResult?> GetResultAsync(IQueryable<TResult?> queryable, CancellationToken cancellationToken)
         {
-            return queryable.TagWith(nameof(FetchFromEntityFrameworkByInt32IdQueryHandler<TQuery, TDbContext, TEntity, TResult>))
+            return queryable.TagWith(nameof(AbstractFetchFromEntityFrameworkByInt32IdQueryHandler<TQuery, TDbContext, TEntity, TResult>))
                 .FirstOrDefaultAsync(cancellationToken);
         }
     }

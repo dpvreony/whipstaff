@@ -26,10 +26,12 @@ namespace Whipstaff.Runtime.HostOverride
         /// <param name="logger">Logging Framework instance.</param>
         public InMemoryHostOverride(IDictionary<string, string> mappings, ILogger<InMemoryHostOverride> logger)
         {
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             _logNoOverrideFoundForHost =
                 LoggerMessage.Define<string>(LogLevel.Debug, new EventId(1), "No override found for host \"{Host}\"");
             _logFoundOverrideFoundForHost =
                 LoggerMessage.Define<string, string>(LogLevel.Debug, new EventId(1), "Found for host \"{Host}\" to \"{Value}\"");
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
             _mappings = mappings ?? throw new ArgumentNullException(nameof(mappings));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }

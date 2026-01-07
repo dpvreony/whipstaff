@@ -30,11 +30,13 @@ namespace Whipstaff.Statiq.Mermaid
         /// Initializes a new instance of the <see cref="MermaidDiagramModule"/> class.
         /// </summary>
         /// <param name="fileSystem">File system abstraction.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public MermaidDiagramModule(System.IO.Abstractions.IFileSystem fileSystem)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             _fileSystem = fileSystem;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public void Dispose()

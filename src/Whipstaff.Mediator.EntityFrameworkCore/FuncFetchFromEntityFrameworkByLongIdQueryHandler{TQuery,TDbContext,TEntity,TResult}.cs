@@ -19,7 +19,7 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
     /// <typeparam name="TResult">The type for the Result.</typeparam>
-    public sealed class FuncFetchFromEntityFrameworkByLongIdQueryHandler<TQuery, TDbContext, TEntity, TResult> : FetchFromEntityFrameworkByLongIdQueryHandler<TQuery, TDbContext, TEntity, TResult>
+    public sealed class FuncFetchFromEntityFrameworkByLongIdQueryHandler<TQuery, TDbContext, TEntity, TResult> : AbstractFetchFromEntityFrameworkByLongIdQueryHandler<TQuery, TDbContext, TEntity, TResult>
         where TDbContext : DbContext
         where TQuery : IQuery<TResult>, ILongId
         where TEntity : class, ILongId

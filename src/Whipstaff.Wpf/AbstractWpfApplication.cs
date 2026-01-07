@@ -17,15 +17,15 @@ namespace Whipstaff.Wpf
     /// <summary>
     /// WPF Application with reusable initialization logic. This makes ReactiveUI initialization more platform specific than the default.
     /// </summary>
-    public abstract class WpfApplication : Application, IDisposable
+    public abstract class AbstractWpfApplication : Application, IDisposable
     {
         private readonly CompositeDisposable _compositeDisposable;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WpfApplication"/> class.
+        /// Initializes a new instance of the <see cref="AbstractWpfApplication"/> class.
         /// </summary>
         /// <param name="assemblyResolveHelper">Helper to use for App domain assembly resolution failures.</param>
-        protected WpfApplication(IAssemblyResolveHelper? assemblyResolveHelper)
+        protected AbstractWpfApplication(IAssemblyResolveHelper? assemblyResolveHelper)
         {
             ArgumentNullException.ThrowIfNull(assemblyResolveHelper);
 

@@ -10,16 +10,18 @@ namespace Whipstaff.Testing.Logging
     /// <summary>
     /// Base class for tests that require logging.
     /// </summary>
-    public abstract class TestWithLoggingBase
+    public abstract class AbstractTestWithLogging
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestWithLoggingBase"/> class.
+        /// Initializes a new instance of the <see cref="AbstractTestWithLogging"/> class.
         /// </summary>
         /// <param name="output">XUnit Test Output Helper.</param>
-        protected TestWithLoggingBase(ITestOutputHelper output)
+        protected AbstractTestWithLogging(ITestOutputHelper output)
         {
             LoggerFactory = new TestLogger(output);
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             Logger = LoggerFactory.CreateLogger(GetType());
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <summary>

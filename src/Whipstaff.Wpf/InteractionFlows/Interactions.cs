@@ -42,6 +42,7 @@ namespace Whipstaff.Wpf.InteractionFlows
             FolderOpenDialog = new Interaction<OpenFolderDialogRequest, OpenFolderDialogResult>(handlerScheduler);
             PrintDialog = new Interaction<PrintDialogRequest, PrintDialogResult>(handlerScheduler);
 
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             if (fileOpenDialogHandler != null)
             {
                 _ = FileOpenDialog.RegisterHandlerToOutputFunc(fileOpenDialogHandler)
@@ -65,6 +66,7 @@ namespace Whipstaff.Wpf.InteractionFlows
                 _ = PrintDialog.RegisterHandlerToOutputFunc(printDialogHandler)
                     .DisposeWith(compositeDisposable);
             }
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <summary>

@@ -16,23 +16,23 @@ namespace Whipstaff.Mediator.Foundatio.QueueProcessing
     /// A process manager for dealing with a Foundatio based queue mechanism.
     /// </summary>
     /// <typeparam name="TMessage">Type for the message being processed on the queue.</typeparam>
-    public abstract class QueueProcessManager<TMessage> : BackgroundService
+    public abstract class AbstractQueueProcessManager<TMessage> : BackgroundService
         where TMessage : class
     {
         private readonly IQueue<TMessage> _queue;
-        private readonly ILogger<QueueProcessManager<TMessage>> _logger;
+        private readonly ILogger<AbstractQueueProcessManager<TMessage>> _logger;
         private readonly IRecoveryStrategyHandler _recoveryStrategyHandler;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QueueProcessManager{TMessage}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractQueueProcessManager{TMessage}"/> class.
         /// </summary>
         /// <param name="queue">The queue to monitor.</param>
         /// <param name="recoveryStrategyHandler">The exception recovery strategy handler for failed messages.</param>
         /// <param name="logger">Logging framework instance.</param>
-        protected QueueProcessManager(
+        protected AbstractQueueProcessManager(
             IQueue<TMessage> queue,
             IRecoveryStrategyHandler recoveryStrategyHandler,
-            ILogger<QueueProcessManager<TMessage>> logger)
+            ILogger<AbstractQueueProcessManager<TMessage>> logger)
         {
             _queue = queue ?? throw new ArgumentNullException(nameof(queue));
             _recoveryStrategyHandler = recoveryStrategyHandler ?? throw new ArgumentNullException(nameof(recoveryStrategyHandler));

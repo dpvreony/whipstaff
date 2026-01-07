@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with ReactiveUI.</PackageDescription>
     <!-- review IL2026 once RXUI updated for AOT. -->
-    <NoWarn>IL2026</NoWarn>
+    <NoWarn>$(NoWarn),IL2026</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

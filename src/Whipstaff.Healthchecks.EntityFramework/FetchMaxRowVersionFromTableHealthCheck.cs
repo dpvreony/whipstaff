@@ -27,11 +27,13 @@ namespace Whipstaff.Healthchecks.EntityFramework
         /// Initializes a new instance of the <see cref="FetchMaxRowVersionFromTableHealthCheck{TDbContext, TEntity}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">Factory for the EF DBContext.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public FetchMaxRowVersionFromTableHealthCheck(IDbContextFactory<TDbContext> dbContextFactory)
         {
             ArgumentNullException.ThrowIfNull(dbContextFactory);
             _dbContextFactory = dbContextFactory;
         }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
         public async Task<HealthCheckResult> CheckHealthAsync(
@@ -41,6 +43,8 @@ namespace Whipstaff.Healthchecks.EntityFramework
             using (var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken)
                        .ConfigureAwait(false))
             {
+                dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
                 var maxRowVersion = await dbContext.Set<TEntity>()
                     .GetMaxRowVersionOrDefaultAsync()
                     .ConfigureAwait(false);

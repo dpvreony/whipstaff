@@ -14,17 +14,17 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
     /// <typeparam name="TDbContext">The type for the Entity Framework DB Context.</typeparam>
     /// <typeparam name="TEntity">The type for the POCO object.</typeparam>
     /// <typeparam name="TResult">The type for the Result.</typeparam>
-    public abstract class FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult> :
-        FetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult, TResult>
+    public abstract class AbstractFetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult> :
+        AbstractFetchFromEntityFrameworkQueryHandler<TQuery, TDbContext, TEntity, TResult, TResult>
         where TDbContext : DbContext
         where TQuery : IQuery<TResult?>
         where TEntity : class
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FetchFromEntityFrameworkQueryHandler{TRequest, TDbContext, TEntity,TResult}"/> class.
+        /// Initializes a new instance of the <see cref="AbstractFetchFromEntityFrameworkQueryHandler{TRequest, TDbContext, TEntity,TResult}"/> class.
         /// </summary>
         /// <param name="dbContextFactory">The factory for the database context.</param>
-        protected FetchFromEntityFrameworkQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
+        protected AbstractFetchFromEntityFrameworkQueryHandler(IDbContextFactory<TDbContext> dbContextFactory)
             : base(dbContextFactory)
         {
         }

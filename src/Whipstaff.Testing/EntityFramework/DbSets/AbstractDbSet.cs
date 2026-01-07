@@ -10,7 +10,7 @@ namespace Whipstaff.Testing.EntityFramework.DbSets
     /// <summary>
     /// Represents a base db set.
     /// </summary>
-    public abstract class BaseDbSet : IIntId, IModifiable, ILongRowVersion
+    public abstract class AbstractDbSet : IIntId, IModifiable, ILongRowVersion
     {
         /// <inheritdoc/>
         public int Id { get; set; }

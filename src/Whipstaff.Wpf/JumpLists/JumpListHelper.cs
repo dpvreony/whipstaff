@@ -43,6 +43,7 @@ namespace Whipstaff.Wpf.JumpLists
             _compositeDisposable = new CompositeDisposable();
             var jumpListEvents = _jumpList.Events();
 
+#pragma warning disable GR0012 // Constructors should minimise work and not execute methods
             if (jumpItemsRemovedByUserSubscription != null)
             {
                 _compositeDisposable.Add(jumpListEvents.JumpItemsRemovedByUser.Subscribe(jumpItemsRemovedByUserSubscription));
@@ -52,6 +53,7 @@ namespace Whipstaff.Wpf.JumpLists
             {
                 _compositeDisposable.Add(jumpListEvents.JumpItemsRejected.Subscribe(jumpItemsRejectedSubscription));
             }
+#pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
         /// <summary>
