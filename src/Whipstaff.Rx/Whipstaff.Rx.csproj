@@ -5,6 +5,7 @@
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with Reactive Extensions.</PackageDescription>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>

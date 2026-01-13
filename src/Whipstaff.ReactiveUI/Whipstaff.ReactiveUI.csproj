@@ -7,6 +7,7 @@
     <PackageDescription>Re-usable logic for working with ReactiveUI.</PackageDescription>
     <!-- review IL2026 once RXUI updated for AOT. -->
     <NoWarn>$(NoWarn),GR0049,IL2026</NoWarn>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>

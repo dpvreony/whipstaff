@@ -8,6 +8,7 @@
     <DebugSymbols>True</DebugSymbols>
     <!-- review CA1515 when upgrading to xunit3 -->
     <NoWarn>$(NoWarn),GR0046,GR0049,CA1515,CS1591</NoWarn>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup>

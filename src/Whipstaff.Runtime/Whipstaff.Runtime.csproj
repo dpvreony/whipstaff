@@ -5,6 +5,7 @@
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472</TargetFrameworks>
     <PackageDescription>Re-usable logic for working with the .NET runtime.</PackageDescription>
     <NoWarn>$(NoWarn),GR0027</NoWarn>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
