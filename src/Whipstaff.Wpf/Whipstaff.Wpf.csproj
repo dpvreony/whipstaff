@@ -4,7 +4,7 @@
     <TargetFramework>net10.0-windows10.0.19041</TargetFramework>
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
-    <EnableWindowsTargeting>True</EnableWindowsTargeting>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <PackageDescription>Re-usable logic for working with WPF.</PackageDescription>
     <NoWarn>$(NoWarn),GR0049,WPF0001</NoWarn>
   </PropertyGroup>
