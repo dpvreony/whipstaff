@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0;net10.0-android</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' != 'linux' ">$(TargetFrameworks);net10.0-ios;net10.0-tvos;net10.0-macos</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472</TargetFrameworks>
+    <TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-tvos;net10.0-macos</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net472</TargetFrameworks>
     <Nullable>enable</Nullable>
     <PackageDescription>Re-usable logic for working with Reactive Extensions.</PackageDescription>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
