@@ -148,7 +148,7 @@
   
   <ItemGroup>
     <!-- Explicitly reference Roslyn 5.0+ compiler toolset -->
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.11.0" Condition="'$(MSBuildRuntimeType)' != 'Core'">
+    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="5.0.0" Condition="'$(MSBuildRuntimeType)' != 'Core'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
