@@ -136,4 +136,21 @@
   <PropertyGroup>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
+
+  <!--
+  This roslyn override is here because on the Windows agent the Visual Studio MSBuild gets invoked
+  so Vetuviem has been failing to generate because it needs a newer Roslyn compiler than the one installed in VS.
+  -->
+  <PropertyGroup>
+    <!-- Force use of .NET SDK Roslyn compiler on Windows when VS MSBuild is invoked -->
+    <UseSharedCompilation>false</UseSharedCompilation>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <!-- Explicitly reference Roslyn 5.0+ compiler toolset -->
+    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.11.0" Condition="'$(MSBuildRuntimeType)' != 'Core'">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
