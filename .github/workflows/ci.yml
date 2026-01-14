@@ -26,6 +26,7 @@ jobs:
       buildOs: "windows"
       solutionName: "Whipstaff"
       runIntTestsOnPrimaryOsOnly: true
+      workloads : "android,ios,tvos,macos,maui"
     secrets:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
