@@ -36,6 +36,7 @@
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <GenerateSBOM>$(IsPackable)</GenerateSBOM>
     <NoWarn>$(NoWarn),GR0051</NoWarn>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsTestProject)">

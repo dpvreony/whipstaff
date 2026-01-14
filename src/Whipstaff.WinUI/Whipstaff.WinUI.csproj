@@ -5,6 +5,11 @@
     <Nullable>enable</Nullable>
     <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
     <PackageDescription>Re-usable logic for working with WinUI.</PackageDescription>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <!-- Disable MSIX packaging and PRI generation on non-Windows platforms -->
+    <GenerateAppInstallerFile Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</GenerateAppInstallerFile>
+    <AppxPackage Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</AppxPackage>
+    <WindowsPackageType Condition="!$([MSBuild]::IsOSPlatform('windows'))">None</WindowsPackageType>
   </PropertyGroup>
 
   <ItemGroup>
