@@ -83,8 +83,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.MaterialDesig
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Wpf.AvalonEdit", "Whipstaff.Wpf.AvalonEdit\Whipstaff.Wpf.AvalonEdit.csproj", "{4E69353A-56B5-4EAE-8BE4-8975EFDB7C4D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Statiq", "Whipstaff.Statiq\Whipstaff.Statiq.csproj", "{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Whipstaff.Aspire.Hosting", "Whipstaff.Aspire.Hosting\Whipstaff.Aspire.Hosting.csproj", "{3F75D12B-9EF6-47D8-955E-B8E5E3336AB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Example.AspireAppHost", "Whipstaff.Example.AspireAppHost\Whipstaff.Example.AspireAppHost.csproj", "{0312249D-F47A-4527-AF18-C2160EA424E1}"
@@ -701,18 +699,6 @@ Global
 		{4E69353A-56B5-4EAE-8BE4-8975EFDB7C4D}.Release|x64.Build.0 = Release|Any CPU
 		{4E69353A-56B5-4EAE-8BE4-8975EFDB7C4D}.Release|x86.ActiveCfg = Release|Any CPU
 		{4E69353A-56B5-4EAE-8BE4-8975EFDB7C4D}.Release|x86.Build.0 = Release|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Debug|x64.Build.0 = Debug|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Debug|x86.Build.0 = Debug|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Release|x64.ActiveCfg = Release|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Release|x64.Build.0 = Release|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Release|x86.ActiveCfg = Release|Any CPU
-		{AE602A3A-6E12-4881-8EF6-A078C11BDF0E}.Release|x86.Build.0 = Release|Any CPU
 		{3F75D12B-9EF6-47D8-955E-B8E5E3336AB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F75D12B-9EF6-47D8-955E-B8E5E3336AB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F75D12B-9EF6-47D8-955E-B8E5E3336AB7}.Debug|x64.ActiveCfg = Debug|Any CPU
