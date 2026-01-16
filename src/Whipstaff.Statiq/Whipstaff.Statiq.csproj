@@ -6,6 +6,18 @@
     <PackageDescription>Re-usable logic for working with WPF.</PackageDescription>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!--
+    Excluding from build as Statiq hasn't had a release since 2024-01-09 and has a blocking vulnerability in System.Formats.Asn1
+    -->
+    <BuildProject>false</BuildProject>
+    <RestoreProjectStyle>None</RestoreProjectStyle>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <Target Name="NoBuild" BeforeTargets="Build">
+    <Error Text="Build is disabled for this project." />
+  </Target>
+
   <Target Name="AdjustVersion" DependsOnTargets="GetBuildVersion" AfterTargets="GetBuildVersion">
     <PropertyGroup>
       <PackageVersion>$(PackageVersion)-beta</PackageVersion>
