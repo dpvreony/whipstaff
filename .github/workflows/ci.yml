@@ -21,7 +21,7 @@ jobs:
       pull-requests: write
       packages: read
       security-events: write
-    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@1.7.1
+    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@1.7.2
     with:
       buildOs: "windows"
       solutionName: "Whipstaff"
