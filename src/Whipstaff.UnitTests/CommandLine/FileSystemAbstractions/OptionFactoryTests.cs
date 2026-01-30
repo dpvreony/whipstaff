@@ -72,7 +72,7 @@ namespace Whipstaff.UnitTests.CommandLine.FileSystemAbstractions
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
-                    () => OptionFactory.GetDirectoryInfoOption(arg1!, arg2!));
+                    () => OptionFactory.GetDriveInfoOption(arg1!, arg2!));
             }
         }
 
