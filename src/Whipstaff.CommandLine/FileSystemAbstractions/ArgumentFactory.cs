@@ -45,7 +45,7 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
         public static Argument<IDriveInfo> GetDriveInfoArgument(
             string name,
             IFileSystem fileSystem,
-            Action<Argument<IDirectoryInfo>>? argumentAction = null)
+            Action<Argument<IDriveInfo>>? argumentAction = null)
         {
             var arg = new Argument<IDriveInfo>(name)
             {
@@ -67,7 +67,7 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
         public static Argument<IFileInfo> GetFileInfoArgument(
             string name,
             IFileSystem fileSystem,
-            Action<Argument<IDirectoryInfo>>? argumentAction = null)
+            Action<Argument<IFileInfo>>? argumentAction = null)
         {
             var arg = new Argument<IFileInfo>(name)
             {
