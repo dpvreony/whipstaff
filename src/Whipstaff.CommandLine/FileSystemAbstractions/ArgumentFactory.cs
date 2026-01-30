@@ -5,6 +5,11 @@
 using System;
 using System.CommandLine;
 using System.IO.Abstractions;
+using Whipstaff.Runtime.Extensions;
+
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
 
 namespace Whipstaff.CommandLine.FileSystemAbstractions
 {
@@ -25,6 +30,9 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
             IFileSystem fileSystem,
             Action<Argument<IDirectoryInfo>>? argumentAction = null)
         {
+            name.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
             var arg = new Argument<IDirectoryInfo>(name)
             {
                 CustomParser = argumentResult => argumentResult.GetDirectoryInfo(fileSystem)
@@ -47,6 +55,9 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
             IFileSystem fileSystem,
             Action<Argument<IDriveInfo>>? argumentAction = null)
         {
+            name.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
             var arg = new Argument<IDriveInfo>(name)
             {
                 CustomParser = argumentResult => argumentResult.GetDriveInfo(fileSystem)
@@ -69,6 +80,9 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
             IFileSystem fileSystem,
             Action<Argument<IFileInfo>>? argumentAction = null)
         {
+            name.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
             var arg = new Argument<IFileInfo>(name)
             {
                 CustomParser = argumentResult => argumentResult.GetFileInfo(fileSystem)

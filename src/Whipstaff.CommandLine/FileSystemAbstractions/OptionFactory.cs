@@ -5,6 +5,11 @@
 using System;
 using System.CommandLine;
 using System.IO.Abstractions;
+using Whipstaff.Runtime.Extensions;
+
+#if ARGUMENT_NULL_EXCEPTION_SHIM
+using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
+#endif
 
 namespace Whipstaff.CommandLine.FileSystemAbstractions
 {
@@ -25,6 +30,9 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
             IFileSystem fileSystem,
             Action<Option<IDirectoryInfo>>? optionAction = null)
         {
+            name.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
             var option = new Option<IDirectoryInfo>(name)
             {
                 CustomParser = argumentResult => argumentResult.GetDirectoryInfo(fileSystem)
@@ -47,6 +55,9 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
             IFileSystem fileSystem,
             Action<Option<IDriveInfo>>? optionAction = null)
         {
+            name.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
             var option = new Option<IDriveInfo>(name)
             {
                 CustomParser = argumentResult => argumentResult.GetDriveInfo(fileSystem)
@@ -64,11 +75,14 @@ namespace Whipstaff.CommandLine.FileSystemAbstractions
         /// <param name="fileSystem">Abstracted file system instance.</param>
         /// <param name="optionAction">Action to carry out any additional configuration of the option.</param>
         /// <returns>Option that processes into an abstracted file info.</returns>
-        public static Option<IFileInfo> GetFileInfoArgument(
+        public static Option<IFileInfo> GetFileInfoOption(
             string name,
             IFileSystem fileSystem,
             Action<Option<IFileInfo>>? optionAction = null)
         {
+            name.ThrowIfNullOrWhitespace();
+            ArgumentNullException.ThrowIfNull(fileSystem);
+
             var option = new Option<IFileInfo>(name)
             {
                 CustomParser = argumentResult => argumentResult.GetFileInfo(fileSystem)
