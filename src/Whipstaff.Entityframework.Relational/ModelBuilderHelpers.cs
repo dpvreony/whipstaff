@@ -30,9 +30,7 @@ namespace Whipstaff.EntityFramework.Relational
 
             foreach (var mutableEntityType in modelBuilder.Model.GetEntityTypes())
             {
-                InternalConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(
-                    modelBuilder,
-                    mutableEntityType);
+                InternalConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(mutableEntityType);
             }
         }
 
@@ -44,18 +42,12 @@ namespace Whipstaff.EntityFramework.Relational
         /// The caveat is that SQL lite loses timezone precision as it converts everything to UTC, but then you should
         /// probably be storing the data as UTC anyway.
         /// </summary>
-        /// <param name="modelBuilder">Entity Framework Model Builder being configured.</param>
         /// <param name="mutableEntityType">Mutable Entity Type Representing the DBSet to check.</param>
-        public static void ConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(
-            ModelBuilder modelBuilder,
-            IMutableEntityType mutableEntityType)
+        public static void ConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(IMutableEntityType mutableEntityType)
         {
-            ArgumentNullException.ThrowIfNull(modelBuilder);
             ArgumentNullException.ThrowIfNull(mutableEntityType);
 
-            InternalConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(
-                modelBuilder,
-                mutableEntityType);
+            InternalConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(mutableEntityType);
         }
 
         /// <summary>
@@ -98,16 +90,13 @@ namespace Whipstaff.EntityFramework.Relational
                 offset => offset.ToUnixTimeMilliseconds(),
                 milliseconds => DateTimeOffset.FromUnixTimeMilliseconds(milliseconds));
 
-        private static void InternalConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(ModelBuilder modelBuilder, IMutableEntityType mutableEntityType)
+        private static void InternalConvertAllDateTimeOffSetPropertiesOnMutableEntityToLong(IMutableEntityType mutableEntityType)
         {
             foreach (var p in mutableEntityType.GetProperties())
             {
                 if (p.ClrType == typeof(DateTimeOffset))
                 {
-                    _ = ConvertDateTimeOffSetPropertyToLong(
-                        modelBuilder,
-                        mutableEntityType.ClrType,
-                        p.Name);
+                    InternalConvertDateTimeOffSetPropertyToLong(p);
                 }
             }
         }
@@ -121,6 +110,12 @@ namespace Whipstaff.EntityFramework.Relational
                 .Property(propertyName)
                 .HasColumnType("INTEGER")
                 .HasConversion(GetDateTimeOffSetToUnixTimeMillisecondsLongValueConverter());
+        }
+
+        private static void InternalConvertDateTimeOffSetPropertyToLong(IMutableProperty mutableProperty)
+        {
+            mutableProperty.SetColumnType("INTEGER");
+            mutableProperty.SetValueConverter(GetDateTimeOffSetToUnixTimeMillisecondsLongValueConverter());
         }
     }
 }
