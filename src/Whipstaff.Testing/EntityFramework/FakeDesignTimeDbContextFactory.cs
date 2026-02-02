@@ -35,7 +35,7 @@ namespace Whipstaff.Testing.EntityFramework
 
             var dbContext = new FakeDbContext(
                 dbContextOptions,
-                () => new SqliteFakeDbContextModelCreator());
+                () => new SqliteFakeDbContextModelCreator<FakeDbContext>());
 
 #pragma warning disable GR0019 // Do not use Entity Framework Database EnsureCreated.
             _ = dbContext.Database.EnsureCreated();

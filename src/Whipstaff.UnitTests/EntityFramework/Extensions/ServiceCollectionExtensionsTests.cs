@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                 serviceCollection = serviceCollection.AddSingleton<SqliteConnection>(_ => CreateInMemoryDatabase());
 
                 // Act
-                var result = serviceCollection.AddDbContextWithModelCreator<FakeDbContext, SqliteFakeDbContextModelCreator>(optionsAction);
+                var result = serviceCollection.AddDbContextWithModelCreator<FakeDbContext, SqliteFakeDbContextModelCreator<FakeDbContext>>(optionsAction);
 
                 // Assert
                 Assert.NotNull(result);

@@ -65,7 +65,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                     .AddInterceptors(new RowVersionSaveChangesInterceptor())
                     .Options);
                 _ = services.AddSingleton<Func<IModelCreator<FakeDbContext>>>(x =>
-                    () => new SqliteFakeDbContextModelCreator());
+                    () => new SqliteFakeDbContextModelCreator<FakeDbContext>());
 
                 MediatorHelpers.RegisterMediatorWithExplicitTypes(
                     services,
@@ -77,7 +77,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var serviceProvider = services.BuildServiceProvider();
 
                 var dbContextOptions = serviceProvider.GetService<DbContextOptions<FakeDbContext>>();
-                using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
+                using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator<FakeDbContext>()))
                 {
 #pragma warning disable GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
                     _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
@@ -99,7 +99,7 @@ namespace Whipstaff.UnitTests.Features.Mediatr
                 var sendResult = await mediator.Send(request, TestContext.Current.CancellationToken);
                 Assert.Equal(expected, sendResult);
 
-                using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator()))
+                using (var dbContext = new FakeDbContext(dbContextOptions!, () => new SqliteFakeDbContextModelCreator<FakeDbContext>()))
                 {
                     var entityCount = await dbContext.FakeAddAudit.CountAsync(cancellationToken: TestContext.Current.CancellationToken);
                     Assert.Equal(1, entityCount);

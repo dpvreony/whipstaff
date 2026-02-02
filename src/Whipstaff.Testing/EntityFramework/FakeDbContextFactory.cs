@@ -43,7 +43,7 @@ namespace Whipstaff.Testing.EntityFramework
         {
             return new FakeDbContext(
                 dbContextOptions,
-                () => new SqliteFakeDbContextModelCreator());
+                () => new SqliteFakeDbContextModelCreator<FakeDbContext>());
         }
     }
 }
