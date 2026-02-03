@@ -2,35 +2,38 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Whipstaff.Testing.EntityFramework
 {
     /// <summary>
-    /// DB Context Factory for the Fake DB Context.
+    /// DB Context Factory for the Fake Identity DB Context.
     /// </summary>
-    public sealed class FakeDbContextFactory : AbstractDbContextFactory<FakeDbContext>
+    public sealed class FakeIdentityDbContextFactory : AbstractDbContextFactory<FakeIdentityDbContext>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeDbContextFactory"/> class.
+        /// Initializes a new instance of the <see cref="FakeIdentityDbContextFactory"/> class.
         /// </summary>
         /// <param name="loggerFactory">Instance of the logger factory.</param>
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
-        public FakeDbContextFactory(ILoggerFactory loggerFactory)
+        public FakeIdentityDbContextFactory(ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
         }
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FakeDbContextFactory"/> class.
+        /// Initializes a new instance of the <see cref="FakeIdentityDbContextFactory"/> class.
         /// </summary>
         /// <param name="dbConnection">Database connection instance.</param>
         /// <param name="loggerFactory">Instance of the logger factory.</param>
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
-        public FakeDbContextFactory(DbConnection dbConnection, ILoggerFactory loggerFactory)
+        public FakeIdentityDbContextFactory(DbConnection dbConnection, ILoggerFactory loggerFactory)
             : base(
                 dbConnection,
                 loggerFactory)
@@ -39,11 +42,11 @@ namespace Whipstaff.Testing.EntityFramework
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
-        protected override FakeDbContext GetDbContext(DbContextOptions<FakeDbContext> dbContextOptions)
+        protected override FakeIdentityDbContext GetDbContext(DbContextOptions<FakeIdentityDbContext> dbContextOptions)
         {
-            return new FakeDbContext(
+            return new FakeIdentityDbContext(
                 dbContextOptions,
-                () => new SqliteFakeDbContextModelCreator<FakeDbContext>());
+                () => new SqliteFakeDbContextModelCreator<FakeIdentityDbContext>());
         }
     }
 }

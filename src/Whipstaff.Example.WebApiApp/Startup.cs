@@ -86,7 +86,7 @@ namespace Dhgms.AspNetCoreContrib.Example.WebApiApp
                 .AddInterceptors(new RowVersionSaveChangesInterceptor())
                 .Options);
             _ = serviceCollection.AddSingleton<Func<IModelCreator<FakeDbContext>>>(x =>
-                () => new SqliteFakeDbContextModelCreator());
+                () => new SqliteFakeDbContextModelCreator<FakeDbContext>());
         }
 
         /// <inheritdoc />

@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -45,6 +46,26 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// </summary>
             /// <param name="options">Database context options.</param>
             public BaseTestDbContext(DbContextOptions options)
+                : base(options)
+            {
+            }
+
+            /// <summary>
+            /// Gets the test entity db set.
+            /// </summary>
+            public DbSet<TestEntity> TestEntity => Set<TestEntity>();
+        }
+
+        /// <summary>
+        /// Represents the identity based db context common functionality for testing.
+        /// </summary>
+        public class BaseTestIdentityDbContext : IdentityDbContext
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="BaseTestIdentityDbContext"/> class.
+            /// </summary>
+            /// <param name="options">Database context options.</param>
+            public BaseTestIdentityDbContext(DbContextOptions options)
                 : base(options)
             {
             }
@@ -96,6 +117,46 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
         }
 
         /// <summary>
+        /// Represents a test db context that has the database model specific options injected into the constructor.
+        /// </summary>
+        public sealed class TestWithContextOptionsIdentityDbContext : BaseTestDbContext
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TestWithContextOptionsIdentityDbContext"/> class.
+            /// </summary>
+            /// <param name="options">Database context options.</param>
+            public TestWithContextOptionsIdentityDbContext(DbContextOptions options)
+                : base(options)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Represents a test db context that sets the database model up via the OnModelCreating override method.
+        /// </summary>
+        public sealed class TestWithOnModelCreatingIdentityDbContext : BaseTestDbContext
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TestWithOnModelCreatingIdentityDbContext"/> class.
+            /// </summary>
+            /// <param name="options">Database context options.</param>
+#pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
+            public TestWithOnModelCreatingIdentityDbContext(DbContextOptions options)
+                : base(options)
+            {
+            }
+#pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
+
+            /// <inheritdoc/>
+            protected override void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                base.OnModelCreating(modelBuilder);
+
+                ModelBuilderHelpers.ConvertAllDateTimeOffSetPropertiesOnModelBuilderToLong(modelBuilder);
+            }
+        }
+
+        /// <summary>
         /// Unit Tests for the OrderBy method.
         /// </summary>
         public sealed class OrderByMethod
@@ -105,7 +166,81 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsDataAsync()
+            public async Task IdentityDbContextReturnsDataAsync()
+            {
+                var dbContextOptionsBuilder = new DbContextOptionsBuilder();
+                using (var connection = CreateInMemoryDatabase())
+                {
+                    _ = dbContextOptionsBuilder.UseSqlite(connection);
+
+                    using (var dbContext = new TestWithOnModelCreatingIdentityDbContext(dbContextOptionsBuilder.Options))
+                    {
+#pragma warning disable GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
+                        _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+#pragma warning restore GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
+
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now }, TestContext.Current.CancellationToken);
+
+                        _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
+
+                        var result = await dbContext.TestEntity
+                            .Where(GetSelector())
+                            .ToArrayAsync(cancellationToken: TestContext.Current.CancellationToken);
+
+                        Assert.NotNull(result);
+                        Assert.NotEmpty(result);
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure data is returned.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            [Fact]
+            public async Task IdentityReturnsData2Async()
+            {
+                var dbContextOptionsBuilder = new DbContextOptionsBuilder();
+
+                using (var connection = CreateInMemoryDatabase())
+                {
+                    _ = dbContextOptionsBuilder.UseSqlite(connection);
+
+                    var modelBuilder = SqliteConventionSetBuilder.CreateModelBuilder();
+                    _ = modelBuilder.Entity<TestEntity>();
+
+                    ModelBuilderHelpers.ConvertAllDateTimeOffSetPropertiesOnModelBuilderToLong(modelBuilder);
+
+                    var model = modelBuilder.FinalizeModel();
+
+                    dbContextOptionsBuilder = dbContextOptionsBuilder.UseModel(model);
+
+                    using (var dbContext = new TestWithContextOptionsIdentityDbContext(dbContextOptionsBuilder.Options))
+                    {
+#pragma warning disable GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
+                        _ = await dbContext.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
+#pragma warning restore GR0020 // Do not use Entity Framework Database EnsureCreatedAsync.
+
+                        _ = await dbContext.TestEntity.AddAsync(new TestEntity { DateTimeOffset = DateTimeOffset.Now }, TestContext.Current.CancellationToken);
+
+                        _ = await dbContext.SaveChangesAsync(TestContext.Current.CancellationToken);
+
+                        var result = await dbContext.TestEntity
+                            .Where(GetSelector())
+                            .ToArrayAsync(cancellationToken: TestContext.Current.CancellationToken);
+
+                        Assert.NotNull(result);
+                        Assert.NotEmpty(result);
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Test to ensure data is returned.
+            /// </summary>
+            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            [Fact]
+            public async Task NormalDbContextReturnsDataAsync()
             {
                 var dbContextOptionsBuilder = new DbContextOptionsBuilder();
                 using (var connection = CreateInMemoryDatabase())
@@ -137,7 +272,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Relational
             /// </summary>
             /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
             [Fact]
-            public async Task ReturnsData2Async()
+            public async Task NormalReturnsData2Async()
             {
                 var dbContextOptionsBuilder = new DbContextOptionsBuilder();
 

@@ -13,7 +13,9 @@ namespace Whipstaff.Testing.EntityFramework
     /// <summary>
     /// Sqlite Fake DB Context Model Creator.
     /// </summary>
-    public sealed class SqliteFakeDbContextModelCreator : IModelCreator<FakeDbContext>
+    /// <typeparam name="TDbContext">The <see cref="Microsoft.EntityFrameworkCore.DbContext" /> type to create.</typeparam>
+    public sealed class SqliteFakeDbContextModelCreator<TDbContext> : IModelCreator<TDbContext>
+        where TDbContext : DbContext
     {
         /// <inheritdoc/>
         public void CreateModel(ModelBuilder modelBuilder)
