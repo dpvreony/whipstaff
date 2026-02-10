@@ -3,27 +3,30 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using Microsoft.ApplicationInsights.Channel;
-using Microsoft.ApplicationInsights.Extensibility;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using OpenTelemetry;
+using OpenTelemetry.Trace;
 
 namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryInitializers
 {
     /// <summary>
-    /// Telemetry Initializer that checks for an exception when the HTTP Request body is unavailable due to it already being disposed.
+    /// Telemetry Processor that checks for an exception when the HTTP Request body is unavailable due to it already being disposed.
     /// </summary>
-    public sealed class HttpPostExceptionTelemetryInitializer : ITelemetryInitializer
+    public sealed class HttpPostExceptionTelemetryProcessor : BaseProcessor<Activity>
     {
         private readonly TelemetryExceptionTracker _telemetryExceptionTracker;
-        private readonly HttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpPostExceptionTelemetryInitializer"/> class.
+        /// Initializes a new instance of the <see cref="HttpPostExceptionTelemetryProcessor"/> class.
         /// </summary>
         /// <param name="telemetryExceptionTracker">Telemetry Exception Tracker.</param>
         /// <param name="httpContextAccessor">Http Context accessor for the request.</param>
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
-        public HttpPostExceptionTelemetryInitializer(TelemetryExceptionTracker telemetryExceptionTracker, HttpContextAccessor httpContextAccessor)
+        public HttpPostExceptionTelemetryProcessor(
+            TelemetryExceptionTracker telemetryExceptionTracker,
+            IHttpContextAccessor httpContextAccessor)
         {
             _telemetryExceptionTracker = telemetryExceptionTracker;
             _httpContextAccessor = httpContextAccessor;
@@ -31,11 +34,24 @@ namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryIniti
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
         /// <inheritdoc/>
-        public void Initialize(ITelemetry telemetry)
+        public override void OnEnd(Activity activity)
         {
+            if (activity == null)
+            {
+                return;
+            }
+
+            // Only process HTTP server activities (incoming requests)
+            if (activity.Kind != ActivityKind.Server)
+            {
+                base.OnEnd(activity);
+                return;
+            }
+
             var httpContext = _httpContextAccessor.HttpContext;
             if (httpContext == null)
             {
+                base.OnEnd(activity);
                 return;
             }
 
@@ -51,7 +67,14 @@ namespace Whipstaff.IntegrationTests.Features.ApplicationInsights.TelemetryIniti
 #pragma warning restore CA1031
             {
                 _telemetryExceptionTracker.TrackException(exception);
+
+                // Add diagnostic information to the activity
+                _ = activity.SetStatus(ActivityStatusCode.Error, "Request body was disposed");
+                _ = activity.AddException(exception);
+                _ = activity.SetTag("http.request.body.disposed", true);
             }
+
+            base.OnEnd(activity);
         }
     }
 }
