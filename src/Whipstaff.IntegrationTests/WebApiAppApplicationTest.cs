@@ -41,7 +41,8 @@ namespace Whipstaff.IntegrationTests
         {
             var args = new[]
             {
-                "UseSwagger=true"
+                "UseSwagger=true",
+                "ApplicationInsights:ConnectionString=InstrumentationKey=00000000-0000-0000-0000-000000000000"
             };
 
             await WithWebApplicationFactoryAsync(
