@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NuGet.Configuration" Version="7.0.1" />
-    <PackageReference Include="NuGet.Packaging" Version="7.0.1" />
-    <PackageReference Include="NuGet.ProjectModel" Version="7.0.1" />
-    <PackageReference Include="NuGet.Protocol" Version="7.0.1" />
+    <PackageReference Include="NuGet.Configuration" Version="7.3.0" />
+    <PackageReference Include="NuGet.Packaging" Version="7.3.0" />
+    <PackageReference Include="NuGet.ProjectModel" Version="7.3.0" />
+    <PackageReference Include="NuGet.Protocol" Version="7.3.0" />
   </ItemGroup>
 
   <ItemGroup>
