@@ -50,6 +50,11 @@ namespace Whipstaff.IntegrationTests
         [MemberData(nameof(GetReturnsSuccessAndCorrectContentTypeTestSource))]
         public async Task GetReturnsSuccessAndCorrectContentTypeAsync(string requestPath, string expectedContentType)
         {
+            var args = new[]
+            {
+                "ApplicationInsights:ConnectionString=InstrumentationKey=00000000-0000-0000-0000-000000000000"
+            };
+
             await WithWebApplicationFactoryAsync(
                 async factory =>
                 {
@@ -70,7 +75,7 @@ namespace Whipstaff.IntegrationTests
                         contentType.ToString());
     #pragma warning restore CS8602 // Dereference of a possibly null reference.
                 },
-                []);
+                args);
         }
 
         /// <summary>
@@ -80,6 +85,11 @@ namespace Whipstaff.IntegrationTests
         [Fact]
         public async Task GetReturnsNotFoundForHomeControllerWhenSpecifiedExplicitlyAsync()
         {
+            var args = new[]
+            {
+                "ApplicationInsights:ConnectionString=InstrumentationKey=00000000-0000-0000-0000-000000000000"
+            };
+
             await WithWebApplicationFactoryAsync(
                 async factory =>
                 {
@@ -93,7 +103,7 @@ namespace Whipstaff.IntegrationTests
 
                     await LogResponseAsync(response, Logger);
                 },
-                []);
+                args);
         }
 
         /// <summary>
@@ -103,6 +113,11 @@ namespace Whipstaff.IntegrationTests
         [Fact]
         public async Task CrawlSiteWithNoErrors()
         {
+            var args = new[]
+            {
+                "ApplicationInsights:ConnectionString=InstrumentationKey=00000000-0000-0000-0000-000000000000"
+            };
+
             await WithWebApplicationFactoryAsync(
                 async factory =>
                 {
@@ -146,7 +161,7 @@ namespace Whipstaff.IntegrationTests
                             pageResult => CheckPageResult(pageResult));
                     }
                 },
-                []);
+                args);
         }
 
         private static void CheckPageResult(KeyValuePair<string, UriCrawlResultModel> pageResult)

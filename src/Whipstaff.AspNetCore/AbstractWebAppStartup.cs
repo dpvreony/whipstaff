@@ -26,7 +26,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.FeatureManagement;
 using Microsoft.OpenApi;
-using RimDev.ApplicationInsights.Filters.Processors;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.AspNetCore.Features.AuditNet;
@@ -122,9 +121,6 @@ namespace Whipstaff.AspNetCore
             }
 
             _ = services.AddApplicationInsightsTelemetry();
-            _ = services.AddApplicationInsightsTelemetryProcessor<IgnoreHangfireTelemetry>();
-            _ = services.AddApplicationInsightsTelemetryProcessor<IgnorePathsTelemetry>();
-            _ = services.AddApplicationInsightsTelemetryProcessor<RemoveHttpUrlPasswordsTelemetry>();
 
             OnConfigureServices(services);
         }

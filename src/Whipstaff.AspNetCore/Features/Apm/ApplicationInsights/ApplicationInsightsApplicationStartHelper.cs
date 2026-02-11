@@ -4,6 +4,7 @@
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry.Trace;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 
 namespace Whipstaff.AspNetCore.Features.Apm.ApplicationInsights
@@ -18,7 +19,13 @@ namespace Whipstaff.AspNetCore.Features.Apm.ApplicationInsights
             IServiceCollection services,
             IConfiguration configuration)
         {
-            _ = services.AddApplicationInsightsTelemetryProcessor<SignalRTelemetryProcessor>();
+            _ = services.AddOpenTelemetry()
+                .WithTracing(builder => builder
+                    .AddAspNetCoreInstrumentation()
+                    .AddProcessor<SignalRTelemetryProcessor>());
+
+            _ = services.AddApplicationInsightsTelemetry();
+
             _ = services.AddServiceProfiler();
         }
     }
