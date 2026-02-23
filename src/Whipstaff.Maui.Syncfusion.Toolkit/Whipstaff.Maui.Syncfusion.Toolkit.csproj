@@ -11,7 +11,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.9" />
-    <PackageReference Include="Vetuviem.Maui.SourceGenerator" Version="0.12.19">
+    <PackageReference Include="Vetuviem.SourceGenerator" Version="0.13.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -25,5 +25,6 @@
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff.Maui</Vetuviem_Root_Namespace>
     <Vetuviem_Assemblies>Syncfusion.Maui.Toolkit.dll</Vetuviem_Assemblies>
+    <Vetuviem_UI_Framework>Maui</Vetuviem_UI_Framework>
   </PropertyGroup>
 </Project>
