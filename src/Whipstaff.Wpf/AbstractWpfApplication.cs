@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Threading;
 using ReactiveMarbles.ObservableEvents;
 using ReactiveUI;
+using ReactiveUI.Builder;
 using Whipstaff.Runtime.AppDomains;
 
 namespace Whipstaff.Wpf
@@ -106,7 +107,21 @@ namespace Whipstaff.Wpf
        /// </summary>
         private static void DoReactiveUIInitialization()
         {
-            global::ReactiveUI.PlatformRegistrationManager.SetRegistrationNamespaces(RegistrationNamespace.Wpf);
+            var reactiveUiBuilder = RxAppBuilder.CreateReactiveUIBuilder()
+                .WithWpf();
+
+            DoReactiveUIViewRegistration(reactiveUiBuilder);
+
+            _ = reactiveUiBuilder.Build();
+        }
+
+        private static void DoReactiveUIViewRegistration(IReactiveUIBuilder reactiveUiBuilder)
+        {
+            var registrations = GetReactiveUIRegistrations();
+            foreach (var registration in registrations.Views)
+            {
+                reactiveUiBuilder.RegisterViews(c => c.Map<>())
+            }
         }
 
         private static void OnDispatcherUnhandledException(DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs)
