@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using ReactiveMarbles.ObservableEvents;
 using ReactiveUI;
 using ReactiveUI.Builder;
+using Whipstaff.ReactiveUI.Bootstrap;
 using Whipstaff.Runtime.AppDomains;
 
 namespace Whipstaff.Wpf
@@ -87,6 +88,12 @@ namespace Whipstaff.Wpf
         protected abstract void DoSplatDependencyInjectionInitialization();
 
         /// <summary>
+        /// Gets the registrations for ReactiveUI.
+        /// </summary>
+        /// <returns>Registrations to configure against ReactiveUI.</returns>
+        protected abstract IReactiveUIBuilderRegistration GetReactiveUIRegistrations();
+
+        /// <summary>
         /// Placeholder for Application Performance Monitoring Initialization.
         /// </summary>
         protected abstract void DoApplicationPerformanceMonitoringInitialization();
@@ -101,28 +108,6 @@ namespace Whipstaff.Wpf
         /// </summary>
         /// <param name="startupEventArgs">Contains the arguments for the application startup event.</param>
         protected abstract void OnApplicationStartup(StartupEventArgs startupEventArgs);
-
-        /// <summary>
-        /// This removes some of the assembly scanning ReactiveUI does by default by specifying the platform as WPF.
-       /// </summary>
-        private static void DoReactiveUIInitialization()
-        {
-            var reactiveUiBuilder = RxAppBuilder.CreateReactiveUIBuilder()
-                .WithWpf();
-
-            DoReactiveUIViewRegistration(reactiveUiBuilder);
-
-            _ = reactiveUiBuilder.Build();
-        }
-
-        private static void DoReactiveUIViewRegistration(IReactiveUIBuilder reactiveUiBuilder)
-        {
-            var registrations = GetReactiveUIRegistrations();
-            foreach (var registration in registrations.Views)
-            {
-                reactiveUiBuilder.RegisterViews(c => c.Map<>())
-            }
-        }
 
         private static void OnDispatcherUnhandledException(DispatcherUnhandledExceptionEventArgs dispatcherUnhandledExceptionEventArgs)
         {
@@ -153,6 +138,20 @@ namespace Whipstaff.Wpf
                 // Return a disposable that unsubscribes from the event when disposed
                 return () => AppDomain.CurrentDomain.AssemblyResolve -= handler;
             });
+        }
+
+        /// <summary>
+        /// This removes some of the assembly scanning ReactiveUI does by default by specifying the platform as WPF.
+        /// </summary>
+        private void DoReactiveUIInitialization()
+        {
+            var reactiveUiBuilder = RxAppBuilder.CreateReactiveUIBuilder()
+                .WithWpf();
+
+            var reactiveUIRegistrations = GetReactiveUIRegistrations();
+            reactiveUIRegistrations.ActOnBuilder(reactiveUiBuilder);
+
+            _ = reactiveUiBuilder.Build();
         }
     }
 }
