@@ -27,6 +27,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.3" />
     <PackageReference Include="ReactiveUI.Testing" Version="23.1.8" />
+    <PackageReference Include="ReactiveUI.Testing.Reactive" Version="23.1.8" />
   </ItemGroup>
 
   <ItemGroup>
