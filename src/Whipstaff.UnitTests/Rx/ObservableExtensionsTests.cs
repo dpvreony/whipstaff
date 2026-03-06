@@ -63,15 +63,13 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
-
                     var nextCount = 0;
                     var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                     var subFeatureName = "FeatureTwo";
 
                     using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                               unit => Task.FromResult(unit)))
+                               unit => Task.FromResult(unit),
+                               outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                                _ => nextCount++,
                                featureUsageTrackingManager,
@@ -131,16 +129,15 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
-
                     var nextCount = 0;
                     var completedCount = 0;
                     var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName =>
                         new FakeFeatureUsageTrackingSession(featureName));
                     var subFeatureName = "FeatureTwo";
 
-                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
+                               unit => Task.FromResult(unit),
+                               outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                                _ => nextCount++,
                                () => completedCount++,
@@ -205,16 +202,15 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
-
                     var nextCount = 0;
                     var errorCount = 0;
                     var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName =>
                         new FakeFeatureUsageTrackingSession(featureName));
                     var subFeatureName = "FeatureTwo";
 
-                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
+                               unit => Task.FromResult(unit),
+                               outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                                _ => nextCount++,
                                _ => errorCount++,
@@ -281,9 +277,6 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
-
                     var nextCount = 0;
                     var errorCount = 0;
                     var completedCount = 0;
@@ -291,7 +284,9 @@ namespace Whipstaff.UnitTests.Rx
                     {
                         var subFeatureName = "FeatureTwo";
 
-                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
+                                   unit => Task.FromResult(unit),
+                                   outputScheduler: testScheduler))
                         using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                    _ => nextCount++,
                                    _ => errorCount++,
@@ -419,9 +414,6 @@ namespace Whipstaff.UnitTests.Rx
                 var nextCount = 0;
                 using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
-
                     var subFeatureName = "FeatureTwo";
 
                     using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
@@ -488,9 +480,6 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
-
                     var nextCount = 0;
                     var completedCount = 0;
 
@@ -498,7 +487,9 @@ namespace Whipstaff.UnitTests.Rx
                     {
                         var subFeatureName = "FeatureTwo";
 
-                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
+                                   unit => Task.FromResult(unit),
+                                   outputScheduler: testScheduler))
                         using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                    _ => nextCount++,
                                    () => completedCount++,
@@ -568,12 +559,11 @@ namespace Whipstaff.UnitTests.Rx
                     var errorCount = 0;
                     using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                     {
-                        RxSchedulers.MainThreadScheduler = testScheduler;
-                        RxSchedulers.TaskpoolScheduler = testScheduler;
-
                         var subFeatureName = "FeatureTwo";
 
-                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
+                                   static unit => Task.FromResult(unit),
+                                   outputScheduler: testScheduler))
                         using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                    _ => nextCount++,
                                    _ => errorCount++,
@@ -643,9 +633,6 @@ namespace Whipstaff.UnitTests.Rx
                 var testScheduler = new TestScheduler();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
-
                     var nextCount = 0;
                     var errorCount = 0;
                     var completedCount = 0;
@@ -653,7 +640,9 @@ namespace Whipstaff.UnitTests.Rx
                     {
                         var subFeatureName = "FeatureTwo";
 
-                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(unit => Task.FromResult(unit)))
+                        using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
+                                   static unit => Task.FromResult(unit),
+                                   outputScheduler: testScheduler))
                         using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                    _ => nextCount++,
                                    _ => errorCount++,
