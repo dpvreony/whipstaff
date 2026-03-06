@@ -12,6 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ReactiveUI\**" />
+    <EmbeddedResource Remove="ReactiveUI\**" />
+    <MauiCss Remove="ReactiveUI\**" />
+    <MauiXaml Remove="ReactiveUI\**" />
+    <None Remove="ReactiveUI\**" />
+    <Page Remove="ReactiveUI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\1x1.jpg" />
     <None Remove="Resources\test.txt" />
   </ItemGroup>
@@ -65,6 +74,10 @@
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Remove="ReactiveUI\**" />
   </ItemGroup>
 
   <!--
