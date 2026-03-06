@@ -12,6 +12,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ReactiveUI\**" />
+    <EmbeddedResource Remove="ReactiveUI\**" />
+    <MauiCss Remove="ReactiveUI\**" />
+    <MauiXaml Remove="ReactiveUI\**" />
+    <None Remove="ReactiveUI\**" />
+    <Page Remove="ReactiveUI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\1x1.jpg" />
     <None Remove="Resources\test.txt" />
   </ItemGroup>
@@ -26,7 +35,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.3" />
-    <PackageReference Include="ReactiveUI.Testing" Version="22.3.1" />
+    <PackageReference Include="ReactiveUI.Testing" Version="23.1.8" />
+    <PackageReference Include="ReactiveUI.Testing.Reactive" Version="23.1.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +74,10 @@
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Remove="ReactiveUI\**" />
   </ItemGroup>
 
   <!--
