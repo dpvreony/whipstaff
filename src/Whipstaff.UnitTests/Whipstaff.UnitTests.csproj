@@ -9,24 +9,16 @@
     <!-- review CA1515 when upgrading to xunit3 -->
     <NoWarn>$(NoWarn),GR0046,GR0049,CA1515,CS1591</NoWarn>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <WindowsAppSdkBootstrapInitialize>false</WindowsAppSdkBootstrapInitialize>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Resources\1x1.jpg" />
-    <None Remove="Resources\test.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\1x1.jpg" />
-    <EmbeddedResource Include="Resources\test.txt" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="ErikEJ.EntityFrameworkCore.DgmlBuilder" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.3" />
-    <PackageReference Include="ReactiveUI.Testing" Version="22.3.1" />
+    <PackageReference Include="ReactiveUI.Testing" Version="23.1.8" />
+    <PackageReference Include="ReactiveUI.Testing.Reactive" Version="23.1.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +56,22 @@
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\1x1.jpg" />
+    <None Remove="Resources\test.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\1x1.jpg" />
+    <EmbeddedResource Include="Resources\test.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="testconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <!--

@@ -6,7 +6,6 @@ using System;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Core.Logging;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Core.Logging

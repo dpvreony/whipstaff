@@ -9,7 +9,6 @@ using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CommandLine;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.CommandLine

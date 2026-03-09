@@ -9,7 +9,6 @@ using CsvHelper;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CsvHelper;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions

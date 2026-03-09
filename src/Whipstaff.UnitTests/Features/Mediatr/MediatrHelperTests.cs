@@ -18,7 +18,6 @@ using Whipstaff.EntityFramework.RowVersionSaving;
 using Whipstaff.Mediator;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
-using Whipstaff.Testing.Logging;
 using Whipstaff.Testing.Mediator;
 using Xunit;
 

@@ -146,11 +146,13 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
+                        scheduler: testScheduler);
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
+                        scheduler: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -240,12 +242,17 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var secondCancellationToken = new CancellationTokenSource())
                 using (var thirdCancellationToken = new CancellationTokenSource())
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
+                        scheduler: testScheduler);
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
+                        scheduler: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -349,13 +356,21 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var thirdCancellationToken = new CancellationTokenSource())
                 using (var fourthCancellationToken = new CancellationTokenSource())
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
+                        scheduler: testScheduler);
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
+                        scheduler: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -473,14 +488,25 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var fourthCancellationToken = new CancellationTokenSource())
                 using (var fifthCancellationToken = new CancellationTokenSource())
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
+                        scheduler: testScheduler);
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
+                        scheduler: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -612,15 +638,29 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var fifthCancellationToken = new CancellationTokenSource())
                 using (var sixthCancellationToken = new CancellationTokenSource())
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
+                        scheduler: testScheduler);
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
-                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token),
+                        scheduler: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -766,16 +806,33 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var sixthCancellationToken = new CancellationTokenSource())
                 using (var seventhCancellationToken = new CancellationTokenSource())
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
+                        scheduler: testScheduler);
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
-                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token));
-                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token),
+                        scheduler: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -935,17 +992,37 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 using (var seventhCancellationToken = new CancellationTokenSource())
                 using (var eighthCancellationToken = new CancellationTokenSource())
                 {
-                    RxSchedulers.MainThreadScheduler = testScheduler;
-                    RxSchedulers.TaskpoolScheduler = testScheduler;
+                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
+                        scheduler: testScheduler);
 
-                    var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, firstCancellationToken.Token));
-                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, secondCancellationToken.Token));
-                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token));
-                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token));
-                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token));
-                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token));
-                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token));
-                    var eighth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(param => RunUntilToldToStopAsync(param, eighthCancellationToken.Token));
+                    var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token),
+                        scheduler: testScheduler);
+
+                    var eighth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
+                        param => RunUntilToldToStopAsync(param, eighthCancellationToken.Token),
+                        scheduler: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,

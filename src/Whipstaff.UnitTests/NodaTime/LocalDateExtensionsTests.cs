@@ -5,7 +5,6 @@
 using NetTestRegimentation.XUnit.Logging;
 using NodaTime;
 using Whipstaff.NodaTime;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.NodaTime
