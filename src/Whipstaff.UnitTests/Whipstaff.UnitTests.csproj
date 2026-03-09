@@ -13,11 +13,17 @@
 
   <ItemGroup>
     <Compile Remove="ReactiveUI\**" />
+    <Compile Remove="Rx\**" />
     <EmbeddedResource Remove="ReactiveUI\**" />
+    <EmbeddedResource Remove="Rx\**" />
     <MauiCss Remove="ReactiveUI\**" />
+    <MauiCss Remove="Rx\**" />
     <MauiXaml Remove="ReactiveUI\**" />
+    <MauiXaml Remove="Rx\**" />
     <None Remove="ReactiveUI\**" />
+    <None Remove="Rx\**" />
     <Page Remove="ReactiveUI\**" />
+    <Page Remove="Rx\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,6 +84,10 @@
 
   <ItemGroup>
     <PRIResource Remove="ReactiveUI\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Remove="Rx\**" />
   </ItemGroup>
 
   <!--
