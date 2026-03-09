@@ -1,7 +1,9 @@
 {
     "xUnit": {
         "culture": "en-GB",
+        "diagnosticMessages": true,
+        "longRunningTestSeconds": 10,
         "parallelizeTestCollections": false,
-        "showLiveOutput":  false
+        "showLiveOutput": true
     }
 }
