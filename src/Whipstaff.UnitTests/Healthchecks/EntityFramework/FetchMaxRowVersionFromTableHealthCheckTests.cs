@@ -6,13 +6,11 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.VisualBasic.Logging;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Healthchecks.EntityFramework;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Healthchecks.EntityFramework

@@ -9,7 +9,6 @@ using Whipstaff.Mediator.EntityFrameworkCore;
 using Whipstaff.Testing.Cqrs;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore

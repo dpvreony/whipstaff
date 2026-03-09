@@ -11,7 +11,6 @@ using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Core.Configuration;
 using Whipstaff.Testing.Configuration;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Core.Configuration

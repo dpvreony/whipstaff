@@ -6,17 +6,12 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
-using Whipstaff.Testing;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.IntegrationTests

@@ -13,7 +13,6 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Rocks;
 using Whipstaff.Playwright;
 using Whipstaff.Playwright.Crawler;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 [assembly: Rock(typeof(IBrowser), BuildType.Create)]

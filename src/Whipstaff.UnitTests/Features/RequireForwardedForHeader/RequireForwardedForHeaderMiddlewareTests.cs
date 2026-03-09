@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.AspNetCore.Features.RequireForwardedForHeader;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Features.RequireForwardedForHeader

@@ -90,6 +90,12 @@
     <PRIResource Remove="Rx\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <!--
   <Target Name="InstallPlaywrightBrowsers" AfterTargets="Build">
     <Exec Command="pwsh $(OutDir)playwright.ps1 install" ConsoleToMSBuild="true" LogStandardErrorAsError="true" />

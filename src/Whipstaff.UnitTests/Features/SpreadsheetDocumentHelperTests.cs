@@ -12,7 +12,6 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.Logging;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.OpenXml.Excel;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Features

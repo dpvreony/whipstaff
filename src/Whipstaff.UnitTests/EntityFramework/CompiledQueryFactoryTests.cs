@@ -4,7 +4,6 @@
 
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.EntityFramework;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.EntityFramework

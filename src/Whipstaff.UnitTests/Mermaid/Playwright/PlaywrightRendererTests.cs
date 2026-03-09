@@ -4,9 +4,6 @@
 
 using System;
 using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -15,8 +12,6 @@ using NetTestRegimentation.XUnit.Logging;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Mermaid.Playwright;
-using Whipstaff.Playwright;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Mermaid.Playwright

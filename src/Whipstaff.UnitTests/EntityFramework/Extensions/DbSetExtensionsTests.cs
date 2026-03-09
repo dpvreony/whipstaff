@@ -10,7 +10,6 @@ using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.EntityFramework.Extensions;
 using Whipstaff.Testing.EntityFramework;
 using Whipstaff.Testing.EntityFramework.DbSets;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.EntityFramework.Extensions

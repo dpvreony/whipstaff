@@ -8,7 +8,6 @@ using System.Linq;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Runtime.Extensions;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Runtime.Extensions

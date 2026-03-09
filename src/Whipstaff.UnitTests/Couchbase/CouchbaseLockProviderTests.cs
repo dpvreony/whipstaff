@@ -11,7 +11,6 @@ using Couchbase.KeyValue;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Couchbase;
-using Whipstaff.Testing.Logging;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Couchbase
