@@ -59,6 +59,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\1x1.jpg" />
+    <None Remove="Resources\test.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\1x1.jpg" />
+    <EmbeddedResource Include="Resources\test.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="testconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
