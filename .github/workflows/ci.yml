@@ -25,7 +25,7 @@ jobs:
     with:
       primary-build-mode: "linux-secondary-and-windows-primary"
       solutionName: "Whipstaff"
-      runIntTestsOnPrimaryOsOnly: true
+      integration-test-os: "windows"
       workloads : "android,ios,tvos,macos,maui"
     secrets:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
