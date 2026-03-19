@@ -14,6 +14,7 @@
     <GenerateAppInstallerFile Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</GenerateAppInstallerFile>
     <AppxPackage Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</AppxPackage>
     <WindowsPackageType Condition="!$([MSBuild]::IsOSPlatform('windows'))">None</WindowsPackageType>
+    <AppxGeneratePriEnabled Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</AppxGeneratePriEnabled>
   </PropertyGroup>
 
   <ItemGroup>
