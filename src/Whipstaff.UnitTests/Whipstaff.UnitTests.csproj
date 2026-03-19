@@ -10,6 +10,10 @@
     <NoWarn>$(NoWarn),GR0046,GR0049,CA1515,CS1591</NoWarn>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <WindowsAppSdkBootstrapInitialize>false</WindowsAppSdkBootstrapInitialize>
+    <!-- Disable MSIX packaging and PRI generation on non-Windows platforms -->
+    <GenerateAppInstallerFile Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</GenerateAppInstallerFile>
+    <AppxPackage Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</AppxPackage>
+    <WindowsPackageType Condition="!$([MSBuild]::IsOSPlatform('windows'))">None</WindowsPackageType>
   </PropertyGroup>
 
   <ItemGroup>
