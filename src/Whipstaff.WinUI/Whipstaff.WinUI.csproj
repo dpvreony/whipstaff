@@ -11,6 +11,8 @@
     <AppxPackage Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</AppxPackage>
     <WindowsPackageType Condition="!$([MSBuild]::IsOSPlatform('windows'))">None</WindowsPackageType>
     <EnableMsixTooling Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</EnableMsixTooling>
+    <GeneratePriFile Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</GeneratePriFile>
+    <GenerateAppxPackageOnBuild Condition="!$([MSBuild]::IsOSPlatform('windows'))">false</GenerateAppxPackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
