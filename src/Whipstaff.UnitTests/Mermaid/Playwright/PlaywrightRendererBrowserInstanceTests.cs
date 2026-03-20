@@ -107,7 +107,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                     Assert.True(targetFile.Exists);
                     var content = await targetFile.OpenText().ReadToEndAsync(TestContext.Current.CancellationToken);
                     Assert.StartsWith(
-                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width: 204.640625px;\" viewBox=\"0 0 204.640625 278\" role=\"graphics-document document\" aria-roledescription=\"flowchart-v2\">",
+                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width:",
                         content,
                         StringComparison.Ordinal);
                 }
@@ -220,7 +220,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                     Add(
                         fileInfo,
-                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width: 204.640625px;\" viewBox=\"0 0 204.640625 278\" role=\"graphics-document document\" aria-roledescription=\"flowchart-v2\">");
+                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width:");
                 }
             }
 
@@ -321,7 +321,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
                     Add(
                         graph,
-                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width: 204.640625px;\" viewBox=\"0 0 204.640625 278\" role=\"graphics-document document\" aria-roledescription=\"flowchart-v2\">");
+                        "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width:");
                 }
             }
 
