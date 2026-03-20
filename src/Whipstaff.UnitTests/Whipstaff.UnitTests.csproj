@@ -68,6 +68,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="!$([MSBuild]::IsOSPlatform('windows'))">
+    <Compile Remove="ReactiveUI\**\*.cs" />
     <Compile Remove="Windows\**\*.cs" />
     <Compile Remove="Wpf\**\*.cs" />
   </ItemGroup>
