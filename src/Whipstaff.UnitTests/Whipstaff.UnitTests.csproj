@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0-windows10.0.19041</TargetFramework>
+    <TargetFramework Condition="!$([MSBuild]::IsOSPlatform('windows'))">net10.0</TargetFramework>
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject />
@@ -58,9 +59,18 @@
     <ProjectReference Include="..\Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
     <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('windows'))">
     <ProjectReference Include="..\Whipstaff.Windows\Whipstaff.Windows.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!$([MSBuild]::IsOSPlatform('windows'))">
+    <Compile Remove="ReactiveUI\**\*.cs" />
+    <Compile Remove="Windows\**\*.cs" />
+    <Compile Remove="Wpf\**\*.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,10 +88,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <!--
-  <Target Name="InstallPlaywrightBrowsers" AfterTargets="Build">
-    <Exec Command="pwsh $(OutDir)playwright.ps1 install" ConsoleToMSBuild="true" LogStandardErrorAsError="true" />
-  </Target>
-  -->
 </Project>
