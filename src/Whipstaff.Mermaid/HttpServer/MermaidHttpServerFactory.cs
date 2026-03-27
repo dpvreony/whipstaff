@@ -54,6 +54,7 @@ namespace Whipstaff.Mermaid.HttpServer
                 fileSystem.Path.Combine("HttpServer", "wwwroot"));
 
             return new HostBuilder()
+                .ConfigureWebHostDefaults(webHostBuilder => webHostBuilder.UseSetting(WebHostDefaults.PreventHostingStartupKey, "true"))
                 .ConfigureWebHost(webHostBuilder =>
                 {
                     _ = webHostBuilder
