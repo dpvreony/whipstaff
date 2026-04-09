@@ -1,7 +1,0 @@
-services:
-  web:
-    build: .
-    depends_on: 
-      - exceptionless
-  exceptionless:
-    image: exceptionless/exceptionless:8.3.0
