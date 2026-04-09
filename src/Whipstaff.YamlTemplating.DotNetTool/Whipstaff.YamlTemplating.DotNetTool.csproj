@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>whipstaff-yamltemplating</ToolCommandName>
+    <AssemblyName>whipstaff-yamltemplating</AssemblyName>
+    <PackageDescription>dot net tool to produce generate YAML files using templates.markdown from a System.CommandLine help summary.</PackageDescription>
+    <NoWarn>$(NoWarn),CA1515,NU5104</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="16.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.CommandLine\Whipstaff.CommandLine.csproj" />
+    <ProjectReference Include="..\Whipstaff.Core\Whipstaff.Core.csproj" />
+  </ItemGroup>
+</Project>
