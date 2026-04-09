@@ -6,7 +6,7 @@ using System;
 using Microsoft.Extensions.Logging;
 using Whipstaff.Core.Logging;
 
-namespace VitaeCyclum.Actions.Tools.YamlGenerator
+namespace Whipstaff.YamlTemplating.DotNetTool
 {
     /// <summary>
     /// Log message actions for <see cref="CommandLineJob"/>.

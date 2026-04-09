@@ -10,12 +10,12 @@ using System.IO.Abstractions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using VitaeCyclum.Actions.Tools.YamlGenerator.CommandLine;
 using Whipstaff.CommandLine;
+using Whipstaff.YamlTemplating.DotNetTool.CommandLine;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace VitaeCyclum.Actions.Tools.YamlGenerator
+namespace Whipstaff.YamlTemplating.DotNetTool
 {
     /// <summary>
     /// Command line job for handling the generation of YAML files by merging template and content files.
