@@ -41,6 +41,28 @@ namespace Whipstaff.CommandLine
         }
 
         /// <summary>
+        /// Adds a validator to check that a file has a specific extension.
+        /// </summary>
+        /// <param name="option">Option to validate.</param>
+        /// <param name="fileSystem">File system abstraction.</param>
+        /// <param name="extension">Valid file extension.</param>
+        /// <returns><see cref="Option{T}"/> object for use in Fluent API calls.</returns>
+        public static Option<IFileInfo> SpecificFileExtensionOnly(
+            this Option<IFileInfo> option,
+            IFileSystem fileSystem,
+            string extension)
+        {
+            ArgumentNullException.ThrowIfNull(fileSystem);
+            extension.ThrowIfNullOrWhitespace();
+            option.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
+                result,
+                fileSystem,
+                extension));
+
+            return option;
+        }
+
+        /// <summary>
         /// Adds a validator to check that a file has from a collection of extensions.
         /// </summary>
         /// <param name="option">Option to validate.</param>
@@ -63,12 +85,47 @@ namespace Whipstaff.CommandLine
         }
 
         /// <summary>
+        /// Adds a validator to check that a file has from a collection of extensions.
+        /// </summary>
+        /// <param name="option">Option to validate.</param>
+        /// <param name="fileSystem">File system abstraction.</param>
+        /// <param name="extensions">Array of valid file extension.</param>
+        /// <returns><see cref="Option{T}"/> object for use in Fluent API calls.</returns>
+        public static Option<IFileInfo> SpecificFileExtensionsOnly(
+            this Option<IFileInfo> option,
+            IFileSystem fileSystem,
+            string[] extensions)
+        {
+            ArgumentNullException.ThrowIfNull(fileSystem);
+            ArgumentNullException.ThrowIfNull(extensions);
+            option.Validators.Add(result => SymbolResultHelpers.FileHasSupportedExtension(
+                result,
+                fileSystem,
+                extensions));
+
+            return option;
+        }
+
+        /// <summary>
         /// Adds a validator to check that a file exists using an abstracted file system.
         /// </summary>
         /// <param name="option">Option to validate.</param>
         /// <param name="fileSystem">File System abstraction.</param>
         /// <returns><see cref="Option{T}"/> object for use in Fluent API calls.</returns>
         public static Option<FileInfo> ExistingOnly(this Option<FileInfo> option, IFileSystem fileSystem)
+        {
+            ArgumentNullException.ThrowIfNull(fileSystem);
+            option.Validators.Add(result => SymbolResultHelpers.FileExists(result, fileSystem));
+            return option;
+        }
+
+        /// <summary>
+        /// Adds a validator to check that a file exists using an abstracted file system.
+        /// </summary>
+        /// <param name="option">Option to validate.</param>
+        /// <param name="fileSystem">File System abstraction.</param>
+        /// <returns><see cref="Option{T}"/> object for use in Fluent API calls.</returns>
+        public static Option<IFileInfo> ExistingOnly(this Option<IFileInfo> option, IFileSystem fileSystem)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
             option.Validators.Add(result => SymbolResultHelpers.FileExists(result, fileSystem));

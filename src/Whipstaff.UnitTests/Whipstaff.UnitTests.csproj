@@ -59,6 +59,7 @@
     <ProjectReference Include="..\Whipstaff.ReactiveUI\Whipstaff.ReactiveUI.csproj" />
     <ProjectReference Include="..\Whipstaff.Runtime\Whipstaff.Runtime.csproj" />
     <ProjectReference Include="..\Whipstaff.Rx\Whipstaff.Rx.csproj" />
+    <ProjectReference Include="..\Whipstaff.YamlTemplating.DotNetTool\Whipstaff.YamlTemplating.DotNetTool.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="$([MSBuild]::IsOSPlatform('windows'))">

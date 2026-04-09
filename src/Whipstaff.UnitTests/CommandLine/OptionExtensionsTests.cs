@@ -20,7 +20,7 @@ namespace Whipstaff.UnitTests.CommandLine
     public static class OptionExtensionsTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="Whipstaff.CommandLine.OptionExtensions.SpecificFileExtensionOnly"/>.
+        /// Unit Tests for <see cref="Whipstaff.CommandLine.OptionExtensions.SpecificFileExtensionOnly(Option{FileInfo}, IFileSystem, string)"/>.
         /// </summary>
         public sealed class SpecificFileExtensionOnlyMethod
             : TestWithLoggingBase,
@@ -65,13 +65,13 @@ namespace Whipstaff.UnitTests.CommandLine
         }
 
         /// <summary>
-        /// Unit Tests for <see cref="Whipstaff.CommandLine.OptionExtensions.SpecificFileExtensionsOnly"/>.
+        /// Unit Tests for <see cref="Whipstaff.CommandLine.OptionExtensions.SpecificFileExtensionsOnly(Option{FileInfo}, IFileSystem, string[])"/>.
         /// </summary>
         public sealed class SpecificFileExtensionsOnlyMethod
             : TestWithLoggingBase,
                 ITestMethodWithNullableParameters<IFileSystem, string[]>
         {
-            private static readonly string[] _extensions = [".txt", ".docx"];
+            private readonly string[] _extensions = [".txt", ".docx"];
 
             /// <summary>
             /// Initializes a new instance of the <see cref="SpecificFileExtensionsOnlyMethod"/> class.

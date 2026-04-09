@@ -4,10 +4,10 @@
 
 using System;
 using System.CommandLine;
-using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using Whipstaff.CommandLine;
+using Whipstaff.CommandLine.FileSystemAbstractions;
 
 namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
 {
@@ -21,44 +21,52 @@ namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
 
-#pragma warning disable CA1861 // Avoid constant arrays as arguments
-            var templateOption = new Option<FileInfo>(
-                "--template",
-                "-t")
-            {
-                Description = "Path to the YAML template file",
-                Required = true
-            }.SpecificFileExtensionsOnly(
-                fileSystem,
-                [
-                    ".yaml",
-                    ".yml"
-                ])
+            string[] yamlExtensions =
+            [
+                ".yaml",
+                ".yml"
+            ];
+
+            var templateOption = OptionFactory.GetFileInfoOption(
+                    "--template",
+                    fileSystem,
+                    static option =>
+                    {
+                        option.Aliases.Add("-t");
+                        option.Description = "Path to the YAML template file";
+                        option.Required = true;
+                    })
+                .SpecificFileExtensionsOnly(
+                    fileSystem,
+                    yamlExtensions)
                 .ExistingOnly(fileSystem);
 
-            var contentOption = new Option<FileInfo>(
-                "--content",
-                "-c")
-            {
-                Description = "Path to the YAML content file to merge",
-                Required = true
-            }.SpecificFileExtensionsOnly(
-                fileSystem,
-                [
-                    ".yaml",
-                    ".yml"
-                ])
+            var contentOption = OptionFactory.GetFileInfoOption(
+                    "--content",
+                    fileSystem,
+                    static option =>
+                    {
+                        option.Aliases.Add("-c");
+                        option.Description = "Path to the YAML content file to merge";
+                        option.Required = true;
+                    })
+                .SpecificFileExtensionsOnly(
+                    fileSystem,
+                    yamlExtensions)
                 .ExistingOnly(fileSystem);
 
-            var outputOption = new Option<FileInfo>(
-                "--output",
-                "-o")
-            {
-                Description = "Path to the output YAML file",
-                Required = true
-            };
-
-#pragma warning restore CA1861 // Avoid constant arrays as arguments
+            var outputOption = OptionFactory.GetFileInfoOption(
+                    "--output",
+                    fileSystem,
+                    static option =>
+                    {
+                        option.Aliases.Add("-o");
+                        option.Description = "Path to the output YAML file";
+                        option.Required = true;
+                    })
+                .SpecificFileExtensionsOnly(
+                    fileSystem,
+                    yamlExtensions);
 
             var pathOption = new Option<string?>(
                 "--path",
@@ -68,7 +76,7 @@ namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
                 Required = false
             };
 
-            pathOption.Validators.Add(result =>
+            pathOption.Validators.Add(static result =>
             {
                 var value = result.GetValueOrDefault<string>();
                 if (value is null)

@@ -5,6 +5,7 @@
 using System;
 using System.CommandLine;
 using System.IO;
+using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
 namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
@@ -14,9 +15,9 @@ namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
     /// </summary>
     internal sealed class CommandLineArgModelBinder : IBinderBase<CommandLineArgModel>
     {
-        private readonly Option<FileInfo> _templateOption;
-        private readonly Option<FileInfo> _contentOption;
-        private readonly Option<FileInfo> _outputOption;
+        private readonly Option<IFileInfo> _templateOption;
+        private readonly Option<IFileInfo> _contentOption;
+        private readonly Option<IFileInfo> _outputOption;
         private readonly Option<string?> _pathOption;
 
         /// <summary>
@@ -28,9 +29,9 @@ namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
         /// <param name="pathOption">Optional YAML dot-notation path option to parse and bind against.</param>
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public CommandLineArgModelBinder(
-            Option<FileInfo> templateOption,
-            Option<FileInfo> contentOption,
-            Option<FileInfo> outputOption,
+            Option<IFileInfo> templateOption,
+            Option<IFileInfo> contentOption,
+            Option<IFileInfo> outputOption,
             Option<string?> pathOption)
         {
             ArgumentNullException.ThrowIfNull(templateOption);
