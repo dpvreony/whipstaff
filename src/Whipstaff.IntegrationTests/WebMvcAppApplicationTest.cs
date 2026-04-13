@@ -118,7 +118,7 @@ namespace Whipstaff.IntegrationTests
                     {
                         var page = await browser.NewPageAsync()
                             .ConfigureAwait(false);
-                        await page.RouteAsync(
+                        await using var pageRoute = await page.RouteAsync(
                                 "**/*",
                                 route => DefaultHandlerAsync(client, route))
                             .ConfigureAwait(false);

@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Playwright;
-using Whipstaff.Mermaid.HttpServer;
 using Whipstaff.Playwright;
 using Whipstaff.Runtime.Extensions;
 
@@ -21,17 +20,26 @@ namespace Whipstaff.Mermaid.Playwright
     public sealed class PlaywrightRendererBrowserInstance : IPlaywrightRendererBrowserInstance
     {
         private readonly IPlaywright _playwright;
+        private readonly IBrowser _browser;
         private readonly IPage _page;
+        private readonly IAsyncDisposable _pageRoute;
+        private readonly IAsyncDisposable _pageRoute2;
         private readonly PlaywrightRendererBrowserInstanceLogMessageActionsWrapper _browserInstanceLogMessageActionsWrapper;
         private bool _disposedValue;
 
         private PlaywrightRendererBrowserInstance(
             IPlaywright playwright,
+            IBrowser browser,
             IPage page,
+            IAsyncDisposable pageRoute,
+            IAsyncDisposable pageRoute2,
             PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
         {
             _playwright = playwright;
+            _browser = browser;
             _page = page;
+            _pageRoute = pageRoute;
+            _pageRoute2 = pageRoute2;
             _browserInstanceLogMessageActionsWrapper = browserInstanceLogMessageActionsWrapper;
         }
 
@@ -64,12 +72,13 @@ namespace Whipstaff.Mermaid.Playwright
 #pragma warning restore S1075
 
             var inMemoryHttpClient = mermaidHttpServer.CreateClient();
-            await page.RouteAsync(
+
+            var pageRoute = await page.RouteAsync(
                     pageUrl,
                     route => MermaidPostHandlerAsync(inMemoryHttpClient, route))
                 .ConfigureAwait(false);
 
-            await page.RouteAsync(
+            var pageRoute2 = await page.RouteAsync(
                     "**/*.{mjs,js}",
                     route => DefaultHandlerAsync(inMemoryHttpClient, route))
                 .ConfigureAwait(false);
@@ -96,7 +105,13 @@ namespace Whipstaff.Mermaid.Playwright
             await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
             _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
 
-            return new PlaywrightRendererBrowserInstance(playwright, page, logMessageActionsWrapper);
+            return new PlaywrightRendererBrowserInstance(
+                playwright,
+                browser,
+                page,
+                pageRoute,
+                pageRoute2,
+                logMessageActionsWrapper);
         }
 
         /// <inheritdoc/>
@@ -104,6 +119,15 @@ namespace Whipstaff.Mermaid.Playwright
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <inheritdoc/>
+        public async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore().ConfigureAwait(false);
+            Dispose(disposing: false);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -269,6 +293,20 @@ namespace Whipstaff.Mermaid.Playwright
 
                 await route.FulfillAsync(routeFulfillOptions)
                     .ConfigureAwait(false);
+            }
+        }
+
+        private async ValueTask DisposeAsyncCore()
+        {
+            if (!_disposedValue)
+            {
+                await _pageRoute.DisposeAsync().ConfigureAwait(false);
+                await _pageRoute2.DisposeAsync().ConfigureAwait(false);
+                await _page.CloseAsync().ConfigureAwait(false);
+                await _browser.CloseAsync().ConfigureAwait(false);
+                await _browser.DisposeAsync().ConfigureAwait(false);
+
+                _disposedValue = true;
             }
         }
 

@@ -202,7 +202,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                              await playwright.GetBrowserAsync(PlaywrightBrowserTypeAndChannel.Chrome()))
                 {
                     var context = await browser.NewContextAsync();
-                    await context.RouteAsync(
+                    await using var pageRoute = await context.RouteAsync(
                         "**/*",
                         static route => DefaultHandlerAsync(route));
 
@@ -332,7 +332,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
                              await playwright.GetBrowserAsync(PlaywrightBrowserTypeAndChannel.Chrome()))
                 {
                     var page = await browser.NewPageAsync();
-                    await page.RouteAsync(
+                    await using var pageRoute = await page.RouteAsync(
                             "**/*",
                             static route => DefaultHandlerAsync(route));
 
