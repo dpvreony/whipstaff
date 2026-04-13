@@ -147,7 +147,7 @@ namespace Whipstaff.UnitTests.Playwright
 
                     // Navigate to a page
 #pragma warning disable S1075 // URIs should not be hardcoded
-                    await page.RouteAsync(
+                    await using var pageRoute = await page.RouteAsync(
                         "https://localhost/index.htm",
                         route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
@@ -258,7 +258,7 @@ namespace Whipstaff.UnitTests.Playwright
 
                     // Navigate to a page
 #pragma warning disable S1075 // URIs should not be hardcoded
-                    await page.RouteAsync(
+                    await using var pageRoute = await page.RouteAsync(
                         "https://localhost/index.htm",
                         route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
@@ -303,7 +303,7 @@ namespace Whipstaff.UnitTests.Playwright
 
                     // Navigate to a page
 #pragma warning disable S1075 // URIs should not be hardcoded
-                    await page.RouteAsync(
+                    await using var pageRoute = await page.RouteAsync(
                         "https://localhost/index.htm",
                         route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded
@@ -401,7 +401,7 @@ namespace Whipstaff.UnitTests.Playwright
 
                     // Navigate to a page
 #pragma warning disable S1075 // URIs should not be hardcoded
-                    await page.RouteAsync(
+                    await using var pageRoute = await page.RouteAsync(
                         "https://localhost/index.htm",
                         route => PlaywrightToTestServerRouteHandlerAsync(route, testServer));
 #pragma warning restore S1075 // URIs should not be hardcoded

@@ -64,12 +64,13 @@ namespace Whipstaff.Mermaid.Playwright
 #pragma warning restore S1075
 
             var inMemoryHttpClient = mermaidHttpServer.CreateClient();
-            await page.RouteAsync(
+
+            await using var pageRoute = await page.RouteAsync(
                     pageUrl,
                     route => MermaidPostHandlerAsync(inMemoryHttpClient, route))
                 .ConfigureAwait(false);
 
-            await page.RouteAsync(
+            await using var pageRoute2 = await page.RouteAsync(
                     "**/*.{mjs,js}",
                     route => DefaultHandlerAsync(inMemoryHttpClient, route))
                 .ConfigureAwait(false);
