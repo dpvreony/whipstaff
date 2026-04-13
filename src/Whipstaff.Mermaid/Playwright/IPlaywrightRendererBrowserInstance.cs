@@ -17,7 +17,7 @@ namespace Whipstaff.Mermaid.Playwright
     /// <summary>
     /// Interface for the Playwright Mermaid Renderer Browser Instance.
     /// </summary>
-    public interface IPlaywrightRendererBrowserInstance : IDisposable
+    public interface IPlaywrightRendererBrowserInstance : IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// Gets the SVG for the Mermaid Diagram from a File and writes to another file.
