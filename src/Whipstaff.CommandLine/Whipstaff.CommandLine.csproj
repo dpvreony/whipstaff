@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.6" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.7" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.1.1" />
   </ItemGroup>
 
