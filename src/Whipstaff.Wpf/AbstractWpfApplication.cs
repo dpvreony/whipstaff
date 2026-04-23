@@ -68,12 +68,20 @@ namespace Whipstaff.Wpf
         protected sealed override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            DoCulture();
+
             DoSplatDependencyInjectionInitialization();
             DoLoggingInitialization();
             DoApplicationPerformanceMonitoringInitialization();
             DoReactiveUIInitialization();
             OnApplicationStartup(e);
         }
+
+        /// <summary>
+        /// Gets the culture name to use to override the default culture initialization. This is required to ensure that the correct culture is used for formatting and resource lookups in WPF applications. If null or whitespace is returned, the culture will not be overridden.
+        /// </summary>
+        /// <returns>The name of the culture to apply, or null/whitespace to use the default culture.</returns>
+        protected abstract string? GetCultureName();
 
         /// <inheritdoc />
         protected override void OnExit(ExitEventArgs e)
@@ -140,9 +148,20 @@ namespace Whipstaff.Wpf
             });
         }
 
-        /// <summary>
-        /// This removes some of the assembly scanning ReactiveUI does by default by specifying the platform as WPF.
-        /// </summary>
+        private void DoCulture()
+        {
+            // this is required to ensure that the correct culture is used for formatting and resource lookups in WPF applications.
+            // this is required to be done before any WPF components are initialized.
+            var cultureName = GetCultureName();
+
+            if (string.IsNullOrWhiteSpace(cultureName))
+            {
+                return;
+            }
+
+            CultureHelpers.InitializeCulture(cultureName);
+        }
+
         private void DoReactiveUIInitialization()
         {
             var reactiveUiBuilder = RxAppBuilder.CreateReactiveUIBuilder()

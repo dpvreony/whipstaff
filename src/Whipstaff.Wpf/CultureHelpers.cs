@@ -65,7 +65,7 @@ namespace Whipstaff.Wpf
             FrameworkElement.LanguageProperty.OverrideMetadata(
                 typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(
-                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+                    XmlLanguage.GetLanguage(cultureInfo.Name)));
         }
     }
 }
