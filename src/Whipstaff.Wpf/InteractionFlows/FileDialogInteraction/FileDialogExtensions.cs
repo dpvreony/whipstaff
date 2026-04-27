@@ -17,7 +17,7 @@ namespace Whipstaff.Wpf.InteractionFlows.FileDialogInteraction
         /// <summary>
         /// Applies the state of the given <see cref="AbstractFileDialogRequest"/> to the given <see cref="FileDialog"/>.
         /// </summary>
-        /// <param name="fileDialog">File dialog instance to modify.</param>
+        /// <param name="dialog">File dialog instance to modify.</param>
         /// <param name="request">Abstract request model with state to apply.</param>
         public static void ApplyRequestModel(this FileDialog dialog, AbstractFileDialogRequest request)
         {

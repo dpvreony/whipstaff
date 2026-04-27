@@ -5,6 +5,7 @@
 using System;
 using System.Threading.Tasks;
 using Whipstaff.Runtime.Extensions;
+using Whipstaff.Wpf.InteractionFlows.FileDialogInteraction;
 
 namespace Whipstaff.Wpf.InteractionFlows.SaveFileDialogInteraction
 {
@@ -25,6 +26,17 @@ namespace Whipstaff.Wpf.InteractionFlows.SaveFileDialogInteraction
             var dialog = new Microsoft.Win32.SaveFileDialog();
 
             request.Title.ActIfNotNullOrWhiteSpace(x => dialog.Title = x);
+            dialog.ApplyRequestModel(request);
+
+            if (request.CreatePrompt.HasValue)
+            {
+                dialog.CreatePrompt = request.CreatePrompt.Value;
+            }
+
+            if (request.CreateTestFile.HasValue)
+            {
+                dialog.CreateTestFile = request.CreateTestFile.Value;
+            }
 
             var dialogResult = dialog.ShowDialog() ?? false;
 
