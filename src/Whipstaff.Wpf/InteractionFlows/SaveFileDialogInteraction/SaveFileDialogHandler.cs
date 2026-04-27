@@ -38,6 +38,11 @@ namespace Whipstaff.Wpf.InteractionFlows.SaveFileDialogInteraction
                 dialog.CreateTestFile = request.CreateTestFile.Value;
             }
 
+            if (request.OverwritePrompt.HasValue)
+            {
+                dialog.OverwritePrompt = request.OverwritePrompt.Value;
+            }
+
             var dialogResult = dialog.ShowDialog() ?? false;
 
             if (!dialogResult)
