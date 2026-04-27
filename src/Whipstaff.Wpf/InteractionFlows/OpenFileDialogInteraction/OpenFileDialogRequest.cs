@@ -4,6 +4,7 @@
 
 using System;
 using Whipstaff.Core.Entities;
+using Whipstaff.Wpf.InteractionFlows.FileDialogInteraction;
 
 namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
 {
@@ -47,6 +48,7 @@ namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
         string? FileName = null,
 #pragma warning disable CA1819 // Properties should not return arrays
         string[]? FileNames = null,
+#pragma warning restore CA1819 // Properties should not return arrays
         string? Filter = null,
         int? FilterIndex = null,
         bool? ForcePreviewPane = null,
@@ -57,8 +59,25 @@ namespace Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction
         bool? ShowHiddenItems = null,
         bool? ShowReadOnly = null,
         string? Tag = null,
-        bool? ValidateNames = null) : ITitle
-#pragma warning restore CA1819 // Properties should not return arrays
-    {
-    }
+        bool? ValidateNames = null)
+        : AbstractFileDialogRequest(
+                AddExtension,
+                AddToRecent,
+                CheckFileExists,
+                CheckPathExists,
+                ClientGuid,
+                CustomPlaces,
+                DefaultDirectory,
+                DefaultExt,
+                DereferenceLinks,
+                FileName,
+                FileNames,
+                Filter,
+                FilterIndex,
+                InitialDirectory,
+                RootDirectory,
+                ShowHiddenItems,
+                Tag,
+                ValidateNames),
+            ITitle;
 }
