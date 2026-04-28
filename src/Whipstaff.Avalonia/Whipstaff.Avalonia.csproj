@@ -24,5 +24,6 @@
   <PropertyGroup>
     <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
     <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
+    <Vetuviem_UI_Framework>Avalonia</Vetuviem_UI_Framework>
   </PropertyGroup>
 </Project>
