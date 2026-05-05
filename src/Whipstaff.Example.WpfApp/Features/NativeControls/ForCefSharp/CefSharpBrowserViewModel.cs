@@ -5,15 +5,21 @@
 using System.Reactive.Concurrency;
 using ReactiveUI;
 
-namespace Whipstaff.Example.WpfApp.Features.NativeControls.CefSharp
+namespace Whipstaff.Example.WpfApp.Features.NativeControls.ForCefSharp
 {
     /// <summary>
     /// View model for the CefSharp browser control example.
     /// </summary>
-    internal sealed class CefSharpBrowserViewModel : ReactiveObject, ICefSharpBrowserViewModel
+    public sealed class CefSharpBrowserViewModel : ReactiveObject, ICefSharpBrowserViewModel
     {
+#pragma warning disable S4487
         private readonly IScheduler _scheduler;
+#pragma warning restore S4487
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CefSharpBrowserViewModel"/> class.
+        /// </summary>
+        /// <param name="scheduler">The scheduler to use for reactive operations.</param>
         public CefSharpBrowserViewModel(IScheduler scheduler)
         {
             _scheduler = scheduler;

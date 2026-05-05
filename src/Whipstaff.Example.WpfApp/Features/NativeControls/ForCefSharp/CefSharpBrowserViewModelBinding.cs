@@ -8,7 +8,7 @@ using System.Reactive.Concurrency;
 using Vetuviem.Core;
 using Whipstaff.Wpf.ViewToViewModelBindings.CefSharp.Wpf;
 
-namespace Whipstaff.Example.WpfApp.Features.NativeControls.CefSharp
+namespace Whipstaff.Example.WpfApp.Features.NativeControls.ForCefSharp
 {
     internal sealed class CefSharpBrowserViewModelBinding : AbstractEnableViewToViewModelBindings<CefSharpBrowserView, CefSharpBrowserViewModel>
     {

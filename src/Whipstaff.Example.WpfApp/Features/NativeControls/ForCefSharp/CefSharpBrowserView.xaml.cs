@@ -5,7 +5,7 @@
 using System.Reactive.Disposables;
 using ReactiveUI;
 
-namespace Whipstaff.Example.WpfApp.Features.NativeControls.CefSharp
+namespace Whipstaff.Example.WpfApp.Features.NativeControls.ForCefSharp
 {
     /// <summary>
     /// Interaction logic for Cef Sharp Browser View sample.
