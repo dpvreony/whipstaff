@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using System.Linq.Expressions;
 using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
@@ -17,6 +18,43 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
     /// </summary>
     public static class ReactiveCommandFactory
     {
+        /// <summary>
+        /// Creates a reactive command from a task where the result is mapped to a property, and an exception action is mapped.
+        /// Checks if the command can be executed via control observable.
+        /// </summary>
+        /// <typeparam name="TObj">The type of the source object containing the property to update.</typeparam>
+        /// <typeparam name="TResult">The type for the result passed around.</typeparam>
+        /// <param name="commandFunc">The command function to execute.</param>
+        /// <param name="canExecute">Observable indicating whether the command can execute.</param>
+        /// <param name="propertySource">The source object containing the property to update.</param>
+        /// <param name="property">Expression representing the property to update on the source object.</param>
+        /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
+        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskToProperty<TObj, TResult>(
+            Func<Task<TResult>> commandFunc,
+            IObservable<bool> canExecute,
+            TObj propertySource,
+            Expression<Func<TObj, TResult>> property,
+            Action<Exception>? onExceptionAction,
+            IScheduler scheduler)
+            where TObj : class, IReactiveObject
+        {
+            var command = ReactiveCommand.CreateFromTask(
+                commandFunc,
+                canExecute,
+                scheduler);
+            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onThrownExceptionSubscription = onExceptionAction != null
+                ? command.ThrownExceptions.Subscribe(onExceptionAction)
+                : null;
+
+            return new(
+                command,
+                onExecutionResultAvailableSubscription,
+                onThrownExceptionSubscription);
+        }
+
         /// <summary>
         /// Creates a reactive command from a task with a complete and exception action.
         /// Checks if the command can be executed via control observable.
