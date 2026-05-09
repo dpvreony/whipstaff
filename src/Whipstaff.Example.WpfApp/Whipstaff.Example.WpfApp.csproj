@@ -6,15 +6,54 @@
     <UseWPF>true</UseWPF>
     <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <NoWarn>$(NoWarn);CA1515</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Wpf.AspNetCore.WebView\Whipstaff.Wpf.AspNetCore.WebView.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.AvalonEdit\Whipstaff.Wpf.AvalonEdit.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.CefSharp\Whipstaff.Wpf.CefSharp.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Mahapps\Whipstaff.Wpf.Mahapps.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.MaterialDesign\Whipstaff.Wpf.MaterialDesign.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Calculate\Whipstaff.Wpf.Syncfusion.Calculate.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Data\Whipstaff.Wpf.Syncfusion.Data.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.DocIO\Whipstaff.Wpf.Syncfusion.DocIO.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.GridCommon\Whipstaff.Wpf.Syncfusion.GridCommon.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.PdfViewer\Whipstaff.Wpf.Syncfusion.PdfViewer.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Pdf\Whipstaff.Wpf.Syncfusion.Pdf.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Presentation\Whipstaff.Wpf.Syncfusion.Presentation.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfAccordion\Whipstaff.Wpf.Syncfusion.SfAccordion.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfBarcode\Whipstaff.Wpf.Syncfusion.SfBarcode.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfBulletGraph\Whipstaff.Wpf.Syncfusion.SfBulletGraph.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfBusyIndicator\Whipstaff.Wpf.Syncfusion.SfBusyIndicator.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfCellGrid\Whipstaff.Wpf.Syncfusion.SfCellGrid.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfChart\Whipstaff.Wpf.Syncfusion.SfChart.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfDiagram\Whipstaff.Wpf.Syncfusion.SfDiagram.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfGauge\Whipstaff.Wpf.Syncfusion.SfGauge.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfGridCommon\Whipstaff.Wpf.Syncfusion.SfGridCommon.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfGrid\Whipstaff.Wpf.Syncfusion.SfGrid.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfHeatMap\Whipstaff.Wpf.Syncfusion.SfHeatMap.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfImageEditor\Whipstaff.Wpf.Syncfusion.SfImageEditor.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfInput\Whipstaff.Wpf.Syncfusion.SfInput.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfProgressBar\Whipstaff.Wpf.Syncfusion.SfProgressBar.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfRadialMenu\Whipstaff.Wpf.Syncfusion.SfRadialMenu.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfRichTextBoxAdv\Whipstaff.Wpf.Syncfusion.SfRichTextBoxAdv.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfRichTextRibbon\Whipstaff.Wpf.Syncfusion.SfRichTextRibbon.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfSchedule\Whipstaff.Wpf.Syncfusion.SfSchedule.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfSkinManager\Whipstaff.Wpf.Syncfusion.SfSkinManager.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfSmithChart\Whipstaff.Wpf.Syncfusion.SfSmithChart.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfSpreadsheet\Whipstaff.Wpf.Syncfusion.SfSpreadsheet.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfSunburstChart\Whipstaff.Wpf.Syncfusion.SfSunburstChart.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfTreeMap\Whipstaff.Wpf.Syncfusion.SfTreeMap.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfTreeNavigator\Whipstaff.Wpf.Syncfusion.SfTreeNavigator.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Shared\Whipstaff.Wpf.Syncfusion.Shared.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Tools\Whipstaff.Wpf.Syncfusion.Tools.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.XlsIO\Whipstaff.Wpf.Syncfusion.XlsIO.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\NativeControls\Syncfusion\" />
   </ItemGroup>
 
 </Project>

@@ -32,7 +32,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsPackable Condition="$(IsTestProject) != 'true' and $(MSBuildProjectName.StartsWith('Whipstaff.')) and !$(MSBuildProjectName.Contains('.Example.')) and !$(MSBuildProjectName.EndsWith('.Testing')) and !$(MSBuildProjectName.EndsWith('.Benchmarks'))">true</IsPackable>
-    <LangVersion>13.0</LangVersion>
+    <LangVersion>14.0</LangVersion>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <GenerateSBOM>$(IsPackable)</GenerateSBOM>
     <NoWarn>$(NoWarn),GR0051</NoWarn>
