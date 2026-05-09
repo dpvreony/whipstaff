@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf.WebView2\Whipstaff.Wpf.WebView2.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
