@@ -27,6 +27,7 @@ jobs:
       solutionName: "Whipstaff"
       integration-test-os: "windows"
       workloads : "android,ios,tvos,macos,maui"
+      apiDocumentation: "None"
     secrets:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
