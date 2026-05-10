@@ -223,6 +223,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinUI", "WinUI", "{24750108
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.YamlTemplating.DotNetTool", "Whipstaff.YamlTemplating.DotNetTool\Whipstaff.YamlTemplating.DotNetTool.csproj", "{CDA78EA8-F0E9-46C7-8EED-1B3EE1F61775}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Wpf.WebView2", "Whipstaff.Wpf.WebView2\Whipstaff.Wpf.WebView2.csproj", "{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1493,6 +1495,18 @@ Global
 		{CDA78EA8-F0E9-46C7-8EED-1B3EE1F61775}.Release|x64.Build.0 = Release|Any CPU
 		{CDA78EA8-F0E9-46C7-8EED-1B3EE1F61775}.Release|x86.ActiveCfg = Release|Any CPU
 		{CDA78EA8-F0E9-46C7-8EED-1B3EE1F61775}.Release|x86.Build.0 = Release|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Debug|x64.Build.0 = Debug|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Debug|x86.Build.0 = Debug|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Release|x64.ActiveCfg = Release|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Release|x64.Build.0 = Release|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1571,6 +1585,7 @@ Global
 		{0460A19E-D0AC-46E2-B4C8-4BD0E0974921} = {66B6DAD3-8B81-425A-AF03-BDB0B90A9DDC}
 		{DBCAE4B2-CE8C-4C0F-9D9E-F880757315E4} = {66B6DAD3-8B81-425A-AF03-BDB0B90A9DDC}
 		{3D62E6A7-E0B1-4FA8-B119-A4842205B939} = {66B6DAD3-8B81-425A-AF03-BDB0B90A9DDC}
+		{B5E0DDAA-AFB9-453E-9023-B6FC2B2DCA5E} = {66B6DAD3-8B81-425A-AF03-BDB0B90A9DDC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DB2718A-6FAF-4785-856D-2A081D493A02}
