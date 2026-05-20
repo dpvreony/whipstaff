@@ -38,6 +38,7 @@
     <NoWarn>$(NoWarn),GR0051</NoWarn>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <SolutionDir Condition="'$(SolutionDir)' == ''">$(MSBuildThisFileDirectory)</SolutionDir>
+    <GitVersionBaseDirectory>$(SolutionDir)/..</GitVersionBaseDirectory>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(IsTestProject)">
