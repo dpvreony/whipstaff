@@ -234,31 +234,6 @@ namespace Whipstaff.Mermaid.Playwright
                 png);
         }
 
-        private async Task<byte[]> TakeMermaidElementScreenshotAsync(string mermaidElementSelector, ILocator mermaidElement)
-        {
-            for (var attempt = 0; attempt < 3; attempt++)
-            {
-                try
-                {
-                    return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
-                        .ConfigureAwait(false);
-                }
-                catch (PlaywrightException exception) when (attempt < 2 &&
-                                                            exception.Message.Contains(
-                                                                "Element is not attached to the DOM",
-                                                                StringComparison.Ordinal))
-                {
-                    _ = await _page.WaitForSelectorAsync(
-                            mermaidElementSelector,
-                            new() { State = WaitForSelectorState.Visible })
-                        .ConfigureAwait(false);
-                }
-            }
-
-            return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
-                .ConfigureAwait(false);
-        }
-
         private static HttpRequestMessage GetRequestFromRoute(IRoute route)
         {
             var httpRequestMessage = new HttpRequestMessage();
@@ -319,6 +294,31 @@ namespace Whipstaff.Mermaid.Playwright
                 await route.FulfillAsync(routeFulfillOptions)
                     .ConfigureAwait(false);
             }
+        }
+
+        private async Task<byte[]> TakeMermaidElementScreenshotAsync(string mermaidElementSelector, ILocator mermaidElement)
+        {
+            for (var attempt = 0; attempt < 3; attempt++)
+            {
+                try
+                {
+                    return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
+                        .ConfigureAwait(false);
+                }
+                catch (PlaywrightException exception) when (attempt < 2 &&
+                                                            exception.Message.Contains(
+                                                                "Element is not attached to the DOM",
+                                                                StringComparison.Ordinal))
+                {
+                    _ = await _page.WaitForSelectorAsync(
+                            mermaidElementSelector,
+                            new() { State = WaitForSelectorState.Visible })
+                        .ConfigureAwait(false);
+                }
+            }
+
+            return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
+                .ConfigureAwait(false);
         }
 
         private async ValueTask DisposeAsyncCore()
