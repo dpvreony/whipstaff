@@ -317,8 +317,7 @@ namespace Whipstaff.Mermaid.Playwright
                 }
             }
 
-            return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
-                .ConfigureAwait(false);
+            throw new InvalidOperationException("Failed to capture Mermaid screenshot after retry attempts.");
         }
 
         private async ValueTask DisposeAsyncCore()
