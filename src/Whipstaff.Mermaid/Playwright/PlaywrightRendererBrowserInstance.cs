@@ -218,20 +218,45 @@ namespace Whipstaff.Mermaid.Playwright
             markdown.ThrowIfNullOrWhitespace();
             var svg = await _page.EvaluateAsync<string>("(diagram) => window.renderMermaid(diagram)", markdown);
 
-            var mermaidElement = _page.Locator("#mermaid-element svg");
+            const string mermaidElementSelector = "#mermaid-element svg";
+            var mermaidElement = _page.Locator(mermaidElementSelector);
 
-            if (mermaidElement == null)
+            if (await mermaidElement.CountAsync().ConfigureAwait(false) == 0)
             {
                 _browserInstanceLogMessageActionsWrapper.FailedToFindMermaidElement();
                 return null;
             }
 
-            var png = await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
-                .ConfigureAwait(false);
+            var png = await TakeMermaidElementScreenshotAsync(mermaidElementSelector, mermaidElement).ConfigureAwait(false);
 
             return new(
                 svg,
                 png);
+        }
+
+        private async Task<byte[]> TakeMermaidElementScreenshotAsync(string mermaidElementSelector, ILocator mermaidElement)
+        {
+            for (var attempt = 0; attempt < 3; attempt++)
+            {
+                try
+                {
+                    return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
+                        .ConfigureAwait(false);
+                }
+                catch (PlaywrightException exception) when (attempt < 2 &&
+                                                            exception.Message.Contains(
+                                                                "Element is not attached to the DOM",
+                                                                StringComparison.Ordinal))
+                {
+                    _ = await _page.WaitForSelectorAsync(
+                            mermaidElementSelector,
+                            new() { State = WaitForSelectorState.Visible })
+                        .ConfigureAwait(false);
+                }
+            }
+
+            return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
+                .ConfigureAwait(false);
         }
 
         private static HttpRequestMessage GetRequestFromRoute(IRoute route)
