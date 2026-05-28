@@ -146,12 +146,12 @@
     <!-- Force use of .NET SDK Roslyn compiler on Windows when VS MSBuild is invoked -->
     <UseSharedCompilation>false</UseSharedCompilation>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <!-- Explicitly reference Roslyn 5.0+ compiler toolset -->
+
+  <!-- Explicitly reference Roslyn 5.0+ compiler toolset -->
+  <!--<ItemGroup>
     <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="5.3.0" Condition="'$(MSBuildRuntimeType)' != 'Core'">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
+  </ItemGroup>-->
 </Project>
