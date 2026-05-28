@@ -186,6 +186,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var diagramResponseModel = await browserSession.GetDiagramAsync(sourceFileInfo);
 
                 Assert.NotNull(diagramResponseModel);
+                Assert.NotEmpty(diagramResponseModel.Png);
 
 #pragma warning disable CA2254
                 Logger.LogInformation(diagramResponseModel.Svg);
@@ -294,6 +295,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                 var diagramResponseModel = await browserSession.GetDiagramAsync(diagram);
 
                 Assert.NotNull(diagramResponseModel);
+                Assert.NotEmpty(diagramResponseModel.Png);
 
 #pragma warning disable CA2254
                 Logger.LogInformation(diagramResponseModel.Svg);
