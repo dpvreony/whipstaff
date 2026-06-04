@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Extensions" Version="2.3.1" />
-    <PackageReference Include="Splat" Version="19.3.1" />
+    <PackageReference Include="ReactiveUI.Extensions" Version="4.0.0" />
+    <PackageReference Include="Splat" Version="19.4.1" />
     <PackageReference Include="System.Reactive.Linq" Version="6.1.0" />
   </ItemGroup>
 
