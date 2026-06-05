@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.SfGrid\Whipstaff.Wpf.Syncfusion.SfGrid.csproj" />
     <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Shared\Whipstaff.Wpf.Syncfusion.Shared.csproj" />
   </ItemGroup>
 
