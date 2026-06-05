@@ -5,7 +5,7 @@ Re-usable logic for working with SyncFusion WPF Gantt Control.
 ## Installation
 
 ```bash
-dotnet add package Whipstaff.Wpf.Syncfusion.SfGantt
+dotnet add package Whipstaff.Wpf.Syncfusion.Gantt
 ```
 
 ## Usage

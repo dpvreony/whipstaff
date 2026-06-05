@@ -108,7 +108,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             IObservable<bool> canExecute,
             TObj propertySource,
             Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
             where TObj : class, IReactiveObject
         {
@@ -143,7 +143,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             Func<Task<TResult>> commandFunc,
             TObj propertySource,
             Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
             where TObj : class, IReactiveObject
         {
@@ -216,7 +216,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             Func<TInput, Task<TResult>> commandFunc,
             TObj propertySource,
             Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
             where TObj : class, IReactiveObject
         {
@@ -311,8 +311,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskWithSubscriptions<TResult>(
             Func<Task<TResult>> commandFunc,
             IObservable<bool> canExecute,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateFromTask(
@@ -345,8 +345,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateFromTaskWithSubscriptions<TInput, TResult>(
             Func<TInput, Task<TResult>> commandFunc,
             IObservable<bool> canExecute,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateFromTask(
@@ -377,8 +377,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateFromTaskWithSubscriptions<TInput, TResult>(
             Func<TInput, Task<TResult>> commandFunc,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateFromTask(
@@ -407,8 +407,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskWithSubscriptions<TResult>(
             Func<Task<TResult>> commandFunc,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateFromTask(
@@ -514,7 +514,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             IObservable<bool> canExecute,
             TObj propertySource,
             Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
             where TObj : class, IReactiveObject
         {
@@ -549,7 +549,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             Func<TResult> commandFunc,
             TObj propertySource,
             Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
             where TObj : class, IReactiveObject
         {
@@ -622,7 +622,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             Func<TInput, TResult> commandFunc,
             TObj propertySource,
             Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
             where TObj : class, IReactiveObject
         {
@@ -717,8 +717,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
             Func<TResult> commandFunc,
             IObservable<bool> canExecute,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateRunInBackground(
@@ -751,8 +751,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateRunInBackgroundWithSubscriptions<TInput, TResult>(
             Func<TInput, TResult> commandFunc,
             IObservable<bool> canExecute,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateRunInBackground(
@@ -783,8 +783,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateRunInBackgroundWithSubscriptions<TInput, TResult>(
             Func<TInput, TResult> commandFunc,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateRunInBackground(
@@ -813,8 +813,8 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
             Func<TResult> commandFunc,
-            Func<TResult, Task> onExecutionResultAvailable,
-            Func<Exception, Task>? onExceptionAction,
+            Func<TResult, ValueTask> onExecutionResultAvailable,
+            Func<Exception, ValueTask>? onExceptionAction,
             IScheduler scheduler)
         {
             var command = ReactiveCommand.CreateRunInBackground(

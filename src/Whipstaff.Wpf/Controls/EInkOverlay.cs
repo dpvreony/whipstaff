@@ -92,7 +92,7 @@ namespace Whipstaff.Wpf.Controls
                 .DisposeWith(compositeDisposable);
         }
 
-        private async Task HandleLayoutUpdatedAsync()
+        private async ValueTask HandleLayoutUpdatedAsync()
         {
             if (!_isRefreshing)
             {
@@ -102,7 +102,7 @@ namespace Whipstaff.Wpf.Controls
             }
         }
 
-        private async Task HandleLoadedAsync()
+        private async ValueTask HandleLoadedAsync()
         {
             await SimulateRefreshAsync();
         }
