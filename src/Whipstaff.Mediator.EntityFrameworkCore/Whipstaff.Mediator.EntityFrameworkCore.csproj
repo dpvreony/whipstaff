@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="DynamicData" Version="9.4.33" />
     <PackageReference Include="Mediator.Abstractions" Version="3.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
   </ItemGroup>
 
   <ItemGroup>
