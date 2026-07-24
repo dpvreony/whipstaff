@@ -14,7 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
-    <PackageReference Include="Splat" Version="19.4.1" />
+    <PackageReference Include="Splat" Version="20.1.0" />
     <!-- Temporary workaround until vulnerability fixed: https://github.com/dotnet/efcore/issues/38257 -->
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" VersionOverride="3.0.4" />
     <PackageReference Include="System.CommandLine" Version="2.0.10" />
