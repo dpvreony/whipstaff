@@ -15,7 +15,9 @@ namespace Whipstaff.Mediator.EntityFrameworkCore
     /// <typeparam name="TResponse">The type for the CQRS response.</typeparam>
     /// <typeparam name="TDbContext">The type for the <see cref="DbContext"/>.</typeparam>
     /// <typeparam name="TKeyedEntity">The type for the entity in the DbSet we will save to.</typeparam>
+#pragma warning disable GR0065
     public abstract class AbstractInsertUnkeyedEntityIntoInt32IdDbSetCommandHandler<TCommand, TResponse, TDbContext, TKeyedEntity>
+#pragma warning restore GR0065
         : AbstractInsertUnkeyedEntityIntoKeyedDbSetCommandHandler<TCommand, TResponse, TDbContext, TKeyedEntity>
         where TCommand : ICommand<TResponse>
         where TDbContext : DbContext

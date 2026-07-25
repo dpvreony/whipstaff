@@ -9,5 +9,7 @@ namespace Whipstaff.Example.WpfApp.Features.NativeControls.ForCefSharp
     /// <summary>
     /// Abstraction of the CefSharp Browser View ReactiveWindow. This is workaround usability issues with generics and XAML.
     /// </summary>
+#pragma warning disable GR0065
     public abstract class AbstractCefSharpBrowserView : ReactiveWindow<CefSharpBrowserViewModel>;
+#pragma warning restore GR0065
 }
