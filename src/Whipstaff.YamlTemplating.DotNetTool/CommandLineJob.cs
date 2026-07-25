@@ -93,8 +93,7 @@ namespace Whipstaff.YamlTemplating.DotNetTool
                                 ?? new Dictionary<object, object>();
                             var templateValue = deserializer.Deserialize<object>(templateContent);
 
-                            var segments = commandLineArgModel.YamlPath.Split('.');
-                            if (!TrySetAtPath(contentDict, segments, templateValue))
+                            if (!TrySetAtPath(contentDict, commandLineArgModel.YamlPath.AsSpan(), templateValue))
                             {
                                 LogMessageActionsWrapper.InvalidYamlPath(commandLineArgModel.YamlPath);
                                 return 1;
@@ -155,22 +154,28 @@ namespace Whipstaff.YamlTemplating.DotNetTool
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Gripe", "GR0033:Do not use Object in a parameter declaration", Justification = "YamlDotNet untyped deserialization produces Dictionary<object, object>.")]
         private static bool TrySetAtPath(
             Dictionary<object, object> root,
-            string[] segments,
+            ReadOnlySpan<char> path,
             object? value)
         {
-            if (segments.Length == 1)
+            var separatorIndex = path.IndexOf('.');
+
+            if (separatorIndex == -1)
             {
-                root[segments[0]] = value!;
+                // No more separators, this is the final segment
+                root[path.ToString()] = value!;
                 return true;
             }
 
-            if (!root.TryGetValue(segments[0], out var next)
+            var currentSegment = path.Slice(0, separatorIndex).ToString();
+            var remainingPath = path.Slice(separatorIndex + 1);
+
+            if (!root.TryGetValue(currentSegment, out var next)
                 || next is not Dictionary<object, object> nextDict)
             {
                 return false;
             }
 
-            return TrySetAtPath(nextDict, segments[1..], value);
+            return TrySetAtPath(nextDict, remainingPath, value);
         }
 
         private static Dictionary<object, object> MergeDictionaries(

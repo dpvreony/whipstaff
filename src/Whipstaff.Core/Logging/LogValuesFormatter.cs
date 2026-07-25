@@ -64,7 +64,9 @@ namespace Whipstaff.Core.Logging
 
                         vsb.Append(format.AsSpan(scanIndex, openBraceIndex - scanIndex + 1));
                         vsb.Append(_valueNames.Count.ToString(NumberFormatInfo.InvariantInfo));
+#pragma warning disable GR0055 // Substring is necessary here as we need to store the value in a List<string>
                         _valueNames.Add(format.Substring(openBraceIndex + 1, formatDelimiterIndex - openBraceIndex - 1));
+#pragma warning restore GR0055
                         vsb.Append(format.AsSpan(formatDelimiterIndex, closeBraceIndex - formatDelimiterIndex + 1));
 
                         scanIndex = closeBraceIndex + 1;
@@ -154,7 +156,8 @@ namespace Whipstaff.Core.Logging
                     if (!ReferenceEquals(formattedValue, values[i]))
                     {
                         formattedValues = new object[values.Length];
-                        Array.Copy(values, formattedValues, i);
+
+                        values.AsSpan()[..i].CopyTo(formattedValues);
 #pragma warning disable S127
                         formattedValues[i++] = formattedValue;
                         for (; i < values.Length; i++)

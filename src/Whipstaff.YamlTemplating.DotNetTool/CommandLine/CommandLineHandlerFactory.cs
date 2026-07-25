@@ -84,8 +84,34 @@ namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
                     return;
                 }
 
-                var segments = value.Split('.');
-                if (segments.Any(string.IsNullOrWhiteSpace))
+                var span = value.AsSpan();
+                var hasInvalidSegment = false;
+
+                while (!span.IsEmpty)
+                {
+                    var separatorIndex = span.IndexOf('.');
+                    ReadOnlySpan<char> segment;
+
+                    if (separatorIndex == -1)
+                    {
+                        // Last segment
+                        segment = span;
+                        span = ReadOnlySpan<char>.Empty;
+                    }
+                    else
+                    {
+                        segment = span.Slice(0, separatorIndex);
+                        span = span.Slice(separatorIndex + 1);
+                    }
+
+                    if (segment.IsEmpty || segment.IsWhiteSpace())
+                    {
+                        hasInvalidSegment = true;
+                        break;
+                    }
+                }
+
+                if (hasInvalidSegment)
                 {
                     result.AddError($"Invalid path '{value}'. Each segment must be non-empty and must not contain whitespace. Use dot notation, e.g. 'steps.build.tasks'.");
                 }

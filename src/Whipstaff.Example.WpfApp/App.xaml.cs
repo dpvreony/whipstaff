@@ -58,7 +58,9 @@ namespace Whipstaff.Example.WpfApp
 
             MainWindow = view;
 
+#pragma warning disable GR0052
             view.Show();
+#pragma warning restore GR0052
         }
     }
 }

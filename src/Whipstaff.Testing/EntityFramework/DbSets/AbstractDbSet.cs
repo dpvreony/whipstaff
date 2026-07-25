@@ -10,7 +10,9 @@ namespace Whipstaff.Testing.EntityFramework.DbSets
     /// <summary>
     /// Represents a base db set.
     /// </summary>
+#pragma warning disable GR0065
     public abstract class AbstractDbSet : IIntId, IModifiable, ILongRowVersion
+#pragma warning restore GR0065
     {
         /// <inheritdoc/>
         public int Id { get; set; }
