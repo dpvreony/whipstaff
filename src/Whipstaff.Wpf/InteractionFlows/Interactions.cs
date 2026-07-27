@@ -8,6 +8,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Disposables.Fluent;
 using System.Threading.Tasks;
 using ReactiveUI;
+using ReactiveUI.Primitives.Concurrency;
 using Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction;
 using Whipstaff.Wpf.InteractionFlows.OpenFolderDialogInteraction;
 using Whipstaff.Wpf.InteractionFlows.PrintDialogInteraction;
@@ -35,7 +36,7 @@ namespace Whipstaff.Wpf.InteractionFlows
             Func<OpenFolderDialogRequest, Task<OpenFolderDialogResult>>? folderOpenDialogHandler,
             Func<PrintDialogRequest, Task<PrintDialogResult>>? printDialogHandler,
             CompositeDisposable compositeDisposable,
-            IScheduler? handlerScheduler = null)
+            ISequencer? handlerScheduler = null)
         {
             FileOpenDialog = new Interaction<OpenFileDialogRequest, OpenFileDialogResult>(handlerScheduler);
             FileSaveDialog = new Interaction<SaveFileDialogRequest, SaveFileDialogResult>(handlerScheduler);
@@ -97,7 +98,7 @@ namespace Whipstaff.Wpf.InteractionFlows
         /// <returns>Instance of Windows OS interaction flows.</returns>
         public static Interactions CreateWithDefaults(
             CompositeDisposable compositeDisposable,
-            IScheduler? handlerScheduler = null)
+            ISequencer? handlerScheduler = null)
         {
             return new Interactions(
                 OpenFileDialogHandler.OnOpenFileDialogAsync,

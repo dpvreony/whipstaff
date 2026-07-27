@@ -5,10 +5,10 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using ReactiveUI;
+using ReactiveUI.Primitives;
+using ReactiveUI.Primitives.Concurrency;
 
 namespace Whipstaff.Wpf.Commands
 {
@@ -22,19 +22,19 @@ namespace Whipstaff.Wpf.Commands
         /// </summary>
         /// <param name="directoryInfo">Directory representation.</param>
         /// <param name="canExecute">Observable for whether the command can execute.</param>
-        /// <param name="outputScheduler">Schedule to run the command on.</param>
+        /// <param name="outputSequencer">Sequencer to run the command on.</param>
         /// <returns>UI Command.</returns>
-        public static ReactiveCommand<Unit, int?> GetOpenLogFileLocationCommand(
+        public static ReactiveCommand<RxVoid, int?> GetOpenLogFileLocationCommand(
             DirectoryInfo directoryInfo,
             IObservable<bool>? canExecute = null,
-            IScheduler? outputScheduler = null)
+            ISequencer? outputSequencer = null)
         {
             ArgumentNullException.ThrowIfNull(directoryInfo);
 
             return GetShellExecuteCommand(
                 directoryInfo.FullName,
                 canExecute,
-                outputScheduler);
+                outputSequencer);
         }
 
         /// <summary>
@@ -42,15 +42,15 @@ namespace Whipstaff.Wpf.Commands
         /// </summary>
         /// <param name="fileName">File name to shell execute.</param>
         /// <param name="canExecute">Observable for whether the command can execute.</param>
-        /// <param name="outputScheduler">Schedule to run the command on.</param>
+        /// <param name="outputSequencer">Sequencer to run the command on.</param>
         /// <returns>UI Command.</returns>
-        public static ReactiveCommand<Unit, int?> GetShellExecuteCommand(
+        public static ReactiveCommand<RxVoid, int?> GetShellExecuteCommand(
             string fileName,
             IObservable<bool>? canExecute = null,
-            IScheduler? outputScheduler = null)
+            ISequencer? outputSequencer = null)
         {
 #pragma warning disable CA2000 // Dispose objects before losing scope
-            return ReactiveCommand.CreateFromTask(() => OnShellExecuteAsync(fileName), canExecute, outputScheduler);
+            return ReactiveCommand.CreateFromTask(() => OnShellExecuteAsync(fileName), canExecute, outputSequencer);
 #pragma warning restore CA2000 // Dispose objects before losing scope
         }
 

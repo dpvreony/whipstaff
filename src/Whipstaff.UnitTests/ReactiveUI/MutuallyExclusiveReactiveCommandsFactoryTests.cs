@@ -11,7 +11,6 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Reactive.Testing;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
 using ReactiveUI.Testing;
@@ -49,7 +48,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
         private static async Task TestEachCommandIsMutuallyExclusiveAsync(
             (ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
-            TestScheduler testScheduler)
+            TestSequencer testScheduler)
         {
             var sut = commandsToTest.Select(currentCommand => GetTestRow(currentCommand)).ToArray();
 
@@ -60,12 +59,12 @@ namespace Whipstaff.UnitTests.ReactiveUI
 
         private static async Task TestEachCommandIsMutuallyExclusiveAsync(
             (Func<bool> IsExecuting, Func<bool> CanExecute, ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
-            TestScheduler testScheduler)
+            TestSequencer testScheduler)
         {
             for (int i = 0; i < commandsToTest.Length; i++)
             {
                 var currentItem = commandsToTest[i];
-                testScheduler.Start();
+                await testScheduler.AdvancePhaseAsync();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.True(b));
                 Assert.All(commandsToTest.Select(x => x.IsExecuting()), b => Assert.False(b));
@@ -74,7 +73,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 var currentCancellationToken = currentItem.CancellationTokenSource;
 
                 var currentExecution = currentCommand.Execute(Unit.Default).ToTask(CancellationToken.None);
-                testScheduler.Start();
+                await testScheduler.AdvancePhaseAsync();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.False(b));
                 Assert.True(currentItem.IsExecuting());
@@ -83,10 +82,10 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 Assert.All(allOtherItems.Select(x => x.IsExecuting()), b => Assert.False(b));
 
                 await currentCancellationToken.CancelAsync();
-                testScheduler.Start();
+                await testScheduler.AdvancePhaseAsync();
 
                 _ = await currentExecution;
-                testScheduler.Start();
+                await testScheduler.AdvancePhaseAsync();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.True(b));
                 Assert.All(commandsToTest.Select(x => x.IsExecuting()), b => Assert.False(b));
@@ -141,7 +140,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = new TestSequencer();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
@@ -236,7 +235,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = new TestSequencer();
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
