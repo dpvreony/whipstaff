@@ -24,7 +24,6 @@ namespace Whipstaff.UnitTests.Runtime.Counters
             public void ReturnsInstance()
             {
                 var instance = new IncrementOnlyInt();
-                Assert.NotNull(instance);
                 Assert.Equal(0, instance.Value);
             }
         }

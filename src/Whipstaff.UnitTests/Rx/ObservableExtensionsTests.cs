@@ -2,17 +2,13 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
-using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
-using Microsoft.Reactive.Testing;
 using ReactiveUI;
-using ReactiveUI.Testing;
+using ReactiveUI.Primitives;
+using ReactiveUI.Primitives.Concurrency;
 using Splat.ApplicationPerformanceMonitoring;
-using Whipstaff.Rx;
 using Whipstaff.Rx.Observables;
 using Whipstaff.Testing.Splat.ApplicationPerformanceMonitoring;
 using Xunit;
@@ -20,12 +16,12 @@ using Xunit;
 namespace Whipstaff.UnitTests.Rx
 {
     /// <summary>
-    /// Unit Tests for the Observable Extensions.
+    /// RxVoid Tests for the Observable Extensions.
     /// </summary>
     public static partial class ObservableExtensionsTests
     {
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes a Next action.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes a Next action.
         /// </summary>
         public sealed class SubscribeWithFeatureUsageTrackingMethodWithNext
         {
@@ -56,17 +52,17 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName => new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                           static unit => Task.FromResult(unit),
+                using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                           static rxVoid => Task.FromResult(rxVoid),
                            outputScheduler: testScheduler))
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                            _ => nextCount++,
@@ -75,8 +71,7 @@ namespace Whipstaff.UnitTests.Rx
                 {
                     Assert.Equal(0, nextCount);
 
-                    _ = await observable.Execute(Unit.Default);
-                    testScheduler.Start();
+                    _ = await observable.Execute(RxVoid.Default);
 
                     Assert.Equal(1, nextCount);
                 }
@@ -84,7 +79,7 @@ namespace Whipstaff.UnitTests.Rx
         }
 
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
         /// </summary>
         public sealed class SubscribeWithFeatureUsageTrackingMethodWithNextAndCompleted
         {
@@ -119,19 +114,19 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 var completedCount = 0;
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName =>
                     new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                           unit => Task.FromResult(unit),
+                using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                           rxVoid => Task.FromResult(rxVoid),
                            outputScheduler: testScheduler))
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                            _ => nextCount++,
@@ -142,8 +137,7 @@ namespace Whipstaff.UnitTests.Rx
                     Assert.Equal(0, nextCount);
                     Assert.Equal(0, completedCount);
 
-                    _ = await observable.Execute(Unit.Default);
-                    testScheduler.Start();
+                    _ = await observable.Execute(RxVoid.Default);
 
                     Assert.Equal(1, nextCount);
                     Assert.Equal(0, completedCount);
@@ -152,7 +146,7 @@ namespace Whipstaff.UnitTests.Rx
         }
 
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
         /// </summary>
         public sealed class SubscribeWithFeatureUsageTrackingMethodWithNextAndError
         {
@@ -189,19 +183,19 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 var errorCount = 0;
                 var featureUsageTrackingManager = new FuncFeatureUsageTrackingManager(featureName =>
                     new FakeFeatureUsageTrackingSession(featureName));
                 var subFeatureName = "FeatureTwo";
 
-                using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                           unit => Task.FromResult(unit),
+                using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                           rxVoid => Task.FromResult(rxVoid),
                            outputScheduler: testScheduler))
                 using (var subscription = observable.SubscribeWithFeatureUsageTracking(
                            _ => nextCount++,
@@ -212,8 +206,7 @@ namespace Whipstaff.UnitTests.Rx
                     Assert.Equal(0, nextCount);
                     Assert.Equal(0, errorCount);
 
-                    _ = await observable.Execute(Unit.Default);
-                    testScheduler.Start();
+                    _ = await observable.Execute(RxVoid.Default);
 
                     Assert.Equal(1, nextCount);
                     Assert.Equal(0, errorCount);
@@ -222,7 +215,7 @@ namespace Whipstaff.UnitTests.Rx
         }
 
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes Next, Error and Completed actions.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes Next, Error and Completed actions.
         /// </summary>
         public sealed class SubscribeWithFeatureUsageTrackingMethodWithNextErrorAndCompleted
         {
@@ -261,11 +254,11 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
@@ -273,8 +266,8 @@ namespace Whipstaff.UnitTests.Rx
                 {
                     var subFeatureName = "FeatureTwo";
 
-                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                               unit => Task.FromResult(unit),
+                    using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                               rxVoid => Task.FromResult(rxVoid),
                                outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                _ => nextCount++,
@@ -287,8 +280,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, errorCount);
                         Assert.Equal(0, completedCount);
 
-                        _ = await observable.Execute(Unit.Default);
-                        testScheduler.Start();
+                        _ = await observable.Execute(RxVoid.Default);
 
                         Assert.Equal(1, nextCount);
                         Assert.Equal(0, errorCount);
@@ -313,19 +305,19 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
                 var subFeatureName = "FeatureTwo";
 
-                var observable = ReactiveCommand.CreateFromObservable<Unit, Unit>(_ =>
+                var observable = ReactiveCommand.CreateFromObservable<RxVoid, RxVoid>(_ =>
                 {
                     commandCount++;
-                    return Observable.Throw<Unit>(new ArgumentException("Test"));
+                    return Observable.Throw<RxVoid>(new ArgumentException("Test"));
                 });
 
-                var observable2 = ReactiveCommand.CreateFromTask<Unit, Unit>(_ =>
+                var observable2 = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(_ =>
                 {
                     commandCount++;
-                    return Task.FromException<Unit>(new ArgumentException("Test"));
+                    return Task.FromException<RxVoid>(new ArgumentException("Test"));
                 });
 
-                var observable3 = ReactiveCommand.CreateFromTask<Unit, Unit>(_ =>
+                var observable3 = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(_ =>
                 {
                     commandCount++;
                     throw new ArgumentException("Test");
@@ -348,7 +340,7 @@ namespace Whipstaff.UnitTests.Rx
                     Assert.Equal(0, thrownExceptionCount);
                     Assert.Equal(0, completedCount);
 
-                    _ = observable.Execute(Unit.Default).Subscribe(_ => { });
+                    _ = observable.Execute(RxVoid.Default).Subscribe(_ => { });
 
                     Assert.Equal(1, commandCount);
                     Assert.Equal(1, nextCount);
@@ -361,7 +353,7 @@ namespace Whipstaff.UnitTests.Rx
         }
 
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes a Next action.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes a Next action.
         /// </summary>
         public sealed class SubscribeWithSubFeatureUsageTrackingMethodWithNext
         {
@@ -394,18 +386,18 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
-                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                               unit => Task.FromResult(unit),
+                    using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                               rxVoid => Task.FromResult(rxVoid),
                                outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                _ => nextCount++,
@@ -414,8 +406,7 @@ namespace Whipstaff.UnitTests.Rx
                     {
                         Assert.Equal(0, nextCount);
 
-                        _ = await observable.Execute(Unit.Default);
-                        testScheduler.Start();
+                        _ = await observable.Execute(RxVoid.Default);
 
                         Assert.Equal(1, nextCount);
                     }
@@ -424,7 +415,7 @@ namespace Whipstaff.UnitTests.Rx
         }
 
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
         /// </summary>
         public sealed class SubscribeWithSubFeatureUsageTrackingMethodWithNextAndCompleted
         {
@@ -461,11 +452,11 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 var completedCount = 0;
 
@@ -473,8 +464,8 @@ namespace Whipstaff.UnitTests.Rx
                 {
                     var subFeatureName = "FeatureTwo";
 
-                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                               unit => Task.FromResult(unit),
+                    using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                               rxVoid => Task.FromResult(rxVoid),
                                outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                _ => nextCount++,
@@ -485,8 +476,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, nextCount);
                         Assert.Equal(0, completedCount);
 
-                        _ = await observable.Execute(Unit.Default);
-                        testScheduler.Start();
+                        _ = await observable.Execute(RxVoid.Default);
 
                         Assert.Equal(1, nextCount);
                         Assert.Equal(0, completedCount);
@@ -496,7 +486,7 @@ namespace Whipstaff.UnitTests.Rx
         }
 
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes Next and Error actions.
         /// </summary>
         public sealed class SubscribeWithSubFeatureUsageTrackingMethodWithNextAndError
         {
@@ -533,19 +523,19 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 var errorCount = 0;
                 using (var featureUsageTrackingSession = new FakeFeatureUsageTrackingSession("FeatureOne"))
                 {
                     var subFeatureName = "FeatureTwo";
 
-                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                               static unit => Task.FromResult(unit),
+                    using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                               static rxVoid => Task.FromResult(rxVoid),
                                outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                _ => nextCount++,
@@ -556,8 +546,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, nextCount);
                         Assert.Equal(0, errorCount);
 
-                        _ = await observable.Execute(Unit.Default);
-                        testScheduler.Start();
+                        _ = await observable.Execute(RxVoid.Default);
 
                         Assert.Equal(1, nextCount);
                         Assert.Equal(0, errorCount);
@@ -567,7 +556,7 @@ namespace Whipstaff.UnitTests.Rx
         }
 
         /// <summary>
-        /// Unit Test for the Subscribe With Feature Usage Tracking Method that takes Next, Error and Completed actions.
+        /// RxVoid Test for the Subscribe With Feature Usage Tracking Method that takes Next, Error and Completed actions.
         /// </summary>
         public sealed class SubscribeWithSubFeatureUsageTrackingMethodWithNextErrorAndCompleted
         {
@@ -608,11 +597,11 @@ namespace Whipstaff.UnitTests.Rx
             /// <summary>
             /// Test to ensure the downstream subscription correctly fires off the next action.
             /// </summary>
-            /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+            /// <returns>A <see cref="Task"/> representing the asynchronous RxVoid test.</returns>
             [Fact]
             public async Task ReactiveCommandFiresOffNextSubscriptionAsync()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 var nextCount = 0;
                 var errorCount = 0;
                 var completedCount = 0;
@@ -620,8 +609,8 @@ namespace Whipstaff.UnitTests.Rx
                 {
                     var subFeatureName = "FeatureTwo";
 
-                    using (var observable = ReactiveCommand.CreateFromTask<Unit, Unit>(
-                               static unit => Task.FromResult(unit),
+                    using (var observable = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(
+                               static rxVoid => Task.FromResult(rxVoid),
                                outputScheduler: testScheduler))
                     using (var subscription = observable.SubscribeWithSubFeatureUsageTracking(
                                _ => nextCount++,
@@ -634,8 +623,7 @@ namespace Whipstaff.UnitTests.Rx
                         Assert.Equal(0, errorCount);
                         Assert.Equal(0, completedCount);
 
-                        _ = await observable.Execute(Unit.Default);
-                        testScheduler.Start();
+                        _ = await observable.Execute(RxVoid.Default);
 
                         Assert.Equal(1, nextCount);
                         Assert.Equal(0, errorCount);
@@ -660,19 +648,19 @@ namespace Whipstaff.UnitTests.Rx
                 var featureUsageTrackingSession = new DefaultFeatureUsageTrackingSession("FeatureOne");
                 var subFeatureName = "FeatureTwo";
 
-                var observable = ReactiveCommand.CreateFromObservable<Unit, Unit>(_ =>
+                var observable = ReactiveCommand.CreateFromObservable<RxVoid, RxVoid>(_ =>
                 {
                     commandCount++;
-                    return Observable.Throw<Unit>(new ArgumentException("Test"));
+                    return Observable.Throw<RxVoid>(new ArgumentException("Test"));
                 });
 
-                var observable2 = ReactiveCommand.CreateFromTask<Unit, Unit>(_ =>
+                var observable2 = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(_ =>
                 {
                     commandCount++;
-                    return Task.FromException<Unit>(new ArgumentException("Test"));
+                    return Task.FromException<RxVoid>(new ArgumentException("Test"));
                 });
 
-                var observable3 = ReactiveCommand.CreateFromTask<Unit, Unit>(_ =>
+                var observable3 = ReactiveCommand.CreateFromTask<RxVoid, RxVoid>(_ =>
                 {
                     commandCount++;
                     throw new ArgumentException("Test");
@@ -695,7 +683,7 @@ namespace Whipstaff.UnitTests.Rx
                     Assert.Equal(0, thrownExceptionCount);
                     Assert.Equal(0, completedCount);
 
-                    _ = observable.Execute(Unit.Default).Subscribe(_ => { });
+                    _ = observable.Execute(RxVoid.Default).Subscribe(_ => { });
 
                     Assert.Equal(1, commandCount);
                     Assert.Equal(1, nextCount);

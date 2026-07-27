@@ -6,6 +6,7 @@ using System;
 using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using ReactiveUI;
+using ReactiveUI.Primitives.Concurrency;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
@@ -32,10 +33,10 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
     public sealed class ReactiveCommandFactoryArgument<TParam, TCommandResult, TExecuteResult>
     {
         private ReactiveCommandFactoryArgument(
-            Func<Func<TParam, TExecuteResult>, IObservable<bool>?, IScheduler?, ReactiveCommand<TParam, TCommandResult>> factoryFunc,
+            Func<Func<TParam, TExecuteResult>, IObservable<bool>?, ISequencer?, ReactiveCommand<TParam, TCommandResult>> factoryFunc,
             Func<TParam, TExecuteResult> execute,
             IObservable<bool>? canExecute = null,
-            IScheduler? scheduler = null)
+            ISequencer? sequencer = null)
         {
             ArgumentNullException.ThrowIfNull(factoryFunc);
             ArgumentNullException.ThrowIfNull(execute);
@@ -43,13 +44,13 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             Execute = execute;
             FactoryFunc = factoryFunc;
             CanExecute = canExecute;
-            Scheduler = scheduler;
+            Sequencer = sequencer;
         }
 
         /// <summary>
         /// Gets the factory function to create the ReactiveCommand.
         /// </summary>
-        public Func<Func<TParam, TExecuteResult>, IObservable<bool>?, IScheduler?, ReactiveCommand<TParam, TCommandResult>> FactoryFunc { get; }
+        public Func<Func<TParam, TExecuteResult>, IObservable<bool>?, ISequencer?, ReactiveCommand<TParam, TCommandResult>> FactoryFunc { get; }
 
         /// <summary>
         /// Gets the observable to determine if the command can execute.
@@ -57,9 +58,9 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         public IObservable<bool>? CanExecute { get; }
 
         /// <summary>
-        /// Gets the scheduler to run the command on.
+        /// Gets the sequencer to run the command on.
         /// </summary>
-        public IScheduler? Scheduler { get; }
+        public ISequencer? Sequencer { get; }
 
         /// <summary>
         /// Gets the function to execute when the command is triggered.
@@ -71,12 +72,12 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// </summary>
         /// <param name="execute">The logic to execute when the command is triggered.</param>
         /// <param name="canExecute">Logic to use for whether the command can execute.</param>
-        /// <param name="scheduler">The scheduler to run the command on.</param>
+        /// <param name="sequencer">The sequencer to run the command on.</param>
         /// <returns>Factory argument model representing the ReactiveCommand.</returns>
         public static ReactiveCommandFactoryArgument<TParam, TCommandResult, TCommandResult> Create(
             Func<TParam, TCommandResult> execute,
             IObservable<bool>? canExecute = null,
-            IScheduler? scheduler = null)
+            ISequencer? sequencer = null)
         {
             return new ReactiveCommandFactoryArgument<TParam, TCommandResult, TCommandResult>(
                 static (lambdaExecute, lambdaCanExecute, lambdaScheduler) => ReactiveCommand.Create(
@@ -85,7 +86,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                     lambdaScheduler),
                 execute,
                 canExecute,
-                scheduler);
+                sequencer);
         }
 
         /// <summary>
@@ -93,21 +94,21 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// </summary>
         /// <param name="execute">The logic to execute when the command is triggered.</param>
         /// <param name="canExecute">Logic to use for whether the command can execute.</param>
-        /// <param name="scheduler">The scheduler to run the command on.</param>
+        /// <param name="sequencer">The sequencer to run the command on.</param>
         /// <returns>Factory argument model representing the ReactiveCommand.</returns>
         public static ReactiveCommandFactoryArgument<TParam, TCommandResult, IObservable<TCommandResult>> CreateFromObservable(
             Func<TParam, IObservable<TCommandResult>> execute,
             IObservable<bool>? canExecute = null,
-            IScheduler? scheduler = null)
+            ISequencer? sequencer = null)
         {
             return new ReactiveCommandFactoryArgument<TParam, TCommandResult, IObservable<TCommandResult>>(
-                static (lambdaExecute, lambdaCanExecute, lambdaScheduler) => ReactiveCommand.CreateFromObservable(
+                static (lambdaExecute, lambdaCanExecute, lambdaSequencer) => ReactiveCommand.CreateFromObservable(
                     lambdaExecute,
                     lambdaCanExecute,
-                    lambdaScheduler),
+                    lambdaSequencer),
                 execute,
                 canExecute,
-                scheduler);
+                sequencer);
         }
 
         /// <summary>
@@ -115,21 +116,21 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// </summary>
         /// <param name="execute">The logic to execute when the command is triggered.</param>
         /// <param name="canExecute">Logic to use for whether the command can execute.</param>
-        /// <param name="scheduler">The scheduler to run the command on.</param>
+        /// <param name="sequencer">The sequencer to run the command on.</param>
         /// <returns>Factory argument model representing the ReactiveCommand.</returns>
         public static ReactiveCommandFactoryArgument<TParam, TCommandResult, Task<TCommandResult>> CreateFromTask(
             Func<TParam, Task<TCommandResult>> execute,
             IObservable<bool>? canExecute = null,
-            IScheduler? scheduler = null)
+            ISequencer? sequencer = null)
         {
             return new ReactiveCommandFactoryArgument<TParam, TCommandResult, Task<TCommandResult>>(
-                static (lambdaExecute, lambdaCanExecute, lambdaScheduler) => ReactiveCommand.CreateFromTask(
+                static (lambdaExecute, lambdaCanExecute, lambdaSequencer) => ReactiveCommand.CreateFromTask(
                     lambdaExecute,
                     lambdaCanExecute,
-                    lambdaScheduler),
+                    lambdaSequencer),
                 execute,
                 canExecute,
-                scheduler);
+                sequencer);
         }
 
         /// <summary>
@@ -137,21 +138,21 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// </summary>
         /// <param name="execute">The logic to execute when the command is triggered.</param>
         /// <param name="canExecute">Logic to use for whether the command can execute.</param>
-        /// <param name="scheduler">The scheduler to run the command on.</param>
+        /// <param name="sequencer">The sequencer to run the command on.</param>
         /// <returns>Factory argument model representing the ReactiveCommand.</returns>
         public static ReactiveCommandFactoryArgument<TParam, TCommandResult, TCommandResult> CreateRunInBackground(
             Func<TParam, TCommandResult> execute,
             IObservable<bool>? canExecute = null,
-            IScheduler? scheduler = null)
+            ISequencer? sequencer = null)
         {
             return new ReactiveCommandFactoryArgument<TParam, TCommandResult, TCommandResult>(
-                static (lambdaExecute, lambdaCanExecute, lambdaScheduler) => ReactiveCommand.CreateRunInBackground(
+                static (lambdaExecute, lambdaCanExecute, lambdaSequencer) => ReactiveCommand.CreateRunInBackground(
                     lambdaExecute,
                     lambdaCanExecute,
-                    lambdaScheduler),
+                    lambdaSequencer),
                 execute,
                 canExecute,
-                scheduler);
+                sequencer);
         }
     }
 }

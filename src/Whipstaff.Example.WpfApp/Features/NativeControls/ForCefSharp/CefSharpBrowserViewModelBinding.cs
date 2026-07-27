@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reactive.Concurrency;
+using ReactiveUI.Primitives.Concurrency;
 using Vetuviem.Core;
 using Whipstaff.Wpf.ViewToViewModelBindings.CefSharp.Wpf;
 
@@ -20,7 +20,7 @@ namespace Whipstaff.Example.WpfApp.Features.NativeControls.ForCefSharp
             };
         }
 
-        protected override IEnumerable<IDisposable> GetSubscriptions(CefSharpBrowserView view, CefSharpBrowserViewModel viewModel, IScheduler? scheduler)
+        protected override IEnumerable<IDisposable> GetSubscriptions(CefSharpBrowserView view, CefSharpBrowserViewModel viewModel, ISequencer? sequencer)
         {
             yield break;
         }

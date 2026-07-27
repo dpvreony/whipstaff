@@ -2,18 +2,17 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System.Reactive.Disposables;
-using System.Reactive.Disposables.Fluent;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.VisualStudio.Threading;
 using ReactiveMarbles.ObservableEvents;
 using ReactiveUI;
 using ReactiveUI.Extensions;
+using ReactiveUI.Primitives;
+using ReactiveUI.Primitives.Disposables;
 
 namespace Whipstaff.Wpf.Controls
 {
@@ -83,13 +82,13 @@ namespace Whipstaff.Wpf.Controls
             return grayBitmap;
         }
 
-        private void HandleActivated(CompositeDisposable compositeDisposable)
+        private void HandleActivated(MultipleDisposable multipleDisposable)
         {
             var events = this.Events();
             _ = events.Loaded.SubscribeAsync(_ => HandleLoadedAsync())
-                .DisposeWith(compositeDisposable);
+                .DisposeWith(multipleDisposable);
             _ = events.LayoutUpdated.SubscribeAsync(_ => HandleLayoutUpdatedAsync())
-                .DisposeWith(compositeDisposable);
+                .DisposeWith(multipleDisposable);
         }
 
         private async ValueTask HandleLayoutUpdatedAsync()

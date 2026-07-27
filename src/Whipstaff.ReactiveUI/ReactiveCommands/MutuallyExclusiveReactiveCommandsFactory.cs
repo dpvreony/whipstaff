@@ -884,7 +884,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             return reactiveCommandFactoryArgument.FactoryFunc(
                 reactiveCommandFactoryArgument.Execute,
                 canExecute,
-                reactiveCommandFactoryArgument.Scheduler);
+                reactiveCommandFactoryArgument.Sequencer);
         }
     }
 }

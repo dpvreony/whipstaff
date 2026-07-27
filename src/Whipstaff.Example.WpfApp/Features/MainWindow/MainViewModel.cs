@@ -2,8 +2,8 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System.Reactive.Concurrency;
 using ReactiveUI;
+using ReactiveUI.Primitives.Concurrency;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Whipstaff.Example.WpfApp.Features.MainWindow
@@ -16,10 +16,12 @@ namespace Whipstaff.Example.WpfApp.Features.MainWindow
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
-        public MainViewModel(IScheduler? scheduler = null)
+#pragma warning disable GR0043
+        public MainViewModel(ISequencer? sequencer = null)
         {
-            WindowDisplayAffinity = new(scheduler);
+            WindowDisplayAffinity = new(sequencer);
         }
+#pragma warning restore GR0043
 
         /// <inheritdoc/>
         public Interaction<WINDOW_DISPLAY_AFFINITY, bool> WindowDisplayAffinity { get; }
