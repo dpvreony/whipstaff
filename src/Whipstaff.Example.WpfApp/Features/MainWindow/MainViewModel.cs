@@ -16,10 +16,12 @@ namespace Whipstaff.Example.WpfApp.Features.MainWindow
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
+#pragma warning disable GR0043
         public MainViewModel(ISequencer? sequencer = null)
         {
             WindowDisplayAffinity = new(sequencer);
         }
+#pragma warning restore GR0043
 
         /// <inheritdoc/>
         public Interaction<WINDOW_DISPLAY_AFFINITY, bool> WindowDisplayAffinity { get; }

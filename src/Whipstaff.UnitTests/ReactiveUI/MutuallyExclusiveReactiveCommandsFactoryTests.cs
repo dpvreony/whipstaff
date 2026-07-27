@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
+using ReactiveUI.Primitives.Concurrency;
 using ReactiveUI.Testing;
 using Whipstaff.ReactiveUI.ReactiveCommands;
 using Xunit;
@@ -46,25 +48,18 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 current.CancellationTokenSource);
         }
 
-        private static async Task TestEachCommandIsMutuallyExclusiveAsync(
-            (ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
-            TestSequencer testScheduler)
+        private static async Task TestEachCommandIsMutuallyExclusiveAsync((ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest)
         {
             var sut = commandsToTest.Select(currentCommand => GetTestRow(currentCommand)).ToArray();
 
-            await TestEachCommandIsMutuallyExclusiveAsync(
-                sut,
-                testScheduler);
+            await TestEachCommandIsMutuallyExclusiveAsync(sut);
         }
 
-        private static async Task TestEachCommandIsMutuallyExclusiveAsync(
-            (Func<bool> IsExecuting, Func<bool> CanExecute, ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest,
-            TestSequencer testScheduler)
+        private static async Task TestEachCommandIsMutuallyExclusiveAsync((Func<bool> IsExecuting, Func<bool> CanExecute, ReactiveCommand<Unit, Unit> Command, CancellationTokenSource CancellationTokenSource)[] commandsToTest)
         {
             for (int i = 0; i < commandsToTest.Length; i++)
             {
                 var currentItem = commandsToTest[i];
-                await testScheduler.AdvancePhaseAsync();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.True(b));
                 Assert.All(commandsToTest.Select(x => x.IsExecuting()), b => Assert.False(b));
@@ -73,7 +68,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 var currentCancellationToken = currentItem.CancellationTokenSource;
 
                 var currentExecution = currentCommand.Execute(Unit.Default).ToTask(CancellationToken.None);
-                await testScheduler.AdvancePhaseAsync();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.False(b));
                 Assert.True(currentItem.IsExecuting());
@@ -82,10 +76,8 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 Assert.All(allOtherItems.Select(x => x.IsExecuting()), b => Assert.False(b));
 
                 await currentCancellationToken.CancelAsync();
-                await testScheduler.AdvancePhaseAsync();
 
                 _ = await currentExecution;
-                await testScheduler.AdvancePhaseAsync();
 
                 Assert.All(commandsToTest.Select(x => x.CanExecute()), b => Assert.True(b));
                 Assert.All(commandsToTest.Select(x => x.IsExecuting()), b => Assert.False(b));
@@ -140,18 +132,18 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestSequencer();
+                var testScheduler = Sequencer.Immediate;
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
                 {
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -175,8 +167,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                             (
                                 secondCommand,
                                 secondCancellationToken)
-                        ],
-                        testScheduler);
+                        ]);
                 }
             }
 
@@ -235,7 +226,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestSequencer();
+                var testScheduler = Sequencer.Immediate;
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
@@ -243,15 +234,15 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 {
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -281,8 +272,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             thirdCommand,
                             thirdCancellationToken)
-                    ],
-                    testScheduler);
+                    ]);
                 }
             }
 
@@ -348,7 +338,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
@@ -357,19 +347,19 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 {
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -405,8 +395,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             fourthCommand,
                             fourthCancellationToken)
-                    ],
-                    testScheduler);
+                    ]);
                 }
             }
 
@@ -479,7 +468,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
@@ -489,23 +478,23 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 {
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -547,8 +536,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             fifthCommand,
                             fifthCancellationToken)
-                    ],
-                    testScheduler);
+                    ]);
                 }
             }
 
@@ -628,7 +616,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
@@ -639,27 +627,27 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 {
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -707,8 +695,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             sixthCommand,
                             sixthCancellationToken)
-                    ],
-                    testScheduler);
+                    ]);
                 }
             }
 
@@ -795,7 +782,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
@@ -807,31 +794,31 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 {
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -885,8 +872,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             seventhCommand,
                             seventhCancellationToken)
-                    ],
-                    testScheduler);
+                    ]);
                 }
             }
 
@@ -980,7 +966,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             [Fact]
             public async Task ProducesMutuallyExclusiveCommands()
             {
-                var testScheduler = new TestScheduler();
+                var testScheduler = Sequencer.Immediate;
                 using (SchedulerExtensions.WithScheduler(testScheduler))
                 using (var firstCancellationToken = new CancellationTokenSource())
                 using (var secondCancellationToken = new CancellationTokenSource())
@@ -993,35 +979,35 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 {
                     var first = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, firstCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var second = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, secondCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var third = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, thirdCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fourth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fourthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var fifth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, fifthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var sixth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, sixthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var seventh = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, seventhCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     var eighth = ReactiveCommandFactoryArgument<Unit, Unit, Unit>.CreateFromTask(
                         param => RunUntilToldToStopAsync(param, eighthCancellationToken.Token),
-                        scheduler: testScheduler);
+                        sequencer: testScheduler);
 
                     (BehaviorSubject<bool> nobodyIsExecuting,
                         IDisposable exclusiveLock,
@@ -1081,8 +1067,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
                         (
                             eighthCommand,
                             eighthCancellationToken)
-                    ],
-                    testScheduler);
+                    ]);
                 }
             }
 
