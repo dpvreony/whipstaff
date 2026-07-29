@@ -91,7 +91,9 @@ namespace Whipstaff.UnitTests.Playwright
         {
             context.Response.StatusCode = 200;
             context.Response.ContentType = "text/html";
-            await context.Response.WriteAsync("<html><body><img src=\"test.jpg\" alt=\"Some description.\" /></body></html>");
+            await context.Response.WriteAsync(
+                "<html><body><img src=\"test.jpg\" alt=\"Some description.\" /></body></html>",
+                context.RequestAborted);
         }
 
         /// <summary>
@@ -171,24 +173,26 @@ namespace Whipstaff.UnitTests.Playwright
             {
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "text/html";
-                await context.Response.WriteAsync("""
-                                                  <html>
-                                                  <head>
-                                                  <style>
-                                                    .classA {
-                                                      color: green;
-                                                      font-weight: bold;
-                                                    }
-                                                  </style>
-                                                  </head>
-                                                  <body>
-                                                  <h1 class="classA">This is using classA (defined)</h1>
-                                                  <p class="classA">This is also using classA (defined)</h1>
-                                                  <p class="classB">This is using classB (undefined)</p>
-                                                  <p class="classB">This is also using classB (undefined)</p>
-                                                  </body>
-                                                  </html>
-                                                  """);
+                await context.Response.WriteAsync(
+                    """
+                    <html>
+                    <head>
+                    <style>
+                      .classA {
+                        color: green;
+                        font-weight: bold;
+                      }
+                    </style>
+                    </head>
+                    <body>
+                    <h1 class="classA">This is using classA (defined)</h1>
+                    <p class="classA">This is also using classA (defined)</h1>
+                    <p class="classB">This is using classB (undefined)</p>
+                    <p class="classB">This is also using classB (undefined)</p>
+                    </body>
+                    </html>
+                    """,
+                    context.RequestAborted);
             }
 
             /// <summary>
@@ -326,14 +330,16 @@ namespace Whipstaff.UnitTests.Playwright
             {
                 context.Response.StatusCode = 200;
                 context.Response.ContentType = "text/html";
-                await context.Response.WriteAsync("""
-                                                  <html>
-                                                  <body>
-                                                  <img src=\"test.jpg\" alt=\"\" />
-                                                  <img src=\"test.jpg\" alt=\"Missing full stop\" />
-                                                  </body>
-                                                  </html>
-                                                  """);
+                await context.Response.WriteAsync(
+                    """
+                    <html>
+                    <body>
+                    <img src=\"test.jpg\" alt=\"\" />
+                    <img src=\"test.jpg\" alt=\"Missing full stop\" />
+                    </body>
+                    </html>
+                    """,
+                    context.RequestAborted);
             }
 
             /// <summary>

@@ -62,7 +62,9 @@ namespace Whipstaff.Benchmarks.Mermaid.Playwright
         [Benchmark]
         public async Task GetDiagramAsync()
         {
-            _ = await _browserInstance!.GetDiagramAsync(Markdown).ConfigureAwait(false);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            _ = await _browserInstance.GetDiagramAsync(Markdown).ConfigureAwait(false);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
     }
 }

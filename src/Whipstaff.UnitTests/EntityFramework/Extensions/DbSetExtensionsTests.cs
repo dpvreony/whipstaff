@@ -375,7 +375,9 @@ namespace Whipstaff.UnitTests.EntityFramework.Extensions
                     _ = dbContext.SaveChanges();
 
                     var maxRowVersion = dbContext.FakeAddAudit.GetMaxRowVersionOrDefault();
-                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(maxRowVersion!.Value, maxRowVersion!.Value, 2).ToArray();
+                    _ = Assert.NotNull(maxRowVersion);
+
+                    var result = dbContext.FakeAddAudit.GetRowsGreaterThanAndLessThanOrEqualToRowVersions(maxRowVersion.Value, maxRowVersion.Value, 2).ToArray();
 
                     Assert.NotNull(result);
                     Assert.Empty(result);
