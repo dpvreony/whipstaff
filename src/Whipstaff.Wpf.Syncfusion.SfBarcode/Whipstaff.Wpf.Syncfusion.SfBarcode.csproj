@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Whipstaff.Wpf.Syncfusion.Shared\Whipstaff.Wpf.Syncfusion.Shared.csproj" />
+    <ProjectReference Include="..\Whipstaff.Wpf\Whipstaff.Wpf.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
