@@ -23,31 +23,33 @@ namespace Whipstaff.OpenXml.Excel
         /// <inheritdoc/>
         public async ValueTask<FileNameAndStreamModel?> Handle(DownloadSpreadsheetRequestDto request, CancellationToken cancellationToken)
         {
-            return await Task.Run(() =>
-            {
-                if (request.RequestDto != 0 && request.RequestDto % 2 == 0)
+            return await Task.Run(
+                () =>
                 {
-                    // crude test for checking the 404 logic on even request ids.
-                    return null;
-                }
+                    if (request.RequestDto != 0 && request.RequestDto % 2 == 0)
+                    {
+                        // crude test for checking the 404 logic on even request ids.
+                        return null;
+                    }
 
-                var stream = new MemoryStream();
-                var worksheetActors = new List<SheetActorFuncModel>
-                {
-                    new("Sheet1", static (s, ws) => CreateSheetOne(s, ws)),
-                    new("Sheet2", static (_, ws) => CreateSheetTwo(ws)),
-                };
+                    var stream = new MemoryStream();
+                    var worksheetActors = new List<SheetActorFuncModel>
+                    {
+                        new("Sheet1", static (s, ws) => CreateSheetOne(s, ws)),
+                        new("Sheet2", static (_, ws) => CreateSheetTwo(ws)),
+                    };
 
-                using (var spreadsheet =
-                       SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, worksheetActors))
-                {
-                    spreadsheet.Save();
-                }
+                    using (var spreadsheet =
+                           SpreadsheetDocumentHelper.GetWorkbookSpreadSheetDocument(stream, worksheetActors))
+                    {
+                        spreadsheet.Save();
+                    }
 
-                var fileName = $"{Guid.NewGuid()}.xlsx";
+                    var fileName = $"{Guid.NewGuid()}.xlsx";
 
-                return new FileNameAndStreamModel(fileName, stream);
-            });
+                    return new FileNameAndStreamModel(fileName, stream);
+                },
+                cancellationToken);
         }
 
         private static void CreateSheetOne(Sheet sheet, WorksheetPart worksheetPart)
