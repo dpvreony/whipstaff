@@ -43,7 +43,7 @@
 
   <ItemGroup Condition="$(IsTestProject)">
     <PackageReference Include="Gripe.TestAssurancePack.XUnit" Version="2.0.116" />
-    <PackageReference Include="Rocks" Version="10.2.0" PrivateAssets="all" />
+    <PackageReference Include="Rocks" Version="10.3.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Condition="$(IsTestProject) != 'true'">
