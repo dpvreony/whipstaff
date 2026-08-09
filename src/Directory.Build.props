@@ -42,7 +42,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsTestProject)">
-    <PackageReference Include="Gripe.TestAssurancePack.XUnit" Version="2.0.116" />
+    <PackageReference Include="Gripe.TestAssurancePack.XUnit" Version="2.0.138" />
     <PackageReference Include="Rocks" Version="10.2.0" PrivateAssets="all" />
   </ItemGroup>
 
@@ -108,7 +108,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="Gripe.Analyzer" Version="2.0.116" PrivateAssets="all" />
+        <PackageReference Include="Gripe.Analyzer" Version="2.0.138" PrivateAssets="all" />
       </ItemGroup>
     </Otherwise>
   </Choose>
