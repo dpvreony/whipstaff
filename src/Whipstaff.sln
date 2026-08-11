@@ -229,6 +229,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Wpf.Syncfusion.Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.DocFxGen.DotNetTool", "Whipstaff.DocFxGen.DotNetTool\Whipstaff.DocFxGen.DotNetTool.csproj", "{7C2E4B86-4F31-4F37-8691-16CABBC5DA36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.SignalR.Client", "Whipstaff.SignalR.Client\Whipstaff.SignalR.Client.csproj", "{D4760116-AB2F-46EF-AF00-90DEA0ECD957}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1535,6 +1537,18 @@ Global
 		{7C2E4B86-4F31-4F37-8691-16CABBC5DA36}.Release|x64.Build.0 = Release|Any CPU
 		{7C2E4B86-4F31-4F37-8691-16CABBC5DA36}.Release|x86.ActiveCfg = Release|Any CPU
 		{7C2E4B86-4F31-4F37-8691-16CABBC5DA36}.Release|x86.Build.0 = Release|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Debug|x64.Build.0 = Debug|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Debug|x86.Build.0 = Debug|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Release|x64.ActiveCfg = Release|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Release|x64.Build.0 = Release|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Release|x86.ActiveCfg = Release|Any CPU
+		{D4760116-AB2F-46EF-AF00-90DEA0ECD957}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

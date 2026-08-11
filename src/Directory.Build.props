@@ -41,29 +41,9 @@
     <GitVersionBaseDirectory>$(SolutionDir)/..</GitVersionBaseDirectory>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(IsTestProject)">
-    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-    <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
-    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-    <EnableStaticNativeInstrumentation>False</EnableStaticNativeInstrumentation>
-    <EnableDynamicNativeInstrumentation>False</EnableDynamicNativeInstrumentation>
-  </PropertyGroup>
-  
   <ItemGroup Condition="$(IsTestProject)">
-    <PackageReference Include="GitHubActionsTestLogger" Version="3.0.4" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
-    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.8.0" />
-    <PackageReference Include="Microsoft.Testing.Platform" Version="2.2.3" />
-    <PackageReference Include="NetTestRegimentation" Version="2.0.8" />
-    <PackageReference Include="NetTestRegimentation.Xunit" Version="2.0.8" />
+    <PackageReference Include="Gripe.TestAssurancePack.XUnit" Version="2.0.138" />
     <PackageReference Include="Rocks" Version="10.2.0" PrivateAssets="all" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="22.1.1" />
-    <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
-    <PackageReference Include="xunit.analyzers" Version="1.27.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
-    <PackageReference Include="Xunit.StaFact" Version="3.0.13" />
-    <!--<PackageReference Include="PublicApiGenerator" Version="8.1.0" />-->
-    <!--<Compile Include="$(MSBuildThisFileDirectory)ApiGeneratorGlobalSuppressions.cs" />-->
   </ItemGroup>
 
   <ItemGroup Condition="$(IsTestProject) != 'true'">
@@ -83,18 +63,21 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.300" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.301" PrivateAssets="All" />
   </ItemGroup>
 
-  <ItemGroup Condition="$(IsWasmProject) == 'False'">
-    <PackageReference Include="Dhgms.QualityAssurancePack" Version="2.4.96" PrivateAssets="All" />
+  <ItemGroup>
+    <PackageReference Include="Gripe.QualityAssurancePack" Version="2.0.138">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>	
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.9.50" PrivateAssets="all" />	
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.10.91" PrivateAssets="all" />	
     <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.5" PrivateAssets="All" />
   </ItemGroup>
   
@@ -104,16 +87,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Desktop.Analyzers" Version="1.1.0" PrivateAssets="all"/>
-    <PackageReference Include="InclusivenessAnalyzer" Version="1.3.0" PrivateAssets="all" />
-    <PackageReference Include="JetBrains.Annotations" Version="2026.2.0" PrivateAssets="all" />
-    <PackageReference Include="MemoryAnalyzers" Version="0.1.0-beta.5" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15" PrivateAssets="all" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.15.0" PrivateAssets="All" />
-    <PackageReference Include="SecurityCodeScan.VS2019" Version="5.6.7" PrivateAssets="all" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.27.0.140913" PrivateAssets="all" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" PrivateAssets="all" />
+    <PackageReference Include="Roslynator.Analyzers" Version="4.16.0" PrivateAssets="All" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.Analyzers" Version="2022.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -128,7 +102,7 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <PackageReference Include="Gripe.Analyzer" Version="2.0.24" PrivateAssets="all" />
+        <PackageReference Include="Gripe.Analyzer" Version="2.0.138" PrivateAssets="all" />
       </ItemGroup>
     </Otherwise>
   </Choose>

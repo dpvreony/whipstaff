@@ -2,13 +2,12 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System;
 using System.Linq.Expressions;
-using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Threading.Tasks;
 using ReactiveUI;
-using ReactiveUI.Extensions;
+using ReactiveUI.Primitives;
+using ReactiveUI.Primitives.Concurrency;
+using ReactiveUI.Primitives.Extensions;
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
 #pragma warning disable VSTHRD101 // Avoid unsupported async delegates - need new version of System.Reactive to fix
@@ -30,21 +29,22 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskToProperty<TObj, TResult>(
-            Func<Task<TResult>> commandFunc,
-            IObservable<bool> canExecute,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskToProperty<TObj, TResult>(
+            System.Func<Task<TResult>> commandFunc,
+            System.IObservable<bool> canExecute,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 canExecute,
-                scheduler);
+                sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
@@ -66,19 +66,20 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskToProperty<TObj, TResult>(
-            Func<Task<TResult>> commandFunc,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskToProperty<TObj, TResult>(
+            System.Func<Task<TResult>> commandFunc,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
@@ -101,21 +102,22 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskToProperty<TObj, TResult>(
-            Func<Task<TResult>> commandFunc,
-            IObservable<bool> canExecute,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskToProperty<TObj, TResult>(
+            System.Func<Task<TResult>> commandFunc,
+            System.IObservable<bool> canExecute,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -137,19 +139,20 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskToProperty<TObj, TResult>(
-            Func<Task<TResult>> commandFunc,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskToProperty<TObj, TResult>(
+            System.Func<Task<TResult>> commandFunc,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -173,21 +176,22 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateFromTaskToProperty<TInput, TObj, TResult>(
-            Func<TInput, Task<TResult>> commandFunc,
-            IObservable<bool> canExecute,
+            System.Func<TInput, Task<TResult>> commandFunc,
+            System.IObservable<bool> canExecute,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, Task>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(async e => await onExceptionAction(e))
@@ -210,19 +214,20 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateFromTaskToProperty<TInput, TObj, TResult>(
-            Func<TInput, Task<TResult>> commandFunc,
+            System.Func<TInput, Task<TResult>> commandFunc,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -243,20 +248,21 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="canExecute">Observable indicating whether the command can execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskWithSubscriptions<TResult>(
-            Func<Task<TResult>> commandFunc,
-            IObservable<bool> canExecute,
-            Action<TResult> onExecutionResultAvailable,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskWithSubscriptions<TResult>(
+            System.Func<Task<TResult>> commandFunc,
+            System.IObservable<bool> canExecute,
+            System.Action<TResult> onExecutionResultAvailable,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer sequencer)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 canExecute,
-                scheduler);
-            var onExecutionResultAvailableSubscription = command.Subscribe(onExecutionResultAvailable);
+                sequencer);
+            var onExecutionResultAvailableSubscription = command.Subscribe(result => onExecutionResultAvailable(result));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -275,18 +281,19 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandFunc">The command function to execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskWithSubscriptions<TResult>(
-            Func<Task<TResult>> commandFunc,
-            Action<TResult> onExecutionResultAvailable,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskWithSubscriptions<TResult>(
+            System.Func<Task<TResult>> commandFunc,
+            System.Action<TResult> onExecutionResultAvailable,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer sequencer)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
-                outputScheduler: scheduler);
-            var onExecutionResultAvailableSubscription = command.Subscribe(onExecutionResultAvailable);
+                outputScheduler: sequencer);
+            var onExecutionResultAvailableSubscription = command.Subscribe(result => onExecutionResultAvailable(result));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -306,19 +313,20 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="canExecute">Observable indicating whether the command can execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskWithSubscriptions<TResult>(
-            Func<Task<TResult>> commandFunc,
-            IObservable<bool> canExecute,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskWithSubscriptions<TResult>(
+            System.Func<Task<TResult>> commandFunc,
+            System.IObservable<bool> canExecute,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -340,19 +348,20 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="canExecute">Observable indicating whether the command can execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateFromTaskWithSubscriptions<TInput, TResult>(
-            Func<TInput, Task<TResult>> commandFunc,
-            IObservable<bool> canExecute,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            System.Func<TInput, Task<TResult>> commandFunc,
+            System.IObservable<bool> canExecute,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -373,17 +382,18 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandFunc">The command function to execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateFromTaskWithSubscriptions<TInput, TResult>(
-            Func<TInput, Task<TResult>> commandFunc,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            System.Func<TInput, Task<TResult>> commandFunc,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -403,17 +413,18 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandFunc">The command function to execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateFromTaskWithSubscriptions<TResult>(
-            Func<Task<TResult>> commandFunc,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateFromTaskWithSubscriptions<TResult>(
+            System.Func<Task<TResult>> commandFunc,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
-                outputScheduler: scheduler);
+                outputScheduler: sequencer);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -436,21 +447,22 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
-            Func<TResult> commandFunc,
-            IObservable<bool> canExecute,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
+            System.Func<TResult> commandFunc,
+            System.IObservable<bool> canExecute,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
                 canExecute,
-                scheduler);
+                sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
@@ -472,19 +484,23 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
-            Func<TResult> commandFunc,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
+            System.Func<TResult> commandFunc,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
@@ -507,21 +523,22 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="sequencer">Sequencer to use for carrying out the command. Typically used for time travel in unit tests.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
-            Func<TResult> commandFunc,
-            IObservable<bool> canExecute,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
+            System.Func<TResult> commandFunc,
+            System.IObservable<bool> canExecute,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer sequencer)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                sequencer);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -543,19 +560,23 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
-            Func<TResult> commandFunc,
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundToProperty<TObj, TResult>(
+            System.Func<TResult> commandFunc,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -579,21 +600,25 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateRunInBackgroundToProperty<TInput, TObj, TResult>(
-            Func<TInput, TResult> commandFunc,
-            IObservable<bool> canExecute,
+            System.Func<TInput, TResult> commandFunc,
+            System.IObservable<bool> canExecute,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, Task>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, Task>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(async e => await onExceptionAction(e))
@@ -616,19 +641,23 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="propertySource">The source object containing the property to update.</param>
         /// <param name="property">Expression representing the property to update on the source object.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateRunInBackgroundToProperty<TInput, TObj, TResult>(
-            Func<TInput, TResult> commandFunc,
+            System.Func<TInput, TResult> commandFunc,
             TObj propertySource,
-            Expression<Func<TObj, TResult>> property,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            Expression<System.Func<TObj, TResult>> property,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
             where TObj : class, IReactiveObject
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -649,20 +678,24 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="canExecute">Observable indicating whether the command can execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
-            Func<TResult> commandFunc,
-            IObservable<bool> canExecute,
-            Action<TResult> onExecutionResultAvailable,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
+            System.Func<TResult> commandFunc,
+            System.IObservable<bool> canExecute,
+            System.Action<TResult> onExecutionResultAvailable,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
                 canExecute,
-                scheduler);
-            var onExecutionResultAvailableSubscription = command.Subscribe(onExecutionResultAvailable);
+                backgroundScheduler,
+                outputScheduler);
+            var onExecutionResultAvailableSubscription = command.Subscribe(result => onExecutionResultAvailable(result));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -681,18 +714,22 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandFunc">The command function to execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
-            Func<TResult> commandFunc,
-            Action<TResult> onExecutionResultAvailable,
-            Action<Exception>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
+            System.Func<TResult> commandFunc,
+            System.Action<TResult> onExecutionResultAvailable,
+            System.Action<System.Exception>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
-                outputScheduler: scheduler);
-            var onExecutionResultAvailableSubscription = command.Subscribe(onExecutionResultAvailable);
+                backgroundScheduler,
+                outputScheduler);
+            var onExecutionResultAvailableSubscription = command.Subscribe(result => onExecutionResultAvailable(result));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -712,19 +749,23 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="canExecute">Observable indicating whether the command can execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
-            Func<TResult> commandFunc,
-            IObservable<bool> canExecute,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
+            System.Func<TResult> commandFunc,
+            System.IObservable<bool> canExecute,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -746,19 +787,23 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="canExecute">Observable indicating whether the command can execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateRunInBackgroundWithSubscriptions<TInput, TResult>(
-            Func<TInput, TResult> commandFunc,
-            IObservable<bool> canExecute,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            System.Func<TInput, TResult> commandFunc,
+            System.IObservable<bool> canExecute,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
                 canExecute,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -779,17 +824,21 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandFunc">The command function to execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
         public static ReactiveCommandFromTaskWithSubscriptionsResult<TInput, TResult> CreateRunInBackgroundWithSubscriptions<TInput, TResult>(
-            Func<TInput, TResult> commandFunc,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+            System.Func<TInput, TResult> commandFunc,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
@@ -809,17 +858,21 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
         /// <param name="commandFunc">The command function to execute.</param>
         /// <param name="onExecutionResultAvailable">Action to carry out when command completes. Used to update the UI.</param>
         /// <param name="onExceptionAction">Action to carry out on an exception. Used to notify the user of an error etc.</param>
-        /// <param name="scheduler">Schedule to use for carrying out the command. Typically used for time travel in unit tests.</param>
+        /// <param name="backgroundScheduler">Scheduler to use for carrying out the command.</param>
+        /// <param name="outputScheduler">Scheduler to use for observing the command results.</param>
         /// <returns>Reactive command, along with subscriptions to the execution result and possibly the thrown exception handler, if one was passed.</returns>
-        public static ReactiveCommandFromTaskWithSubscriptionsResult<Unit, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
-            Func<TResult> commandFunc,
-            Func<TResult, ValueTask> onExecutionResultAvailable,
-            Func<Exception, ValueTask>? onExceptionAction,
-            IScheduler scheduler)
+        public static ReactiveCommandFromTaskWithSubscriptionsResult<RxVoid, TResult> CreateRunInBackgroundWithSubscriptions<TResult>(
+            System.Func<TResult> commandFunc,
+            System.Func<TResult, ValueTask> onExecutionResultAvailable,
+            System.Func<System.Exception, ValueTask>? onExceptionAction,
+            ISequencer backgroundScheduler,
+            ISequencer outputScheduler)
+            where TResult : notnull
         {
             var command = ReactiveCommand.CreateRunInBackground(
                 commandFunc,
-                outputScheduler: scheduler);
+                backgroundScheduler,
+                outputScheduler);
             var onExecutionResultAvailableSubscription = command.SubscribeAsync(s => onExecutionResultAvailable(s));
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))

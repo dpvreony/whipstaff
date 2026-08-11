@@ -19,7 +19,7 @@ namespace Whipstaff.Mediator.Foundatio
     /// <typeparam name="TDbContext">The type for the entity framework database context.</typeparam>
     /// <typeparam name="TEntityFrameworkEntity">The type for the entity being inserted into the database.</typeparam>
     /// <typeparam name="TQueueMessage">The type for the message being added to the queue.</typeparam>
-    public abstract class AbstractAddToDatabaseThenQueueCommandHandler<TCommand, TDbContext, TEntityFrameworkEntity, TQueueMessage> : IRequestHandler<TCommand, string>
+    public abstract class AbstractAddToDatabaseThenQueueCommandHandler<TCommand, TDbContext, TEntityFrameworkEntity, TQueueMessage> : IRequestHandler<TCommand, string?>
         where TDbContext : DbContext
         where TCommand : IRequest<string>
         where TEntityFrameworkEntity : class
@@ -46,7 +46,7 @@ namespace Whipstaff.Mediator.Foundatio
         }
 
         /// <inheritdoc />
-        public async ValueTask<string> Handle(
+        public async ValueTask<string?> Handle(
             TCommand request,
             CancellationToken cancellationToken)
         {

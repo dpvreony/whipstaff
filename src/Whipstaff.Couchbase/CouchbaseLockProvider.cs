@@ -112,6 +112,29 @@ namespace Whipstaff.Couchbase
         }
 
         /// <inheritdoc/>
+        public async Task<ILock?> TryAcquireAsync(
+            string resource,
+            TimeSpan? timeUntilExpires = null,
+            bool releaseOnDispose = true,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await AcquireAsync(
+                    resource,
+                    timeUntilExpires,
+                    releaseOnDispose,
+                    cancellationToken).ConfigureAwait(false);
+            }
+#pragma warning disable CA1031
+            catch
+#pragma warning restore CA1031
+            {
+                return null;
+            }
+        }
+
+        /// <inheritdoc/>
         public async Task<bool> IsLockedAsync(string resource)
         {
             var existsResult = await _couchbaseCollection.ExistsAsync(resource)

@@ -15,7 +15,7 @@ namespace Whipstaff.Mediator.Foundatio
     /// A simple Mediator Request Handler to push a RequestDto straight into a Queue.
     /// </summary>
     /// <typeparam name="TCommand">The type of the Command to enqueue.</typeparam>
-    public class AddToQueueCommandHandler<TCommand> : ICommandHandler<TCommand, string>
+    public class AddToQueueCommandHandler<TCommand> : ICommandHandler<TCommand, string?>
         where TCommand : class, ICommand<string>
     {
         private readonly IQueue<TCommand> _queue;
@@ -33,7 +33,7 @@ namespace Whipstaff.Mediator.Foundatio
         }
 
         /// <inheritdoc/>
-        public async ValueTask<string> Handle(TCommand command, CancellationToken cancellationToken)
+        public async ValueTask<string?> Handle(TCommand command, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Enqueuing request of type {RequestType}", typeof(TCommand));
 

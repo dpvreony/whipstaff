@@ -2,8 +2,8 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
-using System.Reactive.Disposables;
 using ReactiveUI;
+using ReactiveUI.Primitives.Disposables;
 
 namespace Whipstaff.Example.WpfApp.Features.NativeControls.ForCefSharp
 {
@@ -21,15 +21,15 @@ namespace Whipstaff.Example.WpfApp.Features.NativeControls.ForCefSharp
             InitializeComponent();
 
 #pragma warning disable GR0012 // Constructors should minimise work and not execute methods
-            _ = this.WhenActivated(compositeDisposable => OnWhenActivate(compositeDisposable));
+            _ = this.WhenActivated(multipleDisposable => OnWhenActivate(multipleDisposable));
 #pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
-        private void OnWhenActivate(CompositeDisposable compositeDisposable)
+        private void OnWhenActivate(MultipleDisposable multipleDisposable)
         {
             new CefSharpBrowserViewModelBinding().ApplyBindings(
-                compositeDisposable,
+                multipleDisposable,
                 this,
                 ViewModel!);
         }

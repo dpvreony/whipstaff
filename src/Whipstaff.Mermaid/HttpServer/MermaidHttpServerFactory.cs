@@ -158,7 +158,9 @@ namespace Whipstaff.Mermaid.HttpServer
             _ = sb.AppendLine("</body>");
             _ = sb.AppendLine("</html>");
 
-            await response.WriteAsync(sb.ToString())
+            await response.WriteAsync(
+                    sb.ToString(),
+                    context.RequestAborted)
                 .ConfigureAwait(false);
         }
 
