@@ -2,6 +2,10 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
+using System.CommandLine;
+using System.IO;
+using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
 namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
@@ -11,8 +15,8 @@ namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
     /// </summary>
     internal sealed class CommandLineArgModelBinder : IBinderBase<CommandLineArgModel>
     {
-        private readonly Option<FileInfo> _assemblyOption;
-        private readonly Option<FileInfo> _outputFilePathOption;
+        private readonly Option<IFileInfo> _assemblyOption;
+        private readonly Option<IFileInfo> _outputFilePathOption;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineArgModelBinder"/> class.
@@ -21,8 +25,8 @@ namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
         /// <param name="outputFilePathOption">Output file path to parse and bind against.</param>
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public CommandLineArgModelBinder(
-            Option<FileInfo> assemblyOption,
-            Option<FileInfo> outputFilePathOption)
+            Option<IFileInfo> assemblyOption,
+            Option<IFileInfo> outputFilePathOption)
         {
             ArgumentNullException.ThrowIfNull(assemblyOption);
             ArgumentNullException.ThrowIfNull(outputFilePathOption);

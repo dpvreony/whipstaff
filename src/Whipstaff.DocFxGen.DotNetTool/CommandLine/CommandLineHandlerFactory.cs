@@ -2,6 +2,10 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
+using System.CommandLine;
+using System.IO;
+using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
 namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
@@ -17,7 +21,7 @@ namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
             ArgumentNullException.ThrowIfNull(fileSystem);
 
 #pragma warning disable CA1861 // Avoid constant arrays as arguments
-            var assemblyOption = new Option<FileInfo>(
+            var assemblyOption = new Option<IFileInfo>(
                 "--assembly-path",
                 "-a")
             {
@@ -31,7 +35,7 @@ namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
                 ])
                 .ExistingOnly(fileSystem);
 
-            var outputFilePathOption = new Option<FileInfo>(
+            var outputFilePathOption = new Option<IFileInfo>(
                 "--output-file-path",
                 "-o")
             {
