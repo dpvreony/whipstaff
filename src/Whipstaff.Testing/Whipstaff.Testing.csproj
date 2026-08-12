@@ -17,7 +17,7 @@
     <PackageReference Include="Splat" Version="21.0.0" />
     <!-- Temporary workaround until vulnerability fixed: https://github.com/dotnet/efcore/issues/38257 -->
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" VersionOverride="3.0.5" />
-    <PackageReference Include="System.CommandLine" Version="2.0.10" />
+    <PackageReference Include="System.CommandLine" Version="2.0.11" />
     <PackageReference Include="xunit.v3.extensibility.core" Version="3.2.2" />
   </ItemGroup>
 
