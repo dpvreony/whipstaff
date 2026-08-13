@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using NuGet.Common;
+using NuGet.Configuration;
 using NuGet.Protocol.Core.Types;
 
 namespace Whipstaff.Nuget
@@ -32,6 +33,11 @@ namespace Whipstaff.Nuget
         {
             ArgumentNullException.ThrowIfNull(sourceRepository);
             var packageSearchResource = await sourceRepository.GetResourceAsync<PackageSearchResource>(cancellationToken).ConfigureAwait(false);
+
+            if (packageSearchResource == null)
+            {
+                throw new InvalidOperationException($"Failed to get PackageSearchResource for Package Source: {sourceRepository.PackageSource.Name}.");
+            }
 
             return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,
@@ -59,6 +65,11 @@ namespace Whipstaff.Nuget
         {
             ArgumentNullException.ThrowIfNull(sourceRepository);
             var packageSearchResource = await sourceRepository.GetResourceAsync<PackageSearchResource>(cancellationToken).ConfigureAwait(false);
+
+            if (packageSearchResource == null)
+            {
+                throw new InvalidOperationException($"Failed to get PackageSearchResource for Package Source: {sourceRepository.PackageSource.Name}.");
+            }
 
             return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,

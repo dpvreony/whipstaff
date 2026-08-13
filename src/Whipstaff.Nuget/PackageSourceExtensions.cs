@@ -36,6 +36,11 @@ namespace Whipstaff.Nuget
             var packageSearchResource = await packageSource.GetPackageSearchResourceAsync()
                 .ConfigureAwait(false);
 
+            if (packageSearchResource == null)
+            {
+                throw new InvalidOperationException($"Failed to get PackageSearchResource for Package Source: {packageSource.Source}.");
+            }
+
             return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,
                     nugetForwardingToNetCoreLogger,
@@ -64,6 +69,11 @@ namespace Whipstaff.Nuget
 
             var packageSearchResource = await packageSource.GetPackageSearchResourceAsync()
                 .ConfigureAwait(false);
+
+            if (packageSearchResource == null)
+            {
+                throw new InvalidOperationException($"Failed to get PackageSearchResource for Package Source: {packageSource.Source}.");
+            }
 
             return await packageSearchResource.GetPackagesForAuthorAsync(
                     authorName,
@@ -97,7 +107,7 @@ namespace Whipstaff.Nuget
         /// </summary>
         /// <param name="packageSource">Package source to check.</param>
         /// <returns>Package search resource for the given package source.</returns>
-        public static Task<PackageSearchResource> GetPackageSearchResourceAsync(this PackageSource packageSource)
+        public static Task<PackageSearchResource?> GetPackageSearchResourceAsync(this PackageSource packageSource)
         {
             ArgumentNullException.ThrowIfNull(packageSource);
 
