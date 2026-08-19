@@ -4,7 +4,6 @@
 
 using System;
 using System.CommandLine;
-using System.IO;
 using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
@@ -15,24 +14,29 @@ namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
     /// </summary>
     internal sealed class CommandLineArgModelBinder : IBinderBase<CommandLineArgModel>
     {
-        private readonly Option<IFileInfo> _assemblyOption;
-        private readonly Option<IFileInfo> _outputFilePathOption;
+        private readonly Option<IFileInfo> _docfxJsonPathOption;
+        private readonly Option<PlaywrightBrowserTypeAndChannelCommandLineArgument> _playwrightBrowserTypeAndChannelOption;
+        private readonly Option<bool?> _generatePdfOption;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineArgModelBinder"/> class.
         /// </summary>
-        /// <param name="assemblyOption">Assembly to parse and bind against.</param>
-        /// <param name="outputFilePathOption">Output file path to parse and bind against.</param>
+        /// <param name="docfxJsonPathOption">Docfx JSON path to parse and bind against.</param>
+        /// <param name="playwrightBrowserTypeAndChannelOption">Playwright browser type and channel to parse and bind against.</param>
+        /// <param name="generatePdfOption">Generate PDF option to parse and bind against.</param>
 #pragma warning disable GR0027 // Constructor should have a logging framework instance as the final parameter.
         public CommandLineArgModelBinder(
-            Option<IFileInfo> assemblyOption,
-            Option<IFileInfo> outputFilePathOption)
+            Option<IFileInfo> docfxJsonPathOption,
+            Option<PlaywrightBrowserTypeAndChannelCommandLineArgument> playwrightBrowserTypeAndChannelOption,
+            Option<bool?> generatePdfOption)
         {
-            ArgumentNullException.ThrowIfNull(assemblyOption);
-            ArgumentNullException.ThrowIfNull(outputFilePathOption);
+            ArgumentNullException.ThrowIfNull(docfxJsonPathOption);
+            ArgumentNullException.ThrowIfNull(playwrightBrowserTypeAndChannelOption);
+            ArgumentNullException.ThrowIfNull(generatePdfOption);
 
-            _assemblyOption = assemblyOption;
-            _outputFilePathOption = outputFilePathOption;
+            _docfxJsonPathOption = docfxJsonPathOption;
+            _playwrightBrowserTypeAndChannelOption = playwrightBrowserTypeAndChannelOption;
+            _generatePdfOption = generatePdfOption;
         }
 #pragma warning restore GR0027 // Constructor should have a logging framework instance as the final parameter.
 
@@ -41,12 +45,14 @@ namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
         {
             ArgumentNullException.ThrowIfNull(parseResult);
 
-            var assembly = parseResult.GetRequiredValue(_assemblyOption);
-            var outputFilePath = parseResult.GetRequiredValue(_outputFilePathOption);
+            var docfxJsonPath = parseResult.GetRequiredValue(_docfxJsonPathOption);
+            var playwrightBrowserTypeAndChannel = parseResult.GetRequiredValue(_playwrightBrowserTypeAndChannelOption);
+            var generatePdf = parseResult.GetRequiredValue(_generatePdfOption);
 
             return new CommandLineArgModel(
-                assembly,
-                outputFilePath);
+                docfxJsonPath,
+                playwrightBrowserTypeAndChannel,
+                generatePdf);
         }
     }
 }

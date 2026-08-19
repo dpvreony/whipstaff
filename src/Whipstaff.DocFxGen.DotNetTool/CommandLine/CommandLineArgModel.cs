@@ -9,5 +9,5 @@ namespace Whipstaff.DocFxGen.DotNetTool.CommandLine
     /// <summary>
     /// Model that represents the command line arguments.
     /// </summary>
-    public sealed record CommandLineArgModel(IFileInfo AssemblyPath, IFileInfo OutputFilePath);
+    public sealed record CommandLineArgModel(IFileInfo DocfxJsonPath, PlaywrightBrowserTypeAndChannelCommandLineArgument PlaywrightBrowserTypeAndChannel, bool? GeneratePdf);
 }
