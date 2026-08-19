@@ -4,7 +4,6 @@
 
 using System;
 using System.CommandLine;
-using System.IO;
 using System.IO.Abstractions;
 using Whipstaff.CommandLine;
 
