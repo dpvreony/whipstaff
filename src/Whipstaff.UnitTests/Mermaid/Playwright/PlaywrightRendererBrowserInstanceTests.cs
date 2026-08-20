@@ -70,7 +70,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// A <see cref="Task" /> representing the asynchronous operation.
             /// </returns>
             [Fact]
-            public async Task ReturnsResult()
+            public async Task ReturnsSerialResult()
             {
                 var fileSystem = new MockFileSystem();
                 var graph = "graph TD;" + Environment.NewLine +
@@ -111,6 +111,53 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
                         content,
                         StringComparison.Ordinal);
                 }
+            }
+
+            /// <summary>
+            /// Test to ensure the SVG generator creates a file.
+            /// </summary>
+            /// <returns>
+            /// A <see cref="Task" /> representing the asynchronous operation.
+            /// </returns>
+            [Fact]
+            public async Task ReturnsSingleResult()
+            {
+                var fileSystem = new MockFileSystem();
+                var graph = "graph TD;" + Environment.NewLine +
+                            "    A-->B;" + Environment.NewLine +
+                            "    A-->C;" + Environment.NewLine +
+                            "    B-->D;" + Environment.NewLine +
+                            "    C-->D;";
+
+                fileSystem.AddFile(
+                    "test.mmd",
+                    graph);
+
+                var sourceFile = fileSystem.FileInfo.New(fileSystem.AllFiles.First());
+
+                var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
+                var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
+                    new PlaywrightRendererBrowserInstanceLogMessageActions(),
+                    LoggerFactory.CreateLogger<PlaywrightRendererBrowserInstance>());
+
+                var instance = new PlaywrightRenderer(
+                    mermaidHttpServer,
+                    logMessageActionsWrapper);
+
+                var browserSession = await instance.GetBrowserSessionAsync(PlaywrightBrowserTypeAndChannel.Chrome());
+
+                var targetFile = fileSystem.FileInfo.New(fileSystem.Path.Combine(fileSystem.Directory.GetCurrentDirectory(), "output.mmd"));
+
+                await browserSession.CreateDiagramAndWriteToFileAsync(
+                    sourceFile,
+                    targetFile);
+
+                Assert.True(targetFile.Exists);
+                var content = await targetFile.OpenText().ReadToEndAsync(TestContext.Current.CancellationToken);
+                Assert.StartsWith(
+                    "<svg id=\"mermaid-graph\" width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" class=\"flowchart\" style=\"max-width:",
+                    content,
+                    StringComparison.Ordinal);
             }
 
             /// <summary>
