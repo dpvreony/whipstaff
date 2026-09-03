@@ -21,25 +21,20 @@ namespace Whipstaff.Mermaid.Playwright
     {
         private readonly IPlaywright _playwright;
         private readonly IBrowser _browser;
-        private readonly IPage _page;
-        private readonly IAsyncDisposable _pageRoute;
-        private readonly IAsyncDisposable _pageRoute2;
         private readonly PlaywrightRendererBrowserInstanceLogMessageActionsWrapper _browserInstanceLogMessageActionsWrapper;
+        private readonly TestServer _mermaidHttpServer;
+
         private bool _disposedValue;
 
         private PlaywrightRendererBrowserInstance(
+            TestServer mermaidHttpServer,
             IPlaywright playwright,
             IBrowser browser,
-            IPage page,
-            IAsyncDisposable pageRoute,
-            IAsyncDisposable pageRoute2,
             PlaywrightRendererBrowserInstanceLogMessageActionsWrapper browserInstanceLogMessageActionsWrapper)
         {
+            _mermaidHttpServer = mermaidHttpServer;
             _playwright = playwright;
             _browser = browser;
-            _page = page;
-            _pageRoute = pageRoute;
-            _pageRoute2 = pageRoute2;
             _browserInstanceLogMessageActionsWrapper = browserInstanceLogMessageActionsWrapper;
         }
 
@@ -64,53 +59,11 @@ namespace Whipstaff.Mermaid.Playwright
                 .ConfigureAwait(false);
             var browser = await playwright.GetBrowserType(playwrightBrowserTypeAndChannel.PlaywrightBrowserType)
                 .LaunchAsync(new() { Headless = true, Channel = playwrightBrowserTypeAndChannel.Channel });
-            var page = await browser.NewPageAsync()
-                .ConfigureAwait(false);
-
-#pragma warning disable S1075
-            const string pageUrl = "https://localhost/index.html";
-#pragma warning restore S1075
-
-            var inMemoryHttpClient = mermaidHttpServer.CreateClient();
-
-            var pageRoute = await page.RouteAsync(
-                    pageUrl,
-                    route => MermaidPostHandlerAsync(inMemoryHttpClient, route))
-                .ConfigureAwait(false);
-
-            var pageRoute2 = await page.RouteAsync(
-                    "**/*.{mjs,js}",
-                    route => DefaultHandlerAsync(inMemoryHttpClient, route))
-                .ConfigureAwait(false);
-
-            var pageResponse = await page.GotoAsync(pageUrl, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle })
-                .ConfigureAwait(false);
-
-            if (pageResponse == null)
-            {
-                logMessageActionsWrapper.FailedToGetPageResponse();
-                throw new InvalidOperationException("Failed to get page response.");
-            }
-
-            if (!pageResponse.Ok)
-            {
-                logMessageActionsWrapper.UnexpectedPageResponse(pageResponse);
-                throw new InvalidOperationException("Unexpected page response: " + pageResponse.Status + " " +
-                                                    pageResponse.StatusText);
-            }
-
-            _ = await pageResponse.FinishedAsync().ConfigureAwait(false);
-
-            await page.WaitForLoadStateAsync(LoadState.DOMContentLoaded).ConfigureAwait(false);
-            await page.WaitForLoadStateAsync(LoadState.NetworkIdle).ConfigureAwait(false);
-            _ = await page.WaitForFunctionAsync("() => window.mermaid !== undefined").ConfigureAwait(false);
 
             return new PlaywrightRendererBrowserInstance(
+                mermaidHttpServer,
                 playwright,
                 browser,
-                page,
-                pageRoute,
-                pageRoute2,
                 logMessageActionsWrapper);
         }
 
@@ -130,12 +83,7 @@ namespace Whipstaff.Mermaid.Playwright
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Gets the SVG for the Mermaid Diagram from a File and writes to another file.
-        /// </summary>
-        /// <param name="sourceFile">File containing the diagram markdown to convert.</param>
-        /// <param name="targetFile">Destination file to write the diagram content to.</param>
-        /// <returns>SVG diagram.</returns>
+        /// <inheritdoc/>
         public async Task CreateDiagramAndWriteToFileAsync(
             IFileInfo sourceFile,
             IFileInfo targetFile)
@@ -170,163 +118,49 @@ namespace Whipstaff.Mermaid.Playwright
                 .ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Gets the SVG for the Mermaid Diagram from a File.
-        /// </summary>
-        /// <param name="sourceFileInfo">File containing the diagram markdown to convert.</param>
-        /// <returns>SVG diagram.</returns>
+        /// <inheritdoc/>
         public async Task<GetDiagramResponseModel?> GetDiagramAsync(IFileInfo sourceFileInfo)
         {
-            ArgumentNullException.ThrowIfNull(sourceFileInfo);
-
-            if (!sourceFileInfo.Exists)
+            await using (var pageWrapper = await PlaywrightRendererPageInstance.GetPageInstanceAsync(
+                _mermaidHttpServer,
+                _browser,
+                _browserInstanceLogMessageActionsWrapper)
+                .ConfigureAwait(false))
             {
-                throw new ArgumentException("File does not exist", nameof(sourceFileInfo));
-            }
-
-            using (var streamReader = sourceFileInfo.OpenText())
-            {
-                return await GetDiagramAsync(streamReader)
-                    .ConfigureAwait(false);
+                return await pageWrapper.GetDiagramAsync(sourceFileInfo).ConfigureAwait(false);
             }
         }
 
-        /// <summary>
-        /// Gets the SVG for the Mermaid Diagram from a <see cref="TextReader"/>.
-        /// </summary>
-        /// <param name="textReader">File containing the diagram markdown to convert.</param>
-        /// <returns>SVG diagram.</returns>
+        /// <inheritdoc/>
         public async Task<GetDiagramResponseModel?> GetDiagramAsync(TextReader textReader)
         {
-            ArgumentNullException.ThrowIfNull(textReader);
-
-            var markdown = await textReader
-                .ReadToEndAsync()
-                .ConfigureAwait(false);
-
-            return await GetDiagramAsync(markdown)
-                .ConfigureAwait(false);
+            await using (var pageWrapper = await PlaywrightRendererPageInstance.GetPageInstanceAsync(
+                                 _mermaidHttpServer,
+                                 _browser,
+                                 _browserInstanceLogMessageActionsWrapper)
+                             .ConfigureAwait(false))
+            {
+                return await pageWrapper.GetDiagramAsync(textReader).ConfigureAwait(false);
+            }
         }
 
-        /// <summary>
-        /// Gets the diagram from the page using the provided markdown.
-        /// </summary>
-        /// <param name="markdown">Markdown to process.</param>
-        /// <returns>Diagram model.</returns>
+        /// <inheritdoc/>
         public async Task<GetDiagramResponseModel?> GetDiagramAsync(string markdown)
         {
-            markdown.ThrowIfNullOrWhitespace();
-            var svg = await _page.EvaluateAsync<string>("(diagram) => window.renderMermaid(diagram)", markdown);
-
-            const string mermaidElementSelector = "#mermaid-element svg";
-            var mermaidElement = _page.Locator(mermaidElementSelector);
-
-            if (await mermaidElement.CountAsync().ConfigureAwait(false) == 0)
+            await using (var pageWrapper = await PlaywrightRendererPageInstance.GetPageInstanceAsync(
+                                 _mermaidHttpServer,
+                                 _browser,
+                                 _browserInstanceLogMessageActionsWrapper)
+                             .ConfigureAwait(false))
             {
-                _browserInstanceLogMessageActionsWrapper.FailedToFindMermaidElement();
-                return null;
+                return await pageWrapper.GetDiagramAsync(markdown).ConfigureAwait(false);
             }
-
-            var png = await TakeMermaidElementScreenshotAsync(mermaidElementSelector, mermaidElement).ConfigureAwait(false);
-
-            return new(
-                svg,
-                png);
-        }
-
-        private static HttpRequestMessage GetRequestFromRoute(IRoute route)
-        {
-            var httpRequestMessage = new HttpRequestMessage();
-
-            var request = route.Request;
-
-            httpRequestMessage.RequestUri = new Uri(request.Url);
-            httpRequestMessage.Method = HttpMethod.Get;
-
-            return httpRequestMessage;
-        }
-
-        private static async Task MermaidPostHandlerAsync(HttpClient httpClient, IRoute route)
-        {
-            using (var request = GetRequestFromRoute(route))
-            {
-                var response = await httpClient.SendAsync(request)
-                    .ConfigureAwait(false);
-                var routeFulfillOptions = new RouteFulfillOptions
-                {
-                    Status = (int)response.StatusCode,
-                    Body = await response.Content.ReadAsStringAsync().ConfigureAwait(false),
-                };
-
-                if (response.Content.Headers.ContentType != null)
-                {
-                    routeFulfillOptions.ContentType = response.Content.Headers.ContentType.ToString();
-                }
-
-                await route.FulfillAsync(routeFulfillOptions)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        private static async Task DefaultHandlerAsync(HttpClient httpClient, IRoute route)
-        {
-            if (!route.Request.Url.StartsWith("https://localhost/", StringComparison.OrdinalIgnoreCase))
-            {
-                var routeFulfillOptions = new RouteFulfillOptions
-                {
-                    Status = 404
-                };
-
-                await route.FulfillAsync(routeFulfillOptions)
-                    .ConfigureAwait(false);
-
-                return;
-            }
-
-            using (var request = route.ToHttpRequestMessage())
-            {
-                var response = await httpClient.SendAsync(request)
-                    .ConfigureAwait(false);
-
-                var routeFulfillOptions = await RouteFulfillOptionsFactory.FromHttpResponseMessageAsync(response)
-                    .ConfigureAwait(false);
-
-                await route.FulfillAsync(routeFulfillOptions)
-                    .ConfigureAwait(false);
-            }
-        }
-
-        private async Task<byte[]> TakeMermaidElementScreenshotAsync(string mermaidElementSelector, ILocator mermaidElement)
-        {
-            for (var attempt = 0; attempt < 3; attempt++)
-            {
-                try
-                {
-                    return await mermaidElement.ScreenshotAsync(new LocatorScreenshotOptions { Type = ScreenshotType.Png })
-                        .ConfigureAwait(false);
-                }
-                catch (PlaywrightException exception) when (attempt < 2 &&
-                                                            exception.Message.Contains(
-                                                                "Element is not attached to the DOM",
-                                                                StringComparison.Ordinal))
-                {
-                    _ = await _page.WaitForSelectorAsync(
-                            mermaidElementSelector,
-                            new() { State = WaitForSelectorState.Visible })
-                        .ConfigureAwait(false);
-                }
-            }
-
-            throw new InvalidOperationException("Failed to capture Mermaid screenshot after retry attempts.");
         }
 
         private async ValueTask DisposeAsyncCore()
         {
             if (!_disposedValue)
             {
-                await _pageRoute.DisposeAsync().ConfigureAwait(false);
-                await _pageRoute2.DisposeAsync().ConfigureAwait(false);
-                await _page.CloseAsync().ConfigureAwait(false);
                 await _browser.CloseAsync().ConfigureAwait(false);
                 await _browser.DisposeAsync().ConfigureAwait(false);
 
