@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="35.1.39" />
+    <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="35.1.40" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.13" />
   </ItemGroup>
 
