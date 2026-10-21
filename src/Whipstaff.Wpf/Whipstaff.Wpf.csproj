@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DynamicData" Version="9.4.33" />
+    <PackageReference Include="DynamicData" Version="9.5.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.13" />
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="18.12.1" />
     <PackageReference Include="PInvoke.User32" Version="0.7.124" />
