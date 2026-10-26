@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting" Version="13.6.1" />
+    <PackageReference Include="Aspire.Hosting" Version="13.6.4" />
     <PackageReference Include="MessagePack" Version="2.5.307" />
   </ItemGroup>
 </Project>
