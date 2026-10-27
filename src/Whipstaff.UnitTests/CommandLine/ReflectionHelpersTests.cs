@@ -47,7 +47,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ReflectionHelpersTests.GetRootCommandMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(Assembly? arg, string expectedParameterNameForException)
+            void ITestMethodWithNullableParameters<Assembly>.ThrowsArgumentNullException(Assembly? arg, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,

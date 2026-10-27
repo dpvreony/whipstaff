@@ -2,6 +2,9 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
+using System.CommandLine;
+using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
@@ -9,7 +12,7 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 namespace Whipstaff.UnitTests.TestSources.CommandLine.OptionExtensionsTests.SpecificFileExtensionsOnlyMethod
 {
     /// <summary>
-    /// Test Source for <see cref="UnitTests.CommandLine.OptionExtensionsTests.SpecificFileExtensionsOnlyMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.OptionExtensions.SpecificFileExtensionsOnly(Option{FileInfo}, IFileSystem, string[])"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IFileSystem, string[]>
     {
