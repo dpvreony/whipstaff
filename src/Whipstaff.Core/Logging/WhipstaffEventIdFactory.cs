@@ -160,5 +160,11 @@ namespace Whipstaff.Core.Logging
         /// </summary>
         /// <returns>Event Id.</returns>
         public static EventId ClearingJumpList() => new(24, "Clearing Jump List");
+
+        /// <summary>
+        /// Gets the Event ID for a tenant id mismatch.
+        /// </summary>
+        /// <returns>Event ID.</returns>
+        public static EventId TenantIdMismatch() => new(25, "Tenant ID mismatch");
     }
 }
