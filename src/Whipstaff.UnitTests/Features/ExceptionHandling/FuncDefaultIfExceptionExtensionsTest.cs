@@ -378,7 +378,7 @@ namespace Whipstaff.UnitTests.Features.ExceptionHandling
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestData))]
-            public async Task ThrowsArgumentNullExceptionAsync(
+            async Task ITestAsyncMethodWithNullableParameters<Func<int, int, int, int, int, Task<int>>>.ThrowsArgumentNullExceptionAsync(
                 Func<int, int, int, int, int, Task<int>>? arg,
                 string expectedParameterNameForException)
             {

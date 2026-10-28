@@ -26,7 +26,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            void NetTestRegimentation.ITestMethodWithNullableParameters<IObservable<bool>, Func<int, int>, Func<int, int>>.ThrowsArgumentNullException(
                 IObservable<bool>? arg1,
                 Func<int, int>? arg2,
                 Func<int, int>? arg3,
@@ -242,7 +242,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            void NetTestRegimentation.ITestMethodWithNullableParameters<IObservable<bool>, Func<int, int>, Func<int, int>, Func<int, int>, Func<int, int>, Func<int, int>>.ThrowsArgumentNullException(
                 IObservable<bool>? arg1,
                 Func<int, int>? arg2,
                 Func<int, int>? arg3,
