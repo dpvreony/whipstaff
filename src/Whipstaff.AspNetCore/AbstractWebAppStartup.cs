@@ -295,6 +295,22 @@ namespace Whipstaff.AspNetCore
                 _ = app.UseAuthentication();
             }
 
+            _ = app.Use(async (context, next) =>
+            {
+                try
+                {
+                    await next(context).ConfigureAwait(false);
+                }
+                catch (InvalidOperationException ex) when (!context.Response.HasStarted && ex.Message.Contains("AuthorizationPolicy named", StringComparison.Ordinal))
+                {
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
+                    logger.LogError(ex, "Authorization policy is not configured for the requested endpoint, returning 404");
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
+                    context.Response.Clear();
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                }
+            });
+
             _ = app.UseAuthorization();
 
             var useEndpointsAction = GetOnUseEndpointsAction();
