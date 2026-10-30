@@ -36,7 +36,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
 
             /// <inheritdoc/>
             [Fact]
-            public void ReturnsInstance()
+            void ITestConstructorMethod.ReturnsInstance()
             {
                 Assert.NotNull(new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(new FakeDbContextFactory(LoggerFactory)));
             }
@@ -44,7 +44,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(IDbContextFactory<FakeDbContext>? arg, string expectedParameterNameForException)
+            void ITestMethodWithNullableParameters<IDbContextFactory<FakeDbContext>>.ThrowsArgumentNullException(IDbContextFactory<FakeDbContext>? arg, string expectedParameterNameForException)
             {
                 var exception = Assert.Throws<ArgumentNullException>(() => new FetchMaxRowVersionFromTableHealthCheck<FakeDbContext, FakeAddAuditDbSet>(arg!));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
@@ -107,7 +107,7 @@ namespace Whipstaff.UnitTests.Healthchecks.EntityFramework
         }
 
         /// <summary>
-        /// Test Source for <see cref="ConstructorMethod.ThrowsArgumentNullException(IDbContextFactory{FakeDbContext}, string)"/>.
+        /// Test Source for <see cref="ArgumentNullException" /> test of <see cref="Whipstaff.Healthchecks.EntityFramework.FetchMaxRowVersionFromTableHealthCheck{TFakeDbContext, TFakeAddAuditDbSet}"/>.
         /// </summary>
         public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<IDbContextFactory<FakeDbContext>?, string>
         {

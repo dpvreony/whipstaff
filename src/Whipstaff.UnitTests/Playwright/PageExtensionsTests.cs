@@ -114,7 +114,7 @@ namespace Whipstaff.UnitTests.Playwright
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<IPage>.ThrowsArgumentNullException(
                 IPage? arg,
                 string expectedParameterNameForException)
             {
@@ -196,7 +196,7 @@ namespace Whipstaff.UnitTests.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/>.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage>
             {
@@ -227,7 +227,7 @@ namespace Whipstaff.UnitTests.Playwright
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<IPage>.ThrowsArgumentNullException(
                 IPage? arg,
                 string expectedParameterNameForException)
             {
@@ -343,7 +343,7 @@ namespace Whipstaff.UnitTests.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/>.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage>
             {
@@ -374,7 +374,7 @@ namespace Whipstaff.UnitTests.Playwright
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(IPage? arg, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<IPage>.ThrowsArgumentNullExceptionAsync(IPage? arg, string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
@@ -428,7 +428,7 @@ namespace Whipstaff.UnitTests.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage>
             {
@@ -459,7 +459,7 @@ namespace Whipstaff.UnitTests.Playwright
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(IPage? arg1, IFileSystem? arg2, string? arg3, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<IPage, IFileSystem, string>.ThrowsArgumentNullExceptionAsync(IPage? arg1, IFileSystem? arg2, string? arg3, string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
@@ -467,7 +467,7 @@ namespace Whipstaff.UnitTests.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPage, IFileSystem, string>
             {

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using NetTestRegimentation;
 using Whipstaff.Runtime.FileProcessing;
 using Xunit;
 
@@ -20,8 +21,8 @@ namespace Whipstaff.UnitTests.Runtime
         {
             /// <inheritdoc />
             [Theory]
-            [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.WithTempFileMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.FileProcessing.TemporaryFileHelpersTests.WithTempFileMethod.ThrowsArgumentNullExceptionTestSource))]
+            void ITestMethodWithNullableParameters<byte[], string, Action<string>>.ThrowsArgumentNullException(
                 byte[]? arg1,
                 string? arg2,
                 Action<string>? arg3,
@@ -44,8 +45,8 @@ namespace Whipstaff.UnitTests.Runtime
         {
             /// <inheritdoc />
             [Theory]
-            [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.WithTempFileT1Method.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.FileProcessing.TemporaryFileHelpersTests.WithTempFileT1Method.ThrowsArgumentNullExceptionTestSource))]
+            void ITestMethodWithNullableParameters<byte[], string, Func<string, int>>.ThrowsArgumentNullException(
                 byte[]? arg1,
                 string? arg2,
                 Func<string, int>? arg3,
