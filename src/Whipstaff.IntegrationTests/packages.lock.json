@@ -134,11 +134,6 @@
         "resolved": "2022.0.0",
         "contentHash": "rVk7HyTWXC1IOHTLMOzZyX6Wu1qbwVoA17XGF837uUElDnfg4emPxewPpGSgtuJzuJeoH4SGeQtDoB8v9J1d9Q=="
       },
-      "Aspire.Dashboard.Sdk.win-x64": {
-        "type": "Transitive",
-        "resolved": "13.6.4",
-        "contentHash": "vi7brJmlXMdNqGcDNY2wWfxn21c7mDQQ+NiIfWqG3Sat1qfQeNyfajsImsCjgfjFQ7O3+yK8a9C22q0RZy5wpg=="
-      },
       "Aspire.Hosting": {
         "type": "Transitive",
         "resolved": "13.6.4",
@@ -213,11 +208,6 @@
           "System.IO.Hashing": "10.0.12",
           "YamlDotNet": "18.1.0"
         }
-      },
-      "Aspire.Hosting.Orchestration.win-x64": {
-        "type": "Transitive",
-        "resolved": "13.6.4",
-        "contentHash": "1NACox831JWocb5cyrTQlrswsh/zieXVqyfiVYXslw9E3arxAJjW2Fv8zDyOH9mKatXrqK9s28KXkVZ6tollLw=="
       },
       "Aspire.Hosting.SqlServer": {
         "type": "Transitive",
@@ -1604,8 +1594,8 @@
       },
       "Microsoft.Playwright": {
         "type": "Transitive",
-        "resolved": "1.63.0",
-        "contentHash": "O9F45Tt5vjauIo7mTTgQtahigL7cfRLvBMpErLJfdvgCnQ14yue5BmRASNnfNBWRBni4Mqp2YiD1eFGIO4nUUw==",
+        "resolved": "1.64.1",
+        "contentHash": "DO8plHiCCUS/54XZxhsuzGtxI4RkyJ/5XOlVFoT0A0K1jNYdGhntry36ivkPjcCbv0uz6P/PmJ35gUgnAYGbiw==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0"
@@ -2112,35 +2102,35 @@
       },
       "Swashbuckle.AspNetCore": {
         "type": "Transitive",
-        "resolved": "10.3.0",
-        "contentHash": "y76EI71vcrsXfjw+HrUJaf9lRYulqb+0vzRFkKDgCyzK8GY6O0F0mTDWUEK2tUYbpkifHTaQTpT4tkh7f/q1kA==",
+        "resolved": "10.3.1",
+        "contentHash": "aCaJQAUxU2SZhN0lXqTfa+6/hJ7RdofjtbWu4oXSmsQ+z7WFJQvAAPrvn5rQI/ly8M/Vu381wtlbA1FUYseHPg==",
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "10.0.0",
-          "Swashbuckle.AspNetCore.Swagger": "10.3.0",
-          "Swashbuckle.AspNetCore.SwaggerGen": "10.3.0",
-          "Swashbuckle.AspNetCore.SwaggerUI": "10.3.0"
+          "Swashbuckle.AspNetCore.Swagger": "10.3.1",
+          "Swashbuckle.AspNetCore.SwaggerGen": "10.3.1",
+          "Swashbuckle.AspNetCore.SwaggerUI": "10.3.1"
         }
       },
       "Swashbuckle.AspNetCore.Swagger": {
         "type": "Transitive",
-        "resolved": "10.3.0",
-        "contentHash": "/W3Vdf8TeHAk6Pw6H/rduW6LQbzxKhUVnqtUFNHj/qUrLjlEZeVN8Q5WWgyGc3DLHRKlXm82kKCYfWRvx3/WCg==",
+        "resolved": "10.3.1",
+        "contentHash": "ZBsi9PZbuy25lUIs+4/V8pmuMqospRAX9zVmxzCm1ZRyKiXjsUL9YCyqdi7ezfDwxKuef6P0fUgVan9sLRcDJA==",
         "dependencies": {
           "Microsoft.OpenApi": "2.7.5"
         }
       },
       "Swashbuckle.AspNetCore.SwaggerGen": {
         "type": "Transitive",
-        "resolved": "10.3.0",
-        "contentHash": "X0tSFT1OrlkhVQNqk1DNL+dQZmfvmXF2/syJ8whjORhVkPdZoyWC4445OG0VwnYoH9Q+oZaIblMBHX+Geb30Hw==",
+        "resolved": "10.3.1",
+        "contentHash": "DMamYj+m40rOgnGdAp+4iQ+NXIMup2oYVs/zIOZtal0Dar6CXjCF9/SkepEn42TKNO29wAx0xyLfOXj1VjEIXg==",
         "dependencies": {
-          "Swashbuckle.AspNetCore.Swagger": "10.3.0"
+          "Swashbuckle.AspNetCore.Swagger": "10.3.1"
         }
       },
       "Swashbuckle.AspNetCore.SwaggerUI": {
         "type": "Transitive",
-        "resolved": "10.3.0",
-        "contentHash": "3qcin6S55lsFTsWf0vQO3P0bFc0tvk2EOkH+6wgJF9UQUk1WqsDUPEkexQE9Ievc+3zTPoYds9BTlvPMRbmkcQ=="
+        "resolved": "10.3.1",
+        "contentHash": "kXuMIVJBDD6qMwG78VUrKy4x5Ke98HU0Q023Sf2iSBO/x45c5BuByYPAExIs9UeVsjdGGgvLWU5jK8l6MO2Z0Q=="
       },
       "System.ClientModel": {
         "type": "Transitive",
@@ -2155,8 +2145,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.13",
-        "contentHash": "TIO2lMV+sSP7WW7pD/oCRHD9ENWY+jqwXmYzgks3R46cEdDzwjQOAhsiBn+M3EegfGjgTpa2h+eIrcU+AM2k6A=="
+        "resolved": "2.0.14",
+        "contentHash": "15fyVO4aG6poR6IKmhM74zf7PUzaU6FZAGm2d3SQSO9yIyGAeo44e6t9qeKjjaqyMEqYdqcb2G1B0gpLoDU2cA=="
       },
       "System.ComponentModel.Annotations": {
         "type": "Transitive",
@@ -2395,7 +2385,7 @@
           "NetEscapades.AspNetCore.SecurityHeaders": "[1.3.1, )",
           "OwaspHeaders.Core": "[10.5.1, )",
           "RimDev.ApplicationInsights.Filters": "[1.1.62, )",
-          "Swashbuckle.AspNetCore": "[10.3.0, )",
+          "Swashbuckle.AspNetCore": "[10.3.1, )",
           "System.Data.SqlClient": "[4.9.1, )",
           "System.IdentityModel.Tokens.Jwt": "[8.23.0, )",
           "Whipstaff.Core": "[1.0.0, )",
@@ -2407,7 +2397,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Logging.Console": "[10.0.14, )",
-          "System.CommandLine": "[2.0.13, )",
+          "System.CommandLine": "[2.0.14, )",
           "TestableIO.System.IO.Abstractions.Wrappers": "[22.3.0, )",
           "Whipstaff.Core": "[1.0.0, )",
           "Whipstaff.Runtime": "[1.0.0, )"
@@ -2440,9 +2430,7 @@
       "whipstaff.example.aspireapphost": {
         "type": "Project",
         "dependencies": {
-          "Aspire.Dashboard.Sdk.win-x64": "[13.6.4, )",
           "Aspire.Hosting.AppHost": "[13.6.4, )",
-          "Aspire.Hosting.Orchestration.win-x64": "[13.6.4, )",
           "Aspire.Hosting.SqlServer": "[13.6.4, )",
           "System.Security.Cryptography.Pkcs": "[10.0.14, )",
           "Whipstaff.Aspire.Hosting": "[1.0.0, )"
@@ -2497,7 +2485,7 @@
       "whipstaff.playwright": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Playwright": "[1.63.0, )",
+          "Microsoft.Playwright": "[1.64.1, )",
           "System.Reactive": "[7.0.0, )",
           "TestableIO.System.IO.Abstractions.Wrappers": "[22.3.0, )",
           "Whipstaff.Runtime": "[1.0.0, )"
@@ -2518,7 +2506,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "[10.0.14, )",
           "SQLitePCLRaw.bundle_e_sqlite3": "[3.0.5, )",
           "Splat": "[21.0.0, )",
-          "System.CommandLine": "[2.0.13, )",
+          "System.CommandLine": "[2.0.14, )",
           "Whipstaff.AspNetCore": "[1.0.0, )",
           "Whipstaff.CommandLine": "[1.0.0, )",
           "Whipstaff.EntityFramework": "[1.0.0, )",

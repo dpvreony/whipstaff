@@ -59,11 +59,11 @@
       },
       "Syncfusion.Blazor.DataVizCommon": {
         "type": "Direct",
-        "requested": "[35.1.40, )",
-        "resolved": "35.1.40",
-        "contentHash": "bOHkJKyBjcEsJUxevSbfwJNkoQ7CwDwRRzZMw0oPeYo9eBsbsii7dwVD4xXQYvbanT/b27bxYCjvinT4kKLryg==",
+        "requested": "[35.1.42, )",
+        "resolved": "35.1.42",
+        "contentHash": "+GpiFw9yY8qmd7AaigsS32MlZNKxMbArpWVCmp2jylUFtyg1FNj1esr1dBPqScy+T83VwYgrMtX88tc/qHktOw==",
         "dependencies": {
-          "Syncfusion.Blazor.Core": "35.1.40"
+          "Syncfusion.Blazor.Core": "35.1.42"
         }
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
@@ -420,17 +420,17 @@
       },
       "Syncfusion.Blazor.Core": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "22bgr3ClycUyyV8aafAldG4Tube/0MgHh3++zBkISQiSNhSdcyqQpAmsTbOCO+zGdvFJUJ7yQZX7hn8M7w7WRg==",
+        "resolved": "35.1.42",
+        "contentHash": "sn8T6ri0QEy1F4Pp8Ed1a4zyHot/PGOJi/YiojmS6lsKmwXXkp+YonLJAy/T+Cm32vlL4nEUEL7WQAgqnkcSgA==",
         "dependencies": {
           "Microsoft.AspNetCore.Components.Web": "10.0.2",
-          "Syncfusion.Licensing": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42"
         }
       },
       "Syncfusion.Licensing": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "I/dWY0QoxF1U1crVoIwKjnxtV7K44d2EDflOFoNIx7DAvhXLU+Pyhbb5jMRdXIMk5BTT1pa69OKBc05L/DYFig=="
+        "resolved": "35.1.42",
+        "contentHash": "8srW4EtWizhc8AxdLkAwso3NHJG1Wrqq0UKRoLSvC8cb5ov5gV/s+RscEPSLz23m0NMrx88TzwPUuT53fWVaEw=="
       },
       "System.IO.Hashing": {
         "type": "Transitive",
@@ -463,7 +463,7 @@
       "whipstaff.blazor.syncfusion.core": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Blazor.Core": "[35.1.40, )",
+          "Syncfusion.Blazor.Core": "[35.1.42, )",
           "Whipstaff.Blazor": "[1.0.0, )"
         }
       },

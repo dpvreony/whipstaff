@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net8.0-windows7.0": {
+    "net10.0-windows10.0.19041": {
       "Gripe.Analyzer": {
         "type": "Direct",
         "requested": "[2.1.41, )",
@@ -34,8 +34,7 @@
         "resolved": "10.0.14",
         "contentHash": "SwcbEBtkECq3D2oywvHkm46fyrX9Dd2JPWphDnHUc2+cUWR1Mdo41atAjh/9iZjgQxuvbKfZKXqostT/LZfefA==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14",
-          "System.Diagnostics.DiagnosticSource": "10.0.14"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14"
         }
       },
       "Microsoft.Sbom.Targets": {
@@ -90,7 +89,6 @@
         "resolved": "10.0.14",
         "contentHash": "ingsTcSTU+VqTyPR4lwCre4QXNY/FThxPLyYLFqFe/t5PnGrHLhQgS11wausNygDOnvRCnmpv6LHvXP3MUIOGA==",
         "dependencies": {
-          "Microsoft.Bcl.Cryptography": "10.0.14",
           "System.Configuration.ConfigurationManager": "10.0.14",
           "System.DirectoryServices": "10.0.14",
           "System.DirectoryServices.Protocols": "10.0.14"
@@ -133,14 +131,6 @@
         "type": "Transitive",
         "resolved": "0.1.0-beta.5",
         "contentHash": "FcrCAAJsUUqhGSkQl+AWglBKX6Ws8Q0rAtmG8q9ti/CnU8xiQvlSve2Wq5fvL+lS8cCKb+rGXlvro/vHlYMwrw=="
-      },
-      "Microsoft.Bcl.Cryptography": {
-        "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "FiQloJinjQXRpkeHgihmbKnPD8DxJQTmwro5Qa5yHxNULxrIPy9HCEOx1U8F5AwL5WVkAccSI0veFM/iYrttUg==",
-        "dependencies": {
-          "System.Formats.Asn1": "10.0.14"
-        }
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
@@ -225,11 +215,6 @@
           "System.Security.Cryptography.ProtectedData": "10.0.14"
         }
       },
-      "System.Diagnostics.DiagnosticSource": {
-        "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "9rC+iZCotdVntRirhuf+pjW1kmeJCsdLIkSBuLdYGX8PY483gnQXbLa4BG6PVilhPD52uv0RycuwkuOJFyw0tw=="
-      },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
         "resolved": "10.0.14",
@@ -244,11 +229,6 @@
         "type": "Transitive",
         "resolved": "10.0.14",
         "contentHash": "uZAVEVyWAhQxtKIIoNYCzbtKhcIMHjY0viEbmkfpTZ9O/4fzOTlYHUAqirOL8anzBmSAx8xOk7o7R86mBgTfzQ=="
-      },
-      "System.Formats.Asn1": {
-        "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "PpCyuuHlcc9Xbs/0lfGZGr3ohlYpyhj7/dA+K3DZe7NSY9WxuLXXCitUq5cVah6Ujgi4Bp8gI7x46fFy6FiTUw=="
       },
       "System.IO.Hashing": {
         "type": "Transitive",

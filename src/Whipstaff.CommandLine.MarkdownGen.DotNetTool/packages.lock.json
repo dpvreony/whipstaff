@@ -242,8 +242,8 @@
       },
       "System.CommandLine": {
         "type": "Transitive",
-        "resolved": "2.0.13",
-        "contentHash": "TIO2lMV+sSP7WW7pD/oCRHD9ENWY+jqwXmYzgks3R46cEdDzwjQOAhsiBn+M3EegfGjgTpa2h+eIrcU+AM2k6A=="
+        "resolved": "2.0.14",
+        "contentHash": "15fyVO4aG6poR6IKmhM74zf7PUzaU6FZAGm2d3SQSO9yIyGAeo44e6t9qeKjjaqyMEqYdqcb2G1B0gpLoDU2cA=="
       },
       "System.IO.Hashing": {
         "type": "Transitive",
@@ -267,7 +267,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Logging.Console": "[10.0.14, )",
-          "System.CommandLine": "[2.0.13, )",
+          "System.CommandLine": "[2.0.14, )",
           "TestableIO.System.IO.Abstractions.Wrappers": "[22.3.0, )",
           "Whipstaff.Core": "[1.0.0, )",
           "Whipstaff.Runtime": "[1.0.0, )"

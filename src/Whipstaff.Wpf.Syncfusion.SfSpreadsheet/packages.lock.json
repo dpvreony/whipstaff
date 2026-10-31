@@ -59,18 +59,18 @@
       },
       "Syncfusion.SfSpreadsheet.WPF": {
         "type": "Direct",
-        "requested": "[35.1.40, )",
-        "resolved": "35.1.40",
-        "contentHash": "FJk6kk8KfN0pr4v+CcHKhmZwQWVSQZPSYxJHhcIMUnAjouzkkcg+MjarX3HJK9KR76z0Q2PpHfS/UOgOFlS4IQ==",
+        "requested": "[35.1.42, )",
+        "resolved": "35.1.42",
+        "contentHash": "Xs29HRAJoG1ccyI+5M79Heq0kBtyABg3g+u/jHjolCSM1NorxDKuI/AxzG5mlMorQ3qP4VnDCiH2IPIetNjBDQ==",
         "dependencies": {
-          "Syncfusion.Compression.Base": "35.1.40",
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.SfCellGrid.WPF": "35.1.40",
-          "Syncfusion.SfGridCommon.WPF": "35.1.40",
-          "Syncfusion.Shared.WPF": "35.1.40",
-          "Syncfusion.Telemetry": "35.1.40",
-          "Syncfusion.Tools.WPF": "35.1.40",
-          "Syncfusion.XlsIO.Wpf": "35.1.40"
+          "Syncfusion.Compression.Base": "35.1.42",
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.SfCellGrid.WPF": "35.1.42",
+          "Syncfusion.SfGridCommon.WPF": "35.1.42",
+          "Syncfusion.Shared.WPF": "35.1.42",
+          "Syncfusion.Telemetry": "35.1.42",
+          "Syncfusion.Tools.WPF": "35.1.42",
+          "Syncfusion.XlsIO.Wpf": "35.1.42"
         }
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
@@ -401,10 +401,10 @@
       },
       "Syncfusion.Compression.Base": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "LVOmeLaIYg3QDZurIOhzQSFyudzAYv5IYEnEXreaKr+eRPouts7ACZBXrjuJ11c8I2hmd6vVcMCb9w9CyX3M0A==",
+        "resolved": "35.1.42",
+        "contentHash": "F4OfT/qgX0kCtaCehyNov0D0/numpFH91xey9VqNiwJEh54cHXX78avSMi38yYEmbgHh1R9ko294lXnEV8nYvg==",
         "dependencies": {
-          "System.Security.Cryptography.Xml": "10.0.11"
+          "System.Security.Cryptography.Xml": "10.0.13"
         }
       },
       "Syncfusion.GridCommon.Wpf": {
@@ -414,71 +414,71 @@
       },
       "Syncfusion.Licensing": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "I/dWY0QoxF1U1crVoIwKjnxtV7K44d2EDflOFoNIx7DAvhXLU+Pyhbb5jMRdXIMk5BTT1pa69OKBc05L/DYFig=="
+        "resolved": "35.1.42",
+        "contentHash": "8srW4EtWizhc8AxdLkAwso3NHJG1Wrqq0UKRoLSvC8cb5ov5gV/s+RscEPSLz23m0NMrx88TzwPUuT53fWVaEw=="
       },
       "Syncfusion.Markdown": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "Xna3X9to6W3e9sYCcOY2fmb0TSAPf+ns0PxqK7JYycWnu8eXYCJtWSt9fsjuFoqHUwNvUB2NidRSngRG7zUXCw==",
+        "resolved": "35.1.42",
+        "contentHash": "8VcvqzYaXhZQlcNyziUR31nmXOCQCX0JerIw0VLsc9hzA1AIULscURHMXHzhe1NbyEVA+2qwBSBgXZrm5s73rA==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.Telemetry": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.Telemetry": "35.1.42"
         }
       },
       "Syncfusion.SfCellGrid.WPF": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "rPBPU1b7gaT5TVHgjnVmszPVlKbxSNF0u7pLaw8cGv29Idj/RR18H2s3cppf6qA+dQtyZdWh/ucwMA0h2QcYNQ==",
+        "resolved": "35.1.42",
+        "contentHash": "xIWTB6p3T879ZXLL6im3JJ4hWXKY/XPLK6LzG7asih29U6qllFu1/InbT9+0lwOsqSIrz1broUhmpRadoI7Gjg==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.SfGridCommon.WPF": "35.1.40",
-          "Syncfusion.Shared.WPF": "35.1.40",
-          "Syncfusion.Telemetry": "35.1.40",
-          "Syncfusion.XlsIO.Wpf": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.SfGridCommon.WPF": "35.1.42",
+          "Syncfusion.Shared.WPF": "35.1.42",
+          "Syncfusion.Telemetry": "35.1.42",
+          "Syncfusion.XlsIO.Wpf": "35.1.42"
         }
       },
       "Syncfusion.SfGridCommon.WPF": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "YfrPmCA3WHpEry8eKOdfPKjpSJ8v5Nkk4OTuPP38G81XAP29LVIwkZAJZZ/A3ZAUlm6nO56jW8iOEGhdkwgBag==",
+        "resolved": "35.1.42",
+        "contentHash": "PfNFjahbw9JXxnTpbx7de1uo+Egc6ms0wGh2i0FFe4gUz6pUj9RhpNkfQ8jthdA7JbjkjHqzFIEk2ucL0MJt8A==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42"
         }
       },
       "Syncfusion.Shared.WPF": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "J8BJM9UMp4rEwkIY+r8pFqFf/GZN7jvmAf9Za2345miTGKy2118YXqXq6mYTihNwlrxHeGgXS6xsJ1t+sWvScA==",
+        "resolved": "35.1.42",
+        "contentHash": "o9rVMk87WhZY9NJelboOHSWSdnquURRg2SHVw/D+wJRvy9mpFCDdaG7I9YWgqeIBzlpggixiZLElHmmSh+sW7Q==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.Telemetry": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.Telemetry": "35.1.42"
         }
       },
       "Syncfusion.Telemetry": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "ICWoY10aC7QqPd3VUQ9ywCKybyVG9PhtSnmF6+647K2pNQ/+3clcqjqco+LXb2o2VoRHn7FIAmM823nBspSjjQ=="
+        "resolved": "35.1.42",
+        "contentHash": "fN+wRpaj3go0vlR0ywVuCDVdibDM7/n9sX5ax65rHUv0gtZOmJfqKhAYogqzH4e8RlsNeubTroTCZXO0UqB/TA=="
       },
       "Syncfusion.Tools.WPF": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "AlhvswYrYfLe+OTfZa1s+7OmYvMDCNYo5T0YlLbr2r6cPj+4ZbmCEgmCBnlPjeDTljc988C9UPKtJDWYETNLRw==",
+        "resolved": "35.1.42",
+        "contentHash": "sQAGQmZ82hkW5PVym35zqrgz/RoIUO5FI+mi9UEP/L4hHPcct6OaX0Xj0s4lIZk9SglcoIko9ykYfK+PjzHcqw==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.Shared.WPF": "35.1.40",
-          "Syncfusion.Telemetry": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.Shared.WPF": "35.1.42",
+          "Syncfusion.Telemetry": "35.1.42"
         }
       },
       "Syncfusion.XlsIO.Wpf": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "oVH24Qv0sTN1MYSLW/XXxkmLqPFUqEZv8nEhhGQQ6/lknP+OU5GaKcFZLTC7pJnHT+7BZXcXMKAlMihLrUIuPw==",
+        "resolved": "35.1.42",
+        "contentHash": "gpqSzMFIhgAS7ECHW8KgH4C4WzdnA/az/BX3RYfUMX79UcujEyAMoJiYjmJ08JvBpYUCT3/tyzpr5oC4edv1Fg==",
         "dependencies": {
-          "Syncfusion.Compression.Base": "35.1.40",
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.Markdown": "35.1.40",
-          "Syncfusion.Telemetry": "35.1.40"
+          "Syncfusion.Compression.Base": "35.1.42",
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.Markdown": "35.1.42",
+          "Syncfusion.Telemetry": "35.1.42"
         }
       },
       "System.Configuration.ConfigurationManager": {
@@ -636,21 +636,21 @@
       "whipstaff.wpf.syncfusion.shared": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Shared.WPF": "[35.1.40, )",
+          "Syncfusion.Shared.WPF": "[35.1.42, )",
           "Whipstaff.Wpf": "[1.0.0, )"
         }
       },
       "whipstaff.wpf.syncfusion.tools": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Tools.WPF": "[35.1.40, )",
+          "Syncfusion.Tools.WPF": "[35.1.42, )",
           "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
         }
       },
       "whipstaff.wpf.syncfusion.xlsio": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.XlsIO.Wpf": "[35.1.40, )",
+          "Syncfusion.XlsIO.Wpf": "[35.1.42, )",
           "System.Security.Cryptography.Xml": "[10.0.14, )",
           "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
         }

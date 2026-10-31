@@ -59,12 +59,12 @@
       },
       "Syncfusion.SfProgressBar.WPF": {
         "type": "Direct",
-        "requested": "[35.1.40, )",
-        "resolved": "35.1.40",
-        "contentHash": "RzIlwZUi5nWaimm3rEqmuY87JUBeLEGySomulnyKG/QK0UgizINLVcz2b9B+z9CjyeXQ4+4eOl4/Kf6T224ejw==",
+        "requested": "[35.1.42, )",
+        "resolved": "35.1.42",
+        "contentHash": "doYZwymZK/yZ1444m9b5QqdgBsRkhztxMUm9yR1FGPl7In/BqQnsRBPwFrMTMHDjggSm701NYpIQ5f/zpYjy1g==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.Shared.WPF": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.Shared.WPF": "35.1.42"
         }
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
@@ -395,22 +395,22 @@
       },
       "Syncfusion.Licensing": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "I/dWY0QoxF1U1crVoIwKjnxtV7K44d2EDflOFoNIx7DAvhXLU+Pyhbb5jMRdXIMk5BTT1pa69OKBc05L/DYFig=="
+        "resolved": "35.1.42",
+        "contentHash": "8srW4EtWizhc8AxdLkAwso3NHJG1Wrqq0UKRoLSvC8cb5ov5gV/s+RscEPSLz23m0NMrx88TzwPUuT53fWVaEw=="
       },
       "Syncfusion.Shared.WPF": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "J8BJM9UMp4rEwkIY+r8pFqFf/GZN7jvmAf9Za2345miTGKy2118YXqXq6mYTihNwlrxHeGgXS6xsJ1t+sWvScA==",
+        "resolved": "35.1.42",
+        "contentHash": "o9rVMk87WhZY9NJelboOHSWSdnquURRg2SHVw/D+wJRvy9mpFCDdaG7I9YWgqeIBzlpggixiZLElHmmSh+sW7Q==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.40",
-          "Syncfusion.Telemetry": "35.1.40"
+          "Syncfusion.Licensing": "35.1.42",
+          "Syncfusion.Telemetry": "35.1.42"
         }
       },
       "Syncfusion.Telemetry": {
         "type": "Transitive",
-        "resolved": "35.1.40",
-        "contentHash": "ICWoY10aC7QqPd3VUQ9ywCKybyVG9PhtSnmF6+647K2pNQ/+3clcqjqco+LXb2o2VoRHn7FIAmM823nBspSjjQ=="
+        "resolved": "35.1.42",
+        "contentHash": "fN+wRpaj3go0vlR0ywVuCDVdibDM7/n9sX5ax65rHUv0gtZOmJfqKhAYogqzH4e8RlsNeubTroTCZXO0UqB/TA=="
       },
       "System.Configuration.ConfigurationManager": {
         "type": "Transitive",
@@ -538,7 +538,7 @@
       "whipstaff.wpf.syncfusion.shared": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Shared.WPF": "[35.1.40, )",
+          "Syncfusion.Shared.WPF": "[35.1.42, )",
           "Whipstaff.Wpf": "[1.0.0, )"
         }
       }
