@@ -39,7 +39,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtensionMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<SymbolResult, IFileSystem, string>.ThrowsArgumentNullException(
                 SymbolResult? arg1,
                 IFileSystem? arg2,
                 string? arg3,
@@ -135,7 +135,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.SymbolResultHelpersTests.FileHasSupportedExtension2Method.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<SymbolResult, IFileSystem, string[]>.ThrowsArgumentNullException(
                 SymbolResult? arg1,
                 IFileSystem? arg2,
                 string[]? arg3,

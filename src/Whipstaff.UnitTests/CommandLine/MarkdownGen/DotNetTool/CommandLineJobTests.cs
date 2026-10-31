@@ -54,7 +54,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.MarkdownGen.DotNetTool.CommandLineJobTests.HandleCommand.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
-            public async Task ThrowsArgumentNullExceptionAsync(
+            async Task ITestAsyncMethodWithNullableParameters<CommandLineArgModel>.ThrowsArgumentNullExceptionAsync(
                 CommandLineArgModel? arg,
                 string expectedParameterNameForException)
             {

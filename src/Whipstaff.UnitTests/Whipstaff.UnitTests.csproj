@@ -86,4 +86,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TestSources\Runtime\TemporaryFileHelpersTests\WithTempFileMethod\" />
+    <Folder Include="TestSources\Runtime\TemporaryFileHelpersTests\WithTempFileT1Method\" />
+  </ItemGroup>
 </Project>

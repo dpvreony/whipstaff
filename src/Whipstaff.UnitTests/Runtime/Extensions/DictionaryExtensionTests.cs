@@ -36,7 +36,7 @@ namespace Whipstaff.UnitTests.Runtime.Extensions
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Runtime.Extensions.DictionaryExtensionTests.KeysWhereMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<Dictionary<string, string>, Func<KeyValuePair<string, string>, bool>>.ThrowsArgumentNullException(
                 Dictionary<string, string>? arg1,
                 Func<KeyValuePair<string, string>, bool>? arg2,
                 string expectedParameterNameForException)

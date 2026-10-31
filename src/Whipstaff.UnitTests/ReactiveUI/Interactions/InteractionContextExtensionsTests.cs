@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
 using Rocks;
@@ -25,7 +26,7 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(
+            async Task ITestAsyncMethodWithNullableParameters<IInteractionContext<int, int>, Func<int, Task<int>>>.ThrowsArgumentNullExceptionAsync(
                 IInteractionContext<int, int>? arg1,
                 Func<int, Task<int>>? arg2,
                 string expectedParameterNameForException)
@@ -67,7 +68,7 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync" />.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource :
                 ArgumentNullExceptionTheoryData<IInteractionContext<int, int>, Func<int, Task<int>>>

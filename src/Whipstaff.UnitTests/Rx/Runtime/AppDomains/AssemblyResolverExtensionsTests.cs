@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
+using NetTestRegimentation;
 using Whipstaff.Runtime.AppDomains;
 using Whipstaff.Rx.Runtime.AppDomains;
 using Xunit;
@@ -22,7 +23,7 @@ namespace Whipstaff.UnitTests.Rx.Runtime.AppDomains
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.Rx.Runtime.AppDomains.AssemblyResolverExtensionsTests.ToObservableMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(IAssemblyResolveHelper? arg, string expectedParameterNameForException)
+            void ITestMethodWithNullableParameters<IAssemblyResolveHelper>.ThrowsArgumentNullException(IAssemblyResolveHelper? arg, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,

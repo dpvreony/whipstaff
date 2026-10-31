@@ -67,14 +67,14 @@ namespace Whipstaff.UnitTests.Markdig.Mermaid
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(MarkdownJsExtensionSettings? arg1, ILoggerFactory? arg2, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<MarkdownJsExtensionSettings, ILoggerFactory>.ThrowsArgumentNullExceptionAsync(MarkdownJsExtensionSettings? arg1, ILoggerFactory? arg2, string expectedParameterNameForException)
             {
                 var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => HtmlMermaidJsRenderer.CreateAsync(arg1!, arg2!));
                 Assert.Equal(expectedParameterNameForException, exception.ParamName);
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test Source for <see cref="ArgumentNullException" /> test of <see cref="Whipstaff.Markdig.Mermaid.HtmlMermaidJsRenderer.CreateAsync(MarkdownJsExtensionSettings, ILoggerFactory)"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<MarkdownJsExtensionSettings, ILoggerFactory>
             {

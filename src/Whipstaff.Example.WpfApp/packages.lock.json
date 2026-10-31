@@ -1,0 +1,1399 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0-windows10.0.19041": {
+      "Gripe.Analyzer": {
+        "type": "Direct",
+        "requested": "[2.1.41, )",
+        "resolved": "2.1.41",
+        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
+      },
+      "Gripe.QualityAssurancePack": {
+        "type": "Direct",
+        "requested": "[2.1.41, )",
+        "resolved": "2.1.41",
+        "contentHash": "bFiKTt34LfRfAaAAQexPkH7CvFXuT9PBQS3KUMF4pilFlkt0OJ/y/4ZV/ofotyEJ/FkZGkKl2AzmTy6zdBVmJA==",
+        "dependencies": {
+          "Desktop.Analyzers": "1.1.0",
+          "InclusivenessAnalyzer": "1.3.0",
+          "JetBrains.Annotations": "2026.2.0",
+          "MemoryAnalyzers": "0.1.0-beta.5",
+          "Microsoft.CodeAnalysis.Analyzers": "5.9.0",
+          "Microsoft.Sbom.Targets": "4.1.13",
+          "Microsoft.SourceLink.GitHub": "10.0.402",
+          "Microsoft.VisualStudio.Threading.Analyzers": "18.12.1",
+          "Roslynator.Analyzers": "5.0.1",
+          "SecurityCodeScan.VS2019": "5.6.7",
+          "SonarAnalyzer.CSharp": "10.35.0.4138",
+          "StyleCop.Analyzers": "1.2.0-beta.556"
+        }
+      },
+      "Microsoft.Sbom.Targets": {
+        "type": "Direct",
+        "requested": "[4.1.13, )",
+        "resolved": "4.1.13",
+        "contentHash": "l9NiCqVmBBY06Lrxv61xWtiLvU1feto6j7QmMsaARBopO+QLTFDFLEIbYe8pYGjk1INJ2eWE/GGjToqQpokYAw=="
+      },
+      "Microsoft.SourceLink.GitHub": {
+        "type": "Direct",
+        "requested": "[10.0.402, )",
+        "resolved": "10.0.402",
+        "contentHash": "YXtBgnbTAhNng4PcEaolRL59UdRg77eYdAHilt9jljp8EuBOubDuHDkmH8Qa9pR2pBGte/FwJgHXQQVi24GOzg==",
+        "dependencies": {
+          "Microsoft.Build.Tasks.Git": "10.0.402",
+          "Microsoft.SourceLink.Common": "10.0.402",
+          "System.IO.Hashing": "10.0.13"
+        }
+      },
+      "Nerdbank.GitVersioning": {
+        "type": "Direct",
+        "requested": "[3.10.94, )",
+        "resolved": "3.10.94",
+        "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
+      },
+      "TestableIO.System.IO.Abstractions.Analyzers": {
+        "type": "Direct",
+        "requested": "[2022.0.0, )",
+        "resolved": "2022.0.0",
+        "contentHash": "rVk7HyTWXC1IOHTLMOzZyX6Wu1qbwVoA17XGF837uUElDnfg4emPxewPpGSgtuJzuJeoH4SGeQtDoB8v9J1d9Q=="
+      },
+      "AvalonEdit": {
+        "type": "Transitive",
+        "resolved": "6.3.1.120",
+        "contentHash": "6ASBKPzAg64BLDlFOJo4Ypr1sA/6hB5+TfHLJaZYUSTE0jgxvKlVqKeo/ISTG9qEMxu604qUu6BGugmJkfdrNw=="
+      },
+      "CefSharp.Common.NETCore": {
+        "type": "Transitive",
+        "resolved": "152.0.150",
+        "contentHash": "o9GKs4JDA8XGp7vOQm6Dwk9Ky0cvgLEFlnwkl0dHk5x2Egk3xaxZcUnw2H+6GGXt2xUvbJ8aZeiKpi6gHGwPAg==",
+        "dependencies": {
+          "chromiumembeddedframework.runtime": "[152.0.15]"
+        }
+      },
+      "CefSharp.Wpf.NETCore": {
+        "type": "Transitive",
+        "resolved": "152.0.150",
+        "contentHash": "cMkpAAUsWe3OPzp0H0EtmZA/4vXS+AlQ5jSlaj2PCXiuKULV3kvbbqAOE5DF8rYhJdayQGqoGA5Tp6UgCLf1OQ==",
+        "dependencies": {
+          "CefSharp.Common.NETCore": "[152.0.150]"
+        }
+      },
+      "chromiumembeddedframework.runtime": {
+        "type": "Transitive",
+        "resolved": "152.0.15",
+        "contentHash": "D20qMGyxFnxebdYtaQaKPrXq8vK6SbjsAU5jERUHToY9Ag78mYgB1dCIqr0V7OCnxFXZ7kwxPgjTi2zUh6YdJw=="
+      },
+      "ControlzEx": {
+        "type": "Transitive",
+        "resolved": "7.0.2",
+        "contentHash": "PqQ/K4AnVjn64r52lvMrKDaJxdlF2AJJlRZCuF2NvXe6S420CDIFu7h3eHOzi2CeKsNU/qpI5qwut4WZ4RSrAg==",
+        "dependencies": {
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.135"
+        }
+      },
+      "Desktop.Analyzers": {
+        "type": "Transitive",
+        "resolved": "1.1.0",
+        "contentHash": "YNx8+pW75pz/VF52vren5Yfu16sPYX02M537sHc1W4jtdY4sEGPs/p8reaLjF5PFX/9ml97DBHg056kR9K6tsQ=="
+      },
+      "DynamicData": {
+        "type": "Transitive",
+        "resolved": "9.5.0",
+        "contentHash": "uVXjV6KLocPnk5RNWzrHpYosctksbCCeem4elyqG/UT9TnROcoRYjDMzyDLaBHDvTWPEHfi3s1qQba30s2Cq2Q==",
+        "dependencies": {
+          "System.Reactive": "6.1.0"
+        }
+      },
+      "InclusivenessAnalyzer": {
+        "type": "Transitive",
+        "resolved": "1.3.0",
+        "contentHash": "UOd6tZeB6NIBMsZA1SC34trwxnISO/cedDYHPyWsLcey/pvF+0m58n7cQFvrzrDYTR/pgSHXg54GWyVm9t60Iw=="
+      },
+      "JetBrains.Annotations": {
+        "type": "Transitive",
+        "resolved": "2026.2.0",
+        "contentHash": "drvAEaI7Xf4wU6dx4UTB9MoZWXZlraaQ0qoeThPQ411FxNhId7QdUTukIC9I8aUHP0ycAaGwZNKqSvfOZQvUlg=="
+      },
+      "MahApps.Metro": {
+        "type": "Transitive",
+        "resolved": "3.0.0-rc0529",
+        "contentHash": "3k5YxcSiBEuUJ//8I0nwHTBPAgiaZ3Jb78wdpsSVc+uXPSU4Xvv/D2uqXB6XOszO1X5XFubFNCzFniwbdE4TNg==",
+        "dependencies": {
+          "ControlzEx": "7.0.2"
+        }
+      },
+      "MahApps.Metro.SimpleChildWindow": {
+        "type": "Transitive",
+        "resolved": "2.2.1",
+        "contentHash": "ZVDxwWbpORtdCFatqT5MWwnohtuYxNN4EQ35pUwwVD/wD5xnBEypcQm8NzfskX7A+tOggITJwzpAyQ0FgUbNvw==",
+        "dependencies": {
+          "MahApps.Metro": "[2.4.9, 3.0.0)"
+        }
+      },
+      "MaterialDesignColors": {
+        "type": "Transitive",
+        "resolved": "5.3.2",
+        "contentHash": "ru09iYhsnGcTI/La30zuzSeg/DXwvdFgDfvG17XU+/+XkIY915YiQFStZlykui5vpWzMEtyADh2c2T7CodrGrg=="
+      },
+      "MaterialDesignThemes": {
+        "type": "Transitive",
+        "resolved": "5.3.2",
+        "contentHash": "G/aQKjpxcwQt7aZ3JzGX64gr1CzsJK7vtm+l57zpejCs6GebWN4MZ536PHLWpyrgrLySrKxPSjSlWCw2A1HWig==",
+        "dependencies": {
+          "MaterialDesignColors": "5.3.2",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.77"
+        }
+      },
+      "MemoryAnalyzers": {
+        "type": "Transitive",
+        "resolved": "0.1.0-beta.5",
+        "contentHash": "FcrCAAJsUUqhGSkQl+AWglBKX6Ws8Q0rAtmG8q9ti/CnU8xiQvlSve2Wq5fvL+lS8cCKb+rGXlvro/vHlYMwrw=="
+      },
+      "Microsoft.AspNetCore.Authorization": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "8qUwBAtUj9kX8RwqEPGJu3zGM/GlwF2bR9gsxk/+kiSmCB6aDYlYF7E2gM9VOYS9NDF6zxTSEgJxwD9kFbu8Sw==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Metadata": "10.0.0",
+          "Microsoft.Extensions.Diagnostics": "10.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "ljLBmYTPkIe/WhOn/y3kpMCJ4A/xg76H/SRm9XkoOBqlM96Ntcbr+WFJqV/0bEqjaUqQYIMITPnJXrVJ242cWQ==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "10.0.0",
+          "Microsoft.AspNetCore.Components.Analyzers": "10.0.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components.Analyzers": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "5j9dQ/U51yLLKo8hKJOU7uTPppPsjLTua0PFzRotaePcmz7M9W7pM69pBXDEgkBfGD1tp2ufH0zHRHkwg1ikDg=="
+      },
+      "Microsoft.AspNetCore.Components.Forms": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "5kMwH8DqYFfUpyMNv+IzIoDHxR8fHTPKeJeFNAyjY5tMxo3yyM7ezmuYNcVt9QJ+6K2soHQjBnCvFs8yNd3UGQ==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "10.0.0",
+          "Microsoft.Extensions.Validation": "10.0.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components.Web": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "TAv9+cOrU27YPKuHE7AlG2UBWtTWivvcDHmfdN2yngzQFtas+3p2IBDAF6odNfOJiW3Cs1lHwzqLAoNw5Sc59Q==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "10.0.0",
+          "Microsoft.AspNetCore.Components.Forms": "10.0.0",
+          "Microsoft.Extensions.DependencyInjection": "10.0.0",
+          "Microsoft.Extensions.Primitives": "10.0.0",
+          "Microsoft.JSInterop": "10.0.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components.WebView": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "fdBlMj2W0Kv5qIsUKotipoaCUQT1LgWc9QVbS0dJpiFL5UWytp6JvKrB71dj6tuqCZwb2VpcKyIj6uQWfG5VLw==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.Web": "10.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "10.0.0",
+          "Microsoft.Extensions.Configuration.Json": "10.0.0",
+          "Microsoft.Extensions.FileProviders.Composite": "10.0.0",
+          "Microsoft.Extensions.FileProviders.Embedded": "10.0.0",
+          "Microsoft.Extensions.Logging": "10.0.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components.WebView.Wpf": {
+        "type": "Transitive",
+        "resolved": "10.0.120",
+        "contentHash": "V8aGHB6GLTho+YH/yt5GBj5AhbXCkaCqETc+sZerH+5PMQiP6/o2mOY1ffve3NVYdoYDUVy7ByUVr0QfjeFw7w==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.WebView": "10.0.0",
+          "Microsoft.Web.WebView2": "1.0.4258.31"
+        }
+      },
+      "Microsoft.AspNetCore.Metadata": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "uMXReBNxJKabrdoxHn4LNDTlGQFGDPtntlVvqo/b0HaxJzeDAIMFXJJ64mufJCNRuQU/Pus8ngcTZErvnsh7vg=="
+      },
+      "Microsoft.Build.Tasks.Git": {
+        "type": "Transitive",
+        "resolved": "10.0.402",
+        "contentHash": "k4TuSlseeYpFMIZP3X/MFHNKe+yNDIfVDlvu2ABiWaFWFQFwdsjqmoLTjtrD6YZ5vS2LT1TEZ9JT2kokfLdd0w==",
+        "dependencies": {
+          "System.IO.Hashing": "10.0.13"
+        }
+      },
+      "Microsoft.CodeAnalysis.Analyzers": {
+        "type": "Transitive",
+        "resolved": "5.9.0",
+        "contentHash": "jMNOo+uoBGiWbZ6Wx0dqU93r5WD4P5WnIRZdoz67RP5N09OUetHgAbo4L7hihOH1NHdD2TgW5/l+SP4gQukwww=="
+      },
+      "Microsoft.Extensions.Configuration": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "UcnvaEaMvRckDDhyqY1OZkFwBqpZArkHFKB6dWaQWT9XTuNttNNX8Cqsb/Sic2LfJxsMLJUXnYrxY3iX5LN9pQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.14",
+          "Microsoft.Extensions.Primitives": "10.0.14"
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "4YdfvaoWn3tB1xQQHGrhRTFWJ8fGOqxThxduynSZy9ZFTiSaUi3vX4EK/kj8h2HQMwTlks9MWV1fv2WRBv5/1w==",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "10.0.14"
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "brDb5kgle2iY2lWHgeV/KOqnBEpVnlMFigGJ/WW7KP9Nj6C/t53f/h5boYyVXB0bEhgpL+ctbewDJMI+zAMj1w==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "10.0.14",
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.14"
+        }
+      },
+      "Microsoft.Extensions.Configuration.FileExtensions": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "LqCTyF0twrG4tyEN6PpSC5ewRBDwCBazRUfCOdRddwaQ3n2S57GDDeYOlTLcbV/V2dxSSZWg5Ofr48h6BsBmxw==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "10.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
+          "Microsoft.Extensions.FileProviders.Abstractions": "10.0.0",
+          "Microsoft.Extensions.FileProviders.Physical": "10.0.0",
+          "Microsoft.Extensions.Primitives": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.Configuration.Json": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "BIOPTEAZoeWbHlDT9Zudu+rpecZizFwhdIFRiyZKDml7JbayXmfTXKUt+ezifsSXfBkWDdJM10oDOxo8pufEng==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "10.0.0",
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Configuration.FileExtensions": "10.0.0",
+          "Microsoft.Extensions.FileProviders.Abstractions": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "f0RBabswJq+gRu5a+hWIobrLWiUYPKMhCD9WO3sYBAdSy3FFH14LMvLVFZc2kPSCimBLxSuitUhsd6tb0TAY6A==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "QtpQzuSZVyTPCuHW058yCs9Nj0394uUkNyFHS813nOmK9UgUdBdaprJ5PPsBgsQIpxADTsTkbaMMonykem6qdw=="
+      },
+      "Microsoft.Extensions.Diagnostics": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "xjkxIPgrT0mKTfBwb+CVqZnRchyZgzKIfDQOp8z+WUC6vPe3WokIf71z+hJPkH0YBUYJwa7Z/al1R087ib9oiw==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "10.0.0",
+          "Microsoft.Extensions.Diagnostics.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.Diagnostics.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "SfK89ytD61S7DgzorFljSkUeluC1ncn6dtZgwc0ot39f/BEYWBl5jpgvodxduoYAs1d9HG8faCDRZxE95UMo2A==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "/ppSdehKk3fuXjlqCDgSOtjRK/pSHU8eWgzSHfHdwVm5BP4Dgejehkw+PtxKG2j98qTDEHDst2Y99aNsmJldmw==",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Composite": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "oi6UKOtboSHd/sQRgiPN5BXMGHUWyBmgu/nC/khs+eJYdeitciqW7MWIvs9sZIG1rOTH2cuLjMu9VeK4bL0Jvg==",
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Primitives": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Embedded": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "ECaTMB4NdV9W1es9J6tN0yoXRPUHKMi5+2L7hcVZ5k9zVdxccIx6+vMllwEYcdTaO0mCETEmdH4F0KxCqgnPaw==",
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.FileProviders.Physical": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "UZUQ74lQMmvcprlG8w+XpxBbyRDQqfb7GAnccITw32hdkUBlmm9yNC4xl4aR9YjgV3ounZcub194sdmLSfBmPA==",
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "10.0.0",
+          "Microsoft.Extensions.FileSystemGlobbing": "10.0.0",
+          "Microsoft.Extensions.Primitives": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.FileSystemGlobbing": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "5hfVl/e+bx1px2UkN+1xXhd3hu7Ui6ENItBzckFaRDQXfr+SHT/7qrCDrlQekCF/PBtEu2vtk87U2+gDEF8EhQ=="
+      },
+      "Microsoft.Extensions.Logging": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "BStFkd5CcnEtarlcgYDBcFzGYCuuNMzPs02wN3WBsOFoYIEmYoUdAiU+au6opzoqfTYJsMTW00AeqDdnXH2CvA==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "10.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0"
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "SwcbEBtkECq3D2oywvHkm46fyrX9Dd2JPWphDnHUc2+cUWR1Mdo41atAjh/9iZjgQxuvbKfZKXqostT/LZfefA==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14"
+        }
+      },
+      "Microsoft.Extensions.Options": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "EeN/33S418m9oWEaZY4N5T+BNxtOqNTIFoFbIgBKwylh4OJPKIWFAzbIhpTdNbwUs26MhkmbLCAbdY+YCJ1dIQ==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14",
+          "Microsoft.Extensions.Primitives": "10.0.14"
+        }
+      },
+      "Microsoft.Extensions.Options.ConfigurationExtensions": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "4wcIU0rE04ejEfCwHTftu9O8fgH6CRYCe+tseRapikUBn1Kic3QdO7ku22SwFyLrzdWGYPUZMEgv57ZYuuc5gA==",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.14",
+          "Microsoft.Extensions.Configuration.Binder": "10.0.14",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14",
+          "Microsoft.Extensions.Options": "10.0.14",
+          "Microsoft.Extensions.Primitives": "10.0.14"
+        }
+      },
+      "Microsoft.Extensions.Primitives": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "1bbZqqCJTPba3inTADExbp/9PsGVyvGOX3zr6tFr7ySCgVkX9Lpw7BV0TizktNItd3SsbUu1sQfSAYm1GZMoNw=="
+      },
+      "Microsoft.Extensions.Validation": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "viIKcmaf1akdhx77c+dLkODvhL+HyonHNpBsicndoi47zvbSeHJEWPOk188NnFCh+dCUz7Icld1jPMbS5E2fqw==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0"
+        }
+      },
+      "Microsoft.JSInterop": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "Qfs4KtmfMUQ/BtD4jdt753kiAa7frm1QVms8UHiFArOokoXBkBOOKE2N5APdt3BlAdTSFJNiuDFfgDzVq/3EZg=="
+      },
+      "Microsoft.SourceLink.Common": {
+        "type": "Transitive",
+        "resolved": "10.0.402",
+        "contentHash": "/GC+zNRas+lEu2sBUH1YJ7q/bzb5jrnCCpaQNHvMuwn3Uvq9eOZnjMH2Zd1C9e2cpbHmRwP9N/jSZK0ysdw73Q=="
+      },
+      "Microsoft.VisualStudio.Threading": {
+        "type": "Transitive",
+        "resolved": "18.12.1",
+        "contentHash": "2+fsNegeifo4xVC8z4xJuWgr8H+GRjKuEk5gJT6HM0iujWkaLQ1Helaa8LWnXVKq/9e9Sqvefu4iacaQhB7RXA==",
+        "dependencies": {
+          "Microsoft.VisualStudio.Threading.Analyzers": "18.12.1",
+          "Microsoft.VisualStudio.Threading.Only": "18.12.1",
+          "Microsoft.VisualStudio.Validation": "17.13.22"
+        }
+      },
+      "Microsoft.VisualStudio.Threading.Analyzers": {
+        "type": "Transitive",
+        "resolved": "18.12.1",
+        "contentHash": "sQt7NpnselT1gP1a7bTfhmfHYV0jbavst/8mOoWTMSjXhXzWPssqgBoIwrxNsgJUa7XQzD2raSRMAFfmlepxNw=="
+      },
+      "Microsoft.VisualStudio.Threading.Only": {
+        "type": "Transitive",
+        "resolved": "18.12.1",
+        "contentHash": "2i4Gy3X3M0W7KM9ZfAQBH0C5xEPXfy3JpgH8DPPkGcIe0bSEbuG1cIJlxlq2COGf8NeKGmUWRQOI1OjDVDndZg==",
+        "dependencies": {
+          "Microsoft.VisualStudio.Validation": "17.13.22"
+        }
+      },
+      "Microsoft.VisualStudio.Validation": {
+        "type": "Transitive",
+        "resolved": "17.13.22",
+        "contentHash": "fC20ITOxlUpGQ0ltAxITQbeFxwuB6OjLT3lByC4+/Gm46o/Mwv9hlIVrBhiUhnqdQzUUvr4EHkdiYe7WOSMLmw=="
+      },
+      "Microsoft.Web.WebView2": {
+        "type": "Transitive",
+        "resolved": "1.0.4314.35",
+        "contentHash": "x5MFf2W03xueU1mMNvivXfHSsQ+ODo7vJ36qw/dLtU5Gs+8d7+7N7zzmNNDoT3ffosmcvZNBtUnlzyiDUuBkSQ=="
+      },
+      "Microsoft.Xaml.Behaviors.Wpf": {
+        "type": "Transitive",
+        "resolved": "1.1.135",
+        "contentHash": "r8qBEXmQfORso2+MVHnt8PSH4761zJ0SIxgQTSEDVLU97EN2FZdG6/ZCYUPhQy+OrPKgnpYBCAs3PS6Bs7wRsg=="
+      },
+      "PInvoke.Kernel32": {
+        "type": "Transitive",
+        "resolved": "0.7.124",
+        "contentHash": "3yQudp7J20HH8oW2WsGdNlcRCJAG6Slens3n4P7c6m53m0SkXLyD5ry/bXYAFXYeIym9b0LIOvrmKjmzptmkWw==",
+        "dependencies": {
+          "PInvoke.Windows.Core": "0.7.124"
+        }
+      },
+      "PInvoke.User32": {
+        "type": "Transitive",
+        "resolved": "0.7.124",
+        "contentHash": "Xgrt/IFJWZhLT0S0MdP4ZU48gqgKVs+O+WmXb9Qge1T+me3oR5fhOl812qvLm2+D6DoHPxbUWTIc8MrH5i78Vw==",
+        "dependencies": {
+          "PInvoke.Kernel32": "0.7.124",
+          "PInvoke.Windows.Core": "0.7.124",
+          "PInvoke.Windows.ShellScalingApi": "0.7.124",
+          "Validation": "2.4.15"
+        }
+      },
+      "PInvoke.Windows.Core": {
+        "type": "Transitive",
+        "resolved": "0.7.124",
+        "contentHash": "er/PkwUBie3nXlwiKOfOxmdAj6ae8eFCLUgI5g6+9RAbyMoXMQnwAPx1atq0ZxU2LeozBdWtMQjogqcMNJhg1w=="
+      },
+      "PInvoke.Windows.ShellScalingApi": {
+        "type": "Transitive",
+        "resolved": "0.7.124",
+        "contentHash": "mVKSSuvBcJUwWvfGAfJK05AXH0QEbiDdxYqN4wjCZBeXv4ewM2/N6U2wt5uCac8RFIvsd9MAsIdTnjMLqdkNZg==",
+        "dependencies": {
+          "PInvoke.Windows.Core": "0.7.124"
+        }
+      },
+      "ReactiveUI": {
+        "type": "Transitive",
+        "resolved": "24.2.0",
+        "contentHash": "V+5LXCIDrrEJS9BvmbpqlhmvF0F4F+ojF//P2h55Py1GVclx+fGonI6W40KgUsvkF7kbE/zxH9wQdVulmdthEg==",
+        "dependencies": {
+          "ReactiveUI.Core": "24.2.0",
+          "ReactiveUI.Disposables": "7.3.0",
+          "ReactiveUI.Primitives": "7.3.0",
+          "ReactiveUI.Primitives.Core": "7.3.0",
+          "Splat": "21.0.0"
+        }
+      },
+      "ReactiveUI.Core": {
+        "type": "Transitive",
+        "resolved": "24.2.0",
+        "contentHash": "1G2eUqAMNzES+a9QwJ4GgsGE0imvO69kRHlfWhv7N7IEidsTSYOrLvcHCnzW7x7hVCLfX95OuuiKAUz7qBvdCw==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.3.0",
+          "ReactiveUI.Primitives": "7.3.0",
+          "ReactiveUI.Primitives.Core": "7.3.0",
+          "Splat": "21.0.0"
+        }
+      },
+      "ReactiveUI.Disposables": {
+        "type": "Transitive",
+        "resolved": "7.3.0",
+        "contentHash": "us0aF4pzNmHkUq3wklvd+aD7MKR2bRiAZuVQ+sZfAn6xj4Fj6KaDly9+7f6Bn44F8cvUWAcC5eDH0JvNeIzJwg=="
+      },
+      "ReactiveUI.Extensions": {
+        "type": "Transitive",
+        "resolved": "4.0.0",
+        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
+        "dependencies": {
+          "System.Reactive": "6.1.0"
+        }
+      },
+      "ReactiveUI.Primitives": {
+        "type": "Transitive",
+        "resolved": "7.3.0",
+        "contentHash": "WA74/8G0FuJAfv9kzXlyiT/15J9PpFQQgQzOdWVEKBCO17NwCrDDrCsTMUCT1vU8QEH7vyq6wNK8RdHVM+Toyg==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.3.0",
+          "ReactiveUI.Primitives.Core": "7.3.0"
+        }
+      },
+      "ReactiveUI.Primitives.Core": {
+        "type": "Transitive",
+        "resolved": "7.3.0",
+        "contentHash": "+uIARgwicX5Fk1yeRjGZKAeG9JCl8Id1pwocD2WyB273kF2rZOxVWoapBBHbh2+ml0si2ukfXb0AMPLIJ1gf8g==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.3.0"
+        }
+      },
+      "ReactiveUI.Primitives.Wpf": {
+        "type": "Transitive",
+        "resolved": "7.3.0",
+        "contentHash": "yX4T7XKbwYvUE2VLA6mgR8tHhC/tHSaNAEsHkQIeo2KdpoVo/vh5tmPNmVbJFcwJBHG27JIpzLDd48YNFTy/qA==",
+        "dependencies": {
+          "ReactiveUI.Primitives": "7.3.0"
+        }
+      },
+      "ReactiveUI.WPF": {
+        "type": "Transitive",
+        "resolved": "24.2.0",
+        "contentHash": "tmSGrCXfvINhpADWuDqjcqj8zLr5WmGuPKPhg2CY/yfSG2rZhA1RPWUhYh6SuvOvG7ky1hzWB9GWsR48fZhB3g==",
+        "dependencies": {
+          "ReactiveUI": "24.2.0",
+          "ReactiveUI.Disposables": "7.3.0",
+          "ReactiveUI.Primitives": "7.3.0",
+          "ReactiveUI.Primitives.Core": "7.3.0",
+          "ReactiveUI.Primitives.Wpf": "7.3.0",
+          "Splat": "21.0.0"
+        }
+      },
+      "Roslynator.Analyzers": {
+        "type": "Transitive",
+        "resolved": "5.0.1",
+        "contentHash": "sCZ0Di4B937wKa9pwKbdsE6Njr8A/FdCLw28+yDKyMaDZ/f8JWxcFn6NOCukzKhCG/eA6M2DbXlKkrPi0g0lIA=="
+      },
+      "SecurityCodeScan.VS2019": {
+        "type": "Transitive",
+        "resolved": "5.6.7",
+        "contentHash": "WIE9RJswdSc2j+rLz2gW6U+gMUjMHzY2j7C/CL8/R2olXNM/+twarfMnWqm+rZodDBvaYDApJyxM8mVYf9FGrQ=="
+      },
+      "SonarAnalyzer.CSharp": {
+        "type": "Transitive",
+        "resolved": "10.35.0.4138",
+        "contentHash": "T5o/tuyPw9pHRkyWxW07TkSri4I4pLpqwH922JuhphDjHAM7BUHaGE67h/w+65evHsIar8mYB2Ey6OmOLj9QDw=="
+      },
+      "Splat": {
+        "type": "Transitive",
+        "resolved": "21.0.0",
+        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "Splat.Builder": "21.0.0",
+          "Splat.Logging": "21.0.0"
+        }
+      },
+      "Splat.Builder": {
+        "type": "Transitive",
+        "resolved": "21.0.0",
+        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "Splat.Core": "21.0.0"
+        }
+      },
+      "Splat.Core": {
+        "type": "Transitive",
+        "resolved": "21.0.0",
+        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0"
+        }
+      },
+      "Splat.Logging": {
+        "type": "Transitive",
+        "resolved": "21.0.0",
+        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "7.1.0",
+          "Splat.Core": "21.0.0"
+        }
+      },
+      "StyleCop.Analyzers": {
+        "type": "Transitive",
+        "resolved": "1.2.0-beta.556",
+        "contentHash": "llRPgmA1fhC0I0QyFLEcjvtM2239QzKr/tcnbsjArLMJxJlu0AA5G7Fft0OI30pHF3MW63Gf4aSSsjc5m82J1Q==",
+        "dependencies": {
+          "StyleCop.Analyzers.Unstable": "1.2.0.556"
+        }
+      },
+      "StyleCop.Analyzers.Unstable": {
+        "type": "Transitive",
+        "resolved": "1.2.0.556",
+        "contentHash": "zvn9Mqs/ox/83cpYPignI8hJEM2A93s2HkHs8HYMOAQW0PkampyoErAiIyKxgTLqbbad29HX/shv/6LGSjPJNQ=="
+      },
+      "Syncfusion.Calculate.Base": {
+        "type": "Transitive",
+        "resolved": "34.2.6",
+        "contentHash": "gNb4bkIik6we+d/0TgKgzsNKtw9CwSvhpm0BeE4/EL+bE8n/6NnDsqBSTRqn7TL681PNsp2vDiz/65mkLKlTfw=="
+      },
+      "Syncfusion.Calculate.WPF": {
+        "type": "Transitive",
+        "resolved": "34.2.6",
+        "contentHash": "Bc7vsv2x/FPTS2Bv3SfsG3oE37MNmLelxYFwfZyjybz3EKtKCjMtGH+KVzOvnYNmUZcqnu/hwNtUt9GIugS0mg==",
+        "dependencies": {
+          "Syncfusion.Calculate.Base": "34.2.6"
+        }
+      },
+      "Syncfusion.Compression.Base": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "LVOmeLaIYg3QDZurIOhzQSFyudzAYv5IYEnEXreaKr+eRPouts7ACZBXrjuJ11c8I2hmd6vVcMCb9w9CyX3M0A=="
+      },
+      "Syncfusion.Data.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "6X0/9GFzY1n0nhDP990FDWxNnfMSWhdsIacXQGSP8sVlGM4HX3VYNusma6O2dxFMn+MB1gwisBT2TKD24Q/Kjw=="
+      },
+      "Syncfusion.DocIO.Wpf": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "RvT1kKqNpeGf31+zG6n6xr8QeJsywfVUTWIo/lZ1cS6xlfYhJwz9F1VTX+4S0ImPlsuxUpCKVXJX4fKwZ8S2sA==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Markdown": "35.1.40",
+          "Syncfusion.OfficeChart.Base": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.GridCommon.Wpf": {
+        "type": "Transitive",
+        "resolved": "34.2.6",
+        "contentHash": "rChS62El9OVygQD36fyc5zpUcZRvIZ1LicrBm1BQHPIL54RajEdubE/TtPP+8wYW1veHkOPH8gHCyNRfR9+YVA=="
+      },
+      "Syncfusion.Licensing": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "I/dWY0QoxF1U1crVoIwKjnxtV7K44d2EDflOFoNIx7DAvhXLU+Pyhbb5jMRdXIMk5BTT1pa69OKBc05L/DYFig=="
+      },
+      "Syncfusion.Markdown": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "Xna3X9to6W3e9sYCcOY2fmb0TSAPf+ns0PxqK7JYycWnu8eXYCJtWSt9fsjuFoqHUwNvUB2NidRSngRG7zUXCw==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.OfficeChart.Base": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "SGupWxtREi82YxhOD0bTuqvZQFJ6wGICZ3j7bFnbxa7tWaMElNA0hP4GGMDrisRm5g8WeDp5AeCuB5CjkMTIvg==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40"
+        }
+      },
+      "Syncfusion.Pdf.Wpf": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "7KSIN9yQzzjYqhS8L7lJWP/RtKSx94wqU6WLu3p35QkEZKWxl393mwM/ajZ/N9Xrcrx8G0zEuX2+loBdWqhyxA==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.PdfToImageConverter.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "Hrnv38t5iGlk7K/6saKdgildZqRuuLw6JEvt++8WUIyhDdUGKMvrLmMBiL8DoqabnoUXXmoCx8cWOBPwcSigzA==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40"
+        }
+      },
+      "Syncfusion.PdfViewer.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "Rx/aBk80RELRbZP5Db2R1aKSHEd8bBIQt9s7IB4f3y9f7seklUHAN7sejcdNTJmDiBAB+DjioC6fbyElk8UyqQ==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Pdf.Wpf": "35.1.40",
+          "Syncfusion.PdfToImageConverter.WPF": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.Presentation.Wpf": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "3myq2pjjlAZOmM7ubWHAbghVMCo+qc6mK7c5s0rQkAz4YKcP7lklu+gr7uZe3F93Nnfqw/ji/tZlRf2YaCJr1g==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.OfficeChart.Base": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfAccordion.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "5AVa/cv0HujpGEtNceod//yTY1ZLUzWiJPxAeWPhfcks9mEB8frX4S+CEzbRbgAouQ4lnj6UdCTGlGT7Fp708w==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40"
+        }
+      },
+      "Syncfusion.SfBarcode.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "o2jkzyKq379sb2ZHW6l4aZVkAg6sqcytrCi6rwDtYoB7w81qbZY3Y8nnIgm8OwhyGHSGdfBa1TPj72a2g0vQBQ==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfBulletGraph.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "2oXpNLsIfw3CNR0jp8IeAOwR724oc3j54J86iuqj+m1/DA5dxgXd/8lg34GM6Gqqu3eT+dFNuqXNfygDvKoViw==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfBusyIndicator.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "NdkLqtB/j0NtLptZrc8xREYdlEdRM+PesonVaVwloO5ZJO3h/z5SbHkELyDyJG3imsUN0wIWTlNTE0Qx3tSYaA==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40"
+        }
+      },
+      "Syncfusion.SfCellGrid.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "rPBPU1b7gaT5TVHgjnVmszPVlKbxSNF0u7pLaw8cGv29Idj/RR18H2s3cppf6qA+dQtyZdWh/ucwMA0h2QcYNQ==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.SfGridCommon.WPF": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40",
+          "Syncfusion.XlsIO.Wpf": "35.1.40"
+        }
+      },
+      "Syncfusion.SfChart.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "VArurPi0C213CW5KrU2w105j8LMJHSuYOUZ3V4RzYF5gkYgahrc1YkeLcCPjL6kJyo+pDwgQLMOKMBCNuFUG2w==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfDiagram.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "4PzkGqetIgRE1lHL2Mh7GTDX8BdrAfDv8QAntHCsQbI3TMrVAIJZfjjy3QnruUqETt9gSIn2mKFuks6K3FaHng==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfGauge.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "fgkFr2v5xVqL6+PenVN1BU0ntbrZNJ69PI70LHjwaYeKejEGZKOMVa2yWRSf94Ssf9+R61Yn7raOpvF3jHSbeA==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfGrid.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "j0Lq/i0J7HA2+X6Q78Hz4LgCfbVr0kfVaPCF7s5x3IOJ+hxSMijilG0cTp8l0pOZjZCjNUn24mOKEAIldrPYOg==",
+        "dependencies": {
+          "Syncfusion.Data.WPF": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfGridCommon.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "YfrPmCA3WHpEry8eKOdfPKjpSJ8v5Nkk4OTuPP38G81XAP29LVIwkZAJZZ/A3ZAUlm6nO56jW8iOEGhdkwgBag==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40"
+        }
+      },
+      "Syncfusion.SfHeatMap.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "YETdHo8lh8KPNSA56nwEStoMV4mBN4QHEiS20T4E+DZID8vx1lmmYYvSnmnwKRhIMDSheapFu9rRvJu4NSbeYQ==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfImageEditor.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "0QFJIMGPyRl5UxX0sWIUgdaejrZbBouXgrkm6wqPhKL1IbbC1YXf7JSssMaeuLhI10GcxByojCGd3nuRPQVRzw==",
+        "dependencies": {
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40",
+          "Syncfusion.Tools.WPF": "35.1.40"
+        }
+      },
+      "Syncfusion.SfInput.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "97X3F05bzNWHM8t0oJ0nkIb3wgxxazbhSdYua0XMjS0M7y94aP00ZK2pdniKwChaX1buXCV6GQmqgmN870cgsA==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40"
+        }
+      },
+      "Syncfusion.SfProgressBar.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "RzIlwZUi5nWaimm3rEqmuY87JUBeLEGySomulnyKG/QK0UgizINLVcz2b9B+z9CjyeXQ4+4eOl4/Kf6T224ejw==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40"
+        }
+      },
+      "Syncfusion.SfRadialMenu.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "IMp56RlrBrWyYdJTQMl1kDC6itNx5gT9SrpiEzsVhb/yDmkRX72cs1DSJvtoM87NGbTB2NpKKf9sWxWRRf8h/A==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40"
+        }
+      },
+      "Syncfusion.SfRichTextBoxAdv.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "Hs3fzDJF4EOvnobqrRMMzRpQk0e1rQqeXp/JXcMEqVxPQYnYU4LblgUGi4wSiJX9nD2DMa8WQPStEFC19ZIfLA==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.DocIO.Wpf": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Markdown": "35.1.40",
+          "Syncfusion.OfficeChart.Base": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfRichTextRibbon.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "310u3VLB6NKNtsxl0YzIzC9KX00bt1vRvZLf2kl+aX6BgsyRVDh+8GqDGcbSSxzCPI7FekXzqrF69fnt8TTClw==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.DocIO.Wpf": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Markdown": "35.1.40",
+          "Syncfusion.OfficeChart.Base": "35.1.40",
+          "Syncfusion.SfRichTextBoxAdv.WPF": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40",
+          "Syncfusion.Tools.WPF": "35.1.40"
+        }
+      },
+      "Syncfusion.SfSchedule.WPF": {
+        "type": "Transitive",
+        "resolved": "34.2.6",
+        "contentHash": "9vxTpK6zOwx96JRdjWgoHxnJ9ePQPTPgMk9US7yhaAnwa2hkJGYYFi9fXxnRFKWu4S8wrPI06qXdEoikEXW27g==",
+        "dependencies": {
+          "Syncfusion.Licensing": "34.2.6",
+          "Syncfusion.SfRadialMenu.WPF": "34.2.6",
+          "Syncfusion.Shared.WPF": "34.2.6"
+        }
+      },
+      "Syncfusion.SfSkinManager.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "H6APoqIBzEDpfxk7EEvfN5pwSL2JDjIp0d0JXvTpyk3kxCH4Rh4MsfPNBvwPcwzIag+FLPywfSdLObdH1nwhag==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfSmithChart.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "5KQEDtvCgVtSnjgFjEOu6k9/zUMY1EqpvMr8C3GbR/kQ80OvC1Z3dwAtwlzn04SFmd16MEy/cAKjPK6QaoYqEg==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfSpreadsheet.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "FJk6kk8KfN0pr4v+CcHKhmZwQWVSQZPSYxJHhcIMUnAjouzkkcg+MjarX3HJK9KR76z0Q2PpHfS/UOgOFlS4IQ==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.SfCellGrid.WPF": "35.1.40",
+          "Syncfusion.SfGridCommon.WPF": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40",
+          "Syncfusion.Tools.WPF": "35.1.40",
+          "Syncfusion.XlsIO.Wpf": "35.1.40"
+        }
+      },
+      "Syncfusion.SfSunburstChart.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "F/BIzC7SvN6q+4FSRjlz2tL2h5/v1FlFLrW3WjK3zfllJr6cU+J8BWeTZe+KHnFXcN9IO/3Jvpy8behaO3olwg==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfTreeMap.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "9acyB2iomCrLsoe3OoN1sfpEHgx0BobXcCjjFQBCzdUlrLfQ7uVLLTo5BJ39n7v8WweJnSY3Fs9OzEZyL4ZshQ==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.SfTreeNavigator.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "xkF/2ILCLW6VNaqbZ8V5EC0DvhKHIQiaz5K6/brJNh7b1TDuihjdavMUe3ss02Cyp9JUDgXYKQXPqJKR1orSlQ==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40"
+        }
+      },
+      "Syncfusion.Shared.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "J8BJM9UMp4rEwkIY+r8pFqFf/GZN7jvmAf9Za2345miTGKy2118YXqXq6mYTihNwlrxHeGgXS6xsJ1t+sWvScA==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.Telemetry": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "ICWoY10aC7QqPd3VUQ9ywCKybyVG9PhtSnmF6+647K2pNQ/+3clcqjqco+LXb2o2VoRHn7FIAmM823nBspSjjQ=="
+      },
+      "Syncfusion.Tools.WPF": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "AlhvswYrYfLe+OTfZa1s+7OmYvMDCNYo5T0YlLbr2r6cPj+4ZbmCEgmCBnlPjeDTljc988C9UPKtJDWYETNLRw==",
+        "dependencies": {
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Shared.WPF": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "Syncfusion.XlsIO.Wpf": {
+        "type": "Transitive",
+        "resolved": "35.1.40",
+        "contentHash": "oVH24Qv0sTN1MYSLW/XXxkmLqPFUqEZv8nEhhGQQ6/lknP+OU5GaKcFZLTC7pJnHT+7BZXcXMKAlMihLrUIuPw==",
+        "dependencies": {
+          "Syncfusion.Compression.Base": "35.1.40",
+          "Syncfusion.Licensing": "35.1.40",
+          "Syncfusion.Markdown": "35.1.40",
+          "Syncfusion.Telemetry": "35.1.40"
+        }
+      },
+      "System.DirectoryServices.AccountManagement": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "ingsTcSTU+VqTyPR4lwCre4QXNY/FThxPLyYLFqFe/t5PnGrHLhQgS11wausNygDOnvRCnmpv6LHvXP3MUIOGA==",
+        "dependencies": {
+          "System.DirectoryServices.Protocols": "10.0.14"
+        }
+      },
+      "System.DirectoryServices.Protocols": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "uZAVEVyWAhQxtKIIoNYCzbtKhcIMHjY0viEbmkfpTZ9O/4fzOTlYHUAqirOL8anzBmSAx8xOk7o7R86mBgTfzQ=="
+      },
+      "System.IO.Hashing": {
+        "type": "Transitive",
+        "resolved": "10.0.13",
+        "contentHash": "ZlcywyQ7FJmgOV2nctdfOEPGS0kRK8T2CdOoPr6F4HPYpmjSo6GQfj3yTyOzNO6B+2U84/JKSPkJJMWqLmVsMw=="
+      },
+      "System.Reactive": {
+        "type": "Transitive",
+        "resolved": "7.0.0",
+        "contentHash": "VYaSP2Kt+45GFnr3q7c/b4awT48VvueOJV4jPjdUXi5MxC9mSUy+HkJYtm8rGZ6fC3tNHG9gBu/YwNAR/FYqhg=="
+      },
+      "System.Speech": {
+        "type": "Transitive",
+        "resolved": "10.0.14",
+        "contentHash": "25hpIuFjuRfGEwLkyvZtFgMYGaXIgySt1VZPvJ5KNiIKoTKPyMU/AZqEq912vnBWlyokffa689O6hduh8pU7oQ=="
+      },
+      "Validation": {
+        "type": "Transitive",
+        "resolved": "2.4.15",
+        "contentHash": "KQFOtJKKhaXzuSiZhkFaFzQEdYsA+EN/XqKZDYwsGDOrS0Nxu6qzCvNTsDF4xtkiZbBA6u7I59QnsuP2O2fZgg=="
+      },
+      "Vetuviem.Core": {
+        "type": "Transitive",
+        "resolved": "0.16.2",
+        "contentHash": "mr/5bfliI1BvUQwHbqldhHGl0DPmxsIYJrd3W7JwyyOhjMBQbWXVaSI1cEF/BBx/2IwntQmgBltKBzl/peLaYw==",
+        "dependencies": {
+          "ReactiveUI": "24.0.0"
+        }
+      },
+      "whipstaff.core": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.14, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "[10.0.14, )",
+          "Whipstaff.Runtime": "[1.0.0, )"
+        }
+      },
+      "whipstaff.reactiveui": {
+        "type": "Project",
+        "dependencies": {
+          "ReactiveUI": "[24.2.0, )",
+          "Whipstaff.Rx": "[1.0.0, )"
+        }
+      },
+      "whipstaff.runtime": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )"
+        }
+      },
+      "whipstaff.rx": {
+        "type": "Project",
+        "dependencies": {
+          "ReactiveUI.Extensions": "[4.0.0, )",
+          "Splat": "[21.0.0, )",
+          "System.Reactive": "[7.0.0, )",
+          "Whipstaff.Runtime": "[1.0.0, )"
+        }
+      },
+      "whipstaff.windows": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )",
+          "System.DirectoryServices.AccountManagement": "[10.0.14, )",
+          "System.Reactive": "[7.0.0, )",
+          "System.Speech": "[10.0.14, )"
+        }
+      },
+      "whipstaff.wpf": {
+        "type": "Project",
+        "dependencies": {
+          "DynamicData": "[9.5.0, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )",
+          "Microsoft.VisualStudio.Threading": "[18.12.1, )",
+          "PInvoke.User32": "[0.7.124, )",
+          "ReactiveUI.WPF": "[24.2.0, )",
+          "Vetuviem.Core": "[0.16.2, )",
+          "Whipstaff.Core": "[1.0.0, )",
+          "Whipstaff.ReactiveUI": "[1.0.0, )",
+          "Whipstaff.Runtime": "[1.0.0, )",
+          "Whipstaff.Windows": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.aspnetcore.webview": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components.WebView.Wpf": "[10.0.120, )",
+          "Whipstaff.Wpf.WebView2": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.avalonedit": {
+        "type": "Project",
+        "dependencies": {
+          "AvalonEdit": "[6.3.1.120, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.cefsharp": {
+        "type": "Project",
+        "dependencies": {
+          "CefSharp.Wpf.NETCore": "[152.0.150, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.mahapps": {
+        "type": "Project",
+        "dependencies": {
+          "MahApps.Metro": "[3.0.0-rc0529, )",
+          "MahApps.Metro.SimpleChildWindow": "[2.2.1, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.materialdesign": {
+        "type": "Project",
+        "dependencies": {
+          "MaterialDesignThemes": "[5.3.2, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.calculate": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.Calculate.WPF": "[34.2.6, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.data": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.Data.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.docio": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.DocIO.Wpf": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.gridcommon": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.GridCommon.WPF": "[34.2.6, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.pdf": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.Pdf.Wpf": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.pdfviewer": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.PdfViewer.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.presentation": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.Presentation.Wpf": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfaccordion": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfAccordion.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfbarcode": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfBarcode.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfbulletgraph": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfBulletGraph.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfbusyindicator": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfBusyIndicator.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfcellgrid": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfCellGrid.WPF": "[34.2.6, )",
+          "Whipstaff.Wpf.Syncfusion.GridCommon": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.XlsIO": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfchart": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfChart.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfdiagram": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfDiagram.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfgauge": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfGauge.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfgrid": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfGrid.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Data": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfgridcommon": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfGridCommon.WPF": "[34.2.6, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfheatmap": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfHeatMap.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfimageeditor": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfImageEditor.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfinput": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfInput.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfprogressbar": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfProgressBar.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfradialmenu": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfRadialMenu.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfrichtextboxadv": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfRichTextBoxAdv.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfrichtextribbon": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfRichTextRibbon.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfschedule": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfSchedule.WPF": "[34.2.6, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.Tools": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfskinmanager": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfSkinManager.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfsmithchart": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfSmithChart.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfspreadsheet": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfSpreadsheet.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.GridCommon": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.SfCellGrid": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.Tools": "[1.0.0, )",
+          "Whipstaff.Wpf.Syncfusion.XlsIO": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sfsunburstchart": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfSunburstChart.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sftreemap": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfTreeMap.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.sftreenavigator": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.SfTreeNavigator.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.shared": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.Shared.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.tools": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.Tools.WPF": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.syncfusion.xlsio": {
+        "type": "Project",
+        "dependencies": {
+          "Syncfusion.XlsIO.Wpf": "[35.1.40, )",
+          "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
+        }
+      },
+      "whipstaff.wpf.webview2": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Web.WebView2": "[1.0.4314.35, )",
+          "Whipstaff.Wpf": "[1.0.0, )"
+        }
+      }
+    }
+  }
+}
