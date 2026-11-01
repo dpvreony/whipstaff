@@ -8,9 +8,6 @@
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
     <PackageTags>NET core reusable web helpers</PackageTags>
-    <PackageReadmeFile>$(ProjectDir)readme.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/$(GITHUB_REPOSITORY)</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)analyzers.ruleset</CodeAnalysisRuleSet>
     <IsTestProject>$(MSBuildProjectName.Contains('Tests'))</IsTestProject>
@@ -40,7 +37,7 @@
 
   <ItemGroup Condition="$(IsTestProject)">
     <PackageReference Include="Gripe.TestAssurancePack.XUnit" Version="2.1.41" />
-    <PackageReference Include="Microsoft.Testing.Extensions.GitHubActionsReport" Version="2.5.1" />
+    <PackageReference Include="Gripe.TestAssurancePack.GithubActions" Version="2.1.41" />
     <PackageReference Include="Rocks" Version="10.2.0" PrivateAssets="all" />
   </ItemGroup>
 
@@ -56,12 +53,12 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <ItemGroup Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.402" PrivateAssets="All" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Gripe.QualityAssurancePack" Version="2.1.41">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Gripe.QualityAssurancePack.Github" Version="2.1.41">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -72,7 +69,6 @@
 
   <ItemGroup>	
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.10.94" PrivateAssets="all" />	
-    <PackageReference Include="Microsoft.Sbom.Targets" Version="4.1.13" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
