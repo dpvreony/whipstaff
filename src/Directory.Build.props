@@ -8,7 +8,6 @@
     <Authors>dpvreony</Authors>
     <Owners>dpvreony</Owners>
     <PackageTags>NET core reusable web helpers</PackageTags>
-    <PackageReleaseNotes>$(CHANGE_COMMIT_LOG)</PackageReleaseNotes>
     <PackageReadmeFile>$(ProjectDir)readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/$(GITHUB_REPOSITORY)</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -16,8 +15,6 @@
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)analyzers.ruleset</CodeAnalysisRuleSet>
     <IsTestProject>$(MSBuildProjectName.Contains('Tests'))</IsTestProject>
     <IsWasmProject>$(MSBuildProjectName.Contains('Wasm'))</IsWasmProject>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>True</DebugSymbols>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
@@ -102,25 +99,4 @@
     </Otherwise>
   </Choose>
 
-  <!-- Net Analyzers config taken from : https://docs.microsoft.com/en-gb/visualstudio/code-quality/migrate-from-fxcop-analyzers-to-net-analyzers?view=vs-2019 -->
-  <PropertyGroup>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-  </PropertyGroup>
-
-  <!--
-  This roslyn override is here because on the Windows agent the Visual Studio MSBuild gets invoked
-  so Vetuviem has been failing to generate because it needs a newer Roslyn compiler than the one installed in VS.
-  -->
-  <PropertyGroup>
-    <!-- Force use of .NET SDK Roslyn compiler on Windows when VS MSBuild is invoked -->
-    <UseSharedCompilation>false</UseSharedCompilation>
-  </PropertyGroup>
-
-  <!-- Explicitly reference Roslyn 5.0+ compiler toolset -->
-  <!--<ItemGroup>
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="5.3.0" Condition="'$(MSBuildRuntimeType)' != 'Core'">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>-->
 </Project>
