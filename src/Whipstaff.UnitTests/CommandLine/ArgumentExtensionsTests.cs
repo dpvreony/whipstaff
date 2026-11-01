@@ -37,7 +37,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ArgumentExtensionsTests.SpecificFileExtensionOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<IFileSystem, string>.ThrowsArgumentNullException(
                 IFileSystem? arg1,
                 string? arg2,
                 string expectedParameterNameForException)
@@ -84,7 +84,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.ArgumentExtensionsTests.SpecificFileExtensionsOnlyMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<IFileSystem, string[]>.ThrowsArgumentNullException(
                 IFileSystem? arg1,
                 string[]? arg2,
                 string expectedParameterNameForException)

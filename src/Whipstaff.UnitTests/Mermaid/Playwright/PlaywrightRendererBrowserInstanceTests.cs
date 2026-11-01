@@ -40,7 +40,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(
+            async Task ITestAsyncMethodWithNullableParameters<IFileInfo, IFileInfo>.ThrowsArgumentNullExceptionAsync(
                 IFileInfo? arg1,
                 IFileInfo? arg2,
                 string expectedParameterNameForException)
@@ -214,7 +214,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestAsyncMethodWithNullableParameters{IFileInfo, IFileInfo}.ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<IFileInfo, IFileInfo>
             {
@@ -247,7 +247,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(IFileInfo? arg, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<IFileInfo>.ThrowsArgumentNullExceptionAsync(IFileInfo? arg, string expectedParameterNameForException)
             {
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
@@ -326,7 +326,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestAsyncMethodWithNullableParameters{IFileInfo}.ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<IFileInfo>
             {
@@ -357,7 +357,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
-            public async Task ThrowsArgumentNullExceptionAsync(string? arg, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<string>.ThrowsArgumentNullExceptionAsync(string? arg, string expectedParameterNameForException)
             {
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
@@ -428,7 +428,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestAsyncMethodWithNullableParameters{IFileInfo, IFileInfo}.ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : TheoryData<string?, string>
             {

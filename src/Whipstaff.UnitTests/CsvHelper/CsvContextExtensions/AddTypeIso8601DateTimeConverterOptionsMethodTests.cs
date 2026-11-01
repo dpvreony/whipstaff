@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CsvHelper;
 using Xunit;
@@ -30,7 +31,7 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvContextExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.CsvContextExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(CsvContext? arg, string expectedParameterNameForException)
+        void ITestMethodWithNullableParameters<CsvContext>.ThrowsArgumentNullException(CsvContext? arg, string expectedParameterNameForException)
         {
             _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.CsvContextExtensions.AddTypeIso8601DateTimeConverterOptions(arg!));
         }

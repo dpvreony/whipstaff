@@ -2,12 +2,13 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using Xunit;
 
 namespace Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT2Method
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT2Method.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test of <see cref="Whipstaff.Core.Configuration.ServiceCollectionExtensions.AddStrictConfigurationBinding{TOption, TOptionsValidator}"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<string?, string>
     {
