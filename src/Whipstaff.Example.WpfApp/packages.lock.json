@@ -64,24 +64,24 @@
       },
       "CefSharp.Common.NETCore": {
         "type": "Transitive",
-        "resolved": "152.0.150",
-        "contentHash": "o9GKs4JDA8XGp7vOQm6Dwk9Ky0cvgLEFlnwkl0dHk5x2Egk3xaxZcUnw2H+6GGXt2xUvbJ8aZeiKpi6gHGwPAg==",
+        "resolved": "154.0.340",
+        "contentHash": "+6n9H6GnvaLkJMz08c8Os+9jvjs1xrtOw9i4OUZFuUY5IM9kK4Qi7gEJOp241izyC6VCL2cb+U3GzQNEOhxGpg==",
         "dependencies": {
-          "chromiumembeddedframework.runtime": "[152.0.15]"
+          "chromiumembeddedframework.runtime": "[154.0.34]"
         }
       },
       "CefSharp.Wpf.NETCore": {
         "type": "Transitive",
-        "resolved": "152.0.150",
-        "contentHash": "cMkpAAUsWe3OPzp0H0EtmZA/4vXS+AlQ5jSlaj2PCXiuKULV3kvbbqAOE5DF8rYhJdayQGqoGA5Tp6UgCLf1OQ==",
+        "resolved": "154.0.340",
+        "contentHash": "CBLOFzkJjlEUVbQx3Ym3iFkxXKlXy+GOg7aQ1lQxup8CjRhD8rohAI7QOUu7kMVDCu0B4EBpK0aRYOOVP1ihUA==",
         "dependencies": {
-          "CefSharp.Common.NETCore": "[152.0.150]"
+          "CefSharp.Common.NETCore": "[154.0.340]"
         }
       },
       "chromiumembeddedframework.runtime": {
         "type": "Transitive",
-        "resolved": "152.0.15",
-        "contentHash": "D20qMGyxFnxebdYtaQaKPrXq8vK6SbjsAU5jERUHToY9Ag78mYgB1dCIqr0V7OCnxFXZ7kwxPgjTi2zUh6YdJw=="
+        "resolved": "154.0.34",
+        "contentHash": "toEwGSZ7AEkToNBPto9xydY1kp3mTPJnqIYyZ54ahh6xdqupEmH7BRJSekDLnM9Xp8szwsd5tuqT0ESdtENBlw=="
       },
       "ControlzEx": {
         "type": "Transitive",
@@ -1122,7 +1122,7 @@
       "whipstaff.wpf.cefsharp": {
         "type": "Project",
         "dependencies": {
-          "CefSharp.Wpf.NETCore": "[152.0.150, )",
+          "CefSharp.Wpf.NETCore": "[154.0.340, )",
           "Whipstaff.Wpf": "[1.0.0, )"
         }
       },
