@@ -16,7 +16,7 @@ using Whipstaff.Testing.CommandLine;
 namespace Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod.ThrowsArgumentNullExceptionAsync"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.CommandLineArgumentHelpers.GetResultFromRootCommandAsync{TCommandLineArg, TCommandLineArgModelBinder, TRootCommandAndBinderFactory}"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<
         string[],

@@ -42,7 +42,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.CommandLineArgumentHelpersTests.GetResultFromRootCommandMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public async Task ThrowsArgumentNullExceptionAsync(
+            async Task ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>, Func<FakeCommandLineArgModel, CancellationToken, Task<int>>, IFileSystem>.ThrowsArgumentNullExceptionAsync(
                 string[]? arg1,
                 Func<IFileSystem, RootCommandAndBinderModel<FakeCommandLineArgModelBinder>>? arg2,
                 Func<FakeCommandLineArgModel, CancellationToken, Task<int>>? arg3,

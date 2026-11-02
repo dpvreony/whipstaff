@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.CommandExtensions.MakeOptionsMutuallyExclusiveMethod.ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(Command? arg1, Option? arg2, Option? arg3, string expectedParameterNameForException)
+            void ITestMethodWithNullableParameters<Command, Option, Option>.ThrowsArgumentNullException(Command? arg1, Option? arg2, Option? arg3, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<System.ArgumentNullException>(
                     expectedParameterNameForException,

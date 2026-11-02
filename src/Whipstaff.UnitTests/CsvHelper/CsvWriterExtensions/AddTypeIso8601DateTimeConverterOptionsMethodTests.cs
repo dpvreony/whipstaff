@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
+using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.CsvHelper;
 using Xunit;
@@ -30,7 +31,7 @@ namespace Whipstaff.UnitTests.CsvHelper.CsvWriterExtensions
         /// <inheritdoc />
         [Theory]
         [ClassData(typeof(TestSources.CsvHelper.CsvWriterExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(CsvWriter? arg, string expectedParameterNameForException)
+        void ITestMethodWithNullableParameters<CsvWriter>.ThrowsArgumentNullException(CsvWriter? arg, string expectedParameterNameForException)
         {
             // ReSharper disable once ConvertClosureToMethodGroup
             _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => arg!.AddTypeIso8601DateTimeConverterOptions());

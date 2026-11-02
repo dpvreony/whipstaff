@@ -9,7 +9,7 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 namespace Whipstaff.UnitTests.TestSources.Runtime.Extensions.DictionaryExtensionTests.KeysWhereMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.Runtime.Extensions.DictionaryExtensionTests.KeysWhereMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.Runtime.Extensions.DictionaryExtensions.KeysWhere"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<Dictionary<string, string>, Func<KeyValuePair<string, string>, bool>>
     {

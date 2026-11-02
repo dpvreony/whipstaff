@@ -5,12 +5,12 @@
 using System;
 using Xunit;
 
-namespace Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.WithTempFileMethod
+namespace Whipstaff.UnitTests.TestSources.Runtime.FileProcessing.TemporaryFileHelpersTests.WithTempFileT1Method
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.Runtime.TemporaryFileHelpersTests.WithTempFileMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException" /> test of <see cref="Whipstaff.Runtime.FileProcessing.TemporaryFileHelpers.WithTempFile{T}"/>.
     /// </summary>
-    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<byte[]?, string?, Action<string>?, string>
+    public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<byte[]?, string?, Func<string, int>?, string>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrowsArgumentNullExceptionTestSource"/> class.
@@ -19,10 +19,7 @@ namespace Whipstaff.UnitTests.TestSources.Runtime.TemporaryFileHelpersTests.With
         {
             var arg1 = new byte[] { 1 };
             const string arg2 = ".txt";
-            Action<string> arg3 = _ =>
-            {
-            };
-
+            Func<string, int> arg3 = _ => 1;
             Add(null, arg2, arg3, "fileAsBytes");
             Add(arg1, null, arg3, "fileExtension");
             Add(arg1, arg2, null, "fileAction");

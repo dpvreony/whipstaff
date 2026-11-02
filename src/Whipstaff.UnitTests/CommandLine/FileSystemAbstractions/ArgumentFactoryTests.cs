@@ -35,7 +35,7 @@ namespace Whipstaff.UnitTests.CommandLine.FileSystemAbstractions
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.FileSystemAbstractions.ArgumentFactoryTests.GetDirectoryInfoArgumentMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<string, IFileSystem>.ThrowsArgumentNullException(
                 string? arg1,
                 IFileSystem? arg2,
                 string expectedParameterNameForException)
@@ -65,7 +65,7 @@ namespace Whipstaff.UnitTests.CommandLine.FileSystemAbstractions
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.FileSystemAbstractions.ArgumentFactoryTests.GetDriveInfoArgumentMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<string, IFileSystem>.ThrowsArgumentNullException(
                 string? arg1,
                 IFileSystem? arg2,
                 string expectedParameterNameForException)
@@ -95,7 +95,7 @@ namespace Whipstaff.UnitTests.CommandLine.FileSystemAbstractions
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.FileSystemAbstractions.ArgumentFactoryTests.GetFileInfoArgumentMethod.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<string, IFileSystem>.ThrowsArgumentNullException(
                 string? arg1,
                 IFileSystem? arg2,
                 string expectedParameterNameForException)

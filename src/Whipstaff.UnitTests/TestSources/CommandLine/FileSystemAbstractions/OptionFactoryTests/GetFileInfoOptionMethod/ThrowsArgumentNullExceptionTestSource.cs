@@ -10,7 +10,7 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 namespace Whipstaff.UnitTests.TestSources.CommandLine.FileSystemAbstractions.OptionFactoryTests.GetFileInfoOptionMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.FileSystemAbstractions.OptionFactoryTests.GetFileInfoOptionMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.FileSystemAbstractions.OptionFactory.GetFileInfoOption"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<string, IFileSystem>
     {

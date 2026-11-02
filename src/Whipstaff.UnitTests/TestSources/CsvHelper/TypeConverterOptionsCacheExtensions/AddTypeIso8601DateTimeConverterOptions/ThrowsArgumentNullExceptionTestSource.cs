@@ -2,13 +2,14 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using CsvHelper.TypeConversion;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 
-namespace Whipstaff.UnitTests.TestSources.CsvHelper.TypeConverterOptionsCacheExtensions
+namespace Whipstaff.UnitTests.TestSources.CsvHelper.TypeConverterOptionsCacheExtensions.AddTypeIso8601DateTimeConverterOptions
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CsvHelper.CsvReaderExtensions.AddTypeIso8601DateTimeConverterOptionsMethodTests.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException" /> test of <see cref="Whipstaff.CsvHelper.TypeConverterOptionsCacheExtensions.AddTypeIso8601DateTimeConverterOptions"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TypeConverterOptionsCache>
     {
