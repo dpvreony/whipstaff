@@ -3099,7 +3099,7 @@
           "NuGet.Packaging": "[7.9.0, )",
           "NuGet.ProjectModel": "[7.9.0, )",
           "NuGet.Protocol": "[7.9.0, )",
-          "System.Security.Cryptography.Pkcs": "[8.0.2, )",
+          "System.Security.Cryptography.Pkcs": "[10.0.14, )",
           "Whipstaff.Core": "[1.0.0, )",
           "Whipstaff.Runtime": "[1.0.0, )"
         }
@@ -3114,7 +3114,7 @@
         "type": "Project",
         "dependencies": {
           "Oracle.ManagedDataAccess.Core": "[23.26.400, )",
-          "System.Security.Cryptography.Pkcs": "[8.0.2, )"
+          "System.Security.Cryptography.Pkcs": "[10.0.14, )"
         }
       },
       "whipstaff.playwright": {
