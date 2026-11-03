@@ -35,6 +35,17 @@
     <GitVersionBaseDirectory>$(SolutionDir)/..</GitVersionBaseDirectory>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Gripe.QualityAssurancePack" Version="2.1.41">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Gripe.QualityAssurancePack.Github" Version="2.1.41">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
   <ItemGroup Condition="$(IsTestProject)">
     <PackageReference Include="Gripe.TestAssurancePack.XUnit" Version="2.1.41" />
     <PackageReference Include="Gripe.TestAssurancePack.GithubActions" Version="2.1.41" />
@@ -54,16 +65,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gripe.QualityAssurancePack" Version="2.1.41">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Gripe.QualityAssurancePack.Github" Version="2.1.41">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
@@ -81,18 +82,5 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
-  <Choose>
-    <When Condition="'$(UseLocalGripe)'=='true'">
-      <ItemGroup>
-        <ProjectReference Include="../../../Gripe/src/Gripe.Analyzer/Gripe.Analyzer.csproj" OutputItemType="Analyzer" PrivateAssets="all" ReferenceOutputAssembly="false" Private="false" IsAspireProjectResource="False" />
-      </ItemGroup>
-    </When>
-    <Otherwise>
-      <ItemGroup>
-        <PackageReference Include="Gripe.Analyzer" Version="2.1.41" PrivateAssets="all" />
-      </ItemGroup>
-    </Otherwise>
-  </Choose>
 
 </Project>

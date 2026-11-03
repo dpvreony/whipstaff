@@ -2,12 +2,6 @@
   "version": 1,
   "dependencies": {
     "net10.0": {
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",

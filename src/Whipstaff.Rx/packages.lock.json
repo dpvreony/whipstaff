@@ -2,12 +2,6 @@
   "version": 1,
   "dependencies": {
     ".NETFramework,Version=v4.7.2": {
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",
@@ -327,12 +321,6 @@
       }
     },
     "net10.0": {
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",
@@ -544,12 +532,6 @@
       }
     },
     "net10.0-android36.0": {
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",
@@ -761,12 +743,6 @@
       }
     },
     "net10.0-ios26.0": {
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",
@@ -984,12 +960,6 @@
       }
     },
     "net10.0-macos26.0": {
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",
@@ -1207,12 +1177,6 @@
       }
     },
     "net10.0-tvos26.0": {
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",

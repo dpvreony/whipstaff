@@ -45,12 +45,6 @@
           "YamlDotNet": "18.1.0"
         }
       },
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",
@@ -2522,6 +2516,7 @@
           "Microsoft.AspNetCore.Mvc.Testing": "[10.0.14, )",
           "Microsoft.EntityFrameworkCore.InMemory": "[10.0.14, )",
           "Microsoft.EntityFrameworkCore.Sqlite": "[10.0.14, )",
+          "NetTestRegimentation.XUnit": "[2.0.126, )",
           "SQLitePCLRaw.bundle_e_sqlite3": "[3.0.5, )",
           "Splat": "[21.0.0, )",
           "System.CommandLine": "[2.0.14, )",
@@ -2529,8 +2524,7 @@
           "Whipstaff.CommandLine": "[1.0.0, )",
           "Whipstaff.EntityFramework": "[1.0.0, )",
           "Whipstaff.EntityFramework.Relational": "[1.0.0, )",
-          "Whipstaff.Mediator": "[1.0.0, )",
-          "xunit.v3.extensibility.core": "[4.0.0, )"
+          "Whipstaff.Mediator": "[1.0.0, )"
         }
       }
     }

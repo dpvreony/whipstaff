@@ -8,12 +8,6 @@
         "resolved": "6.3.1.120",
         "contentHash": "6ASBKPzAg64BLDlFOJo4Ypr1sA/6hB5+TfHLJaZYUSTE0jgxvKlVqKeo/ISTG9qEMxu604qUu6BGugmJkfdrNw=="
       },
-      "Gripe.Analyzer": {
-        "type": "Direct",
-        "requested": "[2.1.41, )",
-        "resolved": "2.1.41",
-        "contentHash": "vEPLLfuwT8jReZRwUZllLAHreg36h8fAs9qeJFWj5ldOGwVUe+GXJVG+cyPGc4QtGm9jUQjZYANMVuw2TrFf4w=="
-      },
       "Gripe.QualityAssurancePack": {
         "type": "Direct",
         "requested": "[2.1.41, )",
