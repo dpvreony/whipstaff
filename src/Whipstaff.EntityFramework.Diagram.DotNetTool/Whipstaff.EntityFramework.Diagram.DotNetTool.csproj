@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Whipstaff.CommandLine\Whipstaff.CommandLine.csproj" />
-    <ProjectReference Include="..\Whipstaff.EntityFramework\Whipstaff.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

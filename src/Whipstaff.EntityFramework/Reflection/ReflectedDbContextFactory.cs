@@ -28,6 +28,17 @@ namespace Whipstaff.EntityFramework.Reflection
         /// <returns>DbContext instance, if factory was found and can be created.</returns>
         public static DbContext? GetDesignTimeDbContextFactoryFromAssembly(Assembly assembly, string dbContextName)
         {
+            return GetDesignTimeDbContextFactoryObjectFromAssembly(assembly, dbContextName) as DbContext;
+        }
+
+        /// <summary>
+        /// Gets a DbContext object from an assembly via reflection by searching for a design time factory.
+        /// </summary>
+        /// <param name="assembly">The assembly to search.</param>
+        /// <param name="dbContextName">The name of the DB Context the design time factory should represent.</param>
+        /// <returns>DbContext object instance, if factory was found and can be created.</returns>
+        public static object? GetDesignTimeDbContextFactoryObjectFromAssembly(Assembly assembly, string dbContextName)
+        {
             ArgumentNullException.ThrowIfNull(assembly);
 
             var allTypes = assembly.GetTypes();
@@ -49,11 +60,9 @@ namespace Whipstaff.EntityFramework.Reflection
 
             var instance = ctor.Invoke(null);
             var method = matchingType.GetMethod("CreateDbContext");
-            var res = method!.Invoke(
+            return method?.Invoke(
                 instance,
                 [Array.Empty<string>()]);
-
-            return res as DbContext;
         }
 
         /// <summary>
@@ -64,11 +73,22 @@ namespace Whipstaff.EntityFramework.Reflection
         /// <returns>Instance of db context, if found.</returns>
         public static DbContext? GetDbContextFromAssembly(Assembly assembly, string dbContextName)
         {
+            return GetDbContextObjectFromAssembly(assembly, dbContextName) as DbContext;
+        }
+
+        /// <summary>
+        /// Gets a DbContext object from an assembly via reflection by searching for a DbContext subtype.
+        /// </summary>
+        /// <param name="assembly">The assembly to search.</param>
+        /// <param name="dbContextName">The name of the DB Context to search for.</param>
+        /// <returns>Instance of db context object, if found.</returns>
+        public static object? GetDbContextObjectFromAssembly(Assembly assembly, string dbContextName)
+        {
             ArgumentNullException.ThrowIfNull(assembly);
 
             var allTypes = assembly.GetTypes();
 
-            var matchingType = allTypes.AsParallel().FirstOrDefault(type => IsDbContextType(type, dbContextName));
+            var matchingType = allTypes.AsParallel().FirstOrDefault(type => IsDbContextTypeWithoutEfReference(type, dbContextName));
             if (matchingType == null)
             {
                 return null;
@@ -80,16 +100,38 @@ namespace Whipstaff.EntityFramework.Reflection
                 return null;
             }
 
-            var instance = ctor.Invoke(null);
-
-            return (DbContext)instance;
+            return ctor.Invoke(null);
         }
 
-        private static bool IsDbContextType(Type type, string dbContextName)
+        private static bool IsDbContextTypeWithoutEfReference(Type type, string dbContextName)
         {
-            return type.IsPublicClosedSubclass<DbContext>()
-                   && type.FullName != null
-                   && type.FullName.Equals(dbContextName, StringComparison.Ordinal);
+            if (!type.IsPublicClosedClass())
+            {
+                return false;
+            }
+
+            if (!string.Equals(type.FullName, dbContextName, StringComparison.Ordinal))
+            {
+                return false;
+            }
+
+            return InheritsFromDbContext(type);
+        }
+
+        private static bool InheritsFromDbContext(Type type)
+        {
+            Type? currentType = type;
+            while (currentType != null)
+            {
+                if (string.Equals(currentType.FullName, "Microsoft.EntityFrameworkCore.DbContext", StringComparison.Ordinal))
+                {
+                    return true;
+                }
+
+                currentType = currentType.BaseType;
+            }
+
+            return false;
         }
 
         private static bool IsDesignTimeDbContextFactory(Type type, string dbContextName)

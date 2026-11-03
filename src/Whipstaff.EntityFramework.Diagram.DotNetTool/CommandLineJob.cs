@@ -3,18 +3,14 @@
 // See the LICENSE file in the project root for full license information.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Runtime.ExceptionServices;
+using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Whipstaff.CommandLine;
 using Whipstaff.EntityFramework.Diagram.DotNetTool.CommandLine;
-using Whipstaff.EntityFramework.Reflection;
 
 namespace Whipstaff.EntityFramework.Diagram.DotNetTool
 {
@@ -23,8 +19,6 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
     /// </summary>
     internal sealed class CommandLineJob : AbstractCommandLineHandler<CommandLineArgModel, CommandLineJobLogMessageActionsWrapper>
     {
-        private readonly IFileSystem _fileSystem;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandLineJob"/> class.
         /// </summary>
@@ -36,83 +30,105 @@ namespace Whipstaff.EntityFramework.Diagram.DotNetTool
             : base(commandLineJobLogMessageActionsWrapper)
         {
             ArgumentNullException.ThrowIfNull(fileSystem);
-
-            _fileSystem = fileSystem;
         }
 
         /// <inheritdoc/>
         protected override Task<int> OnHandleCommandAsync(CommandLineArgModel commandLineArgModel, CancellationToken cancellationToken)
         {
-            return Task.Run(
-                () =>
-                {
-                    var appDomain = AppDomain.CurrentDomain;
-                    var loadedAssemblies = new List<string>();
-#pragma warning disable GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
-                    appDomain.AssemblyResolve += (_, args) =>
-                    {
-                        var assemblyName = new AssemblyName(args.Name);
-
-                        if (args.RequestingAssembly?.Location.Equals(commandLineArgModel.AssemblyPath.FullName, StringComparison.Ordinal) != true
-                            && loadedAssemblies.Exists(la => la.Equals(args.RequestingAssembly?.Location, StringComparison.Ordinal)))
-                        {
-                            return null;
-                        }
-
-                        var assemblyPath = _fileSystem.Path.Combine(commandLineArgModel.AssemblyPath.DirectoryName!, $"{assemblyName.Name}.dll");
-
-                        if (_fileSystem.File.Exists(assemblyPath))
-                        {
-                            loadedAssemblies.Add(assemblyPath);
-    #pragma warning disable S3885
-                            return Assembly.LoadFrom(assemblyPath);
-    #pragma warning restore S3885
-                        }
-
-                        return null;
-                    };
-#pragma warning restore GR0032 // Do not use manual event subscriptions. Consider a ReactiveMarbles ObservableEvents approach.
-
-                    LogMessageActionsWrapper.StartingHandleCommand();
-
-    #pragma warning disable S3885
-                    var assembly = Assembly.LoadFrom(commandLineArgModel.AssemblyPath.FullName);
-    #pragma warning restore S3885
-
-                    var outputFilePath = commandLineArgModel.OutputFilePath;
-                    var dbContextName = commandLineArgModel.DbContextName;
-
-                    var dbContext = ReflectedDbContextFactory.GetDesignTimeDbContextFactoryFromAssembly(
-                                        assembly,
-                                        dbContextName)
-                                    ?? ReflectedDbContextFactory.GetDbContextFromAssembly(
-                                        assembly,
-                                        dbContextName);
-
-                    if (dbContext == null)
-                    {
-                        LogMessageActionsWrapper.FailedToFindDbContext(dbContextName);
-                        return 1;
-                    }
-
-                    GenerateFromDbContext(
-                        dbContext,
-                        _fileSystem,
-                        outputFilePath);
-
-                    return 0;
-                },
-                cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(ExecuteInIsolatedContext(commandLineArgModel));
         }
 
-        private static void GenerateFromDbContext(DbContext dbContext, IFileSystem fileSystem, FileInfo outputFilePath)
+        private int ExecuteInIsolatedContext(CommandLineArgModel commandLineArgModel)
         {
-            var dgml = dbContext.AsDgml();
-            _ = fileSystem.Directory.CreateDirectory(outputFilePath.DirectoryName!);
-            fileSystem.File.WriteAllText(
-                outputFilePath.FullName,
-                dgml,
-                Encoding.UTF8);
+            LogMessageActionsWrapper.StartingHandleCommand();
+
+            var isolatedLoadContext = new IsolatedToolLoadContext(commandLineArgModel.AssemblyPath.FullName);
+            var unloadTrackingReference = new WeakReference(isolatedLoadContext);
+
+            try
+            {
+                var toolAssembly = isolatedLoadContext.LoadFromAssemblyPath(typeof(CommandLineJob).Assembly.Location);
+                var isolatedGeneratorType = toolAssembly.GetType(typeof(IsolatedDiagramGenerator).FullName!, throwOnError: true)!;
+                var generateMethod = isolatedGeneratorType.GetMethod(
+                    nameof(IsolatedDiagramGenerator.Generate),
+                    BindingFlags.Public | BindingFlags.Static);
+
+                object? generationResult;
+                try
+                {
+                    generationResult = generateMethod!.Invoke(
+                        null,
+                        [
+                            commandLineArgModel.AssemblyPath.FullName,
+                            commandLineArgModel.DbContextName,
+                            commandLineArgModel.OutputFilePath.FullName,
+                        ]);
+                }
+                catch (TargetInvocationException exception) when (exception.InnerException != null)
+                {
+                    ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+                    throw;
+                }
+
+                return generationResult is int intResult
+                    ? intResult
+                    : throw new InvalidOperationException("Isolated diagram generation did not return a valid status code.");
+            }
+            finally
+            {
+                isolatedLoadContext.Unload();
+                UnloadHelper.WaitForUnload(unloadTrackingReference);
+            }
+        }
+
+        private static class UnloadHelper
+        {
+            public static void WaitForUnload(WeakReference unloadTrackingReference)
+            {
+                ArgumentNullException.ThrowIfNull(unloadTrackingReference);
+
+                for (var attempt = 0; unloadTrackingReference.IsAlive && attempt < 10; attempt++)
+                {
+#pragma warning disable S1215 // "GC.Collect" calls should not be used
+                    GC.Collect();
+#pragma warning restore S1215 // "GC.Collect" calls should not be used
+                    GC.WaitForPendingFinalizers();
+                }
+            }
+        }
+
+        private sealed class IsolatedToolLoadContext : AssemblyLoadContext
+        {
+            private readonly AssemblyDependencyResolver _assemblyDependencyResolver;
+
+            public IsolatedToolLoadContext(string rootAssemblyPath)
+                : base(isCollectible: true)
+            {
+                _assemblyDependencyResolver = new AssemblyDependencyResolver(rootAssemblyPath);
+            }
+
+            protected override Assembly? Load(AssemblyName assemblyName)
+            {
+                var assemblyPath = _assemblyDependencyResolver.ResolveAssemblyToPath(assemblyName);
+                if (assemblyPath == null)
+                {
+                    return null;
+                }
+
+                return LoadFromAssemblyPath(assemblyPath);
+            }
+
+            protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
+            {
+                var unmanagedDllPath = _assemblyDependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+                if (string.IsNullOrWhiteSpace(unmanagedDllPath))
+                {
+                    return IntPtr.Zero;
+                }
+
+                return LoadUnmanagedDllFromPath(unmanagedDllPath);
+            }
         }
     }
 }
