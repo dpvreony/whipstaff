@@ -5,6 +5,7 @@
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Linq;
 using System.Reflection;
 using TextCopy;
 
@@ -47,7 +48,7 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
         /// <inheritdoc />
         public override int Invoke(ParseResult parseResult)
         {
-            var hasCopy = parseResult.GetValue<string>("--copy") != null;
+            var hasCopy = parseResult.Tokens.Any(t => t.Value.Equals("--copy", StringComparison.OrdinalIgnoreCase));
             var executableVersion = _getVersionFunc();
             parseResult.InvocationConfiguration.Output.WriteLine(executableVersion);
 
