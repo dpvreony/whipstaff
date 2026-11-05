@@ -24,21 +24,25 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
     public sealed class VersionWithCopyToClipboardOptionAction : SynchronousCommandLineAction
     {
         private readonly Func<string> _getVersionFunc;
+        private readonly IClipboard _clipboard;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionWithCopyToClipboardOptionAction"/> class.
         /// </summary>
-        public VersionWithCopyToClipboardOptionAction()
-            : this(GetExecutableVersion)
+        /// <param name="clipboard">The clipboard instance to use for copying version information.</param>
+        public VersionWithCopyToClipboardOptionAction(IClipboard clipboard)
+            : this(clipboard, GetExecutableVersion)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionWithCopyToClipboardOptionAction"/> class.
         /// </summary>
+        /// <param name="clipboard">The clipboard instance to use for copying version information.</param>
         /// <param name="getVersionFunc">A function that returns the version string.</param>
-        public VersionWithCopyToClipboardOptionAction(Func<string> getVersionFunc)
+        public VersionWithCopyToClipboardOptionAction(IClipboard clipboard, Func<string> getVersionFunc)
         {
+            _clipboard = clipboard ?? throw new ArgumentNullException(nameof(clipboard));
             _getVersionFunc = getVersionFunc ?? throw new ArgumentNullException(nameof(getVersionFunc));
         }
 
@@ -54,7 +58,7 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
 
             if (hasCopy)
             {
-                ClipboardService.SetText(executableVersion);
+                _clipboard.SetText(executableVersion);
             }
 
             return 0;

@@ -7,6 +7,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
 using System.Linq;
+using TextCopy;
 
 namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
 {
@@ -15,19 +16,23 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
     /// </summary>
     public sealed class VersionWithCopyToClipboardOption : Option<bool>
     {
+        private readonly IClipboard _clipboard;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionWithCopyToClipboardOption"/> class.
         /// </summary>
-        public VersionWithCopyToClipboardOption()
+        /// <param name="clipboard">The clipboard instance to use for copying version information.</param>
+        public VersionWithCopyToClipboardOption(IClipboard clipboard)
             : base("--version", [])
         {
+            _clipboard = clipboard;
             Description = "Show version information";
             AddValidators();
             Arity = ArgumentArity.Zero;
         }
 
         /// <inheritdoc />
-        public override CommandLineAction? Action => new VersionWithCopyToClipboardOptionAction();
+        public override CommandLineAction? Action => new VersionWithCopyToClipboardOptionAction(_clipboard);
 
         /// <inheritdoc />
         public override Type ValueType => typeof(void);

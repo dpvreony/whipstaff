@@ -25,7 +25,7 @@ namespace Whipstaff.UnitTests.CommandLine.VersionWithCopyToClipboard
     public static class RootCommandExtensionsTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="RootCommandExtensions.EnableVersionWithClipboardCopy(RootCommand)"/>.
+        /// Unit Tests for <see cref="RootCommandExtensions.EnableVersionWithClipboardCopy(RootCommand, IClipboard)"/>.
         /// </summary>
         public sealed class EnableVersionWithClipboardCopyMethod : TestWithLoggingBase
         {
@@ -45,7 +45,7 @@ namespace Whipstaff.UnitTests.CommandLine.VersionWithCopyToClipboard
             public void ModifiesRootCommand()
             {
                 var rootCommand = new System.CommandLine.RootCommand();
-                rootCommand.EnableVersionWithClipboardCopy();
+                rootCommand.EnableVersionWithClipboardCopy(new MockClipboard());
 
                 Assert.Empty(rootCommand.Options.OfType<VersionOption>());
                 _ = Assert.Single(rootCommand.Options.OfType<Whipstaff.CommandLine.VersionWithCopyToClipboard.VersionCopyOption>());
@@ -85,11 +85,12 @@ namespace Whipstaff.UnitTests.CommandLine.VersionWithCopyToClipboard
                 await using (var outputWriter = new StringWriter())
                 await using (var errorWriter = new StringWriter())
                 {
+                    var clipboard = new MockClipboard();
                     var rootCommand = new System.CommandLine.RootCommand();
-                    rootCommand.EnableVersionWithClipboardCopy();
+                    rootCommand.EnableVersionWithClipboardCopy(clipboard);
 
                     var guid = Guid.NewGuid().ToString();
-                    await ClipboardService.SetTextAsync(
+                    await clipboard.SetTextAsync(
                         guid,
                         TestContext.Current.CancellationToken);
 
@@ -111,7 +112,7 @@ namespace Whipstaff.UnitTests.CommandLine.VersionWithCopyToClipboard
                         "Console error: {ConsoleError}",
                         errorOutput);
 
-                    var clipboardContent = await ClipboardService.GetTextAsync(TestContext.Current.CancellationToken);
+                    var clipboardContent = await clipboard.GetTextAsync(TestContext.Current.CancellationToken);
                     Assert.Equal(
                         expectClipboardToPopulate ? consoleOutput : guid,
                         clipboardContent);

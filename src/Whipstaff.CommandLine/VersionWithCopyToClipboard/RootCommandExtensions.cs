@@ -4,6 +4,7 @@
 
 using System.CommandLine;
 using System.Linq;
+using TextCopy;
 
 namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
 {
@@ -16,7 +17,8 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
         /// Enable the version option with the ability to copy to clipboard.
         /// </summary>
         /// <param name="rootCommand">The root command to enable the version option on.</param>
-        public static void EnableVersionWithClipboardCopy(this RootCommand rootCommand)
+        /// <param name="clipboard">The clipboard instance to use for copying version information.</param>
+        public static void EnableVersionWithClipboardCopy(this RootCommand rootCommand, IClipboard clipboard)
         {
             // Remove the built-in --version so ours can take --copy
             var options = rootCommand.Options;
@@ -33,7 +35,7 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
                 return;
             }
 
-            var versionOpt = new VersionWithCopyToClipboardOption();
+            var versionOpt = new VersionWithCopyToClipboardOption(clipboard);
             var copyOpt = new VersionCopyOption();
 
             options.Add(versionOpt);
