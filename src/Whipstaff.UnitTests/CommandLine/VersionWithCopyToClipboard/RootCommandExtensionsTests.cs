@@ -85,7 +85,7 @@ namespace Whipstaff.UnitTests.CommandLine.VersionWithCopyToClipboard
                 await using (var outputWriter = new StringWriter())
                 await using (var errorWriter = new StringWriter())
                 {
-                    var clipboard = new MockClipboard();
+                    var clipboard = new InMemoryClipboard();
                     var rootCommand = new System.CommandLine.RootCommand();
                     rootCommand.EnableVersionWithClipboardCopy(clipboard);
 
