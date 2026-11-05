@@ -1,17 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) 2022 DHGMS Solutions and Contributors. All rights reserved.
+// This file is licensed to you under the MIT license.
+// See the LICENSE file in the project root for full license information.
+
 using System.CommandLine;
-using System.CommandLine.Help;
-using System.CommandLine.Invocation;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using TextCopy;
 
 namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
 {
+    /// <summary>
+    /// Extension Methods for <see cref="RootCommand"/>.
+    /// </summary>
     public static class RootCommandExtensions
     {
+        /// <summary>
+        /// Enable the version option with the ability to copy to clipboard.
+        /// </summary>
+        /// <param name="rootCommand">The root command to enable the version option on.</param>
         public static void EnableVersionWithClipboardCopy(this RootCommand rootCommand)
         {
             // Remove the built-in --version so ours can take --copy
@@ -21,56 +25,20 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
 
             if (defaultVersion is not null)
             {
-                options.Remove(defaultVersion);
+                _ = options.Remove(defaultVersion);
             }
 
-            var versionOpt = new Option<bool>("--version")
+            if (options.OfType<VersionWithCopyToClipboardOption>().Any())
             {
-                Description = "Show version information",
-                Action = new VersionWithCopyToClipboardOptionAction()
-            };
+                return;
+            }
 
+            var versionOpt = new VersionWithCopyToClipboardOption();
             var copyOpt = new Option<bool>("--copy") { Description = "Copy the version to the clipboard (use with --version)" };
 
             options.Add(versionOpt);
 
             options.Add(copyOpt);
         }
-
-        public sealed class VersionWithCopyToClipboardOptionAction : SynchronousCommandLineAction
-        {
-            public override int Invoke(ParseResult parseResult)
-            {
-                var hasCopy = parseResult.GetValue<string>("--copy") != null;
-                var executableVersion = GetExecutableVersion();
-                parseResult.InvocationConfiguration.Output.WriteLine(executableVersion);
-
-                if (hasCopy)
-                {
-                    ClipboardService.SetText(executableVersion);
-                }
-
-                return 0;
-            }
-
-            public override bool ClearsParseErrors => true;
-
-            private static string GetExecutableVersion()
-            {
-                var assembly = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-
-                var assemblyVersionAttribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-
-                if (assemblyVersionAttribute is null)
-                {
-                    return assembly.GetName().Version?.ToString() ?? "";
-                }
-                else
-                {
-                    return assemblyVersionAttribute.InformationalVersion;
-                }
-            }
-        }
-
     }
 }
