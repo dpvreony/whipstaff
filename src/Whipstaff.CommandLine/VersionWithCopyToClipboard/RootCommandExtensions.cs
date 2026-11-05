@@ -34,7 +34,7 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
             }
 
             var versionOpt = new VersionWithCopyToClipboardOption();
-            var copyOpt = new Option<bool>("--copy") { Description = "Copy the version to the clipboard (use with --version)" };
+            var copyOpt = new VersionCopyOption();
 
             options.Add(versionOpt);
 

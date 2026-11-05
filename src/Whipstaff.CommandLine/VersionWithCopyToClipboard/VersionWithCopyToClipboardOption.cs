@@ -2,7 +2,11 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.CommandLine;
+using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
+using System.Linq;
 
 namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
 {
@@ -15,10 +19,32 @@ namespace Whipstaff.CommandLine.VersionWithCopyToClipboard
         /// Initializes a new instance of the <see cref="VersionWithCopyToClipboardOption"/> class.
         /// </summary>
         public VersionWithCopyToClipboardOption()
-            : base("--version")
+            : base("--version", [])
         {
             Description = "Show version information";
-            Action = new VersionWithCopyToClipboardOptionAction();
+            AddValidators();
+            Arity = ArgumentArity.Zero;
+        }
+
+        /// <inheritdoc />
+        public override CommandLineAction? Action => new VersionWithCopyToClipboardOptionAction();
+
+        /// <inheritdoc />
+        public override Type ValueType => typeof(void);
+
+        private void AddValidators()
+        {
+            Validators.Add(static result =>
+            {
+                if (result.Parent is CommandResult parent &&
+                    parent.Children.Any(r =>
+                        r is not OptionResult { Option: VersionWithCopyToClipboardOption } &&
+                        r is not OptionResult { Option: VersionCopyOption } &&
+                        r is not OptionResult { Implicit: true }))
+                {
+                    result.AddError("Version option can only be combined with --copy. It can not be used with other options.");
+                }
+            });
         }
     }
 }
