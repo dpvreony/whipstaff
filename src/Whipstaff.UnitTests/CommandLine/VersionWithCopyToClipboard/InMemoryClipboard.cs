@@ -8,7 +8,7 @@ using TextCopy;
 
 namespace Whipstaff.UnitTests.CommandLine.VersionWithCopyToClipboard
 {
-    internal class InMemoryClipboard : IClipboard
+    internal sealed class InMemoryClipboard : IClipboard
     {
         private string? _text;
 
