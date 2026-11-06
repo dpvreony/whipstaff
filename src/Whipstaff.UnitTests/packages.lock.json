@@ -2758,6 +2758,14 @@
         "resolved": "10.4.0",
         "contentHash": "7G5NzIjs7544Dit0uuvYOOAzD8E4alQS2ENPGT3HV1Ks/1r55O7X4d9g6L273n70IDkgqNdBCmrkWxJLn0xCZA=="
       },
+      "TextCopy": {
+        "type": "Transitive",
+        "resolved": "6.2.1",
+        "contentHash": "ryejViUBmHQ2XMie2AiRBn7KVKu2Gh/hqrctGSAUf1BufwfPjr+MWuACNBaiG+40TMbWRDJZgV73Tpl9hggeRw==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0"
+        }
+      },
       "Validation": {
         "type": "Transitive",
         "resolved": "2.4.15",
@@ -2934,6 +2942,7 @@
           "Microsoft.Extensions.Logging.Console": "[10.0.14, )",
           "System.CommandLine": "[2.0.14, )",
           "TestableIO.System.IO.Abstractions.Wrappers": "[22.3.0, )",
+          "TextCopy": "[6.2.1, )",
           "Whipstaff.Core": "[1.0.0, )",
           "Whipstaff.Runtime": "[1.0.0, )"
         }

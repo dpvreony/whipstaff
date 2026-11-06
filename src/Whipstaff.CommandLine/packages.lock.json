@@ -79,6 +79,15 @@
           "Testably.Abstractions.FileSystem.Interface": "10.4.0"
         }
       },
+      "TextCopy": {
+        "type": "Direct",
+        "requested": "[6.2.1, )",
+        "resolved": "6.2.1",
+        "contentHash": "ryejViUBmHQ2XMie2AiRBn7KVKu2Gh/hqrctGSAUf1BufwfPjr+MWuACNBaiG+40TMbWRDJZgV73Tpl9hggeRw==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0"
+        }
+      },
       "Desktop.Analyzers": {
         "type": "Transitive",
         "resolved": "1.1.0",
