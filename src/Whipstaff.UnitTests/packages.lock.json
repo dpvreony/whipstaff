@@ -387,8 +387,8 @@
       },
       "Markdig": {
         "type": "Transitive",
-        "resolved": "1.5.1",
-        "contentHash": "NtHwU5t5yKr6Gnylhs8/hlR0mOAftTFQURDz2ID8bkunxps1neOzKw0dYKKlwNuwiYIGLHjJTXK91f809Ko1ww=="
+        "resolved": "1.6.0",
+        "contentHash": "rJEpDfPM8wrfXUgkNejjg2bJN9bciy44uVyRwKUI+92CnSmbaLeJTLPYcCdvgM4RFsKrhs8d2H2hO78yZpMl3g=="
       },
       "Mediator.Abstractions": {
         "type": "Transitive",
@@ -3031,7 +3031,7 @@
       "whipstaff.markdig": {
         "type": "Project",
         "dependencies": {
-          "Markdig": "[1.5.1, )",
+          "Markdig": "[1.6.0, )",
           "Nito.AsyncEx": "[5.1.2, )",
           "Whipstaff.Mermaid": "[1.0.0, )"
         }
