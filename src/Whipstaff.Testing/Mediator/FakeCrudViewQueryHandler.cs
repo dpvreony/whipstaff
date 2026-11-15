@@ -16,10 +16,10 @@ namespace Whipstaff.Testing.Mediator
     public class FakeCrudViewQueryHandler : IQueryHandler<FakeCrudViewQuery, FakeCrudViewResponse?>
     {
         /// <inheritdoc />
-        public async ValueTask<FakeCrudViewResponse?> Handle(FakeCrudViewQuery request, CancellationToken cancellationToken)
+        public async ValueTask<FakeCrudViewResponse?> Handle(FakeCrudViewQuery query, CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(request);
-            return await ValueTask.FromResult(new FakeCrudViewResponse(request.RequestDto));
+            ArgumentNullException.ThrowIfNull(query);
+            return await ValueTask.FromResult(new FakeCrudViewResponse(query.RequestDto));
         }
     }
 }

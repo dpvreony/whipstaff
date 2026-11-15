@@ -41,15 +41,15 @@ namespace Whipstaff.Testing.Mediator
         }
 
         /// <inheritdoc />
-        public async ValueTask<int?> Handle(FakeCrudAddCommand request, CancellationToken cancellationToken)
+        public async ValueTask<int?> Handle(FakeCrudAddCommand command, CancellationToken cancellationToken)
         {
-            ArgumentNullException.ThrowIfNull(request);
+            ArgumentNullException.ThrowIfNull(command);
 
             using (var dbContext = new FakeDbContext(_fakeDbContextOptions, _modelCreatorFunc))
             {
                 var entity = new FakeAddAuditDbSet
                 {
-                    Value = request.RequestDto,
+                    Value = command.RequestDto,
                     Created = DateTimeOffset.UtcNow
                 };
 
@@ -63,7 +63,7 @@ namespace Whipstaff.Testing.Mediator
 #pragma warning restore CA1848 // Use the LoggerMessage delegates
             }
 
-            return await Task.FromResult(request.RequestDto).ConfigureAwait(false);
+            return await Task.FromResult(command.RequestDto).ConfigureAwait(false);
         }
     }
 }

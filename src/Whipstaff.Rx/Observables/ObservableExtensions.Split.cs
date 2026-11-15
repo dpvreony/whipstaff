@@ -7,9 +7,6 @@ using System.Reactive.Linq;
 
 namespace Whipstaff.Rx.Observables
 {
-    /// <summary>
-    /// Extension methods for <see cref="IObservable{T}"/>.
-    /// </summary>
 #pragma warning disable GR0049 // Do not use Tuples.
     public static partial class ObservableExtensions
     {
