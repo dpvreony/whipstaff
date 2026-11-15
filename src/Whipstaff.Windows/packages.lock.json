@@ -34,27 +34,27 @@
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Direct",
-        "requested": "[10.0.14, )",
-        "resolved": "10.0.14",
-        "contentHash": "SwcbEBtkECq3D2oywvHkm46fyrX9Dd2JPWphDnHUc2+cUWR1Mdo41atAjh/9iZjgQxuvbKfZKXqostT/LZfefA==",
+        "requested": "[10.0.15, )",
+        "resolved": "10.0.15",
+        "contentHash": "s5xzXGWqqlmmThMnQ1rnmL7QLwbluB2JqX9NaK8C9HPuHzN7kfmiddTRbwts5rQssATkh2B18RrofjeUD8g14A==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.15"
         }
       },
       "Microsoft.Win32.SystemEvents": {
         "type": "Direct",
-        "requested": "[10.0.14, )",
-        "resolved": "10.0.14",
-        "contentHash": "axfieK5mj+uS/wLYl0dhlRFWdNP1iKHhx/M6DZNXPCSve7q4TCogw//W6BWGsYhnWuSw55aqheHE0a8l8s1oTw=="
+        "requested": "[10.0.15, )",
+        "resolved": "10.0.15",
+        "contentHash": "kisX7LaeY4exvIgeyRfIp+xUmz2JoL+2n7pZv4W6na115P8659zw6vfB7IxD4sk6g9YZHwJ+vMzgS3Y5GMJqkA=="
       },
       "Microsoft.Windows.CsWin32": {
         "type": "Direct",
-        "requested": "[0.3.367, )",
-        "resolved": "0.3.367",
-        "contentHash": "C4JVE3wmVjCvzpdBzC+HK/boVU6g4ZRDEZ7uDmMJHCkgjFHhiMb9vhe2+wffzWzyNNObpCsIAW4G1t+1CAIEWw==",
+        "requested": "[0.3.371, )",
+        "resolved": "0.3.371",
+        "contentHash": "P+omXpaFSdt55EjJMFTvR3vGtqJrQdG7/UN89WpjnnbbpOdqYj65dIM4HIFjwQ4/qqFa33VmqSrBq+BLsbZYWg==",
         "dependencies": {
           "Microsoft.Windows.SDK.Win32Docs": "0.1.42-alpha",
-          "Microsoft.Windows.SDK.Win32Metadata": "71.0.37-preview",
+          "Microsoft.Windows.SDK.Win32Metadata": "71.0.45-preview",
           "Microsoft.Windows.WDK.Win32Metadata": "0.13.25-experimental"
         }
       },
@@ -72,13 +72,13 @@
       },
       "System.DirectoryServices.AccountManagement": {
         "type": "Direct",
-        "requested": "[10.0.14, )",
-        "resolved": "10.0.14",
-        "contentHash": "ingsTcSTU+VqTyPR4lwCre4QXNY/FThxPLyYLFqFe/t5PnGrHLhQgS11wausNygDOnvRCnmpv6LHvXP3MUIOGA==",
+        "requested": "[10.0.15, )",
+        "resolved": "10.0.15",
+        "contentHash": "JYXATFNIJLZc9IDEmiB58btoKDLn7aERJRWP3NQWMfg7y3h6EKVhldy7gjL7thGUfIhG4zuZQg8ZkpKOTg8Wrw==",
         "dependencies": {
-          "System.Configuration.ConfigurationManager": "10.0.14",
-          "System.DirectoryServices": "10.0.14",
-          "System.DirectoryServices.Protocols": "10.0.14"
+          "System.Configuration.ConfigurationManager": "10.0.15",
+          "System.DirectoryServices": "10.0.15",
+          "System.DirectoryServices.Protocols": "10.0.15"
         }
       },
       "System.Reactive": {
@@ -89,9 +89,9 @@
       },
       "System.Speech": {
         "type": "Direct",
-        "requested": "[10.0.14, )",
-        "resolved": "10.0.14",
-        "contentHash": "25hpIuFjuRfGEwLkyvZtFgMYGaXIgySt1VZPvJ5KNiIKoTKPyMU/AZqEq912vnBWlyokffa689O6hduh8pU7oQ=="
+        "requested": "[10.0.15, )",
+        "resolved": "10.0.15",
+        "contentHash": "upAierkdVBnMc8/nu/z78gUm3JhP7dEosZH354yChqGtIY8paQS8orpJt6gS4VUnxSkl3r6aThP/eaR8IAw3DA=="
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
         "type": "Direct",
@@ -134,8 +134,8 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "QtpQzuSZVyTPCuHW058yCs9Nj0394uUkNyFHS813nOmK9UgUdBdaprJ5PPsBgsQIpxADTsTkbaMMonykem6qdw=="
+        "resolved": "10.0.15",
+        "contentHash": "KczR2nV7ooeimtZxAawPht/FJUHnX+uoWy7y4pba+iaRQBwUM2NwtiqZg+/FpZDHUf2RkkzveGkhMTWDNzmDUA=="
       },
       "Microsoft.Sbom.Targets": {
         "type": "Transitive",
@@ -169,8 +169,8 @@
       },
       "Microsoft.Windows.SDK.Win32Metadata": {
         "type": "Transitive",
-        "resolved": "71.0.37-preview",
-        "contentHash": "0y4uKnOzE+k2zUCxcTOJTOuRuOFiW01A+j1GpjyN11saEjkESLW9XrWkGYG/zdlAAb8oRk4oLdokkcx0X2z7yA=="
+        "resolved": "71.0.45-preview",
+        "contentHash": "TxoDQPWFmEinLPOoRkgIFdHGipYKWxWwBkYkZ0HgRyy+uwByRzmkYa9IKy1JLnj7v/vOl/hX+DBCWnsDM1gT1g=="
       },
       "Microsoft.Windows.WDK.Win32Metadata": {
         "type": "Transitive",
@@ -210,27 +210,27 @@
       },
       "System.Configuration.ConfigurationManager": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "F/bLtwG0JuJ2OnTCsvJbnulvN7hr+BIFJLtE3PzgmW3AWkV8LYO5XF0j+zB4tHn/b4yfR7PAO0dZmoYeaINtnQ==",
+        "resolved": "10.0.15",
+        "contentHash": "AIJMj3a6xpgisz8lkBetOJB0gwVcX5EbKi282IkBnDISubkPnY3BIUxztARim3+mwTMF84+/z81cBAvXdy1l6A==",
         "dependencies": {
-          "System.Diagnostics.EventLog": "10.0.14",
-          "System.Security.Cryptography.ProtectedData": "10.0.14"
+          "System.Diagnostics.EventLog": "10.0.15",
+          "System.Security.Cryptography.ProtectedData": "10.0.15"
         }
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "O/RzNwWoDzehkLlAG9hR8xooY5L41U7VUaYlcKvE3+FhHohBJqF10oLUzuv0v59VeJ62hv3uw9VoeX12zej7Sg=="
+        "resolved": "10.0.15",
+        "contentHash": "d1ynyO/BvCyi8SI1m6/xASazxrZm20V/mTDJay4qmL947RsA5MEiMk1JWvafw6JX005VVBAHvjWQP1dRRBvYKw=="
       },
       "System.DirectoryServices": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "um46NcO5LGpygmoeElfbSA9JSKRi7qqPLO4hBK3MH5N3G67rT+LjYNEX0MRDlrLs0MkTQYkwrtzMwEApiF5cpA=="
+        "resolved": "10.0.15",
+        "contentHash": "XSBOrvvXRiFQBj1B5eydEpiuifGSmeub9NHMWVdWN91KII5wYdk6SLQeL9yJWANOCJp1m7MeWgF4xOJlJGA+kQ=="
       },
       "System.DirectoryServices.Protocols": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "uZAVEVyWAhQxtKIIoNYCzbtKhcIMHjY0viEbmkfpTZ9O/4fzOTlYHUAqirOL8anzBmSAx8xOk7o7R86mBgTfzQ=="
+        "resolved": "10.0.15",
+        "contentHash": "VEiti20nQKFx5SjmlxaLJ3mPpDInxH6D2J2jislLF1pmp3aKyrh87E/pqczt1P9f0Pdc5QbpySnEJcniDKjmCg=="
       },
       "System.IO.Hashing": {
         "type": "Transitive",
@@ -239,8 +239,8 @@
       },
       "System.Security.Cryptography.ProtectedData": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "UuaBUHgmtc9h6CMxaQqFDDJxkS5JVy7XEB+DbtCvD68GFcVM9/AccuNwFpARx8nwCnvjaxzoOBjG3gPz32P1Eg=="
+        "resolved": "10.0.15",
+        "contentHash": "AG49oTxB0R4YQJzeIIHRgqyaI3SOT8Q8vEfGUcju2WxOvsBkDJU4FKTQ8gYQAYCxmHOHqyJL0UDGcCf8nzRoiw=="
       }
     }
   }

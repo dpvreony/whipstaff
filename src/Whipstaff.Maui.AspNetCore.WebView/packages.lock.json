@@ -34,9 +34,9 @@
       },
       "Microsoft.AspNetCore.Components.WebView.Maui": {
         "type": "Direct",
-        "requested": "[10.0.120, )",
-        "resolved": "10.0.120",
-        "contentHash": "Nk0cIM3iLFdwFojOWFYDfAq4euUugMho/0NPWf588JgQwtEsXKFsds7sVdcPzcH7MJC+a2mpn+VZ8cHDZSU/Rg==",
+        "requested": "[10.0.130, )",
+        "resolved": "10.0.130",
+        "contentHash": "vTix02zwj+rkH3Xg6Gxh/GVoEVoJv3/8eqaPSB36OLZnZPHgliYh/Jh2Lkux1y6uI4Q6njJDy42cKXLfwfTOqA==",
         "dependencies": {
           "Microsoft.AspNetCore.Authorization": "10.0.0",
           "Microsoft.AspNetCore.Components.WebView": "10.0.0",
@@ -223,8 +223,8 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "QtpQzuSZVyTPCuHW058yCs9Nj0394uUkNyFHS813nOmK9UgUdBdaprJ5PPsBgsQIpxADTsTkbaMMonykem6qdw=="
+        "resolved": "10.0.15",
+        "contentHash": "KczR2nV7ooeimtZxAawPht/FJUHnX+uoWy7y4pba+iaRQBwUM2NwtiqZg+/FpZDHUf2RkkzveGkhMTWDNzmDUA=="
       },
       "Microsoft.Extensions.Diagnostics": {
         "type": "Transitive",
@@ -309,10 +309,10 @@
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "SwcbEBtkECq3D2oywvHkm46fyrX9Dd2JPWphDnHUc2+cUWR1Mdo41atAjh/9iZjgQxuvbKfZKXqostT/LZfefA==",
+        "resolved": "10.0.15",
+        "contentHash": "s5xzXGWqqlmmThMnQ1rnmL7QLwbluB2JqX9NaK8C9HPuHzN7kfmiddTRbwts5rQssATkh2B18RrofjeUD8g14A==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.15"
         }
       },
       "Microsoft.Extensions.Options": {
@@ -643,7 +643,7 @@
       "whipstaff.runtime": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )"
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.15, )"
         }
       },
       "whipstaff.rx": {

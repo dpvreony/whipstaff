@@ -68,11 +68,11 @@
       },
       "TestableIO.System.IO.Abstractions.Wrappers": {
         "type": "Direct",
-        "requested": "[22.3.0, )",
-        "resolved": "22.3.0",
-        "contentHash": "9TsOEcwIGJXHjkZ/lIpg6KnoRjxpZZ/LpMvNddcXEvmcxWKZdbhSy2UWMpy3oN8klbQ3dcpxbp9AddQk0zE+Kg==",
+        "requested": "[23.0.0, )",
+        "resolved": "23.0.0",
+        "contentHash": "WfbIVmdi/Yh3eKLDzprsctUXziXVP60lPfPRrAFxR+YPT++yGpsgBsen0vC5N3HeXANCHP7xRukgn/kZcUqusg==",
         "dependencies": {
-          "Testably.Abstractions.FileSystem.Interface": "10.4.0"
+          "Testably.Abstractions.FileSystem.Interface": "11.0.0"
         }
       },
       "Desktop.Analyzers": {
@@ -115,15 +115,15 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "QtpQzuSZVyTPCuHW058yCs9Nj0394uUkNyFHS813nOmK9UgUdBdaprJ5PPsBgsQIpxADTsTkbaMMonykem6qdw=="
+        "resolved": "10.0.15",
+        "contentHash": "KczR2nV7ooeimtZxAawPht/FJUHnX+uoWy7y4pba+iaRQBwUM2NwtiqZg+/FpZDHUf2RkkzveGkhMTWDNzmDUA=="
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Transitive",
-        "resolved": "10.0.14",
-        "contentHash": "SwcbEBtkECq3D2oywvHkm46fyrX9Dd2JPWphDnHUc2+cUWR1Mdo41atAjh/9iZjgQxuvbKfZKXqostT/LZfefA==",
+        "resolved": "10.0.15",
+        "contentHash": "s5xzXGWqqlmmThMnQ1rnmL7QLwbluB2JqX9NaK8C9HPuHzN7kfmiddTRbwts5rQssATkh2B18RrofjeUD8g14A==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.14"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.15"
         }
       },
       "Microsoft.Sbom.Targets": {
@@ -191,13 +191,13 @@
       },
       "Testably.Abstractions.FileSystem.Interface": {
         "type": "Transitive",
-        "resolved": "10.4.0",
-        "contentHash": "7G5NzIjs7544Dit0uuvYOOAzD8E4alQS2ENPGT3HV1Ks/1r55O7X4d9g6L273n70IDkgqNdBCmrkWxJLn0xCZA=="
+        "resolved": "11.0.0",
+        "contentHash": "bHE3UgieMizRsrzHYsWOLGMVjDmy0yx1PTv4QMgoAi3GU+vw2tJZ/jR5woIZ6Et6H0Hvhwriv6XSgwoZV9bU0A=="
       },
       "whipstaff.runtime": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "[10.0.14, )"
+          "Microsoft.Extensions.Logging.Abstractions": "[10.0.15, )"
         }
       }
     }
