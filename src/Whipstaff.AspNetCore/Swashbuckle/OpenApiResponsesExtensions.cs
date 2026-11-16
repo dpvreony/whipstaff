@@ -44,7 +44,7 @@ namespace Whipstaff.AspNetCore.Swashbuckle
             IOpenApiSchema problemDetailsReferenceSchema,
             HttpStatusCode[] httpStatusCodes)
         {
-            var contentValue = new OpenApiMediaType
+            IOpenApiMediaType contentValue = new OpenApiMediaType
             {
                 Schema = problemDetailsReferenceSchema
             };

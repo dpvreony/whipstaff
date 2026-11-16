@@ -16,7 +16,7 @@ namespace Whipstaff.Testing.Mediator
     public sealed class FakeCrudListQueryHandler : IQueryHandler<FakeCrudListQuery, IList<int>>
     {
         /// <inheritdoc />
-        public async ValueTask<IList<int>> Handle(FakeCrudListQuery request, CancellationToken cancellationToken)
+        public async ValueTask<IList<int>> Handle(FakeCrudListQuery query, CancellationToken cancellationToken)
         {
             return await Task.FromResult(new List<int>
             {

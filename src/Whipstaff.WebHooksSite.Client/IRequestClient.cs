@@ -21,7 +21,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// <param name="tokenId">Unique id for the session.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [Get("/token/{tokenId}/request")]
-        Task DeleteAllRequestsAsync([Query(Format = "D")]Guid tokenId);
+        Task DeleteAllRequestsAsync([Query(Format = "D")] Guid tokenId);
 
         /// <summary>
         /// Deletes a specific request for the session.

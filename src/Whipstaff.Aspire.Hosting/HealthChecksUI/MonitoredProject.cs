@@ -10,10 +10,11 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
     /// <summary>
     /// Represents a project to be monitored by a <see cref="HealthChecksUIResource"/>.
     /// </summary>
+    /// <param name="project">The project to be monitored.</param>
+    /// <param name="endpointName">The name of the endpoint the project serves health check details from.</param>
+    /// <param name="probePath">The request path the project serves health check details for the HealthChecksUI dashboard from.</param>
     public class MonitoredProject(IResourceBuilder<ProjectResource> project, string endpointName, string probePath)
     {
-        private string? _name;
-
         /// <summary>
         /// Gets the project to be monitored.
         /// </summary>
@@ -29,8 +30,8 @@ namespace Whipstaff.Aspire.Hosting.HealthChecksUI
         /// </summary>
         public string Name
         {
-            get => _name ?? Project.Resource.Name;
-            set { _name = value; }
+            get => field ?? Project.Resource.Name;
+            set;
         }
 
         /// <summary>

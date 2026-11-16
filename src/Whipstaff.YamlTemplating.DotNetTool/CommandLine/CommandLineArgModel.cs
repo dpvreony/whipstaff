@@ -9,5 +9,9 @@ namespace Whipstaff.YamlTemplating.DotNetTool.CommandLine
     /// <summary>
     /// Model that represents the command line arguments.
     /// </summary>
+    /// <param name="TemplatePath">The path to the template file.</param>
+    /// <param name="ContentPath">The path to the content file.</param>
+    /// <param name="OutputPath">The path to the output file.</param>
+    /// <param name="YamlPath">The path to the YAML file.</param>
     public sealed record CommandLineArgModel(IFileInfo TemplatePath, IFileInfo ContentPath, IFileInfo OutputPath, string? YamlPath);
 }
