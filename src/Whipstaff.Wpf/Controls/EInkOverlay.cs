@@ -8,11 +8,11 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.VisualStudio.Threading;
-using ReactiveMarbles.ObservableEvents;
 using ReactiveUI;
-using ReactiveUI.Extensions;
 using ReactiveUI.Primitives;
 using ReactiveUI.Primitives.Disposables;
+using ReactiveUI.Primitives.Extensions;
+using ReactiveUI.Primitives.ObservableEvents;
 
 namespace Whipstaff.Wpf.Controls
 {

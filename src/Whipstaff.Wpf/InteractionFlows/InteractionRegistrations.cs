@@ -6,7 +6,7 @@ using System;
 using System.Reactive.Disposables;
 using System.Reactive.Disposables.Fluent;
 using System.Threading.Tasks;
-using ReactiveUI;
+using ReactiveUI.Binding;
 using Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction;
 using Whipstaff.Wpf.InteractionFlows.OpenFolderDialogInteraction;
 

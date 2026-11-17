@@ -833,8 +833,8 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
       },
       "RimDev.ApplicationInsights.Filters": {
         "type": "Transitive",
@@ -887,38 +887,38 @@
       },
       "Splat": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "resolved": "22.0.1",
+        "contentHash": "vGwTeTDtdHeDRZiBTQdIbHmofdIWe63RvCHp1iII4NJ7yPJ5yEwGeS48eFjTzGN8p4BQKvL7RFw47Re+9iWERw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Builder": "21.0.0",
-          "Splat.Logging": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Builder": "22.0.1",
+          "Splat.Logging": "22.0.1"
         }
       },
       "Splat.Builder": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "resolved": "22.0.1",
+        "contentHash": "Zk8j2efaHWwkq69HezYez1GWGW/Gj+HdyfY9RvKHel6xpIUQdwFL5BavB+juegFgubFKYenWJL5vnlSLIZWDmA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "Splat.Core": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "resolved": "22.0.1",
+        "contentHash": "iwP6ANVrp1/vdjPhGOMfOPykuN1HrJu4rKeKPxeuhI5/Qz5SbPrFjbg3pKfppaSdzN4GhGut95T9vxx7+LQfmw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Splat.Logging": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "resolved": "22.0.1",
+        "contentHash": "lNANSHlv4zBk+fckdrC94F5LJgXiWVFAJ81J+SI5pLO57K+dTy3h00kfr2CmJb4iPuFMuLTtwCHA1c7em950fQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "SQLite": {
@@ -1235,7 +1235,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "[10.0.15, )",
           "NetTestRegimentation.XUnit": "[2.0.126, )",
           "SQLitePCLRaw.bundle_e_sqlite3": "[3.0.5, )",
-          "Splat": "[21.0.0, )",
+          "Splat": "[22.0.1, )",
           "System.CommandLine": "[3.0.0, )",
           "Whipstaff.AspNetCore": "[1.0.0, )",
           "Whipstaff.CommandLine": "[1.0.0, )",

@@ -8,9 +8,8 @@ using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
-using ReactiveMarbles.ObservableEvents;
-using ReactiveUI;
 using ReactiveUI.Builder;
+using ReactiveUI.Primitives.ObservableEvents;
 using Whipstaff.ReactiveUI.Bootstrap;
 using Whipstaff.Runtime.AppDomains;
 

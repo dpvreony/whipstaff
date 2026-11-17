@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
+using ReactiveUI.Binding;
 using Rocks;
 using Whipstaff.ReactiveUI.Interactions;
 using Xunit;

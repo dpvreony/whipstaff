@@ -5,7 +5,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
-using ReactiveMarbles.ObservableEvents;
+using ReactiveUI.Primitives.ObservableEvents;
 
 [assembly: GenerateStaticEventObservables(typeof(SystemEvents))]
 
@@ -36,7 +36,7 @@ namespace Whipstaff.Windows.GroupPolicyMonitoring
             _logger = logger;
             _onUserPreferenceChangingGroupPolicy = onUserPreferenceChangingGroupPolicy;
 #pragma warning disable GR0012 // Constructors should minimise work and not execute methods
-            _userPreferenceChangingSubscription = RxEvents.SystemEventsUserPreferenceChanging.Subscribe(userPreferenceChangingEventArgs => OnSystemEventsOnUserPreferenceChanging(userPreferenceChangingEventArgs));
+            _userPreferenceChangingSubscription = RxEvents.T12SystemEvents22UserPreferenceChanging.Subscribe(userPreferenceChangingEventArgs => OnSystemEventsOnUserPreferenceChanging(userPreferenceChangingEventArgs));
 #pragma warning restore GR0012 // Constructors should minimise work and not execute methods
         }
 
