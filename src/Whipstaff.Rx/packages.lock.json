@@ -38,31 +38,33 @@
         "resolved": "3.10.94",
         "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
       },
-      "ReactiveUI.Extensions": {
+      "ReactiveUI.Primitives": {
         "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
         "dependencies": {
-          "Microsoft.Bcl.TimeProvider": "10.0.8",
+          "Microsoft.Bcl.TimeProvider": "10.0.15",
+          "ReactiveUI.Disposables": "10.0.0",
+          "ReactiveUI.Primitives.Core": "10.0.0",
           "System.Buffers": "4.6.1",
-          "System.Collections.Immutable": "10.0.8",
+          "System.Collections.Immutable": "10.0.15",
           "System.ComponentModel.Annotations": "5.0.0",
           "System.Memory": "4.6.3",
-          "System.Reactive": "6.1.0",
           "System.Runtime.CompilerServices.Unsafe": "6.1.2",
-          "System.Threading.Channels": "10.0.8"
+          "System.Threading.Channels": "10.0.15",
+          "System.ValueTuple": "4.6.2"
         }
       },
       "Splat": {
         "type": "Direct",
-        "requested": "[21.0.0, )",
-        "resolved": "21.0.0",
-        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "requested": "[22.0.1, )",
+        "resolved": "22.0.1",
+        "contentHash": "vGwTeTDtdHeDRZiBTQdIbHmofdIWe63RvCHp1iII4NJ7yPJ5yEwGeS48eFjTzGN8p4BQKvL7RFw47Re+9iWERw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Builder": "21.0.0",
-          "Splat.Logging": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Builder": "22.0.1",
+          "Splat.Logging": "22.0.1"
         }
       },
       "System.Reactive": {
@@ -110,10 +112,10 @@
       },
       "Microsoft.Bcl.TimeProvider": {
         "type": "Transitive",
-        "resolved": "10.0.8",
-        "contentHash": "hRAW0yY96WaTlhdbi9VXTty07ShSkldCnh7FBvyyHuEJVNyEtfJ9LRh///HPWqRaEOmPp42nrExHv9hoJTi7jA==",
+        "resolved": "10.0.15",
+        "contentHash": "6G/10PlzxyrcN8b7KnijEHtacjAfFiJ7KFJLSiA9FIFUme+6Sy5rea2ZvftYEpDUNEYswJ5fFmy/Kxqvq86vVA==",
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "10.0.8",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.15",
           "System.ValueTuple": "4.6.2"
         }
       },
@@ -177,8 +179,24 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
+      },
+      "ReactiveUI.Primitives.Core": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
+        "dependencies": {
+          "Microsoft.Bcl.TimeProvider": "10.0.15",
+          "ReactiveUI.Disposables": "10.0.0",
+          "System.Buffers": "4.6.1",
+          "System.Collections.Immutable": "10.0.15",
+          "System.ComponentModel.Annotations": "5.0.0",
+          "System.Memory": "4.6.3",
+          "System.Runtime.CompilerServices.Unsafe": "6.1.2",
+          "System.Threading.Channels": "10.0.15",
+          "System.ValueTuple": "4.6.2"
+        }
       },
       "Roslynator.Analyzers": {
         "type": "Transitive",
@@ -197,28 +215,28 @@
       },
       "Splat.Builder": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "resolved": "22.0.1",
+        "contentHash": "Zk8j2efaHWwkq69HezYez1GWGW/Gj+HdyfY9RvKHel6xpIUQdwFL5BavB+juegFgubFKYenWJL5vnlSLIZWDmA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "Splat.Core": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "resolved": "22.0.1",
+        "contentHash": "iwP6ANVrp1/vdjPhGOMfOPykuN1HrJu4rKeKPxeuhI5/Qz5SbPrFjbg3pKfppaSdzN4GhGut95T9vxx7+LQfmw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Splat.Logging": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "resolved": "22.0.1",
+        "contentHash": "lNANSHlv4zBk+fckdrC94F5LJgXiWVFAJ81J+SI5pLO57K+dTy3h00kfr2CmJb4iPuFMuLTtwCHA1c7em950fQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "StyleCop.Analyzers": {
@@ -233,8 +251,8 @@
       },
       "System.Collections.Immutable": {
         "type": "Transitive",
-        "resolved": "10.0.8",
-        "contentHash": "rvMGYko6bcE/ZTpj1Q/EM22rcZNiQyjH+71capjjfmqG+DDncVE4kSaE5ysCv2vEFIHt8+zALWYXgIETFvcFzw==",
+        "resolved": "10.0.15",
+        "contentHash": "pfmwjvSb2GWhvGuFTYoa3b1XvrzM53jEHg95mYoCVh5eww/FxDupyX86sF6QM8gp5/n4sRglICCFFCbHDXXWcQ==",
         "dependencies": {
           "System.Memory": "4.6.3",
           "System.Runtime.CompilerServices.Unsafe": "6.1.2"
@@ -285,10 +303,10 @@
       },
       "System.Threading.Channels": {
         "type": "Transitive",
-        "resolved": "10.0.8",
-        "contentHash": "ZEnMCgWyFdXDpPE17EUjGVl3FuQ9QqgigENv7WHpUlBfzR2pGa3X0e6oEr3p3xHOBW4KQLejO9Spn2JQZL1gsA==",
+        "resolved": "10.0.15",
+        "contentHash": "V0qWqpxL2xmomZRYLdaHp+J590SMiALRXtNZHXMgNIVsM3bK5vDe7noQEzAxYu7IXATMw7rUqwkD5jLwxLR4Sg==",
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "10.0.8",
+          "Microsoft.Bcl.AsyncInterfaces": "10.0.15",
           "System.Threading.Tasks.Extensions": "4.6.3"
         }
       },
@@ -349,24 +367,25 @@
         "resolved": "3.10.94",
         "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
       },
-      "ReactiveUI.Extensions": {
+      "ReactiveUI.Primitives": {
         "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
         "dependencies": {
-          "System.Reactive": "6.1.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "ReactiveUI.Primitives.Core": "10.0.0"
         }
       },
       "Splat": {
         "type": "Direct",
-        "requested": "[21.0.0, )",
-        "resolved": "21.0.0",
-        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "requested": "[22.0.1, )",
+        "resolved": "22.0.1",
+        "contentHash": "vGwTeTDtdHeDRZiBTQdIbHmofdIWe63RvCHp1iII4NJ7yPJ5yEwGeS48eFjTzGN8p4BQKvL7RFw47Re+9iWERw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Builder": "21.0.0",
-          "Splat.Logging": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Builder": "22.0.1",
+          "Splat.Logging": "22.0.1"
         }
       },
       "System.Reactive": {
@@ -454,8 +473,16 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
+      },
+      "ReactiveUI.Primitives.Core": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "10.0.0"
+        }
       },
       "Roslynator.Analyzers": {
         "type": "Transitive",
@@ -474,28 +501,28 @@
       },
       "Splat.Builder": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "resolved": "22.0.1",
+        "contentHash": "Zk8j2efaHWwkq69HezYez1GWGW/Gj+HdyfY9RvKHel6xpIUQdwFL5BavB+juegFgubFKYenWJL5vnlSLIZWDmA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "Splat.Core": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "resolved": "22.0.1",
+        "contentHash": "iwP6ANVrp1/vdjPhGOMfOPykuN1HrJu4rKeKPxeuhI5/Qz5SbPrFjbg3pKfppaSdzN4GhGut95T9vxx7+LQfmw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Splat.Logging": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "resolved": "22.0.1",
+        "contentHash": "lNANSHlv4zBk+fckdrC94F5LJgXiWVFAJ81J+SI5pLO57K+dTy3h00kfr2CmJb4iPuFMuLTtwCHA1c7em950fQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "StyleCop.Analyzers": {
@@ -552,24 +579,25 @@
         "resolved": "3.10.94",
         "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
       },
-      "ReactiveUI.Extensions": {
+      "ReactiveUI.Primitives": {
         "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
         "dependencies": {
-          "System.Reactive": "6.1.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "ReactiveUI.Primitives.Core": "10.0.0"
         }
       },
       "Splat": {
         "type": "Direct",
-        "requested": "[21.0.0, )",
-        "resolved": "21.0.0",
-        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "requested": "[22.0.1, )",
+        "resolved": "22.0.1",
+        "contentHash": "vGwTeTDtdHeDRZiBTQdIbHmofdIWe63RvCHp1iII4NJ7yPJ5yEwGeS48eFjTzGN8p4BQKvL7RFw47Re+9iWERw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Builder": "21.0.0",
-          "Splat.Logging": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Builder": "22.0.1",
+          "Splat.Logging": "22.0.1"
         }
       },
       "System.Reactive": {
@@ -657,8 +685,16 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
+      },
+      "ReactiveUI.Primitives.Core": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "10.0.0"
+        }
       },
       "Roslynator.Analyzers": {
         "type": "Transitive",
@@ -677,28 +713,28 @@
       },
       "Splat.Builder": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "resolved": "22.0.1",
+        "contentHash": "Zk8j2efaHWwkq69HezYez1GWGW/Gj+HdyfY9RvKHel6xpIUQdwFL5BavB+juegFgubFKYenWJL5vnlSLIZWDmA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "Splat.Core": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "resolved": "22.0.1",
+        "contentHash": "iwP6ANVrp1/vdjPhGOMfOPykuN1HrJu4rKeKPxeuhI5/Qz5SbPrFjbg3pKfppaSdzN4GhGut95T9vxx7+LQfmw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Splat.Logging": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "resolved": "22.0.1",
+        "contentHash": "lNANSHlv4zBk+fckdrC94F5LJgXiWVFAJ81J+SI5pLO57K+dTy3h00kfr2CmJb4iPuFMuLTtwCHA1c7em950fQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "StyleCop.Analyzers": {
@@ -761,24 +797,25 @@
         "resolved": "3.10.94",
         "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
       },
-      "ReactiveUI.Extensions": {
+      "ReactiveUI.Primitives": {
         "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
         "dependencies": {
-          "System.Reactive": "6.1.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "ReactiveUI.Primitives.Core": "10.0.0"
         }
       },
       "Splat": {
         "type": "Direct",
-        "requested": "[21.0.0, )",
-        "resolved": "21.0.0",
-        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "requested": "[22.0.1, )",
+        "resolved": "22.0.1",
+        "contentHash": "vGwTeTDtdHeDRZiBTQdIbHmofdIWe63RvCHp1iII4NJ7yPJ5yEwGeS48eFjTzGN8p4BQKvL7RFw47Re+9iWERw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Builder": "21.0.0",
-          "Splat.Logging": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Builder": "22.0.1",
+          "Splat.Logging": "22.0.1"
         }
       },
       "System.Reactive": {
@@ -866,8 +903,16 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
+      },
+      "ReactiveUI.Primitives.Core": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "10.0.0"
+        }
       },
       "Roslynator.Analyzers": {
         "type": "Transitive",
@@ -886,28 +931,28 @@
       },
       "Splat.Builder": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "resolved": "22.0.1",
+        "contentHash": "Zk8j2efaHWwkq69HezYez1GWGW/Gj+HdyfY9RvKHel6xpIUQdwFL5BavB+juegFgubFKYenWJL5vnlSLIZWDmA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "Splat.Core": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "resolved": "22.0.1",
+        "contentHash": "iwP6ANVrp1/vdjPhGOMfOPykuN1HrJu4rKeKPxeuhI5/Qz5SbPrFjbg3pKfppaSdzN4GhGut95T9vxx7+LQfmw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Splat.Logging": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "resolved": "22.0.1",
+        "contentHash": "lNANSHlv4zBk+fckdrC94F5LJgXiWVFAJ81J+SI5pLO57K+dTy3h00kfr2CmJb4iPuFMuLTtwCHA1c7em950fQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "StyleCop.Analyzers": {
@@ -970,24 +1015,25 @@
         "resolved": "3.10.94",
         "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
       },
-      "ReactiveUI.Extensions": {
+      "ReactiveUI.Primitives": {
         "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
         "dependencies": {
-          "System.Reactive": "6.1.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "ReactiveUI.Primitives.Core": "10.0.0"
         }
       },
       "Splat": {
         "type": "Direct",
-        "requested": "[21.0.0, )",
-        "resolved": "21.0.0",
-        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "requested": "[22.0.1, )",
+        "resolved": "22.0.1",
+        "contentHash": "vGwTeTDtdHeDRZiBTQdIbHmofdIWe63RvCHp1iII4NJ7yPJ5yEwGeS48eFjTzGN8p4BQKvL7RFw47Re+9iWERw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Builder": "21.0.0",
-          "Splat.Logging": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Builder": "22.0.1",
+          "Splat.Logging": "22.0.1"
         }
       },
       "System.Reactive": {
@@ -1075,8 +1121,16 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
+      },
+      "ReactiveUI.Primitives.Core": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "10.0.0"
+        }
       },
       "Roslynator.Analyzers": {
         "type": "Transitive",
@@ -1095,28 +1149,28 @@
       },
       "Splat.Builder": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "resolved": "22.0.1",
+        "contentHash": "Zk8j2efaHWwkq69HezYez1GWGW/Gj+HdyfY9RvKHel6xpIUQdwFL5BavB+juegFgubFKYenWJL5vnlSLIZWDmA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "Splat.Core": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "resolved": "22.0.1",
+        "contentHash": "iwP6ANVrp1/vdjPhGOMfOPykuN1HrJu4rKeKPxeuhI5/Qz5SbPrFjbg3pKfppaSdzN4GhGut95T9vxx7+LQfmw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Splat.Logging": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "resolved": "22.0.1",
+        "contentHash": "lNANSHlv4zBk+fckdrC94F5LJgXiWVFAJ81J+SI5pLO57K+dTy3h00kfr2CmJb4iPuFMuLTtwCHA1c7em950fQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "StyleCop.Analyzers": {
@@ -1179,24 +1233,25 @@
         "resolved": "3.10.94",
         "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
       },
-      "ReactiveUI.Extensions": {
+      "ReactiveUI.Primitives": {
         "type": "Direct",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
         "dependencies": {
-          "System.Reactive": "6.1.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "ReactiveUI.Primitives.Core": "10.0.0"
         }
       },
       "Splat": {
         "type": "Direct",
-        "requested": "[21.0.0, )",
-        "resolved": "21.0.0",
-        "contentHash": "famvWFOGoZZ707Rf9EK6kpt+sqhRnky5n0F0X9at/QzWja8KUwEh6pDG/oM3nleyEIUwK1gi9Nw72fDHAsm+og==",
+        "requested": "[22.0.1, )",
+        "resolved": "22.0.1",
+        "contentHash": "vGwTeTDtdHeDRZiBTQdIbHmofdIWe63RvCHp1iII4NJ7yPJ5yEwGeS48eFjTzGN8p4BQKvL7RFw47Re+9iWERw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Builder": "21.0.0",
-          "Splat.Logging": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Builder": "22.0.1",
+          "Splat.Logging": "22.0.1"
         }
       },
       "System.Reactive": {
@@ -1284,8 +1339,16 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "7.1.0",
-        "contentHash": "fjbSZqYvtzo8scwUJVeYZFDWEzsgUtemP5qGpTEAO/MTRhckRsjTXvb7jKP2Gm8CSNi3At3DcTXYKWogigiTTw=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
+      },
+      "ReactiveUI.Primitives.Core": {
+        "type": "Transitive",
+        "resolved": "10.0.0",
+        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
+        "dependencies": {
+          "ReactiveUI.Disposables": "10.0.0"
+        }
       },
       "Roslynator.Analyzers": {
         "type": "Transitive",
@@ -1304,28 +1367,28 @@
       },
       "Splat.Builder": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "uUa2VtGjlz/fZrZkbor9uSysP68ZMpA17DbBrIxsbfaRUp6AOdkC5kcxmppx5uuCcG1mQ/wxvqIoYAN4RGrdCw==",
+        "resolved": "22.0.1",
+        "contentHash": "Zk8j2efaHWwkq69HezYez1GWGW/Gj+HdyfY9RvKHel6xpIUQdwFL5BavB+juegFgubFKYenWJL5vnlSLIZWDmA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "Splat.Core": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "MGsKsMti+M+y1Bq4t8TA/AMp47XGd8/fBhfEZ+EmxgaWLIzRZ2EGXRKEewLx8jKf2RKTqfjcX6hRhG58cU8EFg==",
+        "resolved": "22.0.1",
+        "contentHash": "iwP6ANVrp1/vdjPhGOMfOPykuN1HrJu4rKeKPxeuhI5/Qz5SbPrFjbg3pKfppaSdzN4GhGut95T9vxx7+LQfmw==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Splat.Logging": {
         "type": "Transitive",
-        "resolved": "21.0.0",
-        "contentHash": "jNnsXXcbksP2rsOMeIFDzm0jputFm11S/1eQxq9U9+dQ7ES4zECl/q7EytG+Z1iogClr4LRDefMlnKiIi7CEsQ==",
+        "resolved": "22.0.1",
+        "contentHash": "lNANSHlv4zBk+fckdrC94F5LJgXiWVFAJ81J+SI5pLO57K+dTy3h00kfr2CmJb4iPuFMuLTtwCHA1c7em950fQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "7.1.0",
-          "Splat.Core": "21.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "Splat.Core": "22.0.1"
         }
       },
       "StyleCop.Analyzers": {

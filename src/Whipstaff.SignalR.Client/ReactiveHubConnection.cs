@@ -4,7 +4,7 @@
 
 using System;
 using Microsoft.AspNetCore.SignalR.Client;
-using ReactiveMarbles.ObservableEvents;
+using ReactiveUI.Primitives.ObservableEvents;
 
 namespace Whipstaff.SignalR.Client
 {
@@ -31,16 +31,16 @@ namespace Whipstaff.SignalR.Client
         /// <summary>
         /// Gets an observable for monitoring the Hub Connection Closed Event.
         /// </summary>
-        public IObservable<Exception> HubConnectionClosed => HubConnection.Events().Closed;
+        public IObservable<Exception?> HubConnectionClosed => HubConnection.Events().Closed;
 
         /// <summary>
         /// Gets an observable for monitoring the Hub Connection Reconnected Event.
         /// </summary>
-        public IObservable<string> HubConnectionReconnected => HubConnection.Events().Reconnected;
+        public IObservable<string?> HubConnectionReconnected => HubConnection.Events().Reconnected;
 
         /// <summary>
         /// Gets an observable for monitoring the Hub Connection Reconnecting Event.
         /// </summary>
-        public IObservable<Exception> HubConnectionReconnecting => HubConnection.Events().Reconnecting;
+        public IObservable<Exception?> HubConnectionReconnecting => HubConnection.Events().Reconnecting;
     }
 }

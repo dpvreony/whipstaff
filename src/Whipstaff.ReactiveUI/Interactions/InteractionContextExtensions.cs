@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
-using ReactiveUI;
+using ReactiveUI.Binding;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;

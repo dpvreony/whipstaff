@@ -5,6 +5,7 @@
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ReactiveUI;
+using ReactiveUI.Binding;
 using ReactiveUI.Primitives;
 using ReactiveUI.Primitives.Concurrency;
 using ReactiveUI.Primitives.Extensions;
@@ -45,7 +46,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 canExecute,
                 sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -80,7 +81,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 outputScheduler: sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -118,7 +119,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 canExecute,
                 outputScheduler: sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
                 : null;
@@ -153,7 +154,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 outputScheduler: sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
                 : null;
@@ -192,7 +193,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 canExecute,
                 outputScheduler: sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(async e => await onExceptionAction(e))
                 : null;
@@ -228,7 +229,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
             var command = ReactiveCommand.CreateFromTask(
                 commandFunc,
                 outputScheduler: sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
                 : null;
@@ -463,7 +464,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 canExecute,
                 sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -501,7 +502,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 backgroundScheduler,
                 outputScheduler);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.Subscribe(onExceptionAction)
                 : null;
@@ -539,7 +540,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 canExecute,
                 sequencer);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
                 : null;
@@ -577,7 +578,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 backgroundScheduler,
                 outputScheduler);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
                 : null;
@@ -619,7 +620,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 canExecute,
                 backgroundScheduler,
                 outputScheduler);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(async e => await onExceptionAction(e))
                 : null;
@@ -658,7 +659,7 @@ namespace Whipstaff.ReactiveUI.ReactiveCommands
                 commandFunc,
                 backgroundScheduler,
                 outputScheduler);
-            var onExecutionResultAvailableSubscription = command.ToProperty(propertySource, property);
+            var onExecutionResultAvailableSubscription = command.ToPropertyUnsafe(propertySource, property);
             var onThrownExceptionSubscription = onExceptionAction != null
                 ? command.ThrownExceptions.SubscribeAsync(e => onExceptionAction(e))
                 : null;

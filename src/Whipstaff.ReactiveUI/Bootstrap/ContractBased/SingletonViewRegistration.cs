@@ -4,6 +4,7 @@
 
 using System;
 using ReactiveUI;
+using ReactiveUI.Binding;
 using ReactiveUI.Builder;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM

@@ -6,9 +6,8 @@ using System;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using ReactiveMarbles.ObservableEvents;
-using ReactiveUI;
-using Splat;
+using ReactiveUI.Binding;
+using ReactiveUI.Primitives.ObservableEvents;
 using Whipstaff.Wpf.Extensions;
 using Whipstaff.Wpf.Input;
 using Whipstaff.Wpf.InteractionFlows;
@@ -21,7 +20,7 @@ namespace Whipstaff.Wpf.UiElements
     public static class WindowExtensions
     {
         /// <summary>
-        /// Sets up the Window Display Affinity for a Window that implements <see cref="IViewFor{TViewModel}"/> and <see cref="IWindowDisplayAffinity"/>.
+        /// Sets up the Window Display Affinity for a Window that implements <see cref="IViewFor"/> and <see cref="IWindowDisplayAffinity"/>.
         /// </summary>
         /// <typeparam name="TWindow">The type for the window.</typeparam>
         /// <typeparam name="TViewModel">The type for the view model.</typeparam>

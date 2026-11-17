@@ -48,11 +48,11 @@
         "resolved": "3.10.94",
         "contentHash": "sn6gFIx6bwFj3Me0XGmek3gLZi/MZC8C4tRLwslXGeBcXcVxvFpZyDrQA93G8TiYgxTS7J7triKB7hj5wXzSxA=="
       },
-      "ReactiveMarbles.ObservableEvents.SourceGenerator": {
+      "ReactiveUI.Primitives.ObservableEvents": {
         "type": "Direct",
-        "requested": "[1.3.1, )",
-        "resolved": "1.3.1",
-        "contentHash": "Yog8Af0hYb0jLMMNupkTS1Cjf/oLT637zDysQwlVbJoZJ8QgKWr6NV7dyoqZ8sQtWPOS6R4JQ+dXd3YqUjesxw=="
+        "requested": "[10.0.0, )",
+        "resolved": "10.0.0",
+        "contentHash": "w+K41mzcz6mMaUYCeib9up2ge0nikDEDkVmJHN7oMwcv5fRfV7ZQTomamnFj8u9KU9uLuwJONW2wGBGtQGOR8g=="
       },
       "System.Reactive": {
         "type": "Direct",

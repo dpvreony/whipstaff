@@ -4,7 +4,7 @@
 
 using System.Windows;
 using MahApps.Metro.SimpleChildWindow;
-using ReactiveUI;
+using ReactiveUI.Binding;
 
 namespace Whipstaff.Wpf.Mahapps
 {
@@ -13,7 +13,7 @@ namespace Whipstaff.Wpf.Mahapps
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This class is a <see cref="ChildWindow"/> that is also reactive. That is, it implements <see cref="IViewFor{TViewModel}"/>.
+    /// This class is a <see cref="ChildWindow"/> that is also reactive. That is, it implements <see cref="IViewFor"/>.
     /// You can extend this class to get an implementation of <see cref="IViewFor{TViewModel}"/> rather than writing one yourself.
     /// </para>
     /// <para>

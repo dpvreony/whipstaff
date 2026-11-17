@@ -8,8 +8,7 @@ using System.Reactive.Disposables;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Shell;
-using Microsoft.Extensions.Logging;
-using ReactiveMarbles.ObservableEvents;
+using ReactiveUI.Primitives.ObservableEvents;
 
 namespace Whipstaff.Wpf.JumpLists
 {

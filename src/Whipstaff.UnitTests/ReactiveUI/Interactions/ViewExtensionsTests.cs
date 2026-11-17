@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
+using ReactiveUI.Binding;
 using ReactiveUI.Builder;
 using Whipstaff.ReactiveUI.Interactions;
 using Xunit;
@@ -20,7 +21,7 @@ namespace Whipstaff.UnitTests.ReactiveUI.Interactions
     public static class ViewExtensionsTests
     {
         /// <summary>
-        /// Unit Tests for <see cref="ViewExtensions.BindInteractionDirectToOutputFunc{TViewModel, TView, TInput, TOutput}(TView, TViewModel, Expression{Func{TViewModel, IInteraction{TInput, TOutput}}}, Func{TInput, Task{TOutput}})"/>.
+        /// Unit Tests for <see cref="ViewExtensions.BindInteractionDirectToOutputFunc{TViewModel, TView, TInput, TOutput}(TView, TViewModel, Expression{Func{TViewModel, IInteraction{TInput,TOutput}}}, Func{TInput, Task{TOutput}})"/>.
         /// </summary>
         public sealed class BindInteractionDirectToOutputFuncMethod
 #if TBC
