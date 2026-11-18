@@ -40,11 +40,11 @@
       },
       "Refit": {
         "type": "Direct",
-        "requested": "[16.4.0, )",
-        "resolved": "16.4.0",
-        "contentHash": "6GWfcHeVBioiNQHodPXOUw+2ahEY1GqtTqzLbu7yU4l2q5AkblYCMlpO/ypSJX6fkMlBDZ8qf0UYc7fsMeCgWg==",
+        "requested": "[17.0.0, )",
+        "resolved": "17.0.0",
+        "contentHash": "16tmpvaihkeR/YGCDwEyhRzzsXQ11AsDNRsnl+oCjij6ZamSzDcJsUFi/4bqge9LAWI6krK6J7FLSEou6o4Xsw==",
         "dependencies": {
-          "ReactiveUI.Primitives": "9.0.0"
+          "ReactiveUI.Primitives": "10.0.0"
         }
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
@@ -113,24 +113,24 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "gt5vQ9e7yP/qsv1DbTR9AdwViJwqoHseTwyI/7muKetJMDg60QUv7RZShMj3RIjF48LNiHKABtxPq+Or+42bbA=="
+        "resolved": "10.0.0",
+        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
       },
       "ReactiveUI.Primitives": {
         "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "WmfXpHHBun50DJwTHVDLcFyQIHN/WtaoYJ34GrByFW/CsWgOH0UyjC8h9nul551oRkIvbqBGy3xZiijNdchGRw==",
+        "resolved": "10.0.0",
+        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
         "dependencies": {
-          "ReactiveUI.Disposables": "9.0.0",
-          "ReactiveUI.Primitives.Core": "9.0.0"
+          "ReactiveUI.Disposables": "10.0.0",
+          "ReactiveUI.Primitives.Core": "10.0.0"
         }
       },
       "ReactiveUI.Primitives.Core": {
         "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "alULlmIxJycMKxfZeadn5tjjRAP+9+qDX9ryOT9Tg5lQzn0SKQAnmhqMa+9l68ogexrEuK/fUc543KR+kGJCJg==",
+        "resolved": "10.0.0",
+        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
         "dependencies": {
-          "ReactiveUI.Disposables": "9.0.0"
+          "ReactiveUI.Disposables": "10.0.0"
         }
       },
       "Roslynator.Analyzers": {
