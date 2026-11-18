@@ -2207,12 +2207,12 @@
       },
       "Oracle.ManagedDataAccess.Core": {
         "type": "Transitive",
-        "resolved": "23.26.400",
-        "contentHash": "PWVJunbl2LVcdFBluW5R3678MvrTLlTrQBdXe9wR4YCauISa4zCceJ7fLHVFFiGog8/ZPxo2cY4adpVQCJf+YQ==",
+        "resolved": "23.26.401",
+        "contentHash": "Cdl0yviHUbmDyHvKHft8r6z44Xm6pY6esHnNXRXXBqImDanuMzapXWxRZu68pNw59X8v/qso+r9wYBibBe/VXw==",
         "dependencies": {
           "System.Diagnostics.PerformanceCounter": "8.0.0",
           "System.DirectoryServices.Protocols": "8.0.2",
-          "System.Security.Cryptography.Pkcs": "8.0.1"
+          "System.Security.Cryptography.Pkcs": "10.0.13"
         }
       },
       "OwaspHeaders.Core": {
@@ -2350,14 +2350,6 @@
         "type": "Transitive",
         "resolved": "10.0.0",
         "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
-      },
-      "ReactiveUI.Extensions": {
-        "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "4Uj4xLZidwFRxWS6+aFllniBnAvo18RLDpSOTgfBGB5UUO7Q9T6jNEa1LUDN++C2SfTcHSI9plkOP0JtGgoc+A==",
-        "dependencies": {
-          "System.Reactive": "6.1.0"
-        }
       },
       "ReactiveUI.Maui": {
         "type": "Transitive",
@@ -3168,7 +3160,7 @@
       "whipstaff.oracle": {
         "type": "Project",
         "dependencies": {
-          "Oracle.ManagedDataAccess.Core": "[23.26.400, )",
+          "Oracle.ManagedDataAccess.Core": "[23.26.401, )",
           "System.Security.Cryptography.Pkcs": "[10.0.15, )"
         }
       },
@@ -3197,7 +3189,6 @@
       "whipstaff.rx": {
         "type": "Project",
         "dependencies": {
-          "ReactiveUI.Extensions": "[4.0.0, )",
           "ReactiveUI.Primitives": "[10.0.0, )",
           "Splat": "[22.0.1, )",
           "System.Reactive": "[7.0.0, )",
