@@ -21,12 +21,13 @@ jobs:
       pull-requests: write
       packages: read
       security-events: write
-    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@2.1.2
+    uses: dpvreony/github-action-workflows/.github/workflows/dotnet-ci.yml@2.2.0
     with:
       primary-build-mode: "linux-secondary-and-windows-primary"
       solutionName: "Whipstaff"
       integration-test-os: "windows"
       workloads : "android,ios,tvos,macos,maui"
+      workloadRestore: true
       apiDocumentation: "None"
     secrets:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
