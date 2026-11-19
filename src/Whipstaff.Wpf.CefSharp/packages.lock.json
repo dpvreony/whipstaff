@@ -4,11 +4,11 @@
     "net10.0-windows10.0.19041": {
       "CefSharp.Wpf.NETCore": {
         "type": "Direct",
-        "requested": "[156.0.150, )",
-        "resolved": "156.0.150",
-        "contentHash": "2HmuOkxUWv/WBVmmRBhfjCPTORSa3sJESe00P2mJqOCTWhqJSRtgEiPhTghdrr7H22uLnKFGfz5v7Y+sJ9j/7Q==",
+        "requested": "[156.0.300, )",
+        "resolved": "156.0.300",
+        "contentHash": "sTByHdRSzMazquXWU7KDfRtIExiysYmUjbXqs6FELQGz35se8RxcMsmq/vD1D03MszLC+IdlbbE0Ow5ILJRMfw==",
         "dependencies": {
-          "CefSharp.Common.NETCore": "[156.0.150]"
+          "CefSharp.Common.NETCore": "[156.0.300]"
         }
       },
       "Gripe.QualityAssurancePack": {
@@ -67,16 +67,16 @@
       },
       "CefSharp.Common.NETCore": {
         "type": "Transitive",
-        "resolved": "156.0.150",
-        "contentHash": "iNnn1q6xZKK59KQyzj6PTECoS2/a0wy+RTzCEYecg97Y4pwQUxyeKlz4RbfECsJaXhf22/5buDIXaqglTvYYsw==",
+        "resolved": "156.0.300",
+        "contentHash": "78d1+JB/nqhrfYa8ivW0bWA7CaMSP/3myoHcFuMowm8YqDftV++JgAlbyKyjnVKd1+Yhi92vRuDc1fasWihdxQ==",
         "dependencies": {
-          "chromiumembeddedframework.runtime": "[156.0.15]"
+          "chromiumembeddedframework.runtime": "[156.0.30]"
         }
       },
       "chromiumembeddedframework.runtime": {
         "type": "Transitive",
-        "resolved": "156.0.15",
-        "contentHash": "j92Q4ba/hqW43O+v5PJ9teWdJ6cq27zYFxW9gYifR+wvzjqNI7uIXCcxYmBSxM1LC6276hxbTbTP+MzmdB/azA=="
+        "resolved": "156.0.30",
+        "contentHash": "Af41B3vPQ2fgpTYYUXjxEdbGggWPiTB2IDwYTH3LV0z2LWhra0OKKb+xlSG67T0mJqwk//I7qsIZccwYW4cnfg=="
       },
       "Desktop.Analyzers": {
         "type": "Transitive",
