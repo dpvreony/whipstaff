@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.0.0" PrivateAssets="all" />
-    <PackageReference Include="CefSharp.Wpf.NETCore" Version="156.0.150" />
+    <PackageReference Include="CefSharp.Wpf.NETCore" Version="156.0.300" />
     <PackageReference Include="Vetuviem.SourceGenerator" Version="0.16.36">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
