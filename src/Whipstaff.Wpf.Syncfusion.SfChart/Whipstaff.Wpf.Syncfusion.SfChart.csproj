@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.0.0" PrivateAssets="all" />
-    <PackageReference Include="Syncfusion.SfChart.WPF" Version="35.1.46" />
+    <PackageReference Include="Syncfusion.SfChart.WPF" Version="35.2.12" />
     <PackageReference Include="Vetuviem.SourceGenerator" Version="0.16.36">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
