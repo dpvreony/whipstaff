@@ -66,9 +66,9 @@
       },
       "ReactiveUI.Primitives.ObservableEvents": {
         "type": "Direct",
-        "requested": "[10.0.0, )",
-        "resolved": "10.0.0",
-        "contentHash": "w+K41mzcz6mMaUYCeib9up2ge0nikDEDkVmJHN7oMwcv5fRfV7ZQTomamnFj8u9KU9uLuwJONW2wGBGtQGOR8g=="
+        "requested": "[10.2.0, )",
+        "resolved": "10.2.0",
+        "contentHash": "Ao9L8bJnXIFWuCVB49NFn2hT+pFfkuRGdb7VHXu376poxFwOLB6/vgTIU/bo7I7cSblg1rJB5FJbftED/id1cA=="
       },
       "System.DirectoryServices.AccountManagement": {
         "type": "Direct",

@@ -40,9 +40,9 @@
       },
       "ReactiveUI.Primitives.ObservableEvents": {
         "type": "Direct",
-        "requested": "[10.0.0, )",
-        "resolved": "10.0.0",
-        "contentHash": "w+K41mzcz6mMaUYCeib9up2ge0nikDEDkVmJHN7oMwcv5fRfV7ZQTomamnFj8u9KU9uLuwJONW2wGBGtQGOR8g=="
+        "requested": "[10.2.0, )",
+        "resolved": "10.2.0",
+        "contentHash": "Ao9L8bJnXIFWuCVB49NFn2hT+pFfkuRGdb7VHXu376poxFwOLB6/vgTIU/bo7I7cSblg1rJB5FJbftED/id1cA=="
       },
       "Syncfusion.SfInput.WPF": {
         "type": "Direct",
@@ -301,24 +301,24 @@
       },
       "ReactiveUI.Disposables": {
         "type": "Transitive",
-        "resolved": "10.0.0",
-        "contentHash": "Pxl07TtCvI+KLdOXhNA0q1OJs3os9mnXEIEeZL9VWMiVnVQ4jUXb8/YAtvuZfWqmnI90ri8JMVT8pzY0sENODw=="
+        "resolved": "10.2.0",
+        "contentHash": "Os1PD1shjDyzSFigQs+DpNEWNE3l0caV9yPX2LpPZg8e1k7m9plUdxx0ME3RsA+DkeGdG3P4dmDWc0ySHKVcsA=="
       },
       "ReactiveUI.Primitives": {
         "type": "Transitive",
-        "resolved": "10.0.0",
-        "contentHash": "8q/xWmbL6dTbNyc0BlqhKbt0XM0ekat8n4E2VF7IHPCVHnUUn6HbIC3FENS2b/+q4T7frq1OfIwTzD9Rg6WPSQ==",
+        "resolved": "10.2.0",
+        "contentHash": "q1vz6uA+jVi57lvxc2ta+KC+wnL04xWJiJLiht5vNhl/ASroPrXkvtlj7Thtyy+A2HE9gD4WCd6yQJiCy6f96w==",
         "dependencies": {
-          "ReactiveUI.Disposables": "10.0.0",
-          "ReactiveUI.Primitives.Core": "10.0.0"
+          "ReactiveUI.Disposables": "10.2.0",
+          "ReactiveUI.Primitives.Core": "10.2.0"
         }
       },
       "ReactiveUI.Primitives.Core": {
         "type": "Transitive",
-        "resolved": "10.0.0",
-        "contentHash": "hx+N2FuqokmTDFdO6+jHnX9tt3BI+aNRWiQcxv8ADn4m4ls8KUuZRF0hLJGbHF0Vzz+QltcKc7URsKbgLL1mpA==",
+        "resolved": "10.2.0",
+        "contentHash": "lYxfanA7Z0NoAkJftXgd39L8oRvlfuJXrO7vAcGwfmqdLT6nUC9EqzZazWEsj5mBhp0juTdZt2vBaPbgIZyovg==",
         "dependencies": {
-          "ReactiveUI.Disposables": "10.0.0"
+          "ReactiveUI.Disposables": "10.2.0"
         }
       },
       "ReactiveUI.Primitives.Wpf": {
@@ -515,7 +515,7 @@
       "whipstaff.rx": {
         "type": "Project",
         "dependencies": {
-          "ReactiveUI.Primitives": "[10.0.0, )",
+          "ReactiveUI.Primitives": "[10.2.0, )",
           "Splat": "[22.0.1, )",
           "System.Reactive": "[7.0.0, )",
           "Whipstaff.Runtime": "[1.0.0, )"

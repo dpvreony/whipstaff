@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.0.0" PrivateAssets="all" />
+    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.0" PrivateAssets="all" />
     <PackageReference Include="Syncfusion.SfRichTextRibbon.WPF" Version="35.2.12" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.15" />
     <PackageReference Include="Vetuviem.SourceGenerator" Version="0.16.36">
