@@ -407,8 +407,8 @@
       },
       "Syncfusion.Licensing": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "OJgL3ADJWrzU/uA6ejGCN9juGG2eRlzSgldVloULhn1c6Yy11Lntvfa9isJ2Z8ru9u9gIupKvY2vMSB0MfKXzQ=="
+        "resolved": "35.2.12",
+        "contentHash": "uVxFDMp88M67vDnRhIDxx//+7Nl7OKnx7BFhXMi5vDoTyJWh/OhRjd10KLky7b08Ne0n3Hlhk+AW9j74pgb+9g=="
       },
       "Syncfusion.SfRadialMenu.WPF": {
         "type": "Transitive",
@@ -420,26 +420,26 @@
       },
       "Syncfusion.Shared.WPF": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "ctXnTAVWATNaNfiGMpwpX3N41+siVu5acICrK0zFFGoe9RAJeXr1MlWIPMK4Y+NwVK8f/Pz1mOVAWWtcMGbdmQ==",
+        "resolved": "35.2.12",
+        "contentHash": "ztR/WdzPvgCbvjMHdeHHmPralTcu1wizoaJzltwd0vLa29IsO6bo9i20yG2DtsaOzZApi/SkNpVGunMyWcT6RA==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.46",
-          "Syncfusion.Telemetry": "35.1.46"
+          "Syncfusion.Licensing": "35.2.12",
+          "Syncfusion.Telemetry": "35.2.12"
         }
       },
       "Syncfusion.Telemetry": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "DcGt5cY0L6PlHAr7yT03I/t5RSBH5T0tccC2NPqdoLaGZxMGYues8GoGbNGFzPcfrApFEHOVj9+yLGuMbLbG1A=="
+        "resolved": "35.2.12",
+        "contentHash": "X4XSGAy+cwYDC9pIPb2XApT1jre8FtLybSFHNljn2bTQyppqwVKzjQcTJQHhLbcdRtM2s+DAEuxZGUyUwEe8JQ=="
       },
       "Syncfusion.Tools.WPF": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "zDOMZ4WGZ6LwVmVe/6vWxKxTlhFCATsoOCZ1pf1FEQgltGAvhOglCUyBZ34szM7bA9mjlZpj2c/Z9zWxvhOXEQ==",
+        "resolved": "35.2.12",
+        "contentHash": "9GRAA7ZSdnZDyLophLmqTiO6y5SpatTgArN53vWPNIriPh1XNoyG2tV5D8SadsOzAL36N9DPx3J8jtN3LHN87Q==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.46",
-          "Syncfusion.Shared.WPF": "35.1.46",
-          "Syncfusion.Telemetry": "35.1.46"
+          "Syncfusion.Licensing": "35.2.12",
+          "Syncfusion.Shared.WPF": "35.2.12",
+          "Syncfusion.Telemetry": "35.2.12"
         }
       },
       "System.Configuration.ConfigurationManager": {
@@ -567,14 +567,14 @@
       "whipstaff.wpf.syncfusion.shared": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Shared.WPF": "[35.1.46, )",
+          "Syncfusion.Shared.WPF": "[35.2.12, )",
           "Whipstaff.Wpf": "[1.0.0, )"
         }
       },
       "whipstaff.wpf.syncfusion.tools": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Tools.WPF": "[35.1.46, )",
+          "Syncfusion.Tools.WPF": "[35.2.12, )",
           "Whipstaff.Wpf.Syncfusion.Shared": "[1.0.0, )"
         }
       }

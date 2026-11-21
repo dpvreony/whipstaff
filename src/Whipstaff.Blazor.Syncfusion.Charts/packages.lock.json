@@ -46,16 +46,16 @@
       },
       "Syncfusion.Blazor.Charts": {
         "type": "Direct",
-        "requested": "[35.1.46, )",
-        "resolved": "35.1.46",
-        "contentHash": "RWssp2S0lfp/nD2E7knAZliizG6aJ0XOP3ndruLVQ7QUnyZI7nyeEUEfcvjg4eg+c9uiOlPLBcIUmYM8HSDWog==",
+        "requested": "[35.2.12, )",
+        "resolved": "35.2.12",
+        "contentHash": "kJqJCHnxbYiRn+OSaNVRHl3j95biyGCtnyMoA0on0S81K2Ws+eVziUuMuMPXK3xHeqAf5nPfPELjZ1gwr/GyUA==",
         "dependencies": {
-          "Syncfusion.Blazor.Core": "35.1.46",
-          "Syncfusion.Blazor.Data": "35.1.46",
-          "Syncfusion.Blazor.DataVizCommon": "35.1.46",
-          "Syncfusion.ExcelExport.Net.Core": "35.1.46",
-          "Syncfusion.PdfExport.Net.Core": "35.1.46",
-          "Syncfusion.Telemetry": "35.1.46"
+          "Syncfusion.Blazor.Core": "35.2.12",
+          "Syncfusion.Blazor.Data": "35.2.12",
+          "Syncfusion.Blazor.DataVizCommon": "35.2.12",
+          "Syncfusion.ExcelExport.Net.Core": "35.2.12",
+          "Syncfusion.PdfExport.Net.Core": "35.2.12",
+          "Syncfusion.Telemetry": "35.2.12"
         }
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
@@ -424,48 +424,48 @@
       },
       "Syncfusion.Blazor.Core": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "slkkHx+BLVRVgMPx6uHMi/O8X34zlwK/YGy4s4dJBcVQRaZbIGVkBr55rT3SXBFle4Orf5xf7b7bxRjzHuX2PQ==",
+        "resolved": "35.2.12",
+        "contentHash": "vSIQq8uOnJDZrVeuNbpIrJwfWPYdTFbqpnQ2dUhq9Z0WcK7erEMIOOlT4HWp7Ir3920CAXzZQneOsQJbY4gtyg==",
         "dependencies": {
           "Microsoft.AspNetCore.Components.Web": "10.0.2",
-          "Syncfusion.Licensing": "35.1.46"
+          "Syncfusion.Licensing": "35.2.12"
         }
       },
       "Syncfusion.Blazor.Data": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "GHMSq0XnrVnPQWrZrdiH6MrpFvM42J7YLqRnny9xABSzGKV0JAUpxcCDFJroSaxCzTHnL8OQDfdxsdilY72qjw==",
+        "resolved": "35.2.12",
+        "contentHash": "PvxojRmH1wiCr2kHb1mjIo7o8hZqHuL2AGp3mtv6Un1/dickLZyyGiyQ7+WgLlqZgxtF1a6TViuQAxadn09z0g==",
         "dependencies": {
-          "Syncfusion.Blazor.Core": "35.1.46"
+          "Syncfusion.Blazor.Core": "35.2.12"
         }
       },
       "Syncfusion.Blazor.DataVizCommon": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "rZ8OSY4ErPyFSAgJlPPzXmJFnWFELUKNhLaPXebVmC16gUg6VxxBGVmelLkbJZmWnFgYdoJI6HFAwukn7q0SsA==",
+        "resolved": "35.2.12",
+        "contentHash": "i9PWLdud/Iht3aTAwtKp4szkzG/Zuoj7cJ0p5ZillQ2PxcSWlduMkQNYeHk7ApnvPivMHWFbYN4q+3DBqGWB2w==",
         "dependencies": {
-          "Syncfusion.Blazor.Core": "35.1.46"
+          "Syncfusion.Blazor.Core": "35.2.12"
         }
       },
       "Syncfusion.ExcelExport.Net.Core": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "SZOxQLDh/E6C8OI/qRYdO+8q0lNtqBwsO/IjVW0+cwOKh+dXPmzwkm5G68jWDiny/1NUG17NsTVotPuu2TuWAQ=="
+        "resolved": "35.2.12",
+        "contentHash": "9gcpWhzNnlfrtAdpakMtY+1aZwjY9KH7RfAke+IgtBo9yBJ55B8Qp1oa31zrIwQVONm7mfqwdcPTBJ9a8MjHKg=="
       },
       "Syncfusion.Licensing": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "OJgL3ADJWrzU/uA6ejGCN9juGG2eRlzSgldVloULhn1c6Yy11Lntvfa9isJ2Z8ru9u9gIupKvY2vMSB0MfKXzQ=="
+        "resolved": "35.2.12",
+        "contentHash": "uVxFDMp88M67vDnRhIDxx//+7Nl7OKnx7BFhXMi5vDoTyJWh/OhRjd10KLky7b08Ne0n3Hlhk+AW9j74pgb+9g=="
       },
       "Syncfusion.PdfExport.Net.Core": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "wsUgadI0YLR7So0tNrtqwvDbxmCdCvzE0IzJbxnNlnRR/TGrBij2CngivHaBPCwJ26ohnjL0ZVH0ZXUN8cMAXQ=="
+        "resolved": "35.2.12",
+        "contentHash": "TJzKep60OIOa+TKdyMyQJ6N9n8CUvvlVBNfkIA4bqsdaAieG1JAWWgqiWm2nnsPoGjN+qHehNkoszCVByODAvQ=="
       },
       "Syncfusion.Telemetry": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "DcGt5cY0L6PlHAr7yT03I/t5RSBH5T0tccC2NPqdoLaGZxMGYues8GoGbNGFzPcfrApFEHOVj9+yLGuMbLbG1A=="
+        "resolved": "35.2.12",
+        "contentHash": "X4XSGAy+cwYDC9pIPb2XApT1jre8FtLybSFHNljn2bTQyppqwVKzjQcTJQHhLbcdRtM2s+DAEuxZGUyUwEe8JQ=="
       },
       "System.IO.Hashing": {
         "type": "Transitive",
@@ -498,14 +498,14 @@
       "whipstaff.blazor.syncfusion.core": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Blazor.Core": "[35.1.46, )",
+          "Syncfusion.Blazor.Core": "[35.2.12, )",
           "Whipstaff.Blazor": "[1.0.0, )"
         }
       },
       "whipstaff.blazor.syncfusion.data": {
         "type": "Project",
         "dependencies": {
-          "Syncfusion.Blazor.Data": "[35.1.46, )",
+          "Syncfusion.Blazor.Data": "[35.2.12, )",
           "Whipstaff.Blazor.Syncfusion.Core": "[1.0.0, )"
         }
       },

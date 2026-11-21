@@ -46,11 +46,11 @@
       },
       "Syncfusion.SfRadialMenu.WPF": {
         "type": "Direct",
-        "requested": "[35.1.46, )",
-        "resolved": "35.1.46",
-        "contentHash": "wle4LZZ8fOv6Pst42HixxhK6do+gLIk+4frpjng9+uORn39fpPZD1y/Rmlf9S4q60fdhcfdANIbzbP3fXxc0JA==",
+        "requested": "[35.2.12, )",
+        "resolved": "35.2.12",
+        "contentHash": "w3gJH507/FszA5C5Cyiqbu9R+opNRkaml9b3JHZRWefQHN3cOdrwCainDOS97BKhKiHbtQ+kRwHKj+qPjomTqg==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.46"
+          "Syncfusion.Licensing": "35.2.12"
         }
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
@@ -405,8 +405,8 @@
       },
       "Syncfusion.Licensing": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "OJgL3ADJWrzU/uA6ejGCN9juGG2eRlzSgldVloULhn1c6Yy11Lntvfa9isJ2Z8ru9u9gIupKvY2vMSB0MfKXzQ=="
+        "resolved": "35.2.12",
+        "contentHash": "uVxFDMp88M67vDnRhIDxx//+7Nl7OKnx7BFhXMi5vDoTyJWh/OhRjd10KLky7b08Ne0n3Hlhk+AW9j74pgb+9g=="
       },
       "System.Configuration.ConfigurationManager": {
         "type": "Transitive",
