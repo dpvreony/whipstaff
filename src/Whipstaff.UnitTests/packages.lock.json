@@ -2773,25 +2773,25 @@
       },
       "TestableIO.System.IO.Abstractions": {
         "type": "Transitive",
-        "resolved": "23.0.0",
-        "contentHash": "xodhCNREe8aUgwqeN372r/CF6uOowyHfC5hgBIvs7Taax9p5v/z6PC8fA/weEDxZyJzzjxcpT8vf4xQdcq+2ug==",
+        "resolved": "23.0.1",
+        "contentHash": "eTlzbhssKk5xKvyK76WcnIbYCvoL7kfv2EWibMB/8/XZsSMiKzFn7pxS59PYD4fTdDhQEbf3Nk4x8TGXLEXiYw==",
         "dependencies": {
           "Testably.Abstractions.FileSystem.Interface": "11.0.0"
         }
       },
       "TestableIO.System.IO.Abstractions.TestingHelpers": {
         "type": "Transitive",
-        "resolved": "23.0.0",
-        "contentHash": "8ezFNBOIkdenxLd1C8tgoZPDEgqJ1rC3PRgaMdRnfoOGP2dcvTAM9vs94UW/b6KBAdoEtJMRN8A82/MtLCIruw==",
+        "resolved": "23.0.1",
+        "contentHash": "fevd8a+0C9YJw8Ma1byZhbxbEbOuuMgKZgLPayG8+VOUrWabnghA36qkoBEEVqhQiD20wHK+Et8eER+8U9Q6gw==",
         "dependencies": {
-          "TestableIO.System.IO.Abstractions.Wrappers": "23.0.0",
+          "TestableIO.System.IO.Abstractions.Wrappers": "23.0.1",
           "Testably.Abstractions.FileSystem.Interface": "11.0.0"
         }
       },
       "TestableIO.System.IO.Abstractions.Wrappers": {
         "type": "Transitive",
-        "resolved": "23.0.0",
-        "contentHash": "WfbIVmdi/Yh3eKLDzprsctUXziXVP60lPfPRrAFxR+YPT++yGpsgBsen0vC5N3HeXANCHP7xRukgn/kZcUqusg==",
+        "resolved": "23.0.1",
+        "contentHash": "9lqN5ITRYWqu54eqgobIuFSFUKIqfNedI3+9LuxVBETqGht+UTvk8aQcfUQX2z2fL2WCHGUbTHuBWbZaIV8AGg==",
         "dependencies": {
           "Testably.Abstractions.FileSystem.Interface": "11.0.0"
         }
@@ -2984,7 +2984,7 @@
         "dependencies": {
           "Microsoft.Extensions.Logging.Console": "[10.0.15, )",
           "System.CommandLine": "[3.0.0, )",
-          "TestableIO.System.IO.Abstractions.Wrappers": "[23.0.0, )",
+          "TestableIO.System.IO.Abstractions.Wrappers": "[23.0.1, )",
           "TextCopy": "[6.2.1, )",
           "Whipstaff.Core": "[1.0.0, )",
           "Whipstaff.Runtime": "[1.0.0, )"
@@ -3122,7 +3122,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Testing": "[10.0.15, )",
           "Microsoft.Extensions.FileProviders.Embedded": "[10.0.15, )",
-          "TestableIO.System.IO.Abstractions": "[23.0.0, )",
+          "TestableIO.System.IO.Abstractions": "[23.0.1, )",
           "Whipstaff.Core": "[1.0.0, )",
           "Whipstaff.Playwright": "[1.0.0, )"
         }
@@ -3169,7 +3169,7 @@
         "dependencies": {
           "Microsoft.Playwright": "[1.65.1, )",
           "System.Reactive": "[7.0.0, )",
-          "TestableIO.System.IO.Abstractions.Wrappers": "[23.0.0, )",
+          "TestableIO.System.IO.Abstractions.Wrappers": "[23.0.1, )",
           "Whipstaff.Runtime": "[1.0.0, )"
         }
       },
@@ -3207,7 +3207,7 @@
       "whipstaff.testableio.system.io.abstractions.testinghelpers": {
         "type": "Project",
         "dependencies": {
-          "TestableIO.System.IO.Abstractions.TestingHelpers": "[23.0.0, )",
+          "TestableIO.System.IO.Abstractions.TestingHelpers": "[23.0.1, )",
           "Whipstaff.Runtime": "[1.0.0, )"
         }
       },
