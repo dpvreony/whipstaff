@@ -60,9 +60,9 @@
       },
       "TestableIO.System.IO.Abstractions": {
         "type": "Direct",
-        "requested": "[23.0.0, )",
-        "resolved": "23.0.0",
-        "contentHash": "xodhCNREe8aUgwqeN372r/CF6uOowyHfC5hgBIvs7Taax9p5v/z6PC8fA/weEDxZyJzzjxcpT8vf4xQdcq+2ug==",
+        "requested": "[23.0.1, )",
+        "resolved": "23.0.1",
+        "contentHash": "eTlzbhssKk5xKvyK76WcnIbYCvoL7kfv2EWibMB/8/XZsSMiKzFn7pxS59PYD4fTdDhQEbf3Nk4x8TGXLEXiYw==",
         "dependencies": {
           "Testably.Abstractions.FileSystem.Interface": "11.0.0"
         }
@@ -476,8 +476,8 @@
       },
       "TestableIO.System.IO.Abstractions.Wrappers": {
         "type": "Transitive",
-        "resolved": "23.0.0",
-        "contentHash": "WfbIVmdi/Yh3eKLDzprsctUXziXVP60lPfPRrAFxR+YPT++yGpsgBsen0vC5N3HeXANCHP7xRukgn/kZcUqusg==",
+        "resolved": "23.0.1",
+        "contentHash": "9lqN5ITRYWqu54eqgobIuFSFUKIqfNedI3+9LuxVBETqGht+UTvk8aQcfUQX2z2fL2WCHGUbTHuBWbZaIV8AGg==",
         "dependencies": {
           "Testably.Abstractions.FileSystem.Interface": "11.0.0"
         }
@@ -501,7 +501,7 @@
         "dependencies": {
           "Microsoft.Playwright": "[1.65.1, )",
           "System.Reactive": "[7.0.0, )",
-          "TestableIO.System.IO.Abstractions.Wrappers": "[23.0.0, )",
+          "TestableIO.System.IO.Abstractions.Wrappers": "[23.0.1, )",
           "Whipstaff.Runtime": "[1.0.0, )"
         }
       },
