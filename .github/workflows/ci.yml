@@ -29,6 +29,7 @@ jobs:
       workloads : "android,ios,tvos,macos,maui"
       workloadRestore: true
       apiDocumentation: "None"
+      package_lock: "disabled"
     secrets:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
