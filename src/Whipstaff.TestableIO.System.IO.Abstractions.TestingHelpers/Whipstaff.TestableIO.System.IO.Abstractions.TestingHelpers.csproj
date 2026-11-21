@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="23.0.0" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.TestingHelpers" Version="23.0.1" />
   </ItemGroup>
 
   <ItemGroup>
