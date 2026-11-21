@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Playwright" Version="1.65.1" />
-    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.0.0" PrivateAssets="all" />
+    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.0" PrivateAssets="all" />
     <PackageReference Include="System.Reactive" Version="7.0.0" />
     <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="23.0.1" />
   </ItemGroup>
