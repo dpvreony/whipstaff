@@ -46,12 +46,12 @@
       },
       "Syncfusion.SfBarcode.WPF": {
         "type": "Direct",
-        "requested": "[35.1.46, )",
-        "resolved": "35.1.46",
-        "contentHash": "c0p0cwYDxaei49bTzTC7gdrPp8k+xN/D6cuxJ6B69tymV7a8qoRPHi60kgk9gzbPrv3e1H7eHIzIYUsOxxSVBQ==",
+        "requested": "[35.2.12, )",
+        "resolved": "35.2.12",
+        "contentHash": "BcrteaiCfMKThn41ZQC++jrz8H5/48QjceNrUdz0QYESRzaDdNgwHTZZDvC23X3grlutJoAgmO7aqx6+wUi3zw==",
         "dependencies": {
-          "Syncfusion.Licensing": "35.1.46",
-          "Syncfusion.Telemetry": "35.1.46"
+          "Syncfusion.Licensing": "35.2.12",
+          "Syncfusion.Telemetry": "35.2.12"
         }
       },
       "TestableIO.System.IO.Abstractions.Analyzers": {
@@ -406,13 +406,13 @@
       },
       "Syncfusion.Licensing": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "OJgL3ADJWrzU/uA6ejGCN9juGG2eRlzSgldVloULhn1c6Yy11Lntvfa9isJ2Z8ru9u9gIupKvY2vMSB0MfKXzQ=="
+        "resolved": "35.2.12",
+        "contentHash": "uVxFDMp88M67vDnRhIDxx//+7Nl7OKnx7BFhXMi5vDoTyJWh/OhRjd10KLky7b08Ne0n3Hlhk+AW9j74pgb+9g=="
       },
       "Syncfusion.Telemetry": {
         "type": "Transitive",
-        "resolved": "35.1.46",
-        "contentHash": "DcGt5cY0L6PlHAr7yT03I/t5RSBH5T0tccC2NPqdoLaGZxMGYues8GoGbNGFzPcfrApFEHOVj9+yLGuMbLbG1A=="
+        "resolved": "35.2.12",
+        "contentHash": "X4XSGAy+cwYDC9pIPb2XApT1jre8FtLybSFHNljn2bTQyppqwVKzjQcTJQHhLbcdRtM2s+DAEuxZGUyUwEe8JQ=="
       },
       "System.Configuration.ConfigurationManager": {
         "type": "Transitive",
