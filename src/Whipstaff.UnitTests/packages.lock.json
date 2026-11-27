@@ -300,6 +300,44 @@
           "Microsoft.Extensions.Logging": "10.0.0"
         }
       },
+      "Finbuckle.MultiTenant": {
+        "type": "Transitive",
+        "resolved": "10.2.0",
+        "contentHash": "KgTaLc3I4LecseTTJEufIcTsHtVXTJ3vV5IkGuqNcR1UmNzyQj3C5Xb9EgRtZw8SN/F6bh1qxjgscSoJjDk8qg==",
+        "dependencies": {
+          "Finbuckle.MultiTenant.Abstractions": "10.2.0",
+          "Microsoft.Extensions.Caching.Abstractions": "10.0.15",
+          "Microsoft.Extensions.Configuration": "10.0.15",
+          "Microsoft.Extensions.DependencyInjection": "10.0.15",
+          "Microsoft.Extensions.Http": "10.0.15",
+          "Microsoft.Extensions.Logging": "10.0.15",
+          "Microsoft.Extensions.Options": "10.0.15",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "10.0.15"
+        }
+      },
+      "Finbuckle.MultiTenant.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.2.0",
+        "contentHash": "COx11f0QcUrZbztT5E791sT3uqHVmPyIPe2Q/xe16XdFKWQ7aLI+ISF5d2yEv12Eq5CQ31CtvyW5nTyRMHLxlw=="
+      },
+      "Finbuckle.MultiTenant.AspNetCore": {
+        "type": "Transitive",
+        "resolved": "10.2.0",
+        "contentHash": "Ug6pjmhjlVi6YA9dsqrwceFGnehCTGohDF5mXs91s+CawDsXvQqXFbu//nKEyydpPbAOnixGgbsoE3MxSMrGKg==",
+        "dependencies": {
+          "Finbuckle.MultiTenant": "10.2.0",
+          "Microsoft.AspNetCore.Authentication.OpenIdConnect": "10.0.15"
+        }
+      },
+      "Finbuckle.MultiTenant.EntityFrameworkCore": {
+        "type": "Transitive",
+        "resolved": "10.2.0",
+        "contentHash": "BapgCtlC549/YThF/KVsPd/U9IQnanw7kJVVb1+Wz1aGqKd421IoUEZNPmbdBT8FKRGe3WT/rwUTxoSjMqe/Gg==",
+        "dependencies": {
+          "Finbuckle.MultiTenant": "10.2.0",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.15"
+        }
+      },
       "Foundatio": {
         "type": "Transitive",
         "resolved": "13.0.5",
@@ -501,6 +539,14 @@
         "dependencies": {
           "Microsoft.ApplicationInsights": "2.23.0",
           "System.IO.FileSystem.AccessControl": "4.7.0"
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.OpenIdConnect": {
+        "type": "Transitive",
+        "resolved": "10.0.15",
+        "contentHash": "e+YnssZ13Vs9wMi4Jvw+nA46oh+0I3bZKASmASHX4x2IQh4Ns9ilcNw30YC1lnyMLF6mIF4Fe7U0Mn0WJbr3Hg==",
+        "dependencies": {
+          "Microsoft.IdentityModel.Protocols.OpenIdConnect": "8.19.2"
         }
       },
       "Microsoft.AspNetCore.Authorization": {
@@ -1158,15 +1204,15 @@
       },
       "Microsoft.Extensions.Http": {
         "type": "Transitive",
-        "resolved": "10.0.13",
-        "contentHash": "2SuPNVERI5WMYOYMnc6l6OZcI1bN6DEwQcKokDPcf5FiukN7seLvhBTJgqf/Kb4mqQlwPE9idUdt0TaETCre7w==",
+        "resolved": "10.0.15",
+        "contentHash": "ha8VdL1mvHkRUbRyXBfhMwCfbl02YQvCzZe72jQRFrvrRCbW2riFha52Vb84j8YpAcn/ld/B/2oQAsDj9gvbyg==",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "10.0.13",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.13",
-          "Microsoft.Extensions.Diagnostics": "10.0.13",
-          "Microsoft.Extensions.Logging": "10.0.13",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.13",
-          "Microsoft.Extensions.Options": "10.0.13"
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.15",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.15",
+          "Microsoft.Extensions.Diagnostics": "10.0.15",
+          "Microsoft.Extensions.Logging": "10.0.15",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.15",
+          "Microsoft.Extensions.Options": "10.0.15"
         }
       },
       "Microsoft.Extensions.Http.Diagnostics": {
@@ -1463,19 +1509,19 @@
       },
       "Microsoft.IdentityModel.Protocols": {
         "type": "Transitive",
-        "resolved": "8.16.0",
-        "contentHash": "UFrU7d46UTsPQTa2HIEIpB9H1uJe1BW9FLw5uhEJ2ZuKdur8bcUA/bO5caq5dlBt5gNJeRIB3QQXYNs5fCQCZA==",
+        "resolved": "8.19.2",
+        "contentHash": "sGxSsSrZXNmca6D+jHH2rVRyo2nNRd/g4H9CFbPmLLq0xgoH1U0orLWE5minfijw7+zq49tBs7txenbfAErRoQ==",
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "8.16.0"
+          "Microsoft.IdentityModel.Tokens": "8.19.2"
         }
       },
       "Microsoft.IdentityModel.Protocols.OpenIdConnect": {
         "type": "Transitive",
-        "resolved": "8.16.0",
-        "contentHash": "h4yVXyJsEBBX5lg2G5ftMsi5JzcNEGAzrNphA6DQ6eOd8P0s+cDCOyPwVTYLePZvJL5unbPvYIvzrbTXzFjXnQ==",
+        "resolved": "8.19.2",
+        "contentHash": "1XOcyY36cVymzE3qKdzKaUEZ4Pzt7ZpSa14JZoPPK1NLFUkQDs85TCqpV6XDo0YjFXj6nVK00AfOHppjghjhtw==",
         "dependencies": {
-          "Microsoft.IdentityModel.Protocols": "8.16.0",
-          "System.IdentityModel.Tokens.Jwt": "8.16.0"
+          "Microsoft.IdentityModel.Protocols": "8.19.2",
+          "System.IdentityModel.Tokens.Jwt": "8.19.2"
         }
       },
       "Microsoft.IdentityModel.Tokens": {
@@ -2947,6 +2993,8 @@
           "DynamicData": "[9.5.0, )",
           "Exceptionless.AspNetCore": "[6.2.0, )",
           "Exceptionless.Extensions.Logging": "[6.2.0, )",
+          "Finbuckle.MultiTenant.AspNetCore": "[10.2.0, )",
+          "Finbuckle.MultiTenant.EntityFrameworkCore": "[10.2.0, )",
           "Microsoft.ApplicationInsights.AspNetCore": "[2.23.0, )",
           "Microsoft.ApplicationInsights.Profiler.AspNetCore": "[3.0.2, )",
           "Microsoft.AspNetCore.MiddlewareAnalysis": "[10.0.15, )",

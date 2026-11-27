@@ -16,6 +16,50 @@ Whipstaff is a multi-project .NET/C# collection of libraries, UI integrations, d
 ## About
 This repository is organized as a multi-project .NET solution (Whipstaff.sln) composed of many small focused projects. Most projects are libraries or integrations intended to be used independently or composed together. The design favors small, single-responsibility packages and includes multiple UI adapter libraries and provider/adapters for persistence and tooling.
 
+## Tenant lookup with Finbuckle
+
+`Whipstaff.AspNetCore.MultiTenancy` provides a Finbuckle EF Core store and lookup table for resolving tenants by an authenticated Microsoft Entra tenant ID (`tid`), an authenticated email claim, or a hostname prefix. Choose one `TenantLookupSource` per registration; there is no automatic fallback between sources. For example, with an EF Core SQL Server provider installed:
+
+```csharp
+using Finbuckle.MultiTenant.AspNetCore.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Whipstaff.AspNetCore.MultiTenancy;
+
+builder.Services.AddLookupTenantResolution(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("TenantLookup")),
+    TenantLookupSource.HostPrefix,
+    hostDomain: "example.com");
+
+// Configure trusted proxies and forwarded headers before this point when applicable.
+app.UseForwardedHeaders();
+app.UseMultiTenant();
+app.UseAuthentication();
+app.UseAuthorization();
+```
+
+The independent `TenantLookupDbContext` has a Finbuckle `TenantInfo` table and a `Lookups` table with a unique `(Source, Value)` key and a foreign key to the tenant's stable ID. Create and apply EF Core migrations for your chosen provider. Add each tenant's canonical `Id` and `Identifier`, then add lookup rows using `TenantLookup.Normalize(source, value)` for `Value`; GUIDs use canonical format, email is uppercased, and host prefixes are lowercased. Multiple keys can point to the same tenant. Provision lookup rows only from trusted administrative processes and handle duplicate-key errors explicitly.
+
+For example, provision a tenant and a host lookup in a scoped administrative operation:
+
+```csharp
+using Finbuckle.MultiTenant.Abstractions;
+
+lookupDb.TenantInfo.Add(new TenantInfo { Id = "tenant-1", Identifier = "tenant-1" });
+lookupDb.Lookups.Add(new TenantLookup
+{
+    TenantId = "tenant-1",
+    Source = TenantLookupSource.HostPrefix,
+    Value = TenantLookup.Normalize(TenantLookupSource.HostPrefix, "customer"),
+});
+await lookupDb.SaveChangesAsync();
+```
+
+For Entra ID or email resolution, configure an authentication scheme that validates the token issuer, audience and signature, and put `UseAuthentication()` **before** `UseMultiTenant()` so authenticated claims are available. The resolver accepts `tid` or the mapped Microsoft tenant ID claim, and `email` or the mapped email claim; missing, conflicting, or unauthenticated claims do not resolve. This ordering requires authentication that does not itself depend on the tenant being resolved. Email claims may be absent, mutable or not verified; they must not be used as proof of identity or authorization. Prefer stable Entra tenant IDs when possible.
+
+For hostname resolution, the host must be exactly one label under the configured parent domain. The resolver reads `Request.Host`, never raw `X-Forwarded-Host`. Behind a proxy or WAF, configure ASP.NET Core forwarded headers with explicit known proxy addresses or networks, an appropriate forward limit and allowed hosts, and run it before tenant resolution. Ensure the edge overwrites untrusted forwarded headers and direct access to the application is restricted. Also configure host filtering at the edge/application. A hostname selects a tenant; it does not authorize a user for that tenant. Applications must reject unresolved tenants where required and independently enforce tenant membership and authorization for every request.
+
+See [Finbuckle stores](https://www.finbuckle.com/Docs/v10.2.0/Stores) and [ASP.NET Core proxy configuration](https://learn.microsoft.com/aspnet/core/host-and-deploy/proxy-load-balancer) for provider and proxy setup.
+
 ## Build & test
 To build everything from the solution root:
 ```bash
