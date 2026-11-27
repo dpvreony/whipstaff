@@ -60,6 +60,52 @@ For hostname resolution, the host must be exactly one label under the configured
 
 See [Finbuckle stores](https://www.finbuckle.com/Docs/v10.2.0/Stores) and [ASP.NET Core proxy configuration](https://learn.microsoft.com/aspnet/core/host-and-deploy/proxy-load-balancer) for provider and proxy setup.
 
+## Tenant lookup with ABP Framework
+
+`Whipstaff.Abp.AspNetCore` provides an independent ABP Framework integration for the same three lookup sources. It does not require the Finbuckle package. In an ABP application module that depends on `AbpAspNetCoreMultiTenancyModule`, configure ABP multi-tenancy and register **one** source in `ConfigureServices`, with a provider for the independent, host-level lookup database:
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.AspNetCore.MultiTenancy;
+using Volo.Abp.Modularity;
+using Volo.Abp.MultiTenancy;
+using Whipstaff.Abp.AspNetCore.MultiTenancy;
+
+[DependsOn(typeof(AbpAspNetCoreMultiTenancyModule))]
+public class MyWebModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure<AbpMultiTenancyOptions>(options => options.IsEnabled = true);
+        var configuration = context.Services.GetConfiguration();
+        context.Services.AddAbpLookupTenantResolution(
+            options => options.UseSqlServer(configuration.GetConnectionString("TenantLookup")),
+            TenantLookupSource.HostPrefix,
+            hostDomain: "example.com");
+    }
+}
+```
+
+In the ABP application pipeline, configure and run trusted forwarded-header processing before `UseMultiTenancy()`. For Entra ID or email, run authentication before `UseMultiTenancy()` and use a validated, non-tenant-dependent authentication scheme; ABP's normal per-tenant authentication cannot bootstrap itself from a tenant that has not yet been resolved. Configure an ABP `ITenantStore` (for example the Tenant Management module) separately. ABP validates the resulting tenant ID and checks that the tenant is active through that store.
+
+Create and apply provider-specific migrations for `Whipstaff.Abp.AspNetCore.MultiTenancy.TenantLookupDbContext`. Its `Lookups` table has a unique `(Source, Value)` key and an indexed `TenantId` GUID, which must be the ID of an existing ABP tenant. There is deliberately no cross-database foreign key: trusted provisioning must synchronize lookup rows with the ABP tenant store and remove them when a tenant is deleted. For example, in a trusted provisioning operation:
+
+```csharp
+lookupDb.Lookups.Add(new TenantLookup
+{
+    TenantId = existingAbpTenantId,
+    Source = TenantLookupSource.HostPrefix,
+    Value = TenantLookup.Normalize(TenantLookupSource.HostPrefix, "customer"),
+});
+await lookupDb.SaveChangesAsync();
+```
+
+Registration replaces ABP's existing tenant contributors and disables `FallbackTenant`, so query-string, route, header and cookie resolution do not apply. An authenticated ABP user's existing tenant ID takes precedence. An authenticated ABP host user remains a host user with hostname resolution; with Entra ID or email resolution, an authenticated host user **without** an ABP tenant claim can instead resolve to the mapped tenant. Enable those identity mappings only when that behavior is intended. An unmatched key resolves to ABP's host context, not an HTTP error: explicitly deny unresolved requests on tenant-only endpoints. Ensure later option configuration does not re-enable fallback or add other contributors. The identity, email, host, proxy and independent tenant-authorization precautions described above apply equally to ABP.
+
+See [ABP multi-tenancy](https://abp.io/docs/10.7/framework/architecture/multi-tenancy) and the [ABP tenant management module](https://abp.io/docs/10.7/modules/tenant-management).
+
 ## Build & test
 To build everything from the solution root:
 ```bash
@@ -97,6 +143,7 @@ Below is a table summarizing the projects in src/, their likely purpose, primary
 | Project | Purpose | Primary tech | Type | Link |
 |---|---|---:|---|---|
 | Whipstaff.Avalonia | Avalonia UI components for cross-platform desktop | C# / Avalonia | UI integration | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.Avalonia |
+| Whipstaff.Abp.AspNetCore | ABP tenant lookup integration | C# / ABP / EF Core | Library | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.Abp.AspNetCore |
 | Whipstaff.AspNetCore | ASP.NET Core middleware and helpers | C# / ASP.NET Core | Library / Middleware | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.AspNetCore |
 | Whipstaff.AspNetCore.StaticFiles | Static/embedded static-file helpers for ASP.NET Core | C# / ASP.NET Core | Middleware | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.AspNetCore.StaticFiles |
 | Whipstaff.Benchmarks | BenchmarkDotNet benchmarks for performance testing | C# / BenchmarkDotNet | Benchmarks | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.Benchmarks |

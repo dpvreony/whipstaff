@@ -13,9 +13,10 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Whipstaff.AspNetCore.MultiTenancy;
+using Whipstaff.Testing.EntityFramework;
 using Xunit;
 
 namespace Whipstaff.UnitTests.Features.MultiTenancy
@@ -37,20 +38,9 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
         [InlineData(TenantLookupSource.HostPrefix, "", "customer", "CUSTOMER.example.com")]
         public async Task ResolvesConfiguredLookupAsync(TenantLookupSource source, string claimType, string storedValue, string requestValue)
         {
-            await using var connection = new SqliteConnection("Data Source=:memory:");
-            await connection.OpenAsync(TestContext.Current.CancellationToken);
-            var services = new ServiceCollection();
-            _ = services.AddLogging();
-            _ = services.AddLookupTenantResolution(options => options.UseSqlite(connection), source, "example.com");
-            await using var provider = services.BuildServiceProvider();
-            await using var scope = provider.CreateAsyncScope();
-            var database = scope.ServiceProvider.GetRequiredService<TenantLookupDbContext>();
-            _ = await database.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
-            _ = database.TenantInfo.Add(new TenantInfo { Id = "tenant-1", Identifier = "canonical", Name = "Tenant" });
-            _ = database.Lookups.Add(new TenantLookup { Source = source, Value = TenantLookup.Normalize(source, storedValue), TenantId = "tenant-1" });
-            _ = await database.SaveChangesAsync(TestContext.Current.CancellationToken);
-
-            var context = new DefaultHttpContext { RequestServices = scope.ServiceProvider };
+            await using var environment = new TestEnvironment(source);
+            await SeedAsync(environment.Factory, source, storedValue);
+            var context = new DefaultHttpContext { RequestServices = environment.RequestServices };
             if (source == TenantLookupSource.HostPrefix)
             {
                 context.Request.Host = new HostString(requestValue, 443);
@@ -60,8 +50,7 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
                 context.User = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(claimType, requestValue) }, "test"));
             }
 
-            var resolver = scope.ServiceProvider.GetRequiredService<ITenantResolver<TenantInfo>>();
-            var result = await resolver.ResolveAsync(context);
+            var result = await environment.Resolver.ResolveAsync(context);
             Assert.Equal("tenant-1", result.TenantInfo?.Id);
             Assert.Equal("canonical", result.TenantInfo?.Identifier);
         }
@@ -74,21 +63,14 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
         [InlineData(TenantLookupSource.EntraTenantId)]
         public async Task UnauthenticatedClaimsDoNotResolveAsync(TenantLookupSource source)
         {
-            await using var connection = new SqliteConnection("Data Source=:memory:");
-            await connection.OpenAsync(TestContext.Current.CancellationToken);
-            var services = new ServiceCollection();
-            _ = services.AddLogging();
-            _ = services.AddLookupTenantResolution(options => options.UseSqlite(connection), source);
-            await using var provider = services.BuildServiceProvider();
-            await using var scope = provider.CreateAsyncScope();
-            var context = new DefaultHttpContext { RequestServices = scope.ServiceProvider };
+            await using var environment = new TestEnvironment(source);
+            var context = new DefaultHttpContext { RequestServices = environment.RequestServices };
             var claim = source == TenantLookupSource.Email
                 ? new Claim("email", "user@example.com")
                 : new Claim("tid", "e8d07018-b993-4415-a986-293492239457");
-            await SeedAsync(scope.ServiceProvider, source, claim.Value);
+            await SeedAsync(environment.Factory, source, claim.Value);
             context.User = new ClaimsPrincipal(new ClaimsIdentity(new[] { claim }));
-            var resolver = scope.ServiceProvider.GetRequiredService<ITenantResolver<TenantInfo>>();
-            var result = await resolver.ResolveAsync(context);
+            var result = await environment.Resolver.ResolveAsync(context);
             Assert.Null(result.TenantInfo);
         }
 
@@ -101,19 +83,12 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
         [InlineData("example.com")]
         public async Task UntrustedHostsAndForwardedHeadersDoNotResolveAsync(string host)
         {
-            await using var connection = new SqliteConnection("Data Source=:memory:");
-            await connection.OpenAsync(TestContext.Current.CancellationToken);
-            var services = new ServiceCollection();
-            _ = services.AddLogging();
-            _ = services.AddLookupTenantResolution(options => options.UseSqlite(connection), TenantLookupSource.HostPrefix, "example.com");
-            await using var provider = services.BuildServiceProvider();
-            await using var scope = provider.CreateAsyncScope();
-            await SeedAsync(scope.ServiceProvider, TenantLookupSource.HostPrefix, "customer");
-            var context = new DefaultHttpContext { RequestServices = scope.ServiceProvider };
+            await using var environment = new TestEnvironment(TenantLookupSource.HostPrefix);
+            await SeedAsync(environment.Factory, TenantLookupSource.HostPrefix, "customer");
+            var context = new DefaultHttpContext { RequestServices = environment.RequestServices };
             context.Request.Host = new HostString(host);
             context.Request.Headers["X-Forwarded-Host"] = "customer.example.com";
-            var resolver = scope.ServiceProvider.GetRequiredService<ITenantResolver<TenantInfo>>();
-            var result = await resolver.ResolveAsync(context);
+            var result = await environment.Resolver.ResolveAsync(context);
             Assert.Null(result.TenantInfo);
         }
 
@@ -126,15 +101,9 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
         [InlineData("192.0.2.11", null)]
         public async Task ForwardedHostRequiresTrustedProxyAsync(string remoteAddress, string? expectedId)
         {
-            await using var connection = new SqliteConnection("Data Source=:memory:");
-            await connection.OpenAsync(TestContext.Current.CancellationToken);
-            var services = new ServiceCollection();
-            _ = services.AddLogging();
-            _ = services.AddLookupTenantResolution(options => options.UseSqlite(connection), TenantLookupSource.HostPrefix, "example.com");
-            await using var provider = services.BuildServiceProvider();
-            await using var scope = provider.CreateAsyncScope();
-            await SeedAsync(scope.ServiceProvider, TenantLookupSource.HostPrefix, "customer");
-            var context = new DefaultHttpContext { RequestServices = scope.ServiceProvider };
+            await using var environment = new TestEnvironment(TenantLookupSource.HostPrefix);
+            await SeedAsync(environment.Factory, TenantLookupSource.HostPrefix, "customer");
+            var context = new DefaultHttpContext { RequestServices = environment.RequestServices };
             context.Connection.RemoteIpAddress = IPAddress.Parse(remoteAddress);
             context.Request.Host = new HostString("internal.invalid");
             context.Request.Headers["X-Forwarded-Host"] = "customer.example.com";
@@ -144,10 +113,9 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
             var middleware = new ForwardedHeadersMiddleware(
                 async httpContext =>
                 {
-                    var resolver = httpContext.RequestServices.GetRequiredService<ITenantResolver<TenantInfo>>();
-                    resolvedId = (await resolver.ResolveAsync(httpContext)).TenantInfo?.Id;
+                    resolvedId = (await environment.Resolver.ResolveAsync(httpContext)).TenantInfo?.Id;
                 },
-                scope.ServiceProvider.GetRequiredService<ILoggerFactory>(),
+                NullLoggerFactory.Instance,
                 Options.Create(options));
             await middleware.Invoke(context);
             Assert.Equal(expectedId, resolvedId);
@@ -158,23 +126,16 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
         [Fact]
         public async Task ConflictingClaimsDoNotResolveAsync()
         {
-            await using var connection = new SqliteConnection("Data Source=:memory:");
-            await connection.OpenAsync(TestContext.Current.CancellationToken);
-            var services = new ServiceCollection();
-            _ = services.AddLogging();
-            _ = services.AddLookupTenantResolution(options => options.UseSqlite(connection), TenantLookupSource.Email);
-            await using var provider = services.BuildServiceProvider();
-            await using var scope = provider.CreateAsyncScope();
-            await SeedAsync(scope.ServiceProvider, TenantLookupSource.Email, "user@example.com");
-            var context = new DefaultHttpContext { RequestServices = scope.ServiceProvider };
+            await using var environment = new TestEnvironment(TenantLookupSource.Email);
+            await SeedAsync(environment.Factory, TenantLookupSource.Email, "user@example.com");
+            var context = new DefaultHttpContext { RequestServices = environment.RequestServices };
             var claims = new[]
             {
                 new Claim("email", "user@example.com"),
                 new Claim(ClaimTypes.Email, "other@example.com"),
             };
             context.User = new ClaimsPrincipal(new ClaimsIdentity(claims, "test"));
-            var resolver = scope.ServiceProvider.GetRequiredService<ITenantResolver<TenantInfo>>();
-            var result = await resolver.ResolveAsync(context);
+            var result = await environment.Resolver.ResolveAsync(context);
             Assert.Null(result.TenantInfo);
         }
 
@@ -185,14 +146,9 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
         {
             await using var connection = new SqliteConnection("Data Source=:memory:");
             await connection.OpenAsync(TestContext.Current.CancellationToken);
-            var services = new ServiceCollection();
-            _ = services.AddLogging();
-            _ = services.AddLookupTenantResolution(options => options.UseSqlite(connection), TenantLookupSource.Email);
-            await using var provider = services.BuildServiceProvider();
-            await using var scope = provider.CreateAsyncScope();
-            await SeedAsync(scope.ServiceProvider, TenantLookupSource.Email, "user@example.com");
-            var database = scope.ServiceProvider.GetRequiredService<TenantLookupDbContext>();
-            database.ChangeTracker.Clear();
+            var factory = new TenantLookupDbContextFactory(connection);
+            await SeedAsync(factory, TenantLookupSource.Email, "user@example.com");
+            await using var database = factory.CreateDbContext();
             _ = database.Lookups.Add(new TenantLookup
             {
                 Source = TenantLookupSource.Email,
@@ -202,13 +158,58 @@ namespace Whipstaff.UnitTests.Features.MultiTenancy
             _ = await Assert.ThrowsAsync<DbUpdateException>(() => database.SaveChangesAsync(TestContext.Current.CancellationToken));
         }
 
-        private static async Task SeedAsync(IServiceProvider services, TenantLookupSource source, string value)
+        private static async Task SeedAsync(TenantLookupDbContextFactory factory, TenantLookupSource source, string value)
         {
-            var database = services.GetRequiredService<TenantLookupDbContext>();
-            _ = await database.Database.EnsureCreatedAsync(TestContext.Current.CancellationToken);
-            _ = database.TenantInfo.Add(new TenantInfo { Id = "tenant-1", Identifier = "canonical" });
+            await using var database = factory.CreateDbContext();
+            _ = database.TenantInfo.Add(new TenantInfo { Id = "tenant-1", Identifier = "canonical", Name = "Tenant" });
             _ = database.Lookups.Add(new TenantLookup { Source = source, Value = TenantLookup.Normalize(source, value), TenantId = "tenant-1" });
             _ = await database.SaveChangesAsync(TestContext.Current.CancellationToken);
+        }
+
+        private sealed class TenantLookupDbContextFactory : AbstractDbContextFactory<TenantLookupDbContext>
+        {
+            public TenantLookupDbContextFactory(SqliteConnection connection)
+                : base(connection, NullLoggerFactory.Instance)
+            {
+            }
+
+            protected override TenantLookupDbContext GetDbContext(DbContextOptions<TenantLookupDbContext> dbContextOptions)
+            {
+                return new TenantLookupDbContext(dbContextOptions);
+            }
+        }
+
+        private sealed class TestEnvironment : IAsyncDisposable
+        {
+            private readonly SqliteConnection _connection;
+            private readonly ServiceProvider _provider;
+            private readonly AsyncServiceScope _scope;
+
+            public TestEnvironment(TenantLookupSource source)
+            {
+                _connection = new SqliteConnection("Data Source=:memory:");
+                _connection.Open();
+                Factory = new TenantLookupDbContextFactory(_connection);
+                var services = new ServiceCollection();
+                _ = services.AddLogging();
+                _ = services.AddLookupTenantResolution(options => options.UseSqlite(_connection), source, "example.com");
+                _provider = services.BuildServiceProvider();
+                _scope = _provider.CreateAsyncScope();
+                Resolver = _scope.ServiceProvider.GetRequiredService<ITenantResolver<TenantInfo>>();
+            }
+
+            public TenantLookupDbContextFactory Factory { get; }
+
+            public IServiceProvider RequestServices => _scope.ServiceProvider;
+
+            public ITenantResolver<TenantInfo> Resolver { get; }
+
+            public async ValueTask DisposeAsync()
+            {
+                await _scope.DisposeAsync();
+                await _provider.DisposeAsync();
+                await _connection.DisposeAsync();
+            }
         }
     }
 }

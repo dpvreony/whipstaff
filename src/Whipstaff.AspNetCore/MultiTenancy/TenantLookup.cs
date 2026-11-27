@@ -4,6 +4,7 @@
 
 using System;
 using Finbuckle.MultiTenant.Abstractions;
+using Whipstaff.MultiTenancy.Internal;
 
 namespace Whipstaff.AspNetCore.MultiTenancy
 {
@@ -29,14 +30,12 @@ namespace Whipstaff.AspNetCore.MultiTenancy
         public static string Normalize(TenantLookupSource source, string value)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(value);
-            value = value.Trim();
-            return source switch
+            if (!Enum.IsDefined(source) || source == TenantLookupSource.None)
             {
-                TenantLookupSource.EntraTenantId => Guid.Parse(value).ToString("D"),
-                TenantLookupSource.Email => value.ToUpperInvariant(),
-                TenantLookupSource.HostPrefix => value.ToLowerInvariant(),
-                _ => throw new ArgumentOutOfRangeException(nameof(source)),
-            };
+                throw new ArgumentOutOfRangeException(nameof(source));
+            }
+
+            return TenantKeyReader.Normalize(value, source == TenantLookupSource.HostPrefix, source == TenantLookupSource.EntraTenantId);
         }
     }
 }

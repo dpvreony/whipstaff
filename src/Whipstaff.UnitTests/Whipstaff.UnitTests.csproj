@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Abp.AspNetCore\Whipstaff.Abp.AspNetCore.csproj" />
     <ProjectReference Include="..\Whipstaff.AspNetCore\Whipstaff.AspNetCore.csproj" />
     <ProjectReference Include="..\Whipstaff.Blazor\Whipstaff.Blazor.csproj" />
     <ProjectReference Include="..\Whipstaff.CommandLine.MarkdownGen.DotNetTool\Whipstaff.CommandLine.MarkdownGen.DotNetTool.csproj" />

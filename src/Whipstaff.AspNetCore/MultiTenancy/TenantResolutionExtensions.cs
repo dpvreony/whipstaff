@@ -4,7 +4,6 @@
 
 using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Finbuckle.MultiTenant;
 using Finbuckle.MultiTenant.Abstractions;
@@ -14,6 +13,7 @@ using Finbuckle.MultiTenant.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Whipstaff.MultiTenancy.Internal;
 
 namespace Whipstaff.AspNetCore.MultiTenancy
 {
@@ -53,41 +53,10 @@ namespace Whipstaff.AspNetCore.MultiTenancy
 
         private static async Task<string?> ResolveIdentifierAsync(HttpContext context, TenantLookupSource source, string? hostDomain)
         {
-            string? value;
-            if (source == TenantLookupSource.HostPrefix)
+            var value = TenantKeyReader.Read(context, source == TenantLookupSource.HostPrefix, source == TenantLookupSource.EntraTenantId, hostDomain);
+            if (value == null)
             {
-                var host = context.Request.Host.Host;
-                var suffix = "." + hostDomain;
-                if (!host.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
-                {
-                    return null;
-                }
-
-                value = host.Substring(0, host.Length - suffix.Length);
-                if (value.Length == 0 || value.Contains('.', StringComparison.Ordinal) || Uri.CheckHostName(value) != UriHostNameType.Dns)
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                var claimTypes = source == TenantLookupSource.EntraTenantId
-                    ? new[] { "tid", "http://schemas.microsoft.com/identity/claims/tenantid" }
-                    : new[] { "email", ClaimTypes.Email };
-                var values = context.User.Identities
-                    .Where(identity => identity.IsAuthenticated)
-                    .SelectMany(identity => identity.Claims)
-                    .Where(claim => claimTypes.Contains(claim.Type, StringComparer.Ordinal) && !string.IsNullOrWhiteSpace(claim.Value))
-                    .Select(claim => claim.Value.Trim())
-                    .Distinct(StringComparer.OrdinalIgnoreCase)
-                    .Take(2)
-                    .ToArray();
-                if (values.Length != 1 || (source == TenantLookupSource.EntraTenantId && !Guid.TryParse(values[0], out _)))
-                {
-                    return null;
-                }
-
-                value = values[0];
+                return null;
             }
 
             var normalized = TenantLookup.Normalize(source, value);

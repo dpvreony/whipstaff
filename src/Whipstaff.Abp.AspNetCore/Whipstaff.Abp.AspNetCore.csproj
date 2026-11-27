@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <PackageDescription>ABP Framework tenant lookup integration for ASP.NET Core.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.15" />
+    <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="10.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Whipstaff.AspNetCore\MultiTenancy\TenantKeyReader.cs" Link="MultiTenancy\TenantKeyReader.cs" />
+  </ItemGroup>
+
+</Project>
