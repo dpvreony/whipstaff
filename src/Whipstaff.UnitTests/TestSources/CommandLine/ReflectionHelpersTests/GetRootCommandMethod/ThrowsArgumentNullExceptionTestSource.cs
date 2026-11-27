@@ -2,13 +2,14 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using System.Reflection;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 
 namespace Whipstaff.UnitTests.TestSources.CommandLine.ReflectionHelpersTests.GetRootCommandMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.ReflectionHelpersTests.IsRootCommandAndBinderTypeMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.ReflectionHelpers.GetRootCommand"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<Assembly>
     {

@@ -34,7 +34,7 @@ namespace Whipstaff.UnitTests.Playwright
             /// <inheritdoc />
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<IPlaywright>.ThrowsArgumentNullException(
                 IPlaywright? arg,
                 string expectedParameterNameForException)
             {
@@ -44,7 +44,7 @@ namespace Whipstaff.UnitTests.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/>.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IPlaywright>
             {

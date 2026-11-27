@@ -2,13 +2,14 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Testing.CommandLine;
 
 namespace Whipstaff.UnitTests.TestSources.CommandLine.AbstractCommandLineHandlerTests.HandleCommand
 {
     /// <summary>
-    /// Test source for the <see cref="UnitTests.CommandLine.AbstractCommandLineHandlerTests.HandleCommandMethod.ThrowsArgumentNullExceptionAsync"/> method.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.AbstractCommandLineHandler{TCommandLineArgModel, TLogMessageActionsWrapper}.HandleCommandAsync"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<FakeCommandLineArgModel>
     {

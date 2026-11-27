@@ -5,7 +5,7 @@
 using System;
 using System.Speech.Synthesis;
 using Microsoft.Extensions.Logging;
-using ReactiveMarbles.ObservableEvents;
+using ReactiveUI.Primitives.ObservableEvents;
 
 namespace Whipstaff.Windows.SpeechSynthesis
 {

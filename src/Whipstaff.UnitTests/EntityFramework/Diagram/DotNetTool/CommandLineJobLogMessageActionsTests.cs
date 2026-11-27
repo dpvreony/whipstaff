@@ -20,7 +20,7 @@ namespace Whipstaff.UnitTests.EntityFramework.Diagram.DotNetTool
         {
             /// <inheritdoc />
             [Fact]
-            public void ReturnsInstance()
+            void ITestConstructorMethod.ReturnsInstance()
             {
                 Assert.NotNull(new CommandLineJobLogMessageActions());
             }

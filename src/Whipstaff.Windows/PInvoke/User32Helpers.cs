@@ -19,7 +19,7 @@ namespace Whipstaff.Windows.PInvoke
         /// <param name="hWnd">Pointer to the native window handle.</param>
         /// <returns>boolean stating whether the native FlashWindowEx call succeeded.</returns>
 #pragma warning disable CA1711 // Identifiers should not have incorrect suffix
-        public static bool FlashWindowEx(IntPtr hWnd)
+        public static bool FlashWindowEx(nint hWnd)
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix
         {
             var h = new global::Windows.Win32.Foundation.HWND(hWnd);
@@ -49,7 +49,7 @@ namespace Whipstaff.Windows.PInvoke
         /// <para>Type: <b>BOOL</b> If the function succeeds, it returns <b>TRUE</b>; otherwise, it returns <b>FALSE</b> when, for example, the function call is made on a non top-level window. To get extended error information, call <a href="https://docs.microsoft.com/windows/desktop/api/errhandlingapi/nf-errhandlingapi-getlasterror">GetLastError</a>.</para>
         /// </returns>
         public static bool SetWindowDisplayAffinity(
-            IntPtr hWnd,
+            nint hWnd,
             global::Windows.Win32.UI.WindowsAndMessaging.WINDOW_DISPLAY_AFFINITY dwAffinity)
         {
             var h = new global::Windows.Win32.Foundation.HWND(hWnd);

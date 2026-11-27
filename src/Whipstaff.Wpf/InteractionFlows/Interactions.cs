@@ -8,6 +8,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Disposables.Fluent;
 using System.Threading.Tasks;
 using ReactiveUI;
+using ReactiveUI.Binding;
 using ReactiveUI.Primitives.Concurrency;
 using Whipstaff.Wpf.InteractionFlows.OpenFileDialogInteraction;
 using Whipstaff.Wpf.InteractionFlows.OpenFolderDialogInteraction;

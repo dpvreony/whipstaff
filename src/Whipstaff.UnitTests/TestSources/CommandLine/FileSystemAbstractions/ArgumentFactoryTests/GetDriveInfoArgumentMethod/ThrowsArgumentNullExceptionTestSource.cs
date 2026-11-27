@@ -10,7 +10,7 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 namespace Whipstaff.UnitTests.TestSources.CommandLine.FileSystemAbstractions.ArgumentFactoryTests.GetDriveInfoArgumentMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.FileSystemAbstractions.ArgumentFactoryTests.GetDirectoryInfoArgumentMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.FileSystemAbstractions.ArgumentFactory.GetDriveInfoArgument"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<string, IFileSystem>
     {

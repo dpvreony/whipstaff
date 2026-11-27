@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for full license information.
 
 using ReactiveUI;
+using ReactiveUI.Binding;
 using ReactiveUI.Primitives.Concurrency;
 using Windows.Win32.UI.WindowsAndMessaging;
 

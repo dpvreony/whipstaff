@@ -46,7 +46,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1044
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(Uri? arg1, PlaywrightBrowserTypeAndChannel? arg2, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<Uri, PlaywrightBrowserTypeAndChannel>.ThrowsArgumentNullExceptionAsync(Uri? arg1, PlaywrightBrowserTypeAndChannel? arg2, string expectedParameterNameForException)
             {
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
                     expectedParameterNameForException,
@@ -54,7 +54,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestMethodWithNullableParameters{Uri, PlaywrightBrowserTypeAndChannel}.ThrowsArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<Uri, PlaywrightBrowserTypeAndChannel>
             {
@@ -91,7 +91,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1044
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1044
-            public async Task ThrowsArgumentNullExceptionAsync(string? arg1, PlaywrightBrowserTypeAndChannel? arg2, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<string, PlaywrightBrowserTypeAndChannel>.ThrowsArgumentNullExceptionAsync(string? arg1, PlaywrightBrowserTypeAndChannel? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
@@ -101,7 +101,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestAsyncMethodWithNullableParameters.ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<string, PlaywrightBrowserTypeAndChannel>
             {
@@ -136,7 +136,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(string? arg1, IBrowser? arg2, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<string, IBrowser>.ThrowsArgumentNullExceptionAsync(string? arg1, IBrowser? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
@@ -146,7 +146,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestAsyncMethodWithNullableParameters.ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<string, IBrowser>
             {
@@ -181,7 +181,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(Uri? arg1, IBrowser? arg2, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<Uri, IBrowser>.ThrowsArgumentNullExceptionAsync(Uri? arg1, IBrowser? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
@@ -274,7 +274,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestMethodWithNullableParameters{Uri, IBrowser}.ThrowsArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<Uri, IBrowser>
             {
@@ -311,7 +311,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(string? arg1, IPage? arg2, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<string, IPage>.ThrowsArgumentNullExceptionAsync(string? arg1, IPage? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
@@ -403,7 +403,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestAsyncMethodWithNullableParameters.ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<string, IPage>
             {
@@ -438,7 +438,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
 #pragma warning disable xUnit1045
             [ClassData(typeof(ThrowsArgumentNullExceptionAsyncTestSource))]
 #pragma warning restore xUnit1045
-            public async Task ThrowsArgumentNullExceptionAsync(Uri? arg1, IPage? arg2, string expectedParameterNameForException)
+            async Task ITestAsyncMethodWithNullableParameters<Uri, IPage>.ThrowsArgumentNullExceptionAsync(Uri? arg1, IPage? arg2, string expectedParameterNameForException)
             {
 #pragma warning disable CA2234 // Pass system uri objects instead of strings
                 _ = await Assert.ThrowsAsync<ArgumentNullException>(
@@ -448,7 +448,7 @@ namespace Whipstaff.UnitTests.Playwright.Crawler
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullExceptionAsync"/>.
+            /// Test source for <see cref="ITestAsyncMethodWithNullableParameters{Uri, IPage}.ThrowsArgumentNullExceptionAsync"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<Uri, IPage>
             {

@@ -41,7 +41,7 @@ namespace Whipstaff.UnitTests.CommandLine.Hosting
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.Hosting.HostRunnerTests.RunSimpleCliJobMethod.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
-            public async Task ThrowsArgumentNullExceptionAsync(
+            async Task ITestAsyncMethodWithNullableParameters<string[], Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler>, IFileSystem>.ThrowsArgumentNullExceptionAsync(
                 string[]? arg1,
                 Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler>? arg2,
                 IFileSystem? arg3,

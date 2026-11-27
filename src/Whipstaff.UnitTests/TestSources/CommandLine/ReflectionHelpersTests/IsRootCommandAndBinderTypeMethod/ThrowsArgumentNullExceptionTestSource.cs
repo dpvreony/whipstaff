@@ -8,7 +8,7 @@ using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 namespace Whipstaff.UnitTests.TestSources.CommandLine.ReflectionHelpersTests.IsRootCommandAndBinderTypeMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.ReflectionHelpersTests.IsRootCommandAndBinderTypeMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.ReflectionHelpers.IsRootCommandAndBinderType"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<Type>
     {

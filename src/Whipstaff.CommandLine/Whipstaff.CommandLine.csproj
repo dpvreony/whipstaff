@@ -8,9 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.13" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.13" />
-    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="22.3.0" />
+    <PackageReference Include="System.CommandLine" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.15" />
+    <PackageReference Include="TestableIO.System.IO.Abstractions.Wrappers" Version="23.0.1" />
+    <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 
   <ItemGroup>

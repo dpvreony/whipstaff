@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <PackageDescription>Re-usable logic for working with Ignite UI Grid Lite.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IgniteUI.Blazor.GridLite" Version="1.0.0" />
+    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.0" PrivateAssets="all" />
+    <PackageReference Include="Vetuviem.SourceGenerator" Version="0.16.36">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Whipstaff.Blazor\Whipstaff.Blazor.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Vetuviem_Make_Classes_Public>true</Vetuviem_Make_Classes_Public>
+    <Vetuviem_Root_Namespace>Whipstaff</Vetuviem_Root_Namespace>
+    <Vetuviem_Assemblies>IgniteUI.Blazor.GridLite.dll</Vetuviem_Assemblies>
+    <Vetuviem_UI_Framework>Blazor</Vetuviem_UI_Framework>
+  </PropertyGroup>
+</Project>

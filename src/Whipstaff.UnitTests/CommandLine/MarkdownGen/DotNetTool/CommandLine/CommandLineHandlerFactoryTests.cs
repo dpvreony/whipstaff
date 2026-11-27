@@ -36,7 +36,7 @@ namespace Whipstaff.UnitTests.CommandLine.MarkdownGen.DotNetTool.CommandLine
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.MarkdownGen.DotNetTool.CommandLine.CommandLineHandlerFactoryTests.ThrowsArgumentNullExceptionTestSource))]
             [Theory]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<IFileSystem>.ThrowsArgumentNullException(
                 IFileSystem? arg,
                 string expectedParameterNameForException)
             {

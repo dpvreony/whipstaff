@@ -9,7 +9,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
-using ReactiveMarbles.ObservableEvents;
+using ReactiveUI.Primitives.ObservableEvents;
 using Whipstaff.Runtime.Extensions;
 
 namespace Whipstaff.Playwright.Crawler

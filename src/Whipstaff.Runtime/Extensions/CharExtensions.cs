@@ -16,7 +16,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <returns>Whether the string is Hexadecimal.</returns>
         public static bool IsHexadecimal(this char instance)
         {
-            return instance is >= '0' and <= '9' or >= 'a' and <= 'f' or >= 'A' and <= 'F';
+            return instance is (>= '0' and <= '9') or (>= 'a' and <= 'f') or (>= 'A' and <= 'F');
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Whipstaff.Runtime.Extensions
         /// <returns>Whether a character is an ASCII letter or number.</returns>
         public static bool IsAsciiLetterOrNumber(this char instance)
         {
-            return instance is >= '0' and <= '9' or >= 'a' and <= 'z' or >= 'A' and <= 'Z';
+            return instance is (>= '0' and <= '9') or (>= 'a' and <= 'z') or (>= 'A' and <= 'Z');
         }
     }
 }

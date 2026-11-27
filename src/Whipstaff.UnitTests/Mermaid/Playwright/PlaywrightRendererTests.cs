@@ -37,7 +37,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
 
             /// <inheritdoc/>
             [Fact]
-            public void ReturnsInstance()
+            void ITestConstructorMethod.ReturnsInstance()
             {
                 var mermaidHttpServer = MermaidHttpServerFactory.GetTestServer(LoggerFactory, new FileSystem());
                 var logMessageActionsWrapper = new PlaywrightRendererBrowserInstanceLogMessageActionsWrapper(
@@ -53,7 +53,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<TestServer, PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>.ThrowsArgumentNullException(
                 TestServer? arg1,
                 PlaywrightRendererBrowserInstanceLogMessageActionsWrapper? arg2,
                 string expectedParameterNameForException)
@@ -66,7 +66,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/>.
+            /// Test source for <see cref="ITestMethodWithNullableParameters{TestServer, PlaywrightRendererBrowserInstanceLogMessageActionsWrapper}.ThrowsArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<TestServer, PlaywrightRendererBrowserInstanceLogMessageActionsWrapper>
             {
@@ -105,7 +105,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(ThrowsArgumentNullExceptionTestSource))]
-            public void ThrowsArgumentNullException(ILoggerFactory? arg, string expectedParameterNameForException)
+            void ITestMethodWithNullableParameters<ILoggerFactory>.ThrowsArgumentNullException(ILoggerFactory? arg, string expectedParameterNameForException)
             {
                 _ = Assert.Throws<ArgumentNullException>(
                     expectedParameterNameForException,
@@ -123,7 +123,7 @@ namespace Whipstaff.UnitTests.Mermaid.Playwright
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/>.
+            /// Test source for <see cref="ITestMethodWithNullableParameters{ILoggerFactory}.ThrowsArgumentNullException"/>.
             /// </summary>
             public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<ILoggerFactory>
             {

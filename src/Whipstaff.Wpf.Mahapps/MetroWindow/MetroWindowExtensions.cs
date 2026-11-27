@@ -7,6 +7,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using ReactiveUI;
+using ReactiveUI.Binding;
 using Whipstaff.Wpf.InteractionFlows;
 
 namespace Whipstaff.Wpf.Mahapps.MetroWindow

@@ -14,25 +14,14 @@ namespace Whipstaff.WebHooksSite.Client
     {
 #pragma warning disable CA1054
         /// <summary>
-        /// Generate a Refit implementation of the Token Client interface.
-        /// </summary>
-        /// <param name="client">The <see cref="HttpClient"/> the implementation will use to send requests.</param>
-        /// <param name="builder"><see cref="IRequestBuilder"/> to use to build requests.</param>
-        /// <returns>An instance of token client.</returns>
-        public static ITokenClient CreateTokenClient(HttpClient client, IRequestBuilder<ITokenClient> builder)
-        {
-            return Refit.RestService.For(client, builder);
-        }
-
-        /// <summary>
         /// Generate a Refit implementation of the specified interface.
         /// </summary>
         /// <param name="client">The <see cref="HttpClient"/> the implementation will use to send requests.</param>
         /// <param name="settings"><see cref="RefitSettings"/> to use to configure the HttpClient.</param>
         /// <returns>An instance of token client.</returns>
-        public static ITokenClient CreateTokenClient(HttpClient client, RefitSettings? settings)
+        public static ITokenClient CreateTokenClient(HttpClient client, RefitSettings settings)
         {
-            return Refit.RestService.For<ITokenClient>(client, settings);
+            return Refit.RestService.ForGenerated<ITokenClient>(client, settings);
         }
 
         /// <summary>
@@ -42,7 +31,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// <returns>An instance of token client.</returns>
         public static ITokenClient CreateTokenClient(HttpClient client)
         {
-            return Refit.RestService.For<ITokenClient>(client);
+            return Refit.RestService.ForGenerated<ITokenClient>(client);
         }
 
         /// <summary>
@@ -51,9 +40,9 @@ namespace Whipstaff.WebHooksSite.Client
         /// <param name="hostUrl">Base address the implementation will use.</param>
         /// <param name="settings"><see cref="RefitSettings"/> to use to configure the HttpClient.</param>
         /// <returns>An instance of token client.</returns>
-        public static ITokenClient CreateTokenClient(string hostUrl, RefitSettings? settings)
+        public static ITokenClient CreateTokenClient(string hostUrl, RefitSettings settings)
         {
-            return Refit.RestService.For<ITokenClient>(hostUrl, settings);
+            return Refit.RestService.ForGenerated<ITokenClient>(hostUrl, settings);
         }
 
         /// <summary>
@@ -63,18 +52,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// <returns>An instance of token client.</returns>
         public static ITokenClient CreateTokenClient(string hostUrl)
         {
-            return Refit.RestService.For<ITokenClient>(hostUrl);
-        }
-
-        /// <summary>
-        /// Generate a Refit implementation of the specified interface.
-        /// </summary>
-        /// <param name="client">The <see cref="HttpClient"/> the implementation will use to send requests.</param>
-        /// <param name="builder"><see cref="IRequestBuilder"/> to use to build requests.</param>
-        /// <returns>An instance of token client.</returns>
-        public static IRequestClient CreateRequestClient(HttpClient client, IRequestBuilder<IRequestClient> builder)
-        {
-            return Refit.RestService.For(client, builder);
+            return Refit.RestService.ForGenerated<ITokenClient>(hostUrl);
         }
 
         /// <summary>
@@ -83,9 +61,9 @@ namespace Whipstaff.WebHooksSite.Client
         /// <param name="client">The <see cref="HttpClient"/> the implementation will use to send requests.</param>
         /// <param name="settings"><see cref="RefitSettings"/> to use to configure the HttpClient.</param>
         /// <returns>An instance of token client.</returns>
-        public static IRequestClient CreateRequestClient(HttpClient client, RefitSettings? settings)
+        public static IRequestClient CreateRequestClient(HttpClient client, RefitSettings settings)
         {
-            return Refit.RestService.For<IRequestClient>(client, settings);
+            return Refit.RestService.ForGenerated<IRequestClient>(client, settings);
         }
 
         /// <summary>
@@ -95,7 +73,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// <returns>An instance of token client.</returns>
         public static IRequestClient CreateRequestClient(HttpClient client)
         {
-            return Refit.RestService.For<IRequestClient>(client);
+            return Refit.RestService.ForGenerated<IRequestClient>(client);
         }
 
         /// <summary>
@@ -104,9 +82,9 @@ namespace Whipstaff.WebHooksSite.Client
         /// <param name="hostUrl">Base address the implementation will use.</param>
         /// <param name="settings"><see cref="RefitSettings"/> to use to configure the HttpClient.</param>
         /// <returns>An instance of token client.</returns>
-        public static IRequestClient CreateRequestClient(string hostUrl, RefitSettings? settings)
+        public static IRequestClient CreateRequestClient(string hostUrl, RefitSettings settings)
         {
-            return Refit.RestService.For<IRequestClient>(hostUrl, settings);
+            return Refit.RestService.ForGenerated<IRequestClient>(hostUrl, settings);
         }
 
         /// <summary>
@@ -116,7 +94,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// <returns>An instance of token client.</returns>
         public static IRequestClient CreateRequestClient(string hostUrl)
         {
-            return Refit.RestService.For<IRequestClient>(hostUrl);
+            return Refit.RestService.ForGenerated<IRequestClient>(hostUrl);
         }
     }
 #pragma warning restore CA1054

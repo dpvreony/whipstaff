@@ -21,7 +21,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// <param name="tokenId">Unique id for the session.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         [Get("/token/{tokenId}/request")]
-        Task DeleteAllRequestsAsync([Query(Format = "D")]Guid tokenId);
+        Task DeleteAllRequestsAsync([Query(Format = "D")] Guid tokenId);
 
         /// <summary>
         /// Deletes a specific request for the session.
@@ -39,7 +39,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// </summary>
         /// <param name="tokenId">Unique id for the session.</param>
         /// <returns>A list of requests for the session.</returns>
-        [Get("/token/{token_id}/requests")]
+        [Get("/token/{tokenId}/requests")]
         Task<RequestListResponseModel> GetListOfRequestsAsync([Query(Format = "D")] Guid tokenId);
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Whipstaff.WebHooksSite.Client
         /// <param name="dateTo">Time stamp for the latest request to return.</param>
         /// <param name="query">Advanced query string filter.</param>
         /// <returns>A list of requests for the session.</returns>
-        [Get("/token/{token_id}/requests")]
+        [Get("/token/{tokenId}/requests")]
         Task<RequestListResponseModel> GetListOfRequestsAsync(
             [Query(Format = "D")] Guid tokenId,
             Sorting sorting,

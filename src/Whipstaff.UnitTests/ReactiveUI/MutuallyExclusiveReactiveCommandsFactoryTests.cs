@@ -12,6 +12,7 @@ using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Threading.Tasks;
+using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using ReactiveUI;
 using ReactiveUI.Primitives.Concurrency;
@@ -113,7 +114,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(CreateT6MethodThrowsArgumentNullTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>>.ThrowsArgumentNullException(
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg1,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg2,
                 string expectedParameterNameForException)
@@ -172,7 +173,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/> that throws an <see cref="ArgumentNullException"/> when a parameter is null.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class CreateT6MethodThrowsArgumentNullTestSource : ArgumentNullExceptionTheoryData<
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>,
@@ -205,7 +206,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(CreateT9MethodThrowsArgumentNullTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>>.ThrowsArgumentNullException(
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg1,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg2,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg3,
@@ -277,7 +278,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/> that throws an <see cref="ArgumentNullException"/> when a parameter is null.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class CreateT9MethodThrowsArgumentNullTestSource : ArgumentNullExceptionTheoryData<
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>,
@@ -315,7 +316,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(CreateT12MethodThrowsArgumentNullTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>>.ThrowsArgumentNullException(
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg1,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg2,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg3,
@@ -400,7 +401,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/> that throws an <see cref="ArgumentNullException"/> when a parameter is null.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class CreateT12MethodThrowsArgumentNullTestSource : ArgumentNullExceptionTheoryData<
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>,
@@ -443,7 +444,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(CreateT15MethodThrowsArgumentNullTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>>.ThrowsArgumentNullException(
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg1,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg2,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg3,
@@ -541,7 +542,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/> that throws an <see cref="ArgumentNullException"/> when a parameter is null.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class CreateT15MethodThrowsArgumentNullTestSource : ArgumentNullExceptionTheoryData<
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>,
@@ -589,7 +590,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(CreateT18MethodThrowsArgumentNullTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>>.ThrowsArgumentNullException(
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg1,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg2,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg3,
@@ -700,7 +701,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/> that throws an <see cref="ArgumentNullException"/> when a parameter is null.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class CreateT18MethodThrowsArgumentNullTestSource : ArgumentNullExceptionTheoryData<
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>,
@@ -753,7 +754,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(CreateT21MethodThrowsArgumentNullTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>>.ThrowsArgumentNullException(
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg1,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg2,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg3,
@@ -877,7 +878,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/> that throws an <see cref="ArgumentNullException"/> when a parameter is null.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class CreateT21MethodThrowsArgumentNullTestSource : ArgumentNullExceptionTheoryData<
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>,
@@ -919,6 +920,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
         }
 
+#if cs7013
         /// <summary>
         /// Unit tests for <see cref="MutuallyExclusiveReactiveCommandsFactory.Create{T1Param, T1CommandResult, T1ExecuteResult, T2Param, T2CommandResult, T2ExecuteResult, T3Param, T3CommandResult, T3ExecuteResult, T4Param, T4CommandResult, T4ExecuteResult, T5Param, T5CommandResult, T5ExecuteResult, T6Param, T6CommandResult, T6ExecuteResult, T7Param, T7CommandResult, T7ExecuteResult, T8Param, T8CommandResult, T8ExecuteResult}(ReactiveCommandFactoryArgument{T1Param, T1CommandResult, T1ExecuteResult}, ReactiveCommandFactoryArgument{T2Param, T2CommandResult, T2ExecuteResult}, ReactiveCommandFactoryArgument{T3Param, T3CommandResult, T3ExecuteResult}, ReactiveCommandFactoryArgument{T4Param, T4CommandResult, T4ExecuteResult}, ReactiveCommandFactoryArgument{T5Param, T5CommandResult, T5ExecuteResult}, ReactiveCommandFactoryArgument{T6Param, T6CommandResult, T6ExecuteResult}, ReactiveCommandFactoryArgument{T7Param, T7CommandResult, T7ExecuteResult}, ReactiveCommandFactoryArgument{T8Param, T8CommandResult, T8ExecuteResult})"/>.
         /// </summary>
@@ -935,7 +937,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             /// <inheritdoc/>
             [Theory]
             [ClassData(typeof(CreateT24MethodThrowsArgumentNullTestSource))]
-            public void ThrowsArgumentNullException(
+            void ITestMethodWithNullableParameters<ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>, ReactiveCommandFactoryArgument<Unit, Unit, Unit>>.ThrowsArgumentNullException(
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg1,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg2,
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>? arg3,
@@ -1072,7 +1074,7 @@ namespace Whipstaff.UnitTests.ReactiveUI
             }
 
             /// <summary>
-            /// Test source for <see cref="ThrowsArgumentNullException"/> that throws an <see cref="ArgumentNullException"/> when a parameter is null.
+            /// Test source for <see cref="ArgumentNullException"/>.
             /// </summary>
             public sealed class CreateT24MethodThrowsArgumentNullTestSource : ArgumentNullExceptionTheoryData<
                 ReactiveCommandFactoryArgument<Unit, Unit, Unit>,
@@ -1117,5 +1119,6 @@ namespace Whipstaff.UnitTests.ReactiveUI
                 }
             }
         }
+#endif
     }
 }

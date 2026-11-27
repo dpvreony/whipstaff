@@ -37,7 +37,9 @@ namespace System.Text
 
         public int Length
         {
+#pragma warning disable SA1504 // All accessors should be single-line or multi-line
             get => _pos;
+#pragma warning restore SA1504 // All accessors should be single-line or multi-line
             set
             {
 #pragma warning disable SA1405 // Debug.Assert should provide message text

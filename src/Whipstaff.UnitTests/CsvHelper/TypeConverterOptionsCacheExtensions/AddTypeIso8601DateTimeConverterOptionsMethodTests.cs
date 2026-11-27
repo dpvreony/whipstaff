@@ -7,6 +7,7 @@ using System.Globalization;
 using System.IO;
 using CsvHelper;
 using CsvHelper.TypeConversion;
+using NetTestRegimentation;
 using Whipstaff.CsvHelper;
 using Xunit;
 
@@ -19,8 +20,8 @@ namespace Whipstaff.UnitTests.CsvHelper.TypeConverterOptionsCacheExtensions
     {
         /// <inheritdoc />
         [Theory]
-        [ClassData(typeof(TestSources.CsvHelper.TypeConverterOptionsCacheExtensions.ThrowsArgumentNullExceptionTestSource))]
-        public void ThrowsArgumentNullException(TypeConverterOptionsCache? arg, string expectedParameterNameForException)
+        [ClassData(typeof(TestSources.CsvHelper.TypeConverterOptionsCacheExtensions.AddTypeIso8601DateTimeConverterOptions.ThrowsArgumentNullExceptionTestSource))]
+        void ITestMethodWithNullableParameters<TypeConverterOptionsCache>.ThrowsArgumentNullException(TypeConverterOptionsCache? arg, string expectedParameterNameForException)
         {
             _ = Assert.Throws<ArgumentNullException>(expectedParameterNameForException, () => Whipstaff.CsvHelper.TypeConverterOptionsCacheExtensions.AddTypeIso8601DateTimeConverterOptions(arg!));
         }

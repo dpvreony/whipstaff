@@ -9,7 +9,7 @@ using Xunit;
 namespace Whipstaff.UnitTests.TestSources.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT1Method
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.Core.Configuration.ServiceCollectionExtensionsTests.AddStrictConfigurationBindingT1Method.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test of <see cref="Whipstaff.Core.Configuration.ServiceCollectionExtensions.AddStrictConfigurationBinding{TOption}"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : TheoryData<string?, Func<FakeOptions, bool>?, string>
     {

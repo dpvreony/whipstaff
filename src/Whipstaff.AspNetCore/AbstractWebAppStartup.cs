@@ -31,6 +31,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using Whipstaff.AspNetCore.Features.ApplicationStartup;
 using Whipstaff.AspNetCore.Features.AuditNet;
 using Whipstaff.AspNetCore.Features.DiagnosticListener;
+using Whipstaff.AspNetCore.Features.MissingAuthorizationPolicy;
 using Whipstaff.AspNetCore.Features.Swagger;
 using Whipstaff.AspNetCore.Swashbuckle;
 using Whipstaff.Mediator;
@@ -294,6 +295,8 @@ namespace Whipstaff.AspNetCore
             {
                 _ = app.UseAuthentication();
             }
+
+            _ = app.UseMiddleware<MissingAuthorizationPolicyMiddleware>();
 
             _ = app.UseAuthorization();
 

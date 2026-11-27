@@ -12,7 +12,7 @@ using Whipstaff.Testing.CommandLine;
 namespace Whipstaff.UnitTests.TestSources.CommandLine.Hosting.HostRunnerTests.RunSimpleCliJobMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.CommandLine.Hosting.HostRunnerTests.RunSimpleCliJobMethod.ThrowsArgumentNullExceptionAsync"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.CommandLine.Hosting.HostRunner.RunSimpleCliJobAsync"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionAsyncTestSource : ArgumentNullExceptionTheoryData<string[], Func<IFileSystem, ILogger<FakeCommandLineHandler>, FakeCommandLineHandler>, IFileSystem>
     {

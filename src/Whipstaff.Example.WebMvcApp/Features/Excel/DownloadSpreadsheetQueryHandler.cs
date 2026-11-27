@@ -21,12 +21,12 @@ namespace Whipstaff.OpenXml.Excel
     internal sealed class DownloadSpreadsheetQueryHandler : IQueryHandler<DownloadSpreadsheetRequestDto, FileNameAndStreamModel?>
     {
         /// <inheritdoc/>
-        public async ValueTask<FileNameAndStreamModel?> Handle(DownloadSpreadsheetRequestDto request, CancellationToken cancellationToken)
+        public async ValueTask<FileNameAndStreamModel?> Handle(DownloadSpreadsheetRequestDto query, CancellationToken cancellationToken)
         {
             return await Task.Run(
                 () =>
                 {
-                    if (request.RequestDto != 0 && request.RequestDto % 2 == 0)
+                    if (query.RequestDto != 0 && query.RequestDto % 2 == 0)
                     {
                         // crude test for checking the 404 logic on even request ids.
                         return null;

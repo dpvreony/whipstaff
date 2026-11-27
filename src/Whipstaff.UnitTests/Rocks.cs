@@ -5,7 +5,7 @@
 using Mediator;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using ReactiveUI;
+using ReactiveUI.Binding;
 using Rocks;
 using Whipstaff.Mermaid.Playwright;
 

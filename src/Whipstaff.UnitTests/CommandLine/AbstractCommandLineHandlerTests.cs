@@ -53,7 +53,7 @@ namespace Whipstaff.UnitTests.CommandLine
             /// <inheritdoc/>
             [ClassData(typeof(Whipstaff.UnitTests.TestSources.CommandLine.AbstractCommandLineHandlerTests.HandleCommand.ThrowsArgumentNullExceptionAsyncTestSource))]
             [Theory]
-            public async Task ThrowsArgumentNullExceptionAsync(
+            async Task ITestAsyncMethodWithNullableParameters<FakeCommandLineArgModel>.ThrowsArgumentNullExceptionAsync(
                 FakeCommandLineArgModel? arg,
                 string expectedParameterNameForException)
             {

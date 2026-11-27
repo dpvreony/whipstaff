@@ -6,6 +6,7 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ReactiveUI;
+using ReactiveUI.Binding;
 
 #if ARGUMENT_NULL_EXCEPTION_SHIM
 using ArgumentNullException = Whipstaff.Runtime.Exceptions.ArgumentNullException;
@@ -42,7 +43,7 @@ namespace Whipstaff.ReactiveUI.Interactions
             ArgumentNullException.ThrowIfNull(propertyName);
             ArgumentNullException.ThrowIfNull(outputFunc);
 
-            return view.BindInteraction(
+            return view.BindInteractionUnsafe(
                 viewModel,
                 propertyName,
                 context => context.ChainToOutputFuncAsync(outputFunc));

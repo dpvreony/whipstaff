@@ -2,13 +2,14 @@
 // This file is licensed to you under the MIT license.
 // See the LICENSE file in the project root for full license information.
 
+using System;
 using NetTestRegimentation.XUnit.Theories.ArgumentNullException;
 using Whipstaff.Runtime.AppDomains;
 
 namespace Whipstaff.UnitTests.TestSources.Rx.Runtime.AppDomains.AssemblyResolverExtensionsTests.ToObservableMethod
 {
     /// <summary>
-    /// Test Source for <see cref="Whipstaff.UnitTests.Runtime.Extensions.DictionaryExtensionTests.KeysWhereMethod.ThrowsArgumentNullException"/>.
+    /// Test Source for <see cref="ArgumentNullException"/> test scenario of <see cref="Whipstaff.Rx.Runtime.AppDomains.AssemblyResolverExtensions.ToObservable(IAssemblyResolveHelper)"/>.
     /// </summary>
     public sealed class ThrowsArgumentNullExceptionTestSource : ArgumentNullExceptionTheoryData<IAssemblyResolveHelper>
     {

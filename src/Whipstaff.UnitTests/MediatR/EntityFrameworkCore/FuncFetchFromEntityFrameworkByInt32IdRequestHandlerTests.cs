@@ -4,6 +4,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using NetTestRegimentation;
 using NetTestRegimentation.XUnit.Logging;
 using Whipstaff.Mediator.EntityFrameworkCore;
 using Whipstaff.Testing.Cqrs;
@@ -32,7 +33,7 @@ namespace Whipstaff.UnitTests.MediatR.EntityFrameworkCore
 
             /// <inheritdoc />
             [Fact]
-            public void ReturnsInstance()
+            void ITestConstructorMethod.ReturnsInstance()
             {
                 var dbContextFactory = new FakeDbContextFactory(LoggerFactory);
 
