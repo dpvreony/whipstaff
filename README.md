@@ -16,6 +16,46 @@ Whipstaff is a multi-project .NET/C# collection of libraries, UI integrations, d
 ## About
 This repository is organized as a multi-project .NET solution (Whipstaff.sln) composed of many small focused projects. Most projects are libraries or integrations intended to be used independently or composed together. The design favors small, single-responsibility packages and includes multiple UI adapter libraries and provider/adapters for persistence and tooling.
 
+## Standalone tenant lookup
+
+`Whipstaff.MultiTenancy.AspNetCore` resolves tenants without Finbuckle or ABP. Select one source: `EntraTenantId`, `Email`, or `HostPrefix`. There is no fallback between sources. Install an EF Core provider and configure the host-level lookup database, for example:
+
+```csharp
+using Microsoft.EntityFrameworkCore;
+using Whipstaff.MultiTenancy.AspNetCore;
+
+builder.Services.AddStandaloneTenantResolution(
+    options => options.UseSqlServer(builder.Configuration.GetConnectionString("TenantLookup")),
+    TenantLookupSource.HostPrefix,
+    hostDomain: "example.com");
+
+// Configure trusted proxies and forwarded headers before this point.
+app.UseForwardedHeaders();
+app.UseStandaloneTenantResolution();
+app.UseAuthentication();
+app.UseAuthorization();
+```
+
+Create and apply provider-specific EF Core migrations for `TenantLookupDbContext`. Provision `Tenants` and `Lookups` through a trusted administrative process. Each active tenant has a GUID `Id`, a `Name`, and any number of lookup rows; `(Source, Value)` is unique and `TenantId` is a foreign key. Always normalize keys when provisioning:
+
+```csharp
+var id = Guid.NewGuid();
+lookupDb.Tenants.Add(new Tenant { Id = id, Name = "Customer" });
+lookupDb.Lookups.Add(new TenantLookup
+{
+    TenantId = id,
+    Source = TenantLookupSource.HostPrefix,
+    Value = TenantLookup.Normalize(TenantLookupSource.HostPrefix, "customer"),
+});
+await lookupDb.SaveChangesAsync();
+```
+
+Downstream request-scoped services can inject `CurrentTenant` and read its `Id` and `Name`. They are null outside the tenant middleware's downstream pipeline. Missing, invalid, unknown, and inactive tenants receive 404 without invoking the remaining pipeline; database errors propagate. Apply middleware only to tenant-bound branches if health checks or other endpoints need to bypass it. It does not authorize users or apply tenant filters: applications must independently verify tenant membership and enforce isolation in every data operation.
+
+For Entra or email lookups, authenticate **before** `UseStandaloneTenantResolution()` using a tenant-independent scheme that validates issuer, signature and audience. Only authenticated `tid` or mapped Microsoft tenant ID claims, and `email` or mapped email claims, are accepted; missing or conflicting claims do not resolve. Email claims can be missing, mutable, or unverified and are not proof of identity or authorization. Prefer stable Entra IDs.
+
+For host lookups, only one prefix label under the configured parent domain is accepted. The middleware reads `Request.Host`, never raw `X-Forwarded-Host`. Behind a proxy or WAF configure forwarded-header middleware with explicit known proxies or networks, allowed hosts, and an appropriate forward limit; ensure the edge overwrites untrusted forwarded headers and block direct access. Configure host filtering and enforce tenant authorization separately. See [ASP.NET Core proxy configuration](https://learn.microsoft.com/aspnet/core/host-and-deploy/proxy-load-balancer).
+
 ## Tenant lookup with Finbuckle
 
 `Whipstaff.AspNetCore.MultiTenancy` provides a Finbuckle EF Core store and lookup table for resolving tenants by an authenticated Microsoft Entra tenant ID (`tid`), an authenticated email claim, or a hostname prefix. Choose one `TenantLookupSource` per registration; there is no automatic fallback between sources. For example, with an EF Core SQL Server provider installed:
@@ -190,6 +230,7 @@ Below is a table summarizing the projects in src/, their likely purpose, primary
 | Whipstaff.MediatR.EntityFrameworkCore | MediatR + EF Core integration helpers | C# / MediatR / EF Core | Library | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.MediatR.EntityFrameworkCore |
 | Whipstaff.MediatR.Foundatio | MediatR + Foundatio integration helpers | C# / MediatR / Foundatio | Library | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.MediatR.Foundatio |
 | Whipstaff.Mermaid | Mermaid diagram generation utilities | C# | Tool/Library | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.Mermaid |
+| Whipstaff.MultiTenancy.AspNetCore | Standalone ASP.NET Core tenant lookup | C# / ASP.NET Core / EF Core | Library | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.MultiTenancy.AspNetCore |
 | Whipstaff.MsSql | MSSQL provider/adapters and helpers | C# / MSSQL | Provider | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.MsSql |
 | Whipstaff.Nuget | Utilities for NuGet packaging/publishing | C# / NuGet | Tool/Library | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.Nuget |
 | Whipstaff.OpenXml | Utilities for working with OpenXML documents | C# / OpenXML SDK | Library | https://github.com/dpvreony/whipstaff/tree/main/src/Whipstaff.OpenXml |

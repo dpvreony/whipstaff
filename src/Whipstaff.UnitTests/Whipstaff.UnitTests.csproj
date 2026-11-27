@@ -42,6 +42,7 @@
     <ProjectReference Include="..\Whipstaff.Maui\Whipstaff.Maui.csproj" />
     <ProjectReference Include="..\Whipstaff.Mediator\Whipstaff.Mediator.csproj" />
     <ProjectReference Include="..\Whipstaff.Mermaid\Whipstaff.Mermaid.csproj" />
+    <ProjectReference Include="..\Whipstaff.MultiTenancy.AspNetCore\Whipstaff.MultiTenancy.AspNetCore.csproj" />
     <ProjectReference Include="..\Whipstaff.Nuget\Whipstaff.Nuget.csproj" />
     <ProjectReference Include="..\Whipstaff.Playwright\Whipstaff.Playwright.csproj" />
     <ProjectReference Include="..\Whipstaff.Syncfusion.Pdf\Whipstaff.Syncfusion.Pdf.csproj" />

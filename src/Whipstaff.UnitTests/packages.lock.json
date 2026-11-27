@@ -3554,6 +3554,12 @@
           "Microsoft.Data.SqlClient": "[7.1.2, )"
         }
       },
+      "whipstaff.multitenancy.aspnetcore": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "[10.0.15, )"
+        }
+      },
       "whipstaff.nodatime": {
         "type": "Project",
         "dependencies": {

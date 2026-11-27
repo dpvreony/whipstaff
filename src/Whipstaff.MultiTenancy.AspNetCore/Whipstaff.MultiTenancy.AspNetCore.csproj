@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <PackageDescription>Standalone ASP.NET Core tenant resolution using Entity Framework Core.</PackageDescription>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Whipstaff.AspNetCore\MultiTenancy\TenantKeyReader.cs" Link="Internal\TenantKeyReader.cs" />
+  </ItemGroup>
+
+</Project>

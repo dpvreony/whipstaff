@@ -235,6 +235,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Blazor.IgniteUI.G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.Abp.AspNetCore", "Whipstaff.Abp.AspNetCore\Whipstaff.Abp.AspNetCore.csproj", "{680E01A3-CDD8-4FDC-9211-A66752F34BB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Whipstaff.MultiTenancy.AspNetCore", "Whipstaff.MultiTenancy.AspNetCore\Whipstaff.MultiTenancy.AspNetCore.csproj", "{E030A7CF-A662-4530-8A40-584653DF7149}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1577,6 +1579,18 @@ Global
 		{680E01A3-CDD8-4FDC-9211-A66752F34BB8}.Release|x64.Build.0 = Release|Any CPU
 		{680E01A3-CDD8-4FDC-9211-A66752F34BB8}.Release|x86.ActiveCfg = Release|Any CPU
 		{680E01A3-CDD8-4FDC-9211-A66752F34BB8}.Release|x86.Build.0 = Release|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Debug|x64.Build.0 = Debug|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Debug|x86.Build.0 = Debug|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Release|x64.ActiveCfg = Release|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Release|x64.Build.0 = Release|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Release|x86.ActiveCfg = Release|Any CPU
+		{E030A7CF-A662-4530-8A40-584653DF7149}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
