@@ -26,7 +26,6 @@ jobs:
       primary-build-mode: "linux-secondary-and-windows-primary"
       solutionName: "Whipstaff"
       integration-test-os: "windows"
-      workloads : "android,ios,tvos,macos,maui"
       workloadRestore: true
       apiDocumentation: "None"
       package_lock: "disabled"
