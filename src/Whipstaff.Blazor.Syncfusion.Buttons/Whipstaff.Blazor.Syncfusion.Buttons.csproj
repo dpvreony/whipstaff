@@ -6,7 +6,7 @@
     <PackageDescription>Re-usable logic for working with Syncfusion Blazor Button controls.</PackageDescription>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.0" PrivateAssets="all" />
+    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.3" PrivateAssets="all" />
     <PackageReference Include="Vetuviem.SourceGenerator" Version="0.16.36">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

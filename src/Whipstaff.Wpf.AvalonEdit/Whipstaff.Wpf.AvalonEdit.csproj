@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.0" PrivateAssets="all" />
+    <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.3" PrivateAssets="all" />
     <PackageReference Include="Vetuviem.SourceGenerator" Version="0.16.36">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
