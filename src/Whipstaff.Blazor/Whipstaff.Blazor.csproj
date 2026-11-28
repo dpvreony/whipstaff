@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.15" ReferenceOutputAssembly="true" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.15" />
-    <PackageReference Include="ReactiveUI.Blazor" Version="27.0.1" />
+    <PackageReference Include="ReactiveUI.Blazor" Version="28.0.0" />
     <PackageReference Include="ReactiveUI.Primitives.ObservableEvents" Version="10.2.0" PrivateAssets="all" />
     <PackageReference Include="Vetuviem.Core" Version="0.16.36" />
     <PackageReference Include="Vetuviem.SourceGenerator" Version="0.16.36">
